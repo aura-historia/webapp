@@ -12,10 +12,13 @@ import { EBAY_COMPARISON_LAST_REVIEWED } from "@/features/comparison/config/ebay
  *   annual report for 2025" wherever it uses it, because cells and FAQ answers are quoted on their
  *   own. The SEC answers undeclared scripted requests with a block page and asks for company
  *   contact details in the user agent, so the filing was read through the harness's fetch tool,
- *   which returns a model's summary of the page. Every passage below was asked for twice, in
- *   separate requests, and came back the same; the quotes are cut at 125 characters by that tool,
- *   so the page paraphrases and never quotes them. A maintainer should re-read the passages
- *   against the filing before relying on this file.
+ *   which returns a model's summary of the page. Every passage below was asked for at least twice,
+ *   in separate requests, and came back the same; the quotes are cut at 125 characters by that
+ *   tool, so the page paraphrases and never quotes them. That cut hid the third refund condition
+ *   of the Money Back Guarantee in the first passes (found in review, then confirmed with a
+ *   request that asked for each condition separately), so a sentence cut short is a reason to ask
+ *   again for the rest of it. A maintainer should re-read the passages against the filing before
+ *   relying on this file.
  *   https://www.sec.gov/Archives/edgar/data/1065088/000106508826000027/ebay-20251231.htm
  * - Reach: "At the end of 2025, eBay had 135 million active buyers and 2.5 billion live listings
  *   globally." An active buyer is "all buyer accounts that paid for a transaction on our
@@ -41,14 +44,18 @@ import { EBAY_COMPARISON_LAST_REVIEWED } from "@/features/comparison/config/ebay
  *   could not be verified: see "Not used" below. The page therefore says nothing about an antiques
  *   or art category on eBay, and calls eBay a marketplace "across many categories" (the Focus
  *   Categories above), where the issue's drafts say "general marketplace" and "sells everything".
- * - Buyer protection: "The eBay Money Back Guarantee program allows buyers to obtain a refund if
- *   an item does not arrive, is damaged or faulty" on most purchases completed through qualifying
- *   payment methods; "our Authenticity Guarantee program ... authenticating eligible luxury,
- *   collectible and high-value items across major geographical markets"; and "We offer
- *   authentication services, including our Authenticity Guarantee program, in certain markets".
- *   The page describes exactly that, attributes it ("describes"), gives no eligibility rule the
- *   report does not give, and keeps both programme names in English in every language (a French
- *   or Spanish name would be a translation of a programme name, not eBay's wording). It does NOT
+ * - Buyer protection (Item 1, "Our Customer Offerings"): "The eBay Money Back Guarantee program
+ *   allows buyers to obtain a refund if an item does not arrive, is damaged or faulty, or differs
+ *   materially from its description, and applies to most purchases completed through qualifying
+ *   payment methods" (the third condition, a purchase that differs from its description, is the
+ *   one that matters most for antiques, so the page names all three); "our Authenticity Guarantee
+ *   program ... authenticating eligible luxury, collectible and high-value items across major
+ *   geographical markets" (Item 1); and "We offer authentication services, including our
+ *   Authenticity Guarantee program, in certain markets" (Item 1A). The cell says "in certain
+ *   markets", the narrower of the two. The page describes exactly that, attributes it
+ *   ("describes"), gives no eligibility rule the report does not give, and keeps both programme
+ *   names in English in every language (a French or Spanish name would be a translation of a
+ *   programme name, not eBay's wording). It does NOT
  *   say that antiques and art are outside the Authenticity Guarantee: the report's wording
  *   ("collectible and high-value items") is broader than the issue's desk research, and the one
  *   official page that lists categories (below) speaks only of eBay's collectibles business. Nor
@@ -76,7 +83,9 @@ import { EBAY_COMPARISON_LAST_REVIEWED } from "@/features/comparison/config/ebay
  *   alerts is on the page. A maintainer should read those pages in a browser before the page says
  *   more: the category structure, the programmes' terms, and saved searches and alerts. There is
  *   no monitoring row in the scorecard for that reason, and nothing on the page describes eBay's
- *   saved searches or alerts, or compares alert speed.
+ *   saved searches or alerts, or compares alert speed. The quick verdict "monitoring across
+ *   providers" therefore rests on scope alone (one service that follows objects across many
+ *   providers, as the product does), never on how eBay's own saved searches or alerts work.
  * - eBay's interfaces, for the PR only: the robots.txt names eBay's official API (the developer
  *   programme) as the route for approved integrations; ebay.com/llms.txt answered 404 on
  *   2026-11-09. The page says nothing about eBay's APIs, agent interfaces or any other interface,

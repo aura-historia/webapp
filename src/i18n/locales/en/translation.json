@@ -4733,7 +4733,7 @@
       "secondaryCta": "See the scorecard",
       "quickAnswerEyebrow": "Quick answer",
       "quickAnswerTitle": "eBay covers many categories. <em>Aura Historia is for art and antiques.</em>",
-      "quickAnswerDescription": "<strong>Verdict:</strong> choose eBay for its reach and its very large selection across many categories, with the buyer protection programmes it describes. Choose Aura Historia to search dealers, auction houses and marketplaces side by side for art, antiques and design objects, and to watch objects across providers."
+      "quickAnswerDescription": "<strong>Verdict:</strong> choose eBay for its reach and its very large selection across many categories, with the buyer protection programmes eBay's annual report for 2025 describes. Choose Aura Historia to search dealers, auction houses and marketplaces side by side for art, antiques and design objects, and to watch objects across providers."
     },
     "quickVerdicts": {
       "reachAndSelection": {
@@ -4764,12 +4764,12 @@
       "paragraph2": "Aura Historia does not try to replace that. It answers a different question: what dealers, auction houses, shops and marketplaces offer for art, antiques and design objects. Seeing an object here does not make Aura Historia a place to buy. Listings appear as the providers publish them, and you buy from the provider."
     },
     "advantages": {
-      "title": "A specialised search, <em>not one category among many</em>",
+      "title": "A specialised search, <em>built for art and antiques</em>",
       "description": "The difference is focus and scope: a search for art, antiques and design objects across dealers, auction houses and marketplaces, with terminology aligned across five languages and monitoring across providers.",
       "cards": {
         "specialisedIndex": {
           "title": "A search built for art and antiques",
-          "description": "The index is for art, antiques and design objects, not one category among many. This describes a focus, not a ranking of quality."
+          "description": "The index is for art, antiques and design objects. This describes a focus, not a ranking of quality."
         },
         "providerTypes": {
           "title": "Dealers, auction houses and marketplaces",
@@ -4797,31 +4797,31 @@
       "rows": {
         "reachAndBuyerBase": {
           "criterion": "Reach and buyer base",
-          "competitor": "Its annual report for 2025 reports 135 million active buyers (buyer accounts that paid for a transaction within the previous 12 months) and 2.5 billion live listings globally at the end of 2025, and describes the marketplace as one of the world's largest.",
+          "competitor": "In its annual report for 2025, eBay reports 135 million active buyers (buyer accounts that paid for a transaction within the previous 12 months) and 2.5 billion live listings globally at the end of 2025, and describes the marketplace as one of the world's largest.",
           "auraHistoria": "A search across providers, not a marketplace with a buyer base of its own. This page draws no size comparison.",
           "verdict": "eBay"
         },
         "buyerProtection": {
           "criterion": "Buyer protection programmes",
-          "competitor": "Its annual report for 2025 describes the eBay Money Back Guarantee, which lets buyers obtain a refund if an item does not arrive or is damaged or faulty, on most purchases made with qualifying payment methods, and an Authenticity Guarantee for eligible luxury, collectible and high-value items in certain markets.",
+          "competitor": "In its annual report for 2025, eBay describes the eBay Money Back Guarantee, which lets buyers obtain a refund if an item does not arrive, is damaged or faulty, or differs materially from its description, on most purchases made with qualifying payment methods, and an Authenticity Guarantee for eligible luxury, collectible and high-value items in certain markets.",
           "auraHistoria": "Shows listings as the providers publish them. Aura Historia does not sell objects or take payments for them: you buy from the provider, under that provider's own terms.",
           "verdict": "eBay"
         },
         "categoryFocus": {
           "criterion": "Category focus",
-          "competitor": "Its annual report for 2025 describes a marketplace across many categories: its Focus Categories include motor vehicle parts and accessories, collectibles, refurbished items, apparel, luxury goods and sneakers.",
+          "competitor": "In its annual report for 2025, eBay names Focus Categories such as motor vehicle parts and accessories, collectibles, refurbished items, apparel, luxury goods and sneakers.",
           "auraHistoria": "Focused on art, antiques and design objects. This states a focus, not a judgement of quality.",
           "verdict": "Aura Historia for focus"
         },
         "providerTypes": {
           "criterion": "Provider types",
-          "competitor": "Its annual report for 2025 describes sellers of all sizes, from individual entrepreneurs to global businesses.",
+          "competitor": "In its annual report for 2025, eBay describes sellers of all sizes, from individual entrepreneurs to global businesses.",
           "auraHistoria": "Dealers, shops, auction houses and marketplaces, each on its own website or platform, in one search.",
           "verdict": "Aura Historia across providers"
         },
         "languagesAndTerminology": {
           "criterion": "Languages and terminology",
-          "competitor": "Its annual report for 2025 describes its online marketplace and its localized counterparts, and buyers and sellers in more than 190 markets. It does not describe terminology or search across languages.",
+          "competitor": "In its annual report for 2025, eBay describes its online marketplace and its localized counterparts, and says its technology empowers millions of buyers and sellers in more than 190 markets. The report does not describe terminology or search across languages.",
           "auraHistoria": "Five languages (German, English, Spanish, French, Italian), with translated listings and aligned terminology across providers.",
           "verdict": "No difference documented"
         }

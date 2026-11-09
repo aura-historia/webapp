@@ -100,7 +100,7 @@
     },
     "compareEbay": {
       "title": "Aura Historia vs eBay | Comparatif de recherche d’art et d’antiquités",
-      "description": "Comparez Aura Historia et eBay : une recherche spécialisée entre marchands, maisons de ventes et places de marché d’art et d’antiquités face à une place de marché de nombreuses catégories."
+      "description": "Comparez Aura Historia et eBay : une recherche spécialisée entre marchands, maisons de ventes et places de marché d’art et d’antiquités face à une place de marché couvrant de nombreuses catégories."
     },
     "partnerAccessTokens": {
       "title": "Jetons d'accès | Aura Historia"
@@ -4536,12 +4536,12 @@
     "hero": {
       "eyebrow": "Comparatif : Aura Historia vs eBay",
       "title": "Une recherche conçue pour l’art et les antiquités, <em>pas une place de marché multi-catégories</em>",
-      "subtitle": "Dans son rapport annuel 2025, eBay décrit sa place de marché comme l’une des plus grandes au monde et cite les objets de collection parmi ses catégories prioritaires. Aura Historia est conçue pour l’art, les antiquités et les objets design : elle cherche côte à côte chez les marchands, les maisons de ventes et les places de marché, et harmonise la terminologie dans cinq langues.",
-      "primaryCta": "Chercher chez les fournisseurs",
+      "subtitle": "Dans son rapport annuel 2025, eBay décrit sa place de marché comme l’une des plus grandes au monde et cite les objets de collection parmi ses catégories prioritaires. Aura Historia est conçue pour l’art, les antiquités et les objets design : elle cherche côte à côte parmi les marchands, les maisons de ventes et les places de marché, et harmonise la terminologie dans cinq langues.",
+      "primaryCta": "Chercher parmi les fournisseurs",
       "secondaryCta": "Voir le comparatif",
       "quickAnswerEyebrow": "En bref",
       "quickAnswerTitle": "eBay couvre de nombreuses catégories. <em>Aura Historia est faite pour l’art et les antiquités.</em>",
-      "quickAnswerDescription": "<strong>Verdict :</strong> choisissez eBay pour sa portée et son très vaste choix dans de nombreuses catégories, avec les programmes de protection des acheteurs qu’il décrit. Choisissez Aura Historia pour chercher côte à côte chez les marchands, les maisons de ventes et les places de marché de l’art, des antiquités et des objets design, et pour suivre des objets chez plusieurs fournisseurs."
+      "quickAnswerDescription": "<strong>Verdict :</strong> choisissez eBay pour sa portée et son très vaste choix dans de nombreuses catégories, avec les programmes de protection des acheteurs qu’eBay décrit dans son rapport annuel 2025. Choisissez Aura Historia pour chercher de l’art, des antiquités et des objets design côte à côte parmi les marchands, les maisons de ventes et les places de marché, et pour suivre des objets chez plusieurs fournisseurs."
     },
     "quickVerdicts": {
       "reachAndSelection": {
@@ -4564,20 +4564,20 @@
     "summary": {
       "title": "La version <em>courte</em>",
       "paragraph1": "Aura Historia est une alternative à eBay pour les acheteurs qui veulent une recherche conçue pour l’art, les antiquités et les objets design : marchands, maisons de ventes, boutiques et places de marché au même endroit, avec une terminologie harmonisée dans cinq langues.",
-      "paragraph2": "eBay reste une place de marché de nombreuses catégories, où l’on achète et vend sur eBay. Aura Historia n’est pas une place de marché et ne vend pas d’objets. Elle montre ce qui est proposé et où, et l’on achète auprès du fournisseur."
+      "paragraph2": "eBay reste une place de marché couvrant de nombreuses catégories, où l’on achète et vend sur eBay. Aura Historia n’est pas une place de marché et ne vend pas d’objets. Elle montre ce qui est proposé et où, et l’on achète auprès du fournisseur."
     },
     "respect": {
       "title": "eBay est une place de marché à <em>très large portée</em>",
-      "paragraph1": "Un comparatif honnête commence ici. Dans son rapport annuel 2025, eBay décrit sa place de marché comme l’une des plus grandes au monde, indique 135 millions d’acheteurs actifs et 2,5 milliards d’annonces actives dans le monde fin 2025, et cite les objets de collection parmi ses catégories prioritaires.",
+      "paragraph1": "Une comparaison loyale commence ici. Dans son rapport annuel 2025, eBay décrit sa place de marché comme l’une des plus grandes au monde, indique 135 millions d’acheteurs actifs et 2,5 milliards d’annonces actives dans le monde fin 2025, et cite les objets de collection parmi ses catégories prioritaires.",
       "paragraph2": "Aura Historia ne cherche pas à remplacer cela. Elle répond à une autre question : ce que proposent les marchands, les maisons de ventes, les boutiques et les places de marché en art, antiquités et objets design. Voir un objet ici ne fait pas d’Aura Historia un lieu où acheter. Les annonces apparaissent telles que les fournisseurs les publient, et l’on achète auprès du fournisseur."
     },
     "advantages": {
-      "title": "Une recherche spécialisée, <em>pas une catégorie parmi tant d’autres</em>",
-      "description": "La différence tient à l’accent et à l’étendue : une recherche d’art, d’antiquités et d’objets design chez les marchands, les maisons de ventes et les places de marché, avec une terminologie harmonisée dans cinq langues et un suivi chez plusieurs fournisseurs.",
+      "title": "Une recherche spécialisée, <em>conçue pour l’art et les antiquités</em>",
+      "description": "La différence tient à l’accent et à l’étendue : une recherche d’art, d’antiquités et d’objets design parmi les marchands, les maisons de ventes et les places de marché, avec une terminologie harmonisée dans cinq langues et un suivi chez plusieurs fournisseurs.",
       "cards": {
         "specialisedIndex": {
           "title": "Une recherche conçue pour l’art et les antiquités",
-          "description": "L’index porte sur l’art, les antiquités et les objets design, et non sur une catégorie parmi tant d’autres. Cela décrit un accent, pas un classement de qualité."
+          "description": "L’index porte sur l’art, les antiquités et les objets design. Cela décrit un accent, pas un classement de qualité."
         },
         "providerTypes": {
           "title": "Marchands, maisons de ventes et places de marché",
@@ -4595,7 +4595,7 @@
     },
     "scorecard": {
       "title": "Aura Historia et eBay, <em>point par point</em>",
-      "description": "eBay est une place de marché de nombreuses catégories, avec la portée et les programmes de protection des acheteurs que décrit son rapport annuel 2025. Aura Historia est une recherche chez plusieurs fournisseurs, conçue pour l’art, les antiquités et les objets design.",
+      "description": "eBay est une place de marché couvrant de nombreuses catégories, avec la portée et les programmes de protection des acheteurs que décrit son rapport annuel 2025. Aura Historia est une recherche chez plusieurs fournisseurs, conçue pour l’art, les antiquités et les objets design.",
       "caption": "Comparatif d’Aura Historia et d’eBay pour la découverte d’art et d’antiquités",
       "headers": {
         "criterion": "Critère",
@@ -4605,31 +4605,31 @@
       "rows": {
         "reachAndBuyerBase": {
           "criterion": "Portée et base d’acheteurs",
-          "competitor": "Son rapport annuel 2025 indique 135 millions d’acheteurs actifs (comptes acheteurs ayant payé une transaction au cours des 12 derniers mois) et 2,5 milliards d’annonces actives dans le monde fin 2025, et décrit la place de marché comme l’une des plus grandes au monde.",
-          "auraHistoria": "Une recherche chez plusieurs fournisseurs, et non une place de marché avec sa propre base d’acheteurs. Ce comparatif n’établit aucune comparaison de taille.",
+          "competitor": "Dans son rapport annuel 2025, eBay indique 135 millions d’acheteurs actifs (comptes acheteurs ayant payé une transaction au cours des 12 derniers mois) et 2,5 milliards d’annonces actives dans le monde fin 2025, et décrit la place de marché comme l’une des plus grandes au monde.",
+          "auraHistoria": "Une recherche chez plusieurs fournisseurs, et non une place de marché avec sa propre base d’acheteurs. Cette page n’établit aucune comparaison de taille.",
           "verdict": "eBay"
         },
         "buyerProtection": {
           "criterion": "Programmes de protection des acheteurs",
-          "competitor": "Son rapport annuel 2025 décrit l’eBay Money Back Guarantee, qui permet aux acheteurs d’obtenir un remboursement si un article n’arrive pas ou est endommagé ou défectueux, pour la plupart des achats réglés avec des moyens de paiement éligibles, ainsi qu’une Authenticity Guarantee pour les articles de luxe, de collection et de grande valeur éligibles sur certains marchés.",
+          "competitor": "Dans son rapport annuel 2025, eBay décrit l’eBay Money Back Guarantee, qui permet aux acheteurs d’obtenir un remboursement si un article n’arrive pas, est endommagé ou défectueux ou diffère sensiblement de sa description, pour la plupart des achats réglés avec des moyens de paiement éligibles, ainsi qu’une Authenticity Guarantee pour les articles de luxe, de collection et de grande valeur éligibles sur certains marchés.",
           "auraHistoria": "Montre les annonces telles que les fournisseurs les publient. Aura Historia ne vend pas d’objets et ne reçoit pas de paiements pour eux : vous achetez auprès du fournisseur, selon ses propres conditions.",
           "verdict": "eBay"
         },
         "categoryFocus": {
-          "criterion": "Accent par catégories",
-          "competitor": "Son rapport annuel 2025 décrit une place de marché de nombreuses catégories : parmi ses catégories prioritaires figurent les pièces et accessoires automobiles, les objets de collection, les articles reconditionnés, l’habillement, les articles de luxe et les sneakers.",
+          "criterion": "Accent par catégorie",
+          "competitor": "Dans son rapport annuel 2025, eBay cite des catégories prioritaires telles que les pièces et accessoires pour véhicules à moteur, les objets de collection, les articles reconditionnés, l’habillement, les articles de luxe et les sneakers.",
           "auraHistoria": "Centrée sur l’art, les antiquités et les objets design. Cela exprime un accent, pas un jugement de qualité.",
           "verdict": "Aura Historia pour l’accent"
         },
         "providerTypes": {
           "criterion": "Types de fournisseurs",
-          "competitor": "Son rapport annuel 2025 décrit des vendeurs de toutes tailles, des entrepreneurs individuels aux entreprises mondiales.",
+          "competitor": "Dans son rapport annuel 2025, eBay décrit des vendeurs de toutes tailles, des entrepreneurs individuels aux entreprises mondiales.",
           "auraHistoria": "Marchands, boutiques, maisons de ventes et places de marché, chacun sur son propre site web ou sa propre plateforme, dans une seule recherche.",
           "verdict": "Aura Historia chez plusieurs fournisseurs"
         },
         "languagesAndTerminology": {
           "criterion": "Langues et terminologie",
-          "competitor": "Son rapport annuel 2025 décrit sa place de marché en ligne et ses versions localisées, ainsi que des acheteurs et des vendeurs dans plus de 190 marchés. Il ne décrit ni la terminologie ni la recherche d’une langue à l’autre.",
+          "competitor": "Dans son rapport annuel 2025, eBay décrit sa place de marché en ligne et ses versions localisées, et indique que sa technologie soutient des millions d’acheteurs et de vendeurs sur plus de 190 marchés. Le rapport ne décrit ni la terminologie ni la recherche d’une langue à l’autre.",
           "auraHistoria": "Cinq langues (allemand, anglais, espagnol, français, italien), avec des annonces traduites et une terminologie harmonisée chez plusieurs fournisseurs.",
           "verdict": "Aucune différence documentée"
         }
@@ -4666,7 +4666,7 @@
     },
     "together": {
       "title": "eBay pour sa place de marché, <em>Aura Historia pour les fournisseurs</em>",
-      "paragraph1": "Chacun a un rôle différent. eBay est une place de marché de nombreuses catégories, et l’on y achète sur eBay. Aura Historia montre ce que proposent les marchands, les maisons de ventes et les places de marché en art, antiquités et objets design. Sur la page d’une annonce, « Voir chez le fournisseur » ouvre l’annonce sur la page du fournisseur lui-même, dans un nouvel onglet.",
+      "paragraph1": "Chacun a un rôle différent. eBay est une place de marché couvrant de nombreuses catégories, et c’est sur eBay que l’on achète. Aura Historia montre ce que proposent les marchands, les maisons de ventes et les places de marché en art, antiquités et objets design. Sur la page d’une annonce, « Voir chez le fournisseur » ouvre l’annonce sur la page du fournisseur lui-même, dans un nouvel onglet.",
       "paragraph2": "Aura Historia ne vend pas d’objets : l’achat se fait donc auprès du fournisseur. Pour acheter sur eBay, utilisez eBay. Aura Historia n’est pas affiliée à eBay."
     },
     "faq": {
@@ -4674,19 +4674,19 @@
       "items": {
         "alternative": {
           "question": "Aura Historia est-elle une alternative à eBay pour les antiquités ?",
-          "answer": "Oui, pour les acheteurs qui veulent une recherche conçue pour l’art, les antiquités et les objets design. Aura Historia cherche chez les marchands, les maisons de ventes, les boutiques et les places de marché au même endroit et harmonise la terminologie dans cinq langues. Ce n’est pas une place de marché : vous achetez auprès du fournisseur. eBay reste une très grande place de marché de nombreuses catégories, avec les programmes de protection des acheteurs que décrit son rapport annuel 2025."
+          "answer": "Oui, pour les acheteurs qui veulent une recherche conçue pour l’art, les antiquités et les objets design. Aura Historia cherche parmi les marchands, les maisons de ventes, les boutiques et les places de marché au même endroit et harmonise la terminologie dans cinq langues. Ce n’est pas une place de marché : vous achetez auprès du fournisseur. eBay reste une très grande place de marché couvrant de nombreuses catégories, avec les programmes de protection des acheteurs que décrit son rapport annuel 2025."
         },
         "replace": {
           "question": "Aura Historia remplace-t-elle eBay ?",
-          "answer": "Non. eBay est une place de marché de nombreuses catégories, où l’on achète et vend sur eBay. Aura Historia est une recherche d’art, d’antiquités et d’objets design et ne vend pas d’objets. Vous pouvez utiliser Aura Historia pour voir ce que proposent les marchands, les maisons de ventes et les places de marché, et eBay là où vous voulez acheter sur eBay."
+          "answer": "Non. eBay est une place de marché couvrant de nombreuses catégories, où l’on achète et vend sur eBay. Aura Historia est une recherche d’art, d’antiquités et d’objets design et ne vend pas d’objets. Vous pouvez utiliser Aura Historia pour voir ce que proposent les marchands, les maisons de ventes et les places de marché, et eBay là où vous voulez acheter sur eBay."
         },
         "rareArt": {
-          "question": "Qu’est-ce qui convient le mieux pour trouver de l’art et des antiquités rares chez des marchands et des maisons de ventes ?",
-          "answer": "Pour chercher côte à côte chez les marchands et les maisons de ventes, Aura Historia : elle est conçue pour l’art, les antiquités et les objets design et cherche chez les fournisseurs, sur leurs propres sites web et plateformes. eBay est une place de marché dont les vendeurs, selon son rapport annuel 2025, vont des entrepreneurs individuels aux entreprises mondiales. Le choix dépend de ce que vous voulez : comparer des fournisseurs ou chercher au sein de la place de marché d’eBay."
+          "question": "Quel service convient le mieux pour trouver de l’art et des antiquités rares chez des marchands et des maisons de ventes ?",
+          "answer": "Pour chercher côte à côte parmi les marchands et les maisons de ventes, Aura Historia : elle est conçue pour l’art, les antiquités et les objets design et cherche parmi les fournisseurs, sur leurs propres sites web et plateformes. eBay est une place de marché dont les vendeurs, selon son rapport annuel 2025, vont des entrepreneurs individuels aux entreprises mondiales. Le choix dépend de ce que vous voulez : comparer des fournisseurs ou chercher au sein de la place de marché d’eBay."
         },
         "everydayCollectibles": {
-          "question": "Qu’est-ce qui convient le mieux pour les objets de collection du quotidien ?",
-          "answer": "eBay. Son rapport annuel 2025 cite les objets de collection parmi ses catégories prioritaires et indique 135 millions d’acheteurs actifs fin 2025. Aura Historia est conçue pour l’art, les antiquités et les objets design ; les objets de collection du quotidien en dehors de cet accent ne sont pas son objet."
+          "question": "Quel service convient le mieux pour les objets de collection du quotidien ?",
+          "answer": "eBay. Son rapport annuel 2025 cite les objets de collection parmi ses catégories prioritaires et indique 135 millions d’acheteurs actifs fin 2025. Aura Historia est conçue pour l’art, les antiquités et les objets design ; les objets de collection du quotidien, hors de cette spécialisation, ne relèvent pas de sa vocation."
         },
         "authenticity": {
           "question": "Aura Historia se porte-t-elle garante de l’authenticité des objets ?",
@@ -4699,7 +4699,7 @@
       "description": "Si votre recherche doit couvrir les marchands, les maisons de ventes et les places de marché pour l’art, les antiquités et les objets design, commencez par Aura Historia.",
       "button": "Rechercher de l’art et des antiquités"
     },
-    "positioning": "Une place de marché de nombreuses catégories, face à une recherche entre marchands, maisons de ventes et places de marché conçue pour l’art, les antiquités et les objets design."
+    "positioning": "Une place de marché couvrant de nombreuses catégories, face à une recherche entre marchands, maisons de ventes et places de marché conçue pour l’art, les antiquités et les objets design."
   },
   "partnerAccessTokens": {
     "create": {

@@ -286,7 +286,10 @@ describe("ComparisonPage with the eBay definition", () => {
  * buyer and "more than 190 markets". The issue's size figures, fee percentages and the $500
  * threshold of the coin programme are not used.
  */
-const ALLOWED_NUMBERS = new Set(["135", "2", "5", "2025", "12", "190"]);
+const ALLOWED_NUMBERS = new Set(["135", "2025", "12", "190"]);
+
+/** "2.5 billion live listings" in every locale's number format; removed before figures are scanned. */
+const LIVE_LISTINGS_FIGURE = /2[.,]5/g;
 
 /**
  * Every string that cites eBay's annual report names it and its year, because FAQ answers and
@@ -294,6 +297,7 @@ const ALLOWED_NUMBERS = new Set(["135", "2", "5", "2025", "12", "190"]);
  */
 const ANNUAL_REPORT_PATHS = [
     "hero.subtitle",
+    "hero.quickAnswerDescription",
     "respect.paragraph1",
     "scorecard.description",
     "scorecard.rows.reachAndBuyerBase.competitor",
@@ -441,6 +445,18 @@ const LANGUAGE_COMPARATIVE: Record<LocaleCode, RegExp> = {
     it: /(più lingue|più ampi|migliore|superiore|più forte)/i,
 };
 
+/**
+ * The page never contrasts itself with "one category among many": that pictures art and antiques
+ * as a category inside eBay, a fact that could not be verified from a permitted source.
+ */
+const CATEGORY_AMONG_MANY: Record<LocaleCode, RegExp> = {
+    en: /(category|aisle) among (many|everything)|one category of many/i,
+    de: /Kategorie unter vielen|ein Gang unter/i,
+    es: /categoría entre muchas|una más entre/i,
+    fr: /catégorie parmi tant|catégorie parmi d’autres/i,
+    it: /categoria tra tante|una fra tante/i,
+};
+
 /** The h1 does not claim the "whole market", which nobody can verify. */
 const WHOLE_MARKET: Record<LocaleCode, RegExp> = {
     en: /whole market|entire market/i,
@@ -474,6 +490,7 @@ describe.each(Object.entries(LOCALES))("eBay comparison copy in %s", (lng, local
             expect(text).not.toMatch(QUALITY_DOUBT[code]);
             expect(text).not.toMatch(CADENCE_AND_FEES[code]);
             expect(text).not.toMatch(MORE_OBJECTS[code]);
+            expect(text).not.toMatch(CATEGORY_AMONG_MANY[code]);
             expect(text).not.toMatch(/!/);
         }
         expect(page.hero.title).not.toMatch(WHOLE_MARKET[code]);
@@ -534,7 +551,7 @@ describe.each(Object.entries(LOCALES))("eBay comparison copy in %s", (lng, local
 
     it("carries no figure but eBay's dated annual-report numbers", () => {
         for (const text of [...copy, ...searchResultCopy]) {
-            for (const [digits] of text.matchAll(/\d+/g)) {
+            for (const [digits] of text.replace(LIVE_LISTINGS_FIGURE, "").matchAll(/\d+/g)) {
                 expect(ALLOWED_NUMBERS.has(digits), `${digits} in "${text}"`).toBe(true);
             }
         }
@@ -555,6 +572,15 @@ describe.each(Object.entries(LOCALES))("eBay comparison copy in %s", (lng, local
         expect(pathsMatching(/\b2025\b/).sort()).toEqual([...ANNUAL_REPORT_PATHS].sort());
     });
 
+    it("names eBay in every scorecard cell that cites its report, because cells are quoted on their own", () => {
+        const cells = eBaySide.filter(([path]) => path.startsWith("scorecard.rows."));
+        expect(cells).toHaveLength(5);
+        for (const [path, text] of cells) {
+            expect(text, path).toContain("eBay");
+        }
+        expect(textAt("hero.quickAnswerDescription")).toContain("eBay");
+    });
+
     it("attributes eBay's own claims instead of stating them in the page's voice", () => {
         for (const path of ANNUAL_REPORT_PATHS) {
             expect(textAt(path), path).toMatch(ATTRIBUTION[code]);
@@ -572,6 +598,30 @@ describe.each(Object.entries(LOCALES))("eBay comparison copy in %s", (lng, local
 
     it("names the two buyer protection programmes as eBay does, in one cell, with no category scope", () => {
         const cell = "scorecard.rows.buyerProtection.competitor";
+        // The annual report lists three refund conditions; the third (a purchase that differs from
+        // its description) matters most for antiques and must not be dropped.
+        const refundConditions: Record<LocaleCode, RegExp[]> = {
+            en: [/does not arrive/, /damaged or faulty/, /differs materially from its description/],
+            de: [
+                /nicht ankommt/,
+                /beschädigt oder fehlerhaft/,
+                /erheblich von der Beschreibung abweicht/,
+            ],
+            es: [/no llega/, /dañado o defectuoso/, /difiere sustancialmente de su descripción/],
+            fr: [
+                /n’arrive pas/,
+                /endommagé ou défectueux/,
+                /diffère sensiblement de sa description/,
+            ],
+            it: [
+                /non arriva/,
+                /danneggiato o difettoso/,
+                /differisce in modo sostanziale dalla descrizione/,
+            ],
+        };
+        for (const condition of refundConditions[code]) {
+            expect(textAt(cell)).toMatch(condition);
+        }
 
         expect(pathsMatching(/eBay Money Back Guarantee/)).toEqual([cell]);
         expect(pathsMatching(/Authenticity Guarantee/)).toEqual([cell]);
@@ -604,11 +654,11 @@ describe.each(Object.entries(LOCALES))("eBay comparison copy in %s", (lng, local
         expect(languagesAndTerminology.auraHistoria).toMatch(/\((?:[^,()]+,){4}[^,()]+\)/);
         // The competitor's cell says the report is silent on terminology and cross-language search.
         const silent: Record<LocaleCode, RegExp> = {
-            en: /does not describe terminology or search across languages/,
-            de: /Terminologie oder Suche über Sprachen hinweg beschreibt er nicht/,
-            es: /No describe la terminología ni la búsqueda entre idiomas/,
-            fr: /ne décrit ni la terminologie ni la recherche d’une langue à l’autre/,
-            it: /Non descrive la terminologia né la ricerca tra le lingue/,
+            en: /The report does not describe terminology or search across languages/,
+            de: /Terminologie oder Suche über Sprachen hinweg beschreibt der Bericht nicht/,
+            es: /El informe no describe la terminología ni la búsqueda entre idiomas/,
+            fr: /Le rapport ne décrit ni la terminologie ni la recherche d’une langue à l’autre/,
+            it: /Il rapporto non descrive la terminologia né la ricerca tra le lingue/,
         };
         expect(languagesAndTerminology.competitor).toMatch(silent[code]);
     });

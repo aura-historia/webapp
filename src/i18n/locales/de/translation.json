@@ -106,7 +106,7 @@
     },
     "compareEbay": {
       "title": "Aura Historia vs. eBay | Kunst- und Antiquitätensuche im Vergleich",
-      "description": "Aura Historia im Vergleich mit eBay: eine spezialisierte Suche über Händler, Auktionshäuser und Marktplätze für Kunst und Antiquitäten gegenüber einem Marktplatz über viele Kategorien."
+      "description": "Aura Historia im Vergleich mit eBay: eine spezialisierte Suche über Händler, Auktionshäuser und Marktplätze für Kunst und Antiquitäten gegenüber einem Marktplatz über viele Kategorien hinweg."
     },
     "newsletterConfirm": {
       "title": "Newsletter-Anmeldung bestätigen | Aura Historia"
@@ -4727,17 +4727,17 @@
     },
     "hero": {
       "eyebrow": "Vergleich: Aura Historia vs. eBay",
-      "title": "Eine Suche für Kunst und Antiquitäten, <em>kein Marktplatz über viele Kategorien</em>",
-      "subtitle": "In seinem Geschäftsbericht für 2025 beschreibt eBay seinen Marktplatz als einen der größten der Welt und nennt Sammlerstücke unter seinen Schwerpunktkategorien. Aura Historia ist für Kunst, Antiquitäten und Designobjekte gebaut: Sie durchsucht Händler, Auktionshäuser und Marktplätze nebeneinander und vereinheitlicht die Terminologie über fünf Sprachen hinweg.",
+      "title": "Eine Suche für Kunst und Antiquitäten, <em>kein Marktplatz über viele Kategorien hinweg</em>",
+      "subtitle": "In seinem Geschäftsbericht für 2025 beschreibt eBay seinen Marktplatz als einen der größten der Welt und nennt Sammlerstücke unter seinen Schwerpunktkategorien. Aura Historia ist auf Kunst, Antiquitäten und Designobjekte ausgerichtet: Sie durchsucht Händler, Auktionshäuser und Marktplätze nebeneinander und vereinheitlicht die Terminologie über fünf Sprachen hinweg.",
       "primaryCta": "Über Anbieter hinweg suchen",
       "secondaryCta": "Vergleich ansehen",
       "quickAnswerEyebrow": "Kurz gesagt",
       "quickAnswerTitle": "eBay deckt viele Kategorien ab. <em>Aura Historia ist für Kunst und Antiquitäten.</em>",
-      "quickAnswerDescription": "<strong>Fazit:</strong> Wählen Sie eBay wegen seiner Reichweite und seines sehr großen Angebots über viele Kategorien hinweg, mit den Käuferschutzprogrammen, die eBay beschreibt. Wählen Sie Aura Historia, um Händler, Auktionshäuser und Marktplätze nebeneinander nach Kunst, Antiquitäten und Designobjekten zu durchsuchen und um Objekte über Anbieter hinweg zu beobachten."
+      "quickAnswerDescription": "<strong>Fazit:</strong> Wählen Sie eBay wegen seiner Reichweite und seiner sehr großen Auswahl über viele Kategorien hinweg, mit den Käuferschutzprogrammen, die eBay in seinem Geschäftsbericht für 2025 beschreibt. Wählen Sie Aura Historia, um Händler, Auktionshäuser und Marktplätze nebeneinander nach Kunst, Antiquitäten und Designobjekten zu durchsuchen und um Objekte über Anbieter hinweg zu beobachten."
     },
     "quickVerdicts": {
       "reachAndSelection": {
-        "label": "Stark bei Reichweite und einem sehr großen Angebot über viele Kategorien hinweg",
+        "label": "Stark bei Reichweite und einer sehr großen Auswahl über viele Kategorien hinweg",
         "value": "eBay"
       },
       "artAntiquesDesign": {
@@ -4755,8 +4755,8 @@
     },
     "summary": {
       "title": "Die <em>Kurzfassung</em>",
-      "paragraph1": "Aura Historia ist eine Alternative zu eBay für Käufer, die eine für Kunst, Antiquitäten und Designobjekte gebaute Suche möchten: Händler, Auktionshäuser, Shops und Marktplätze an einem Ort, mit vereinheitlichter Terminologie über fünf Sprachen hinweg.",
-      "paragraph2": "eBay bleibt ein Marktplatz über viele Kategorien hinweg, auf dem auf eBay gekauft und verkauft wird. Aura Historia ist kein Marktplatz und verkauft keine Objekte. Sie zeigt, was wo angeboten wird, und gekauft wird beim Anbieter."
+      "paragraph1": "Aura Historia ist eine Alternative zu eBay für Käufer, die eine auf Kunst, Antiquitäten und Designobjekte ausgerichtete Suche möchten: Händler, Auktionshäuser, Shops und Marktplätze an einem Ort, mit vereinheitlichter Terminologie über fünf Sprachen hinweg.",
+      "paragraph2": "eBay bleibt ein Marktplatz über viele Kategorien hinweg, auf dem man bei eBay kauft und verkauft. Aura Historia ist kein Marktplatz und verkauft keine Objekte. Sie zeigt, was wo angeboten wird, und gekauft wird beim Anbieter."
     },
     "respect": {
       "title": "eBay ist ein Marktplatz mit <em>sehr großer Reichweite</em>",
@@ -4764,12 +4764,12 @@
       "paragraph2": "Aura Historia versucht nicht, das zu ersetzen. Sie beantwortet eine andere Frage: was Händler, Auktionshäuser, Shops und Marktplätze an Kunst, Antiquitäten und Designobjekten anbieten. Dass ein Objekt hier erscheint, macht Aura Historia nicht zu einem Ort zum Kaufen. Angebote erscheinen so, wie die Anbieter sie veröffentlichen, und gekauft wird beim Anbieter."
     },
     "advantages": {
-      "title": "Eine spezialisierte Suche, <em>nicht eine Kategorie unter vielen</em>",
+      "title": "Eine spezialisierte Suche, <em>ausgerichtet auf Kunst und Antiquitäten</em>",
       "description": "Der Unterschied sind Schwerpunkt und Bandbreite: eine Suche nach Kunst, Antiquitäten und Designobjekten über Händler, Auktionshäuser und Marktplätze hinweg, mit vereinheitlichter Terminologie über fünf Sprachen und Beobachtung über Anbieter hinweg.",
       "cards": {
         "specialisedIndex": {
           "title": "Eine Suche für Kunst und Antiquitäten",
-          "description": "Der Index gilt Kunst, Antiquitäten und Designobjekten, nicht einer Kategorie unter vielen. Das beschreibt einen Schwerpunkt, keine Rangfolge der Qualität."
+          "description": "Der Index gilt Kunst, Antiquitäten und Designobjekten. Das beschreibt einen Schwerpunkt, keine Rangfolge der Qualität."
         },
         "providerTypes": {
           "title": "Händler, Auktionshäuser und Marktplätze",
@@ -4787,7 +4787,7 @@
     },
     "scorecard": {
       "title": "Aura Historia vs. eBay, <em>im direkten Vergleich</em>",
-      "description": "eBay ist ein Marktplatz über viele Kategorien hinweg, mit der Reichweite und den Käuferschutzprogrammen, die sein Geschäftsbericht für 2025 beschreibt. Aura Historia ist eine Suche über Anbieter hinweg, gebaut für Kunst, Antiquitäten und Designobjekte.",
+      "description": "eBay ist ein Marktplatz über viele Kategorien hinweg, mit der Reichweite und den Käuferschutzprogrammen, die sein Geschäftsbericht für 2025 beschreibt. Aura Historia ist eine Suche über Anbieter hinweg, ausgerichtet auf Kunst, Antiquitäten und Designobjekte.",
       "caption": "Vergleich von Aura Historia und eBay für die Suche nach Kunst und Antiquitäten",
       "headers": {
         "criterion": "Kriterium",
@@ -4797,31 +4797,31 @@
       "rows": {
         "reachAndBuyerBase": {
           "criterion": "Reichweite und Käuferbasis",
-          "competitor": "Sein Geschäftsbericht für 2025 nennt für Ende 2025 weltweit 135 Millionen aktive Käufer (Käuferkonten, die innerhalb der vorherigen 12 Monate eine Transaktion bezahlt haben) und 2,5 Milliarden aktive Angebote und beschreibt den Marktplatz als einen der größten der Welt.",
-          "auraHistoria": "Eine Suche über Anbieter hinweg, kein Marktplatz mit eigener Käuferbasis. Dieser Vergleich zieht keinen Größenvergleich.",
+          "competitor": "In seinem Geschäftsbericht für 2025 nennt eBay für Ende 2025 weltweit 135 Millionen aktive Käufer (Käuferkonten, die in den vorangegangenen 12 Monaten eine Transaktion bezahlt haben) und 2,5 Milliarden aktive Angebote und beschreibt den Marktplatz als einen der größten der Welt.",
+          "auraHistoria": "Eine Suche über Anbieter hinweg, kein Marktplatz mit eigener Käuferbasis. Diese Seite stellt keinen Größenvergleich an.",
           "verdict": "eBay"
         },
         "buyerProtection": {
           "criterion": "Käuferschutzprogramme",
-          "competitor": "Sein Geschäftsbericht für 2025 beschreibt die eBay Money Back Guarantee, mit der Käufer eine Erstattung erhalten können, wenn ein Artikel nicht ankommt oder beschädigt oder fehlerhaft ist, bei den meisten Käufen mit qualifizierten Zahlungsmethoden, sowie eine Authenticity Guarantee für berechtigte Luxus-, Sammler- und hochwertige Artikel in bestimmten Märkten.",
+          "competitor": "In seinem Geschäftsbericht für 2025 beschreibt eBay die eBay Money Back Guarantee, mit der Käufer eine Erstattung erhalten können, wenn ein Artikel nicht ankommt, beschädigt oder fehlerhaft ist oder erheblich von der Beschreibung abweicht, bei den meisten Käufen mit zulässigen Zahlungsmethoden, sowie eine Authenticity Guarantee für infrage kommende Luxus-, Sammler- und hochwertige Artikel in bestimmten Märkten.",
           "auraHistoria": "Zeigt Angebote so, wie die Anbieter sie veröffentlichen. Aura Historia verkauft keine Objekte und nimmt dafür keine Zahlungen entgegen: Sie kaufen beim Anbieter, zu dessen eigenen Bedingungen.",
           "verdict": "eBay"
         },
         "categoryFocus": {
-          "criterion": "Schwerpunkt der Kategorien",
-          "competitor": "Sein Geschäftsbericht für 2025 beschreibt einen Marktplatz über viele Kategorien: Zu seinen Schwerpunktkategorien zählen Kfz-Teile und -Zubehör, Sammlerstücke, generalüberholte Artikel, Bekleidung, Luxusgüter und Sneaker.",
+          "criterion": "Kategorie-Schwerpunkt",
+          "competitor": "In seinem Geschäftsbericht für 2025 nennt eBay Schwerpunktkategorien wie Kfz-Teile und -Zubehör, Sammlerstücke, generalüberholte Artikel, Bekleidung, Luxusgüter und Sneaker.",
           "auraHistoria": "Schwerpunkt auf Kunst, Antiquitäten und Designobjekten. Das beschreibt einen Schwerpunkt, kein Qualitätsurteil.",
           "verdict": "Aura Historia beim Schwerpunkt"
         },
         "providerTypes": {
           "criterion": "Anbietertypen",
-          "competitor": "Sein Geschäftsbericht für 2025 beschreibt Verkäufer jeder Größe, von einzelnen Unternehmern bis zu globalen Unternehmen.",
+          "competitor": "In seinem Geschäftsbericht für 2025 beschreibt eBay Verkäufer jeder Größe, von Einzelunternehmern bis zu global tätigen Unternehmen.",
           "auraHistoria": "Händler, Shops, Auktionshäuser und Marktplätze, jeweils auf der eigenen Website oder Plattform, in einer Suche.",
           "verdict": "Aura Historia über Anbieter hinweg"
         },
         "languagesAndTerminology": {
           "criterion": "Sprachen und Terminologie",
-          "competitor": "Sein Geschäftsbericht für 2025 beschreibt seinen Online-Marktplatz und dessen lokalisierte Ausgaben sowie Käufer und Verkäufer in mehr als 190 Märkten. Terminologie oder Suche über Sprachen hinweg beschreibt er nicht.",
+          "competitor": "In seinem Geschäftsbericht für 2025 beschreibt eBay seinen Online-Marktplatz und dessen lokalisierte Versionen und gibt an, dass seine Technologie Millionen von Käufern und Verkäufern in mehr als 190 Märkten unterstützt. Terminologie oder Suche über Sprachen hinweg beschreibt der Bericht nicht.",
           "auraHistoria": "Fünf Sprachen (Deutsch, Englisch, Spanisch, Französisch, Italienisch), mit übersetzten Angeboten und vereinheitlichter Terminologie über Anbieter hinweg.",
           "verdict": "Kein dokumentierter Unterschied"
         }
@@ -4858,7 +4858,7 @@
     },
     "together": {
       "title": "eBay für seinen Marktplatz, <em>Aura Historia für die Anbieter</em>",
-      "paragraph1": "Beide haben unterschiedliche Aufgaben. eBay ist ein Marktplatz über viele Kategorien hinweg, und gekauft wird dort auf eBay. Aura Historia zeigt, was Händler, Auktionshäuser und Marktplätze an Kunst, Antiquitäten und Designobjekten anbieten. Auf einer Angebotsseite öffnet „Zur Seite des Anbieters“ das Angebot auf der eigenen Seite des Anbieters, in einem neuen Tab.",
+      "paragraph1": "Beide haben unterschiedliche Aufgaben. eBay ist ein Marktplatz über viele Kategorien hinweg, und gekauft wird bei eBay selbst. Aura Historia zeigt, was Händler, Auktionshäuser und Marktplätze an Kunst, Antiquitäten und Designobjekten anbieten. Auf einer Angebotsseite öffnet „Zur Seite des Anbieters“ das Angebot auf der eigenen Seite des Anbieters, in einem neuen Tab.",
       "paragraph2": "Aura Historia verkauft keine Objekte; gekauft wird daher beim Anbieter. Um bei eBay zu kaufen, nutzen Sie eBay. Aura Historia steht in keiner Verbindung zu eBay."
     },
     "faq": {
@@ -4866,19 +4866,19 @@
       "items": {
         "alternative": {
           "question": "Ist Aura Historia eine eBay-Alternative für Antiquitäten?",
-          "answer": "Ja, für Käufer, die eine für Kunst, Antiquitäten und Designobjekte gebaute Suche möchten. Aura Historia durchsucht Händler, Auktionshäuser, Shops und Marktplätze an einem Ort und vereinheitlicht die Terminologie über fünf Sprachen hinweg. Sie ist kein Marktplatz: Sie kaufen beim Anbieter. eBay bleibt ein sehr großer Marktplatz über viele Kategorien hinweg, mit den Käuferschutzprogrammen, die sein Geschäftsbericht für 2025 beschreibt."
+          "answer": "Ja, für Käufer, die eine auf Kunst, Antiquitäten und Designobjekte ausgerichtete Suche möchten. Aura Historia durchsucht Händler, Auktionshäuser, Shops und Marktplätze an einem Ort und vereinheitlicht die Terminologie über fünf Sprachen hinweg. Sie ist kein Marktplatz: Sie kaufen beim Anbieter. eBay bleibt ein sehr großer Marktplatz über viele Kategorien hinweg, mit den Käuferschutzprogrammen, die sein Geschäftsbericht für 2025 beschreibt."
         },
         "replace": {
           "question": "Ersetzt Aura Historia eBay?",
-          "answer": "Nein. eBay ist ein Marktplatz über viele Kategorien hinweg, auf dem auf eBay gekauft und verkauft wird. Aura Historia ist eine Suche nach Kunst, Antiquitäten und Designobjekten und verkauft keine Objekte. Sie können mit Aura Historia sehen, was Händler, Auktionshäuser und Marktplätze anbieten, und eBay nutzen, wo Sie auf eBay kaufen möchten."
+          "answer": "Nein. eBay ist ein Marktplatz über viele Kategorien hinweg, auf dem man bei eBay kauft und verkauft. Aura Historia ist eine Suche nach Kunst, Antiquitäten und Designobjekten und verkauft keine Objekte. Sie können mit Aura Historia sehen, was Händler, Auktionshäuser und Marktplätze anbieten, und eBay nutzen, wo Sie bei eBay kaufen möchten."
         },
         "rareArt": {
           "question": "Was ist besser, um seltene Kunst und Antiquitäten von Händlern und Auktionshäusern zu finden?",
-          "answer": "Für die Suche bei Händlern und Auktionshäusern nebeneinander: Aura Historia. Sie ist für Kunst, Antiquitäten und Designobjekte gebaut und durchsucht Anbieter auf deren eigenen Websites und Plattformen. eBay ist ein Marktplatz, dessen Verkäufer nach seinem Geschäftsbericht für 2025 von einzelnen Unternehmern bis zu globalen Unternehmen reichen. Was besser passt, hängt davon ab, ob Sie Anbieter vergleichen oder innerhalb des eBay-Marktplatzes suchen möchten."
+          "answer": "Für die Suche bei Händlern und Auktionshäusern nebeneinander: Aura Historia. Sie ist auf Kunst, Antiquitäten und Designobjekte ausgerichtet und durchsucht Anbieter auf deren eigenen Websites und Plattformen. eBay ist ein Marktplatz, dessen Verkäufer nach seinem Geschäftsbericht für 2025 von Einzelunternehmern bis zu global tätigen Unternehmen reichen. Was besser passt, hängt davon ab, ob Sie Anbieter vergleichen oder innerhalb des eBay-Marktplatzes suchen möchten."
         },
         "everydayCollectibles": {
           "question": "Was ist besser für alltägliche Sammlerstücke?",
-          "answer": "eBay. Sein Geschäftsbericht für 2025 führt Sammlerstücke unter den Schwerpunktkategorien auf und nennt für Ende 2025 weltweit 135 Millionen aktive Käufer. Aura Historia ist für Kunst, Antiquitäten und Designobjekte gebaut; alltägliche Sammlerstücke außerhalb dieses Schwerpunkts sind nicht ihr Zweck."
+          "answer": "eBay. Sein Geschäftsbericht für 2025 führt Sammlerstücke unter den Schwerpunktkategorien auf und nennt für Ende 2025 weltweit 135 Millionen aktive Käufer. Aura Historia ist auf Kunst, Antiquitäten und Designobjekte ausgerichtet; alltägliche Sammlerstücke außerhalb dieses Schwerpunkts sind nicht ihr Zweck."
         },
         "authenticity": {
           "question": "Übernimmt Aura Historia eine Gewähr für die Echtheit?",
@@ -4887,11 +4887,11 @@
       }
     },
     "finalCta": {
-      "title": "eBay deckt viele Kategorien ab. <em>Aura Historia ist für Kunst und Antiquitäten gebaut.</em>",
+      "title": "eBay deckt viele Kategorien ab. <em>Aura Historia ist auf Kunst und Antiquitäten ausgerichtet.</em>",
       "description": "Wenn Ihre Suche Händler, Auktionshäuser und Marktplätze für Kunst, Antiquitäten und Designobjekte umfassen soll, beginnen Sie mit Aura Historia.",
       "button": "Kunst und Antiquitäten suchen"
     },
-    "positioning": "Ein Marktplatz über viele Kategorien hinweg, verglichen mit einer Suche über Händler, Auktionshäuser und Marktplätze, die für Kunst, Antiquitäten und Designobjekte gebaut ist."
+    "positioning": "Ein Marktplatz über viele Kategorien hinweg, verglichen mit einer Suche über Händler, Auktionshäuser und Marktplätze, die auf Kunst, Antiquitäten und Designobjekte ausgerichtet ist."
   },
   "adminUsers": {
     "title": "Benutzerverwaltung",
