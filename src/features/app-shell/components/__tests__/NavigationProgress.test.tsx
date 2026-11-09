@@ -119,7 +119,7 @@ describe("NavigationProgress Component", () => {
 
         const progressIndicator = container.querySelector("[data-slot='progress-indicator']");
         // At 100% progress, translateX should be -0% (or 0%)
-        expect(progressIndicator?.getAttribute("style")).toContain("translateX(-0%)");
+        expect(progressIndicator?.getAttribute("style")).toMatch(/translateX\(-?0%\)/);
     });
 
     it("should hide after loading completes", async () => {
