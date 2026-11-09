@@ -108,6 +108,10 @@
       "title": "Aura Historia vs eBay | Art and Antiques Search Comparison",
       "description": "Compare Aura Historia with eBay for art and antiques: a specialised search across dealers, auction houses and marketplaces versus a marketplace across many categories."
     },
+    "compareArtPriceDatabases": {
+      "title": "Aura Historia vs Art Price Databases | Artnet, WorthPoint, MutualArt",
+      "description": "How Aura Historia differs from art price databases such as Artnet, WorthPoint, MutualArt and Artprice: what sold for what, versus what is offered now."
+    },
     "newsletterConfirm": {
       "title": "Confirm newsletter subscription | Aura Historia"
     },
@@ -4892,6 +4896,199 @@
       "button": "Start searching art and antiques"
     },
     "positioning": "A marketplace across many categories, compared with a search across dealers, auction houses and marketplaces built for art, antiques and design objects."
+  },
+  "compareArtPriceDatabasesPage": {
+    "structuredData": {
+      "about": {
+        "crossProviderSearch": "search across dealers, auction houses and marketplaces",
+        "monitoring": "art and antiques watchlists and saved searches",
+        "priceDatabases": "art price databases",
+        "auctionResults": "auction results research"
+      }
+    },
+    "nav": {
+      "items": {
+        "summary": "Summary",
+        "advantages": "Where Aura Historia differs",
+        "scorecard": "Comparison table",
+        "sources": "What each answers",
+        "together": "Using both",
+        "faq": "FAQ",
+        "verdict": "Final verdict"
+      }
+    },
+    "hero": {
+      "eyebrow": "Comparison: Aura Historia vs art price databases",
+      "title": "Past prices tell one story. <em>What is offered now tells another.</em>",
+      "subtitle": "Price databases such as the Artnet Price Database, WorthPoint, MutualArt and Artprice record what objects sold for. Aura Historia shows what is offered now across dealers, auction houses and marketplaces, and what has changed since. The two answer different questions.",
+      "primaryCta": "Search what is offered now",
+      "secondaryCta": "See the scorecard",
+      "quickAnswerEyebrow": "Quick answer",
+      "quickAnswerTitle": "Databases show what sold. <em>Aura Historia shows what is available.</em>",
+      "quickAnswerDescription": "<strong>Verdict:</strong> use a price database to research what comparable objects have sold for. Use Aura Historia to see what dealers, auction houses and marketplaces offer now, and to watch price and availability changes across providers. Artnet and MutualArt describe alerts too. Aura Historia gives no valuations."
+    },
+    "quickVerdicts": {
+      "pastResults": {
+        "label": "Best for researching past prices and auction results",
+        "value": "Price databases"
+      },
+      "offeredNow": {
+        "label": "Best for finding what is offered now",
+        "value": "Aura Historia"
+      },
+      "watchingChanges": {
+        "label": "Best for watching price and availability changes across providers",
+        "value": "Aura Historia"
+      },
+      "alerts": {
+        "label": "Alerts (Artnet and MutualArt describe them)",
+        "value": "Both"
+      }
+    },
+    "summary": {
+      "title": "The short <em>version</em>",
+      "paragraph1": "Aura Historia is less an alternative to a price database than its counterpart. Databases such as the Artnet Price Database, WorthPoint, MutualArt and Artprice record what objects sold for. Aura Historia shows what dealers, auction houses, shops and marketplaces offer now, and records how each listing changes.",
+      "paragraph2": "Collectors can use both: a database to learn what an object has fetched, and Aura Historia to see where comparable objects are offered and how they change. Aura Historia gives no valuations."
+    },
+    "respect": {
+      "title": "Price databases give <em>access to auction results</em>",
+      "paragraph1": "A fair comparison starts here. Artnet describes its Price Database as about 18 million auction results, with records back to 1985 (its Price Database page, November 2026). Artprice's parent company says its databanks hold over 30 million indices and auction results, with auction traceability since 1700 (November 2026). WorthPoint's results announcement of January 2022 cited more than 610 million archived prices. MutualArt says it has data on more than 900,000 artists (November 2026).",
+      "paragraph2": "These are the companies' own figures. They count different things, so this page does not add them up or compare them with any figure of Aura Historia. Price research is their work. Aura Historia answers a different question: what is offered now, by whom, and what has changed since. It gives no valuations.",
+      "status": "On 15 April 2026, Artsy and Artnet announced that they had joined forces under shared leadership. According to the announcement, both will continue to operate as distinct brands and websites. The announcement still lists the Artnet Price Database among Artnet's services."
+    },
+    "advantages": {
+      "title": "What is offered now, <em>and what changes</em>",
+      "description": "The difference is the question each answers: price databases look back at results, Aura Historia looks at current offers across providers and follows how they change.",
+      "cards": {
+        "offeredNow": {
+          "title": "What is offered now",
+          "description": "Live listings from dealers, auction houses, shops and marketplaces, as the providers publish them."
+        },
+        "askingPrices": {
+          "title": "Asking prices as providers publish them",
+          "description": "Providers' asking prices appear together in one result list, as published. Aura Historia gives no valuations."
+        },
+        "watchingChanges": {
+          "title": "Watching change across providers",
+          "description": "Watchlists, saved searches and notifications follow price and availability changes across every provider in the index."
+        },
+        "noAccount": {
+          "title": "Searching without an account",
+          "description": "Search needs no account. An account adds watchlists, saved searches and notifications."
+        }
+      }
+    },
+    "scorecard": {
+      "title": "Aura Historia vs price databases, <em>side by side</em>",
+      "description": "Price databases such as Artnet, WorthPoint, MutualArt and Artprice research what objects sold for. Aura Historia shows what is offered now. Where the four differ, the cell says which.",
+      "caption": "Comparison of Aura Historia and art price databases",
+      "headers": {
+        "criterion": "Criterion",
+        "auraHistoria": "Aura Historia",
+        "competitor": "Price databases (Artnet, WorthPoint, MutualArt, Artprice)"
+      },
+      "rows": {
+        "historicalDepth": {
+          "criterion": "Historical depth and results research",
+          "competitor": "Artnet describes its Price Database as about 18 million auction results, with records back to 1985 (November 2026). Artprice's parent company says its databanks hold over 30 million indices and auction results (November 2026). WorthPoint's results announcement of January 2022 cited more than 610 million archived prices. The figures count different things, so they are not added up or compared.",
+          "auraHistoria": "Not an archive of past auction results. A listing page shows the changes Aura Historia has recorded for that listing since it first saw it.",
+          "verdict": "Price databases"
+        },
+        "currentAvailability": {
+          "criterion": "Current availability",
+          "competitor": "Centred on results of past sales. Artnet says upcoming auctions are included in its databases, MutualArt lists artworks for sale and upcoming auction lots, and Artprice's parent company describes a marketplace for works at fixed prices or at auction (November 2026).",
+          "auraHistoria": "Live listings from dealers, auction houses, shops and marketplaces, as the providers publish them, in one search.",
+          "verdict": "Aura Historia across providers"
+        },
+        "alerts": {
+          "criterion": "Alerts",
+          "competitor": "Artnet lists Market Alerts, and MutualArt describes email alerts for followed artists, venues and locations.",
+          "auraHistoria": "Watchlists, saved searches and notifications across every provider in the index, with price and availability changes on watched objects.",
+          "verdict": "Alerts at Artnet and MutualArt too"
+        },
+        "valuation": {
+          "criterion": "Valuation",
+          "competitor": "Price databases supply past results for price research. MutualArt also describes online appraisals of art you own.",
+          "auraHistoria": "Gives no valuations or appraisals. Listings appear as the providers publish them, and an asking price is the provider's own.",
+          "verdict": "MutualArt for appraisals"
+        },
+        "accessModel": {
+          "criterion": "Access model",
+          "competitor": "Artnet, MutualArt, WorthPoint and Artprice each describe paid plans or subscriptions for their databases. This page compares no prices.",
+          "auraHistoria": "Searching needs no account. An account adds watchlists, saved searches and notifications.",
+          "verdict": "Different models"
+        }
+      }
+    },
+    "downstream": {
+      "title": "Two tools answer <em>two questions</em>",
+      "sourcesLabel": "Questions",
+      "sources": {
+        "pastSale": "What did it sell for?",
+        "artistResults": "How have an artist's results developed?",
+        "offeredNow": "Where is a comparable object offered now?",
+        "listingChanges": "Has this listing's price or availability changed?",
+        "acrossProviders": "What do dealers, auction houses and marketplaces offer?"
+      },
+      "cards": {
+        "pastResults": {
+          "title": "Past results",
+          "description": "A price database records auction results, so it answers what comparable objects have sold for."
+        },
+        "currentOffers": {
+          "title": "Current offers",
+          "description": "Aura Historia lists what dealers, auction houses, shops and marketplaces offer now, side by side in one result list."
+        },
+        "listingHistory": {
+          "title": "A listing's own history",
+          "description": "A listing page shows the price and availability changes Aura Historia has recorded for that listing since it first saw it. It is the listing's own history, not market results."
+        },
+        "similarObjects": {
+          "title": "Comparable objects in one search",
+          "description": "Search results show many providers side by side, so a search for a type of object shows where it is offered and at what asking price."
+        }
+      }
+    },
+    "together": {
+      "title": "A database for what sold, <em>Aura Historia for what is offered</em>",
+      "paragraph1": "Use a price database to learn what an object has fetched. Use Aura Historia to see where comparable objects are offered now and how they change. On a listing page, “Go to provider” opens the listing on the provider's own page, in a new tab.",
+      "paragraph2": "Aura Historia gives no valuations. For a valuation, ask an appraiser. Aura Historia is not affiliated with Artnet, WorthPoint, MutualArt or Artprice."
+    },
+    "faq": {
+      "title": "Common questions about <em>Aura Historia and price databases</em>",
+      "items": {
+        "alternativeArtnet": {
+          "question": "Is Aura Historia an Artnet alternative?",
+          "answer": "Not in the usual sense. The Artnet Price Database records what objects sold for: Artnet describes it as about 18 million auction results, with records back to 1985 (its Price Database page, November 2026). Aura Historia shows what dealers, auction houses and marketplaces offer now. The two answer different questions and work well together. Aura Historia gives no valuations."
+        },
+        "alternativeWorthPoint": {
+          "question": "Is Aura Historia a WorthPoint alternative?",
+          "answer": "Not in the usual sense. WorthPoint is a price database: its results announcement of January 2022 cited more than 610 million archived prices, collected from online marketplaces and auction houses. Aura Historia shows what dealers, auction houses and marketplaces offer now. Use WorthPoint to research past prices and Aura Historia to see current offers. Aura Historia gives no valuations."
+        },
+        "alternativeArtpriceMutualArt": {
+          "question": "Is Aura Historia an Artprice or MutualArt alternative?",
+          "answer": "Not in the usual sense. Artprice and MutualArt both give access to auction results: Artprice's parent company says its databanks hold over 30 million indices and auction results (November 2026), and MutualArt says it has data on more than 900,000 artists (November 2026). Aura Historia shows what dealers, auction houses and marketplaces offer now. MutualArt also describes online appraisals, which Aura Historia does not offer."
+        },
+        "worth": {
+          "question": "Can Aura Historia tell me what my object is worth?",
+          "answer": "No. Aura Historia gives no valuations or appraisals. It shows listings as the providers publish them, and an asking price is the provider's own. To find out what an object is worth, ask an appraiser, and use a price database to see what comparable objects have sold for."
+        },
+        "similarOffers": {
+          "question": "Where can I see what similar objects are offered for?",
+          "answer": "Search for the type of object. Results show dealers, auction houses, shops and marketplaces side by side, with their prices as published, so you can see where comparable objects are offered. A listing page adds that listing's own price history since Aura Historia first recorded it. Neither is a valuation, and past sale prices are the work of a price database."
+        },
+        "pastResults": {
+          "question": "Does Aura Historia show past auction results?",
+          "answer": "Not as a results database. Aura Historia lists what providers offer and records changes to each listing from the day it first sees it, so a listing page shows its own price and availability history. A listing that sold or was withdrawn can stay visible, and where a sale has been observed the price is labelled “Observed sale price”. It is not an archive of auction results, and its history starts when Aura Historia first records a listing. For past results, use a price database."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "Databases tell you what sold. <em>Aura Historia shows what is on the market.</em>",
+      "description": "To see what dealers, auction houses and marketplaces offer now, and to follow how it changes, start with Aura Historia.",
+      "button": "See what is on the market"
+    },
+    "positioning": "Price databases that record what objects sold for, compared with a search across dealers, auction houses and marketplaces that shows what is offered now."
   },
   "adminUsers": {
     "title": "User management",

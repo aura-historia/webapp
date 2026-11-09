@@ -11,6 +11,7 @@ export const STATIC_PAGES = [
     { path: "/", indexable: true },
     { path: "/about-us", indexable: true },
     { path: "/compare/1stdibs", indexable: true },
+    { path: "/compare/art-price-databases", indexable: true },
     { path: "/compare/artsy", indexable: true },
     { path: "/compare/barnebys", indexable: true },
     { path: "/compare/catawiki", indexable: true },

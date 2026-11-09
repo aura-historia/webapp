@@ -102,6 +102,10 @@
       "title": "Aura Historia vs eBay | Confronto sulla ricerca di arte e antiquariato",
       "description": "Confronta Aura Historia con eBay: una ricerca specializzata tra commercianti, case d’asta e marketplace di arte e antiquariato a confronto con un marketplace di molte categorie."
     },
+    "compareArtPriceDatabases": {
+      "title": "Aura Historia vs banche dati dei prezzi | Artnet, WorthPoint, MutualArt",
+      "description": "Aura Historia e le banche dati dei prezzi come Artnet, WorthPoint, MutualArt e Artprice: a quanto sono stati venduti gli oggetti, rispetto a ciò che è offerto oggi."
+    },
     "partnerAccessTokens": {
       "title": "Token di accesso | Aura Historia"
     },
@@ -4700,6 +4704,199 @@
       "button": "Cerca arte e antiquariato"
     },
     "positioning": "Un marketplace di molte categorie, a confronto con una ricerca tra commercianti, case d’asta e marketplace pensata per arte, antiquariato e oggetti di design."
+  },
+  "compareArtPriceDatabasesPage": {
+    "structuredData": {
+      "about": {
+        "crossProviderSearch": "ricerca tra commercianti, case d’asta e marketplace",
+        "monitoring": "liste dei preferiti e ricerche salvate di arte e antiquariato",
+        "priceDatabases": "banche dati dei prezzi dell’arte",
+        "auctionResults": "ricerca dei risultati d’asta"
+      }
+    },
+    "nav": {
+      "items": {
+        "summary": "Riepilogo",
+        "advantages": "Dove Aura Historia si distingue",
+        "scorecard": "Tabella comparativa",
+        "sources": "A che cosa risponde ciascuno",
+        "together": "Usarli insieme",
+        "faq": "Domande frequenti",
+        "verdict": "Verdetto finale"
+      }
+    },
+    "hero": {
+      "eyebrow": "Confronto: Aura Historia vs banche dati dei prezzi dell’arte",
+      "title": "I prezzi del passato raccontano una storia. <em>Ciò che è offerto oggi ne racconta un’altra.</em>",
+      "subtitle": "Le banche dati dei prezzi come l’Artnet Price Database, WorthPoint, MutualArt e Artprice registrano a quanto sono stati venduti gli oggetti. Aura Historia mostra ciò che commercianti, case d’asta e marketplace offrono oggi e che cosa è cambiato da allora. I due servizi rispondono a domande diverse.",
+      "primaryCta": "Cerca ciò che è offerto oggi",
+      "secondaryCta": "Vedi il confronto",
+      "quickAnswerEyebrow": "In breve",
+      "quickAnswerTitle": "Le banche dati mostrano ciò che è stato venduto. <em>Aura Historia mostra ciò che è disponibile.</em>",
+      "quickAnswerDescription": "<strong>Verdetto:</strong> usa una banca dati dei prezzi per ricercare a quanto sono stati venduti oggetti comparabili. Usa Aura Historia per vedere ciò che commercianti, case d’asta e marketplace offrono oggi e per seguire le variazioni di prezzo e disponibilità tra più fornitori. Anche Artnet e MutualArt descrivono avvisi. Aura Historia non fornisce valutazioni."
+    },
+    "quickVerdicts": {
+      "pastResults": {
+        "label": "Più forte per ricercare prezzi e risultati d’asta passati",
+        "value": "Banche dati dei prezzi"
+      },
+      "offeredNow": {
+        "label": "Più forte per trovare ciò che è offerto oggi",
+        "value": "Aura Historia"
+      },
+      "watchingChanges": {
+        "label": "Più forte per seguire le variazioni di prezzo e disponibilità tra più fornitori",
+        "value": "Aura Historia"
+      },
+      "alerts": {
+        "label": "Avvisi (Artnet e MutualArt li descrivono)",
+        "value": "Entrambi"
+      }
+    },
+    "summary": {
+      "title": "La versione <em>breve</em>",
+      "paragraph1": "Aura Historia è più un complemento che un’alternativa a una banca dati dei prezzi. Banche dati come l’Artnet Price Database, WorthPoint, MutualArt e Artprice registrano a quanto sono stati venduti gli oggetti. Aura Historia mostra ciò che commercianti, case d’asta, negozi e marketplace offrono oggi e registra come cambia ogni annuncio.",
+      "paragraph2": "I collezionisti possono usare entrambe: una banca dati per sapere quanto ha ottenuto un oggetto, Aura Historia per vedere dove sono offerti oggetti comparabili e come cambiano. Aura Historia non fornisce valutazioni."
+    },
+    "respect": {
+      "title": "Le banche dati dei prezzi danno <em>accesso ai risultati d’asta</em>",
+      "paragraph1": "Un confronto equo parte da qui. Artnet descrive il suo Price Database come circa 18 milioni di risultati d’asta, con registrazioni che risalgono al 1985 (la pagina del suo Price Database, novembre 2026). La società madre di Artprice dichiara che le sue banche dati contengono oltre 30 milioni di indici e risultati d’asta, con aste tracciabili dal 1700 (novembre 2026). Il comunicato sui risultati di WorthPoint del gennaio 2022 citava oltre 610 milioni di prezzi archiviati. MutualArt dichiara di avere dati su oltre 900.000 artisti (novembre 2026).",
+      "paragraph2": "Sono cifre delle stesse aziende. Contano cose diverse, per questo questa pagina non le somma e non le confronta con alcuna cifra di Aura Historia. La ricerca dei prezzi è il loro lavoro. Aura Historia risponde a un’altra domanda: che cosa è offerto oggi, da chi e che cosa è cambiato da allora. Non fornisce valutazioni.",
+      "status": "Il 15 aprile 2026 Artsy e Artnet hanno annunciato di aver unito le forze sotto una guida condivisa. Secondo l’annuncio, entrambi i marchi continueranno a operare come marchi e siti web distinti. Il comunicato continua a indicare l’Artnet Price Database tra i servizi di Artnet."
+    },
+    "advantages": {
+      "title": "Ciò che è offerto oggi, <em>e ciò che cambia</em>",
+      "description": "La differenza sta nella domanda a cui ciascuno risponde: le banche dati dei prezzi guardano ai risultati passati, Aura Historia guarda alle offerte attuali tra più fornitori e segue come cambiano.",
+      "cards": {
+        "offeredNow": {
+          "title": "Ciò che è offerto oggi",
+          "description": "Annunci attuali di commercianti, case d’asta, negozi e marketplace, come li pubblicano i fornitori."
+        },
+        "askingPrices": {
+          "title": "Prezzi richiesti come li pubblicano i fornitori",
+          "description": "I prezzi richiesti dai fornitori compaiono insieme in un’unica lista di risultati, come sono pubblicati. Aura Historia non fornisce valutazioni."
+        },
+        "watchingChanges": {
+          "title": "Seguire i cambiamenti tra più fornitori",
+          "description": "Liste dei preferiti, ricerche salvate e notifiche seguono le variazioni di prezzo e disponibilità presso tutti i fornitori dell’indice."
+        },
+        "noAccount": {
+          "title": "Cercare senza un account",
+          "description": "La ricerca non richiede un account. Con un account si aggiungono liste dei preferiti, ricerche salvate e notifiche."
+        }
+      }
+    },
+    "scorecard": {
+      "title": "Aura Historia e le banche dati dei prezzi, <em>punto per punto</em>",
+      "description": "Le banche dati dei prezzi come Artnet, WorthPoint, MutualArt e Artprice ricercano a quanto sono stati venduti gli oggetti. Aura Historia mostra ciò che è offerto oggi. Dove le quattro differiscono, la cella indica quale.",
+      "caption": "Confronto tra Aura Historia e le banche dati dei prezzi dell’arte",
+      "headers": {
+        "criterion": "Criterio",
+        "auraHistoria": "Aura Historia",
+        "competitor": "Banche dati dei prezzi (Artnet, WorthPoint, MutualArt, Artprice)"
+      },
+      "rows": {
+        "historicalDepth": {
+          "criterion": "Profondità storica e ricerca dei risultati",
+          "competitor": "Artnet descrive il suo Price Database come circa 18 milioni di risultati d’asta, con registrazioni che risalgono al 1985 (novembre 2026). La società madre di Artprice dichiara che le sue banche dati contengono oltre 30 milioni di indici e risultati d’asta (novembre 2026). Il comunicato sui risultati di WorthPoint del gennaio 2022 citava oltre 610 milioni di prezzi archiviati. Le cifre contano cose diverse, quindi non vengono sommate né confrontate.",
+          "auraHistoria": "Non è un archivio di risultati d’asta passati. La pagina di un annuncio mostra le variazioni che Aura Historia ha registrato per quell’annuncio da quando lo ha visto per la prima volta.",
+          "verdict": "Banche dati dei prezzi"
+        },
+        "currentAvailability": {
+          "criterion": "Disponibilità attuale",
+          "competitor": "Incentrate sui risultati di vendite passate. Artnet indica che le sue banche dati includono le aste in programma, MutualArt elenca opere d’arte in vendita e lotti di aste in programma, e la società madre di Artprice descrive un marketplace di opere a prezzo fisso o all’asta (novembre 2026).",
+          "auraHistoria": "Annunci attuali di commercianti, case d’asta, negozi e marketplace, come li pubblicano i fornitori, in un’unica ricerca.",
+          "verdict": "Aura Historia tra più fornitori"
+        },
+        "alerts": {
+          "criterion": "Avvisi",
+          "competitor": "Artnet elenca i Market Alerts, e MutualArt descrive avvisi via e-mail per gli artisti, i luoghi e le località che si seguono.",
+          "auraHistoria": "Liste dei preferiti, ricerche salvate e notifiche su tutti i fornitori dell’indice, con le variazioni di prezzo e disponibilità degli oggetti seguiti.",
+          "verdict": "Anche Artnet e MutualArt offrono avvisi"
+        },
+        "valuation": {
+          "criterion": "Valutazione",
+          "competitor": "Le banche dati dei prezzi forniscono risultati passati per la ricerca dei prezzi. MutualArt descrive inoltre perizie online di opere che si possiedono.",
+          "auraHistoria": "Non fornisce valutazioni né perizie. Gli annunci compaiono come li pubblicano i fornitori, e un prezzo richiesto è quello del fornitore.",
+          "verdict": "MutualArt per le perizie"
+        },
+        "accessModel": {
+          "criterion": "Modello di accesso",
+          "competitor": "Artnet, MutualArt, WorthPoint e Artprice descrivono ciascuno piani a pagamento o abbonamenti per le loro banche dati. Questa pagina non confronta alcun prezzo.",
+          "auraHistoria": "La ricerca non richiede un account. Con un account si aggiungono liste dei preferiti, ricerche salvate e notifiche.",
+          "verdict": "Modelli diversi"
+        }
+      }
+    },
+    "downstream": {
+      "title": "Due strumenti rispondono a <em>due domande</em>",
+      "sourcesLabel": "Domande",
+      "sources": {
+        "pastSale": "A quanto è stato venduto?",
+        "artistResults": "Come si sono evoluti i risultati di un artista?",
+        "offeredNow": "Dove è offerto oggi un oggetto comparabile?",
+        "listingChanges": "Il prezzo o la disponibilità di questo annuncio sono cambiati?",
+        "acrossProviders": "Che cosa offrono commercianti, case d’asta e marketplace?"
+      },
+      "cards": {
+        "pastResults": {
+          "title": "Risultati passati",
+          "description": "Una banca dati dei prezzi registra i risultati d’asta, quindi risponde a quanto sono stati venduti oggetti comparabili."
+        },
+        "currentOffers": {
+          "title": "Offerte attuali",
+          "description": "Aura Historia mostra ciò che commercianti, case d’asta, negozi e marketplace offrono oggi, fianco a fianco in un’unica lista di risultati."
+        },
+        "listingHistory": {
+          "title": "Lo storico dell’annuncio stesso",
+          "description": "La pagina di un annuncio mostra le variazioni di prezzo e disponibilità che Aura Historia ha registrato per quell’annuncio da quando lo ha visto per la prima volta. È la storia dell’annuncio stesso, non risultati di mercato."
+        },
+        "similarObjects": {
+          "title": "Oggetti comparabili in un’unica ricerca",
+          "description": "I risultati di ricerca mostrano molti fornitori fianco a fianco, quindi cercare un tipo di oggetto fa vedere dove è offerto e a quale prezzo richiesto."
+        }
+      }
+    },
+    "together": {
+      "title": "Una banca dati per ciò che è stato venduto, <em>Aura Historia per ciò che è offerto</em>",
+      "paragraph1": "Usa una banca dati dei prezzi per sapere quanto ha ottenuto un oggetto. Usa Aura Historia per vedere dove sono offerti oggi oggetti comparabili e come cambiano. Nella pagina di un annuncio, “Vai al fornitore” apre l’annuncio sulla pagina del fornitore stesso, in una nuova scheda.",
+      "paragraph2": "Aura Historia non fornisce valutazioni. Per una valutazione, rivolgiti a un perito. Aura Historia non è affiliata ad Artnet, WorthPoint, MutualArt né ad Artprice."
+    },
+    "faq": {
+      "title": "Domande frequenti su <em>Aura Historia e le banche dati dei prezzi</em>",
+      "items": {
+        "alternativeArtnet": {
+          "question": "Aura Historia è un’alternativa ad Artnet?",
+          "answer": "Non nel senso consueto. L’Artnet Price Database registra a quanto sono stati venduti gli oggetti: Artnet lo descrive come circa 18 milioni di risultati d’asta, con registrazioni che risalgono al 1985 (la pagina del suo Price Database, novembre 2026). Aura Historia mostra ciò che commercianti, case d’asta e marketplace offrono oggi. I due servizi rispondono a domande diverse e si completano bene. Aura Historia non fornisce valutazioni."
+        },
+        "alternativeWorthPoint": {
+          "question": "Aura Historia è un’alternativa a WorthPoint?",
+          "answer": "Non nel senso consueto. WorthPoint è una banca dati dei prezzi: il suo comunicato sui risultati del gennaio 2022 citava oltre 610 milioni di prezzi archiviati, raccolti da marketplace online e case d’asta. Aura Historia mostra ciò che commercianti, case d’asta e marketplace offrono oggi. Usa WorthPoint per ricercare i prezzi passati e Aura Historia per vedere le offerte attuali. Aura Historia non fornisce valutazioni."
+        },
+        "alternativeArtpriceMutualArt": {
+          "question": "Aura Historia è un’alternativa ad Artprice o a MutualArt?",
+          "answer": "Non nel senso consueto. Artprice e MutualArt danno entrambe accesso ai risultati d’asta: la società madre di Artprice dichiara che le sue banche dati contengono oltre 30 milioni di indici e risultati d’asta (novembre 2026), e MutualArt dichiara di avere dati su oltre 900.000 artisti (novembre 2026). Aura Historia mostra ciò che commercianti, case d’asta e marketplace offrono oggi. MutualArt descrive inoltre perizie online, che Aura Historia non offre."
+        },
+        "worth": {
+          "question": "Aura Historia può dirmi quanto vale il mio oggetto?",
+          "answer": "No. Aura Historia non fornisce valutazioni né perizie. Mostra gli annunci come li pubblicano i fornitori, e un prezzo richiesto è quello del fornitore. Per sapere quanto vale un oggetto, rivolgiti a un perito e usa una banca dati dei prezzi per vedere a quanto sono stati venduti oggetti comparabili."
+        },
+        "similarOffers": {
+          "question": "Dove posso vedere a quanto sono offerti oggetti simili?",
+          "answer": "Cerca il tipo di oggetto. I risultati mostrano fianco a fianco commercianti, case d’asta, negozi e marketplace, con i loro prezzi come sono pubblicati, così vedi dove sono offerti oggetti comparabili. La pagina di un annuncio aggiunge lo storico dei prezzi di quell’annuncio da quando Aura Historia lo ha registrato per la prima volta. Nessuna delle due cose è una valutazione, e i prezzi delle vendite passate sono compito di una banca dati dei prezzi."
+        },
+        "pastResults": {
+          "question": "Aura Historia mostra i risultati d’asta passati?",
+          "answer": "Non come banca dati dei risultati. Aura Historia mostra ciò che offrono i fornitori e registra le variazioni di ogni annuncio dal giorno in cui lo vede per la prima volta, così la pagina di un annuncio mostra il proprio storico di prezzo e disponibilità. Un annuncio venduto o ritirato può restare visibile, e quando è stata osservata una vendita il prezzo reca l’etichetta “Prezzo di vendita osservato”. Non è un archivio di risultati d’asta, e il suo storico inizia quando Aura Historia registra un annuncio per la prima volta. Per i risultati passati, usa una banca dati dei prezzi."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "Le banche dati dicono ciò che è stato venduto. <em>Aura Historia mostra ciò che è sul mercato.</em>",
+      "description": "Per vedere ciò che commercianti, case d’asta e marketplace offrono oggi e seguire come cambia, comincia da Aura Historia.",
+      "button": "Vedi ciò che è sul mercato"
+    },
+    "positioning": "Banche dati dei prezzi che registrano a quanto sono stati venduti gli oggetti, a confronto con una ricerca tra commercianti, case d’asta e marketplace che mostra ciò che è offerto oggi."
   },
   "partnerAccessTokens": {
     "create": {

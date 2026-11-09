@@ -2,6 +2,7 @@ import { act, screen } from "@testing-library/react";
 import type { ReactElement } from "react";
 import { describe, expect, it, vi } from "vitest";
 
+import { ART_PRICE_DATABASES_COMPARISON } from "@/features/comparison/config/artPriceDatabasesComparison.ts";
 import { ARTSY_COMPARISON } from "@/features/comparison/config/artsyComparison.ts";
 import { BARNEBYS_COMPARISON } from "@/features/comparison/config/barnebysComparison.ts";
 import { CATAWIKI_COMPARISON } from "@/features/comparison/config/catawikiComparison.ts";
@@ -12,6 +13,7 @@ import { INVALUABLE_COMPARISON } from "@/features/comparison/config/invaluableCo
 import { LIVE_AUCTIONEERS_COMPARISON } from "@/features/comparison/config/liveAuctioneersComparison.ts";
 import i18n from "@/i18n/i18nForTests";
 import { Route as FirstDibsRoute } from "@/routes/$lng.compare.1stdibs.tsx";
+import { Route as ArtPriceDatabasesRoute } from "@/routes/$lng.compare.art-price-databases.tsx";
 import { Route as ArtsyRoute } from "@/routes/$lng.compare.artsy.tsx";
 import { Route as BarnebysRoute } from "@/routes/$lng.compare.barnebys.tsx";
 import { Route as CatawikiRoute } from "@/routes/$lng.compare.catawiki.tsx";
@@ -30,6 +32,7 @@ const ROUTES = [
     ["liveauctioneers", LIVE_AUCTIONEERS_COMPARISON, LiveAuctioneersRoute],
     ["catawiki", CATAWIKI_COMPARISON, CatawikiRoute],
     ["ebay", EBAY_COMPARISON, EbayRoute],
+    ["art-price-databases", ART_PRICE_DATABASES_COMPARISON, ArtPriceDatabasesRoute],
 ] as const;
 
 type HeadResult = {

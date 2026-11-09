@@ -1,3 +1,4 @@
+import { ART_PRICE_DATABASES_COMPARISON } from "@/features/comparison/config/artPriceDatabasesComparison.ts";
 import { ARTSY_COMPARISON } from "@/features/comparison/config/artsyComparison.ts";
 import { BARNEBYS_COMPARISON } from "@/features/comparison/config/barnebysComparison.ts";
 import { CATAWIKI_COMPARISON } from "@/features/comparison/config/catawikiComparison.ts";
@@ -19,4 +20,5 @@ export const COMPARISON_REGISTRY: readonly ComparisonDefinition[] = [
     LIVE_AUCTIONEERS_COMPARISON,
     CATAWIKI_COMPARISON,
     EBAY_COMPARISON,
+    ART_PRICE_DATABASES_COMPARISON,
 ];

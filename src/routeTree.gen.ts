@@ -23,6 +23,7 @@ import { Route as LngTermsAndConditionsRouteImport } from './routes/$lng.terms-a
 import { Route as LngAuthAdminRouteImport } from './routes/$lng._auth.admin'
 import { Route as LngAuthPartnersRouteImport } from './routes/$lng._auth.partners'
 import { Route as LngCompare1stdibsRouteImport } from './routes/$lng.compare.1stdibs'
+import { Route as LngCompareArtPriceDatabasesRouteImport } from './routes/$lng.compare.art-price-databases'
 import { Route as LngCompareArtsyRouteImport } from './routes/$lng.compare.artsy'
 import { Route as LngCompareBarnebysRouteImport } from './routes/$lng.compare.barnebys'
 import { Route as LngCompareCatawikiRouteImport } from './routes/$lng.compare.catawiki'
@@ -138,6 +139,12 @@ const LngCompare1stdibsRoute = LngCompare1stdibsRouteImport.update({
   path: '/compare/1stdibs',
   getParentRoute: () => LngRoute,
 } as any)
+const LngCompareArtPriceDatabasesRoute =
+  LngCompareArtPriceDatabasesRouteImport.update({
+    id: '/compare/art-price-databases',
+    path: '/compare/art-price-databases',
+    getParentRoute: () => LngRoute,
+  } as any)
 const LngCompareArtsyRoute = LngCompareArtsyRouteImport.update({
   id: '/compare/artsy',
   path: '/compare/artsy',
@@ -404,6 +411,7 @@ export interface FileRoutesByFullPath {
   '/$lng/admin': typeof LngAuthAdminRouteWithChildren
   '/$lng/partners': typeof LngAuthPartnersRouteWithChildren
   '/$lng/compare/1stdibs': typeof LngCompare1stdibsRoute
+  '/$lng/compare/art-price-databases': typeof LngCompareArtPriceDatabasesRoute
   '/$lng/compare/artsy': typeof LngCompareArtsyRoute
   '/$lng/compare/barnebys': typeof LngCompareBarnebysRoute
   '/$lng/compare/catawiki': typeof LngCompareCatawikiRoute
@@ -460,6 +468,7 @@ export interface FileRoutesByTo {
   '/$lng/search': typeof LngSearchRoute
   '/$lng/terms-and-conditions': typeof LngTermsAndConditionsRoute
   '/$lng/compare/1stdibs': typeof LngCompare1stdibsRoute
+  '/$lng/compare/art-price-databases': typeof LngCompareArtPriceDatabasesRoute
   '/$lng/compare/artsy': typeof LngCompareArtsyRoute
   '/$lng/compare/barnebys': typeof LngCompareBarnebysRoute
   '/$lng/compare/catawiki': typeof LngCompareCatawikiRoute
@@ -522,6 +531,7 @@ export interface FileRoutesById {
   '/$lng/_auth/admin': typeof LngAuthAdminRouteWithChildren
   '/$lng/_auth/partners': typeof LngAuthPartnersRouteWithChildren
   '/$lng/compare/1stdibs': typeof LngCompare1stdibsRoute
+  '/$lng/compare/art-price-databases': typeof LngCompareArtPriceDatabasesRoute
   '/$lng/compare/artsy': typeof LngCompareArtsyRoute
   '/$lng/compare/barnebys': typeof LngCompareBarnebysRoute
   '/$lng/compare/catawiki': typeof LngCompareCatawikiRoute
@@ -584,6 +594,7 @@ export interface FileRouteTypes {
     | '/$lng/admin'
     | '/$lng/partners'
     | '/$lng/compare/1stdibs'
+    | '/$lng/compare/art-price-databases'
     | '/$lng/compare/artsy'
     | '/$lng/compare/barnebys'
     | '/$lng/compare/catawiki'
@@ -640,6 +651,7 @@ export interface FileRouteTypes {
     | '/$lng/search'
     | '/$lng/terms-and-conditions'
     | '/$lng/compare/1stdibs'
+    | '/$lng/compare/art-price-databases'
     | '/$lng/compare/artsy'
     | '/$lng/compare/barnebys'
     | '/$lng/compare/catawiki'
@@ -701,6 +713,7 @@ export interface FileRouteTypes {
     | '/$lng/_auth/admin'
     | '/$lng/_auth/partners'
     | '/$lng/compare/1stdibs'
+    | '/$lng/compare/art-price-databases'
     | '/$lng/compare/artsy'
     | '/$lng/compare/barnebys'
     | '/$lng/compare/catawiki'
@@ -857,6 +870,13 @@ declare module '@tanstack/react-router' {
       path: '/compare/1stdibs'
       fullPath: '/$lng/compare/1stdibs'
       preLoaderRoute: typeof LngCompare1stdibsRouteImport
+      parentRoute: typeof LngRoute
+    }
+    '/$lng/compare/art-price-databases': {
+      id: '/$lng/compare/art-price-databases'
+      path: '/compare/art-price-databases'
+      fullPath: '/$lng/compare/art-price-databases'
+      preLoaderRoute: typeof LngCompareArtPriceDatabasesRouteImport
       parentRoute: typeof LngRoute
     }
     '/$lng/compare/artsy': {
@@ -1290,6 +1310,7 @@ interface LngRouteChildren {
   LngTermsAndConditionsRoute: typeof LngTermsAndConditionsRoute
   LngIndexRoute: typeof LngIndexRoute
   LngCompare1stdibsRoute: typeof LngCompare1stdibsRoute
+  LngCompareArtPriceDatabasesRoute: typeof LngCompareArtPriceDatabasesRoute
   LngCompareArtsyRoute: typeof LngCompareArtsyRoute
   LngCompareBarnebysRoute: typeof LngCompareBarnebysRoute
   LngCompareCatawikiRoute: typeof LngCompareCatawikiRoute
@@ -1314,6 +1335,7 @@ const LngRouteChildren: LngRouteChildren = {
   LngTermsAndConditionsRoute: LngTermsAndConditionsRoute,
   LngIndexRoute: LngIndexRoute,
   LngCompare1stdibsRoute: LngCompare1stdibsRoute,
+  LngCompareArtPriceDatabasesRoute: LngCompareArtPriceDatabasesRoute,
   LngCompareArtsyRoute: LngCompareArtsyRoute,
   LngCompareBarnebysRoute: LngCompareBarnebysRoute,
   LngCompareCatawikiRoute: LngCompareCatawikiRoute,
