@@ -54,6 +54,9 @@ describe("generateShopHeadMeta", () => {
             },
         });
         expect(JSON.stringify(jsonLd)).not.toContain(source.operatorName);
+        // The canonical address stays untagged; only outbound clicks use the viewUrl.
+        expect(source.viewUrl).toContain("utm_source=aura_historia");
+        expect(JSON.stringify(jsonLd)).not.toContain("utm_source");
         expect(head.meta).toContainEqual({ property: "og:image:alt", content: "Antique Store" });
     });
 

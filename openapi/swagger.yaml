@@ -22317,6 +22317,10 @@ components:
               type: string
               enum:
                 - NAZI_GERMANY
+                - NUDITY
+              description: >-
+                Why the listing is sensitive: `NAZI_GERMANY` for Nazi-era imagery or paraphernalia,
+                `NUDITY` for nudity, erotica or pornography.
       description: Listing-level content decision. This schema is used only when the listing has an assessment.
     SortProductListingFieldData:
       type: string
@@ -25735,7 +25739,7 @@ components:
           description: Original display name of the ListingSource operator Party. The operator is not a seller resource.
     PublicListingSourceData:
       type: object
-      description: Allowlisted public ListingSource card used by both public collection search and exact slug lookup. It omits Party identifiers/contact, ingestion/provider/referral configuration, timestamps, versions, and search metadata.
+      description: Allowlisted public ListingSource card used by both public collection search and exact slug lookup. It omits Party identifiers/contact, ingestion/provider/referral configuration, timestamps, versions, and search metadata. The only trace of the referral configuration is `viewUrl`.
       required:
         - listingSourceId
         - listingSourceSlugId
@@ -25756,6 +25760,10 @@ components:
           type: string
           format: uri
           description: Optional http/https presentation URL, omitted when absent.
+        viewUrl:
+          type: string
+          format: uri
+          description: The link to send visitors to, derived from `url` the same way as a ProductListing's `viewUrl`. The source's affiliate link when it has a referral configuration, otherwise `url` with Aura's `utm_source` and `utm_medium` parameters, unless `url` already carries a `utm_source`. Present exactly when `url` is.
         image:
           type: string
           format: uri

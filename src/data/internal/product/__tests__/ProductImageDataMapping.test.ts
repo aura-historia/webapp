@@ -1,3 +1,4 @@
+import type { ContentPolicyData } from "@/client";
 import { describe, expect, it } from "vitest";
 import {
     filterDuplicateImages,
@@ -7,14 +8,16 @@ import {
     type ProductImage,
 } from "../ProductImageData.ts";
 
+const SENSITIVE_CATEGORIES = ["NAZI_GERMANY", "NUDITY"] as const;
+
 describe("isRestrictedImage", () => {
-    it.each(["NONE", "UNKNOWN", "NAZI_GERMANY"] as const)(
+    it.each(["NONE", "UNKNOWN", ...SENSITIVE_CATEGORIES] as const)(
         "keeps redacted %s images hidden even when visibility is enabled",
         (prohibitedContentType) => {
             expect(isRestrictedImage({ prohibitedContentType }, true)).toBe(true);
         },
     );
-    it.each(["UNKNOWN", "NAZI_GERMANY"] as const)(
+    it.each(["UNKNOWN", ...SENSITIVE_CATEGORIES] as const)(
         "requires explicit visibility for %s content",
         (prohibitedContentType) => {
             const image = { url: new URL("https://example.com/image.jpg"), prohibitedContentType };
@@ -22,10 +25,10 @@ describe("isRestrictedImage", () => {
             expect(isRestrictedImage(image, true)).toBe(false);
         },
     );
-    it("should return true for images without URL", () => {
+    it.each(SENSITIVE_CATEGORIES)("should return true for %s images without URL", (category) => {
         const image: ProductImage = {
             url: undefined,
-            prohibitedContentType: "NAZI_GERMANY",
+            prohibitedContentType: category,
         };
 
         expect(isRestrictedImage(image, false)).toBe(true);
@@ -40,14 +43,17 @@ describe("isRestrictedImage", () => {
         expect(isRestrictedImage(image, false)).toBe(false);
     });
 
-    it("should return true for images with URL and prohibited content type", () => {
-        const image: ProductImage = {
-            url: new URL("https://example.com/image.jpg"),
-            prohibitedContentType: "NAZI_GERMANY",
-        };
+    it.each(SENSITIVE_CATEGORIES)(
+        "should return true for images with URL and %s content without the preference",
+        (category) => {
+            const image: ProductImage = {
+                url: new URL("https://example.com/image.jpg"),
+                prohibitedContentType: category,
+            };
 
-        expect(isRestrictedImage(image, false)).toBe(true);
-    });
+            expect(isRestrictedImage(image, false)).toBe(true);
+        },
+    );
 });
 
 describe("mapToInternalProductImage", () => {
@@ -62,12 +68,28 @@ describe("mapToInternalProductImage", () => {
         expect(
             mapToInternalProductImage(image, { decision: "ALLOWED" })?.prohibitedContentType,
         ).toBe("NONE");
-        expect(
-            mapToInternalProductImage(image, {
-                decision: "REQUIRES_CONSENT",
-                category: "NAZI_GERMANY",
-            })?.prohibitedContentType,
-        ).toBe("NAZI_GERMANY");
+    });
+    it.each(SENSITIVE_CATEGORIES)(
+        "maps a %s assessment and shows the image only with the preference",
+        (category) => {
+            const image = mapToInternalProductImage(
+                { url: "https://example.com/image.jpg" },
+                { decision: "REQUIRES_CONSENT", category },
+            );
+
+            expect(image?.prohibitedContentType).toBe(category);
+            expect(image && isRestrictedImage(image, false)).toBe(true);
+            expect(image && isRestrictedImage(image, true)).toBe(false);
+        },
+    );
+    it("keeps an image hidden when the backend sends a category this client does not know", () => {
+        const image = mapToInternalProductImage({ url: "https://example.com/image.jpg" }, {
+            decision: "REQUIRES_CONSENT",
+            category: "FUTURE_CATEGORY",
+        } as unknown as ContentPolicyData);
+
+        expect(image && isRestrictedImage(image, false)).toBe(true);
+        expect(image && isRestrictedImage(image, true)).toBe(false);
     });
     it("preserves redaction without recovering a URL", () => {
         expect(mapToInternalProductImage({}, { decision: "ALLOWED" })?.url).toBeUndefined();
@@ -82,16 +104,36 @@ describe("sortImagesRestrictedLast", () => {
         const images: ProductImage[] = [
             { url: undefined, prohibitedContentType: "NAZI_GERMANY" },
             { url: new URL("https://example.com/image1.jpg"), prohibitedContentType: "NONE" },
-            { url: undefined, prohibitedContentType: "UNKNOWN" },
+            { url: undefined, prohibitedContentType: "NUDITY" },
             { url: new URL("https://example.com/image2.jpg"), prohibitedContentType: "NONE" },
+            { url: undefined, prohibitedContentType: "UNKNOWN" },
         ];
 
         const sorted = sortImagesRestrictedLast(images, false);
 
         expect(sorted[0].url?.href).toBe("https://example.com/image1.jpg");
         expect(sorted[1].url?.href).toBe("https://example.com/image2.jpg");
-        expect(sorted[2].url).toBeUndefined();
-        expect(sorted[3].url).toBeUndefined();
+        expect(sorted.slice(2).map((image) => image.url)).toEqual([
+            undefined,
+            undefined,
+            undefined,
+        ]);
+    });
+
+    it("should place sensitive images with a URL last until the preference is enabled", () => {
+        const images: ProductImage[] = [
+            { url: new URL("https://example.com/nude.jpg"), prohibitedContentType: "NUDITY" },
+            { url: new URL("https://example.com/plain.jpg"), prohibitedContentType: "NONE" },
+        ];
+
+        expect(sortImagesRestrictedLast(images, false).map((image) => image.url?.href)).toEqual([
+            "https://example.com/plain.jpg",
+            "https://example.com/nude.jpg",
+        ]);
+        expect(sortImagesRestrictedLast(images, true).map((image) => image.url?.href)).toEqual([
+            "https://example.com/nude.jpg",
+            "https://example.com/plain.jpg",
+        ]);
     });
 
     it("should preserve order within same category", () => {

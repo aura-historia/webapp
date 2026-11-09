@@ -73,6 +73,7 @@ export function makePublicListingSource(
         name: "Antique Store",
         operatorName: "Antique Operator",
         url: "https://example.com",
+        viewUrl: "https://example.com/?utm_source=aura_historia&utm_medium=referral",
         ...overrides,
     };
 }

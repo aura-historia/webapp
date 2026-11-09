@@ -10,13 +10,13 @@ admin workflows in [admin workflows](admin-workflows.md).
   (`public/partner-products.openapi.json`) from the same pinned contract, `openapi/swagger.yaml`.
   Generation never fetches a moving contract. Never hand-edit either output.
 - The pinned capture is the complete backend `docs/swagger.yaml` at `develop`
-  `40f76513aa2c49140b47139f8099512fd242bb6b` (2026-11-08); its last contract change is
-  `1ef4282b99` ([backend#2819](https://github.com/aura-historia/backend/pull/2819)). Git blob
-  `5fdbbab573b5d30add76156d6233c8bd8e7eff94`; file SHA-256
-  `7c1bc8a4ab303c0f640949c375a22826d06f3fdeb3188714b80b097eb7a30b50`; canonical parsed-JSON
+  `867bfe2c79ba9a3daa47deb0715e5f66a0865c31` (2026-11-09); its last contract change is
+  `867bfe2c79` ([backend#2829](https://github.com/aura-historia/backend/pull/2829)). Git blob
+  `002f553f4a911dd1f9646c15a1a8cf9cd470659c`; file SHA-256
+  `42efa03d0577eaafbe351bc25c72c483221ed8f26f7b0131ff0f7df759dd8d34`; canonical parsed-JSON
   SHA-256 (recorded as `x-source-contract-sha256` in the partner reference):
-  `05a6011e8fcca2f27fb3fca8c3aad0ca9ac88b6af28ad718cc7aecd032c47c69`. It replaces the
-  `6781ead662` capture (2026-11-06, last contract change `6781ead662`).
+  `6e3eaace9bb4fc39f27ed4cba1d118843c9c451dbf4c44e2d468a95294080b02`. It replaces the
+  `40f76513aa` capture (2026-11-08, last contract change `1ef4282b99`).
 - Every REST operation lives under `/v1/...` on `https://api.aura-historia.com` (production) and
   `https://api.stage.aura-historia.com`; `/api/v1/...` is gone without aliases
   ([backend#2216](https://github.com/aura-historia/backend/issues/2216)). The generated client and
@@ -26,7 +26,37 @@ admin workflows in [admin workflows](admin-workflows.md).
   keep their paths. Release this webapp only with or after a backend that serves `/v1`.
 - Without `VITE_API_URL` the app calls the production API (`getApiBaseUrl`); each deployment
   sets its environment's API URL explicitly.
-- Changes against the previous pin (`6781ead662`, 2026-11-06), with their decisions:
+- Changes against the previous pin (`40f76513aa`, 2026-11-08), with their decisions:
+  - **Nudity is sensitive content** ([backend#2830](https://github.com/aura-historia/backend/issues/2830),
+    [backend#2832](https://github.com/aura-historia/backend/pull/2832), webapp
+    [#1288](https://github.com/aura-historia/webapp/issues/1288)): `ContentPolicyData.category`
+    gains `NUDITY` next to `NAZI_GERMANY`. It behaves exactly like `NAZI_GERMANY`: a
+    `REQUIRES_CONSENT` listing's image URLs arrive only when `showUnassessedOrSensitiveContent` is
+    `true`, there is no second preference, and text that matches both categories stays
+    `NAZI_GERMANY`. `SensitiveContentCategory` (`ProductImageData.ts`) is derived from the
+    generated type, and `ListingContentPolicy` and `ProductImage.prohibitedContentType` build on
+    it, so a further category needs only a client regeneration. Image visibility never branches on
+    the category: everything but `NONE` stays hidden without the preference, a category this
+    client does not know included. Listings assessed before the backend change keep `ALLOWED`
+    until their title or description changes, so `NUDITY` appears gradually. The preference's
+    tooltip now names nudity and erotic content; the legal pages are unchanged (see
+    [privacy alignment](privacy-policy-alignment.md#alignment-rules)).
+  - **`viewUrl` on public listing sources** ([backend#2827](https://github.com/aura-historia/backend/issues/2827),
+    [backend#2829](https://github.com/aura-historia/backend/pull/2829), webapp
+    [#1290](https://github.com/aura-historia/webapp/issues/1290)): `PublicListingSourceData` gains
+    optional `viewUrl`, present exactly when `url` is: the source's affiliate link when it has a
+    referral configuration, otherwise `url` with `utm_source=aura_historia&utm_medium=referral`
+    (left as is when `url` already carries a `utm_source`). `PublicListingSource` maps both. The
+    provider page's Visit website link opens `viewUrl ?? url`, like a listing's
+    `viewUrl ?? url`; the client never adds UTM or referral parameters. The raw `url` stays where
+    the canonical address is meant: the JSON-LD `sameAs` and the OAuth broker's comparison with a
+    shop's registered website. A Partnerize `viewUrl` contains the campaign reference, as on
+    listings. The admin and own listing-source models are unchanged: the backend added `viewUrl`
+    to neither, and administrators read `referralConfiguration` directly.
+  - Description-only: the `viewUrl` and `category` descriptions.
+  - Not breaking: an older backend sends no `viewUrl` and only `NAZI_GERMANY`.
+- Changes adopted with the `40f76513aa` capture (against `6781ead662`, 2026-11-06), with their
+  decisions:
   - **Metadata document clients** (epic [backend#2800](https://github.com/aura-historia/backend/issues/2800),
     [backend#2815](https://github.com/aura-historia/backend/pull/2815)): a `client_id` that parses
     as an `https` URL names a public client identified by its Client ID Metadata Document, such as
@@ -298,12 +328,14 @@ To adopt a backend revision:
   and it is the same for production and stage (backend `docs/mcp.md`, "Tool snapshot"). The sync
   keeps `name`, `description`, `inputSchema`, `annotations` and `_meta` and drops the output
   schemas, which make up most of the 650 KB. Never hand-edit the result.
-- The synced capture is backend `develop` `1ef4282b99b15712a34e920eef9fb8242ac82bd3` (2026-11-07,
-  [backend#2819](https://github.com/aura-historia/backend/pull/2819)). Git blob
-  `2eabfc67950641ccfdfc4011718cdaf033b6da0a`; file SHA-256
-  `16988c2fa7a5f77ca010d33553bb82c358468e4b758017eae1fc95a45b89a80a`. It has 38 tools, 12 of them
+- The synced capture is backend `develop` `867bfe2c79ba9a3daa47deb0715e5f66a0865c31` (2026-11-09,
+  [backend#2829](https://github.com/aura-historia/backend/pull/2829)). Git blob
+  `721f1813b34f944029b54b734f0ca810f9c39870`; file SHA-256
+  `31926fd237b7dea036aae118def1e4d1c2a01dd8265a33d013869114c1ae80cf`. It has 38 tools, 12 of them
   public. The protected tools stay in the file for signed-in WebMCP
-  ([#1245](https://github.com/aura-historia/webapp/issues/1245)).
+  ([#1245](https://github.com/aura-historia/webapp/issues/1245)). Moving from the previous capture
+  (`1ef4282b99`) only added `viewUrl` to the output schemas of `searchPublicListingSources` and
+  `getPublicListingSourceBySlug`, which the sync drops, so `mcp/mcp-tools.json` did not change.
 - The snapshot is pinned separately from `openapi/swagger.yaml`, and either can be synced alone.
   The backend records renamed and removed tools, and incompatible argument changes, in its
   `docs/CHANGELOG.md`. Until this repo syncs such a change, browser calls to the affected tool
@@ -582,8 +614,10 @@ stable error codes, never raw server detail.
   currency/unit preferences and tracking/map consent. Server and first-client rendering use
   deterministic defaults and server-provided preferences.
 - Assessments distinguish `ALLOWED`, `REQUIRES_CONSENT` and unassessed content; a returned URL
-  alone is not an allowed assessment. Notification images have no assessment and require the
-  visibility preference. Public SEO only publishes images assessed `ALLOWED`.
+  alone is not an allowed assessment. `REQUIRES_CONSENT` carries a `category` (`NAZI_GERMANY` or
+  `NUDITY`); both hide images the same way, and the viewer's one preference unlocks both.
+  Notification images have no assessment and require the visibility preference. Public SEO only
+  publishes images assessed `ALLOWED`.
 
 ## Own access tokens
 
