@@ -500,7 +500,7 @@ describe.each(Object.entries(LOCALES))("eBay comparison copy in %s", (lng, local
     });
 
     it("never says eBay sells: its annual report calls it a third-party marketplace", () => {
-        expect(eBaySide.length).toBe(6);
+        expect(eBaySide).toHaveLength(6);
         for (const [path, text] of [
             ...entries.filter(
                 ([path]) =>
