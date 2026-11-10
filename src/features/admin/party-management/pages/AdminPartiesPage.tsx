@@ -329,13 +329,13 @@ function PartyFilterPanel({
         setDraft((current) => ({ ...current, [key]: value }));
     return (
         <AdminFilterPanel
-            onApply={() =>
+            onApply={() => {
                 onApply(
                     Object.fromEntries(
                         PANEL_KEYS.map((key) => [key, draft[key]?.trim() || undefined]),
                     ),
-                )
-            }
+                );
+            }}
             onReset={onReset}
         >
             <AdminTextField

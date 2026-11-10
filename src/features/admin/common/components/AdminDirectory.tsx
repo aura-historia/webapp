@@ -297,7 +297,7 @@ export function AdminFilterPanel({
     children,
 }: {
     /** Return `false` when the draft is invalid, to keep the panel open. */
-    readonly onApply: () => boolean | void;
+    readonly onApply: () => boolean | undefined;
     readonly onReset: () => void;
     readonly children: ReactNode;
 }) {

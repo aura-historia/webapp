@@ -242,7 +242,9 @@ function ClientIdPanel({
     const [clientId, setClientId] = useState(initial);
     return (
         <AdminFilterPanel
-            onApply={() => onApply(clientId.trim() || undefined)}
+            onApply={() => {
+                onApply(clientId.trim() || undefined);
+            }}
             onReset={() => onApply(undefined)}
         >
             <AdminTextField label={label} value={clientId} onChange={setClientId} mono />
