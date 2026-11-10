@@ -19,15 +19,20 @@ export class McpCallError extends Error {
     }
 }
 
-/** The tool ran and reported a failure (`isError`), such as `NOT_FOUND`. */
+/**
+ * The tool ran and reported a failure (`isError`), such as `NOT_FOUND`. `toolError` is the bare
+ * error code, the result's first text block; `detail` is the explanation and next step the backend
+ * adds to `NOT_FOUND` and `CONFLICT` results as a second block.
+ */
 export class McpToolError extends McpCallError {
     override name = "McpToolError";
 
     constructor(
         toolName: string,
         readonly toolError: string,
+        readonly detail?: string,
     ) {
-        super(toolName, `${toolName} failed: ${toolError}`);
+        super(toolName, `${toolName} failed: ${toolError}${detail ? `. ${detail}` : ""}`);
     }
 }
 
@@ -87,14 +92,14 @@ function abortReasonOr(signal: AbortSignal | undefined, error: unknown): unknown
     return signal?.aborted ? signal.reason : error;
 }
 
-function readToolError(result: Record<string, unknown>): string {
+function readToolError(result: Record<string, unknown>): { code: string; detail?: string } {
     const content = Array.isArray(result.content) ? result.content : [];
-    const text = content
+    const [code, ...explanation] = content
         .filter(isRecord)
         .filter((block) => block.type === "text" && typeof block.text === "string")
         .map((block) => block.text as string)
-        .join("\n");
-    return text || "unknown error";
+        .filter((text) => text !== "");
+    return { code: code ?? "unknown error", detail: explanation.join("\n") || undefined };
 }
 
 function readResponse(toolName: string, response: Response, message: unknown): unknown {
@@ -116,7 +121,8 @@ function readResponse(toolName: string, response: Response, message: unknown): u
         throw new McpTransportError(toolName, response.status);
     }
     if (result.isError === true) {
-        throw new McpToolError(toolName, readToolError(result));
+        const { code, detail } = readToolError(result);
+        throw new McpToolError(toolName, code, detail);
     }
     if (!("structuredContent" in result)) {
         throw new McpTransportError(toolName, response.status);

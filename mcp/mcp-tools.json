@@ -7,12 +7,14 @@
       "additionalProperties": false,
       "properties": {
         "notifications": {
+          "description": "Whether to be notified about changes to the listing (default true).",
           "type": [
             "boolean",
             "null"
           ]
         },
         "productListingId": {
+          "description": "ID of the listing (`pl_…`) to add.",
           "pattern": "^pl_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
           "type": "string"
         }
@@ -46,27 +48,32 @@
           "additionalProperties": false,
           "properties": {
             "addressText": {
+              "description": "Free-text address; address-book entries require it.",
               "type": [
                 "string",
                 "null"
               ]
             },
             "country": {
+              "description": "ISO 3166-1 alpha-2 country code.",
               "type": [
                 "string",
                 "null"
               ]
             },
             "postalCode": {
+              "description": "Postal code.",
               "type": [
                 "string",
                 "null"
               ]
             },
             "referenceRelease": {
+              "description": "Version of the ISO 3166 code list the codes come from; `iso-codes-4.20.1` is the only accepted value.",
               "type": "string"
             },
             "subdivision": {
+              "description": "ISO 3166-2 subdivision code.",
               "type": [
                 "string",
                 "null"
@@ -90,6 +97,7 @@
             {
               "properties": {
                 "addressText": {
+                  "description": "Free-text address; required for address-book entries.",
                   "maxLength": 4096,
                   "minLength": 1,
                   "type": "string"
@@ -100,9 +108,12 @@
               ],
               "type": "object"
             }
-          ]
+          ],
+          "description": "Where the address is: the reference release, the address text (required) and optionally country, subdivision and postal code.",
+          "type": "object"
         },
         "label": {
+          "description": "Name of the address in the address book.",
           "type": "string"
         }
       },
@@ -129,7 +140,7 @@
   },
   {
     "name": "createUserSearchFilter",
-    "description": "Save a listing search for the signed-in user. Aura Historia matches new listings against it in the background and, with notifications on (the default), notifies the user, so matches appear later. Subscription tier limits apply. Each call creates a new saved search, so repeating a call that timed out can create a duplicate.",
+    "description": "Save a listing search for the signed-in user. Aura Historia matches new listings against it in the background and, with notifications on (the default), notifies the user, so matches appear later. Subscription tier limits apply. Each call creates a new saved search, so repeating a call that timed out can create a duplicate. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
     "inputSchema": {
       "$defs": {
         "AcceptShippingDestinationData": {
@@ -137,13 +148,16 @@
           "oneOf": [
             {
               "additionalProperties": false,
+              "description": "Compare with the country of one of the user's saved addresses.",
               "properties": {
                 "addressId": {
+                  "description": "ID of the saved address (`uaddr_…`).",
                   "pattern": "^uaddr_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
                   "type": "string"
                 },
                 "kind": {
                   "const": "ADDRESS",
+                  "description": "Selects this variant; always `ADDRESS` here.",
                   "type": "string"
                 }
               },
@@ -155,9 +169,11 @@
             },
             {
               "additionalProperties": false,
+              "description": "Compare with the country of the user's stored browsing destination.",
               "properties": {
                 "kind": {
                   "const": "PREFERENCE",
+                  "description": "Selects this variant; always `PREFERENCE` here.",
                   "type": "string"
                 }
               },
@@ -172,12 +188,14 @@
           "additionalProperties": false,
           "properties": {
             "amount": {
+              "description": "Amount as an integer in the currency's minor unit (EUR cents; JPY whole yen).",
               "format": "uint64",
               "maximum": 9223372036854775807,
               "minimum": 0,
               "type": "integer"
             },
             "currency": {
+              "description": "ISO 4217 code of the currency the amount is in.",
               "enum": [
                 "EUR",
                 "GBP",
@@ -231,7 +249,8 @@
                   "type": "null"
                 }
               ],
-              "default": null
+              "default": null,
+              "description": "End of the range, as an ISO 8601 date-time with offset."
             },
             "min": {
               "anyOf": [
@@ -243,7 +262,8 @@
                   "type": "null"
                 }
               ],
-              "default": null
+              "default": null,
+              "description": "Start of the range, as an ISO 8601 date-time with offset."
             }
           },
           "type": "object"
@@ -252,9 +272,11 @@
           "oneOf": [
             {
               "additionalProperties": false,
+              "description": "No destination country.",
               "properties": {
                 "kind": {
                   "const": "NONE",
+                  "description": "Selects this variant; always `NONE` here.",
                   "type": "string"
                 }
               },
@@ -265,12 +287,15 @@
             },
             {
               "additionalProperties": false,
+              "description": "A destination country.",
               "properties": {
                 "country": {
+                  "description": "ISO 3166-1 alpha-2 country code.",
                   "type": "string"
                 },
                 "kind": {
                   "const": "COUNTRY",
+                  "description": "Selects this variant; always `COUNTRY` here.",
                   "type": "string"
                 }
               },
@@ -286,18 +311,21 @@
           "additionalProperties": false,
           "properties": {
             "countries": {
+              "description": "ISO 3166-1 alpha-2 country codes, at most 100; a listing matches when it is located in any of them.",
               "items": {
                 "type": "string"
               },
               "type": "array"
             },
             "distanceOrder": {
+              "description": "Order results by distance from `origin`, `ASC` (nearest first) or `DESC`; requires `origin`.",
               "type": [
                 "string",
                 "null"
               ]
             },
             "mode": {
+              "description": "Which locations count when measuring distance: `STRICT` (default) only exact premises, `APPROXIMATE` also street, locality and representative points; `APPROXIMATE` needs `origin` with `radius` or `distanceOrder`.",
               "type": [
                 "string",
                 "null"
@@ -311,7 +339,8 @@
                 {
                   "type": "null"
                 }
-              ]
+              ],
+              "description": "Point that `radius` and `distanceOrder` measure from; required by either of them."
             },
             "radius": {
               "anyOf": [
@@ -319,9 +348,11 @@
                   "additionalProperties": false,
                   "properties": {
                     "amount": {
+                      "description": "Distance in `unit`; greater than 0.",
                       "type": "number"
                     },
                     "unit": {
+                      "description": "Unit of `amount`: one of MILES, YARDS, FEET, INCHES, KILOMETERS, METERS, CENTIMETERS, MILLIMETERS, NAUTICAL_MILES.",
                       "type": "string"
                     }
                   },
@@ -334,9 +365,11 @@
                 {
                   "type": "null"
                 }
-              ]
+              ],
+              "description": "Only listings within this distance of `origin`, at most 20,000 km."
             },
             "subdivisions": {
+              "description": "ISO 3166-2 subdivision codes, at most 100, that belong to `countries` when those are given; a listing matches when it is located in any of them.",
               "items": {
                 "type": "string"
               },
@@ -348,6 +381,7 @@
         "NumberRangeSchema": {
           "properties": {
             "max": {
+              "description": "Highest price to include, as an integer amount in the currency's minor unit.",
               "format": "uint64",
               "maximum": 18446744073709551615,
               "minimum": 0,
@@ -357,6 +391,7 @@
               ]
             },
             "min": {
+              "description": "Lowest price to include, as an integer amount in the currency's minor unit.",
               "format": "uint64",
               "maximum": 18446744073709551615,
               "minimum": 0,
@@ -372,10 +407,12 @@
           "additionalProperties": false,
           "properties": {
             "latitude": {
+              "description": "Latitude in decimal degrees.",
               "format": "double",
               "type": "number"
             },
             "longitude": {
+              "description": "Longitude in decimal degrees.",
               "format": "double",
               "type": "number"
             }
@@ -389,6 +426,7 @@
         "ProductListingSearchData": {
           "properties": {
             "auctionId": {
+              "description": "Only listings that belong to these auctions, given as auction IDs (`auc_…`).",
               "items": {
                 "pattern": "^auc_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
                 "type": "string"
@@ -419,13 +457,16 @@
                 {
                   "type": "null"
                 }
-              ]
+              ],
+              "description": "Only listings in one of these exact availability states; combined with `orderability`, a listing must satisfy both."
             },
             "created": {
-              "$ref": "#/$defs/DateRangeSchema"
+              "$ref": "#/$defs/DateRangeSchema",
+              "description": "Range on the listing's creation time, as ISO 8601 date-times with offset; both bounds inclusive."
             },
             "currency": {
               "default": "EUR",
+              "description": "Currency prices are returned in and `price` is interpreted in, as an ISO 4217 code (default `EUR`).",
               "enum": [
                 "EUR",
                 "GBP",
@@ -461,12 +502,14 @@
               "type": "string"
             },
             "enhancedSearchDescription": {
+              "description": "Optional natural-language description that refines the ranking of `productQuery` results. Only effective together with `productQuery`; on its own it returns unranked, unrelated results.",
               "type": [
                 "string",
                 "null"
               ]
             },
             "excludeListingSourceId": {
+              "description": "Leave out listings from these providers, given as listing source IDs (`ls_…`).",
               "items": {
                 "pattern": "^ls_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
                 "type": "string"
@@ -474,6 +517,7 @@
               "type": "array"
             },
             "excludeProductListingId": {
+              "description": "Listing IDs (`pl_…`) to leave out of the results.",
               "items": {
                 "pattern": "^pl_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
                 "type": "string"
@@ -488,9 +532,11 @@
                 {
                   "type": "null"
                 }
-              ]
+              ],
+              "description": "Where listings are located, by country, subdivision or distance from a point; every member given must hold."
             },
             "includeUnspecifiedAvailability": {
+              "description": "Also include listings that state no availability (default false).",
               "type": [
                 "boolean",
                 "null"
@@ -498,6 +544,7 @@
             },
             "language": {
               "default": "en",
+              "description": "Language of the returned listing text and of the titles `productQuery` is matched against, as an ISO 639-1 code (default `en`).",
               "enum": [
                 "de",
                 "en",
@@ -513,6 +560,11 @@
                 "ja",
                 "ru",
                 "ar",
+                "ko",
+                "el",
+                "he",
+                "th",
+                "hi",
                 "de-DE",
                 "de-AT",
                 "de-CH",
@@ -540,6 +592,9 @@
                 "it-CH",
                 "zh-CN",
                 "zh-Hans",
+                "zh-TW",
+                "zh-Hant",
+                "zh-HK",
                 "pt-PT",
                 "pt-BR",
                 "pl-PL",
@@ -551,11 +606,17 @@
                 "ru-RU",
                 "ar-SA",
                 "ar-EG",
-                "ar-AE"
+                "ar-AE",
+                "ko-KR",
+                "el-GR",
+                "he-IL",
+                "th-TH",
+                "hi-IN"
               ],
               "type": "string"
             },
             "listingSourceId": {
+              "description": "Only listings from these providers, given as listing source IDs (`ls_…`).",
               "items": {
                 "pattern": "^ls_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
                 "type": "string"
@@ -563,10 +624,12 @@
               "type": "array"
             },
             "lotBiddingOpens": {
-              "$ref": "#/$defs/DateRangeSchema"
+              "$ref": "#/$defs/DateRangeSchema",
+              "description": "Range on the time bidding on the lot opens, as ISO 8601 date-times with offset; `min` inclusive, `max` exclusive."
             },
             "lotScheduledCloses": {
-              "$ref": "#/$defs/DateRangeSchema"
+              "$ref": "#/$defs/DateRangeSchema",
+              "description": "Range on the lot's scheduled closing time, as ISO 8601 date-times with offset; `min` inclusive, `max` exclusive."
             },
             "orderability": {
               "anyOf": [
@@ -584,7 +647,8 @@
                 {
                   "type": "null"
                 }
-              ]
+              ],
+              "description": "Only listings whose availability falls into one of these orderability groups; combined with `availability`, a listing must satisfy both."
             },
             "price": {
               "anyOf": [
@@ -594,9 +658,11 @@
                 {
                   "type": "null"
                 }
-              ]
+              ],
+              "description": "Price range in the request's `currency`, with both bounds inclusive. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents."
             },
             "productQuery": {
+              "description": "Keyword phrases matched against listing titles; every word of one phrase must match, and a listing matches when any phrase does.",
               "items": {
                 "minLength": 1,
                 "type": "string"
@@ -611,10 +677,12 @@
                 {
                   "type": "null"
                 }
-              ]
+              ],
+              "description": "Only listings whose advertised shipping terms meet these conditions for a destination country; every member given must hold."
             },
             "updated": {
-              "$ref": "#/$defs/DateRangeSchema"
+              "$ref": "#/$defs/DateRangeSchema",
+              "description": "Range on the listing's last update time, as ISO 8601 date-times with offset; both bounds inclusive."
             }
           },
           "type": "object"
@@ -623,6 +691,7 @@
           "additionalProperties": false,
           "properties": {
             "collectionOffered": {
+              "description": "Only listings that offer collection in person; the only shipping condition that works without a destination country.",
               "type": "boolean"
             },
             "destination": {
@@ -633,9 +702,11 @@
                 {
                   "type": "null"
                 }
-              ]
+              ],
+              "description": "Country the listing must ship to, as `{\"kind\":\"COUNTRY\",\"country\":\"DE\"}`; `{\"kind\":\"NONE\"}` sets no destination."
             },
             "interpretation": {
+              "description": "`WHOLE_COUNTRY_PER_ITEM_V1` (default) or `WHOLE_COUNTRY_PER_ITEM_FX_V1`, which values `maximumPerItem` in its own currency at the request's exchange rates and requires `maximumPerItem`.",
               "type": [
                 "string",
                 "null"
@@ -649,15 +720,18 @@
                 {
                   "type": "null"
                 }
-              ]
+              ],
+              "description": "Highest acceptable shipping price per item, in the amount's own currency; requires a `destination` country. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents."
             },
             "referenceRelease": {
+              "description": "Version of the ISO 3166 code list the country code comes from; `iso-codes-4.20.1` is the only accepted value and the default.",
               "type": [
                 "string",
                 "null"
               ]
             },
             "service": {
+              "description": "Shipping service code the terms must include, as free text of at most 128 characters; requires a `destination` country.",
               "type": [
                 "string",
                 "null"
@@ -678,17 +752,22 @@
             {
               "type": "null"
             }
-          ]
+          ],
+          "description": "Optional guard confirming the shipping destination: the filter's shipping country must equal the country of the referenced address or browsing preference."
         },
         "name": {
+          "description": "Name of the saved search, at most 255 characters (longer names are cut off).",
           "type": "string"
         },
         "notifications": {
           "default": true,
+          "description": "Whether matches trigger notifications (default true).",
           "type": "boolean"
         },
         "search": {
-          "$ref": "#/$defs/ProductListingSearchData"
+          "$ref": "#/$defs/ProductListingSearchData",
+          "description": "Criteria a listing must meet to match this saved search; the members are those of the listing search.",
+          "type": "object"
         }
       },
       "required": [
@@ -720,6 +799,7 @@
       "additionalProperties": false,
       "properties": {
         "notificationId": {
+          "description": "ID of the notification (`ntf_…`).",
           "pattern": "^ntf_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
           "type": "string"
         }
@@ -775,10 +855,12 @@
       "additionalProperties": false,
       "properties": {
         "addressId": {
+          "description": "ID of the saved address (`uaddr_…`).",
           "pattern": "^uaddr_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
           "type": "string"
         },
         "expectedVersion": {
+          "description": "Current version from the last read; a stale version returns CONFLICT.",
           "format": "uint64",
           "maximum": 9223372036854775807,
           "minimum": 1,
@@ -814,6 +896,7 @@
       "additionalProperties": false,
       "properties": {
         "userSearchFilterId": {
+          "description": "ID of the saved search (`sf_…`).",
           "pattern": "^sf_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
           "type": "string"
         }
@@ -846,6 +929,7 @@
       "additionalProperties": false,
       "properties": {
         "productListingId": {
+          "description": "ID of the listing (`pl_…`).",
           "pattern": "^pl_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
           "type": "string"
         }
@@ -871,157 +955,6 @@
     }
   },
   {
-    "name": "discoverPartyLocations",
-    "description": "Find the public locations, such as shops and showrooms, of the dealers and auction houses that Aura Historia indexes, within countries or subdivisions or within a radius around a point. Returns each location's business, label, country, coordinates and precision, and with distanceOrder its distance from the point. Returns 1 to 100 locations per page (default 21); pass the returned searchAfter object unchanged to get the next page.",
-    "inputSchema": {
-      "$defs": {
-        "GeographicSearchData": {
-          "additionalProperties": false,
-          "properties": {
-            "countries": {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            },
-            "distanceOrder": {
-              "type": [
-                "string",
-                "null"
-              ]
-            },
-            "mode": {
-              "type": [
-                "string",
-                "null"
-              ]
-            },
-            "origin": {
-              "anyOf": [
-                {
-                  "$ref": "#/$defs/OriginData"
-                },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "radius": {
-              "anyOf": [
-                {
-                  "additionalProperties": false,
-                  "properties": {
-                    "amount": {
-                      "type": "number"
-                    },
-                    "unit": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "amount",
-                    "unit"
-                  ],
-                  "type": "object"
-                },
-                {
-                  "type": "null"
-                }
-              ]
-            },
-            "subdivisions": {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            }
-          },
-          "type": "object"
-        },
-        "OriginData": {
-          "additionalProperties": false,
-          "properties": {
-            "latitude": {
-              "format": "double",
-              "type": "number"
-            },
-            "longitude": {
-              "format": "double",
-              "type": "number"
-            }
-          },
-          "required": [
-            "latitude",
-            "longitude"
-          ],
-          "type": "object"
-        },
-        "PartyLocationCursorData": {
-          "additionalProperties": false,
-          "properties": {
-            "distanceKm": {
-              "format": "double",
-              "type": [
-                "number",
-                "null"
-              ]
-            },
-            "locationId": {
-              "pattern": "^ploc_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
-              "type": "string"
-            }
-          },
-          "required": [
-            "locationId"
-          ],
-          "type": "object"
-        }
-      },
-      "$schema": "https://json-schema.org/draft/2020-12/schema",
-      "additionalProperties": false,
-      "properties": {
-        "geography": {
-          "$ref": "#/$defs/GeographicSearchData"
-        },
-        "searchAfter": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/PartyLocationCursorData"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null
-        },
-        "size": {
-          "default": 21,
-          "description": "Page size from 1 through 100, validated by the discovery use case.",
-          "format": "uint64",
-          "maximum": 18446744073709551615,
-          "minimum": 0,
-          "type": "integer"
-        }
-      },
-      "required": [
-        "geography"
-      ],
-      "title": "DiscoverPartyLocationsData",
-      "type": "object"
-    },
-    "annotations": {
-      "destructiveHint": false,
-      "idempotentHint": true,
-      "openWorldHint": false,
-      "readOnlyHint": true
-    },
-    "_meta": {
-      "aura.historia/access": "public",
-      "aura.historia/operationId": "discoverPartyLocations",
-      "aura.historia/requiredScopes": []
-    }
-  },
-  {
     "name": "getAuction",
     "description": "Get one auction by its auctionId: name, provider, format, schedule, reported status, reported and visible lot counts, and the link to its catalogue at the provider.",
     "inputSchema": {
@@ -1029,6 +962,7 @@
       "additionalProperties": false,
       "properties": {
         "auctionId": {
+          "description": "ID of the auction (`auc_…`).",
           "pattern": "^auc_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
           "type": "string"
         }
@@ -1053,17 +987,19 @@
   },
   {
     "name": "getAuctionCatalogue",
-    "description": "List the lots of one auction by its auctionId in catalogue order, as listings in the requested language and currency with shipping details. Pass the returned searchAfter object as a JSON string to get the next page. For a signed-in user, each result also carries userState sections for which the token has the read scope: watchlist:read, search-filters:read, notifications:read or users:read.",
+    "description": "List the lots of one auction by its auctionId in catalogue order, as listings in the requested language and currency with shipping details. Pass the returned searchAfter object as a JSON string to get the next page. For a signed-in user, each result also carries userState sections for which the token has the read scope: watchlist:read, search-filters:read, notifications:read or users:read. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
     "inputSchema": {
       "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
       "properties": {
         "auctionId": {
+          "description": "ID of the auction (`auc_…`).",
           "pattern": "^auc_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
           "type": "string"
         },
         "currency": {
           "default": "EUR",
+          "description": "Currency of the returned prices, as an ISO 4217 code (default `EUR`).",
           "enum": [
             "EUR",
             "GBP",
@@ -1100,6 +1036,7 @@
         },
         "language": {
           "default": "en",
+          "description": "Language of the returned listing text, as an ISO 639-1 code (default `en`).",
           "enum": [
             "de",
             "en",
@@ -1115,6 +1052,11 @@
             "ja",
             "ru",
             "ar",
+            "ko",
+            "el",
+            "he",
+            "th",
+            "hi",
             "de-DE",
             "de-AT",
             "de-CH",
@@ -1142,6 +1084,9 @@
             "it-CH",
             "zh-CN",
             "zh-Hans",
+            "zh-TW",
+            "zh-Hant",
+            "zh-HK",
             "pt-PT",
             "pt-BR",
             "pl-PL",
@@ -1153,11 +1098,17 @@
             "ru-RU",
             "ar-SA",
             "ar-EG",
-            "ar-AE"
+            "ar-AE",
+            "ko-KR",
+            "el-GR",
+            "he-IL",
+            "th-TH",
+            "hi-IN"
           ],
           "type": "string"
         },
         "pageSize": {
+          "description": "Number of lots per page, from 1 to 100 (default 21); values outside that range are clamped.",
           "format": "uint64",
           "maximum": 18446744073709551615,
           "minimum": 0,
@@ -1167,6 +1118,7 @@
           ]
         },
         "searchAfter": {
+          "description": "Continuation from the previous page: its `searchAfter` object serialized as a JSON string, passed back exactly as returned.",
           "type": [
             "string",
             "null"
@@ -1216,7 +1168,7 @@
   },
   {
     "name": "getProductListing",
-    "description": "Get the full details of one listing by its productListingId: text, prices, images, provider, availability, auction and shipping, in the requested language and currency. Use it when the user wants more than a search result shows. For a signed-in user, each result also carries userState sections for which the token has the read scope: watchlist:read, search-filters:read, notifications:read or users:read.",
+    "description": "Get the full details of one listing by its productListingId: text, prices, images, provider, availability, auction and shipping, in the requested language and currency. Use it when the user wants more than a search result shows. For a signed-in user, each result also carries userState sections for which the token has the read scope: watchlist:read, search-filters:read, notifications:read or users:read. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
     "inputSchema": {
       "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
@@ -1224,6 +1176,7 @@
       "properties": {
         "currency": {
           "default": "EUR",
+          "description": "Currency of the returned prices, as an ISO 4217 code (default `EUR`).",
           "enum": [
             "EUR",
             "GBP",
@@ -1260,6 +1213,7 @@
         },
         "language": {
           "default": "en",
+          "description": "Language of the returned listing text, as an ISO 639-1 code (default `en`).",
           "enum": [
             "de",
             "en",
@@ -1275,6 +1229,11 @@
             "ja",
             "ru",
             "ar",
+            "ko",
+            "el",
+            "he",
+            "th",
+            "hi",
             "de-DE",
             "de-AT",
             "de-CH",
@@ -1302,6 +1261,9 @@
             "it-CH",
             "zh-CN",
             "zh-Hans",
+            "zh-TW",
+            "zh-Hant",
+            "zh-HK",
             "pt-PT",
             "pt-BR",
             "pl-PL",
@@ -1313,11 +1275,17 @@
             "ru-RU",
             "ar-SA",
             "ar-EG",
-            "ar-AE"
+            "ar-AE",
+            "ko-KR",
+            "el-GR",
+            "he-IL",
+            "th-TH",
+            "hi-IN"
           ],
           "type": "string"
         },
         "productListingId": {
+          "description": "ID of the listing (`pl_…`).",
           "pattern": "^pl_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
           "type": "string"
         }
@@ -1342,7 +1310,7 @@
   },
   {
     "name": "getProductListingByTitleSlug",
-    "description": "Get the full details of one listing by its productListingTitleSlugId, the last segment of an Aura Historia listing page URL (/products/{slug}). Returns the same details as the lookup by productListingId. For a signed-in user, each result also carries userState sections for which the token has the read scope: watchlist:read, search-filters:read, notifications:read or users:read.",
+    "description": "Get the full details of one listing by its productListingTitleSlugId, the last segment of an Aura Historia listing page URL (/products/{slug}). Returns the same details as the lookup by productListingId. For a signed-in user, each result also carries userState sections for which the token has the read scope: watchlist:read, search-filters:read, notifications:read or users:read. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
     "inputSchema": {
       "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
@@ -1350,6 +1318,7 @@
       "properties": {
         "currency": {
           "default": "EUR",
+          "description": "Currency of the returned prices, as an ISO 4217 code (default `EUR`).",
           "enum": [
             "EUR",
             "GBP",
@@ -1386,6 +1355,7 @@
         },
         "language": {
           "default": "en",
+          "description": "Language of the returned listing text, as an ISO 639-1 code (default `en`).",
           "enum": [
             "de",
             "en",
@@ -1401,6 +1371,11 @@
             "ja",
             "ru",
             "ar",
+            "ko",
+            "el",
+            "he",
+            "th",
+            "hi",
             "de-DE",
             "de-AT",
             "de-CH",
@@ -1428,6 +1403,9 @@
             "it-CH",
             "zh-CN",
             "zh-Hans",
+            "zh-TW",
+            "zh-Hant",
+            "zh-HK",
             "pt-PT",
             "pt-BR",
             "pl-PL",
@@ -1439,11 +1417,17 @@
             "ru-RU",
             "ar-SA",
             "ar-EG",
-            "ar-AE"
+            "ar-AE",
+            "ko-KR",
+            "el-GR",
+            "he-IL",
+            "th-TH",
+            "hi-IN"
           ],
           "type": "string"
         },
         "productListingTitleSlugId": {
+          "description": "Slug ID of the listing, the last segment of an Aura Historia listing page URL.",
           "maxLength": 120,
           "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*-[0-9a-f]{6}$",
           "type": "string"
@@ -1469,7 +1453,7 @@
   },
   {
     "name": "getProductListingHistory",
-    "description": "Get the complete history of one listing by its productListingId: when it was first seen and every recorded change, in event order. Use it for questions about price development or past changes. With currency, each price is also converted at the exchange rate of its event. Returns every event in one result; a history too large for one response fails instead of being truncated.",
+    "description": "Get the complete history of one listing by its productListingId: when it was first seen and every recorded change, in event order. Use it for questions about price development or past changes. With currency, each price is also converted at the exchange rate of its event. Returns every event in one result; a history too large for one response fails instead of being truncated. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
     "inputSchema": {
       "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
@@ -1516,9 +1500,11 @@
               "type": "null"
             }
           ],
-          "default": null
+          "default": null,
+          "description": "Currency to also show each price in, converted at the exchange rate of its event, as an ISO 4217 code; without it only the source prices are returned."
         },
         "productListingId": {
+          "description": "ID of the listing (`pl_…`).",
           "pattern": "^pl_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
           "type": "string"
         }
@@ -1549,6 +1535,7 @@
       "additionalProperties": false,
       "properties": {
         "listingSourceSlugId": {
+          "description": "Slug ID of the provider, the last segment of an Aura Historia provider page URL.",
           "type": "string"
         }
       },
@@ -1593,7 +1580,7 @@
   },
   {
     "name": "getSimilarProductListings",
-    "description": "Find listings similar to one listing, identified by its productListingId. Returns up to a fixed number of neighbours in the requested language and currency. EMBEDDING_PENDING means the listing is not yet prepared for comparison and a later call can succeed; READY with an empty list means nothing similar was found. For a signed-in user, each result also carries userState sections for which the token has the read scope: watchlist:read, search-filters:read, notifications:read or users:read.",
+    "description": "Find listings similar to one listing, identified by its productListingId. Returns up to `size` neighbours (default 20; values outside 1 to 50 are clamped) in the requested language and currency. EMBEDDING_PENDING means the listing is not yet prepared for comparison and a later call can succeed; READY with an empty list means nothing similar was found. For a signed-in user, each result also carries userState sections for which the token has the read scope: watchlist:read, search-filters:read, notifications:read or users:read. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
     "inputSchema": {
       "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
@@ -1601,6 +1588,7 @@
       "properties": {
         "currency": {
           "default": "EUR",
+          "description": "Currency of the returned prices, as an ISO 4217 code (default `EUR`).",
           "enum": [
             "EUR",
             "GBP",
@@ -1637,6 +1625,7 @@
         },
         "language": {
           "default": "en",
+          "description": "Language of the returned listing text, as an ISO 639-1 code (default `en`).",
           "enum": [
             "de",
             "en",
@@ -1652,6 +1641,11 @@
             "ja",
             "ru",
             "ar",
+            "ko",
+            "el",
+            "he",
+            "th",
+            "hi",
             "de-DE",
             "de-AT",
             "de-CH",
@@ -1679,6 +1673,9 @@
             "it-CH",
             "zh-CN",
             "zh-Hans",
+            "zh-TW",
+            "zh-Hant",
+            "zh-HK",
             "pt-PT",
             "pt-BR",
             "pl-PL",
@@ -1690,19 +1687,35 @@
             "ru-RU",
             "ar-SA",
             "ar-EG",
-            "ar-AE"
+            "ar-AE",
+            "ko-KR",
+            "el-GR",
+            "he-IL",
+            "th-TH",
+            "hi-IN"
           ],
           "type": "string"
         },
         "productListingId": {
+          "description": "ID of the listing (`pl_…`).",
           "pattern": "^pl_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
           "type": "string"
+        },
+        "size": {
+          "description": "Number of similar listings to return, from 1 to 50 (default 20); values outside that range are clamped.",
+          "format": "uint64",
+          "maximum": 18446744073709551615,
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
         }
       },
       "required": [
         "productListingId"
       ],
-      "title": "ListingInput",
+      "title": "SimilarInput",
       "type": "object"
     },
     "annotations": {
@@ -1748,6 +1761,7 @@
       "additionalProperties": false,
       "properties": {
         "addressId": {
+          "description": "ID of the saved address (`uaddr_…`).",
           "pattern": "^uaddr_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
           "type": "string"
         }
@@ -1774,12 +1788,13 @@
   },
   {
     "name": "getUserSearchFilter",
-    "description": "Get one of the signed-in user's saved searches by userSearchFilterId, with its criteria, state and notification settings.",
+    "description": "Get one of the signed-in user's saved searches by userSearchFilterId, with its criteria, state and notification settings. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
     "inputSchema": {
       "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
       "properties": {
         "userSearchFilterId": {
+          "description": "ID of the saved search (`sf_…`).",
           "pattern": "^sf_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
           "type": "string"
         }
@@ -1806,7 +1821,7 @@
   },
   {
     "name": "getUserSearchFilters",
-    "description": "List all of the signed-in user's saved searches with their criteria, state and notification settings. Takes no arguments.",
+    "description": "List all of the signed-in user's saved searches with their criteria, state and notification settings. Takes no arguments. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
     "inputSchema": {
       "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
@@ -1829,13 +1844,14 @@
   },
   {
     "name": "getWatchlistProductListings",
-    "description": "List the listings on the signed-in user's watchlist with their full details and notification settings, in the requested language and currency. Pass the returned searchAfter array as a JSON string to get the next page.",
+    "description": "List the listings on the signed-in user's watchlist with their full details and notification settings, in the requested language and currency. Pass the returned searchAfter array as a JSON string to get the next page. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
     "inputSchema": {
       "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
       "properties": {
         "currency": {
           "default": "EUR",
+          "description": "Currency of the returned prices, as an ISO 4217 code (default `EUR`).",
           "enum": [
             "EUR",
             "GBP",
@@ -1872,6 +1888,7 @@
         },
         "language": {
           "default": "en",
+          "description": "Language of the returned listing text, as an ISO 639-1 code (default `en`).",
           "enum": [
             "de",
             "en",
@@ -1887,6 +1904,11 @@
             "ja",
             "ru",
             "ar",
+            "ko",
+            "el",
+            "he",
+            "th",
+            "hi",
             "de-DE",
             "de-AT",
             "de-CH",
@@ -1914,6 +1936,9 @@
             "it-CH",
             "zh-CN",
             "zh-Hans",
+            "zh-TW",
+            "zh-Hant",
+            "zh-HK",
             "pt-PT",
             "pt-BR",
             "pl-PL",
@@ -1925,18 +1950,24 @@
             "ru-RU",
             "ar-SA",
             "ar-EG",
-            "ar-AE"
+            "ar-AE",
+            "ko-KR",
+            "el-GR",
+            "he-IL",
+            "th-TH",
+            "hi-IN"
           ],
           "type": "string"
         },
         "searchAfter": {
-          "description": "JSON encoded [RFC3339 watchlist creation timestamp, ProductListing ID].",
+          "description": "Continuation from the previous page: its `searchAfter` array of [RFC 3339 watchlist creation time, listing ID] serialized as a JSON string, passed back exactly as returned.",
           "type": [
             "string",
             "null"
           ]
         },
         "size": {
+          "description": "Number of results per page, from 1 to 100 (default 21); values outside that range are clamped.",
           "format": "uint64",
           "maximum": 18446744073709551615,
           "minimum": 0,
@@ -1983,7 +2014,8 @@
               "type": "null"
             }
           ],
-          "default": null
+          "default": null,
+          "description": "Only auctions of this format."
         },
         "from": {
           "anyOf": [
@@ -1995,7 +2027,8 @@
               "type": "null"
             }
           ],
-          "default": null
+          "default": null,
+          "description": "Start of the schedule period for `timeRole`, as an ISO 8601 date-time with offset; give it together with `to` and `timeRole`."
         },
         "listingSourceId": {
           "anyOf": [
@@ -2007,7 +2040,8 @@
               "type": "null"
             }
           ],
-          "default": null
+          "default": null,
+          "description": "Only auctions of this provider, as a listing source ID (`ls_…`)."
         },
         "order": {
           "anyOf": [
@@ -2022,9 +2056,11 @@
               "type": "null"
             }
           ],
-          "default": null
+          "default": null,
+          "description": "Sort direction, `asc` or `desc`."
         },
         "pageSize": {
+          "description": "Number of auctions per page, from 1 to 100 (default 21); values outside that range are clamped.",
           "format": "uint64",
           "maximum": 18446744073709551615,
           "minimum": 0,
@@ -2049,9 +2085,11 @@
               "type": "null"
             }
           ],
-          "default": null
+          "default": null,
+          "description": "Only auctions with this status as the provider reports it."
         },
         "searchAfter": {
+          "description": "Continuation from the previous page: its `searchAfter` object serialized as a JSON string, passed back exactly as returned with the same filters and sort.",
           "type": [
             "string",
             "null"
@@ -2070,7 +2108,8 @@
               "type": "null"
             }
           ],
-          "default": null
+          "default": null,
+          "description": "`created` (default) orders by creation time; `scheduled` orders by the `timeRole` instant and requires `timeRole`."
         },
         "timeRole": {
           "anyOf": [
@@ -2087,7 +2126,8 @@
               "type": "null"
             }
           ],
-          "default": null
+          "default": null,
+          "description": "Schedule instant that `from` and `to` filter on and `sort=scheduled` orders by; required with `from`/`to` and with `sort=scheduled`."
         },
         "to": {
           "anyOf": [
@@ -2099,7 +2139,8 @@
               "type": "null"
             }
           ],
-          "default": null
+          "default": null,
+          "description": "End of the schedule period for `timeRole`, as an ISO 8601 date-time with offset; give it together with `from` and `timeRole`."
         }
       },
       "title": "DirectoryQuery",
@@ -2119,13 +2160,14 @@
   },
   {
     "name": "listNotifications",
-    "description": "List the signed-in user's notifications, such as watchlist changes and new saved-search matches, with each listing as it was when notified, in the requested language. Returns up to size notifications (default 21, 1 to 100); pass the returned searchAfter array as a JSON string to get the next page.",
+    "description": "List the signed-in user's notifications, such as watchlist changes and new saved-search matches, with each listing as it was when notified, in the requested language. Returns up to size notifications (default 21, 1 to 100); pass the returned searchAfter array as a JSON string to get the next page. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
     "inputSchema": {
       "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
       "properties": {
         "language": {
           "default": "en",
+          "description": "Language of the returned notification text, as an ISO 639-1 code (default `en`).",
           "enum": [
             "de",
             "en",
@@ -2141,6 +2183,11 @@
             "ja",
             "ru",
             "ar",
+            "ko",
+            "el",
+            "he",
+            "th",
+            "hi",
             "de-DE",
             "de-AT",
             "de-CH",
@@ -2168,6 +2215,9 @@
             "it-CH",
             "zh-CN",
             "zh-Hans",
+            "zh-TW",
+            "zh-Hant",
+            "zh-HK",
             "pt-PT",
             "pt-BR",
             "pl-PL",
@@ -2179,19 +2229,24 @@
             "ru-RU",
             "ar-SA",
             "ar-EG",
-            "ar-AE"
+            "ar-AE",
+            "ko-KR",
+            "el-GR",
+            "he-IL",
+            "th-TH",
+            "hi-IN"
           ],
           "type": "string"
         },
         "searchAfter": {
-          "description": "JSON string of the returned [created, notificationId] array.",
+          "description": "Continuation from the previous page: its `searchAfter` array of [created time, notification ID] serialized as a JSON string, passed back exactly as returned.",
           "type": [
             "string",
             "null"
           ]
         },
         "size": {
-          "description": "Defaults to 21 and is clamped to 1 through 100, as on REST.",
+          "description": "Number of results per page, from 1 to 100 (default 21); values outside that range are clamped.",
           "format": "uint64",
           "maximum": 18446744073709551615,
           "minimum": 0,
@@ -2220,13 +2275,14 @@
   },
   {
     "name": "listSearchFilterMatches",
-    "description": "List the listings that matched one of the signed-in user's saved searches, oldest match first, in the requested language and currency. Matching runs in the background, so an empty first page means there are no matches yet. Returns up to size matches (default 21, 1 to 100); pass the returned searchAfter array unchanged to get the next page.",
+    "description": "List the listings that matched one of the signed-in user's saved searches, oldest match first, in the requested language and currency. Matching runs in the background, so an empty first page means there are no matches yet. Returns up to size matches (default 21, 1 to 100); pass the returned searchAfter array unchanged to get the next page. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
     "inputSchema": {
       "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
       "properties": {
         "currency": {
           "default": "EUR",
+          "description": "Currency of the returned prices, as an ISO 4217 code (default `EUR`).",
           "enum": [
             "EUR",
             "GBP",
@@ -2263,6 +2319,7 @@
         },
         "language": {
           "default": "en",
+          "description": "Language of the returned listing text, as an ISO 639-1 code (default `en`).",
           "enum": [
             "de",
             "en",
@@ -2278,6 +2335,11 @@
             "ja",
             "ru",
             "ar",
+            "ko",
+            "el",
+            "he",
+            "th",
+            "hi",
             "de-DE",
             "de-AT",
             "de-CH",
@@ -2305,6 +2367,9 @@
             "it-CH",
             "zh-CN",
             "zh-Hans",
+            "zh-TW",
+            "zh-Hant",
+            "zh-HK",
             "pt-PT",
             "pt-BR",
             "pl-PL",
@@ -2316,7 +2381,12 @@
             "ru-RU",
             "ar-SA",
             "ar-EG",
-            "ar-AE"
+            "ar-AE",
+            "ko-KR",
+            "el-GR",
+            "he-IL",
+            "th-TH",
+            "hi-IN"
           ],
           "type": "string"
         },
@@ -2341,11 +2411,12 @@
               "type": "null"
             }
           ],
-          "default": null
+          "default": null,
+          "description": "Continuation from the previous page: its `searchAfter` array of [RFC 3339 match time, listing ID], passed back exactly as returned."
         },
         "size": {
           "default": null,
-          "description": "Defaults to 21 and clamps to 1..=100.",
+          "description": "Number of results per page, from 1 to 100 (default 21); values outside that range are clamped.",
           "format": "uint64",
           "maximum": 18446744073709551615,
           "minimum": 0,
@@ -2355,6 +2426,7 @@
           ]
         },
         "userSearchFilterId": {
+          "description": "ID of the saved search (`sf_…`).",
           "pattern": "^sf_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
           "type": "string"
         }
@@ -2396,10 +2468,12 @@
               "type": "null"
             }
           ],
-          "default": null
+          "default": null,
+          "description": "Continuation from the previous page: its `next` address ID, passed back exactly as returned."
         },
         "limit": {
           "default": null,
+          "description": "Number of addresses per page, from 1 to 100 (default 25).",
           "format": "uint32",
           "maximum": 100,
           "minimum": 1,
@@ -2428,7 +2502,7 @@
   },
   {
     "name": "patchWatchlistProduct",
-    "description": "Turn notifications for a watched listing on or off, or pause (INACTIVE_BY_USER) or resume (ACTIVE) the entry. Omitted fields stay unchanged and null is invalid; resuming is subject to subscription tier limits. Returns the listing with its full details in the requested language and currency.",
+    "description": "Turn notifications for a watched listing on or off, or pause (INACTIVE_BY_USER) or resume (ACTIVE) the entry. Omitted fields stay unchanged and null is invalid; resuming is subject to subscription tier limits. Returns the listing with its full details in the requested language and currency. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
     "inputSchema": {
       "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
@@ -2436,6 +2510,7 @@
       "properties": {
         "currency": {
           "default": "EUR",
+          "description": "Currency of the returned prices, as an ISO 4217 code (default `EUR`).",
           "enum": [
             "EUR",
             "GBP",
@@ -2472,6 +2547,7 @@
         },
         "language": {
           "default": "en",
+          "description": "Language of the returned listing text, as an ISO 639-1 code (default `en`).",
           "enum": [
             "de",
             "en",
@@ -2487,6 +2563,11 @@
             "ja",
             "ru",
             "ar",
+            "ko",
+            "el",
+            "he",
+            "th",
+            "hi",
             "de-DE",
             "de-AT",
             "de-CH",
@@ -2514,6 +2595,9 @@
             "it-CH",
             "zh-CN",
             "zh-Hans",
+            "zh-TW",
+            "zh-Hant",
+            "zh-HK",
             "pt-PT",
             "pt-BR",
             "pl-PL",
@@ -2525,18 +2609,26 @@
             "ru-RU",
             "ar-SA",
             "ar-EG",
-            "ar-AE"
+            "ar-AE",
+            "ko-KR",
+            "el-GR",
+            "he-IL",
+            "th-TH",
+            "hi-IN"
           ],
           "type": "string"
         },
         "notifications": {
+          "description": "Whether to be notified about changes to the listing; omit to keep the current setting, null is rejected.",
           "type": "boolean"
         },
         "productListingId": {
+          "description": "ID of the listing (`pl_…`).",
           "pattern": "^pl_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
           "type": "string"
         },
         "state": {
+          "description": "`ACTIVE` or `INACTIVE_BY_USER`; omit to keep the current state, null is rejected.",
           "enum": [
             "ACTIVE",
             "INACTIVE_BY_USER"
@@ -2581,6 +2673,7 @@
         },
         "searchAfter": {
           "default": null,
+          "description": "Continuation from the previous page: pass back exactly as returned, with the same `query` and `size`.",
           "type": [
             "string",
             "null"
@@ -2588,7 +2681,7 @@
         },
         "size": {
           "default": 21,
-          "description": "Page size from 1 through 50. Continuations are bound to the query and page size.",
+          "description": "Number of providers per page, from 1 to 50 (default 21); continuations are bound to the query and page size.",
           "format": "uint8",
           "maximum": 255,
           "minimum": 0,
@@ -2619,9 +2712,11 @@
           "oneOf": [
             {
               "additionalProperties": false,
+              "description": "No browsing destination.",
               "properties": {
                 "kind": {
                   "const": "NONE",
+                  "description": "Selects this variant; always `NONE` here.",
                   "type": "string"
                 }
               },
@@ -2632,13 +2727,16 @@
             },
             {
               "additionalProperties": false,
+              "description": "One of the user's saved addresses.",
               "properties": {
                 "addressId": {
+                  "description": "ID of the saved address (`uaddr_…`).",
                   "pattern": "^uaddr_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
                   "type": "string"
                 },
                 "kind": {
                   "const": "ADDRESS",
+                  "description": "Selects this variant; always `ADDRESS` here.",
                   "type": "string"
                 }
               },
@@ -2650,15 +2748,19 @@
             },
             {
               "additionalProperties": false,
+              "description": "A country, optionally with a postal code.",
               "properties": {
                 "country": {
+                  "description": "ISO 3166-1 alpha-2 country code.",
                   "type": "string"
                 },
                 "kind": {
                   "const": "COUNTRY_POSTAL",
+                  "description": "Selects this variant; always `COUNTRY_POSTAL` here.",
                   "type": "string"
                 },
                 "postalCode": {
+                  "description": "Postal code within the country.",
                   "type": [
                     "string",
                     "null"
@@ -2678,9 +2780,12 @@
       "additionalProperties": false,
       "properties": {
         "destination": {
-          "$ref": "#/$defs/DestinationData"
+          "$ref": "#/$defs/DestinationData",
+          "description": "The browsing destination to store, replacing the current one.",
+          "type": "object"
         },
         "expectedVersion": {
+          "description": "Current version from the last read; a stale version returns CONFLICT.",
           "format": "uint64",
           "maximum": 9223372036854775807,
           "minimum": 1,
@@ -2710,19 +2815,21 @@
   },
   {
     "name": "simpleSearchProductListings",
-    "description": "Search Aura Historia's index of art, antiques and design objects listed by dealers, auction houses, marketplaces and auction platforms. Use it to find listings by text and by filters such as price, dates, availability, provider, auction, location and shipping. Returns listing summaries in the requested language and currency, with the total when known; pass the returned searchAfter object unchanged to get the next page. For a signed-in user, each result also carries userState sections for which the token has the read scope: watchlist:read, search-filters:read, notifications:read or users:read.",
+    "description": "Search Aura Historia's index of art, antiques and design objects listed by dealers, auction houses, marketplaces and auction platforms. Use it to find listings by text and by filters such as price, dates, availability, provider, auction, location and shipping. Returns listing summaries in the requested language and currency, with the total when known; pass the returned searchAfter object unchanged to get the next page. For a signed-in user, each result also carries userState sections for which the token has the read scope: watchlist:read, search-filters:read, notifications:read or users:read. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
     "inputSchema": {
       "$defs": {
         "AmountData": {
           "additionalProperties": false,
           "properties": {
             "amount": {
+              "description": "Amount as an integer in the currency's minor unit (EUR cents; JPY whole yen).",
               "format": "uint64",
               "maximum": 9223372036854775807,
               "minimum": 0,
               "type": "integer"
             },
             "currency": {
+              "description": "ISO 4217 code of the currency the amount is in.",
               "enum": [
                 "EUR",
                 "GBP",
@@ -2776,7 +2883,8 @@
                   "type": "null"
                 }
               ],
-              "default": null
+              "default": null,
+              "description": "End of the range, as an ISO 8601 date-time with offset."
             },
             "min": {
               "anyOf": [
@@ -2788,7 +2896,8 @@
                   "type": "null"
                 }
               ],
-              "default": null
+              "default": null,
+              "description": "Start of the range, as an ISO 8601 date-time with offset."
             }
           },
           "type": "object"
@@ -2797,9 +2906,11 @@
           "oneOf": [
             {
               "additionalProperties": false,
+              "description": "No destination country.",
               "properties": {
                 "kind": {
                   "const": "NONE",
+                  "description": "Selects this variant; always `NONE` here.",
                   "type": "string"
                 }
               },
@@ -2810,12 +2921,15 @@
             },
             {
               "additionalProperties": false,
+              "description": "A destination country.",
               "properties": {
                 "country": {
+                  "description": "ISO 3166-1 alpha-2 country code.",
                   "type": "string"
                 },
                 "kind": {
                   "const": "COUNTRY",
+                  "description": "Selects this variant; always `COUNTRY` here.",
                   "type": "string"
                 }
               },
@@ -2831,18 +2945,21 @@
           "additionalProperties": false,
           "properties": {
             "countries": {
+              "description": "ISO 3166-1 alpha-2 country codes, at most 100; a listing matches when it is located in any of them.",
               "items": {
                 "type": "string"
               },
               "type": "array"
             },
             "distanceOrder": {
+              "description": "Order results by distance from `origin`, `ASC` (nearest first) or `DESC`; requires `origin`.",
               "type": [
                 "string",
                 "null"
               ]
             },
             "mode": {
+              "description": "Which locations count when measuring distance: `STRICT` (default) only exact premises, `APPROXIMATE` also street, locality and representative points; `APPROXIMATE` needs `origin` with `radius` or `distanceOrder`.",
               "type": [
                 "string",
                 "null"
@@ -2856,7 +2973,8 @@
                 {
                   "type": "null"
                 }
-              ]
+              ],
+              "description": "Point that `radius` and `distanceOrder` measure from; required by either of them."
             },
             "radius": {
               "anyOf": [
@@ -2864,9 +2982,11 @@
                   "additionalProperties": false,
                   "properties": {
                     "amount": {
+                      "description": "Distance in `unit`; greater than 0.",
                       "type": "number"
                     },
                     "unit": {
+                      "description": "Unit of `amount`: one of MILES, YARDS, FEET, INCHES, KILOMETERS, METERS, CENTIMETERS, MILLIMETERS, NAUTICAL_MILES.",
                       "type": "string"
                     }
                   },
@@ -2879,9 +2999,11 @@
                 {
                   "type": "null"
                 }
-              ]
+              ],
+              "description": "Only listings within this distance of `origin`, at most 20,000 km."
             },
             "subdivisions": {
+              "description": "ISO 3166-2 subdivision codes, at most 100, that belong to `countries` when those are given; a listing matches when it is located in any of them.",
               "items": {
                 "type": "string"
               },
@@ -2893,6 +3015,7 @@
         "NumberRangeSchema": {
           "properties": {
             "max": {
+              "description": "Highest price to include, as an integer amount in the currency's minor unit.",
               "format": "uint64",
               "maximum": 18446744073709551615,
               "minimum": 0,
@@ -2902,6 +3025,7 @@
               ]
             },
             "min": {
+              "description": "Lowest price to include, as an integer amount in the currency's minor unit.",
               "format": "uint64",
               "maximum": 18446744073709551615,
               "minimum": 0,
@@ -2917,10 +3041,12 @@
           "additionalProperties": false,
           "properties": {
             "latitude": {
+              "description": "Latitude in decimal degrees.",
               "format": "double",
               "type": "number"
             },
             "longitude": {
+              "description": "Longitude in decimal degrees.",
               "format": "double",
               "type": "number"
             }
@@ -2934,10 +3060,13 @@
         "ProductListingSearchCursorInputData": {
           "properties": {
             "fxRateId": {
+              "description": "Exchange-rate snapshot ID (`fx_…`) from the previous page's `searchAfter`, passed back unchanged.",
               "pattern": "^fx_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
               "type": "string"
             },
-            "searchAfter": true
+            "searchAfter": {
+              "description": "Opaque sort values from the previous page's `searchAfter`, passed back unchanged."
+            }
           },
           "required": [
             "fxRateId",
@@ -2949,6 +3078,7 @@
           "additionalProperties": false,
           "properties": {
             "collectionOffered": {
+              "description": "Only listings that offer collection in person; the only shipping condition that works without a destination country.",
               "type": "boolean"
             },
             "destination": {
@@ -2959,9 +3089,11 @@
                 {
                   "type": "null"
                 }
-              ]
+              ],
+              "description": "Country the listing must ship to, as `{\"kind\":\"COUNTRY\",\"country\":\"DE\"}`; `{\"kind\":\"NONE\"}` sets no destination."
             },
             "interpretation": {
+              "description": "`WHOLE_COUNTRY_PER_ITEM_V1` (default) or `WHOLE_COUNTRY_PER_ITEM_FX_V1`, which values `maximumPerItem` in its own currency at the request's exchange rates and requires `maximumPerItem`.",
               "type": [
                 "string",
                 "null"
@@ -2975,15 +3107,18 @@
                 {
                   "type": "null"
                 }
-              ]
+              ],
+              "description": "Highest acceptable shipping price per item, in the amount's own currency; requires a `destination` country. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents."
             },
             "referenceRelease": {
+              "description": "Version of the ISO 3166 code list the country code comes from; `iso-codes-4.20.1` is the only accepted value and the default.",
               "type": [
                 "string",
                 "null"
               ]
             },
             "service": {
+              "description": "Shipping service code the terms must include, as free text of at most 128 characters; requires a `destination` country.",
               "type": [
                 "string",
                 "null"
@@ -3007,6 +3142,7 @@
       "properties": {
         "auctionId": {
           "default": [],
+          "description": "Only listings that belong to these auctions, given as auction IDs (`auc_…`).",
           "items": {
             "pattern": "^auc_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
             "type": "string"
@@ -3037,14 +3173,18 @@
             {
               "type": "null"
             }
-          ]
+          ],
+          "description": "Only listings in one of these exact availability states; combined with `orderability`, a listing must satisfy both."
         },
         "created": {
           "$ref": "#/$defs/DateRangeSchema",
-          "default": null
+          "default": null,
+          "description": "Range on the listing's creation time, as ISO 8601 date-times with offset; both bounds inclusive.",
+          "type": "object"
         },
         "currency": {
           "default": "EUR",
+          "description": "Currency prices are returned in and `price` is interpreted in, as an ISO 4217 code (default `EUR`).",
           "enum": [
             "EUR",
             "GBP",
@@ -3081,6 +3221,7 @@
         },
         "enhancedSearchDescription": {
           "default": null,
+          "description": "Optional natural-language description that refines the ranking of `productQuery` results. Only effective together with `productQuery`; on its own it returns unranked, unrelated results.",
           "type": [
             "string",
             "null"
@@ -3088,6 +3229,7 @@
         },
         "excludeListingSourceId": {
           "default": [],
+          "description": "Leave out listings from these providers, given as listing source IDs (`ls_…`).",
           "items": {
             "pattern": "^ls_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
             "type": "string"
@@ -3096,6 +3238,7 @@
         },
         "excludeProductListingId": {
           "default": [],
+          "description": "Listing IDs (`pl_…`) to leave out of the results.",
           "items": {
             "pattern": "^pl_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
             "type": "string"
@@ -3111,10 +3254,12 @@
               "type": "null"
             }
           ],
-          "default": null
+          "default": null,
+          "description": "Where listings are located, by country, subdivision or distance from a point; every member given must hold."
         },
         "includeUnspecifiedAvailability": {
           "default": null,
+          "description": "Also include listings that state no availability (default false).",
           "type": [
             "boolean",
             "null"
@@ -3122,6 +3267,7 @@
         },
         "language": {
           "default": "en",
+          "description": "Language of the returned listing text and of the titles `productQuery` is matched against, as an ISO 639-1 code (default `en`).",
           "enum": [
             "de",
             "en",
@@ -3137,6 +3283,11 @@
             "ja",
             "ru",
             "ar",
+            "ko",
+            "el",
+            "he",
+            "th",
+            "hi",
             "de-DE",
             "de-AT",
             "de-CH",
@@ -3164,6 +3315,9 @@
             "it-CH",
             "zh-CN",
             "zh-Hans",
+            "zh-TW",
+            "zh-Hant",
+            "zh-HK",
             "pt-PT",
             "pt-BR",
             "pl-PL",
@@ -3175,12 +3329,18 @@
             "ru-RU",
             "ar-SA",
             "ar-EG",
-            "ar-AE"
+            "ar-AE",
+            "ko-KR",
+            "el-GR",
+            "he-IL",
+            "th-TH",
+            "hi-IN"
           ],
           "type": "string"
         },
         "listingSourceId": {
           "default": [],
+          "description": "Only listings from these providers, given as listing source IDs (`ls_…`).",
           "items": {
             "pattern": "^ls_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
             "type": "string"
@@ -3189,11 +3349,15 @@
         },
         "lotBiddingOpens": {
           "$ref": "#/$defs/DateRangeSchema",
-          "default": null
+          "default": null,
+          "description": "Range on the time bidding on the lot opens, as ISO 8601 date-times with offset; `min` inclusive, `max` exclusive.",
+          "type": "object"
         },
         "lotScheduledCloses": {
           "$ref": "#/$defs/DateRangeSchema",
-          "default": null
+          "default": null,
+          "description": "Range on the lot's scheduled closing time, as ISO 8601 date-times with offset; `min` inclusive, `max` exclusive.",
+          "type": "object"
         },
         "order": {
           "anyOf": [
@@ -3208,7 +3372,8 @@
               "type": "null"
             }
           ],
-          "default": null
+          "default": null,
+          "description": "Sort direction, `asc` or `desc` (default `desc`); only valid together with `sort`."
         },
         "orderability": {
           "anyOf": [
@@ -3226,7 +3391,8 @@
             {
               "type": "null"
             }
-          ]
+          ],
+          "description": "Only listings whose availability falls into one of these orderability groups; combined with `availability`, a listing must satisfy both."
         },
         "price": {
           "anyOf": [
@@ -3237,10 +3403,12 @@
               "type": "null"
             }
           ],
-          "default": null
+          "default": null,
+          "description": "Price range in the request's `currency`, with both bounds inclusive. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents."
         },
         "productQuery": {
           "default": [],
+          "description": "Keyword phrases matched against listing titles; every word of one phrase must match, and a listing matches when any phrase does.",
           "items": {
             "minLength": 1,
             "type": "string"
@@ -3255,7 +3423,8 @@
             {
               "type": "null"
             }
-          ]
+          ],
+          "description": "Continuation from the previous page: pass back exactly as returned by the previous page, with the same filters and sort."
         },
         "shipping": {
           "anyOf": [
@@ -3266,10 +3435,11 @@
               "type": "null"
             }
           ],
-          "default": null
+          "default": null,
+          "description": "Only listings whose advertised shipping terms meet these conditions for a destination country; every member given must hold."
         },
         "size": {
-          "description": "Values are clamped to the existing service-supported range 1..=100.",
+          "description": "Number of results per page, from 1 to 100 (default 21); values outside that range are clamped.",
           "format": "uint64",
           "maximum": 18446744073709551615,
           "minimum": 0,
@@ -3286,11 +3456,14 @@
             {
               "type": "null"
             }
-          ]
+          ],
+          "description": "Field to order results by: `score` (relevance), `updated` or `created`; cannot be combined with `geography.distanceOrder`."
         },
         "updated": {
           "$ref": "#/$defs/DateRangeSchema",
-          "default": null
+          "default": null,
+          "description": "Range on the listing's last update time, as ISO 8601 date-times with offset; both bounds inclusive.",
+          "type": "object"
         }
       },
       "title": "SearchInput",
@@ -3316,6 +3489,7 @@
       "additionalProperties": false,
       "properties": {
         "seen": {
+          "description": "`true` marks as seen, `false` as unseen.",
           "type": "boolean"
         }
       },
@@ -3347,10 +3521,12 @@
       "additionalProperties": false,
       "properties": {
         "notificationId": {
+          "description": "ID of the notification (`ntf_…`).",
           "pattern": "^ntf_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
           "type": "string"
         },
         "seen": {
+          "description": "`true` marks as seen, `false` as unseen.",
           "type": "boolean"
         }
       },
@@ -3383,6 +3559,7 @@
       "additionalProperties": false,
       "properties": {
         "notificationIds": {
+          "description": "IDs (`ntf_…`) of the notifications to update; unknown or foreign IDs are ignored and an empty list is rejected.",
           "items": {
             "pattern": "^ntf_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
             "type": "string"
@@ -3390,6 +3567,7 @@
           "type": "array"
         },
         "seen": {
+          "description": "`true` marks as seen, `false` as unseen.",
           "type": "boolean"
         }
       },
@@ -3416,7 +3594,7 @@
   },
   {
     "name": "updateSearchFilterMatchFeedback",
-    "description": "Record whether a listing that matched one of the signed-in user's saved searches is relevant: true or false sets the feedback, null clears it and omission keeps it. Returns the match; a listing that is not a current match returns NOT_FOUND.",
+    "description": "Record whether a listing that matched one of the signed-in user's saved searches is relevant: true or false sets the feedback, null clears it and omission keeps it. Returns the match; a listing that is not a current match returns NOT_FOUND. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
     "inputSchema": {
       "$defs": {
         "PatchValue_boolean": {
@@ -3430,13 +3608,20 @@
       "additionalProperties": false,
       "properties": {
         "feedback": {
-          "$ref": "#/$defs/PatchValue_boolean"
+          "$ref": "#/$defs/PatchValue_boolean",
+          "description": "Feedback on the match, `true` or `false`; omit to keep the stored value, null clears it.",
+          "type": [
+            "boolean",
+            "null"
+          ]
         },
         "productListingId": {
+          "description": "ID of the listing (`pl_…`).",
           "pattern": "^pl_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
           "type": "string"
         },
         "userSearchFilterId": {
+          "description": "ID of the saved search (`sf_…`).",
           "pattern": "^sf_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
           "type": "string"
         }
@@ -3508,9 +3693,11 @@
             {
               "type": "null"
             }
-          ]
+          ],
+          "description": "Preferred currency, as an ISO 4217 code; omit to keep it, null clears it."
         },
         "firstName": {
+          "description": "First name; omit to keep it, null clears it.",
           "type": [
             "string",
             "null"
@@ -3534,6 +3721,11 @@
                 "ja",
                 "ru",
                 "ar",
+                "ko",
+                "el",
+                "he",
+                "th",
+                "hi",
                 "de-DE",
                 "de-AT",
                 "de-CH",
@@ -3561,6 +3753,9 @@
                 "it-CH",
                 "zh-CN",
                 "zh-Hans",
+                "zh-TW",
+                "zh-Hant",
+                "zh-HK",
                 "pt-PT",
                 "pt-BR",
                 "pl-PL",
@@ -3572,16 +3767,23 @@
                 "ru-RU",
                 "ar-SA",
                 "ar-EG",
-                "ar-AE"
+                "ar-AE",
+                "ko-KR",
+                "el-GR",
+                "he-IL",
+                "th-TH",
+                "hi-IN"
               ],
               "type": "string"
             },
             {
               "type": "null"
             }
-          ]
+          ],
+          "description": "Preferred language, as an ISO 639-1 code; omit to keep it, null clears it."
         },
         "lastName": {
+          "description": "Last name; omit to keep it, null clears it.",
           "type": [
             "string",
             "null"
@@ -3599,9 +3801,11 @@
             {
               "type": "null"
             }
-          ]
+          ],
+          "description": "Preferred measurement unit system; omit to keep it, null clears it."
         },
         "showUnassessedOrSensitiveContent": {
+          "description": "Whether listings with unassessed or sensitive content are shown; omit to keep it, null is rejected.",
           "type": "boolean"
         }
       },
@@ -3631,27 +3835,32 @@
           "additionalProperties": false,
           "properties": {
             "addressText": {
+              "description": "Free-text address; address-book entries require it.",
               "type": [
                 "string",
                 "null"
               ]
             },
             "country": {
+              "description": "ISO 3166-1 alpha-2 country code.",
               "type": [
                 "string",
                 "null"
               ]
             },
             "postalCode": {
+              "description": "Postal code.",
               "type": [
                 "string",
                 "null"
               ]
             },
             "referenceRelease": {
+              "description": "Version of the ISO 3166 code list the codes come from; `iso-codes-4.20.1` is the only accepted value.",
               "type": "string"
             },
             "subdivision": {
+              "description": "ISO 3166-2 subdivision code.",
               "type": [
                 "string",
                 "null"
@@ -3668,10 +3877,12 @@
       "additionalProperties": false,
       "properties": {
         "addressId": {
+          "description": "ID of the saved address (`uaddr_…`).",
           "pattern": "^uaddr_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
           "type": "string"
         },
         "expectedVersion": {
+          "description": "Current version from the last read; a stale version returns CONFLICT.",
           "format": "uint64",
           "maximum": 9223372036854775807,
           "minimum": 1,
@@ -3685,6 +3896,7 @@
             {
               "properties": {
                 "addressText": {
+                  "description": "Free-text address; required for address-book entries.",
                   "maxLength": 4096,
                   "minLength": 1,
                   "type": "string"
@@ -3695,9 +3907,12 @@
               ],
               "type": "object"
             }
-          ]
+          ],
+          "description": "New location of the address, replacing the current one entirely.",
+          "type": "object"
         },
         "label": {
+          "description": "New name of the address, replacing the current one.",
           "type": "string"
         }
       },
@@ -3726,7 +3941,7 @@
   },
   {
     "name": "updateUserSearchFilter",
-    "description": "Change the name, criteria, state or notification setting of one of the signed-in user's saved searches. Omitted fields stay unchanged and null clears fields that can be cleared; availability, orderability and includeUnspecifiedAvailability change together. Matching against new criteria runs in the background. Returns the saved search.",
+    "description": "Change the name, criteria, state or notification setting of one of the signed-in user's saved searches. Omitted fields stay unchanged and null clears fields that can be cleared; availability, orderability and includeUnspecifiedAvailability change together. Matching against new criteria runs in the background. Returns the saved search. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
     "inputSchema": {
       "$defs": {
         "AcceptShippingDestinationData": {
@@ -3734,13 +3949,16 @@
           "oneOf": [
             {
               "additionalProperties": false,
+              "description": "Compare with the country of one of the user's saved addresses.",
               "properties": {
                 "addressId": {
+                  "description": "ID of the saved address (`uaddr_…`).",
                   "pattern": "^uaddr_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
                   "type": "string"
                 },
                 "kind": {
                   "const": "ADDRESS",
+                  "description": "Selects this variant; always `ADDRESS` here.",
                   "type": "string"
                 }
               },
@@ -3752,9 +3970,11 @@
             },
             {
               "additionalProperties": false,
+              "description": "Compare with the country of the user's stored browsing destination.",
               "properties": {
                 "kind": {
                   "const": "PREFERENCE",
+                  "description": "Selects this variant; always `PREFERENCE` here.",
                   "type": "string"
                 }
               },
@@ -3769,12 +3989,14 @@
           "additionalProperties": false,
           "properties": {
             "amount": {
+              "description": "Amount as an integer in the currency's minor unit (EUR cents; JPY whole yen).",
               "format": "uint64",
               "maximum": 9223372036854775807,
               "minimum": 0,
               "type": "integer"
             },
             "currency": {
+              "description": "ISO 4217 code of the currency the amount is in.",
               "enum": [
                 "EUR",
                 "GBP",
@@ -3828,7 +4050,8 @@
                   "type": "null"
                 }
               ],
-              "default": null
+              "default": null,
+              "description": "End of the range, as an ISO 8601 date-time with offset."
             },
             "min": {
               "anyOf": [
@@ -3840,7 +4063,8 @@
                   "type": "null"
                 }
               ],
-              "default": null
+              "default": null,
+              "description": "Start of the range, as an ISO 8601 date-time with offset."
             }
           },
           "type": "object"
@@ -3849,9 +4073,11 @@
           "oneOf": [
             {
               "additionalProperties": false,
+              "description": "No destination country.",
               "properties": {
                 "kind": {
                   "const": "NONE",
+                  "description": "Selects this variant; always `NONE` here.",
                   "type": "string"
                 }
               },
@@ -3862,12 +4088,15 @@
             },
             {
               "additionalProperties": false,
+              "description": "A destination country.",
               "properties": {
                 "country": {
+                  "description": "ISO 3166-1 alpha-2 country code.",
                   "type": "string"
                 },
                 "kind": {
                   "const": "COUNTRY",
+                  "description": "Selects this variant; always `COUNTRY` here.",
                   "type": "string"
                 }
               },
@@ -3883,18 +4112,21 @@
           "additionalProperties": false,
           "properties": {
             "countries": {
+              "description": "ISO 3166-1 alpha-2 country codes, at most 100; a listing matches when it is located in any of them.",
               "items": {
                 "type": "string"
               },
               "type": "array"
             },
             "distanceOrder": {
+              "description": "Order results by distance from `origin`, `ASC` (nearest first) or `DESC`; requires `origin`.",
               "type": [
                 "string",
                 "null"
               ]
             },
             "mode": {
+              "description": "Which locations count when measuring distance: `STRICT` (default) only exact premises, `APPROXIMATE` also street, locality and representative points; `APPROXIMATE` needs `origin` with `radius` or `distanceOrder`.",
               "type": [
                 "string",
                 "null"
@@ -3908,7 +4140,8 @@
                 {
                   "type": "null"
                 }
-              ]
+              ],
+              "description": "Point that `radius` and `distanceOrder` measure from; required by either of them."
             },
             "radius": {
               "anyOf": [
@@ -3916,9 +4149,11 @@
                   "additionalProperties": false,
                   "properties": {
                     "amount": {
+                      "description": "Distance in `unit`; greater than 0.",
                       "type": "number"
                     },
                     "unit": {
+                      "description": "Unit of `amount`: one of MILES, YARDS, FEET, INCHES, KILOMETERS, METERS, CENTIMETERS, MILLIMETERS, NAUTICAL_MILES.",
                       "type": "string"
                     }
                   },
@@ -3931,9 +4166,11 @@
                 {
                   "type": "null"
                 }
-              ]
+              ],
+              "description": "Only listings within this distance of `origin`, at most 20,000 km."
             },
             "subdivisions": {
+              "description": "ISO 3166-2 subdivision codes, at most 100, that belong to `countries` when those are given; a listing matches when it is located in any of them.",
               "items": {
                 "type": "string"
               },
@@ -3945,6 +4182,7 @@
         "NumberRangeSchema": {
           "properties": {
             "max": {
+              "description": "Highest price to include, as an integer amount in the currency's minor unit.",
               "format": "uint64",
               "maximum": 18446744073709551615,
               "minimum": 0,
@@ -3954,6 +4192,7 @@
               ]
             },
             "min": {
+              "description": "Lowest price to include, as an integer amount in the currency's minor unit.",
               "format": "uint64",
               "maximum": 18446744073709551615,
               "minimum": 0,
@@ -3969,10 +4208,12 @@
           "additionalProperties": false,
           "properties": {
             "latitude": {
+              "description": "Latitude in decimal degrees.",
               "format": "double",
               "type": "number"
             },
             "longitude": {
+              "description": "Longitude in decimal degrees.",
               "format": "double",
               "type": "number"
             }
@@ -4095,7 +4336,8 @@
                 {
                   "type": "null"
                 }
-              ]
+              ],
+              "description": "Only listings that belong to these auctions, given as auction IDs (`auc_…`)."
             },
             "availability": {
               "anyOf": [
@@ -4121,7 +4363,8 @@
                 {
                   "type": "null"
                 }
-              ]
+              ],
+              "description": "Only listings in one of these exact availability states; combined with `orderability`, a listing must satisfy both."
             },
             "created": {
               "anyOf": [
@@ -4131,9 +4374,11 @@
                 {
                   "type": "null"
                 }
-              ]
+              ],
+              "description": "Range on the listing's creation time, as ISO 8601 date-times with offset; both bounds inclusive."
             },
             "currency": {
+              "description": "Currency prices are returned in and `price` is interpreted in, as an ISO 4217 code (default `EUR`).",
               "enum": [
                 "EUR",
                 "GBP",
@@ -4169,9 +4414,11 @@
               "type": "string"
             },
             "enhancedSearchDescription": {
-              "$ref": "#/$defs/PatchValue_string"
+              "$ref": "#/$defs/PatchValue_string",
+              "description": "Optional natural-language description that refines the ranking of `productQuery` results. Only effective together with `productQuery`; on its own it returns unranked, unrelated results."
             },
             "excludeListingSourceId": {
+              "description": "Leave out listings from these providers, given as listing source IDs (`ls_…`).",
               "items": {
                 "pattern": "^ls_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
                 "type": "string"
@@ -4179,12 +4426,15 @@
               "type": "array"
             },
             "geography": {
-              "$ref": "#/$defs/PatchValue_GeographicSearchData"
+              "$ref": "#/$defs/PatchValue_GeographicSearchData",
+              "description": "Where listings are located, by country, subdivision or distance from a point; every member given must hold."
             },
             "includeUnspecifiedAvailability": {
-              "$ref": "#/$defs/PatchValue_boolean"
+              "$ref": "#/$defs/PatchValue_boolean",
+              "description": "Also include listings that state no availability (default false)."
             },
             "language": {
+              "description": "Language of the returned listing text and of the titles `productQuery` is matched against, as an ISO 639-1 code (default `en`).",
               "enum": [
                 "de",
                 "en",
@@ -4200,6 +4450,11 @@
                 "ja",
                 "ru",
                 "ar",
+                "ko",
+                "el",
+                "he",
+                "th",
+                "hi",
                 "de-DE",
                 "de-AT",
                 "de-CH",
@@ -4227,6 +4482,9 @@
                 "it-CH",
                 "zh-CN",
                 "zh-Hans",
+                "zh-TW",
+                "zh-Hant",
+                "zh-HK",
                 "pt-PT",
                 "pt-BR",
                 "pl-PL",
@@ -4238,11 +4496,17 @@
                 "ru-RU",
                 "ar-SA",
                 "ar-EG",
-                "ar-AE"
+                "ar-AE",
+                "ko-KR",
+                "el-GR",
+                "he-IL",
+                "th-TH",
+                "hi-IN"
               ],
               "type": "string"
             },
             "listingSourceId": {
+              "description": "Only listings from these providers, given as listing source IDs (`ls_…`).",
               "items": {
                 "pattern": "^ls_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
                 "type": "string"
@@ -4257,7 +4521,8 @@
                 {
                   "type": "null"
                 }
-              ]
+              ],
+              "description": "Range on the time bidding on the lot opens, as ISO 8601 date-times with offset; `min` inclusive, `max` exclusive."
             },
             "lotScheduledCloses": {
               "anyOf": [
@@ -4267,7 +4532,8 @@
                 {
                   "type": "null"
                 }
-              ]
+              ],
+              "description": "Range on the lot's scheduled closing time, as ISO 8601 date-times with offset; `min` inclusive, `max` exclusive."
             },
             "orderability": {
               "anyOf": [
@@ -4285,7 +4551,8 @@
                 {
                   "type": "null"
                 }
-              ]
+              ],
+              "description": "Only listings whose availability falls into one of these orderability groups; combined with `availability`, a listing must satisfy both."
             },
             "price": {
               "anyOf": [
@@ -4295,9 +4562,11 @@
                 {
                   "type": "null"
                 }
-              ]
+              ],
+              "description": "Price range in the request's `currency`, with both bounds inclusive. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents."
             },
             "productQuery": {
+              "description": "Keyword phrases matched against listing titles; every word of one phrase must match, and a listing matches when any phrase does.",
               "items": {
                 "minLength": 1,
                 "type": "string"
@@ -4305,7 +4574,8 @@
               "type": "array"
             },
             "shipping": {
-              "$ref": "#/$defs/PatchValue_ShippingSearchData"
+              "$ref": "#/$defs/PatchValue_ShippingSearchData",
+              "description": "Only listings whose advertised shipping terms meet these conditions for a destination country; every member given must hold."
             },
             "updated": {
               "anyOf": [
@@ -4315,7 +4585,8 @@
                 {
                   "type": "null"
                 }
-              ]
+              ],
+              "description": "Range on the listing's last update time, as ISO 8601 date-times with offset; both bounds inclusive."
             }
           },
           "type": "object"
@@ -4324,6 +4595,7 @@
           "additionalProperties": false,
           "properties": {
             "collectionOffered": {
+              "description": "Only listings that offer collection in person; the only shipping condition that works without a destination country.",
               "type": "boolean"
             },
             "destination": {
@@ -4334,9 +4606,11 @@
                 {
                   "type": "null"
                 }
-              ]
+              ],
+              "description": "Country the listing must ship to, as `{\"kind\":\"COUNTRY\",\"country\":\"DE\"}`; `{\"kind\":\"NONE\"}` sets no destination."
             },
             "interpretation": {
+              "description": "`WHOLE_COUNTRY_PER_ITEM_V1` (default) or `WHOLE_COUNTRY_PER_ITEM_FX_V1`, which values `maximumPerItem` in its own currency at the request's exchange rates and requires `maximumPerItem`.",
               "type": [
                 "string",
                 "null"
@@ -4350,15 +4624,18 @@
                 {
                   "type": "null"
                 }
-              ]
+              ],
+              "description": "Highest acceptable shipping price per item, in the amount's own currency; requires a `destination` country. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents."
             },
             "referenceRelease": {
+              "description": "Version of the ISO 3166 code list the country code comes from; `iso-codes-4.20.1` is the only accepted value and the default.",
               "type": [
                 "string",
                 "null"
               ]
             },
             "service": {
+              "description": "Shipping service code the terms must include, as free text of at most 128 characters; requires a `destination` country.",
               "type": [
                 "string",
                 "null"
@@ -4379,10 +4656,12 @@
             {
               "type": "null"
             }
-          ]
+          ],
+          "description": "Optional guard confirming the shipping destination: the filter's shipping country must equal the country of the referenced address or browsing preference."
         },
         "name": {
           "default": null,
+          "description": "New name, at most 255 characters (longer names are cut off); omit to keep the current name.",
           "type": [
             "string",
             "null"
@@ -4390,6 +4669,7 @@
         },
         "notifications": {
           "default": null,
+          "description": "Whether matches trigger notifications; omit to keep the current setting.",
           "type": [
             "boolean",
             "null"
@@ -4403,7 +4683,8 @@
             {
               "type": "null"
             }
-          ]
+          ],
+          "description": "Partial criteria: omitted members stay unchanged, null clears `enhancedSearchDescription`, `auctionId`, `price`, the date ranges and the availability query, and `availability`, `orderability` and `includeUnspecifiedAvailability` are given together or all null."
         },
         "state": {
           "anyOf": [
@@ -4413,9 +4694,11 @@
             {
               "type": "null"
             }
-          ]
+          ],
+          "description": "`ACTIVE` or `INACTIVE_BY_USER`; omit to keep the current state, and activating a filter checks all its criteria against the current tier."
         },
         "userSearchFilterId": {
+          "description": "ID of the saved search (`sf_…`).",
           "pattern": "^sf_[0-7][0-9a-hjkmnp-tv-z]{9}[ef][0-9a-hjkmnp-tv-z]{2}[89abrstv][0-9a-hjkmnp-tv-z]{12}$",
           "type": "string"
         }

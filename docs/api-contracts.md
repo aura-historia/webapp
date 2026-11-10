@@ -35,8 +35,9 @@ admin workflows in [admin workflows](admin-workflows.md).
     `mapToInternalUserAccount` lose `stripeCustomerId`; nothing in the app read it, and billing
     (`postBillingManage`) never needed it. The admin mappers leave it unmapped, as before (see
     **Account preferences**).
-  - Backend#2857 also reshapes the MCP tool catalogue, which touches no REST operation or schema;
-    `mcp/mcp-tools.json` is not synced with this capture (see **MCP tool snapshot**).
+  - Backend#2857 also reshapes the MCP tool catalogue, which touches no REST operation or schema.
+    The snapshot is pinned separately and was synced to the same backend commit afterwards (see
+    **MCP tool snapshot**).
   - Not breaking: an older backend's `stripeCustomerId` is never mapped, and the app never sent
     the field.
 - Changes adopted with the `960e0ac82d` capture (against `867bfe2c79`, 2026-11-09), with their
@@ -370,25 +371,42 @@ To adopt a backend revision:
   `docs/mcp-tools.json`. That file is the `tools` array of an anonymous `2026-07-28` `tools/list`,
   and it is the same for production and stage (backend `docs/mcp.md`, "Tool snapshot"). The sync
   keeps `name`, `description`, `inputSchema`, `annotations` and `_meta` and drops the output
-  schemas, which make up most of the 650 KB. Never hand-edit the result.
-- The synced capture is backend `develop` `867bfe2c79ba9a3daa47deb0715e5f66a0865c31` (2026-11-09,
-  [backend#2829](https://github.com/aura-historia/backend/pull/2829)). Git blob
-  `721f1813b34f944029b54b734f0ca810f9c39870`; file SHA-256
-  `31926fd237b7dea036aae118def1e4d1c2a01dd8265a33d013869114c1ae80cf`. It has 38 tools, 12 of them
+  schemas, which make up most of the 710 KB. Never hand-edit the result.
+- The synced capture is backend `develop` `b7477308184e8c1eed7b5dd855bfb020d7af20df` (2026-11-10,
+  [backend#2857](https://github.com/aura-historia/backend/pull/2857)), the same commit as the
+  pinned `openapi/swagger.yaml`. Git blob `ca07e302bfd3dff9d6a3e99017631518bfd64063`; file SHA-256
+  `6747f9adb101a4c2470b7b58cabd47a82def7201776f751c2df503606283500d`. It has 37 tools, 11 of them
   public. The protected tools stay in the file for signed-in WebMCP
-  ([#1245](https://github.com/aura-historia/webapp/issues/1245)). Moving from the previous capture
-  (`1ef4282b99`) only added `viewUrl` to the output schemas of `searchPublicListingSources` and
-  `getPublicListingSourceBySlug`, which the sync drops, so `mcp/mcp-tools.json` did not change.
+  ([#1245](https://github.com/aura-historia/webapp/issues/1245)). It replaces the
+  `867bfe2c79` capture (2026-11-09, 38 tools, 12 public), with these changes and decisions:
+  - **`discoverPartyLocations` is removed** (backend#2857, breaking for MCP clients only): the
+    catalogue no longer offers seller-location discovery. REST `GET /v1/party-locations`
+    (`discoverPartyLocations` in the generated client) is unchanged. WebMCP no longer registers the
+    tool; the app never called it, and the AI agents page does not claim it.
+  - **`getSimilarProductListings` takes an optional `size`** (backend#2857): the number of
+    neighbours, default 20 as before, clamped to 1 through 50. REST `/similar` is unchanged.
+  - **Source-only catalogue languages** ([backend#2844](https://github.com/aura-historia/backend/pull/2844)):
+    the `language` argument's enum gains `ko`, `el`, `he`, `th`, `hi` and the locale tags that
+    resolve to them, in line with the swagger adopted earlier.
+  - **Typed reference arguments** ([backend#2850](https://github.com/aura-historia/backend/pull/2850)):
+    arguments that point at a shared definition (`geography`, `search`, `destination`, `feedback`,
+    the listing date ranges) now repeat its `type`; schema shape is otherwise unchanged. One
+    `searchAfter` schema changed from `true` to the equivalent `{}`.
+  - **Descriptions:** every argument is described, prices state the minor-unit rule, and
+    `enhancedSearchDescription` states that it works only with `productQuery`. No argument or
+    result changed.
+  - **Clearer tool errors** (backend#2857): `NOT_FOUND` and `CONFLICT` results add a second text
+    block naming the resource and a next step, and `-32602` messages give the reason. The first
+    block stays the bare code, so `McpToolError.toolError` keeps the code and the new
+    `McpToolError.detail` carries the explanation into the error message for the agent; the
+    `-32602` text was already passed through.
+  - Release this webapp with or after a backend that serves this catalogue: an older backend
+    rejects a `size` argument with `-32602`, and still lists `discoverPartyLocations`. Every other
+    change is accepted by both.
 - The snapshot is pinned separately from `openapi/swagger.yaml`, and either can be synced alone.
   The backend records renamed and removed tools, and incompatible argument changes, in its
   `docs/CHANGELOG.md`. Until this repo syncs such a change, browser calls to the affected tool
   fail with `-32602`.
-- The snapshot has not followed the `b747730` swagger capture
-  ([backend#2857](https://github.com/aura-historia/backend/pull/2857)). That backend commit's
-  catalogue lists 37 tools: `discoverPartyLocations` is removed (REST `GET /v1/party-locations`
-  is unchanged), `getSimilarProductListings` takes an optional `size`, and every argument is
-  described. Until the snapshot is synced, WebMCP still registers `discoverPartyLocations` and
-  its call fails.
 
 To sync a backend revision:
 

@@ -252,7 +252,8 @@ the catalogue tools, and the webapp copies none of their definitions by hand. Th
   - Requests send no cookies or credentials. The agent's cancellation signal aborts the request.
 
   A call resolves with the result's `structuredContent` and rejects with one of these errors:
-  - `McpToolError`: an `isError` result, with the tool's error code such as `NOT_FOUND`.
+  - `McpToolError`: an `isError` result, with the tool's error code such as `NOT_FOUND` (the first
+    text block) and, for `NOT_FOUND` and `CONFLICT`, the backend's explanation as `detail`.
   - `McpInvalidParamsError`: `-32602`, an unknown tool or invalid arguments, usually a backend
     change this repo has not synced yet.
   - `McpProtocolError`: any other JSON-RPC error.
