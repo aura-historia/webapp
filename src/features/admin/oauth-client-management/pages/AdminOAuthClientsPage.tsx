@@ -1,141 +1,151 @@
-import { useState, type ReactNode } from "react";
+import { Plus } from "lucide-react";
+import { type ReactNode, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
-import { H1 } from "@/components/typography/H1.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import { Skeleton } from "@/components/ui/skeleton.tsx";
 import { ACCESS_TOKEN_SCOPE_METADATA } from "@/data/internal/access-tokens/AccessTokenScope.ts";
 import type {
     AdminOAuthClient,
     AdminOAuthClientFilters,
 } from "@/data/internal/admin/AdminOAuthClient.ts";
-import { useRetainedDialogValue } from "@/hooks/common/useRetainedDialogValue.ts";
-import { formatDateTime } from "@/lib/utils.ts";
 import {
-    AlertDialog,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-} from "@/components/ui/alert-dialog.tsx";
+    type AdminChip,
+    AdminActiveChips,
+    AdminCell,
+    AdminFilterPanel,
+    AdminLedger,
+    AdminLedgerRow,
+    AdminLedgerSkeleton,
+    AdminLoadMore,
+    AdminPrimaryCell,
+    AdminResultLine,
+    AdminRowChevron,
+    AdminTextField,
+    AdminToolbar,
+} from "@/features/admin/common/components/AdminDirectory.tsx";
+import { AdminPageHeader } from "@/features/admin/common/components/AdminPageHeader.tsx";
+import { AdminStatePanel } from "@/features/admin/common/components/AdminStatePanel.tsx";
+import { AdminMark } from "@/features/admin/common/components/AdminStatusMark.tsx";
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogLoadingState,
-    DialogTitle,
-} from "@/components/ui/dialog.tsx";
-import {
-    useAdminOAuthClient,
-    useAdminOAuthClients,
-    useDeleteAdminOAuthClient,
-} from "../api/useAdminOAuthClients.ts";
-import { AdminOAuthClientFiltersForm } from "../components/AdminOAuthClientFiltersForm.tsx";
+    ADMIN_TAG_CLASS,
+    PRIMARY_PILL_CLASS,
+    SECONDARY_PILL_CLASS,
+} from "@/features/admin/common/lib/adminStyles.ts";
+import { useAdminOAuthClients } from "../api/useAdminOAuthClients.ts";
+import { AdminOAuthClientDetailDialog } from "../components/AdminOAuthClientDetailDialog.tsx";
 import { AdminOAuthClientFormDialog } from "../components/AdminOAuthClientFormDialog.tsx";
+import { hasAdminOAuthClientFilters } from "../lib/adminOAuthClientSearch.ts";
+import { formatAdminDay } from "../lib/formatAdminOAuthClientDate.ts";
 
-export function AdminOAuthClientsPage() {
-    const { t } = useTranslation();
-    const [filters, setFilters] = useState<AdminOAuthClientFilters>({});
+const LEDGER_COLUMNS = "minmax(0,1.8fr) minmax(0,2fr) minmax(0,0.8fr) 16px";
+const VISIBLE_SCOPES = 2;
+
+/** The OAuth client directory (board "Admin · Directory", section oauth); filters live in the URL. */
+export function AdminOAuthClientsPage({
+    filters,
+    onFiltersChange,
+}: {
+    readonly filters: AdminOAuthClientFilters;
+    readonly onFiltersChange: (filters: AdminOAuthClientFilters) => void;
+}) {
+    const { t, i18n } = useTranslation();
     const [selectedClientId, setSelectedClientId] = useState<string>();
     const [formOpen, setFormOpen] = useState(false);
     const [editingClient, setEditingClient] = useState<AdminOAuthClient>();
-    const clientsQuery = useAdminOAuthClients(filters);
-    const clients = clientsQuery.data?.pages.flatMap((page) => page.items) ?? [];
-    const total = clientsQuery.data?.pages[0]?.total;
+    const query = useAdminOAuthClients(filters);
+    const clients = query.data?.pages.flatMap((page) => page.items) ?? [];
+    const total = query.data?.pages[0]?.total;
+    const numbers = new Intl.NumberFormat(i18n.language);
+
+    const openCreate = () => {
+        setEditingClient(undefined);
+        setFormOpen(true);
+    };
+    const createAction = (
+        <button type="button" onClick={openCreate} className={PRIMARY_PILL_CLASS}>
+            <Plus aria-hidden="true" className="size-4" strokeWidth={1.8} />
+            {t("adminOAuthClients.actions.create")}
+        </button>
+    );
 
     let content: ReactNode;
-    if (clientsQuery.error && clients.length === 0) {
+    if (query.error && clients.length === 0) {
         content = (
-            <div role="alert" className="grid justify-items-start gap-3 py-6">
-                <p className="text-muted-foreground">{clientsQuery.error.message}</p>
-                <Button variant="outline" onClick={() => clientsQuery.refetch()}>
-                    {t("adminOAuthClients.actions.retry")}
-                </Button>
-            </div>
+            <AdminStatePanel tone="error" title={t("adminOAuthClients.states.error")}>
+                <button
+                    type="button"
+                    onClick={() => void query.refetch()}
+                    className={SECONDARY_PILL_CLASS}
+                >
+                    {t("adminCommon.retry")}
+                </button>
+            </AdminStatePanel>
         );
-    } else if (clientsQuery.isPending) {
-        content = (
-            <div className="grid gap-2" aria-busy="true">
-                <output className="sr-only">{t("adminOAuthClients.loading")}</output>
-                {[0, 1, 2].map((index) => (
-                    <Skeleton key={index} className="h-24 w-full" />
-                ))}
-            </div>
-        );
+    } else if (query.isPending) {
+        content = <AdminLedgerSkeleton label={t("adminOAuthClients.loading")} />;
     } else if (clients.length === 0) {
-        content = <p className="py-6 text-muted-foreground">{t("adminOAuthClients.empty")}</p>;
+        content = hasAdminOAuthClientFilters(filters) ? (
+            <AdminStatePanel tone="empty" title={t("adminOAuthClients.states.noMatches")}>
+                <button
+                    type="button"
+                    onClick={() => onFiltersChange({})}
+                    className={SECONDARY_PILL_CLASS}
+                >
+                    {t("adminCommon.filters.clearSearch")}
+                </button>
+            </AdminStatePanel>
+        ) : (
+            <AdminStatePanel tone="empty" title={t("adminOAuthClients.states.empty")}>
+                {createAction}
+            </AdminStatePanel>
+        );
     } else {
         content = (
-            <div className="grid gap-3">
-                {typeof total === "number" && (
-                    <p className="text-sm text-muted-foreground">
-                        {t("adminOAuthClients.list.total", { count: total })}
-                    </p>
-                )}
-                <ul className="grid gap-2">
+            <>
+                <AdminResultLine
+                    summary={
+                        typeof total === "number"
+                            ? t("adminCommon.result.loadedOfTotal", {
+                                  loaded: numbers.format(clients.length),
+                                  total: numbers.format(total),
+                              })
+                            : t("adminCommon.result.loaded", {
+                                  loaded: numbers.format(clients.length),
+                              })
+                    }
+                />
+                <AdminLedger
+                    label={t("adminOAuthClients.heading")}
+                    columns={LEDGER_COLUMNS}
+                    headings={[
+                        t("adminOAuthClients.list.heads.client"),
+                        t("adminOAuthClients.fields.scopes"),
+                        t("adminOAuthClients.list.heads.issued"),
+                    ]}
+                >
                     {clients.map((client) => (
                         <OAuthClientRow
                             key={client.clientId}
                             client={client}
+                            selected={client.clientId === selectedClientId}
                             onOpen={() => setSelectedClientId(client.clientId)}
                         />
                     ))}
-                </ul>
-                {clientsQuery.error && (
-                    <p role="alert" className="text-sm text-destructive">
-                        {clientsQuery.error.message}
-                    </p>
-                )}
-                {clientsQuery.hasNextPage && (
-                    <Button
-                        type="button"
-                        variant="outline"
-                        className="justify-self-center"
-                        disabled={clientsQuery.isFetchingNextPage}
-                        onClick={() => clientsQuery.fetchNextPage()}
-                    >
-                        {clientsQuery.isFetchingNextPage
-                            ? t("adminOAuthClients.list.loadingMore")
-                            : t("adminOAuthClients.list.loadMore")}
-                    </Button>
-                )}
-            </div>
+                </AdminLedger>
+                <AdminLoadMore
+                    hasNextPage={Boolean(query.hasNextPage)}
+                    isFetchingNextPage={query.isFetchingNextPage}
+                    isError={query.isFetchNextPageError}
+                    onLoadMore={() => void query.fetchNextPage()}
+                    label={t("adminOAuthClients.list.loadMoreClients")}
+                />
+            </>
         );
     }
 
     return (
-        <div className="mx-auto grid w-full max-w-6xl gap-6 px-4 py-8 sm:px-6">
-            <section className="grid gap-6" aria-labelledby="admin-oauth-clients-title">
-                <header className="flex flex-wrap items-end justify-between gap-3">
-                    <div className="grid gap-1">
-                        <H1 id="admin-oauth-clients-title">{t("adminOAuthClients.title")}</H1>
-                        <p className="text-muted-foreground">
-                            {t("adminOAuthClients.description")}
-                        </p>
-                    </div>
-                    <Button
-                        type="button"
-                        onClick={() => {
-                            setEditingClient(undefined);
-                            setFormOpen(true);
-                        }}
-                    >
-                        {t("adminOAuthClients.actions.create")}
-                    </Button>
-                </header>
-
-                <AdminOAuthClientFiltersForm
-                    key={JSON.stringify(filters)}
-                    filters={filters}
-                    onApply={setFilters}
-                />
-                {content}
-            </section>
-
+        <>
+            <AdminPageHeader title={t("adminOAuthClients.heading")} action={createAction} />
+            <OAuthClientToolbar filters={filters} onFiltersChange={onFiltersChange} />
+            {content}
             <AdminOAuthClientDetailDialog
                 clientId={selectedClientId}
                 open={Boolean(selectedClientId)}
@@ -156,238 +166,129 @@ export function AdminOAuthClientsPage() {
                 open={formOpen}
                 onOpenChange={setFormOpen}
             />
-        </div>
+        </>
+    );
+}
+
+function OAuthClientToolbar({
+    filters,
+    onFiltersChange,
+}: {
+    readonly filters: AdminOAuthClientFilters;
+    readonly onFiltersChange: (filters: AdminOAuthClientFilters) => void;
+}) {
+    const { t } = useTranslation();
+    const [name, setName] = useState(filters.name ?? "");
+    useEffect(() => {
+        setName(filters.name ?? "");
+    }, [filters.name]);
+
+    const nameLabel = t("adminOAuthClients.filters.name");
+    const clientIdLabel = t("adminOAuthClients.fields.clientId");
+    const chips: AdminChip[] = [
+        ...(filters.name
+            ? [
+                  {
+                      key: "name",
+                      label: `${nameLabel}: ${filters.name}`,
+                      onRemove: () => onFiltersChange({ ...filters, name: undefined }),
+                  },
+              ]
+            : []),
+        ...(filters.clientId
+            ? [
+                  {
+                      key: "clientId",
+                      label: `${clientIdLabel}: ${filters.clientId}`,
+                      onRemove: () => onFiltersChange({ ...filters, clientId: undefined }),
+                  },
+              ]
+            : []),
+    ];
+
+    return (
+        <AdminToolbar
+            label={t("adminOAuthClients.filters.title")}
+            search={{
+                label: nameLabel,
+                value: name,
+                onChange: setName,
+                onSubmit: () => onFiltersChange({ ...filters, name: name.trim() || undefined }),
+            }}
+            panelCount={filters.clientId ? 1 : 0}
+            panel={(close) => (
+                <ClientIdPanel
+                    label={clientIdLabel}
+                    initial={filters.clientId ?? ""}
+                    onApply={(clientId) => {
+                        onFiltersChange({ ...filters, clientId });
+                        close();
+                    }}
+                />
+            )}
+            chips={<AdminActiveChips chips={chips} onClearAll={() => onFiltersChange({})} />}
+        />
+    );
+}
+
+function ClientIdPanel({
+    label,
+    initial,
+    onApply,
+}: {
+    readonly label: string;
+    readonly initial: string;
+    readonly onApply: (clientId: string | undefined) => void;
+}) {
+    const [clientId, setClientId] = useState(initial);
+    return (
+        <AdminFilterPanel
+            onApply={() => onApply(clientId.trim() || undefined)}
+            onReset={() => onApply(undefined)}
+        >
+            <AdminTextField label={label} value={clientId} onChange={setClientId} mono />
+        </AdminFilterPanel>
     );
 }
 
 function OAuthClientRow({
     client,
+    selected,
     onOpen,
 }: {
     readonly client: AdminOAuthClient;
+    readonly selected: boolean;
     readonly onOpen: () => void;
 }) {
     const { t, i18n } = useTranslation();
-    const issueDate = new Date(client.clientIdIssuedAt * 1000);
+    const issued = new Date(client.clientIdIssuedAt * 1000);
+    const hidden = client.scopes.length - VISIBLE_SCOPES;
     return (
-        <li className="flex flex-wrap items-center justify-between gap-4 border bg-surface-container-low p-4">
-            <div className="grid min-w-0 gap-2">
-                <p className="break-words font-medium">{client.clientName}</p>
-                <p className="break-all font-mono text-xs text-muted-foreground">
-                    {client.clientId}
-                </p>
-                <div className="flex flex-wrap gap-x-2 gap-y-1 text-xs text-muted-foreground">
-                    <span>
-                        {t("adminOAuthClients.list.issued", {
-                            date: formatDateTime(issueDate, i18n.language, "UTC"),
-                        })}
-                    </span>
-                    {client.scopes.map((scope) => (
-                        <span key={scope}>{t(ACCESS_TOKEN_SCOPE_METADATA[scope].label)}</span>
-                    ))}
-                    {client.scopes.length === 0 && (
-                        <span>{t("adminOAuthClients.list.noScopes")}</span>
-                    )}
-                </div>
-            </div>
-            <Button type="button" variant="outline" onClick={onOpen}>
-                {t("adminOAuthClients.actions.details")}
-            </Button>
-        </li>
-    );
-}
-
-function AdminOAuthClientDetailDialog({
-    clientId: requestedClientId,
-    open,
-    onOpenChange,
-    onEdit,
-    onDeleted,
-}: {
-    readonly clientId?: string;
-    readonly open: boolean;
-    readonly onOpenChange: (open: boolean) => void;
-    readonly onEdit: (client: AdminOAuthClient) => void;
-    readonly onDeleted: () => void;
-}) {
-    const { t } = useTranslation();
-    const [clientId, releaseClientId] = useRetainedDialogValue(requestedClientId, open);
-    const query = useAdminOAuthClient(clientId, open);
-    const deletion = useDeleteAdminOAuthClient();
-    const [confirmDelete, setConfirmDelete] = useState(false);
-    const client = query.data;
-
-    // A failed deletion belongs to the client it was attempted on, not the next one opened.
-    const handleOpenChange = (nextOpen: boolean) => {
-        if (!nextOpen) deletion.reset();
-        onOpenChange(nextOpen);
-    };
-
-    const confirmDeletion = async () => {
-        if (!clientId) return;
-        try {
-            await deletion.mutateAsync(clientId);
-            setConfirmDelete(false);
-            toast.success(t("adminOAuthClients.success.deleted"));
-            onDeleted();
-        } catch {
-            setConfirmDelete(false);
-        }
-    };
-
-    return (
-        <>
-            <Dialog open={open} onOpenChange={handleOpenChange}>
-                <DialogContent
-                    className="flex h-[min(90vh,32rem)] flex-col overflow-y-auto sm:max-w-2xl"
-                    closeLabel={t("adminOAuthClients.actions.close")}
-                    onCloseAutoFocus={releaseClientId}
-                >
-                    <DialogHeader>
-                        <DialogTitle>{t("adminOAuthClients.detail.title")}</DialogTitle>
-                        <DialogDescription>
-                            {t("adminOAuthClients.detail.description")}
-                        </DialogDescription>
-                    </DialogHeader>
-                    <AdminOAuthClientDetailContent query={query} />
-
-                    {deletion.error && (
-                        <p role="alert" className="text-sm text-destructive">
-                            {deletion.error.message}
-                        </p>
-                    )}
-                    {client && (
-                        <DialogFooter className="mt-auto flex-wrap sm:justify-between">
-                            <Button
-                                type="button"
-                                variant="destructive"
-                                onClick={() => setConfirmDelete(true)}
-                            >
-                                {t("adminOAuthClients.actions.delete")}
-                            </Button>
-                            <Button
-                                type="button"
-                                onClick={() => {
-                                    deletion.reset();
-                                    onEdit(client);
-                                }}
-                            >
-                                {t("adminOAuthClients.actions.edit")}
-                            </Button>
-                        </DialogFooter>
-                    )}
-                </DialogContent>
-            </Dialog>
-
-            <AlertDialog open={confirmDelete} onOpenChange={setConfirmDelete}>
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>{t("adminOAuthClients.delete.title")}</AlertDialogTitle>
-                        <AlertDialogDescription>
-                            {t("adminOAuthClients.delete.description")}
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                        <AlertDialogCancel>
-                            {t("adminOAuthClients.actions.cancel")}
-                        </AlertDialogCancel>
-                        <Button
-                            type="button"
-                            variant="destructive"
-                            disabled={deletion.isPending}
-                            onClick={confirmDeletion}
-                        >
-                            {deletion.isPending
-                                ? t("adminOAuthClients.actions.deleting")
-                                : t("adminOAuthClients.delete.confirm")}
-                        </Button>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
-        </>
-    );
-}
-
-function AdminOAuthClientDetailContent({
-    query,
-}: {
-    readonly query: ReturnType<typeof useAdminOAuthClient>;
-}) {
-    const { t, i18n } = useTranslation();
-    if (query.isPending) {
-        return <DialogLoadingState>{t("adminOAuthClients.loadingDetail")}</DialogLoadingState>;
-    }
-    if (query.error) {
-        return (
-            <div className="grid justify-items-start gap-3" role="alert">
-                <p className="text-muted-foreground">{query.error.message}</p>
-                <Button variant="outline" onClick={() => query.refetch()}>
-                    {t("adminOAuthClients.actions.retry")}
-                </Button>
-            </div>
-        );
-    }
-    const client = query.data;
-    if (!client) return null;
-    const issueDate = new Date(client.clientIdIssuedAt * 1000);
-    return (
-        <dl className="grid gap-4 sm:grid-cols-2">
-            <DetailValue label={t("adminOAuthClients.fields.name")}>
-                {client.clientName}
-            </DetailValue>
-            <DetailValue label={t("adminOAuthClients.fields.clientId")}>
-                <span className="break-all font-mono">{client.clientId}</span>
-            </DetailValue>
-            <DetailValue label={t("adminOAuthClients.fields.terms")}>
-                <span className="break-all">{client.tosUri}</span>
-            </DetailValue>
-            <DetailValue label={t("adminOAuthClients.fields.privacy")}>
-                <span className="break-all">{client.policyUri}</span>
-            </DetailValue>
-            <DetailValue label={t("adminOAuthClients.fields.homepage")}>
-                <span className="break-all">{client.clientUri}</span>
-            </DetailValue>
-            <DetailValue label={t("adminOAuthClients.fields.logo")}>
-                <span className="break-all">{client.logoUri}</span>
-            </DetailValue>
-            <DetailValue label={t("adminOAuthClients.fields.issuedAt")}>
-                {formatDateTime(issueDate, i18n.language, "UTC")}
-            </DetailValue>
-            <DetailValue label={t("adminOAuthClients.fields.scopes")}>
-                {client.scopes.length ? (
-                    <ul className="grid gap-1">
-                        {client.scopes.map((scope) => (
-                            <li key={scope}>{t(ACCESS_TOKEN_SCOPE_METADATA[scope].label)}</li>
+        <AdminLedgerRow selected={selected} onClick={onOpen}>
+            <AdminPrimaryCell title={client.clientName} sub={client.clientId} subMono />
+            <AdminCell head={t("adminOAuthClients.fields.scopes")}>
+                {client.scopes.length > 0 ? (
+                    <span className="flex flex-wrap gap-1">
+                        {client.scopes.slice(0, VISIBLE_SCOPES).map((scope) => (
+                            <span key={scope} className={ADMIN_TAG_CLASS}>
+                                {t(ACCESS_TOKEN_SCOPE_METADATA[scope].label)}
+                            </span>
                         ))}
-                    </ul>
+                        {hidden > 0 && <span className={ADMIN_TAG_CLASS}>+{hidden}</span>}
+                    </span>
                 ) : (
-                    t("adminOAuthClients.list.noScopes")
+                    <span className="inline-flex items-center gap-1.5 text-meta text-ink-muted">
+                        <AdminMark tone="brass" className="size-2" />
+                        {t("adminOAuthClients.list.noScopes")}
+                    </span>
                 )}
-            </DetailValue>
-            <DetailValue label={t("adminOAuthClients.fields.redirectUris")}>
-                <ul className="grid gap-1">
-                    {client.redirectUris.map((uri) => (
-                        <li key={uri} className="break-all font-mono text-xs">
-                            {uri}
-                        </li>
-                    ))}
-                </ul>
-            </DetailValue>
-        </dl>
-    );
-}
-
-function DetailValue({
-    label,
-    children,
-}: {
-    readonly label: string;
-    readonly children: ReactNode;
-}) {
-    return (
-        <div className="grid min-w-0 gap-1">
-            <dt className="text-sm text-muted-foreground">{label}</dt>
-            <dd>{children}</dd>
-        </div>
+            </AdminCell>
+            <AdminCell head={t("adminOAuthClients.list.heads.issued")}>
+                <time dateTime={issued.toISOString()} className="tabular-nums">
+                    {formatAdminDay(issued, i18n.language)}
+                </time>
+            </AdminCell>
+            <AdminRowChevron />
+        </AdminLedgerRow>
     );
 }

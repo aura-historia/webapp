@@ -303,6 +303,11 @@ export function hasAdminProductListingChanges(values: Values, original: Values):
     return changedGroups(values, original).size > 0;
 }
 
+/** The number of changed groups (one per PATCH field or auction fact), for the save bar. */
+export function countAdminProductListingChanges(values: Values, original: Values): number {
+    return changedGroups(values, original).size;
+}
+
 function requireMinorUnits(amount: string, currency: Currency | ""): number {
     const parsed = currency ? parseMinorUnits(amount, currency) : undefined;
     if (!parsed?.ok) throw new Error("Validate the listing form before building a patch.");

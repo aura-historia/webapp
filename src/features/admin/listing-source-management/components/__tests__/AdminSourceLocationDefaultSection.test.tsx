@@ -116,12 +116,15 @@ describe("AdminSourceLocationDefaultSection", () => {
 
         expect(await screen.findByText(t(`${KEY}.effect.none`))).toBeInTheDocument();
         expect(screen.getByText(t(`${KEY}.fields.noDefault`))).toBeInTheDocument();
-        expect(screen.getByText(t(`${KEY}.propagation`))).toBeInTheDocument();
         expect(
-            screen.getByRole("link", {
-                name: t(`${KEY}.links.operatorLocations`, { name: "Antique House Ltd" }),
-            }),
+            screen.getByText(
+                `${t(`${KEY}.status.none`)} · ${t(`${KEY}.status.revision`, { revision: 1 })}`,
+            ),
         ).toBeInTheDocument();
+        expect(screen.getByRole("link", { name: t(`${KEY}.links.operator`) })).toHaveAttribute(
+            "href",
+            "/de/admin/parties/pty_1",
+        );
 
         fireEvent.click(button(`${KEY}.actions.assign`));
         const form = screen.getByRole("form", { name: t(`${KEY}.assign.title`) });
@@ -147,7 +150,7 @@ describe("AdminSourceLocationDefaultSection", () => {
         ).toBeInTheDocument();
         expect(api.assign).not.toHaveBeenCalled();
 
-        fireEvent.change(within(form).getByLabelText(t(`${KEY}.fields.evidenceReference`)), {
+        fireEvent.change(within(form).getByLabelText(t(`${KEY}.fields.evidenceLabel`)), {
             target: { value: "catalogue" },
         });
         fireEvent.click(
@@ -231,7 +234,7 @@ describe("AdminSourceLocationDefaultSection", () => {
         );
 
         fireEvent.click(button(`${KEY}.actions.clear`));
-        expect(screen.getByText(t(`${KEY}.clear.confirmRetired`))).toBeInTheDocument();
+        expect(screen.getByText(t(`${KEY}.clear.confirmRetiredShort`))).toBeInTheDocument();
         expect(api.clear).not.toHaveBeenCalled();
         fireEvent.click(button(`${KEY}.actions.confirmClear`));
 
@@ -244,9 +247,7 @@ describe("AdminSourceLocationDefaultSection", () => {
         renderSection();
 
         expect(await screen.findByText("ploc_9")).toBeInTheDocument();
-        expect(
-            await screen.findByText(t(`${KEY}.fields.locationDetailsUnavailable`)),
-        ).toBeInTheDocument();
+        expect(await screen.findByText(t(`${KEY}.fields.locationUnavailable`))).toBeInTheDocument();
     });
 
     it("refetches after a conflict and resubmits only after the draft is explicitly kept", async () => {
@@ -266,8 +267,9 @@ describe("AdminSourceLocationDefaultSection", () => {
         );
 
         expect(await within(form).findByText(t(`${KEY}.errors.conflict`))).toBeInTheDocument();
-        expect(await within(form).findByText(t(`${KEY}.stale.assign`))).toBeInTheDocument();
-        expect(await screen.findByText("5")).toBeInTheDocument();
+        expect(
+            await within(form).findByText(t(`${KEY}.stale.changed`, { revision: 5 })),
+        ).toBeInTheDocument();
         expect(
             within(form).getByRole("button", { name: t(`${KEY}.actions.confirmReplace`) }),
         ).toBeDisabled();
@@ -298,10 +300,12 @@ describe("AdminSourceLocationDefaultSection", () => {
         fireEvent.click(button(`${KEY}.actions.confirmClear`));
 
         expect(await screen.findByText(t(`${KEY}.stale.alreadyCleared`))).toBeInTheDocument();
-        expect(screen.getByText(t(`${KEY}.effect.none`))).toBeInTheDocument();
-        expect(button(`${KEY}.actions.confirmClear`)).toBeDisabled();
+        expect(screen.queryByRole("button", { name: t(`${KEY}.actions.confirmClear`) })).toBeNull();
         expect(screen.queryByRole("button", { name: t(`${KEY}.actions.reviewLatest`) })).toBeNull();
         expect(api.clear).toHaveBeenCalledTimes(1);
+
+        fireEvent.click(button("adminCommon.cancel"));
+        expect(screen.getByText(t(`${KEY}.effect.none`))).toBeInTheDocument();
     });
 
     it("hides the loaded default when administrator authority is lost", async () => {
@@ -317,7 +321,7 @@ describe("AdminSourceLocationDefaultSection", () => {
 
         // The reset replaces the confirmation and the loaded state with the read's own error.
         expect(
-            await screen.findByRole("button", { name: t("adminListingSources.actions.retry") }),
+            await screen.findByRole("button", { name: t("adminCommon.retry") }),
         ).toBeInTheDocument();
         expect(screen.getByText(t(`${KEY}.errors.forbidden`))).toBeInTheDocument();
         expect(screen.queryByText(t(`${KEY}.effect.inherits`))).toBeNull();

@@ -1,30 +1,37 @@
-import { type ReactNode, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import {
-    AlertDialog,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-} from "@/components/ui/alert-dialog.tsx";
-import { Button } from "@/components/ui/button.tsx";
 import type {
     PartyLocation,
     PartyLocationLifecycle,
 } from "@/data/internal/geography/PartyLocation.ts";
-import { formatCoordinates, formatCountryName } from "@/features/geography/lib/formatGeography.ts";
-import { cn, formatDate } from "@/lib/utils.ts";
+import {
+    AdminMark,
+    type AdminMarkTone,
+} from "@/features/admin/common/components/AdminStatusMark.tsx";
+import {
+    ADMIN_SMALL_DANGER_OUTLINE_CLASS,
+    ADMIN_TAG_CLASS,
+    SMALL_SECONDARY_PILL_CLASS,
+} from "@/features/admin/common/lib/adminStyles.ts";
+import { AdminConfirmDialog } from "@/features/admin/party-management/components/AdminConfirmDialog.tsx";
+import { formatCoordinates } from "@/features/geography/lib/formatGeography.ts";
+import { cn, formatShortDate } from "@/lib/utils.ts";
 import { type PartyLocationScope, useSetPartyLocationLifecycle } from "../api/usePartyLocations.ts";
+import { formatPartyLocationRegion } from "../lib/partyLocationSummary.ts";
 import { PartyLocationConsequence } from "./PartyLocationConsequence.tsx";
-import { PartyLocationLifecycleBadge } from "./PartyLocationLifecycleBadge.tsx";
+
+const LIFECYCLE_TONE: Record<PartyLocation["lifecycle"], AdminMarkTone> = {
+    ACTIVE: "ink",
+    RETIRED: "hollow",
+    UNKNOWN: "dashed",
+};
 
 /**
- * One location with all protected details and its distinct actions: same-location correction,
- * relocation to a new identity, retirement and restoration. Lifecycle changes need confirmation
- * and are sent with the revision that was shown when confirmation began.
+ * One location with all protected details and its distinct actions (board "Admin · Organization",
+ * location cards): same-location correction, relocation to a new identity, retirement and
+ * restoration. Lifecycle changes need confirmation and are sent with the revision that was shown
+ * when confirmation began.
  */
 export function PartyLocationCard({
     scope,
@@ -48,7 +55,6 @@ export function PartyLocationCard({
     // Retire and restore replace each other, so focus returns to whichever one is shown now.
     const lifecycleButton = useRef<HTMLButtonElement>(null);
     const titleId = `party-location-${location.id}-title`;
-    const geography = location.geography;
     const position = location.position;
     const evidence = location.evidence;
     const notAsserted = t("partyLocations.fields.notAsserted");
@@ -75,215 +81,207 @@ export function PartyLocationCard({
         });
     };
 
+    const coordinates = position
+        ? [
+              formatCoordinates(position.point, i18n.language, t),
+              [
+                  t(`partyLocations.precisions.${position.precision}`),
+                  position.accuracyMetres === undefined
+                      ? undefined
+                      : `±${new Intl.NumberFormat(i18n.language, {
+                            style: "unit",
+                            unit: "meter",
+                            maximumFractionDigits: 1,
+                        }).format(position.accuracyMetres)}`,
+              ]
+                  .filter(Boolean)
+                  .join(", "),
+          ].join(" · ")
+        : undefined;
+    const evidenceText = evidence
+        ? [
+              evidence.reference,
+              t(`partyLocations.evidenceScopes.${evidence.scope}`),
+              evidence.observedAt
+                  ? t("partyLocations.card.observed", {
+                        date: formatShortDate(evidence.observedAt, i18n.language, "UTC"),
+                    })
+                  : undefined,
+          ]
+              .filter(Boolean)
+              .join(" · ")
+        : undefined;
+    const rows = [
+        {
+            key: "region",
+            label: t("partyLocations.card.countryRegion"),
+            value: formatPartyLocationRegion(location, i18n.language, t),
+        },
+        {
+            key: "coordinates",
+            label: t("partyLocations.fields.coordinates"),
+            value: coordinates ?? notAsserted,
+            mono: Boolean(coordinates),
+            muted: !coordinates,
+        },
+        {
+            key: "evidence",
+            label: t("partyLocations.card.evidence"),
+            value: evidenceText ?? notAsserted,
+            muted: !evidenceText,
+        },
+        {
+            key: "public",
+            label: t("partyLocations.card.publicResults"),
+            value: t(`partyLocations.card.public.${location.lifecycle}`),
+        },
+        {
+            key: "id",
+            label: t("partyLocations.fields.locationId"),
+            value: location.id,
+            mono: true,
+        },
+    ];
+
     return (
         <article
             aria-labelledby={titleId}
             className={cn(
-                "grid gap-4 border bg-card p-4 sm:p-5",
-                location.lifecycle !== "ACTIVE" && "bg-surface-container-low",
+                "flex h-full flex-col gap-4 rounded-panel p-5 shadow-ring sm:p-[22px]",
+                location.lifecycle === "ACTIVE" ? "bg-surface-raised" : "bg-surface",
             )}
         >
-            <header className="flex flex-wrap items-start justify-between gap-3">
-                <div className="grid min-w-0 gap-1">
-                    <div className="flex flex-wrap items-center gap-2">
-                        <h3 id={titleId} className="break-words text-lg font-medium">
-                            {location.label}
-                        </h3>
-                        <PartyLocationLifecycleBadge lifecycle={location.lifecycle} />
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                        {t(`partyLocations.eligibility.${location.lifecycle}`)}
+            <div className="flex flex-col gap-2">
+                <span className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.14em] text-ink-secondary uppercase">
+                    <AdminMark tone={LIFECYCLE_TONE[location.lifecycle]} className="size-2" />
+                    {t(`partyLocations.lifecycle.${location.lifecycle}`)}
+                </span>
+                <h3
+                    id={titleId}
+                    className="font-serif text-[22px] leading-[1.2] font-normal break-words"
+                >
+                    {location.label}
+                </h3>
+                {location.geography?.addressText && (
+                    <p className="text-sm leading-normal whitespace-pre-line text-ink-secondary">
+                        {location.geography.addressText}
                     </p>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                    {location.lifecycle === "ACTIVE" && (
-                        <>
-                            <Button
-                                type="button"
-                                size="sm"
-                                disabled={lifecycle.isPending}
-                                onClick={() => onCorrect(location)}
-                            >
-                                {t("partyLocations.actions.correct")}
-                            </Button>
-                            <Button
-                                type="button"
-                                size="sm"
-                                variant="outline"
-                                disabled={lifecycle.isPending}
-                                onClick={() => onRelocate(location)}
-                            >
-                                {t("partyLocations.actions.relocate")}
-                            </Button>
-                            <Button
-                                type="button"
-                                size="sm"
-                                variant="outline"
-                                ref={lifecycleButton}
-                                disabled={lifecycle.isPending}
-                                onClick={() => confirm("RETIRED")}
-                            >
-                                {t("partyLocations.actions.retire")}
-                            </Button>
-                        </>
+                )}
+                <ul aria-label={t("partyLocations.fields.roles")} className="flex flex-wrap gap-1">
+                    {location.roles.length > 0 ? (
+                        location.roles.map((role) => (
+                            <li key={role} className={ADMIN_TAG_CLASS}>
+                                {t(`partyLocations.roles.${role}`)}
+                            </li>
+                        ))
+                    ) : (
+                        <li className="text-xs text-ink-muted">
+                            {t("partyLocations.fields.noRoles")}
+                        </li>
                     )}
-                    {location.lifecycle === "RETIRED" && (
-                        <Button
-                            type="button"
-                            size="sm"
-                            variant="outline"
-                            ref={lifecycleButton}
-                            disabled={lifecycle.isPending}
-                            onClick={() => confirm("ACTIVE")}
-                        >
-                            {t("partyLocations.actions.restore")}
-                        </Button>
-                    )}
-                </div>
-            </header>
+                </ul>
+            </div>
 
             {location.hasUnsupportedValues && (
-                <p className="border border-border bg-surface-container p-3 text-sm">
+                <p className="rounded-md bg-surface-sunken px-3 py-2 text-meta text-ink-secondary">
                     {t("partyLocations.detail.unsupportedValues")}
                 </p>
             )}
 
-            <dl className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                <DetailRow label={t("partyLocations.fields.roles")}>
-                    {location.roles.length > 0
-                        ? location.roles.map((role) => t(`partyLocations.roles.${role}`)).join(", ")
-                        : t("partyLocations.fields.noRoles")}
-                </DetailRow>
-                <DetailRow label={t("partyLocations.fields.addressText")} wide>
-                    <span className="whitespace-pre-wrap">
-                        {geography?.addressText ?? notAsserted}
-                    </span>
-                </DetailRow>
-                <DetailRow label={t("partyLocations.fields.country")}>
-                    {geography?.country
-                        ? `${formatCountryName(geography.country, i18n.language)} (${geography.country})`
-                        : notAsserted}
-                </DetailRow>
-                <DetailRow label={t("partyLocations.fields.subdivision")}>
-                    {geography?.subdivision ?? notAsserted}
-                </DetailRow>
-                <DetailRow label={t("partyLocations.fields.postalCode")}>
-                    {geography?.postalCode ?? notAsserted}
-                </DetailRow>
-                <DetailRow label={t("partyLocations.fields.coordinates")}>
-                    {position ? formatCoordinates(position.point, i18n.language, t) : notAsserted}
-                </DetailRow>
-                <DetailRow label={t("partyLocations.fields.precision")}>
-                    {position ? t(`partyLocations.precisions.${position.precision}`) : notAsserted}
-                </DetailRow>
-                <DetailRow label={t("partyLocations.fields.accuracyMetres")}>
-                    {position?.accuracyMetres === undefined
-                        ? notAsserted
-                        : new Intl.NumberFormat(i18n.language, {
-                              style: "unit",
-                              unit: "meter",
-                              maximumFractionDigits: 1,
-                          }).format(position.accuracyMetres)}
-                </DetailRow>
-                <DetailRow label={t("partyLocations.fields.evidenceReference")} wide>
-                    <span className="break-all">{evidence?.reference ?? notAsserted}</span>
-                </DetailRow>
-                {evidence && (
-                    <>
-                        <DetailRow label={t("partyLocations.fields.evidenceScope")}>
-                            {t(`partyLocations.evidenceScopes.${evidence.scope}`)}
-                        </DetailRow>
-                        <DetailRow label={t("partyLocations.fields.evidenceObservedOn")}>
-                            {evidence.observedAt ? (
-                                <time dateTime={evidence.observedAt.toISOString()}>
-                                    {formatDate(evidence.observedAt, i18n.language, "UTC")}
-                                </time>
-                            ) : (
-                                notAsserted
+            <dl className="border-t border-line">
+                {rows.map((row) => (
+                    <div
+                        key={row.key}
+                        className="grid grid-cols-[minmax(0,7.5rem)_minmax(0,1fr)] items-baseline gap-3 border-b border-line-subtle py-2"
+                    >
+                        <dt className="text-xs text-ink-muted">{row.label}</dt>
+                        <dd
+                            className={cn(
+                                "[overflow-wrap:anywhere]",
+                                row.mono ? "font-mono text-[11px]" : "text-meta",
+                                row.muted && "text-ink-muted",
                             )}
-                        </DetailRow>
-                    </>
-                )}
-                <DetailRow label={t("partyLocations.fields.locationId")}>
-                    <span className="break-all font-mono text-sm">{location.id}</span>
-                </DetailRow>
+                        >
+                            {row.value}
+                        </dd>
+                    </div>
+                ))}
             </dl>
 
-            {lifecycle.error && (
-                <p role="alert" className="text-sm text-destructive">
+            {(location.lifecycle === "ACTIVE" || location.lifecycle === "RETIRED") && (
+                <div className="mt-auto flex flex-wrap gap-2">
+                    {location.lifecycle === "ACTIVE" ? (
+                        <>
+                            <button
+                                type="button"
+                                disabled={lifecycle.isPending}
+                                onClick={() => onCorrect(location)}
+                                className={SMALL_SECONDARY_PILL_CLASS}
+                            >
+                                {t("partyLocations.actions.correct")}
+                            </button>
+                            <button
+                                type="button"
+                                disabled={lifecycle.isPending}
+                                onClick={() => onRelocate(location)}
+                                className={SMALL_SECONDARY_PILL_CLASS}
+                            >
+                                {t("partyLocations.actions.relocate")}
+                            </button>
+                            <button
+                                ref={lifecycleButton}
+                                type="button"
+                                disabled={lifecycle.isPending}
+                                onClick={() => confirm("RETIRED")}
+                                className={ADMIN_SMALL_DANGER_OUTLINE_CLASS}
+                            >
+                                {t("partyLocations.actions.retire")}
+                            </button>
+                        </>
+                    ) : (
+                        <button
+                            ref={lifecycleButton}
+                            type="button"
+                            disabled={lifecycle.isPending}
+                            onClick={() => confirm("ACTIVE")}
+                            className={SMALL_SECONDARY_PILL_CLASS}
+                        >
+                            {t("partyLocations.actions.restore")}
+                        </button>
+                    )}
+                </div>
+            )}
+
+            {lifecycle.error && !confirmOpen && (
+                <p role="alert" className="text-meta text-oxblood">
                     {lifecycle.error.message}
                 </p>
             )}
 
-            <AlertDialog
+            <AdminConfirmDialog
                 open={confirmOpen}
-                onOpenChange={(open) => {
-                    if (!open && !lifecycle.isPending) setConfirmOpen(false);
+                onOpenChange={setConfirmOpen}
+                tone={retiring ? "danger" : "primary"}
+                title={t(
+                    retiring
+                        ? "partyLocations.confirm.retireTitle"
+                        : "partyLocations.confirm.restoreTitle",
+                    { label: location.label },
+                )}
+                description={<PartyLocationConsequence action={retiring ? "retire" : "restore"} />}
+                confirmLabel={t(
+                    retiring
+                        ? "partyLocations.actions.confirmRetire"
+                        : "partyLocations.actions.confirmRestore",
+                )}
+                pending={lifecycle.isPending}
+                onConfirm={confirmLifecycle}
+                onCloseAutoFocus={(event) => {
+                    if (!lifecycleButton.current) return;
+                    event.preventDefault();
+                    lifecycleButton.current.focus();
                 }}
-            >
-                <AlertDialogContent
-                    onCloseAutoFocus={(event) => {
-                        if (!lifecycleButton.current) return;
-                        event.preventDefault();
-                        lifecycleButton.current.focus();
-                    }}
-                >
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>
-                            {t(
-                                retiring
-                                    ? "partyLocations.confirm.retireTitle"
-                                    : "partyLocations.confirm.restoreTitle",
-                                { label: location.label },
-                            )}
-                        </AlertDialogTitle>
-                        <AlertDialogDescription asChild>
-                            <div>
-                                <PartyLocationConsequence
-                                    action={retiring ? "retire" : "restore"}
-                                />
-                            </div>
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                        <AlertDialogCancel disabled={lifecycle.isPending}>
-                            {t("partyLocations.actions.cancel")}
-                        </AlertDialogCancel>
-                        {/* A plain button keeps the dialog open until the request settles. */}
-                        <Button
-                            type="button"
-                            variant={retiring ? "destructive" : "default"}
-                            disabled={lifecycle.isPending}
-                            onClick={confirmLifecycle}
-                        >
-                            {lifecycle.isPending
-                                ? t("partyLocations.actions.saving")
-                                : t(
-                                      retiring
-                                          ? "partyLocations.actions.confirmRetire"
-                                          : "partyLocations.actions.confirmRestore",
-                                  )}
-                        </Button>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
+            />
         </article>
-    );
-}
-
-function DetailRow({
-    label,
-    wide = false,
-    children,
-}: {
-    readonly label: string;
-    readonly wide?: boolean;
-    readonly children: ReactNode;
-}) {
-    return (
-        <div className={cn("grid min-w-0 content-start gap-1", wide && "sm:col-span-2")}>
-            <dt className="text-xs text-muted-foreground">{label}</dt>
-            <dd className="break-words">{children}</dd>
-        </div>
     );
 }

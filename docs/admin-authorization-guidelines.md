@@ -45,7 +45,7 @@ must include the selected user ID, and token revocation requests must include th
 ID. Suspension reasons are required operational-log input: validate the UTF-8 byte limit and do not
 retain or log the reason in the client. All OAuth client requests use `Cache-Control: no-store`; list, detail and
 update use secret-free DTOs. Creation alone returns a plaintext client secret, shown once
-and cleared when the dialog closes. Every workflow route stays protected by `AdminGuard` and
+(with Copy; only Done closes the panel) and cleared when the dialog closes. Every workflow route stays protected by `AdminGuard` and
 backend authorization; the shared section navigation only links to them.
 
 ## Requirement

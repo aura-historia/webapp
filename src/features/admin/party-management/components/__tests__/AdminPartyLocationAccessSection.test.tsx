@@ -114,9 +114,7 @@ describe("AdminPartyLocationAccessSection", () => {
         render(<AdminPartyLocationAccessSection party={party} />);
 
         expect(
-            screen.getByText(
-                t("adminParties.locationAccess.description", { name: "Atelier Bleu" }),
-            ),
+            screen.getByRole("heading", { name: t("adminParties.locationAccess.heading") }),
         ).toBeInTheDocument();
         const [grace, member] = screen.getAllByRole("listitem");
         expect(within(grace).getByText("Grace Hopper")).toBeInTheDocument();
@@ -131,9 +129,11 @@ describe("AdminPartyLocationAccessSection", () => {
 
         expect(within(member).getByText("member@example.test")).toBeInTheDocument();
         expect(
-            within(member).getByText(t("adminParties.locationAccess.access.partnership")),
+            within(member).getByText(t("adminParties.locationAccess.access.member")),
         ).toBeInTheDocument();
-        expect(within(member).getByText("psh_1, psh_2")).toBeInTheDocument();
+        expect(
+            within(member).queryByText(t("adminParties.locationAccess.access.explicit")),
+        ).toBeNull();
         // Partnership access is managed on the partnership, never revoked from here.
         expect(within(member).queryByRole("button")).toBeNull();
     });
@@ -147,11 +147,10 @@ describe("AdminPartyLocationAccessSection", () => {
         mocks.list.error = new Error(t("adminParties.locationAccess.errors.readFailed"));
         render(<AdminPartyLocationAccessSection party={party} />);
 
-        const alert = screen.getByRole("alert");
-        expect(alert).toHaveTextContent(t("adminParties.locationAccess.errors.readFailed"));
-        fireEvent.click(
-            within(alert).getByRole("button", { name: t("adminParties.actions.retry") }),
+        expect(screen.getByRole("alert")).toHaveTextContent(
+            t("adminParties.locationAccess.errors.readFailed"),
         );
+        fireEvent.click(screen.getByRole("button", { name: t("adminCommon.retry") }));
         expect(mocks.refetch).toHaveBeenCalled();
     });
 
@@ -160,14 +159,16 @@ describe("AdminPartyLocationAccessSection", () => {
         render(<AdminPartyLocationAccessSection party={party} />);
         selectUser();
 
+        expect(screen.getByText(t("adminParties.locationAccess.status.none"))).toBeInTheDocument();
         expect(
-            screen.getByText(t("adminParties.locationAccess.state.none", { user: "Ada" })),
-        ).toBeInTheDocument();
-        expect(
-            screen.queryByRole("button", { name: t("adminParties.locationAccess.revoke") }),
+            screen.queryByRole("button", {
+                name: t("adminParties.locationAccess.confirmRevokeButton"),
+            }),
         ).toBeNull();
         fireEvent.click(
-            screen.getByRole("button", { name: t("adminParties.locationAccess.grant") }),
+            screen.getByRole("button", {
+                name: t("adminParties.locationAccess.confirmGrantButton"),
+            }),
         );
         expect(
             screen.getByText(
@@ -200,10 +201,12 @@ describe("AdminPartyLocationAccessSection", () => {
         selectUser();
 
         expect(
-            screen.getByText(t("adminParties.locationAccess.state.partnership", { user: "Ada" })),
+            screen.getByText(t("adminParties.locationAccess.status.partnership")),
         ).toBeInTheDocument();
         expect(
-            screen.getByRole("button", { name: t("adminParties.locationAccess.grant") }),
+            screen.getByRole("button", {
+                name: t("adminParties.locationAccess.confirmGrantButton"),
+            }),
         ).toBeEnabled();
     });
 
@@ -217,14 +220,16 @@ describe("AdminPartyLocationAccessSection", () => {
         render(<AdminPartyLocationAccessSection party={party} />);
         selectUser();
 
+        expect(screen.getByText(t("adminParties.locationAccess.status.both"))).toBeInTheDocument();
         expect(
-            screen.getByText(t("adminParties.locationAccess.state.both", { user: "Ada" })),
-        ).toBeInTheDocument();
-        expect(
-            screen.queryByRole("button", { name: t("adminParties.locationAccess.grant") }),
+            screen.queryByRole("button", {
+                name: t("adminParties.locationAccess.confirmGrantButton"),
+            }),
         ).toBeNull();
         fireEvent.click(
-            screen.getByRole("button", { name: t("adminParties.locationAccess.revoke") }),
+            screen.getByRole("button", {
+                name: t("adminParties.locationAccess.confirmRevokeButton"),
+            }),
         );
         fireEvent.click(
             screen.getByRole("button", {
@@ -276,12 +281,18 @@ describe("AdminPartyLocationAccessSection", () => {
         selectUser();
 
         fireEvent.click(
-            screen.getByRole("button", { name: t("adminParties.locationAccess.grant") }),
+            screen.getByRole("button", {
+                name: t("adminParties.locationAccess.confirmGrantButton"),
+            }),
         );
-        fireEvent.click(screen.getByRole("button", { name: t("adminParties.actions.cancel") }));
+        fireEvent.click(screen.getByRole("button", { name: t("adminCommon.cancel") }));
 
         expect(mocks.mutate).not.toHaveBeenCalled();
-        expect(screen.queryByRole("status")).toBeNull();
+        expect(
+            screen.queryByText(
+                t("adminParties.locationAccess.granted", { user: "Ada", name: "Atelier Bleu" }),
+            ),
+        ).toBeNull();
     });
 
     it("shows a failed change without reporting a result", () => {

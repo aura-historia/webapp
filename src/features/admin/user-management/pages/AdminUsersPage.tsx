@@ -1,13 +1,38 @@
+import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { H1 } from "@/components/typography/H1.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import { Spinner } from "@/components/ui/spinner.tsx";
 import type { AdminUserSummary } from "@/data/internal/admin/AdminUser.ts";
-import type { AdminUserFilters } from "../lib/adminUserSearch.ts";
+import {
+    AdminCell,
+    AdminLedger,
+    AdminLedgerRow,
+    AdminLedgerSkeleton,
+    AdminLoadMore,
+    AdminPrimaryCell,
+    AdminResultLine,
+    AdminRowChevron,
+    AdminSortSelect,
+} from "@/features/admin/common/components/AdminDirectory.tsx";
+import { AdminPageHeader } from "@/features/admin/common/components/AdminPageHeader.tsx";
+import { AdminStatePanel } from "@/features/admin/common/components/AdminStatePanel.tsx";
+import {
+    ADMIN_STRONG_TAG_CLASS,
+    ADMIN_TAG_CLASS,
+    SECONDARY_PILL_CLASS,
+} from "@/features/admin/common/lib/adminStyles.ts";
 import { useAdminUsers } from "../api/useAdminUsers.ts";
 import { AdminUserDetailDialog } from "../components/AdminUserDetailDialog.tsx";
+import { adminUserDisplayName } from "../components/AdminUserPicker.tsx";
 import { AdminUserSecurityControls } from "../components/AdminUserSecurityControls.tsx";
-import { AdminUserFiltersForm } from "../components/AdminUserFiltersForm.tsx";
+import { AdminUserToolbar } from "../components/AdminUserToolbar.tsx";
+import {
+    ADMIN_USER_SORT_OPTIONS,
+    type AdminUserFilters,
+    clearAdminUserFilters,
+    findAdminUserSortOption,
+    hasActiveAdminUserFilters,
+} from "../lib/adminUserSearch.ts";
+
+const LEDGER_COLUMNS = "minmax(0,2.4fr) minmax(0,1fr) minmax(0,1fr) 16px";
 
 export function AdminUsersPage({
     filters,
@@ -22,83 +47,110 @@ export function AdminUsersPage({
     readonly onUserSelect: (userId: string) => void;
     readonly onDetailOpenChange: (open: boolean) => void;
 }) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const users = useAdminUsers(filters);
     const pages = users.data?.pages ?? [];
     const summaries = pages.flatMap((page) => page.items);
     const total = pages[0]?.total;
+    const filtered = hasActiveAdminUserFilters(filters);
+    const number = new Intl.NumberFormat(i18n.language);
+
+    const sortOptions = ADMIN_USER_SORT_OPTIONS.map((option) => ({
+        value: option.value,
+        label: `${t(`adminUsers.sort.${option.sort}`)} · ${t(`adminUsers.order.${option.direction}`)}`,
+    }));
+    const resetFilters = () => onFiltersChange(clearAdminUserFilters(filters));
+
+    let content: ReactNode;
+    if (summaries.length > 0) {
+        content = (
+            <>
+                <AdminResultLine
+                    summary={
+                        total === undefined
+                            ? t("adminCommon.result.loaded", {
+                                  loaded: number.format(summaries.length),
+                              })
+                            : t("adminCommon.result.loadedOfTotal", {
+                                  loaded: number.format(summaries.length),
+                                  total: number.format(total),
+                              })
+                    }
+                    sort={
+                        <AdminSortSelect
+                            value={`${filters.sort}:${filters.order}`}
+                            options={sortOptions}
+                            onChange={(value) => {
+                                const option = findAdminUserSortOption(value);
+                                if (option) {
+                                    onFiltersChange({
+                                        ...filters,
+                                        sort: option.sort,
+                                        order: option.order,
+                                    });
+                                }
+                            }}
+                        />
+                    }
+                />
+                <AdminLedger
+                    label={t("adminUsers.list.label")}
+                    columns={LEDGER_COLUMNS}
+                    headings={[
+                        t("adminUsers.columns.account"),
+                        t("adminUsers.filters.role"),
+                        t("adminUsers.filters.tierShort"),
+                    ]}
+                >
+                    {summaries.map((summary) => (
+                        <AdminUserRow
+                            key={summary.userId}
+                            summary={summary}
+                            selected={summary.userId === selectedUserId}
+                            onSelect={onUserSelect}
+                        />
+                    ))}
+                </AdminLedger>
+                <AdminLoadMore
+                    hasNextPage={users.hasNextPage}
+                    isFetchingNextPage={users.isFetchingNextPage}
+                    isError={users.isFetchNextPageError}
+                    onLoadMore={() => void users.fetchNextPage()}
+                    label={t("adminUsers.list.loadMoreUsers")}
+                />
+            </>
+        );
+    } else if (users.isError) {
+        content = (
+            <AdminStatePanel tone="error" title={t("adminUsers.loadFailed")}>
+                <button
+                    type="button"
+                    onClick={() => void users.refetch()}
+                    className={SECONDARY_PILL_CLASS}
+                >
+                    {t("adminCommon.retry")}
+                </button>
+            </AdminStatePanel>
+        );
+    } else if (users.data) {
+        content = filtered ? (
+            <AdminStatePanel tone="empty" title={t("adminUsers.noMatches")}>
+                <button type="button" onClick={resetFilters} className={SECONDARY_PILL_CLASS}>
+                    {t("adminCommon.filters.clearSearch")}
+                </button>
+            </AdminStatePanel>
+        ) : (
+            <AdminStatePanel tone="empty" title={t("adminUsers.noUsers")} />
+        );
+    } else {
+        content = <AdminLedgerSkeleton label={t("adminUsers.loading")} />;
+    }
 
     return (
-        <main className="mx-auto grid w-full max-w-7xl gap-6 px-4 py-8 sm:px-6 lg:px-8">
-            <header className="grid gap-2">
-                <H1>{t("adminUsers.title")}</H1>
-                <p className="max-w-3xl text-muted-foreground">{t("adminUsers.description")}</p>
-            </header>
-
-            <AdminUserFiltersForm
-                key={JSON.stringify(filters)}
-                filters={filters}
-                onApply={onFiltersChange}
-            />
-
-            <section className="grid gap-4" aria-label={t("adminUsers.list.title")}>
-                {users.isLoading && (
-                    <div className="flex justify-center py-12" role="status" aria-live="polite">
-                        <span className="sr-only">{t("adminUsers.loading")}</span>
-                        <Spinner />
-                    </div>
-                )}
-                {users.isError && (
-                    <div className="grid gap-3 border p-4" role="alert">
-                        <p className="text-sm text-destructive">{users.error.message}</p>
-                        <div>
-                            <Button variant="outline" onClick={() => void users.refetch()}>
-                                {t("adminUsers.actions.retry")}
-                            </Button>
-                        </div>
-                    </div>
-                )}
-                {users.data && summaries.length === 0 && (
-                    <p className="border p-6 text-center text-muted-foreground">
-                        {t("adminUsers.empty")}
-                    </p>
-                )}
-                {summaries.length > 0 && (
-                    <>
-                        <div className="flex flex-wrap items-baseline justify-between gap-2 text-sm text-muted-foreground">
-                            <p>{t("adminUsers.list.loaded", { count: summaries.length })}</p>
-                            {total !== undefined && (
-                                <p>{t("adminUsers.list.total", { count: total })}</p>
-                            )}
-                        </div>
-                        <ul className="grid gap-2">
-                            {summaries.map((summary) => (
-                                <li key={summary.userId}>
-                                    <AdminUserRow
-                                        summary={summary}
-                                        selected={summary.userId === selectedUserId}
-                                        onSelect={onUserSelect}
-                                    />
-                                </li>
-                            ))}
-                        </ul>
-                    </>
-                )}
-                {users.hasNextPage && (
-                    <div>
-                        <Button
-                            variant="outline"
-                            disabled={users.isFetchingNextPage}
-                            onClick={() => void users.fetchNextPage()}
-                        >
-                            {users.isFetchingNextPage
-                                ? t("adminUsers.list.loadingMore")
-                                : t("adminUsers.list.loadMore")}
-                        </Button>
-                    </div>
-                )}
-            </section>
-
+        <>
+            <AdminPageHeader title={t("adminUsers.pageTitle")} />
+            <AdminUserToolbar filters={filters} onFiltersChange={onFiltersChange} />
+            {content}
             <AdminUserDetailDialog
                 userId={selectedUserId}
                 onOpenChange={onDetailOpenChange}
@@ -106,7 +158,7 @@ export function AdminUsersPage({
                     <AdminUserSecurityControls key={userId} userId={userId} />
                 )}
             />
-        </main>
+        </>
     );
 }
 
@@ -120,29 +172,29 @@ function AdminUserRow({
     readonly onSelect: (userId: string) => void;
 }) {
     const { t } = useTranslation();
-    const name = [summary.firstName, summary.lastName].filter(Boolean).join(" ");
+    const name = adminUserDisplayName(summary);
+    const hasName = name !== summary.email;
 
     return (
-        <button
-            type="button"
-            className={`grid w-full gap-3 border p-4 text-left transition-colors hover:bg-surface-container ${selected ? "border-primary bg-surface-container" : "bg-background"}`}
+        <AdminLedgerRow
+            selected={selected}
             aria-label={t("adminUsers.list.openUser", { email: summary.email })}
             onClick={() => onSelect(summary.userId)}
         >
-            <span className="flex min-w-0 flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                <span className="truncate font-medium">{name || summary.email}</span>
-                {name && (
-                    <span className="break-all text-sm text-muted-foreground">{summary.email}</span>
-                )}
-            </span>
-            <span className="flex flex-wrap gap-2 text-xs">
-                <span className="border px-2 py-1">
+            <AdminPrimaryCell title={name} sub={hasName ? summary.email : undefined} />
+            <AdminCell head={t("adminUsers.filters.role")}>
+                <span
+                    className={summary.role === "ADMIN" ? ADMIN_STRONG_TAG_CLASS : ADMIN_TAG_CLASS}
+                >
                     {t(`adminUsers.options.roles.${summary.role}`)}
                 </span>
-                <span className="border px-2 py-1">
+            </AdminCell>
+            <AdminCell head={t("adminUsers.filters.tierShort")}>
+                <span className={ADMIN_TAG_CLASS}>
                     {t(`adminUsers.options.tiers.${summary.tier.toUpperCase()}`)}
                 </span>
-            </span>
-        </button>
+            </AdminCell>
+            <AdminRowChevron />
+        </AdminLedgerRow>
     );
 }

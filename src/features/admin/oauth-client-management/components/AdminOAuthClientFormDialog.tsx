@@ -1,31 +1,31 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Check, Copy, TriangleAlert } from "lucide-react";
+import { useEffect, useId, useRef, useState } from "react";
+import { type UseFormRegisterReturn, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { z } from "zod";
-import type { AccessTokenScope } from "@/data/internal/access-tokens/AccessTokenScope.ts";
 import {
     ACCESS_TOKEN_SCOPE_GROUPS,
     ACCESS_TOKEN_SCOPE_METADATA,
     ACCESS_TOKEN_SCOPES,
+    type AccessTokenScope,
 } from "@/data/internal/access-tokens/AccessTokenScope.ts";
 import type {
     AdminOAuthClient,
     AdminOAuthClientMetadataInput,
 } from "@/data/internal/admin/AdminOAuthClient.ts";
-import { Button } from "@/components/ui/button.tsx";
-import { Input } from "@/components/ui/input.tsx";
-import { Label } from "@/components/ui/label.tsx";
-import { Textarea } from "@/components/ui/textarea.tsx";
+import { AdminRecordDialog } from "@/features/admin/common/components/AdminRecordDialog.tsx";
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-} from "@/components/ui/dialog.tsx";
+    FIELD_CLASS,
+    FIELD_ERROR_CLASS,
+    FIELD_LABEL_CLASS,
+    INLINE_ALERT_CLASS,
+    MONO_LABEL_CLASS,
+    PRIMARY_PILL_CLASS,
+    SECONDARY_PILL_CLASS,
+} from "@/features/admin/common/lib/adminStyles.ts";
+import { cn } from "@/lib/utils.ts";
 import {
     AdminOAuthClientRequestError,
     useCreateAdminOAuthClient,
@@ -49,15 +49,18 @@ const isRedirectUri = (value: string) => {
     }
 };
 
-const urlSchema = (message: string) =>
-    z.string().trim().min(1, "adminOAuthClients.validation.required").refine(isHttpsUrl, message);
+const urlSchema = z
+    .string()
+    .trim()
+    .min(1, "adminOAuthClients.validation.required")
+    .refine(isHttpsUrl, "adminOAuthClients.validation.httpsUrl");
 
 const formSchema = z.object({
     clientName: z.string().trim().min(1, "adminOAuthClients.validation.nameRequired"),
-    tosUri: urlSchema("adminOAuthClients.validation.httpsUrl"),
-    policyUri: urlSchema("adminOAuthClients.validation.httpsUrl"),
-    clientUri: urlSchema("adminOAuthClients.validation.httpsUrl"),
-    logoUri: urlSchema("adminOAuthClients.validation.httpsUrl"),
+    clientUri: urlSchema,
+    tosUri: urlSchema,
+    policyUri: urlSchema,
+    logoUri: urlSchema,
     redirectUrisText: z
         .string()
         .transform((value) =>
@@ -77,15 +80,22 @@ const formSchema = z.object({
 
 type FormInput = z.input<typeof formSchema>;
 type FormValues = z.output<typeof formSchema>;
-type Scope = AccessTokenScope;
 type DirtyValues = Partial<Record<keyof FormInput, unknown>>;
+type UrlFieldName = "clientUri" | "tosUri" | "policyUri" | "logoUri";
+
+const URL_FIELDS: readonly { readonly name: UrlFieldName; readonly label: string }[] = [
+    { name: "clientUri", label: "adminOAuthClients.fields.homepageShort" },
+    { name: "tosUri", label: "adminOAuthClients.fields.termsShort" },
+    { name: "policyUri", label: "adminOAuthClients.fields.privacyShort" },
+    { name: "logoUri", label: "adminOAuthClients.fields.logo" },
+];
 
 function defaults(client?: AdminOAuthClient): FormInput {
     return {
         clientName: client?.clientName ?? "",
+        clientUri: client?.clientUri ?? "",
         tosUri: client?.tosUri ?? "",
         policyUri: client?.policyUri ?? "",
-        clientUri: client?.clientUri ?? "",
         logoUri: client?.logoUri ?? "",
         redirectUrisText: client?.redirectUris.join("\n") ?? "",
         scopes: [...(client?.scopes ?? [])],
@@ -118,10 +128,13 @@ function toPatch(values: FormValues, dirty: DirtyValues): Partial<AdminOAuthClie
     };
 }
 
-function errorMessage(error: unknown, fallback: string) {
-    return error instanceof AdminOAuthClientRequestError ? error.message : fallback;
-}
+type CreatedClient = { readonly clientId: string; readonly clientSecret: string };
 
+/**
+ * Creates or edits an OAuth client (board "Admin · OAuth client dialogs", form and secret). After
+ * creation the same dialog shows the client ID and the plaintext secret once; it cannot be
+ * dismissed by Escape or an outside click, and the secret is cleared when it closes.
+ */
 export function AdminOAuthClientFormDialog({
     mode,
     client,
@@ -140,14 +153,12 @@ export function AdminOAuthClientFormDialog({
         resolver: zodResolver(formSchema),
         defaultValues: defaults(client),
     });
-    const { dirtyFields, isDirty } = form.formState;
+    const { dirtyFields, isDirty, errors } = form.formState;
     const requestPendingRef = useRef(false);
-    const [createdClient, setCreatedClient] = useState<{
-        readonly clientId: string;
-        readonly clientSecret: string;
-    }>();
+    const [createdClient, setCreatedClient] = useState<CreatedClient>();
     const [requestError, setRequestError] = useState<string>();
     const { reset: resetForm } = form;
+    const redirectId = useId();
 
     useEffect(() => {
         // Reused instances must edit the latest client record, not the metadata from first mount.
@@ -188,221 +199,229 @@ export function AdminOAuthClientFormDialog({
             clearDialogState();
             onOpenChange(false);
         } catch (error) {
-            setRequestError(errorMessage(error, t("adminOAuthClients.errors.requestFailed")));
+            setRequestError(
+                error instanceof AdminOAuthClientRequestError
+                    ? error.message
+                    : t("adminOAuthClients.errors.requestFailed"),
+            );
         } finally {
             requestPendingRef.current = false;
         }
     });
 
     const isSaving = create.isPending || update.isPending;
-    const submitLabelKey =
-        mode === "create" ? "adminOAuthClients.actions.create" : "adminOAuthClients.actions.save";
-    const redirectUrisError = form.formState.errors.redirectUrisText?.message;
-    const redirectUrisDescribedBy = redirectUrisError
-        ? "admin-oauth-redirect-uris-help admin-oauth-redirect-uris-error"
-        : "admin-oauth-redirect-uris-help";
+    const redirectError = errors.redirectUrisText?.message;
+    const keepSecretOpen = (event: Event) => {
+        if (createdClient) event.preventDefault();
+    };
 
     return (
-        <Dialog open={open} onOpenChange={handleOpenChange}>
-            <DialogContent
-                className="max-h-[90vh] overflow-y-auto sm:max-w-2xl"
-                closeLabel={t("adminOAuthClients.actions.close")}
-            >
-                {createdClient ? (
-                    <div className="grid gap-5">
-                        <DialogHeader>
-                            <DialogTitle>{t("adminOAuthClients.create.secretTitle")}</DialogTitle>
-                            <DialogDescription>
-                                {t("adminOAuthClients.create.secretDescription")}
-                            </DialogDescription>
-                        </DialogHeader>
-                        <dl className="grid gap-3 rounded-md border bg-surface-container-low p-4">
-                            <div className="grid gap-1">
-                                <dt className="text-sm text-muted-foreground">
-                                    {t("adminOAuthClients.fields.clientId")}
-                                </dt>
-                                <dd className="break-all font-mono text-sm">
-                                    {createdClient.clientId}
-                                </dd>
-                            </div>
-                            <div className="grid gap-1">
-                                <dt className="text-sm text-muted-foreground">
-                                    {t("adminOAuthClients.fields.clientSecret")}
-                                </dt>
-                                <dd className="break-all rounded bg-background p-3 font-mono text-sm">
-                                    {createdClient.clientSecret}
-                                </dd>
-                            </div>
-                        </dl>
-                        <DialogFooter>
-                            <Button type="button" onClick={() => handleOpenChange(false)}>
-                                {t("adminOAuthClients.actions.close")}
-                            </Button>
-                        </DialogFooter>
+        <AdminRecordDialog
+            open={open}
+            onOpenChange={handleOpenChange}
+            width="md"
+            closable={!createdClient}
+            onInteractOutside={keepSecretOpen}
+            onEscapeKeyDown={keepSecretOpen}
+            eyebrow={
+                createdClient ? (
+                    <span className="inline-flex items-center gap-2 text-ink-secondary">
+                        <span
+                            aria-hidden="true"
+                            className="inline-flex size-[18px] items-center justify-center rounded-pill bg-oxblood text-on-oxblood"
+                        >
+                            <Check className="size-2.5" strokeWidth={3} />
+                        </span>
+                        {t("adminOAuthClients.secret.eyebrow")}
+                    </span>
+                ) : undefined
+            }
+            title={
+                createdClient
+                    ? t("adminOAuthClients.secret.title")
+                    : mode === "edit" && client
+                      ? t("adminOAuthClients.form.editNamed", { name: client.clientName })
+                      : t("adminOAuthClients.form.newTitle")
+            }
+        >
+            {createdClient ? (
+                <>
+                    <div
+                        data-theme="dark"
+                        className="flex flex-col gap-3.5 rounded-md bg-surface p-4 text-ink"
+                    >
+                        <SecretField
+                            label={t("adminOAuthClients.fields.clientId")}
+                            value={createdClient.clientId}
+                        />
+                        <SecretField
+                            label={t("adminOAuthClients.fields.clientSecret")}
+                            value={createdClient.clientSecret}
+                        />
                     </div>
-                ) : (
-                    <form className="grid gap-5" onSubmit={onSubmit}>
-                        <DialogHeader>
-                            <DialogTitle>
-                                {t(
-                                    mode === "create"
-                                        ? "adminOAuthClients.create.title"
-                                        : "adminOAuthClients.edit.title",
-                                )}
-                            </DialogTitle>
-                            <DialogDescription>
-                                {t(
-                                    mode === "create"
-                                        ? "adminOAuthClients.create.description"
-                                        : "adminOAuthClients.edit.description",
-                                )}
-                            </DialogDescription>
-                        </DialogHeader>
-
-                        <div className="grid gap-4 sm:grid-cols-2">
-                            <FormField
-                                form={form}
-                                name="clientName"
-                                label={t("adminOAuthClients.fields.name")}
-                                error={form.formState.errors.clientName?.message}
-                                autoComplete="off"
+                    <div className="flex justify-end">
+                        <button
+                            type="button"
+                            onClick={() => handleOpenChange(false)}
+                            className={PRIMARY_PILL_CLASS}
+                        >
+                            {t("adminOAuthClients.actions.done")}
+                        </button>
+                    </div>
+                </>
+            ) : (
+                <form noValidate className="flex flex-col gap-5" onSubmit={onSubmit}>
+                    <TextField
+                        label={t("adminOAuthClients.fields.name")}
+                        registration={form.register("clientName")}
+                        error={errors.clientName?.message}
+                        autoComplete="off"
+                    />
+                    <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
+                        {URL_FIELDS.map((field) => (
+                            <TextField
+                                key={field.name}
+                                label={t(field.label)}
+                                registration={form.register(field.name)}
+                                error={errors[field.name]?.message}
+                                type="url"
+                                autoComplete="url"
                             />
-                            <FormField
-                                form={form}
-                                name="tosUri"
-                                label={t("adminOAuthClients.fields.terms")}
-                                error={form.formState.errors.tosUri?.message}
-                            />
-                            <FormField
-                                form={form}
-                                name="policyUri"
-                                label={t("adminOAuthClients.fields.privacy")}
-                                error={form.formState.errors.policyUri?.message}
-                            />
-                            <FormField
-                                form={form}
-                                name="clientUri"
-                                label={t("adminOAuthClients.fields.homepage")}
-                                error={form.formState.errors.clientUri?.message}
-                            />
-                            <FormField
-                                form={form}
-                                name="logoUri"
-                                label={t("adminOAuthClients.fields.logo")}
-                                error={form.formState.errors.logoUri?.message}
-                            />
-                        </div>
-
-                        <div className="grid gap-2">
-                            <Label htmlFor="admin-oauth-redirect-uris">
-                                {t("adminOAuthClients.fields.redirectUris")}
-                            </Label>
-                            <Textarea
-                                id="admin-oauth-redirect-uris"
-                                rows={3}
-                                autoComplete="off"
-                                aria-invalid={Boolean(form.formState.errors.redirectUrisText)}
-                                aria-describedby={redirectUrisDescribedBy}
-                                {...form.register("redirectUrisText")}
-                            />
-                            <p
-                                id="admin-oauth-redirect-uris-help"
-                                className="text-xs text-muted-foreground"
-                            >
-                                {t("adminOAuthClients.fields.redirectUrisHelp")}
-                            </p>
-                            {redirectUrisError && (
-                                <p
-                                    id="admin-oauth-redirect-uris-error"
-                                    className="text-sm text-destructive"
-                                    role="alert"
-                                >
-                                    {t(redirectUrisError)}
-                                </p>
+                        ))}
+                    </div>
+                    <div className="flex flex-col gap-2">
+                        <label
+                            htmlFor={redirectId}
+                            className={FIELD_LABEL_CLASS}
+                            data-error={redirectError ? "true" : undefined}
+                        >
+                            {t("adminOAuthClients.fields.redirectUris")}
+                        </label>
+                        <textarea
+                            id={redirectId}
+                            rows={3}
+                            autoComplete="off"
+                            spellCheck={false}
+                            aria-invalid={redirectError ? true : undefined}
+                            aria-describedby={
+                                redirectError
+                                    ? `${redirectId}-hint ${redirectId}-error`
+                                    : `${redirectId}-hint`
+                            }
+                            {...form.register("redirectUrisText")}
+                            className={cn(
+                                FIELD_CLASS,
+                                "h-auto min-h-24 resize-y py-2.5 font-mono text-[13px] leading-relaxed",
                             )}
-                        </div>
-
-                        <fieldset className="grid gap-3">
-                            <legend className="font-medium">
-                                {t("adminOAuthClients.fields.scopes")}
-                            </legend>
-                            <p className="text-xs text-muted-foreground">
-                                {t("adminOAuthClients.fields.scopesHelp")}
-                            </p>
-                            {ACCESS_TOKEN_SCOPE_GROUPS.map((group) => (
-                                <fieldset key={group.label} className="grid gap-2">
-                                    <legend className="mb-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                                        {t(group.label)}
-                                    </legend>
-                                    <div className="grid gap-2 sm:grid-cols-2">
-                                        {group.scopes.map((scope) => (
-                                            <ScopeCheckbox key={scope} form={form} scope={scope} />
-                                        ))}
-                                    </div>
-                                </fieldset>
-                            ))}
-                        </fieldset>
-
-                        {requestError && (
-                            <p className="text-sm text-destructive" role="alert">
-                                {requestError}
+                        />
+                        <p id={`${redirectId}-hint`} className="text-xs text-ink-muted">
+                            {t("adminOAuthClients.fields.redirectUrisHint")}
+                        </p>
+                        {redirectError && (
+                            <p id={`${redirectId}-error`} className={FIELD_ERROR_CLASS}>
+                                {t(redirectError)}
                             </p>
                         )}
-
-                        <DialogFooter>
-                            <Button
-                                type="button"
-                                variant="outline"
-                                onClick={() => handleOpenChange(false)}
-                            >
-                                {t("adminOAuthClients.actions.cancel")}
-                            </Button>
-                            <Button
-                                type="submit"
-                                disabled={isSaving || (mode === "edit" && !isDirty)}
-                            >
-                                {isSaving
-                                    ? t("adminOAuthClients.actions.saving")
-                                    : t(submitLabelKey)}
-                            </Button>
-                        </DialogFooter>
-                    </form>
-                )}
-            </DialogContent>
-        </Dialog>
+                    </div>
+                    <fieldset className="flex min-w-0 flex-col gap-3">
+                        <legend className={cn(FIELD_LABEL_CLASS, "mb-2")}>
+                            {t("adminOAuthClients.fields.scopes")}
+                        </legend>
+                        {ACCESS_TOKEN_SCOPE_GROUPS.map((group) => (
+                            <fieldset key={group.label} className="flex min-w-0 flex-col gap-2">
+                                <legend className={cn(MONO_LABEL_CLASS, "mb-2")}>
+                                    {t(group.label)}
+                                </legend>
+                                <div className="rounded-md bg-surface px-3.5 py-1 shadow-ring">
+                                    {group.scopes.map((scope) => (
+                                        <ScopeCheckbox
+                                            key={scope}
+                                            scope={scope}
+                                            registration={form.register("scopes")}
+                                        />
+                                    ))}
+                                </div>
+                            </fieldset>
+                        ))}
+                    </fieldset>
+                    {requestError && (
+                        <p role="alert" className={INLINE_ALERT_CLASS}>
+                            <TriangleAlert
+                                aria-hidden="true"
+                                className="mt-0.5 size-4 shrink-0 text-oxblood"
+                                strokeWidth={2}
+                            />
+                            {requestError}
+                        </p>
+                    )}
+                    <div className="flex flex-wrap justify-end gap-2.5">
+                        <button
+                            type="button"
+                            onClick={() => handleOpenChange(false)}
+                            className={SECONDARY_PILL_CLASS}
+                        >
+                            {t("adminCommon.cancel")}
+                        </button>
+                        <button
+                            type="submit"
+                            disabled={isSaving || (mode === "edit" && !isDirty)}
+                            aria-busy={isSaving}
+                            className={PRIMARY_PILL_CLASS}
+                        >
+                            {isSaving
+                                ? t("adminCommon.saving")
+                                : t(
+                                      mode === "create"
+                                          ? "adminOAuthClients.actions.create"
+                                          : "adminCommon.save",
+                                  )}
+                        </button>
+                    </div>
+                </form>
+            )}
+        </AdminRecordDialog>
     );
 }
 
-function FormField({
-    form,
-    name,
+function TextField({
     label,
+    registration,
     error,
+    type = "text",
     autoComplete,
 }: {
-    readonly form: ReturnType<typeof useForm<FormInput, unknown, FormValues>>;
-    readonly name: "clientName" | "tosUri" | "policyUri" | "clientUri" | "logoUri";
     readonly label: string;
+    readonly registration: UseFormRegisterReturn;
+    /** A translation key. */
     readonly error?: string;
+    readonly type?: "text" | "url";
     readonly autoComplete?: string;
 }) {
     const { t } = useTranslation();
-    const id = `admin-oauth-${name}`;
+    const id = useId();
+    const errorId = `${id}-error`;
     return (
-        <div className="grid min-w-0 gap-2">
-            <Label htmlFor={id}>{label}</Label>
-            <Input
+        <div className="flex min-w-0 flex-col gap-2">
+            <label
+                htmlFor={id}
+                className={FIELD_LABEL_CLASS}
+                data-error={error ? "true" : undefined}
+            >
+                {label}
+            </label>
+            <input
                 id={id}
-                autoComplete={autoComplete ?? "url"}
-                aria-invalid={Boolean(error)}
-                aria-describedby={error ? `${id}-error` : undefined}
-                {...form.register(name)}
+                type={type}
+                autoComplete={autoComplete}
+                aria-invalid={error ? true : undefined}
+                aria-describedby={error ? errorId : undefined}
+                {...registration}
+                className={cn(FIELD_CLASS, type === "url" && "text-sm")}
             />
             {error && (
-                <p id={`${id}-error`} className="text-sm text-destructive" role="alert">
-                    {form.formState.errors[name]?.message &&
-                        // Validation messages are translation keys, never raw Zod diagnostics.
-                        t(error)}
+                <p id={errorId} className={FIELD_ERROR_CLASS}>
+                    {/* Validation messages are translation keys, never raw Zod diagnostics. */}
+                    {t(error)}
                 </p>
             )}
         </div>
@@ -410,26 +429,84 @@ function FormField({
 }
 
 function ScopeCheckbox({
-    form,
     scope,
+    registration,
 }: {
-    readonly form: ReturnType<typeof useForm<FormInput, unknown, FormValues>>;
-    readonly scope: Scope;
+    readonly scope: AccessTokenScope;
+    readonly registration: UseFormRegisterReturn;
 }) {
     const { t } = useTranslation();
-    const label = ACCESS_TOKEN_SCOPE_METADATA[scope];
     return (
-        <label className="flex items-start gap-2 rounded border bg-background p-3 text-sm">
+        <label className="flex cursor-pointer items-start gap-2.5 border-b border-line-subtle py-2.5 last:border-b-0">
             <input
                 type="checkbox"
                 value={scope}
-                className="mt-1 accent-primary"
-                {...form.register("scopes")}
+                {...registration}
+                className="mt-0.5 size-[17px] shrink-0 accent-oxblood"
             />
-            <span className="grid gap-1">
-                <span className="font-medium">{t(label.label)}</span>
-                <span className="text-xs text-muted-foreground">{t(label.description)}</span>
+            <span className="text-sm font-medium">
+                {t(ACCESS_TOKEN_SCOPE_METADATA[scope].label)}
             </span>
         </label>
+    );
+}
+
+/** A read-only mono value on the ink panel with its own Copy button. */
+function SecretField({ label, value }: { readonly label: string; readonly value: string }) {
+    const { t } = useTranslation();
+    const id = useId();
+    const [copied, setCopied] = useState(false);
+
+    useEffect(() => {
+        if (!copied) return;
+        const timer = window.setTimeout(() => setCopied(false), 2000);
+        return () => window.clearTimeout(timer);
+    }, [copied]);
+
+    const copy = async () => {
+        try {
+            await navigator.clipboard.writeText(value);
+            setCopied(true);
+        } catch {
+            toast.error(t("adminOAuthClients.secret.copyFailed"));
+        }
+    };
+
+    return (
+        <div className="flex flex-col gap-2">
+            <label
+                htmlFor={id}
+                className="font-mono text-[10px] tracking-[0.14em] text-brass-light uppercase"
+            >
+                {label}
+            </label>
+            <div className="flex items-center gap-2.5">
+                <input
+                    id={id}
+                    readOnly
+                    value={value}
+                    spellCheck={false}
+                    onFocus={(event) => event.currentTarget.select()}
+                    className="h-11 min-w-0 flex-1 rounded-sm border-0 bg-surface-raised px-3 font-mono text-[13px] text-ink outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass"
+                />
+                <button
+                    type="button"
+                    onClick={() => void copy()}
+                    aria-label={
+                        copied
+                            ? t("adminCommon.copied")
+                            : t("adminOAuthClients.secret.copyNamed", { field: label })
+                    }
+                    className={PRIMARY_PILL_CLASS}
+                >
+                    {copied ? (
+                        <Check aria-hidden="true" className="size-[15px]" strokeWidth={1.9} />
+                    ) : (
+                        <Copy aria-hidden="true" className="size-[15px]" strokeWidth={1.9} />
+                    )}
+                    {copied ? t("adminCommon.copied") : t("adminCommon.copy")}
+                </button>
+            </div>
+        </div>
     );
 }

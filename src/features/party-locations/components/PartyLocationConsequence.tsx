@@ -16,7 +16,7 @@ export function PartyLocationConsequence({
 }) {
     const { t } = useTranslation();
     return (
-        <p className={cn("text-sm text-muted-foreground", className)}>
+        <p className={cn("text-sm leading-normal text-ink-secondary", className)}>
             {t(`partyLocations.consequences.${action}`)}
         </p>
     );

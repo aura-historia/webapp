@@ -1,19 +1,23 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
-import { useEffect, useMemo, useState } from "react";
+import { Loader2, Lock } from "lucide-react";
+import { type ReactNode, useEffect, useMemo, useState } from "react";
 import { useController, useForm, type UseFormReturn } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Button } from "@/components/ui/button.tsx";
-import { Input } from "@/components/ui/input.tsx";
-import { Label } from "@/components/ui/label.tsx";
-import { Textarea } from "@/components/ui/textarea.tsx";
+import { toast } from "sonner";
+import { AdminSelect } from "@/features/admin/common/components/AdminDirectory.tsx";
+import { AdminMark } from "@/features/admin/common/components/AdminStatusMark.tsx";
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select.tsx";
+    ADMIN_LEGEND_CLASS,
+    ADMIN_RAISED_FIELD_CLASS,
+    ADMIN_SMALL_PRIMARY_CLASS,
+    FIELD_LABEL_CLASS,
+    FOCUS_CLASS,
+    INLINE_ALERT_CLASS,
+    PRIMARY_PILL_CLASS,
+    SECONDARY_PILL_CLASS,
+    SMALL_SECONDARY_PILL_CLASS,
+} from "@/features/admin/common/lib/adminStyles.ts";
 import { CURRENCIES } from "@/data/internal/common/Currency.ts";
 import { isSourceTextLanguage, SOURCE_TEXT_LANGUAGES } from "@/data/internal/common/Language.ts";
 import type { AdminProductListingDetail } from "@/data/internal/product/AdminProductListing.ts";
@@ -21,6 +25,7 @@ import {
     LISTING_AVAILABILITIES,
     LISTING_AVAILABILITY_TRANSLATION_KEYS,
 } from "@/data/internal/product/ListingAvailability.ts";
+import { cn } from "@/lib/utils.ts";
 import {
     adminProductListingDetailQueryKey,
     useUpdateAdminProductListing,
@@ -30,20 +35,23 @@ import {
     type AdminProductListingFormValues,
     LISTING_TITLE_MAX_CHARACTERS,
     buildAdminProductListingPatch,
+    countAdminProductListingChanges,
     createAdminProductListingFormSchema,
-    hasAdminProductListingChanges,
     rebaseAdminProductListingDraft,
     toAdminProductListingFormValues,
 } from "../lib/adminProductListingForm.ts";
 import { AdminProductListingAuctionFields } from "./AdminProductListingAuctionFields.tsx";
 import { AdminProductListingImagesField } from "./AdminProductListingImagesField.tsx";
-import { FormFieldError } from "./AdminProductListingPresentation.tsx";
+import { FormField, FormFieldError, useLanguageNames } from "./AdminProductListingPresentation.tsx";
+import { AdminSegmentedControl } from "./AdminSegmentedControl.tsx";
 
 /** The listing as the draft's changes are measured against, and the version a save submits. */
 type DraftBase = {
     readonly values: AdminProductListingFormValues;
     readonly version: number;
 };
+
+type ListingForm = UseFormReturn<AdminProductListingFormValues>;
 
 /**
  * Edits the mutable facts of one listing. `listing` is the latest authoritative state; the draft
@@ -64,7 +72,6 @@ export function AdminProductListingEditForm({
         values: toAdminProductListingFormValues(listing),
         version: listing.expectedVersion,
     }));
-    const [notice, setNotice] = useState<string>();
     // Only groups that differ from the base are validated and sent.
     const resolver = useMemo(
         () => zodResolver(createAdminProductListingFormSchema(base.values)),
@@ -75,7 +82,8 @@ export function AdminProductListingEditForm({
         defaultValues: base.values,
     });
     const draft = form.watch();
-    const hasChanges = hasAdminProductListingChanges(draft, base.values);
+    const changeCount = countAdminProductListingChanges(draft, base.values);
+    const hasChanges = changeCount > 0;
     const editable = listing.lifecycle === "ACTIVE";
     // Versions only grow. An older cached record (a refetch after a save failed) is not newer data.
     const stale = listing.expectedVersion > base.version;
@@ -102,23 +110,17 @@ export function AdminProductListingEditForm({
         setBase({ values: latest, version: listing.expectedVersion });
         form.reset(rebased);
         update.reset();
-        setNotice(undefined);
     };
 
     const discardDraft = () => {
         adopt(listing);
         update.reset();
-        setNotice(undefined);
     };
 
     const submit = async (values: AdminProductListingFormValues) => {
-        setNotice(undefined);
         update.reset();
         const patch = buildAdminProductListingPatch(values, base.values);
-        if (Object.keys(patch).length === 0) {
-            setNotice(t("adminProductListings.edit.noChanges"));
-            return;
-        }
+        if (Object.keys(patch).length === 0) return;
         try {
             const result = await update.mutateAsync({ patch, expectedVersion: base.version });
             const latest = queryClient.getQueryData<AdminProductListingDetail>(
@@ -131,124 +133,200 @@ export function AdminProductListingEditForm({
                 setBase({ values, version: result.expectedVersion });
                 form.reset(values);
             }
-            setNotice(
+            toast.success(
                 t(
                     result.outcome === "CHANGED"
-                        ? "adminProductListings.edit.saved"
-                        : "adminProductListings.edit.unchanged",
+                        ? "adminProductListings.edit.savedToast"
+                        : "adminProductListings.edit.unchangedToast",
                 ),
             );
         } catch {
-            // The mutation exposes a localized, status-based error below and keeps the draft.
+            // The mutation exposes a localized, status-based error in the save bar and keeps the draft.
         }
     };
 
     return (
-        <section className="grid gap-4" aria-labelledby="admin-product-listing-edit-title">
-            <div className="grid gap-2">
-                <h2 id="admin-product-listing-edit-title" className="font-display text-2xl italic">
-                    {t("adminProductListings.edit.title")}
-                </h2>
-                <p className="text-sm text-muted-foreground">
-                    {t("adminProductListings.edit.description")}
-                </p>
-            </div>
-            <form
-                noValidate
-                className="grid gap-6 border bg-card p-5 sm:p-7"
-                onSubmit={form.handleSubmit(submit)}
-            >
-                {!editable && (
-                    <p className="border bg-surface-container p-3 text-sm">
-                        {t(
-                            listing.lifecycle === "WITHDRAWN"
-                                ? "adminProductListings.edit.withdrawnLocked"
-                                : "adminProductListings.edit.lifecycleUnknownLocked",
-                        )}
-                    </p>
-                )}
-                <TextFields form={form} disabled={locked} />
-                <PricingFields form={form} disabled={locked} />
-                <div className="grid gap-4 sm:grid-cols-2">
-                    <AvailabilityField
-                        form={form}
-                        disabled={locked}
-                        unrecognized={base.values.availability === "UNKNOWN"}
+        <form
+            noValidate
+            aria-labelledby="admin-product-listing-edit-title"
+            onSubmit={form.handleSubmit(submit)}
+            className="flex min-w-0 flex-col"
+        >
+            <h2 id="admin-product-listing-edit-title" className="sr-only">
+                {t("adminProductListings.edit.title")}
+            </h2>
+            {!editable && (
+                <p
+                    role="status"
+                    className="mb-6 flex gap-2.5 rounded-md px-4 py-3.5 text-sm leading-normal shadow-[inset_0_0_0_1px_var(--line-strong)]"
+                >
+                    <Lock
+                        aria-hidden="true"
+                        className="mt-0.5 size-4 shrink-0 text-ink-secondary"
+                        strokeWidth={1.8}
                     />
-                    <div className="grid content-start gap-2">
-                        <Label htmlFor="admin-product-listing-url">
-                            {t("adminProductListings.fields.url")}
-                        </Label>
-                        <Input
-                            id="admin-product-listing-url"
-                            type="url"
-                            inputMode="url"
-                            autoComplete="off"
-                            spellCheck={false}
-                            disabled={locked}
-                            aria-invalid={form.formState.errors.url ? true : undefined}
-                            {...form.register("url")}
-                        />
-                        <FormFieldError message={form.formState.errors.url?.message} />
+                    {t(
+                        listing.lifecycle === "WITHDRAWN"
+                            ? "adminProductListings.edit.lockedWithdrawn"
+                            : "adminProductListings.edit.lockedUnknown",
+                    )}
+                </p>
+            )}
+            {stale && hasChanges && !busy && (
+                <div
+                    role="alert"
+                    className="mb-6 flex flex-col gap-3 rounded-md bg-surface-raised p-4 shadow-[inset_0_0_0_1.5px_var(--oxblood)]"
+                >
+                    <p className="text-sm leading-normal">
+                        {t("adminProductListings.edit.staleShort", {
+                            version: listing.expectedVersion,
+                        })}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                        {editable && (
+                            <button
+                                type="button"
+                                onClick={keepDraft}
+                                className={ADMIN_SMALL_PRIMARY_CLASS}
+                            >
+                                {t("adminProductListings.actions.keepDraft")}
+                            </button>
+                        )}
+                        <button
+                            type="button"
+                            onClick={discardDraft}
+                            className={SMALL_SECONDARY_PILL_CLASS}
+                        >
+                            {t("adminProductListings.actions.discardDraft")}
+                        </button>
                     </div>
                 </div>
+            )}
+
+            <FormSection
+                number={1}
+                title={t("adminProductListings.fields.text")}
+                disabled={locked}
+                faded={!editable}
+            >
+                <TextFields form={form} disabled={locked} />
+            </FormSection>
+            <FormSection
+                number={2}
+                title={t("adminProductListings.fields.pricing")}
+                disabled={locked}
+                faded={!editable}
+            >
+                <PricingFields form={form} disabled={locked} />
+            </FormSection>
+            <FormSection
+                number={3}
+                title={t("adminProductListings.edit.availabilityAndLink")}
+                disabled={locked}
+                faded={!editable}
+            >
+                <AvailabilityFields
+                    form={form}
+                    disabled={locked}
+                    unrecognized={base.values.availability === "UNKNOWN"}
+                />
+            </FormSection>
+            <FormSection
+                number={4}
+                title={t("adminProductListings.edit.imagesInOrder")}
+                disabled={busy}
+                faded={!editable}
+            >
                 <AdminProductListingImagesField form={form} disabled={locked} />
+            </FormSection>
+            <FormSection
+                number={5}
+                title={t("adminProductListings.fields.auction")}
+                disabled={locked}
+                faded={!editable}
+            >
                 <AdminProductListingAuctionFields
                     form={form}
                     listingSourceId={listing.source.listingSourceId}
                     language={language}
                     disabled={locked}
                 />
-                {stale && hasChanges && !busy && (
-                    <div
-                        role="alert"
-                        className="grid gap-3 border border-destructive/40 bg-destructive/5 p-4"
-                    >
-                        <p className="text-sm">
-                            {t(
-                                editable
-                                    ? "adminProductListings.edit.stale"
-                                    : "adminProductListings.edit.staleLocked",
-                                { version: listing.expectedVersion },
-                            )}
-                        </p>
-                        <div className="flex flex-wrap gap-2">
-                            {editable && (
-                                <Button type="button" variant="outline" onClick={keepDraft}>
-                                    {t("adminProductListings.actions.keepDraft")}
-                                </Button>
-                            )}
-                            <Button type="button" variant="outline" onClick={discardDraft}>
-                                {t("adminProductListings.actions.discardDraft")}
-                            </Button>
-                        </div>
-                    </div>
-                )}
+            </FormSection>
+
+            <div className="sticky bottom-4 z-10 mt-6 flex flex-col gap-2.5">
                 {update.error && (
-                    <p role="alert" className="text-sm text-destructive">
+                    <p role="alert" className={cn(INLINE_ALERT_CLASS, "shadow-menu")}>
                         {update.error.message}
                     </p>
                 )}
-                {notice && <output className="text-sm text-muted-foreground">{notice}</output>}
-                <div className="flex flex-wrap justify-end gap-2">
-                    {hasChanges && !stale && (
-                        <Button
+                <div className="flex flex-wrap items-center justify-between gap-3 rounded-[28px] bg-surface-raised py-3 pr-3 pl-5 shadow-menu">
+                    <span
+                        role="status"
+                        className="inline-flex items-center gap-2 text-meta text-ink-secondary"
+                    >
+                        {hasChanges && <AdminMark tone="brass" className="size-2 bg-brass" />}
+                        {hasChanges
+                            ? t("adminProductListings.edit.unsaved", { count: changeCount })
+                            : t("adminProductListings.edit.noUnsaved")}
+                    </span>
+                    <span className="flex flex-wrap gap-2">
+                        <button
                             type="button"
-                            variant="outline"
-                            disabled={busy}
+                            disabled={busy || !hasChanges || stale}
                             onClick={discardDraft}
+                            className={SECONDARY_PILL_CLASS}
                         >
                             {t("adminProductListings.actions.resetDraft")}
-                        </Button>
-                    )}
-                    <Button type="submit" disabled={locked || stale}>
-                        {busy
-                            ? t("adminProductListings.actions.saving")
-                            : t("adminProductListings.actions.save")}
-                    </Button>
+                        </button>
+                        <button
+                            type="submit"
+                            disabled={locked || stale || !hasChanges}
+                            aria-busy={busy}
+                            className={PRIMARY_PILL_CLASS}
+                        >
+                            {busy && (
+                                <Loader2
+                                    aria-hidden="true"
+                                    className="size-[15px] animate-spin motion-reduce:animate-none"
+                                />
+                            )}
+                            {busy ? t("adminCommon.saving") : t("adminCommon.save")}
+                        </button>
+                    </span>
                 </div>
-            </form>
-        </section>
+            </div>
+        </form>
+    );
+}
+
+/** A numbered, ruled form section ("01 · ORIGINAL TEXT"); a locked listing fades and disables it. */
+function FormSection({
+    number,
+    title,
+    disabled,
+    faded,
+    children,
+}: {
+    readonly number: number;
+    readonly title: string;
+    readonly disabled: boolean;
+    /** Fades a locked (withdrawn) listing's section; a save in flight only disables it. */
+    readonly faded: boolean;
+    readonly children: ReactNode;
+}) {
+    return (
+        <fieldset
+            disabled={disabled}
+            className={cn(
+                "min-w-0 border-b border-line py-7 first-of-type:pt-0",
+                faded && "opacity-55",
+            )}
+        >
+            <legend className={cn(ADMIN_LEGEND_CLASS, "float-left")}>
+                {String(number).padStart(2, "0")} · {title}
+            </legend>
+            <div className="clear-both flex flex-col gap-4">{children}</div>
+        </fieldset>
     );
 }
 
@@ -256,7 +334,7 @@ function TextFields({
     form,
     disabled,
 }: {
-    readonly form: UseFormReturn<AdminProductListingFormValues>;
+    readonly form: ListingForm;
     readonly disabled: boolean;
 }) {
     const { t } = useTranslation();
@@ -270,33 +348,32 @@ function TextFields({
     const titleTooLong = [...title.trim()].length > LISTING_TITLE_MAX_CHARACTERS;
 
     return (
-        <fieldset className="grid gap-4 border p-4">
-            <legend className="px-1 font-medium">{t("adminProductListings.fields.text")}</legend>
-            <p className="text-sm text-muted-foreground">
-                {t("adminProductListings.edit.textHelp")}
-            </p>
-            <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_10rem]">
-                <div className="grid content-start gap-2">
-                    <Label htmlFor="admin-product-listing-title">
-                        {t("adminProductListings.fields.originalTitle")}
-                    </Label>
-                    <Input
+        <>
+            <div className="grid gap-3.5 sm:grid-cols-[minmax(0,1fr)_180px]">
+                <FormField
+                    id="admin-product-listing-title"
+                    label={t("adminProductListings.fields.originalTitle")}
+                >
+                    <input
                         id="admin-product-listing-title"
                         autoComplete="off"
                         dir="auto"
                         lang={textLanguage(titleLanguage)}
-                        disabled={disabled}
+                        aria-describedby={
+                            titleTooLong ? "admin-product-listing-title-note" : undefined
+                        }
+                        className={ADMIN_RAISED_FIELD_CLASS}
                         {...form.register("title")}
                     />
-                    <p className="text-xs text-muted-foreground">
-                        {t("adminProductListings.edit.titleHelp")}
-                    </p>
                     {titleTooLong && (
-                        <p className="text-xs text-muted-foreground">
+                        <p
+                            id="admin-product-listing-title-note"
+                            className="text-meta text-ink-secondary"
+                        >
                             {t("adminProductListings.edit.titleTooLong")}
                         </p>
                     )}
-                </div>
+                </FormField>
                 <TextLanguageField
                     form={form}
                     name="titleLanguage"
@@ -305,20 +382,23 @@ function TextFields({
                     error={errors.titleLanguage?.message}
                 />
             </div>
-            <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_10rem]">
-                <div className="grid content-start gap-2">
-                    <Label htmlFor="admin-product-listing-description">
-                        {t("adminProductListings.fields.originalDescription")}
-                    </Label>
-                    <Textarea
+            <div className="grid gap-3.5 sm:grid-cols-[minmax(0,1fr)_180px]">
+                <FormField
+                    id="admin-product-listing-description"
+                    label={t("adminProductListings.fields.originalDescription")}
+                >
+                    <textarea
                         id="admin-product-listing-description"
-                        className="min-h-32"
+                        rows={5}
                         dir="auto"
                         lang={textLanguage(descriptionLanguage)}
-                        disabled={disabled}
+                        className={cn(
+                            ADMIN_RAISED_FIELD_CLASS,
+                            "h-auto resize-y py-2.5 leading-[1.55]",
+                        )}
                         {...form.register("description")}
                     />
-                </div>
+                </FormField>
                 <TextLanguageField
                     form={form}
                     name="descriptionLanguage"
@@ -327,7 +407,7 @@ function TextFields({
                     error={errors.descriptionLanguage?.message}
                 />
             </div>
-        </fieldset>
+        </>
     );
 }
 
@@ -343,46 +423,41 @@ function TextLanguageField({
     disabled,
     error,
 }: {
-    readonly form: UseFormReturn<AdminProductListingFormValues>;
+    readonly form: ListingForm;
     readonly name: "titleLanguage" | "descriptionLanguage";
     readonly label: string;
     readonly disabled: boolean;
     readonly error?: string;
 }) {
     const { t } = useTranslation();
+    const languageName = useLanguageNames();
     const language = useController({ control: form.control, name }).field;
     const id = `admin-product-listing-${name}`;
     const unsupported = language.value !== "" && !isSourceTextLanguage(language.value);
 
     return (
-        <div className="grid content-start gap-2">
-            <Label htmlFor={id}>{label}</Label>
-            <Select
-                value={language.value || "unset"}
-                onValueChange={(value) => language.onChange(value === "unset" ? "" : value)}
+        <FormField id={id} label={label} error={error}>
+            <AdminSelect
+                id={id}
+                raised
+                value={language.value}
+                onChange={language.onChange}
                 disabled={disabled}
-            >
-                <SelectTrigger id={id} aria-invalid={error ? true : undefined}>
-                    <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectItem value="unset">
-                        {t("adminProductListings.fields.chooseLanguage")}
-                    </SelectItem>
-                    {unsupported && (
-                        <SelectItem value={language.value} disabled>
-                            {language.value.toUpperCase()}
-                        </SelectItem>
-                    )}
-                    {SOURCE_TEXT_LANGUAGES.map((code) => (
-                        <SelectItem key={code} value={code}>
-                            {code.toUpperCase()}
-                        </SelectItem>
-                    ))}
-                </SelectContent>
-            </Select>
-            <FormFieldError message={error} />
-        </div>
+                invalid={Boolean(error)}
+                describedBy={error ? `${id}-error` : undefined}
+                options={[
+                    { value: "", label: t("adminProductListings.fields.chooseLanguage") },
+                    // A stored language outside the supported set is shown but cannot be chosen again.
+                    ...(unsupported
+                        ? [{ value: language.value, label: language.value.toUpperCase() }]
+                        : []),
+                    ...SOURCE_TEXT_LANGUAGES.map((code) => ({
+                        value: code,
+                        label: languageName(code),
+                    })),
+                ]}
+            />
+        </FormField>
     );
 }
 
@@ -390,7 +465,7 @@ function PricingFields({
     form,
     disabled,
 }: {
-    readonly form: UseFormReturn<AdminProductListingFormValues>;
+    readonly form: ListingForm;
     readonly disabled: boolean;
 }) {
     const { t } = useTranslation();
@@ -398,90 +473,62 @@ function PricingFields({
     const errors = form.formState.errors;
 
     return (
-        <fieldset className="grid gap-4 border p-4">
-            <legend className="px-1 font-medium">{t("adminProductListings.fields.pricing")}</legend>
-            <p className="text-sm text-muted-foreground">
-                {t("adminProductListings.edit.pricingHelp")}
-            </p>
-            <div className="grid gap-4 sm:grid-cols-3">
-                <div className="grid content-start gap-2">
-                    <Label htmlFor="admin-product-listing-price-kind">
-                        {t("adminProductListings.fields.price")}
-                    </Label>
-                    <Select
-                        value={priceKind.value}
-                        onValueChange={priceKind.onChange}
-                        disabled={disabled}
-                    >
-                        <SelectTrigger id="admin-product-listing-price-kind">
-                            <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {ADMIN_PRODUCT_LISTING_PRICE_KINDS.map((kind) => (
-                                <SelectItem key={kind} value={kind}>
-                                    {t(`adminProductListings.priceKinds.${kind}`)}
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
-                </div>
+        <>
+            <AdminSegmentedControl
+                label={t("adminProductListings.fields.price")}
+                value={priceKind.value}
+                onChange={priceKind.onChange}
+                disabled={disabled}
+                options={ADMIN_PRODUCT_LISTING_PRICE_KINDS.map((kind) => ({
+                    value: kind,
+                    label: t(`adminProductListings.priceOptions.${kind}`),
+                }))}
+            />
+            <div className="grid gap-3.5 sm:grid-cols-3">
                 {priceKind.value === "MONETARY" && (
-                    <MoneyFields
+                    <MoneyField
                         form={form}
                         amountName="priceAmount"
                         currencyName="priceCurrency"
-                        amountLabel={t("adminProductListings.fields.priceAmount")}
-                        disabled={disabled}
+                        label={t("adminProductListings.fields.price")}
                         amountError={errors.priceAmount?.message}
                         currencyError={errors.priceCurrency?.message}
                     />
                 )}
+                <MoneyField
+                    form={form}
+                    amountName="estimateMinAmount"
+                    currencyName="estimateMinCurrency"
+                    label={t("adminProductListings.fields.estimateMin")}
+                    amountError={errors.estimateMinAmount?.message}
+                    currencyError={errors.estimateMinCurrency?.message}
+                />
+                <MoneyField
+                    form={form}
+                    amountName="estimateMaxAmount"
+                    currencyName="estimateMaxCurrency"
+                    label={t("adminProductListings.fields.estimateMax")}
+                    amountError={errors.estimateMaxAmount?.message}
+                    currencyError={errors.estimateMaxCurrency?.message}
+                />
             </div>
-            <div className="grid gap-4 sm:grid-cols-2">
-                <div className="grid gap-4 sm:grid-cols-2">
-                    <MoneyFields
-                        form={form}
-                        amountName="estimateMinAmount"
-                        currencyName="estimateMinCurrency"
-                        amountLabel={t("adminProductListings.fields.estimateMin")}
-                        disabled={disabled}
-                        amountError={errors.estimateMinAmount?.message}
-                        currencyError={errors.estimateMinCurrency?.message}
-                    />
-                </div>
-                <div className="grid gap-4 sm:grid-cols-2">
-                    <MoneyFields
-                        form={form}
-                        amountName="estimateMaxAmount"
-                        currencyName="estimateMaxCurrency"
-                        amountLabel={t("adminProductListings.fields.estimateMax")}
-                        disabled={disabled}
-                        amountError={errors.estimateMaxAmount?.message}
-                        currencyError={errors.estimateMaxCurrency?.message}
-                    />
-                </div>
-            </div>
-            <p className="text-sm text-muted-foreground">
-                {t("adminProductListings.edit.estimateHelp")}
-            </p>
-        </fieldset>
+        </>
     );
 }
 
-function MoneyFields({
+/** An amount and its currency in one field; the currency sits behind a hairline. */
+function MoneyField({
     form,
     amountName,
     currencyName,
-    amountLabel,
-    disabled,
+    label,
     amountError,
     currencyError,
 }: {
-    readonly form: UseFormReturn<AdminProductListingFormValues>;
+    readonly form: ListingForm;
     readonly amountName: "priceAmount" | "estimateMinAmount" | "estimateMaxAmount";
     readonly currencyName: "priceCurrency" | "estimateMinCurrency" | "estimateMaxCurrency";
-    readonly amountLabel: string;
-    readonly disabled: boolean;
+    readonly label: string;
     readonly amountError?: string;
     readonly currencyError?: string;
 }) {
@@ -489,93 +536,124 @@ function MoneyFields({
     const currency = useController({ control: form.control, name: currencyName }).field;
     const amountId = `admin-product-listing-${amountName}`;
     const currencyId = `admin-product-listing-${currencyName}`;
+    const invalid = Boolean(amountError || currencyError);
 
     return (
-        <>
-            <div className="grid content-start gap-2">
-                <Label htmlFor={amountId}>{amountLabel}</Label>
-                <Input
+        <div className="flex min-w-0 flex-col gap-2">
+            <label
+                htmlFor={amountId}
+                className={FIELD_LABEL_CLASS}
+                data-error={invalid ? "true" : undefined}
+            >
+                {label}
+            </label>
+            <div
+                className={cn(
+                    "grid grid-cols-[minmax(0,1fr)_84px] rounded-md bg-surface-raised shadow-field",
+                    invalid && "shadow-[inset_0_0_0_1.5px_var(--oxblood)]",
+                )}
+            >
+                <input
                     id={amountId}
                     inputMode="decimal"
                     autoComplete="off"
-                    disabled={disabled}
+                    placeholder="0.00"
                     aria-invalid={amountError ? true : undefined}
+                    aria-describedby={amountError ? `${amountId}-error` : undefined}
+                    className={cn(
+                        "h-11 min-w-0 rounded-l-md border-0 bg-transparent px-3 text-[15px] text-ink tabular-nums placeholder:text-ink-placeholder disabled:cursor-not-allowed",
+                        FOCUS_CLASS,
+                    )}
                     {...form.register(amountName)}
                 />
-                <FormFieldError message={amountError} />
-            </div>
-            <div className="grid content-start gap-2">
-                <Label htmlFor={currencyId}>{t("adminProductListings.fields.currency")}</Label>
-                <Select
-                    value={currency.value || "unset"}
-                    onValueChange={(value) => currency.onChange(value === "unset" ? "" : value)}
-                    disabled={disabled}
+                <select
+                    id={currencyId}
+                    value={currency.value}
+                    onChange={(event) => currency.onChange(event.target.value)}
+                    onBlur={currency.onBlur}
+                    aria-label={t("adminProductListings.edit.currencyOf", { field: label })}
+                    aria-invalid={currencyError ? true : undefined}
+                    aria-describedby={currencyError ? `${currencyId}-error` : undefined}
+                    className={cn(
+                        "h-11 min-w-0 cursor-pointer rounded-r-md border-0 bg-transparent px-2 font-mono text-xs text-ink shadow-[inset_1px_0_0_var(--line)] disabled:cursor-not-allowed",
+                        FOCUS_CLASS,
+                    )}
                 >
-                    <SelectTrigger id={currencyId} aria-invalid={currencyError ? true : undefined}>
-                        <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="unset">
-                            {t("adminProductListings.fields.chooseCurrency")}
-                        </SelectItem>
-                        {CURRENCIES.map((code) => (
-                            <SelectItem key={code} value={code}>
-                                {code}
-                            </SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
-                <FormFieldError message={currencyError} />
+                    <option value="">{t("adminCommon.none")}</option>
+                    {CURRENCIES.map((code) => (
+                        <option key={code} value={code}>
+                            {code}
+                        </option>
+                    ))}
+                </select>
             </div>
-        </>
+            <FormFieldError id={`${amountId}-error`} message={amountError} />
+            <FormFieldError id={`${currencyId}-error`} message={currencyError} />
+        </div>
     );
 }
 
-function AvailabilityField({
+function AvailabilityFields({
     form,
     disabled,
     unrecognized,
 }: {
-    readonly form: UseFormReturn<AdminProductListingFormValues>;
+    readonly form: ListingForm;
     readonly disabled: boolean;
     readonly unrecognized: boolean;
 }) {
     const { t } = useTranslation();
     const availability = useController({ control: form.control, name: "availability" }).field;
+    const errors = form.formState.errors;
 
     return (
-        <div className="grid content-start gap-2">
-            <Label htmlFor="admin-product-listing-availability">
-                {t("adminProductListings.fields.availability")}
-            </Label>
-            <Select
-                value={availability.value || "unset"}
-                onValueChange={(value) => availability.onChange(value === "unset" ? "" : value)}
-                disabled={disabled}
+        <div className="grid gap-3.5 sm:grid-cols-[220px_minmax(0,1fr)]">
+            <FormField
+                id="admin-product-listing-availability"
+                label={t("adminProductListings.fields.availability")}
+                error={errors.availability?.message}
             >
-                <SelectTrigger id="admin-product-listing-availability">
-                    <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectItem value="unset">
-                        {t("adminProductListings.fields.notAsserted")}
-                    </SelectItem>
-                    {unrecognized && (
-                        <SelectItem value="UNKNOWN" disabled>
-                            {t("adminProductListings.fields.unrecognized")}
-                        </SelectItem>
-                    )}
-                    {LISTING_AVAILABILITIES.map((value) => (
-                        <SelectItem key={value} value={value}>
-                            {t(LISTING_AVAILABILITY_TRANSLATION_KEYS[value])}
-                        </SelectItem>
-                    ))}
-                </SelectContent>
-            </Select>
-            <p className="text-xs text-muted-foreground">
-                {t("adminProductListings.edit.availabilityHelp")}
-            </p>
-            <FormFieldError message={form.formState.errors.availability?.message} />
+                <AdminSelect
+                    id="admin-product-listing-availability"
+                    raised
+                    value={availability.value}
+                    onChange={availability.onChange}
+                    disabled={disabled}
+                    invalid={Boolean(errors.availability)}
+                    options={[
+                        { value: "", label: t("adminProductListings.fields.notAsserted") },
+                        ...(unrecognized
+                            ? [
+                                  {
+                                      value: "UNKNOWN",
+                                      label: t("adminProductListings.fields.unrecognized"),
+                                  },
+                              ]
+                            : []),
+                        ...LISTING_AVAILABILITIES.map((value) => ({
+                            value,
+                            label: t(LISTING_AVAILABILITY_TRANSLATION_KEYS[value]),
+                        })),
+                    ]}
+                />
+            </FormField>
+            <FormField
+                id="admin-product-listing-url"
+                label={t("adminProductListings.fields.url")}
+                error={errors.url?.message}
+            >
+                <input
+                    id="admin-product-listing-url"
+                    type="url"
+                    inputMode="url"
+                    autoComplete="off"
+                    spellCheck={false}
+                    aria-invalid={errors.url ? true : undefined}
+                    aria-describedby={errors.url ? "admin-product-listing-url-error" : undefined}
+                    className={cn(ADMIN_RAISED_FIELD_CLASS, "text-sm")}
+                    {...form.register("url")}
+                />
+            </FormField>
         </div>
     );
 }

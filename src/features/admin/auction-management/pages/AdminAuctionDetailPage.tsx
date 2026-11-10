@@ -1,20 +1,34 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Link } from "@tanstack/react-router";
+import { Gavel, Lock } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Link } from "@tanstack/react-router";
-import { H1 } from "@/components/typography/H1.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import { Skeleton } from "@/components/ui/skeleton.tsx";
-import { formatDateTime } from "@/lib/utils.ts";
+import { toast } from "sonner";
+import { AdminFacts } from "@/features/admin/common/components/AdminFacts.tsx";
+import {
+    AdminBackLink,
+    AdminRecordHeader,
+} from "@/features/admin/common/components/AdminPageHeader.tsx";
+import { AdminStatePanel } from "@/features/admin/common/components/AdminStatePanel.tsx";
+import {
+    ADMIN_LEGEND_CLASS,
+    ADMIN_SKELETON_CLASS,
+    PRIMARY_PILL_CLASS,
+    SECONDARY_PILL_CLASS,
+    SMALL_SECONDARY_PILL_CLASS,
+} from "@/features/admin/common/lib/adminStyles.ts";
+import type { AdminAuction } from "@/data/internal/auction/AdminAuction.ts";
+import { cn, formatDateTime } from "@/lib/utils.ts";
 import {
     AdminAuctionRequestError,
+    type AuctionUpdateValues,
     mapAdminAuctionFormValues,
     useAdminAuction,
     useUpdateAdminAuction,
-    type AuctionUpdateValues,
 } from "../api/useAdminAuctions.ts";
 import { AuctionMetadataFields } from "../components/AuctionMetadataFields.tsx";
+import { AuctionFormActions, AuctionRequestAlert } from "../components/AuctionRecordParts.tsx";
 import { auctionMetadataSchema } from "../lib/auctionForm.ts";
 
 export function AdminAuctionDetailPage({
@@ -29,34 +43,62 @@ export function AdminAuctionDetailPage({
 
     if (auctionQuery.isPending) {
         return (
-            <main
-                className="mx-auto grid w-full max-w-4xl gap-6 px-4 py-10 sm:px-6"
-                aria-busy="true"
-            >
-                <Skeleton className="h-12 w-2/3" />
-                <Skeleton className="h-[34rem] w-full" />
-            </main>
+            <div aria-busy="true" className="flex max-w-[860px] flex-col gap-3.5 pt-2">
+                <span className={cn(ADMIN_SKELETON_CLASS, "h-3 w-1/4")} />
+                <span className={cn(ADMIN_SKELETON_CLASS, "h-11 w-2/3 rounded-sm")} />
+                <span className="grid grid-cols-3 gap-2.5">
+                    {Array.from({ length: 6 }, (_, index) => (
+                        <span
+                            // biome-ignore lint/suspicious/noArrayIndexKey: static skeleton cells
+                            key={index}
+                            className={cn(ADMIN_SKELETON_CLASS, "h-10 rounded-sm")}
+                        />
+                    ))}
+                </span>
+                <span className={cn(ADMIN_SKELETON_CLASS, "h-44 rounded-panel")} />
+                <p role="status" className="text-meta text-ink-secondary">
+                    {t("adminAuctions.detail.loading")}
+                </p>
+            </div>
         );
     }
 
     if (auctionQuery.error || !auctionQuery.data) {
-        const isMissing =
-            auctionQuery.error instanceof AdminAuctionRequestError &&
-            auctionQuery.error.status === 404;
+        const status =
+            auctionQuery.error instanceof AdminAuctionRequestError
+                ? auctionQuery.error.status
+                : undefined;
+        const missing = status === 404 || status === 400;
+        const forbidden = status === 401 || status === 403;
         return (
-            <main className="mx-auto grid w-full max-w-4xl justify-items-start gap-4 px-4 py-10 sm:px-6">
-                <BackToAuctions language={language} />
-                <H1>
-                    {isMissing
-                        ? t("adminAuctions.errors.missing")
-                        : t("adminAuctions.errors.requestFailed")}
-                </H1>
-                <p role="alert" className="text-muted-foreground">
-                    {auctionQuery.error instanceof Error
-                        ? auctionQuery.error.message
-                        : t("adminAuctions.errors.requestFailed")}
-                </p>
-            </main>
+            <AdminStatePanel
+                tone={missing ? "empty" : "error"}
+                icon={missing ? Gavel : undefined}
+                title={
+                    missing
+                        ? t("adminAuctions.detail.notFound")
+                        : forbidden
+                          ? t("adminAuctions.errors.forbidden")
+                          : t("adminAuctions.detail.loadFailed")
+                }
+            >
+                <Link
+                    to="/$lng/admin/auctions"
+                    params={{ lng: language }}
+                    className={PRIMARY_PILL_CLASS}
+                >
+                    {t("adminAuctions.actions.allAuctions")}
+                </Link>
+                {!forbidden && (
+                    <button
+                        type="button"
+                        onClick={() => auctionQuery.refetch()}
+                        className={SECONDARY_PILL_CLASS}
+                    >
+                        {t("adminCommon.retry")}
+                    </button>
+                )}
+            </AdminStatePanel>
         );
     }
 
@@ -74,22 +116,20 @@ function AdminAuctionUpdateForm({
     language,
     onRefetch,
 }: {
-    readonly auction: NonNullable<ReturnType<typeof useAdminAuction>["data"]>;
+    readonly auction: AdminAuction;
     readonly language: string;
     readonly onRefetch: ReturnType<typeof useAdminAuction>["refetch"];
 }) {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const [expectedVersion, setExpectedVersion] = useState(auction.expectedVersion);
     const form = useForm<AuctionUpdateValues, undefined, AuctionUpdateValues>({
         resolver: zodResolver(auctionMetadataSchema),
         defaultValues: mapAdminAuctionFormValues(auction, language),
     });
     const updateAuction = useUpdateAdminAuction(auction.auctionId);
-    const staleError =
+    const stale =
         updateAuction.error instanceof AdminAuctionRequestError &&
-        updateAuction.error.status === 409
-            ? updateAuction.error
-            : undefined;
+        updateAuction.error.status === 409;
 
     const reloadLatest = async () => {
         const result = await onRefetch();
@@ -99,105 +139,124 @@ function AdminAuctionUpdateForm({
         updateAuction.reset();
     };
 
+    const submit = form.handleSubmit(async (values) => {
+        try {
+            const updated = await updateAuction.mutateAsync({ values, expectedVersion });
+            form.reset(mapAdminAuctionFormValues(updated, language));
+            setExpectedVersion(updated.expectedVersion);
+            toast.success(t("adminAuctions.toasts.saved"));
+        } catch {
+            // The mutation exposes a localized, status-based error below.
+        }
+    });
+
     return (
-        <main className="mx-auto grid w-full max-w-4xl gap-8 px-4 py-10 sm:px-6">
-            <header className="grid gap-2">
-                <BackToAuctions language={language} />
-                <H1>{t("adminAuctions.detail.title")}</H1>
-                <p className="max-w-3xl text-muted-foreground">
-                    {t("adminAuctions.detail.description")}
-                </p>
-            </header>
-            <dl className="grid gap-x-6 gap-y-3 border bg-surface-container-low p-5 text-sm sm:grid-cols-2">
-                <ReadOnlyFact
-                    label={t("adminAuctions.fields.auctionId")}
-                    value={auction.auctionId}
-                />
-                <ReadOnlyFact
-                    label={t("adminAuctions.fields.listingSourceId")}
-                    value={auction.listingSourceId}
-                />
-                <ReadOnlyFact
-                    label={t("adminAuctions.fields.sourceAuctionId")}
-                    value={auction.sourceAuctionId}
-                />
-                <ReadOnlyFact
-                    label={t("adminAuctions.fields.created")}
-                    value={`${formatDateTime(auction.created, i18n.language, "UTC")} UTC`}
-                />
-                <ReadOnlyFact
-                    label={t("adminAuctions.fields.updated")}
-                    value={`${formatDateTime(auction.updated, i18n.language, "UTC")} UTC`}
-                />
-            </dl>
-            <form
-                className="grid gap-6 border bg-card p-5 sm:p-7"
-                onSubmit={form.handleSubmit(async (values) => {
-                    try {
-                        const updated = await updateAuction.mutateAsync({
-                            values,
-                            expectedVersion,
-                        });
-                        form.reset(mapAdminAuctionFormValues(updated, language));
-                        setExpectedVersion(updated.expectedVersion);
-                    } catch {
-                        // The mutation exposes a localized, status-based error below.
-                    }
-                })}
-            >
+        <div className="flex max-w-[860px] flex-col">
+            <AdminRecordHeader
+                back={
+                    <AdminBackLink to="/$lng/admin/auctions" params={{ lng: language }}>
+                        {t("adminAuctions.actions.allAuctions")}
+                    </AdminBackLink>
+                }
+                eyebrow={t("adminAuctions.detail.eyebrow")}
+                title={
+                    auction.name ? (
+                        <span lang={auction.name.language}>{auction.name.text}</span>
+                    ) : (
+                        <span className="text-ink-muted italic">
+                            {t("adminAuctions.list.noName")}
+                        </span>
+                    )
+                }
+            />
+            <form noValidate onSubmit={submit} className="flex flex-col gap-7">
+                <AuctionIdentity auction={auction} />
                 <AuctionMetadataFields form={form} />
-                <p className="text-sm text-muted-foreground">
-                    {t("adminAuctions.detail.blankFieldsHelp")}
-                </p>
-                {staleError ? (
-                    <div className="grid justify-items-start gap-3 border border-destructive/50 p-4">
-                        <p role="alert" className="text-sm text-destructive">
-                            {staleError.message}
+                {stale ? (
+                    <div
+                        role="alert"
+                        className="flex flex-col gap-3 rounded-md bg-surface-raised p-4 shadow-[inset_0_0_0_1.5px_var(--oxblood)]"
+                    >
+                        <p className="text-sm leading-normal">
+                            {t("adminAuctions.errors.changedElsewhere")}
                         </p>
-                        <p className="text-sm text-muted-foreground">
-                            {t("adminAuctions.errors.staleVersionHelp")}
-                        </p>
-                        <Button type="button" variant="outline" onClick={() => void reloadLatest()}>
+                        <button
+                            type="button"
+                            onClick={() => void reloadLatest()}
+                            className={cn(SMALL_SECONDARY_PILL_CLASS, "self-start")}
+                        >
                             {t("adminAuctions.actions.loadLatest")}
-                        </Button>
+                        </button>
                     </div>
-                ) : updateAuction.error ? (
-                    <p role="alert" className="text-sm text-destructive">
-                        {updateAuction.error instanceof Error
-                            ? updateAuction.error.message
-                            : t("adminAuctions.errors.requestFailed")}
-                    </p>
-                ) : null}
-                <div className="flex flex-wrap justify-end gap-2">
-                    <Button type="submit" disabled={updateAuction.isPending}>
-                        {updateAuction.isPending
-                            ? t("adminAuctions.actions.saving")
-                            : t("adminAuctions.actions.save")}
-                    </Button>
-                </div>
+                ) : (
+                    updateAuction.error && <AuctionRequestAlert error={updateAuction.error} />
+                )}
+                <AuctionFormActions
+                    language={language}
+                    pending={updateAuction.isPending}
+                    label={t("adminCommon.save")}
+                    pendingLabel={t("adminCommon.saving")}
+                />
             </form>
-        </main>
-    );
-}
-
-function BackToAuctions({ language }: { readonly language: string }) {
-    const { t } = useTranslation();
-    return (
-        <Link
-            to="/$lng/admin/auctions"
-            params={{ lng: language }}
-            className="w-fit text-sm text-primary underline-offset-4 hover:underline"
-        >
-            {t("adminAuctions.actions.backToOverview")}
-        </Link>
-    );
-}
-
-function ReadOnlyFact({ label, value }: { readonly label: string; readonly value: string }) {
-    return (
-        <div className="grid min-w-0 gap-1">
-            <dt className="text-xs uppercase tracking-[0.08em] text-muted-foreground">{label}</dt>
-            <dd className="break-all font-mono text-xs">{value}</dd>
         </div>
+    );
+}
+
+/** 01 Identity: the source and IDs fixed at creation, with the record's timestamps and version. */
+function AuctionIdentity({ auction }: { readonly auction: AdminAuction }) {
+    const { t, i18n } = useTranslation();
+    const utc = (value: Date) => `${formatDateTime(value, i18n.language, "UTC")} UTC`;
+    return (
+        <section aria-labelledby="auction-identity-title" className="flex flex-col gap-3.5">
+            <h2
+                id="auction-identity-title"
+                className={cn(ADMIN_LEGEND_CLASS, "mb-0 flex items-center justify-between gap-3")}
+            >
+                {`01 · ${t("adminAuctions.sections.identity")}`}
+                <span className="inline-flex items-center gap-1.5">
+                    <Lock aria-hidden="true" className="size-3" strokeWidth={1.9} />
+                    {t("adminAuctions.detail.fixed")}
+                </span>
+            </h2>
+            <AdminFacts
+                columns={3}
+                facts={[
+                    {
+                        key: "auctionId",
+                        label: t("adminAuctions.fields.auctionId"),
+                        value: auction.auctionId,
+                        mono: true,
+                    },
+                    {
+                        key: "listingSourceId",
+                        label: t("adminAuctions.fields.sourceId"),
+                        value: auction.listingSourceId,
+                        mono: true,
+                    },
+                    {
+                        key: "sourceAuctionId",
+                        label: t("adminAuctions.fields.sourceAuctionId"),
+                        value: auction.sourceAuctionId,
+                        mono: true,
+                    },
+                    {
+                        key: "created",
+                        label: t("adminAuctions.fields.created"),
+                        value: utc(auction.created),
+                    },
+                    {
+                        key: "updated",
+                        label: t("adminAuctions.fields.updated"),
+                        value: utc(auction.updated),
+                    },
+                    {
+                        key: "version",
+                        label: t("adminAuctions.fields.version"),
+                        value: auction.expectedVersion,
+                        mono: true,
+                    },
+                ]}
+            />
+        </section>
     );
 }

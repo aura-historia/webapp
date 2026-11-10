@@ -192,7 +192,7 @@ describe("admin partnership application API", () => {
 
     const conflict = {
         status: 409,
-        message: testI18n.t("adminApplications.errors.conflict"),
+        message: testI18n.t("adminApplications.errors.conflictReloaded"),
     };
 
     it("reports review conflicts and refetches authoritative state", async () => {

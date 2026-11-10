@@ -58,14 +58,24 @@ describe("AdminOverviewPage", () => {
 
         expect(within(summaryTile("adminOverview.users.title")).getByText("12")).toBeTruthy();
         expect(
-            within(summaryTile("adminOverview.applications.title")).getByText(
-                `${t("adminOverview.summary.awaitingReview")}: 3`,
+            within(summaryTile("adminOverview.users.title")).getByText(
+                t("adminOverview.totals.administrators", { count: 1, value: "1" }),
+            ),
+        ).toBeTruthy();
+        expect(
+            within(summaryTile("adminOverview.applications.label")).getByText(
+                t("adminOverview.totals.awaitingReview", { count: 3, value: "3" }),
             ),
         ).toBeTruthy();
         expect(within(summaryTile("adminOverview.parties.title")).getByText("0")).toBeTruthy();
         expect(within(summaryTile("adminOverview.partnerships.title")).getByText("2")).toBeTruthy();
         expect(
             within(summaryTile("adminOverview.productListings.title")).getByText("40"),
+        ).toBeTruthy();
+        expect(
+            within(summaryTile("adminOverview.productListings.title")).getByText(
+                t("adminOverview.totals.active", { count: 30, value: "30" }),
+            ),
         ).toBeTruthy();
     });
 
@@ -76,7 +86,7 @@ describe("AdminOverviewPage", () => {
         expect(countFor(users, "adminOverview.users.tiers.free")).toBe("9");
         expect(countFor(users, "adminOverview.users.roles.admin")).toBe("1");
 
-        const applications = card("adminOverview.applications.title");
+        const applications = card("adminOverview.applications.label");
         expect(countFor(applications, "adminOverview.applications.states.inReview")).toBe("1");
         expect(countFor(applications, "adminOverview.applications.states.rejected")).toBe("0");
 
@@ -86,6 +96,23 @@ describe("AdminOverviewPage", () => {
         expect(countFor(listings, "adminOverview.productListings.activeWithoutAvailability")).toBe(
             "2",
         );
+    });
+
+    it("calls out applications awaiting review with a link to review them", () => {
+        renderLoaded();
+
+        const applications = card("adminOverview.applications.label");
+        expect(applications).toHaveTextContent(
+            t("adminOverview.applications.awaitingReview", { count: 3, value: "3" }).replace(
+                /<\/?strong>/g,
+                "",
+            ),
+        );
+        expect(
+            within(applications)
+                .getByRole("link", { name: t("adminOverview.applications.review") })
+                .getAttribute("href"),
+        ).toBe("/de/admin/partnership-applications");
     });
 
     it("shows overlapping method assignments without summing them into a source total", () => {
@@ -101,35 +128,27 @@ describe("AdminOverviewPage", () => {
         expect(countFor(sources, "adminOverview.listingSources.methods.partnerApi")).toBe("1");
         expect(countFor(sources, "adminOverview.listingSources.withoutIngestionMethod")).toBe("1");
         expect(
-            within(sources).getByText(t("adminOverview.listingSources.methodAssignmentsNote")),
+            within(sources).getByText(t("adminOverview.listingSources.overlapNote")),
         ).toBeTruthy();
     });
 
-    it("links totals and panels to their migrated admin routes", () => {
+    it("links every total to its admin section, and no panel carries a section link", () => {
         renderLoaded();
 
         const tiles: [string, string][] = [
             ["adminOverview.users.title", "/de/admin/users"],
-            ["adminOverview.applications.title", "/de/admin/partnership-applications"],
+            ["adminOverview.applications.label", "/de/admin/partnership-applications"],
             ["adminOverview.partnerships.title", "/de/admin/partnerships"],
             ["adminOverview.parties.title", "/de/admin/parties"],
             ["adminOverview.listingSources.title", "/de/admin/listing-sources"],
+            ["adminOverview.productListings.title", "/de/admin/product-listings"],
         ];
         for (const [key, href] of tiles) {
             expect(within(summaryTile(key)).getByRole("link").getAttribute("href")).toBe(href);
         }
-        expect(
-            within(summaryTile("adminOverview.productListings.title")).queryByRole("link"),
-        ).toBeNull();
-
-        const panels: [string, string][] = [
-            ["adminOverview.users.link", "/de/admin/users"],
-            ["adminOverview.applications.link", "/de/admin/partnership-applications"],
-            ["adminOverview.listingSources.link", "/de/admin/listing-sources"],
-        ];
-        for (const [key, href] of panels) {
-            expect(screen.getByRole("link", { name: t(key) }).getAttribute("href")).toBe(href);
-        }
+        expect(within(card("adminOverview.users.title")).queryByRole("link")).toBeNull();
+        expect(within(card("adminOverview.listingSources.title")).queryByRole("link")).toBeNull();
+        expect(within(card("adminOverview.productListings.title")).queryByRole("link")).toBeNull();
     });
 
     it("shows a loading state without placeholder counts", () => {
@@ -139,7 +158,7 @@ describe("AdminOverviewPage", () => {
 
         expect(screen.getByText(t("adminOverview.loading"))).toBeTruthy();
         expect(screen.queryByText("0")).toBeNull();
-        expect(screen.queryByRole("region")).toBeNull();
+        expect(screen.queryByRole("list", { name: t("adminOverview.summary.label") })).toBeNull();
     });
 
     it("shows an error with retry instead of zero counts when unavailable", async () => {
@@ -153,15 +172,11 @@ describe("AdminOverviewPage", () => {
 
         render(<AdminOverviewPage language="de" />);
 
-        expect(screen.getByRole("alert").textContent).toContain(
-            t("adminOverview.errors.unavailable"),
-        );
+        expect(screen.getByRole("alert")).toHaveTextContent(t("adminOverview.unavailable"));
         expect(screen.queryByText("0")).toBeNull();
         // Service status does not depend on the counters loading.
         expect(screen.getByTestId("service-status-panel")).toBeTruthy();
-        await userEvent.click(
-            screen.getByRole("button", { name: t("adminOverview.actions.retry") }),
-        );
+        await userEvent.click(screen.getByRole("button", { name: t("adminCommon.retry") }));
         expect(refetch).toHaveBeenCalledTimes(1);
     });
 
@@ -174,7 +189,7 @@ describe("AdminOverviewPage", () => {
 
         render(<AdminOverviewPage language="de" />);
 
-        expect(screen.getByRole("alert").textContent).toBe(t("adminOverview.errors.stale"));
+        expect(screen.getByRole("alert")).toHaveTextContent(t("adminOverview.errors.outOfDate"));
         expect(within(summaryTile("adminOverview.users.title")).getByText("12")).toBeTruthy();
     });
 });

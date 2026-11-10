@@ -1,31 +1,37 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft } from "lucide-react";
+import { Building2 } from "lucide-react";
 import { type ReactNode, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { H1 } from "@/components/typography/H1.tsx";
-import {
-    AlertDialog,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-} from "@/components/ui/alert-dialog.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import { Skeleton } from "@/components/ui/skeleton.tsx";
 import type { Party } from "@/data/internal/party/Party.ts";
+import { AdminFacts } from "@/features/admin/common/components/AdminFacts.tsx";
+import {
+    AdminBackLink,
+    AdminRecordHeader,
+} from "@/features/admin/common/components/AdminPageHeader.tsx";
+import { AdminStatePanel } from "@/features/admin/common/components/AdminStatePanel.tsx";
+import {
+    ADMIN_DANGER_OUTLINE_CLASS,
+    ADMIN_SKELETON_CLASS,
+    PRIMARY_PILL_CLASS,
+    SECONDARY_PILL_CLASS,
+} from "@/features/admin/common/lib/adminStyles.ts";
 import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth.ts";
 import { PartyLocationWorkspace } from "@/features/party-locations/components/PartyLocationWorkspace.tsx";
-import { formatDateTime } from "@/lib/utils.ts";
-import { useAdminParty, useDeleteAdminParty } from "../api/useAdminParties.ts";
+import { cn } from "@/lib/utils.ts";
+import {
+    AdminPartyRequestError,
+    useAdminParty,
+    useDeleteAdminParty,
+} from "../api/useAdminParties.ts";
+import { AdminConfirmDialog } from "../components/AdminConfirmDialog.tsx";
 import { AdminPartyFormDialog } from "../components/AdminPartyFormDialog.tsx";
 import { AdminPartyLocationAccessSection } from "../components/AdminPartyLocationAccessSection.tsx";
+import { formatAdminTimestamp } from "../lib/adminDates.ts";
 
 /**
- * One organization with its identity, contact details, business locations and explicit
- * location-management access on one page.
+ * One organization (board "Admin · Organization"): identity and contact facts with edit and
+ * delete, every business location, and explicit location-management access.
  */
 export function AdminPartyDetailPage({
     partyId,
@@ -38,53 +44,92 @@ export function AdminPartyDetailPage({
     const { user } = useResolvedAuth();
     const partyQuery = useAdminParty(partyId);
     const party = partyQuery.data;
+    const back = (
+        <AdminBackLink to="/$lng/admin/parties" params={{ lng: language }}>
+            {t("adminParties.page.allOrganizations")}
+        </AdminBackLink>
+    );
 
-    let header: ReactNode;
-    if (party) {
-        header = <PartyHeader party={party} language={language} />;
-    } else if (partyQuery.error) {
-        header = (
-            <div role="alert" className="grid justify-items-start gap-3">
-                <H1>{t("adminParties.detail.title")}</H1>
-                <p className="text-muted-foreground">{partyQuery.error.message}</p>
-                <Button type="button" variant="outline" onClick={() => partyQuery.refetch()}>
-                    {t("adminParties.actions.retry")}
-                </Button>
-            </div>
-        );
-    } else {
-        header = (
-            <div className="grid gap-4" aria-busy="true">
-                <output className="sr-only">{t("adminParties.loadingDetail")}</output>
-                <Skeleton className="h-10 w-2/3" />
-                <Skeleton className="h-32 w-full" />
+    if (!party && partyQuery.error) {
+        const status =
+            partyQuery.error instanceof AdminPartyRequestError ? partyQuery.error.status : 500;
+        const accessLost = status === 401 || status === 403;
+        return (
+            <div className="flex flex-col gap-5">
+                {back}
+                <AdminStatePanel
+                    tone={status === 404 ? "empty" : "error"}
+                    icon={status === 404 ? Building2 : undefined}
+                    title={
+                        status === 404
+                            ? t("adminParties.detail.notFound")
+                            : partyQuery.error.message
+                    }
+                >
+                    <Link
+                        to="/$lng/admin/parties"
+                        params={{ lng: language }}
+                        className={PRIMARY_PILL_CLASS}
+                    >
+                        {t("adminParties.page.allOrganizations")}
+                    </Link>
+                    {!accessLost && (
+                        <button
+                            type="button"
+                            onClick={() => partyQuery.refetch()}
+                            className={SECONDARY_PILL_CLASS}
+                        >
+                            {t("adminCommon.retry")}
+                        </button>
+                    )}
+                </AdminStatePanel>
             </div>
         );
     }
 
     return (
-        <div className="mx-auto grid w-full max-w-6xl gap-8 px-4 py-8 sm:px-6">
-            <Link
-                to="/$lng/admin/parties"
-                params={{ lng: language }}
-                className="inline-flex w-fit items-center gap-2 text-sm text-primary underline-offset-4 hover:underline"
-            >
-                <ArrowLeft className="size-4" aria-hidden />
-                {t("adminParties.page.back")}
-            </Link>
-            {header}
-            {!partyQuery.error &&
-                (user ? (
+        <div className="flex flex-col">
+            {party ? (
+                <PartyHeader party={party} language={language} back={back} />
+            ) : (
+                <div aria-busy="true" className="mb-10 flex flex-col gap-3.5 sm:mb-14">
+                    {back}
+                    <span className={cn(ADMIN_SKELETON_CLASS, "mt-3 h-3 w-1/4")} />
+                    <span className={cn(ADMIN_SKELETON_CLASS, "h-11 w-2/3 rounded-sm")} />
+                    <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
+                        {[0, 1, 2, 3, 4, 5].map((index) => (
+                            <span
+                                key={index}
+                                className={cn(ADMIN_SKELETON_CLASS, "h-10 rounded-sm")}
+                            />
+                        ))}
+                    </div>
+                    <p role="status" className="text-meta text-ink-secondary">
+                        {t("adminParties.loadingDetail")}
+                    </p>
+                </div>
+            )}
+            <div className="flex flex-col gap-10 sm:gap-14">
+                {user ? (
                     <PartyLocationWorkspace scope={{ viewerCacheKey: user.userId, partyId }} />
                 ) : (
-                    <Skeleton className="h-48 w-full" />
-                ))}
-            {party && <AdminPartyLocationAccessSection party={party} />}
+                    <span className={cn(ADMIN_SKELETON_CLASS, "h-48 w-full rounded-panel")} />
+                )}
+                {party && <AdminPartyLocationAccessSection party={party} />}
+            </div>
         </div>
     );
 }
 
-function PartyHeader({ party, language }: { readonly party: Party; readonly language: string }) {
+function PartyHeader({
+    party,
+    language,
+    back,
+}: {
+    readonly party: Party;
+    readonly language: string;
+    readonly back: ReactNode;
+}) {
     const { t, i18n } = useTranslation();
     const navigate = useNavigate();
     const [editing, setEditing] = useState(false);
@@ -92,84 +137,88 @@ function PartyHeader({ party, language }: { readonly party: Party; readonly lang
     const [edited, setEdited] = useState(party);
     const [confirmingDelete, setConfirmingDelete] = useState(false);
     const deleteParty = useDeleteAdminParty();
+    const notProvided = t("adminParties.fields.notProvided");
 
     const remove = () =>
         deleteParty.mutate(party.partyId, {
             onSuccess: () => {
+                setConfirmingDelete(false);
                 toast.success(t("adminParties.success.deleted"));
                 void navigate({ to: "/$lng/admin/parties", params: { lng: language } });
             },
-            onSettled: () => setConfirmingDelete(false),
         });
 
     return (
         <>
-            <header className="flex flex-wrap items-start justify-between gap-4">
-                <H1 className="min-w-0 break-words">{party.name}</H1>
-                <div className="flex flex-wrap gap-2">
-                    <Button
-                        type="button"
-                        onClick={() => {
-                            setEdited(party);
-                            setEditing(true);
-                        }}
-                    >
-                        {t("adminParties.actions.edit")}
-                    </Button>
-                    <Button
-                        type="button"
-                        variant="outline"
-                        onClick={() => {
-                            deleteParty.reset();
-                            setConfirmingDelete(true);
-                        }}
-                    >
-                        {t("adminParties.actions.delete")}
-                    </Button>
-                </div>
-            </header>
-            {deleteParty.error && (
-                <p role="alert" className="text-sm text-destructive">
-                    {deleteParty.error.message}
-                </p>
-            )}
-
-            <section className="grid gap-4" aria-labelledby="admin-party-details-title">
-                <div className="grid gap-1">
-                    <h2 id="admin-party-details-title" className="text-xl font-medium">
-                        {t("adminParties.detail.title")}
-                    </h2>
-                    <p className="text-sm text-muted-foreground">
-                        {t("adminParties.detail.description")}
-                    </p>
-                </div>
-                <dl className="grid gap-4 border bg-card p-4 sm:grid-cols-2 sm:p-5 lg:grid-cols-3">
-                    <DetailRow label={t("adminParties.fields.phone")}>
-                        {party.contact.phone ?? t("adminParties.fields.notProvided")}
-                    </DetailRow>
-                    <DetailRow label={t("adminParties.fields.email")}>
-                        <span className="break-all">
-                            {party.contact.email ?? t("adminParties.fields.notProvided")}
-                        </span>
-                    </DetailRow>
-                    <DetailRow label={t("adminParties.fields.partyId")}>
-                        <span className="break-all font-mono text-sm">{party.partyId}</span>
-                    </DetailRow>
-                    <DetailRow label={t("adminParties.fields.partySlugId")}>
-                        <span className="break-all font-mono text-sm">{party.partySlugId}</span>
-                    </DetailRow>
-                    <DetailRow label={t("adminParties.fields.created")}>
-                        <time dateTime={party.created.toISOString()}>
-                            {formatDateTime(party.created, i18n.language, "UTC")}
-                        </time>
-                    </DetailRow>
-                    <DetailRow label={t("adminParties.fields.updated")}>
-                        <time dateTime={party.updated.toISOString()}>
-                            {formatDateTime(party.updated, i18n.language, "UTC")}
-                        </time>
-                    </DetailRow>
-                </dl>
-            </section>
+            <AdminRecordHeader
+                back={back}
+                eyebrow={t("adminParties.detail.eyebrow")}
+                title={party.name}
+                actions={
+                    <>
+                        <button
+                            type="button"
+                            onClick={() => {
+                                deleteParty.reset();
+                                setConfirmingDelete(true);
+                            }}
+                            className={ADMIN_DANGER_OUTLINE_CLASS}
+                        >
+                            {t("adminParties.actions.remove")}
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => {
+                                setEdited(party);
+                                setEditing(true);
+                            }}
+                            className={PRIMARY_PILL_CLASS}
+                        >
+                            {t("adminParties.actions.edit")}
+                        </button>
+                    </>
+                }
+            >
+                <AdminFacts
+                    columns={3}
+                    facts={[
+                        {
+                            key: "phone",
+                            label: t("adminParties.fields.phone"),
+                            value: party.contact.phone ?? notProvided,
+                            muted: !party.contact.phone,
+                        },
+                        {
+                            key: "email",
+                            label: t("adminParties.fields.email"),
+                            value: party.contact.email ?? notProvided,
+                            muted: !party.contact.email,
+                        },
+                        {
+                            key: "partyId",
+                            label: t("adminParties.fields.partyId"),
+                            value: party.partyId,
+                            mono: true,
+                        },
+                        {
+                            key: "slug",
+                            label: t("adminParties.fields.partySlugId"),
+                            value: party.partySlugId,
+                            mono: true,
+                        },
+                        {
+                            key: "created",
+                            label: t("adminParties.fields.created"),
+                            value: formatAdminTimestamp(party.created, i18n.language),
+                        },
+                        {
+                            key: "updated",
+                            label: t("adminParties.fields.updated"),
+                            value: formatAdminTimestamp(party.updated, i18n.language),
+                        },
+                    ]}
+                />
+            </AdminRecordHeader>
 
             <AdminPartyFormDialog
                 key={`${edited.partyId}:${edited.updated.toISOString()}`}
@@ -177,48 +226,16 @@ function PartyHeader({ party, language }: { readonly party: Party; readonly lang
                 open={editing}
                 onOpenChange={setEditing}
             />
-            <AlertDialog
+            <AdminConfirmDialog
                 open={confirmingDelete}
-                onOpenChange={(open) => {
-                    if (!open && !deleteParty.isPending) setConfirmingDelete(false);
-                }}
-            >
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>
-                            {t("adminParties.page.deleteTitle", { name: party.name })}
-                        </AlertDialogTitle>
-                        <AlertDialogDescription>
-                            {t("adminParties.actions.confirmDelete")}
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                        <AlertDialogCancel disabled={deleteParty.isPending}>
-                            {t("adminParties.actions.cancel")}
-                        </AlertDialogCancel>
-                        {/* A plain button keeps the dialog open until the request settles. */}
-                        <Button
-                            type="button"
-                            variant="destructive"
-                            disabled={deleteParty.isPending}
-                            onClick={remove}
-                        >
-                            {deleteParty.isPending
-                                ? t("adminParties.actions.deleting")
-                                : t("adminParties.actions.confirmDeleteButton")}
-                        </Button>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
+                onOpenChange={setConfirmingDelete}
+                title={t("adminParties.page.deleteTitle", { name: party.name })}
+                description={t("adminParties.actions.confirmDelete")}
+                confirmLabel={t("adminParties.actions.confirmDeleteButton")}
+                pending={deleteParty.isPending}
+                error={deleteParty.error?.message}
+                onConfirm={remove}
+            />
         </>
-    );
-}
-
-function DetailRow({ label, children }: { readonly label: string; readonly children: ReactNode }) {
-    return (
-        <div className="grid min-w-0 content-start gap-1">
-            <dt className="text-xs text-muted-foreground">{label}</dt>
-            <dd className="break-words">{children}</dd>
-        </div>
     );
 }

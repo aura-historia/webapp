@@ -1,29 +1,31 @@
 import { type ReactNode, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-    AlertDialog,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-} from "@/components/ui/alert-dialog.tsx";
-import { Badge } from "@/components/ui/badge.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import { Skeleton } from "@/components/ui/skeleton.tsx";
 import type { PartyLocationManager } from "@/data/internal/geography/PartyLocationManager.ts";
 import type { Party } from "@/data/internal/party/Party.ts";
+import {
+    ADMIN_DANGER_OUTLINE_CLASS,
+    ADMIN_PAGE_SECTION_TITLE_CLASS,
+    ADMIN_PANEL_CLASS,
+    ADMIN_ROW_ACTION_CLASS,
+    ADMIN_SKELETON_CLASS,
+    ADMIN_STRONG_TAG_CLASS,
+    ADMIN_TAG_CLASS,
+    PRIMARY_PILL_CLASS,
+    SMALL_SECONDARY_PILL_CLASS,
+} from "@/features/admin/common/lib/adminStyles.ts";
+import { AdminErrorLine } from "@/features/admin/partnership-management/components/AdminConflictNotice.tsx";
 import {
     type AdminUserIdentity,
     AdminUserPicker,
     adminUserDisplayName,
 } from "@/features/admin/user-management/components/AdminUserPicker.tsx";
+import { cn } from "@/lib/utils.ts";
 import {
     usePartyLocationManager,
     usePartyLocationManagers,
     useSetPartyLocationManagementGrant,
 } from "../api/usePartyLocationManagers.ts";
+import { AdminConfirmDialog } from "./AdminConfirmDialog.tsx";
 
 type GrantAction = {
     readonly user: AdminUserIdentity;
@@ -82,22 +84,16 @@ export function AdminPartyLocationAccessSection({ party }: { readonly party: Par
     const actionUserName = action ? adminUserDisplayName(action.user) : "";
 
     return (
-        <section className="grid gap-4" aria-labelledby="admin-party-location-access-title">
-            <div className="grid gap-1">
-                <h2 id="admin-party-location-access-title" className="text-xl font-medium">
-                    {t("adminParties.locationAccess.title")}
-                </h2>
-                <p className="text-sm text-muted-foreground">
-                    {t("adminParties.locationAccess.description", { name: party.name })}
-                </p>
-            </div>
-            {setGrant.error && !confirming && (
-                <p role="alert" className="text-sm text-destructive">
-                    {setGrant.error.message}
-                </p>
-            )}
+        <section
+            className="flex flex-col gap-4"
+            aria-labelledby="admin-party-location-access-title"
+        >
+            <h2 id="admin-party-location-access-title" className={ADMIN_PAGE_SECTION_TITLE_CLASS}>
+                {t("adminParties.locationAccess.heading")}
+            </h2>
+            {setGrant.error && !confirming && <AdminErrorLine message={setGrant.error.message} />}
             {result && (
-                <p role="status" className="text-sm">
+                <p role="status" className="text-sm text-ink-secondary">
                     {t(
                         result.granted
                             ? "adminParties.locationAccess.granted"
@@ -115,8 +111,10 @@ export function AdminPartyLocationAccessSection({ party }: { readonly party: Par
                 }
             />
 
-            <div className="grid gap-4 border bg-card p-4 sm:p-5">
-                <h3 className="font-medium">{t("adminParties.locationAccess.changeTitle")}</h3>
+            <div className={cn(ADMIN_PANEL_CLASS, "flex flex-col gap-4 p-5 sm:p-[22px]")}>
+                <h3 className="text-[15px] font-semibold">
+                    {t("adminParties.locationAccess.cardTitle")}
+                </h3>
                 <AdminUserPicker
                     key={pickerKey}
                     id="admin-party-location-access-user"
@@ -134,57 +132,35 @@ export function AdminPartyLocationAccessSection({ party }: { readonly party: Par
                 )}
             </div>
 
-            <AlertDialog
+            <AdminConfirmDialog
                 open={confirming}
-                onOpenChange={(open) => {
-                    if (!open && !setGrant.isPending) setConfirming(false);
-                }}
+                onOpenChange={setConfirming}
+                tone={grantRequested ? "primary" : "danger"}
+                title={t(
+                    grantRequested
+                        ? "adminParties.locationAccess.confirmGrantTitle"
+                        : "adminParties.locationAccess.confirmRevokeTitle",
+                )}
+                description={t(
+                    grantRequested
+                        ? "adminParties.locationAccess.confirmGrant"
+                        : "adminParties.locationAccess.confirmRevoke",
+                    { user: actionUserName, name: party.name },
+                )}
+                confirmLabel={t(
+                    grantRequested
+                        ? "adminParties.locationAccess.confirmGrantButton"
+                        : "adminParties.locationAccess.confirmRevokeButton",
+                )}
+                pending={setGrant.isPending}
+                onConfirm={submit}
             >
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>
-                            {t(
-                                grantRequested
-                                    ? "adminParties.locationAccess.confirmGrantTitle"
-                                    : "adminParties.locationAccess.confirmRevokeTitle",
-                            )}
-                        </AlertDialogTitle>
-                        <AlertDialogDescription>
-                            {t(
-                                grantRequested
-                                    ? "adminParties.locationAccess.confirmGrant"
-                                    : "adminParties.locationAccess.confirmRevoke",
-                                { user: actionUserName, name: party.name },
-                            )}
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    {action && (
-                        <p className="break-all font-mono text-xs text-muted-foreground">
-                            {action.user.userId}
-                        </p>
-                    )}
-                    <AlertDialogFooter>
-                        <AlertDialogCancel disabled={setGrant.isPending}>
-                            {t("adminParties.actions.cancel")}
-                        </AlertDialogCancel>
-                        {/* A plain button keeps the dialog open until the request settles. */}
-                        <Button
-                            type="button"
-                            variant={grantRequested ? "default" : "destructive"}
-                            disabled={setGrant.isPending}
-                            onClick={submit}
-                        >
-                            {setGrant.isPending
-                                ? t("adminParties.actions.saving")
-                                : t(
-                                      grantRequested
-                                          ? "adminParties.locationAccess.confirmGrantButton"
-                                          : "adminParties.locationAccess.confirmRevokeButton",
-                                  )}
-                        </Button>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
+                {action && (
+                    <p className="font-mono text-xs break-all text-ink-muted">
+                        {action.user.userId}
+                    </p>
+                )}
+            </AdminConfirmDialog>
         </section>
     );
 }
@@ -204,26 +180,38 @@ function PartyLocationManagerList({
 
     let content: ReactNode;
     if (managersQuery.isPending) {
-        content = <Skeleton className="h-24 w-full" />;
+        content = (
+            <div aria-busy="true" className="flex flex-col gap-2 border-t border-line pt-3.5">
+                <span className={cn(ADMIN_SKELETON_CLASS, "h-4 w-1/3")} />
+                <span className={cn(ADMIN_SKELETON_CLASS, "h-3 w-1/2")} />
+            </div>
+        );
     } else if (managersQuery.error) {
         content = (
-            <div role="alert" className="grid justify-items-start gap-2">
-                <p className="text-sm text-destructive">{managersQuery.error.message}</p>
-                <Button variant="outline" type="button" onClick={() => managersQuery.refetch()}>
-                    {t("adminParties.actions.retry")}
-                </Button>
+            <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line pt-3.5">
+                <AdminErrorLine message={managersQuery.error.message} className="text-sm" />
+                <button
+                    type="button"
+                    onClick={() => managersQuery.refetch()}
+                    className={SMALL_SECONDARY_PILL_CLASS}
+                >
+                    {t("adminCommon.retry")}
+                </button>
             </div>
         );
     } else if (managers.length === 0) {
         content = (
-            <p className="text-sm text-muted-foreground">
+            <p className="border-t border-line pt-3.5 text-sm text-ink-muted">
                 {t("adminParties.locationAccess.empty")}
             </p>
         );
     } else {
         content = (
             <>
-                <ul className="grid gap-2">
+                <ul
+                    aria-label={t("adminParties.locationAccess.heading")}
+                    className="border-t border-line"
+                >
                     {managers.map((manager) => (
                         <PartyLocationManagerItem
                             key={manager.userId}
@@ -234,33 +222,22 @@ function PartyLocationManagerList({
                     ))}
                 </ul>
                 {managersQuery.hasNextPage && (
-                    <Button
+                    <button
                         type="button"
-                        variant="outline"
-                        className="justify-self-center"
                         disabled={managersQuery.isFetchingNextPage}
                         onClick={() => managersQuery.fetchNextPage()}
+                        className={cn(SMALL_SECONDARY_PILL_CLASS, "self-center")}
                     >
                         {managersQuery.isFetchingNextPage
-                            ? t("adminParties.list.loadingMore")
+                            ? t("adminCommon.loading")
                             : t("adminParties.list.loadMore")}
-                    </Button>
+                    </button>
                 )}
             </>
         );
     }
 
-    return (
-        <div className="grid gap-3">
-            <div className="grid gap-1">
-                <h3 className="font-medium">{t("adminParties.locationAccess.managersTitle")}</h3>
-                <p className="text-sm text-muted-foreground">
-                    {t("adminParties.locationAccess.managersDescription")}
-                </p>
-            </div>
-            {content}
-        </div>
-    );
+    return <div className="flex flex-col gap-3">{content}</div>;
 }
 
 function PartyLocationManagerItem({
@@ -276,46 +253,39 @@ function PartyLocationManagerItem({
     const name = adminUserDisplayName(manager);
 
     return (
-        <li className="flex flex-wrap items-start justify-between gap-3 border bg-surface-container-low p-3">
-            <div className="grid min-w-0 gap-1">
-                <p className="break-words font-medium">{name}</p>
+        <li className="flex flex-wrap items-center justify-between gap-x-5 gap-y-3 border-b border-line-subtle py-3.5">
+            <div className="flex min-w-0 flex-col gap-1">
+                <p className="text-[15px] font-medium break-words">{name}</p>
                 {name !== manager.email && (
-                    <p className="break-all text-sm text-muted-foreground">{manager.email}</p>
+                    <p className="text-meta break-all text-ink-secondary">{manager.email}</p>
                 )}
-                <p className="break-all font-mono text-xs text-muted-foreground">
+                <code className="font-mono text-[11px] break-all text-ink-muted">
                     {manager.userId}
-                </p>
-                <div className="flex flex-wrap gap-1 pt-1">
-                    {manager.hasExplicitGrant && (
-                        <Badge variant="secondary">
-                            {t("adminParties.locationAccess.access.explicit")}
-                        </Badge>
-                    )}
-                    {manager.partnershipIds.length > 0 && (
-                        <Badge variant="outline">
-                            {t("adminParties.locationAccess.access.partnership")}
-                        </Badge>
-                    )}
-                </div>
+                </code>
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+                {manager.hasExplicitGrant && (
+                    <span className={ADMIN_STRONG_TAG_CLASS}>
+                        {t("adminParties.locationAccess.access.explicit")}
+                    </span>
+                )}
                 {manager.partnershipIds.length > 0 && (
-                    <p className="break-all text-xs text-muted-foreground">
-                        {t("adminParties.locationAccess.access.partnerships")}{" "}
-                        <span className="font-mono">{manager.partnershipIds.join(", ")}</span>
-                    </p>
+                    <span className={ADMIN_TAG_CLASS}>
+                        {t("adminParties.locationAccess.access.member")}
+                    </span>
+                )}
+                {manager.hasExplicitGrant && (
+                    <button
+                        type="button"
+                        disabled={disabled}
+                        aria-label={t("adminParties.locationAccess.revokeFor", { user: name })}
+                        onClick={onRevoke}
+                        className={ADMIN_ROW_ACTION_CLASS}
+                    >
+                        {t("adminParties.locationAccess.confirmRevokeButton")}
+                    </button>
                 )}
             </div>
-            {manager.hasExplicitGrant && (
-                <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    disabled={disabled}
-                    aria-label={t("adminParties.locationAccess.revokeFor", { user: name })}
-                    onClick={onRevoke}
-                >
-                    {t("adminParties.locationAccess.confirmRevokeButton")}
-                </Button>
-            )}
         </li>
     );
 }
@@ -334,22 +304,25 @@ function SelectedUserAccess({
 }) {
     const { t } = useTranslation();
     const accessQuery = usePartyLocationManager(partyId, user.userId);
-    const userName = adminUserDisplayName(user);
 
     if (accessQuery.isPending) {
         return (
-            <p role="status" className="text-sm text-muted-foreground">
+            <p role="status" className="text-sm text-ink-secondary">
                 {t("adminParties.locationAccess.state.checking")}
             </p>
         );
     }
     if (accessQuery.error) {
         return (
-            <div role="alert" className="grid justify-items-start gap-2">
-                <p className="text-sm text-destructive">{accessQuery.error.message}</p>
-                <Button variant="outline" type="button" onClick={() => accessQuery.refetch()}>
-                    {t("adminParties.actions.retry")}
-                </Button>
+            <div className="flex flex-wrap items-center justify-between gap-3">
+                <AdminErrorLine message={accessQuery.error.message} className="text-sm" />
+                <button
+                    type="button"
+                    onClick={() => accessQuery.refetch()}
+                    className={SMALL_SECONDARY_PILL_CLASS}
+                >
+                    {t("adminCommon.retry")}
+                </button>
             </div>
         );
     }
@@ -357,34 +330,35 @@ function SelectedUserAccess({
     const manager = accessQuery.data;
     const hasExplicitGrant = manager?.hasExplicitGrant ?? false;
     const hasPartnership = (manager?.partnershipIds.length ?? 0) > 0;
-    let stateKey = "none";
-    if (hasExplicitGrant && hasPartnership) stateKey = "both";
-    else if (hasExplicitGrant) stateKey = "explicit";
-    else if (hasPartnership) stateKey = "partnership";
+    let statusKey = "none";
+    if (hasExplicitGrant && hasPartnership) statusKey = "both";
+    else if (hasExplicitGrant) statusKey = "explicit";
+    else if (hasPartnership) statusKey = "partnership";
 
     return (
-        <div className="grid justify-items-start gap-3">
-            <p className="text-sm">
-                {t(`adminParties.locationAccess.state.${stateKey}`, { user: userName })}
+        <>
+            <p role="status" className="text-sm leading-normal text-ink-secondary">
+                {t(`adminParties.locationAccess.status.${statusKey}`)}
             </p>
             {hasExplicitGrant ? (
-                <Button
+                <button
                     type="button"
-                    variant="outline"
                     disabled={disabled || accessQuery.isFetching}
                     onClick={() => onRequest(false)}
+                    className={cn(ADMIN_DANGER_OUTLINE_CLASS, "self-start")}
                 >
-                    {t("adminParties.locationAccess.revoke")}
-                </Button>
+                    {t("adminParties.locationAccess.confirmRevokeButton")}
+                </button>
             ) : (
-                <Button
+                <button
                     type="button"
                     disabled={disabled || accessQuery.isFetching}
                     onClick={() => onRequest(true)}
+                    className={cn(PRIMARY_PILL_CLASS, "self-start")}
                 >
-                    {t("adminParties.locationAccess.grant")}
-                </Button>
+                    {t("adminParties.locationAccess.confirmGrantButton")}
+                </button>
             )}
-        </div>
+        </>
     );
 }

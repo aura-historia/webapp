@@ -1,16 +1,26 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import testI18n from "@/i18n/i18nForTests";
 import type { AdminListingSourceDetail } from "@/data/internal/listing-source/AdminListingSource.ts";
 import { AdminListingSourceFormDialog } from "../AdminListingSourceFormDialog.tsx";
 
+const toast = vi.hoisted(() => ({ success: vi.fn(), error: vi.fn() }));
+vi.mock("sonner", () => ({ toast }));
+
 const api = vi.hoisted(() => ({
     create: { mutate: vi.fn(), reset: vi.fn(), isPending: false },
     update: { mutate: vi.fn(), reset: vi.fn(), isPending: false },
 }));
 vi.mock("../../api/useAdminListingSources.ts", () => ({
-    AdminListingSourceRequestError: class extends Error {},
+    AdminListingSourceRequestError: class extends Error {
+        constructor(
+            message: string,
+            readonly status: number,
+        ) {
+            super(message);
+        }
+    },
     useCreateAdminListingSource: () => api.create,
     useUpdateAdminListingSource: () => api.update,
 }));
@@ -38,22 +48,18 @@ const source: AdminListingSourceDetail = {
     updated: new Date("2026-09-02T11:00:00.000Z"),
 };
 
+const callbacks = { onOpenChange: vi.fn(), onCreated: vi.fn(), onUpdated: vi.fn() };
+
 function renderDialog(props: { source?: AdminListingSourceDetail } = {}) {
-    return render(
-        <AdminListingSourceFormDialog
-            {...props}
-            open
-            onOpenChange={vi.fn()}
-            onCreated={vi.fn()}
-            onUpdated={vi.fn()}
-        />,
-    );
+    return render(<AdminListingSourceFormDialog {...props} open {...callbacks} />);
 }
 
-function sourceTypeSelect() {
-    return screen.getByRole("combobox", {
-        name: testI18n.t("adminListingSources.fields.listingSourceType"),
-    });
+function sourceType(type: string) {
+    return within(
+        screen.getByRole("radiogroup", {
+            name: testI18n.t("adminListingSources.fields.listingSourceType"),
+        }),
+    ).getByRole("radio", { name: testI18n.t(`listingSourceTypes.${type}`) });
 }
 
 describe("AdminListingSourceFormDialog", () => {
@@ -61,10 +67,10 @@ describe("AdminListingSourceFormDialog", () => {
 
     it("explains rejected presentation URLs in the edit form", async () => {
         renderDialog({ source });
-        fireEvent.change(screen.getByLabelText(testI18n.t("adminListingSources.fields.url")), {
+        fireEvent.change(screen.getByLabelText(testI18n.t("adminListingSources.fields.website")), {
             target: { value: "ftp://antique.example" },
         });
-        fireEvent.change(screen.getByLabelText(testI18n.t("adminListingSources.fields.image")), {
+        fireEvent.change(screen.getByLabelText(testI18n.t("adminListingSources.fields.imageUrl")), {
             target: { value: "not a url" },
         });
         fireEvent.click(
@@ -115,9 +121,14 @@ describe("AdminListingSourceFormDialog", () => {
             target: { value: "Antique House" },
         });
         fireEvent.click(screen.getByRole("button", { name: "Pick operator" }));
-        expect(sourceTypeSelect()).toHaveTextContent(
-            testI18n.t("adminListingSources.form.chooseListingSourceType"),
+        expect(
+            screen.getByRole("heading", { name: testI18n.t("adminListingSources.form.newTitle") }),
         );
+        for (const radio of screen.getAllByRole("radio", { name: /./ })) {
+            if (radio.getAttribute("name") !== "admin-listing-source-operator-type") {
+                expect(radio).not.toBeChecked();
+            }
+        }
         fireEvent.click(
             screen.getByRole("button", {
                 name: testI18n.t("adminListingSources.actions.create"),
@@ -135,14 +146,14 @@ describe("AdminListingSourceFormDialog", () => {
     it("reclassifies a source in the edit form", async () => {
         const user = userEvent.setup();
         renderDialog({ source });
-        expect(sourceTypeSelect()).toHaveTextContent(testI18n.t("listingSourceTypes.DEALER"));
-
-        await user.click(sourceTypeSelect());
-        await user.click(
-            screen.getByRole("option", {
-                name: testI18n.t("listingSourceTypes.AUCTION_HOUSE"),
+        expect(
+            screen.getByRole("heading", {
+                name: testI18n.t("adminListingSources.form.editNamed", { name: "Antique House" }),
             }),
         );
+        expect(sourceType("DEALER")).toBeChecked();
+
+        await user.click(sourceType("AUCTION_HOUSE"));
         await user.click(
             screen.getByRole("button", {
                 name: testI18n.t("adminListingSources.actions.save"),
@@ -163,12 +174,7 @@ describe("AdminListingSourceFormDialog", () => {
     it("creates a source with a normalized platform technology", async () => {
         const user = userEvent.setup();
         renderDialog();
-        await user.click(sourceTypeSelect());
-        await user.click(
-            screen.getByRole("option", {
-                name: testI18n.t("listingSourceTypes.MARKETPLACE"),
-            }),
-        );
+        await user.click(sourceType("MARKETPLACE"));
         fireEvent.change(screen.getByLabelText(testI18n.t("adminListingSources.fields.name")), {
             target: { value: "Antique House" },
         });
@@ -193,25 +199,145 @@ describe("AdminListingSourceFormDialog", () => {
         );
     });
 
-    it("starts without an ingestion method and allows adding and removing the last entry", () => {
+    it("starts without an ingestion method and allows adding and removing the last entry", async () => {
+        const user = userEvent.setup();
         renderDialog();
+        const woo = testI18n.t("adminListingSources.methods.WOOCOMMERCE");
+        expect(screen.queryByRole("region", { name: woo })).not.toBeInTheDocument();
 
-        const configurationType = testI18n.t("adminListingSources.fields.configurationType");
-        expect(screen.queryByRole("combobox", { name: configurationType })).not.toBeInTheDocument();
-
-        fireEvent.click(
+        await user.click(
             screen.getByRole("button", {
                 name: testI18n.t("adminListingSources.actions.addMethod"),
             }),
         );
-        expect(screen.getByRole("combobox", { name: configurationType })).toBeInTheDocument();
+        await user.click(await screen.findByRole("menuitem", { name: woo }));
+        const card = screen.getByRole("region", { name: woo });
+        expect(
+            within(card).getByLabelText(testI18n.t("adminListingSources.fields.secret")),
+        ).toHaveAttribute("type", "password");
 
-        fireEvent.click(
-            screen.getByRole("button", {
-                name: testI18n.t("adminListingSources.actions.removeMethod"),
+        await user.click(
+            within(card).getByRole("button", {
+                name: testI18n.t("adminListingSources.form.removeMethod", { method: woo }),
             }),
         );
-        expect(screen.queryByRole("combobox", { name: configurationType })).not.toBeInTheDocument();
+        expect(screen.queryByRole("region", { name: woo })).not.toBeInTheDocument();
+    });
+
+    it("clears a typed webhook secret after a failed create", async () => {
+        const user = userEvent.setup();
+        api.create.mutate.mockImplementation((_values, options) =>
+            options.onError(new Error("Request failed")),
+        );
+        renderDialog();
+        await user.click(sourceType("DEALER"));
+        fireEvent.change(screen.getByLabelText(testI18n.t("adminListingSources.fields.name")), {
+            target: { value: "Antique House" },
+        });
+        fireEvent.click(screen.getByRole("button", { name: "Pick operator" }));
+        await user.click(
+            screen.getByRole("button", {
+                name: testI18n.t("adminListingSources.actions.addMethod"),
+            }),
+        );
+        await user.click(
+            await screen.findByRole("menuitem", {
+                name: testI18n.t("adminListingSources.methods.WOOCOMMERCE"),
+            }),
+        );
+        const secret = screen.getByLabelText(testI18n.t("adminListingSources.fields.secret"));
+        fireEvent.change(secret, { target: { value: "s3cret" } });
+        fireEvent.click(
+            screen.getByRole("button", { name: testI18n.t("adminListingSources.actions.create") }),
+        );
+
+        await waitFor(() => expect(api.create.mutate).toHaveBeenCalledTimes(1));
+        expect(api.create.mutate.mock.calls[0][0].configurations[0].webhookSecret).toBe("s3cret");
+        expect(await screen.findByText("Request failed")).toBeInTheDocument();
+        await waitFor(() =>
+            expect(
+                screen.getByLabelText(testI18n.t("adminListingSources.fields.secret")),
+            ).toHaveValue(""),
+        );
+    });
+
+    it("creates a source for a new operator organization", async () => {
+        const user = userEvent.setup();
+        renderDialog();
+        await user.click(sourceType("AUCTION_PLATFORM"));
+        fireEvent.change(screen.getByLabelText(testI18n.t("adminListingSources.fields.name")), {
+            target: { value: "Nordic Bids" },
+        });
+        await user.click(
+            screen.getByRole("radio", {
+                name: testI18n.t("adminListingSources.operator.newShort"),
+            }),
+        );
+        expect(screen.queryByRole("button", { name: "Pick operator" })).not.toBeInTheDocument();
+        fireEvent.change(
+            screen.getByLabelText(testI18n.t("adminListingSources.fields.operatorName")),
+            { target: { value: "Nordic Bids AB" } },
+        );
+        fireEvent.click(
+            screen.getByRole("button", { name: testI18n.t("adminListingSources.actions.create") }),
+        );
+
+        await waitFor(() => expect(api.create.mutate).toHaveBeenCalledTimes(1));
+        expect(api.create.mutate).toHaveBeenCalledWith(
+            expect.objectContaining({ operatorType: "NEW", operatorName: "Nordic Bids AB" }),
+            expect.any(Object),
+        );
+    });
+
+    it("shows the fixed operator and slug, and edits ingestion only behind the switch", () => {
+        renderDialog({ source: { ...source, ingestionMethods: ["WOOCOMMERCE"] } });
+
+        expect(screen.getByText("Antique House Ltd")).toBeInTheDocument();
+        expect(screen.getByText(testI18n.t("adminListingSources.form.fixed"))).toBeInTheDocument();
+        expect(
+            screen.getByText(
+                testI18n.t("adminListingSources.form.slug", { slug: "antique-house" }),
+            ),
+        ).toBeInTheDocument();
+        expect(
+            screen.getByRole("combobox", {
+                name: testI18n.t("adminListingSources.fields.referral"),
+            }),
+        ).toHaveValue("KEEP");
+
+        const toggle = screen.getByRole("switch", {
+            name: testI18n.t("adminListingSources.form.replaceConfiguration"),
+        });
+        expect(toggle).toHaveAttribute("aria-checked", "false");
+        expect(
+            screen.queryByLabelText(testI18n.t("adminListingSources.fields.secret")),
+        ).not.toBeInTheDocument();
+
+        fireEvent.click(toggle);
+        expect(toggle).toHaveAttribute("aria-checked", "true");
+        expect(
+            screen.getByLabelText(testI18n.t("adminListingSources.fields.secret")),
+        ).toHaveAttribute("placeholder", testI18n.t("adminListingSources.form.secretPlaceholder"));
+    });
+
+    it("closes and reloads the source when an update conflicts", async () => {
+        const { AdminListingSourceRequestError } = await import(
+            "../../api/useAdminListingSources.ts"
+        );
+        api.update.mutate.mockImplementation((_input, options) =>
+            options.onError(new AdminListingSourceRequestError("Changed elsewhere", 409)),
+        );
+        renderDialog({ source });
+        fireEvent.change(screen.getByLabelText(testI18n.t("adminListingSources.fields.name")), {
+            target: { value: "Antique House Berlin" },
+        });
+        fireEvent.click(
+            screen.getByRole("button", { name: testI18n.t("adminListingSources.actions.save") }),
+        );
+
+        await waitFor(() => expect(toast.error).toHaveBeenCalledWith("Changed elsewhere"));
+        expect(callbacks.onOpenChange).toHaveBeenCalledWith(false);
+        expect(callbacks.onUpdated).toHaveBeenCalledWith("ls_01SOURCE");
     });
 
     describe("currency validation in the edit form", () => {
@@ -221,7 +347,7 @@ describe("AdminListingSourceFormDialog", () => {
         };
 
         function fillReplacementConfiguration(currencies: readonly [string, string, string]) {
-            fireEvent.click(screen.getByRole("checkbox"));
+            fireEvent.click(screen.getByRole("switch"));
             fireEvent.change(
                 screen.getByLabelText(testI18n.t("adminListingSources.fields.fallbackCurrency")),
                 { target: { value: currencies[0] } },

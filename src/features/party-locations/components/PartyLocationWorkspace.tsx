@@ -1,7 +1,13 @@
 import { type ReactNode, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Button } from "@/components/ui/button.tsx";
-import { Skeleton } from "@/components/ui/skeleton.tsx";
+import { Plus } from "lucide-react";
+import {
+    ADMIN_PAGE_SECTION_TITLE_CLASS,
+    ADMIN_SKELETON_CLASS,
+    SECONDARY_PILL_CLASS,
+    SMALL_SECONDARY_PILL_CLASS,
+} from "@/features/admin/common/lib/adminStyles.ts";
+import { cn } from "@/lib/utils.ts";
 import type { PartyLocation } from "@/data/internal/geography/PartyLocation.ts";
 import {
     PartyLocationRequestError,
@@ -44,30 +50,41 @@ export function PartyLocationWorkspace({ scope }: { readonly scope: PartyLocatio
     let content: ReactNode;
     if (query.error && locations.length === 0) {
         content = (
-            <div role="alert" className="grid justify-items-start gap-3 py-4">
-                <p className="text-muted-foreground">{query.error.message}</p>
-                <Button type="button" variant="outline" onClick={() => query.refetch()}>
+            <div
+                role="alert"
+                className="flex flex-wrap items-center justify-between gap-3 rounded-panel p-5 shadow-ring"
+            >
+                <p className="text-sm text-oxblood">{query.error.message}</p>
+                <button
+                    type="button"
+                    onClick={() => query.refetch()}
+                    className={SMALL_SECONDARY_PILL_CLASS}
+                >
                     {t("partyLocations.actions.retry")}
-                </Button>
+                </button>
             </div>
         );
     } else if (query.isPending) {
         content = (
-            <div className="grid gap-3" aria-busy="true">
+            <div aria-busy="true" className="grid gap-4 md:grid-cols-2">
                 <output className="sr-only">{t("partyLocations.list.loading")}</output>
                 {[0, 1].map((index) => (
-                    <Skeleton key={index} className="h-48 w-full" />
+                    <span key={index} className={cn(ADMIN_SKELETON_CLASS, "h-72 rounded-panel")} />
                 ))}
             </div>
         );
     } else if (locations.length === 0) {
-        content = <p className="py-4 text-muted-foreground">{t("partyLocations.list.empty")}</p>;
+        content = (
+            <p className="rounded-panel px-5 py-8 text-center text-sm text-ink-secondary shadow-ring">
+                {t("partyLocations.list.empty")}
+            </p>
+        );
     } else {
         content = (
-            <div className="grid gap-3">
-                <ul className="grid gap-3" aria-label={t("partyLocations.title")}>
+            <>
+                <ul className="grid gap-4 md:grid-cols-2" aria-label={t("partyLocations.title")}>
                     {locations.map((location) => (
-                        <li key={location.id}>
+                        <li key={location.id} className="min-w-0">
                             <PartyLocationCard
                                 scope={scope}
                                 location={location}
@@ -78,46 +95,42 @@ export function PartyLocationWorkspace({ scope }: { readonly scope: PartyLocatio
                     ))}
                 </ul>
                 {query.error && (
-                    <p role="alert" className="text-sm text-destructive">
+                    <p role="alert" className="text-meta text-oxblood">
                         {query.error.message}
                     </p>
                 )}
                 {query.hasNextPage && (
-                    <Button
+                    <button
                         type="button"
-                        variant="outline"
-                        className="justify-self-center"
                         disabled={query.isFetchingNextPage}
                         onClick={() => query.fetchNextPage()}
+                        className={cn(SECONDARY_PILL_CLASS, "self-center")}
                     >
                         {query.isFetchingNextPage
                             ? t("partyLocations.list.loadingMore")
                             : t("partyLocations.list.loadMore")}
-                    </Button>
+                    </button>
                 )}
-            </div>
+            </>
         );
     }
 
     return (
-        <section className="grid gap-4" aria-labelledby="party-locations-title">
-            <header className="flex flex-wrap items-end justify-between gap-3">
-                <div className="grid gap-1">
-                    <h2 id="party-locations-title" className="text-xl font-medium">
-                        {t("partyLocations.title")}
-                    </h2>
-                    <p className="text-sm text-muted-foreground">
-                        {t("partyLocations.description")}
-                    </p>
-                </div>
-                <Button
+        <section className="flex flex-col gap-4" aria-labelledby="party-locations-title">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+                <h2 id="party-locations-title" className={ADMIN_PAGE_SECTION_TITLE_CLASS}>
+                    {t("partyLocations.title")}
+                </h2>
+                <button
                     type="button"
                     disabled={accessLost}
                     onClick={() => openEditor({ kind: "create" })}
+                    className={cn(SECONDARY_PILL_CLASS, "pr-[18px] pl-3.5")}
                 >
+                    <Plus aria-hidden="true" className="size-4" strokeWidth={1.8} />
                     {t("partyLocations.actions.create")}
-                </Button>
-            </header>
+                </button>
+            </div>
             {content}
             {editor && (
                 <PartyLocationEditorDialog

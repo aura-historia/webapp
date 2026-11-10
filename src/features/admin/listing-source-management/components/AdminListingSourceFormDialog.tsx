@@ -1,29 +1,23 @@
-import { useState, type ReactNode } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useFieldArray, useForm, useController, type UseFormRegister } from "react-hook-form";
-import { z } from "zod";
+import { Plus, TriangleAlert } from "lucide-react";
+import { type ReactNode, useId, useState } from "react";
+import {
+    type Control,
+    type UseFormRegisterReturn,
+    useController,
+    useFieldArray,
+    useForm,
+} from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
+import { z } from "zod";
 import type { ListingIngestionMethodData, ReferralConfigurationData } from "@/client";
-import { AdminPartyPicker } from "@/features/admin/party-management/components/AdminPartyPicker.tsx";
-import { Button } from "@/components/ui/button.tsx";
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-} from "@/components/ui/dialog.tsx";
-import { Input } from "@/components/ui/input.tsx";
-import { Label } from "@/components/ui/label.tsx";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select.tsx";
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu.tsx";
 import { toSupportedCurrency } from "@/data/internal/common/Currency.ts";
 import {
     ADMIN_LISTING_SOURCE_INGESTION_METHODS,
@@ -35,10 +29,23 @@ import {
     defaultUpdateConfigurations,
     isOptionalPlatformTechnology,
 } from "@/data/internal/listing-source/AdminListingSource.ts";
+import { LISTING_SOURCE_TYPES } from "@/data/internal/listing-source/ListingSourceType.ts";
+import { AdminSelect } from "@/features/admin/common/components/AdminDirectory.tsx";
+import { AdminRecordDialog } from "@/features/admin/common/components/AdminRecordDialog.tsx";
 import {
-    LISTING_SOURCE_TYPES,
-    type ListingSourceType,
-} from "@/data/internal/listing-source/ListingSourceType.ts";
+    ADMIN_LEGEND_CLASS,
+    FIELD_CLASS,
+    FIELD_ERROR_CLASS,
+    FIELD_LABEL_CLASS,
+    FOCUS_CLASS,
+    INLINE_ALERT_CLASS,
+    MONO_LABEL_CLASS,
+    PRIMARY_PILL_CLASS,
+    SECONDARY_PILL_CLASS,
+    SMALL_SECONDARY_PILL_CLASS,
+} from "@/features/admin/common/lib/adminStyles.ts";
+import { AdminPartyPicker } from "@/features/admin/party-management/components/AdminPartyPicker.tsx";
+import { cn } from "@/lib/utils.ts";
 import {
     AdminListingSourceRequestError,
     useCreateAdminListingSource,
@@ -69,9 +76,6 @@ const platformTechnologySchema = z.string().refine(isOptionalPlatformTechnology,
     message: "adminListingSources.validation.platformTechnology",
 });
 
-const LISTING_SOURCE_TYPE_REQUIRED_MESSAGE =
-    "adminListingSources.validation.listingSourceTypeRequired";
-
 const UNSUPPORTED_CURRENCY_MESSAGE = "adminListingSources.validation.unsupportedCurrency";
 
 /** Empty means "not configured"; anything else must be a supported ISO 4217 code. */
@@ -101,8 +105,14 @@ function addCurrencyIssues(
     }
 }
 
+const nameSchema = z
+    .string()
+    .trim()
+    .min(1, "adminListingSources.validation.nameRequired")
+    .refine(fitsName, { message: "adminListingSources.validation.nameTooLong" });
+
 const configurationFieldsSchema = z.object({
-    type: z.enum(["WEB_CRAWL", "SHOPIFY", "WOOCOMMERCE", "PARTNER_API"]),
+    type: z.enum(ADMIN_LISTING_SOURCE_INGESTION_METHODS),
     fallbackCurrency: z.string(),
     domain: z.string(),
     currency: z.string(),
@@ -112,17 +122,14 @@ const configurationFieldsSchema = z.object({
 
 const createFormSchema = z
     .object({
-        name: z
-            .string()
-            .trim()
-            .min(1, "adminListingSources.validation.nameRequired")
-            .refine(fitsName, {
-                message: "adminListingSources.validation.nameTooLong",
-            }),
+        name: nameSchema,
         // Starts unchosen so an administrator classifies every new source deliberately.
         listingSourceType: z
             .enum(["", ...LISTING_SOURCE_TYPES])
-            .refine((value) => value !== "", LISTING_SOURCE_TYPE_REQUIRED_MESSAGE),
+            .refine(
+                (value) => value !== "",
+                "adminListingSources.validation.listingSourceTypeRequired",
+            ),
         operatorType: z.enum(["EXISTING", "NEW"]),
         operatorPartyId: z.string(),
         operatorName: z.string(),
@@ -190,13 +197,7 @@ const updateConfigurationSchema = z.object({
 
 const updateFormSchema = z
     .object({
-        name: z
-            .string()
-            .trim()
-            .min(1, "adminListingSources.validation.nameRequired")
-            .refine(fitsName, {
-                message: "adminListingSources.validation.nameTooLong",
-            }),
+        name: nameSchema,
         listingSourceType: z.enum(LISTING_SOURCE_TYPES),
         platformTechnology: platformTechnologySchema,
         url: presentationUrlSchema,
@@ -232,6 +233,21 @@ type CreateFormValues = z.input<typeof createFormSchema>;
 type CreateFormData = z.output<typeof createFormSchema>;
 type UpdateFormValues = z.infer<typeof updateFormSchema>;
 
+type ConfigurationErrors = {
+    readonly domain?: { readonly message?: string };
+    readonly webhookSecret?: { readonly message?: string };
+    readonly fallbackCurrency?: { readonly message?: string };
+    readonly currency?: { readonly message?: string };
+};
+
+/** A dialog option card on the raised ground; the checked card gets the oxblood ring. */
+const OPTION_CARD_CLASS =
+    "flex cursor-pointer items-start gap-2.5 rounded-md bg-surface px-3.5 py-3 shadow-[inset_0_0_0_1px_var(--line)] has-checked:bg-surface-raised has-checked:shadow-[inset_0_0_0_1.5px_var(--oxblood)] has-focus-visible:outline-2 has-focus-visible:outline-offset-3 has-focus-visible:outline-brass";
+
+/**
+ * Creates or edits a listing source (board "Admin · Listing source form"): four numbered groups —
+ * source, operator, presentation and referral, ingestion — and a footer that stays in view.
+ */
 export function AdminListingSourceFormDialog({
     source,
     referralConfiguration,
@@ -247,6 +263,9 @@ export function AdminListingSourceFormDialog({
     readonly onCreated: (listingSourceId: string) => void;
     readonly onUpdated: (listingSourceId: string) => void;
 }) {
+    const { t } = useTranslation();
+    const create = useCreateAdminListingSource();
+    const update = useUpdateAdminListingSource();
     const handleOpenChange = (nextOpen: boolean) => {
         if (!nextOpen) {
             create.reset();
@@ -254,31 +273,36 @@ export function AdminListingSourceFormDialog({
         }
         onOpenChange(nextOpen);
     };
-    const create = useCreateAdminListingSource();
-    const update = useUpdateAdminListingSource();
 
     return (
-        <Dialog open={open} onOpenChange={handleOpenChange}>
-            <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
-                {source ? (
-                    <UpdateListingSourceForm
-                        key={`${source.listingSourceId}:${source.updated.toISOString()}`}
-                        source={source}
-                        referralConfiguration={referralConfiguration}
-                        onOpenChange={handleOpenChange}
-                        onUpdated={onUpdated}
-                        mutation={update}
-                    />
-                ) : (
-                    <CreateListingSourceForm
-                        key="create"
-                        onOpenChange={handleOpenChange}
-                        onCreated={onCreated}
-                        mutation={create}
-                    />
-                )}
-            </DialogContent>
-        </Dialog>
+        <AdminRecordDialog
+            open={open}
+            onOpenChange={handleOpenChange}
+            width="lg"
+            title={
+                source
+                    ? t("adminListingSources.form.editNamed", { name: source.name })
+                    : t("adminListingSources.form.newTitle")
+            }
+        >
+            {source ? (
+                <UpdateListingSourceForm
+                    key={`${source.listingSourceId}:${source.updated.toISOString()}`}
+                    source={source}
+                    referralConfiguration={referralConfiguration}
+                    onOpenChange={handleOpenChange}
+                    onUpdated={onUpdated}
+                    mutation={update}
+                />
+            ) : (
+                <CreateListingSourceForm
+                    key="create"
+                    onOpenChange={handleOpenChange}
+                    onCreated={onCreated}
+                    mutation={create}
+                />
+            )}
+        </AdminRecordDialog>
     );
 }
 
@@ -314,334 +338,172 @@ function CreateListingSourceForm({
         name: "configurations",
     });
     const operatorType = useController({ control: form.control, name: "operatorType" }).field;
-    const listingSourceType = useController({
-        control: form.control,
-        name: "listingSourceType",
-    }).field;
-    const configurationError = form.formState.errors.configurations?.message;
+    const errors = form.formState.errors;
     const [requestError, setRequestError] = useState<string>();
+    const addedMethods = form.watch("configurations").map((configuration) => configuration.type);
+
+    const clearSecrets = (values: CreateFormData) =>
+        form.setValue(
+            "configurations",
+            values.configurations.map((configuration) => ({ ...configuration, webhookSecret: "" })),
+        );
 
     const submit = (values: CreateFormData) => {
         mutation.reset();
         setRequestError(undefined);
         mutation.mutate(values as AdminListingSourceCreateValues, {
             onSuccess: (reference) => {
-                form.setValue(
-                    "configurations",
-                    values.configurations.map((configuration) => ({
-                        ...configuration,
-                        webhookSecret: "",
-                    })),
-                );
+                clearSecrets(values);
                 toast.success(t("adminListingSources.success.created"));
                 onOpenChange(false);
                 onCreated(reference.listingSourceId);
             },
             onError: (error) => {
                 setRequestError(error.message);
-                form.setValue(
-                    "configurations",
-                    values.configurations.map((configuration) => ({
-                        ...configuration,
-                        webhookSecret: "",
-                    })),
-                );
+                clearSecrets(values);
                 mutation.reset();
             },
         });
     };
 
     return (
-        <>
-            <DialogHeader>
-                <DialogTitle>{t("adminListingSources.form.createTitle")}</DialogTitle>
-                <DialogDescription>
-                    {t("adminListingSources.form.createDescription")}
-                </DialogDescription>
-            </DialogHeader>
-            <form noValidate onSubmit={form.handleSubmit(submit)} className="grid gap-5">
-                <FormField
-                    id="admin-listing-source-name"
+        <form noValidate onSubmit={form.handleSubmit(submit)} className="-mt-6 flex flex-col">
+            <FormGroup number={1} legend={t("adminListingSources.form.legends.source")}>
+                <TextField
                     label={t("adminListingSources.fields.name")}
-                    error={form.formState.errors.name?.message}
-                >
-                    <Input id="admin-listing-source-name" {...form.register("name")} />
-                </FormField>
-                <div className="grid gap-3">
-                    <Label htmlFor="admin-listing-source-operator-type">
-                        {t("adminListingSources.fields.operator")}
-                    </Label>
-                    <Select
-                        value={operatorType.value}
-                        onValueChange={(value) => {
-                            operatorType.onChange(value);
-                            form.setValue("operatorPartyId", "");
-                        }}
-                    >
-                        <SelectTrigger id="admin-listing-source-operator-type">
-                            <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="EXISTING">
-                                {t("adminListingSources.operator.existing")}
-                            </SelectItem>
-                            <SelectItem value="NEW">
-                                {t("adminListingSources.operator.new")}
-                            </SelectItem>
-                        </SelectContent>
-                    </Select>
-                    {operatorType.value === "EXISTING" ? (
-                        <>
-                            <AdminPartyPicker
-                                onSelect={(identity) =>
-                                    form.setValue("operatorPartyId", identity?.partyId ?? "", {
-                                        shouldDirty: true,
-                                        shouldValidate: true,
-                                    })
-                                }
-                            />
-                            {form.formState.errors.operatorPartyId?.message && (
-                                <p role="alert" className="text-sm text-destructive">
-                                    {t(form.formState.errors.operatorPartyId.message)}
-                                </p>
-                            )}
-                        </>
-                    ) : (
-                        <div className="grid gap-4 sm:grid-cols-2">
-                            <FormField
-                                id="admin-listing-source-operator-name"
-                                label={t("adminListingSources.fields.operatorName")}
-                                error={form.formState.errors.operatorName?.message}
-                            >
-                                <Input
-                                    id="admin-listing-source-operator-name"
-                                    autoComplete="organization"
-                                    {...form.register("operatorName")}
-                                />
-                            </FormField>
-                            <FormField
-                                id="admin-listing-source-operator-phone"
-                                label={t("adminListingSources.fields.phone")}
-                            >
-                                <Input
-                                    id="admin-listing-source-operator-phone"
-                                    type="tel"
-                                    autoComplete="tel"
-                                    {...form.register("operatorPhone")}
-                                />
-                            </FormField>
-                            <FormField
-                                id="admin-listing-source-operator-email"
-                                label={t("adminListingSources.fields.email")}
-                                error={form.formState.errors.operatorEmail?.message}
-                            >
-                                <Input
-                                    id="admin-listing-source-operator-email"
-                                    type="email"
-                                    autoComplete="email"
-                                    {...form.register("operatorEmail")}
-                                />
-                            </FormField>
-                        </div>
-                    )}
-                </div>
-                <ListingSourceTypeField
-                    value={listingSourceType.value}
-                    onChange={listingSourceType.onChange}
-                    onBlur={listingSourceType.onBlur}
-                    error={form.formState.errors.listingSourceType?.message}
+                    registration={form.register("name")}
+                    error={errors.name?.message}
+                />
+                <SourceTypeField
+                    registration={form.register("listingSourceType")}
+                    error={errors.listingSourceType?.message}
                 />
                 <PlatformTechnologyField
-                    register={form.register}
-                    error={form.formState.errors.platformTechnology?.message}
+                    registration={form.register("platformTechnology")}
+                    error={errors.platformTechnology?.message}
                 />
-                <section className="grid gap-3" aria-labelledby="admin-source-configurations-title">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                        <h3 id="admin-source-configurations-title" className="font-medium">
-                            {t("adminListingSources.fields.ingestionConfiguration")}
-                        </h3>
-                        <Button
-                            type="button"
-                            variant="outline"
-                            onClick={() => append(createDefaultConfiguration())}
-                        >
-                            {t("adminListingSources.actions.addMethod")}
-                        </Button>
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                        {t("adminListingSources.form.configurationDescription")}
-                    </p>
-                    {configurationError && (
-                        <p role="alert" className="text-sm text-destructive">
-                            {t(configurationError)}
-                        </p>
-                    )}
-                    {fields.map((field, index) => (
-                        <CreateConfigurationEditor
-                            key={field.id}
-                            index={index}
-                            register={form.register}
-                            control={form.control}
-                            errors={form.formState.errors.configurations?.[index]}
-                            onRemove={() => remove(index)}
-                        />
-                    ))}
-                </section>
-                <PresentationFields register={form.register} errors={form.formState.errors} />
-                <FormField
-                    id="admin-listing-source-camref"
-                    label={t("adminListingSources.fields.partnerizeCamref")}
+            </FormGroup>
+
+            <FormGroup number={2} legend={t("adminListingSources.form.legends.operator")}>
+                <div
+                    role="radiogroup"
+                    aria-label={t("adminListingSources.fields.operator")}
+                    className="inline-flex self-start rounded-pill bg-surface-sunken p-1"
                 >
-                    <Input
-                        id="admin-listing-source-camref"
-                        {...form.register("partnerizeCamref")}
-                    />
-                    <p className="text-xs text-muted-foreground">
-                        {t("adminListingSources.form.referralDescription")}
-                    </p>
-                </FormField>
-                {requestError && (
-                    <p role="alert" className="text-sm text-destructive">
-                        {requestError}
+                    {(["EXISTING", "NEW"] as const).map((value) => (
+                        <label
+                            key={value}
+                            className="inline-flex min-h-9 cursor-pointer items-center rounded-pill px-3.5 text-meta text-ink-secondary has-checked:bg-surface-raised has-checked:font-medium has-checked:text-ink has-checked:shadow-ring has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-brass"
+                        >
+                            <input
+                                type="radio"
+                                name="admin-listing-source-operator-type"
+                                value={value}
+                                checked={operatorType.value === value}
+                                onChange={() => {
+                                    operatorType.onChange(value);
+                                    form.setValue("operatorPartyId", "");
+                                }}
+                                className="sr-only"
+                            />
+                            {t(
+                                value === "EXISTING"
+                                    ? "adminListingSources.operator.existingShort"
+                                    : "adminListingSources.operator.newShort",
+                            )}
+                        </label>
+                    ))}
+                </div>
+                {operatorType.value === "EXISTING" ? (
+                    <div className="flex flex-col gap-2">
+                        <AdminPartyPicker
+                            onSelect={(identity) =>
+                                form.setValue("operatorPartyId", identity?.partyId ?? "", {
+                                    shouldDirty: true,
+                                    shouldValidate: true,
+                                })
+                            }
+                        />
+                        {errors.operatorPartyId?.message && (
+                            <p role="alert" className={FIELD_ERROR_CLASS}>
+                                {t(errors.operatorPartyId.message)}
+                            </p>
+                        )}
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 gap-x-4 gap-y-3.5 sm:grid-cols-2">
+                        <TextField
+                            className="sm:col-span-2"
+                            label={t("adminListingSources.fields.operatorName")}
+                            registration={form.register("operatorName")}
+                            error={errors.operatorName?.message}
+                            autoComplete="organization"
+                        />
+                        <TextField
+                            label={t("adminListingSources.fields.phone")}
+                            registration={form.register("operatorPhone")}
+                            type="tel"
+                            autoComplete="tel"
+                        />
+                        <TextField
+                            label={t("adminListingSources.fields.email")}
+                            registration={form.register("operatorEmail")}
+                            error={errors.operatorEmail?.message}
+                            type="email"
+                            autoComplete="email"
+                        />
+                    </div>
+                )}
+            </FormGroup>
+
+            <FormGroup number={3} legend={t("adminListingSources.form.legends.presentation")}>
+                <PresentationFields
+                    url={form.register("url")}
+                    image={form.register("image")}
+                    urlError={errors.url?.message}
+                    imageError={errors.image?.message}
+                />
+                <TextField
+                    label={t("adminListingSources.fields.camref")}
+                    registration={form.register("partnerizeCamref")}
+                    mono
+                />
+            </FormGroup>
+
+            <FormGroup number={4} legend={t("adminListingSources.form.legends.ingestion")} last>
+                {errors.configurations?.message && (
+                    <p role="alert" className={FIELD_ERROR_CLASS}>
+                        {t(errors.configurations.message)}
                     </p>
                 )}
-                <DialogFooter>
-                    <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-                        {t("adminListingSources.actions.cancel")}
-                    </Button>
-                    <Button type="submit" disabled={mutation.isPending}>
-                        {mutation.isPending
-                            ? t("adminListingSources.actions.saving")
-                            : t("adminListingSources.actions.create")}
-                    </Button>
-                </DialogFooter>
-            </form>
-        </>
-    );
-}
+                {fields.map((field, index) => (
+                    <MethodCard key={field.id} method={field.type} onRemove={() => remove(index)}>
+                        <ConfigurationFields
+                            method={field.type}
+                            mode="create"
+                            fieldNames={configurationFieldNames(index)}
+                            register={(name) =>
+                                form.register(name as `configurations.${number}.domain`)
+                            }
+                            errors={errors.configurations?.[index]}
+                        />
+                    </MethodCard>
+                ))}
+                <AddMethodMenu
+                    available={ADMIN_LISTING_SOURCE_INGESTION_METHODS.filter(
+                        (method) => !addedMethods.includes(method),
+                    )}
+                    onAdd={(method) => append(createDefaultConfiguration(method))}
+                />
+            </FormGroup>
 
-function CreateConfigurationEditor({
-    index,
-    register,
-    control,
-    errors,
-    onRemove,
-}: {
-    readonly index: number;
-    readonly register: UseFormRegister<CreateFormValues>;
-    readonly control: ReturnType<typeof useForm<CreateFormValues>>["control"];
-    readonly errors?: {
-        readonly domain?: { readonly message?: string };
-        readonly webhookSecret?: { readonly message?: string };
-        readonly fallbackCurrency?: { readonly message?: string };
-        readonly currency?: { readonly message?: string };
-    };
-    readonly onRemove: () => void;
-}) {
-    const { t } = useTranslation();
-    const base = `configurations.${index}` as const;
-    const typeField = useController({ control, name: `${base}.type` }).field;
-    const type = typeField.value;
-
-    return (
-        <div className="grid gap-4 border bg-surface-container-low p-4">
-            <div className="flex flex-wrap items-end gap-3">
-                <div className="grid min-w-56 flex-1 gap-2">
-                    <Label htmlFor={`admin-source-${index}-configuration-type`}>
-                        {t("adminListingSources.fields.configurationType")}
-                    </Label>
-                    <Select value={type} onValueChange={(value) => typeField.onChange(value)}>
-                        <SelectTrigger id={`admin-source-${index}-configuration-type`}>
-                            <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {["WEB_CRAWL", "SHOPIFY", "WOOCOMMERCE", "PARTNER_API"].map((item) => (
-                                <SelectItem key={item} value={item}>
-                                    {t(`adminListingSources.configurationTypes.${item}`)}
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
-                </div>
-                <Button type="button" variant="outline" onClick={onRemove}>
-                    {t("adminListingSources.actions.removeMethod")}
-                </Button>
-            </div>
-            {type === "WEB_CRAWL" && (
-                <FormField
-                    id={`admin-source-${index}-fallback-currency`}
-                    label={t("adminListingSources.fields.fallbackCurrency")}
-                    error={errors?.fallbackCurrency?.message}
-                >
-                    <Input
-                        id={`admin-source-${index}-fallback-currency`}
-                        maxLength={3}
-                        aria-invalid={Boolean(errors?.fallbackCurrency?.message)}
-                        {...register(`${base}.fallbackCurrency`)}
-                    />
-                </FormField>
-            )}
-            {type === "SHOPIFY" && (
-                <div className="grid gap-4 sm:grid-cols-3">
-                    <ConfigurationTextField
-                        id={`admin-source-${index}-domain`}
-                        label={t("adminListingSources.fields.domain")}
-                        name={`${base}.domain`}
-                        register={register}
-                        error={errors?.domain?.message}
-                    />
-                    <ConfigurationTextField
-                        id={`admin-source-${index}-currency`}
-                        label={t("adminListingSources.fields.currency")}
-                        name={`${base}.currency`}
-                        register={register}
-                        error={errors?.currency?.message}
-                    />
-                    <ConfigurationTextField
-                        id={`admin-source-${index}-language`}
-                        label={t("adminListingSources.fields.language")}
-                        name={`${base}.language`}
-                        register={register}
-                    />
-                </div>
-            )}
-            {type === "WOOCOMMERCE" && (
-                <div className="grid gap-4 sm:grid-cols-3">
-                    <ConfigurationTextField
-                        id={`admin-source-${index}-secret`}
-                        label={t("adminListingSources.fields.webhookSecret")}
-                        name={`${base}.webhookSecret`}
-                        register={register}
-                        type="password"
-                        error={errors?.webhookSecret?.message}
-                        autoComplete="new-password"
-                    />
-                    <ConfigurationTextField
-                        id={`admin-source-${index}-currency`}
-                        label={t("adminListingSources.fields.currency")}
-                        name={`${base}.currency`}
-                        register={register}
-                        error={errors?.currency?.message}
-                    />
-                    <ConfigurationTextField
-                        id={`admin-source-${index}-language`}
-                        label={t("adminListingSources.fields.language")}
-                        name={`${base}.language`}
-                        register={register}
-                    />
-                </div>
-            )}
-            {errors?.domain?.message && (
-                <p role="alert" className="text-sm text-destructive">
-                    {t(errors.domain.message)}
-                </p>
-            )}
-            {errors?.webhookSecret?.message && (
-                <p role="alert" className="text-sm text-destructive">
-                    {t(errors.webhookSecret.message)}
-                </p>
-            )}
-        </div>
+            <FormFooter
+                requestError={requestError}
+                pending={mutation.isPending}
+                submitLabel={t("adminListingSources.actions.create")}
+                onCancel={() => onOpenChange(false)}
+            />
+        </form>
     );
 }
 
@@ -677,43 +539,32 @@ function UpdateListingSourceForm({
     });
     const { fields } = useFieldArray({ control: form.control, name: "configurations" });
     const referralAction = useController({ control: form.control, name: "referralAction" }).field;
-    const listingSourceType = useController({
-        control: form.control,
-        name: "listingSourceType",
-    }).field;
-    const replaceConfiguration = useController({
-        control: form.control,
-        name: "replaceIngestionConfiguration",
-    }).field;
+    const errors = form.formState.errors;
     const [requestError, setRequestError] = useState<string>();
 
     const submit = (values: UpdateFormValues) => {
         const typedValues = values as AdminListingSourceUpdateValues;
         mutation.reset();
         setRequestError(undefined);
+        const clearSecrets = () =>
+            form.setValue(
+                "configurations",
+                values.configurations.map((configuration) => ({
+                    ...configuration,
+                    webhookSecret: "",
+                })),
+            );
         mutation.mutate(
             { source, values: typedValues },
             {
                 onSuccess: (reference) => {
-                    form.setValue(
-                        "configurations",
-                        values.configurations.map((configuration) => ({
-                            ...configuration,
-                            webhookSecret: "",
-                        })),
-                    );
+                    clearSecrets();
                     toast.success(t("adminListingSources.success.updated"));
                     onOpenChange(false);
                     onUpdated(reference.listingSourceId);
                 },
                 onError: (error) => {
-                    form.setValue(
-                        "configurations",
-                        values.configurations.map((configuration) => ({
-                            ...configuration,
-                            webhookSecret: "",
-                        })),
-                    );
+                    clearSecrets();
                     mutation.reset();
                     if (error instanceof AdminListingSourceRequestError && error.status === 409) {
                         toast.error(error.message);
@@ -728,404 +579,570 @@ function UpdateListingSourceForm({
     };
 
     return (
-        <>
-            <DialogHeader>
-                <DialogTitle>{t("adminListingSources.form.editTitle")}</DialogTitle>
-                <DialogDescription>
-                    {t("adminListingSources.form.editDescription")}
-                </DialogDescription>
-            </DialogHeader>
-            <form noValidate onSubmit={form.handleSubmit(submit)} className="grid gap-5">
-                <FormField
-                    id="admin-listing-source-name"
+        <form noValidate onSubmit={form.handleSubmit(submit)} className="-mt-6 flex flex-col">
+            <FormGroup number={1} legend={t("adminListingSources.form.legends.source")}>
+                <TextField
                     label={t("adminListingSources.fields.name")}
-                    error={form.formState.errors.name?.message}
-                >
-                    <Input id="admin-listing-source-name" {...form.register("name")} />
-                </FormField>
-                <ListingSourceTypeField
-                    value={listingSourceType.value}
-                    onChange={listingSourceType.onChange}
-                    onBlur={listingSourceType.onBlur}
-                    error={form.formState.errors.listingSourceType?.message}
+                    registration={form.register("name")}
+                    error={errors.name?.message}
+                />
+                <SourceTypeField
+                    registration={form.register("listingSourceType")}
+                    error={errors.listingSourceType?.message}
                 />
                 <PlatformTechnologyField
-                    register={form.register}
-                    error={form.formState.errors.platformTechnology?.message}
+                    registration={form.register("platformTechnology")}
+                    error={errors.platformTechnology?.message}
                 />
-                <FormField
-                    id="admin-listing-source-url"
-                    label={t("adminListingSources.fields.url")}
-                    error={form.formState.errors.url?.message}
-                >
-                    <Input id="admin-listing-source-url" type="url" {...form.register("url")} />
-                </FormField>
-                <FormField
-                    id="admin-listing-source-image"
-                    label={t("adminListingSources.fields.image")}
-                    error={form.formState.errors.image?.message}
-                >
-                    <Input id="admin-listing-source-image" type="url" {...form.register("image")} />
-                </FormField>
-                <div className="grid gap-3">
-                    <Label htmlFor="admin-listing-source-referral-action">
-                        {t("adminListingSources.fields.referralConfiguration")}
-                    </Label>
-                    <Select value={referralAction.value} onValueChange={referralAction.onChange}>
-                        <SelectTrigger id="admin-listing-source-referral-action">
-                            <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="KEEP">
-                                {t("adminListingSources.referral.keep")}
-                            </SelectItem>
-                            <SelectItem value="SET">
-                                {t("adminListingSources.referral.set")}
-                            </SelectItem>
-                            <SelectItem value="CLEAR">
-                                {t("adminListingSources.referral.clear")}
-                            </SelectItem>
-                        </SelectContent>
-                    </Select>
-                    {referralAction.value === "SET" && (
-                        <FormField
-                            id="admin-listing-source-camref"
-                            label={t("adminListingSources.fields.partnerizeCamref")}
-                            error={form.formState.errors.partnerizeCamref?.message}
-                        >
-                            <Input
-                                id="admin-listing-source-camref"
-                                {...form.register("partnerizeCamref")}
-                            />
-                        </FormField>
-                    )}
-                </div>
-                <section className="grid gap-3 border bg-surface-container-low p-4">
-                    <label className="flex items-start gap-3">
-                        <input
-                            type="checkbox"
-                            checked={replaceConfiguration.value}
-                            onChange={replaceConfiguration.onChange}
-                            className="mt-1 size-4 accent-primary"
-                        />
-                        <span className="grid gap-1">
-                            <span className="font-medium">
-                                {t("adminListingSources.form.replaceConfiguration")}
-                            </span>
-                            <span className="text-sm text-muted-foreground">
-                                {t("adminListingSources.form.incompleteConfigurationNotice")}
-                            </span>
-                        </span>
-                    </label>
-                    {replaceConfiguration.value && (
-                        <div className="grid gap-4">
-                            {fields.map((field, index) => (
-                                <UpdateConfigurationEditor
-                                    key={field.id}
-                                    index={index}
-                                    method={source.ingestionMethods[index]}
-                                    register={form.register}
-                                    error={form.formState.errors.configurations?.[index]}
-                                />
-                            ))}
-                        </div>
-                    )}
-                </section>
-                <p className="break-all text-xs text-muted-foreground">
-                    {t("adminListingSources.fields.immutableSlug")}:{" "}
-                    <span className="font-mono">{source.listingSourceSlugId}</span>
+            </FormGroup>
+
+            <FormGroup number={2} legend={t("adminListingSources.form.legends.operator")}>
+                <p className="flex flex-wrap items-center justify-between gap-2 rounded-md bg-surface-sunken px-3.5 py-3 text-sm">
+                    <span className="break-words">{source.operator.name}</span>
+                    <span className={MONO_LABEL_CLASS}>{t("adminListingSources.form.fixed")}</span>
                 </p>
-                {requestError && (
-                    <p role="alert" className="text-sm text-destructive">
-                        {requestError}
-                    </p>
+            </FormGroup>
+
+            <FormGroup number={3} legend={t("adminListingSources.form.legends.presentation")}>
+                <PresentationFields
+                    url={form.register("url")}
+                    image={form.register("image")}
+                    urlError={errors.url?.message}
+                    imageError={errors.image?.message}
+                />
+                <ReferralField
+                    value={referralAction.value}
+                    onChange={(value) => referralAction.onChange(value)}
+                />
+                {referralAction.value === "SET" && (
+                    <TextField
+                        label={t("adminListingSources.fields.camref")}
+                        registration={form.register("partnerizeCamref")}
+                        error={errors.partnerizeCamref?.message}
+                        mono
+                    />
                 )}
-                <DialogFooter>
-                    <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-                        {t("adminListingSources.actions.cancel")}
-                    </Button>
-                    <Button type="submit" disabled={mutation.isPending}>
-                        {mutation.isPending
-                            ? t("adminListingSources.actions.saving")
-                            : t("adminListingSources.actions.save")}
-                    </Button>
-                </DialogFooter>
-            </form>
-        </>
+            </FormGroup>
+
+            <FormGroup number={4} legend={t("adminListingSources.form.legends.ingestion")} last>
+                <ReplaceSwitch control={form.control} />
+                {form.watch("replaceIngestionConfiguration") &&
+                    fields.map((field, index) => (
+                        <MethodCard key={field.id} method={field.ingestionMethod}>
+                            <ConfigurationFields
+                                method={field.ingestionMethod}
+                                mode="update"
+                                fieldNames={configurationFieldNames(index)}
+                                register={(name) =>
+                                    form.register(name as `configurations.${number}.domain`)
+                                }
+                                errors={errors.configurations?.[index]}
+                            />
+                        </MethodCard>
+                    ))}
+            </FormGroup>
+
+            <FormFooter
+                slug={source.listingSourceSlugId}
+                requestError={requestError}
+                pending={mutation.isPending}
+                submitLabel={t("adminListingSources.actions.save")}
+                onCancel={() => onOpenChange(false)}
+            />
+        </form>
     );
 }
 
-function UpdateConfigurationEditor({
-    index,
-    method,
-    register,
-    error,
+// ─── Groups and fields ──────────────────────────────────────────────────────
+
+function FormGroup({
+    number,
+    legend,
+    last = false,
+    children,
 }: {
-    readonly index: number;
-    readonly method: ListingIngestionMethodData | undefined;
-    readonly register: UseFormRegister<UpdateFormValues>;
-    readonly error?: {
-        readonly domain?: { readonly message?: string };
-        readonly webhookSecret?: { readonly message?: string };
-        readonly fallbackCurrency?: { readonly message?: string };
-        readonly currency?: { readonly message?: string };
-    };
+    readonly number: number;
+    readonly legend: string;
+    readonly last?: boolean;
+    readonly children: ReactNode;
+}) {
+    return (
+        <fieldset className={cn("min-w-0 py-6", !last && "border-b border-line-subtle")}>
+            <legend className={cn(ADMIN_LEGEND_CLASS, "float-left")}>
+                {String(number).padStart(2, "0")} · {legend}
+            </legend>
+            <div className="clear-left flex flex-col gap-4">{children}</div>
+        </fieldset>
+    );
+}
+
+function TextField({
+    label,
+    registration,
+    error,
+    type = "text",
+    mono = false,
+    raised = false,
+    placeholder,
+    autoComplete,
+    list,
+    maxLength,
+    className,
+}: {
+    readonly label: string;
+    readonly registration: UseFormRegisterReturn;
+    /** A translation key. */
+    readonly error?: string;
+    readonly type?: "text" | "email" | "tel" | "url" | "password";
+    readonly mono?: boolean;
+    readonly raised?: boolean;
+    readonly placeholder?: string;
+    readonly autoComplete?: string;
+    readonly list?: string;
+    readonly maxLength?: number;
+    readonly className?: string;
 }) {
     const { t } = useTranslation();
-    const prefix = `configurations.${index}` as const;
-    if (!method) return null;
-
+    const id = useId();
+    const errorId = `${id}-error`;
     return (
-        <div className="grid gap-3 border bg-background p-4">
-            <h4 className="font-medium">{t(`adminListingSources.methods.${method}`)}</h4>
-            {method === "WEB_CRAWL" && (
-                <FormField
-                    id={`admin-source-update-${index}-fallback`}
-                    label={t("adminListingSources.fields.fallbackCurrency")}
-                    error={error?.fallbackCurrency?.message}
-                >
-                    <Input
-                        id={`admin-source-update-${index}-fallback`}
-                        maxLength={3}
-                        aria-invalid={Boolean(error?.fallbackCurrency?.message)}
-                        {...register(`${prefix}.fallbackCurrency`)}
-                    />
-                </FormField>
-            )}
-            {method === "SHOPIFY" && (
-                <div className="grid gap-4 sm:grid-cols-3">
-                    <ConfigurationTextField
-                        id={`admin-source-update-${index}-domain`}
-                        label={t("adminListingSources.fields.domain")}
-                        name={`${prefix}.domain`}
-                        register={register}
-                        error={error?.domain?.message}
-                    />
-                    <ConfigurationTextField
-                        id={`admin-source-update-${index}-currency`}
-                        label={t("adminListingSources.fields.currency")}
-                        name={`${prefix}.currency`}
-                        register={register}
-                        error={error?.currency?.message}
-                    />
-                    <ConfigurationTextField
-                        id={`admin-source-update-${index}-language`}
-                        label={t("adminListingSources.fields.language")}
-                        name={`${prefix}.language`}
-                        register={register}
-                    />
-                </div>
-            )}
-            {method === "WOOCOMMERCE" && (
-                <>
-                    <p className="text-sm text-muted-foreground">
-                        {t("adminListingSources.form.secretPreservationNotice")}
-                    </p>
-                    <div className="grid gap-4 sm:grid-cols-3">
-                        <ConfigurationTextField
-                            id={`admin-source-update-${index}-secret`}
-                            label={t("adminListingSources.fields.webhookSecret")}
-                            name={`${prefix}.webhookSecret`}
-                            register={register}
-                            type="password"
-                            autoComplete="new-password"
-                        />
-                        <ConfigurationTextField
-                            id={`admin-source-update-${index}-currency`}
-                            label={t("adminListingSources.fields.currency")}
-                            name={`${prefix}.currency`}
-                            register={register}
-                            error={error?.currency?.message}
-                        />
-                        <ConfigurationTextField
-                            id={`admin-source-update-${index}-language`}
-                            label={t("adminListingSources.fields.language")}
-                            name={`${prefix}.language`}
-                            register={register}
-                        />
-                    </div>
-                </>
-            )}
-            {method === "PARTNER_API" && (
-                <p className="text-sm text-muted-foreground">
-                    {t("adminListingSources.form.partnerApiConfiguration")}
+        <div className={cn("flex min-w-0 flex-col gap-2", className)}>
+            <label
+                htmlFor={id}
+                className={FIELD_LABEL_CLASS}
+                data-error={error ? "true" : undefined}
+            >
+                {label}
+            </label>
+            <input
+                id={id}
+                type={type}
+                placeholder={placeholder}
+                autoComplete={autoComplete ?? "off"}
+                list={list}
+                maxLength={maxLength}
+                spellCheck={mono ? false : undefined}
+                aria-invalid={error ? true : undefined}
+                aria-describedby={error ? errorId : undefined}
+                {...registration}
+                className={cn(
+                    FIELD_CLASS,
+                    raised && "bg-surface-raised",
+                    mono && "font-mono text-sm",
+                )}
+            />
+            {error && (
+                <p id={errorId} className={FIELD_ERROR_CLASS}>
+                    {t(error)}
                 </p>
             )}
         </div>
     );
 }
 
-function ListingSourceTypeField({
-    value,
-    onChange,
-    onBlur,
+function SourceTypeField({
+    registration,
     error,
 }: {
-    readonly value: ListingSourceType | "";
-    readonly onChange: (value: ListingSourceType) => void;
-    readonly onBlur: () => void;
+    readonly registration: UseFormRegisterReturn;
     readonly error?: string;
 }) {
     const { t } = useTranslation();
+    const labelId = useId();
+    const errorId = `${labelId}-error`;
     return (
-        <FormField
-            id="admin-listing-source-type"
-            label={t("adminListingSources.fields.listingSourceType")}
-            error={error}
-        >
-            <Select
-                value={value}
-                onValueChange={(next) => onChange(next as ListingSourceType)}
-                onOpenChange={(open) => {
-                    if (!open) onBlur();
-                }}
+        <div className="flex flex-col gap-2">
+            <span
+                id={labelId}
+                className={FIELD_LABEL_CLASS}
+                data-error={error ? "true" : undefined}
             >
-                <SelectTrigger
-                    id="admin-listing-source-type"
-                    aria-required="true"
-                    aria-invalid={Boolean(error)}
-                    aria-describedby={
-                        error
-                            ? "admin-listing-source-type-description admin-listing-source-type-error"
-                            : "admin-listing-source-type-description"
-                    }
-                >
-                    <SelectValue
-                        placeholder={t("adminListingSources.form.chooseListingSourceType")}
-                    />
-                </SelectTrigger>
-                <SelectContent>
-                    {LISTING_SOURCE_TYPES.map((type) => (
-                        <SelectItem key={type} value={type}>
+                {t("adminListingSources.fields.listingSourceType")}
+            </span>
+            <div
+                role="radiogroup"
+                aria-labelledby={labelId}
+                aria-required="true"
+                aria-invalid={error ? true : undefined}
+                aria-describedby={error ? errorId : undefined}
+                className="grid grid-cols-1 gap-2 sm:grid-cols-2"
+            >
+                {LISTING_SOURCE_TYPES.map((type) => (
+                    <label key={type} className={OPTION_CARD_CLASS}>
+                        <input
+                            type="radio"
+                            value={type}
+                            {...registration}
+                            className="mt-0.5 size-[17px] shrink-0 accent-oxblood"
+                        />
+                        <span className="text-sm font-medium">
                             {t(`listingSourceTypes.${type}`)}
-                        </SelectItem>
-                    ))}
-                </SelectContent>
-            </Select>
-            <p id="admin-listing-source-type-description" className="text-xs text-muted-foreground">
-                {t("adminListingSources.form.listingSourceTypeDescription")}
-            </p>
-        </FormField>
+                        </span>
+                    </label>
+                ))}
+            </div>
+            {error && (
+                <p id={errorId} className={FIELD_ERROR_CLASS}>
+                    {t(error)}
+                </p>
+            )}
+        </div>
     );
 }
 
 function PlatformTechnologyField({
-    register,
+    registration,
     error,
 }: {
-    readonly register: UseFormRegister<CreateFormValues> | UseFormRegister<UpdateFormValues>;
+    readonly registration: UseFormRegisterReturn;
     readonly error?: string;
 }) {
     const { t } = useTranslation();
+    const listId = useId();
     return (
-        <FormField
-            id="admin-listing-source-platform"
-            label={t("adminListingSources.fields.platformTechnology")}
-            error={error}
-        >
-            <Input
-                id="admin-listing-source-platform"
-                list="admin-listing-source-platform-suggestions"
-                autoComplete="off"
-                autoCapitalize="characters"
-                spellCheck={false}
-                aria-invalid={Boolean(error)}
-                {...(register as UseFormRegister<CreateFormValues>)("platformTechnology")}
+        <>
+            <TextField
+                label={t("adminListingSources.fields.platformTechnology")}
+                registration={registration}
+                error={error}
+                list={listId}
+                mono
             />
-            <datalist id="admin-listing-source-platform-suggestions">
+            <datalist id={listId}>
                 {ADMIN_LISTING_SOURCE_PLATFORM_SUGGESTIONS.map((code) => (
                     <option key={code} value={code} />
                 ))}
             </datalist>
-            <p className="text-xs text-muted-foreground">
-                {t("adminListingSources.form.platformTechnologyDescription")}
-            </p>
-        </FormField>
+        </>
     );
 }
 
 function PresentationFields({
-    register,
-    errors,
+    url,
+    image,
+    urlError,
+    imageError,
 }: {
-    readonly register: UseFormRegister<CreateFormValues>;
-    readonly errors: {
-        readonly url?: { readonly message?: string };
-        readonly image?: { readonly message?: string };
-    };
+    readonly url: UseFormRegisterReturn;
+    readonly image: UseFormRegisterReturn;
+    readonly urlError?: string;
+    readonly imageError?: string;
 }) {
     const { t } = useTranslation();
     return (
-        <div className="grid gap-4 sm:grid-cols-2">
-            <FormField
-                id="admin-listing-source-url"
-                label={t("adminListingSources.fields.url")}
-                error={errors.url?.message}
-            >
-                <Input id="admin-listing-source-url" type="url" {...register("url")} />
-            </FormField>
-            <FormField
-                id="admin-listing-source-image"
-                label={t("adminListingSources.fields.image")}
-                error={errors.image?.message}
-            >
-                <Input id="admin-listing-source-image" type="url" {...register("image")} />
-            </FormField>
+        <div className="grid grid-cols-1 gap-x-4 gap-y-3.5 sm:grid-cols-2">
+            <TextField
+                label={t("adminListingSources.fields.website")}
+                registration={url}
+                error={urlError}
+                type="url"
+                placeholder="https://"
+            />
+            <TextField
+                label={t("adminListingSources.fields.imageUrl")}
+                registration={image}
+                error={imageError}
+                type="url"
+                placeholder="https://"
+            />
         </div>
     );
 }
 
-function ConfigurationTextField({
-    id,
-    label,
-    name,
-    register,
-    error,
-    type = "text",
-    autoComplete,
+function ReferralField({
+    value,
+    onChange,
 }: {
-    readonly id: string;
-    readonly label: string;
-    readonly name: `configurations.${number}.${"domain" | "currency" | "language" | "webhookSecret"}`;
-    readonly register: UseFormRegister<CreateFormValues> | UseFormRegister<UpdateFormValues>;
-    readonly error?: string;
-    readonly type?: "text" | "password";
-    readonly autoComplete?: string;
+    readonly value: UpdateFormValues["referralAction"];
+    readonly onChange: (value: UpdateFormValues["referralAction"]) => void;
 }) {
+    const { t } = useTranslation();
+    const id = useId();
     return (
-        <FormField id={id} label={label} error={error}>
-            <Input
+        <div className="flex min-w-0 flex-col gap-2">
+            <label htmlFor={id} className={FIELD_LABEL_CLASS}>
+                {t("adminListingSources.fields.referral")}
+            </label>
+            <AdminSelect
                 id={id}
-                type={type}
-                autoComplete={autoComplete}
-                aria-invalid={Boolean(error)}
-                {...(register as UseFormRegister<CreateFormValues>)(name)}
+                value={value}
+                onChange={(next) => onChange(next as UpdateFormValues["referralAction"])}
+                options={[
+                    { value: "KEEP", label: t("adminListingSources.referral.keepCurrent") },
+                    { value: "SET", label: t("adminListingSources.referral.set") },
+                    { value: "CLEAR", label: t("adminListingSources.referral.clear") },
+                ]}
             />
-        </FormField>
+        </div>
     );
 }
 
-function FormField({
-    id,
-    label,
-    error,
+/** The design-system switch: a 34×20 track inside a 44px hit area, oxblood while on. */
+function ReplaceSwitch({ control }: { readonly control: Control<UpdateFormValues> }) {
+    const { t } = useTranslation();
+    const field = useController({ control, name: "replaceIngestionConfiguration" }).field;
+    const labelId = useId();
+    const hintId = useId();
+    const on = field.value;
+    return (
+        <div className="flex items-start gap-3.5 rounded-md bg-surface px-4 py-3.5 shadow-ring">
+            <button
+                type="button"
+                role="switch"
+                aria-checked={on}
+                aria-labelledby={labelId}
+                aria-describedby={hintId}
+                onClick={() => field.onChange(!on)}
+                className={cn(
+                    "inline-flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-pill",
+                    FOCUS_CLASS,
+                )}
+            >
+                <span
+                    aria-hidden="true"
+                    className={cn(
+                        "relative block h-5 w-[34px] rounded-pill transition-colors motion-reduce:transition-none",
+                        on
+                            ? "bg-oxblood"
+                            : "bg-surface-sunken shadow-[inset_0_0_0_1px_var(--line-strong)]",
+                    )}
+                >
+                    <span
+                        className={cn(
+                            "absolute top-[3px] size-3.5 rounded-pill transition-[left] motion-reduce:transition-none",
+                            on ? "left-[17px] bg-on-oxblood" : "left-[3px] bg-ink-muted",
+                        )}
+                    />
+                </span>
+            </button>
+            <span className="flex flex-col gap-1 pt-2.5">
+                <span id={labelId} className="text-sm font-medium">
+                    {t("adminListingSources.form.replaceConfiguration")}
+                </span>
+                <span id={hintId} className="text-xs leading-normal text-ink-secondary">
+                    {t("adminListingSources.form.replaceWarning")}
+                </span>
+            </span>
+        </div>
+    );
+}
+
+function MethodCard({
+    method,
+    onRemove,
     children,
 }: {
-    readonly id: string;
-    readonly label: string;
-    readonly error?: string;
+    readonly method: ListingIngestionMethodData;
+    readonly onRemove?: () => void;
     readonly children: ReactNode;
 }) {
     const { t } = useTranslation();
+    const name = t(`adminListingSources.methods.${method}`);
     return (
-        <div className="grid gap-2">
-            <Label htmlFor={id}>{label}</Label>
+        <section
+            aria-label={name}
+            className="flex flex-col gap-3.5 rounded-md bg-surface p-[18px] shadow-ring"
+        >
+            <div className="flex items-center justify-between gap-3">
+                <h4 className="text-sm font-semibold">{name}</h4>
+                {onRemove && (
+                    <button
+                        type="button"
+                        onClick={onRemove}
+                        aria-label={t("adminListingSources.form.removeMethod", { method: name })}
+                        className={cn(
+                            "min-h-9 cursor-pointer px-2.5 text-meta font-medium underline underline-offset-3",
+                            FOCUS_CLASS,
+                        )}
+                    >
+                        {t("adminListingSources.actions.removeMethod")}
+                    </button>
+                )}
+            </div>
             {children}
-            {error && (
-                <p id={`${id}-error`} role="alert" className="text-sm text-destructive">
-                    {t(error)}
+        </section>
+    );
+}
+
+type ConfigurationFieldName =
+    | "fallbackCurrency"
+    | "domain"
+    | "currency"
+    | "language"
+    | "webhookSecret";
+
+function configurationFieldNames(index: number) {
+    return (name: ConfigurationFieldName) => `configurations.${index}.${name}` as const;
+}
+
+function ConfigurationFields({
+    method,
+    mode,
+    fieldNames,
+    register,
+    errors,
+}: {
+    readonly method: ListingIngestionMethodData;
+    readonly mode: "create" | "update";
+    readonly fieldNames: (name: ConfigurationFieldName) => string;
+    readonly register: (name: string) => UseFormRegisterReturn;
+    readonly errors?: ConfigurationErrors;
+}) {
+    const { t } = useTranslation();
+    const field = (name: ConfigurationFieldName) => register(fieldNames(name));
+    const currency = (
+        <TextField
+            label={t("adminListingSources.fields.currency")}
+            registration={field("currency")}
+            error={errors?.currency?.message}
+            maxLength={3}
+            raised
+            mono
+        />
+    );
+    const language = (
+        <TextField
+            label={t("adminListingSources.fields.language")}
+            registration={field("language")}
+            raised
+            mono
+        />
+    );
+
+    if (method === "WEB_CRAWL") {
+        return (
+            <TextField
+                label={t("adminListingSources.fields.fallbackCurrency")}
+                registration={field("fallbackCurrency")}
+                error={errors?.fallbackCurrency?.message}
+                maxLength={3}
+                raised
+                mono
+            />
+        );
+    }
+    if (method === "SHOPIFY") {
+        return (
+            <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-3">
+                <TextField
+                    label={t("adminListingSources.fields.domain")}
+                    registration={field("domain")}
+                    error={errors?.domain?.message}
+                    raised
+                    mono
+                />
+                {currency}
+                {language}
+            </div>
+        );
+    }
+    if (method === "WOOCOMMERCE") {
+        return (
+            <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-3">
+                <TextField
+                    label={t("adminListingSources.fields.secret")}
+                    registration={field("webhookSecret")}
+                    error={errors?.webhookSecret?.message}
+                    type="password"
+                    autoComplete="new-password"
+                    placeholder={
+                        mode === "update"
+                            ? t("adminListingSources.form.secretPlaceholder")
+                            : undefined
+                    }
+                    raised
+                />
+                {currency}
+                {language}
+            </div>
+        );
+    }
+    return (
+        <p className="text-meta text-ink-secondary">
+            {t("adminListingSources.form.partnerApiConfiguration")}
+        </p>
+    );
+}
+
+function AddMethodMenu({
+    available,
+    onAdd,
+}: {
+    readonly available: readonly ListingIngestionMethodData[];
+    readonly onAdd: (method: ListingIngestionMethodData) => void;
+}) {
+    const { t } = useTranslation();
+    return (
+        <DropdownMenu modal={false}>
+            <DropdownMenuTrigger
+                disabled={available.length === 0}
+                className={cn(SMALL_SECONDARY_PILL_CLASS, "self-start pl-3")}
+            >
+                <Plus aria-hidden="true" className="size-[15px]" strokeWidth={1.8} />
+                {t("adminListingSources.actions.addMethod")}
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+                align="start"
+                className="min-w-52 rounded-lg border-0 bg-surface-raised p-1.5 text-ink shadow-menu"
+            >
+                {available.map((method) => (
+                    <DropdownMenuItem
+                        key={method}
+                        onSelect={() => onAdd(method)}
+                        className="min-h-10 cursor-pointer rounded-md text-sm focus:bg-surface-sunken data-highlighted:bg-surface-sunken"
+                    >
+                        {t(`adminListingSources.methods.${method}`)}
+                    </DropdownMenuItem>
+                ))}
+            </DropdownMenuContent>
+        </DropdownMenu>
+    );
+}
+
+function FormFooter({
+    slug,
+    requestError,
+    pending,
+    submitLabel,
+    onCancel,
+}: {
+    readonly slug?: string;
+    readonly requestError?: string;
+    readonly pending: boolean;
+    readonly submitLabel: string;
+    readonly onCancel: () => void;
+}) {
+    const { t } = useTranslation();
+    return (
+        <div className="sticky bottom-0 -mx-5 -mb-7 flex flex-col gap-3 border-t border-line bg-surface-raised px-5 py-[18px] sm:-mx-7 sm:px-7">
+            {requestError && (
+                <p role="alert" className={INLINE_ALERT_CLASS}>
+                    <TriangleAlert
+                        aria-hidden="true"
+                        className="mt-0.5 size-4 shrink-0 text-oxblood"
+                        strokeWidth={2}
+                    />
+                    {requestError}
                 </p>
             )}
+            <div className="flex flex-wrap items-center justify-between gap-3">
+                <span className="font-mono text-[10px] tracking-[0.12em] break-all text-ink-muted uppercase">
+                    {slug ? t("adminListingSources.form.slug", { slug }) : null}
+                </span>
+                <div className="flex flex-wrap gap-2.5">
+                    <button type="button" onClick={onCancel} className={SECONDARY_PILL_CLASS}>
+                        {t("adminCommon.cancel")}
+                    </button>
+                    <button
+                        type="submit"
+                        disabled={pending}
+                        aria-busy={pending}
+                        className={PRIMARY_PILL_CLASS}
+                    >
+                        {pending ? t("adminCommon.saving") : submitLabel}
+                    </button>
+                </div>
+            </div>
         </div>
     );
 }

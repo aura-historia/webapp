@@ -3,6 +3,7 @@ import type { AdminProductListingDetail } from "@/data/internal/product/AdminPro
 import {
     type AdminProductListingFormValues,
     buildAdminProductListingPatch,
+    countAdminProductListingChanges,
     createAdminProductListingFormSchema,
     formatMinorUnits,
     hasAdminProductListingChanges,
@@ -172,6 +173,16 @@ describe("buildAdminProductListingPatch", () => {
         expect(buildAdminProductListingPatch(draft({ title: "  " }), original)).toEqual({
             title: null,
         });
+    });
+
+    it("counts each changed group once for the save bar", () => {
+        expect(countAdminProductListingChanges(original, original)).toBe(0);
+        expect(
+            countAdminProductListingChanges(
+                draft({ title: "Nussbaumschrank", titleLanguage: "de", lotNumber: "13" }),
+                original,
+            ),
+        ).toBe(2);
     });
 
     it("ignores a language choice without text and treats a language switch as a change", () => {

@@ -2084,73 +2084,48 @@
     }
   },
   "adminListingSources": {
-    "title": "Gestione delle fonti di annunci",
-    "description": "Gestisci le fonti, i relativi operatori, i dati di presentazione e le impostazioni di acquisizione.",
     "loading": "Caricamento delle fonti di annunci.",
     "loadingDetail": "Caricamento della fonte di annunci.",
-    "empty": "Nessuna fonte di annunci corrisponde a questi filtri.",
     "filters": {
       "title": "Filtra le fonti di annunci",
       "query": "Nome o operatore",
       "name": "Nome della fonte",
       "listingSourceId": "ID della fonte",
-      "listingSourceSlugId": "Slug immutabile",
-      "operatorPartyId": "ID dell’organizzazione operatrice",
-      "allTypes": "Tutti i tipi",
-      "ingestionMethod": "Metodo di acquisizione",
-      "allMethods": "Tutti i metodi",
-      "sort": "Ordina per",
-      "apply": "Applica filtri",
-      "reset": "Reimposta"
-    },
-    "sort": {
-      "name_asc": "Nome, dalla A alla Z",
-      "name_desc": "Nome, dalla Z alla A",
-      "slug_asc": "Slug, dalla A alla Z",
-      "slug_desc": "Slug, dalla Z alla A",
-      "created_asc": "Prima le più vecchie",
-      "created_desc": "Prima le più recenti",
-      "updated_asc": "Aggiornate meno di recente",
-      "updated_desc": "Aggiornate più di recente"
+      "type": "Tipo",
+      "ingestion": "Importazione",
+      "slug": "Slug",
+      "operatorId": "ID dell’operatore"
     },
     "list": {
-      "operator": "Operatore: {{name}}",
-      "noMethods": "Nessun metodo di acquisizione",
-      "platform": "Tecnologia della piattaforma: {{code}}",
-      "updated": "Aggiornata {{date}}",
-      "total_one": "{{count}} fonte di annunci",
-      "total_other": "{{count}} fonti di annunci",
-      "loadMore": "Carica altro",
-      "loadingMore": "Caricamento…"
+      "heads": {
+        "source": "Fonte",
+        "type": "Tipo",
+        "ingestion": "Importazione",
+        "platform": "Piattaforma",
+        "updated": "Aggiornato"
+      },
+      "operatedBy": "Gestito da {{name}}",
+      "none": "Nessuno",
+      "loadMoreSources": "Carica altre fonti"
     },
     "fields": {
-      "listingSourceId": "ID della fonte",
-      "immutableSlug": "Slug immutabile",
       "name": "Nome della fonte",
       "listingSourceType": "Tipo di fonte",
       "operator": "Organizzazione operatrice",
-      "operatorPartyId": "ID dell’organizzazione operatrice",
       "operatorName": "Nome del nuovo operatore",
       "phone": "Telefono",
       "email": "E-mail",
-      "ingestionMethods": "Metodi di acquisizione",
       "platformTechnology": "Tecnologia della piattaforma",
-      "platformTechnologyNotRecorded": "Non registrata",
-      "ingestionConfiguration": "Configurazione di acquisizione",
-      "configurationType": "Tipo di configurazione",
       "fallbackCurrency": "Valuta di ripiego (ISO 4217)",
       "domain": "Dominio Shopify",
       "currency": "Valuta",
       "language": "Lingua",
-      "webhookSecret": "Segreto webhook WooCommerce",
-      "url": "URL di presentazione",
-      "image": "URL dell’immagine di presentazione",
-      "partnerizeCamref": "Riferimento campagna Partnerize (camref)",
-      "referralConfiguration": "Configurazione referral",
-      "created": "Creata",
-      "updated": "Ultimo aggiornamento",
-      "notProvided": "Non indicato",
-      "referralUnavailable": "Al momento non disponibile"
+      "referralUnavailable": "Al momento non disponibile",
+      "website": "Sito web",
+      "imageUrl": "URL dell’immagine",
+      "camref": "camref Partnerize",
+      "referral": "Referral",
+      "secret": "Secret del webhook"
     },
     "methods": {
       "WEB_CRAWL": "Scansione web",
@@ -2158,55 +2133,46 @@
       "WOOCOMMERCE": "WooCommerce",
       "PARTNER_API": "API partner"
     },
-    "configurationTypes": {
-      "WEB_CRAWL": "Scansione web",
-      "SHOPIFY": "Shopify",
-      "WOOCOMMERCE": "WooCommerce",
-      "PARTNER_API": "API partner"
-    },
     "operator": {
-      "existing": "Seleziona un’organizzazione esistente",
-      "new": "Crea una nuova organizzazione"
+      "existingShort": "Organizzazione esistente",
+      "newShort": "Nuova organizzazione"
     },
     "referral": {
-      "keep": "Mantieni l’impostazione attuale",
       "set": "Imposta il riferimento Partnerize",
       "clear": "Cancella l’impostazione referral",
-      "partnerizeValue": "Partnerize · {{camref}}"
+      "partnerizeValue": "Partnerize · {{camref}}",
+      "keepCurrent": "Mantieni l’attuale"
     },
     "detail": {
-      "title": "Dettagli della fonte di annunci",
-      "description": "Esamina l’identità della fonte, l’operatore e il riepilogo sicuro della configurazione. I segreti del fornitore non vengono mai mostrati."
+      "eyebrow": "Fonte di annunci · {{type}}",
+      "eyebrowBare": "Fonte di annunci",
+      "operatedBy": "Gestito da <party>{{name}}</party>",
+      "confirmDelete": "Eliminare questa fonte? Non è possibile finché ha annunci."
     },
     "form": {
-      "createTitle": "Crea fonte di annunci",
-      "createDescription": "Crea una fonte e scegli il suo operatore. I metodi di acquisizione possono essere configurati in seguito.",
-      "editTitle": "Modifica fonte di annunci",
-      "editDescription": "Modifica i dati della fonte. Operatore e slug sono immutabili.",
-      "configurationDescription": "Facoltativo: aggiungi ora i metodi di acquisizione configurati oppure lascia la lista vuota per configurarli in seguito.",
-      "referralDescription": "Dati referral Partnerize facoltativi. Qui non vengono salvate credenziali del fornitore.",
-      "chooseListingSourceType": "Scegli un tipo di fonte",
-      "listingSourceTypeDescription": "Il modello di vendita principale della fonte. Il negozio proprio di un venditore su un marketplace si classifica in base a quel venditore, di solito come commerciante. Descrive soltanto la fonte: importazione, annunci e aste non cambiano.",
-      "platformTechnologyDescription": "Codice facoltativo in lettere maiuscole, cifre e trattini bassi, ad esempio SHOPIFY o BIGCOMMERCE. Descrive solo il software del negozio: non attiva l’acquisizione e non implica un’app installata né una partnership. Lascialo vuoto per non registrare alcuna piattaforma.",
       "replaceConfiguration": "Sostituisci la configurazione di acquisizione",
-      "incompleteConfigurationNotice": "L’API di lettura non restituisce i valori di configurazione. Lascia l’opzione disattivata per mantenere le impostazioni attuali. Attivandola sostituirai le impostazioni di tutti i metodi attivi.",
-      "secretPreservationNotice": "Questo segreto è solo scrivibile e non viene mai letto di nuovo. Lascialo vuoto per mantenere un segreto esistente; inserisci un valore per impostarlo o ruotarlo.",
-      "partnerApiConfiguration": "La configurazione dell’API partner è gestita tramite il flusso di integrazione partner."
+      "partnerApiConfiguration": "La configurazione dell’API partner è gestita tramite il flusso di integrazione partner.",
+      "newTitle": "Nuova fonte di annunci",
+      "editNamed": "Modifica {{name}}",
+      "legends": {
+        "source": "Fonte",
+        "operator": "Operatore",
+        "presentation": "Presentazione e referral",
+        "ingestion": "Importazione"
+      },
+      "fixed": "Fisso",
+      "replaceWarning": "Sovrascrive ogni metodo attivo.",
+      "secretPlaceholder": "Lascia vuoto per mantenerlo",
+      "removeMethod": "Rimuovi {{method}}",
+      "slug": "Slug · {{slug}}"
     },
     "actions": {
       "create": "Crea fonte",
-      "details": "Visualizza dettagli",
       "edit": "Modifica fonte",
       "delete": "Elimina fonte",
-      "retry": "Riprova",
-      "cancel": "Annulla",
       "save": "Salva modifiche",
-      "saving": "Salvataggio…",
       "addMethod": "Aggiungi metodo di acquisizione",
-      "removeMethod": "Rimuovi",
-      "confirmDelete": "Eliminare questa fonte di annunci? Le fonti con annunci o relazioni conservate non possono essere eliminate. Le partnership e le richieste correlate non verranno rimosse.",
-      "confirmDeleteButton": "Elimina fonte",
-      "deleting": "Eliminazione…"
+      "removeMethod": "Rimuovi"
     },
     "success": {
       "created": "Fonte di annunci creata.",
@@ -2217,10 +2183,10 @@
       "forbidden": "Non hai l’autorizzazione per gestire le fonti di annunci.",
       "missing": "Fonte di annunci non trovata o non più disponibile.",
       "createConflict": "La fonte è in conflitto con una configurazione del fornitore esistente, oppure ogni slug generato dal suo nome o dal nome del nuovo operatore è già in uso. Esamina le fonti attuali o scegli un nome più distintivo prima di riprovare.",
-      "updateConflict": "La fonte è stata modificata durante l’operazione. Ricarica i dettagli prima di riprovare.",
       "deleteConflict": "La fonte ha annunci o relazioni conservate e non può essere eliminata. Non è stato rimosso alcun dato correlato.",
       "invalid": "Controlla i dati della fonte e le impostazioni di acquisizione, quindi riprova.",
-      "requestFailed": "Non è stato possibile completare la richiesta della fonte. Riprova."
+      "requestFailed": "Non è stato possibile completare la richiesta della fonte. Riprova.",
+      "changedElsewhere": "La fonte di annunci è stata modificata altrove. Ricaricata."
     },
     "validation": {
       "nameRequired": "Inserisci il nome della fonte.",
@@ -2239,19 +2205,14 @@
     },
     "locationDefault": {
       "title": "Sede predefinita",
-      "description": "L’unica sede che fornisce agli annunci di questa fonte la geografia derivata dalla fonte. Si possono scegliere solo sedi attive dell’organizzazione che gestisce la fonte.",
       "loading": "Caricamento della sede predefinita.",
-      "propagation": "Le modifiche alla sede predefinita vengono salvate subito. I risultati di ricerca e la geografia degli annunci si aggiornano in modo asincrono e possono richiedere un breve tempo. Dismettere o trasferire una sede non sposta mai automaticamente questa impostazione su un’altra sede.",
       "unsupportedValues": "Alcune prove salvate usano un formato che questa app non può mostrare, quindi non sono visualizzate qui.",
       "fields": {
-        "location": "Sede",
         "noDefault": "Nessuna sede predefinita",
-        "locationDetailsUnavailable": "I dettagli della sede non sono caricati qui. Apri le sedi del gestore per verificarli.",
-        "notAsserted": "Non dichiarato",
-        "asserted": "Dichiarato",
-        "evidence": "Prova: {{reference}}",
-        "evidenceReference": "Riferimento della prova",
-        "revision": "Revisione"
+        "yes": "Sì",
+        "no": "No",
+        "evidenceLabel": "Prova",
+        "locationUnavailable": "Dettagli della sede non caricati."
       },
       "effect": {
         "none": "Non è impostata alcuna sede predefinita. Gli annunci di questa fonte non hanno geografia derivata dalla fonte.",
@@ -2262,45 +2223,35 @@
       },
       "applicability": {
         "legend": "Applicabilità",
-        "hint": "Ogni dichiarazione è indipendente e richiede un proprio riferimento della prova. Solo l’inventario offerto colloca gli annunci di questa fonte nella sede.",
-        "evidenceHint": "Obbligatorio. Un riferimento alla fonte di questa dichiarazione, ad esempio un numero di documento o un indirizzo web. Viene salvato come testo e non viene mai aperto.",
         "advertisedInventory": {
-          "label": "Inventario offerto",
-          "description": "Gli oggetti offerti da questa fonte si trovano in questa sede. I suoi annunci ereditano quindi la geografia della sede."
+          "label": "Inventario offerto"
         },
         "businessAssociation": {
-          "label": "Attività associata",
-          "description": "L’attività dietro questa fonte opera da questa sede. Da sola, questa dichiarazione non colloca singoli annunci nella sede."
+          "label": "Attività associata"
         }
       },
       "assign": {
         "title": "Assegna sede predefinita",
         "replaceTitle": "Sostituisci sede predefinita",
-        "description": "Scegli una sede attiva dell’organizzazione che gestisce la fonte e indica quale applicabilità vale.",
-        "replaceDescription": "La sostituzione imposta insieme la sede ed entrambe le dichiarazioni di applicabilità. Le dichiarazioni attuali non vengono mantenute; dichiarale di nuovo se valgono per la nuova sede.",
         "unsupportedValues": "L’impostazione attuale contiene prove salvate che questa app non può mostrare. La sostituzione le rimuove.",
         "locationLegend": "Sede"
       },
       "applicabilityForm": {
         "title": "Modifica applicabilità",
-        "description": "Modifica le dichiarazioni per la sede attuale senza cambiare la sede.",
         "unsupportedValues": "Alcune prove salvate non possono essere mostrate. Le dichiarazioni non modificate le mantengono; modificare una dichiarazione le sostituisce.",
         "noChanges": "Non ci sono modifiche da salvare."
       },
       "clear": {
-        "confirm": "Rimuovere la sede predefinita? Gli annunci di questa fonte perdono la geografia ereditata da essa quando la ricerca si aggiorna. Nessun’altra sede viene selezionata.",
-        "confirmRetired": "Rimuovere il riferimento dismesso? Al momento non fornisce geografia agli annunci; rimuovendolo viene scollegato da questa fonte. Nessun’altra sede viene selezionata."
+        "confirmShort": "Rimuovere la predefinita? Gli annunci perdono la sua geografia.",
+        "confirmRetiredShort": "Rimuovere il riferimento dismesso? Non fornisce alcuna geografia."
       },
       "stale": {
-        "assign": "La sede predefinita è cambiata durante la modifica; sopra è mostrata la versione più recente. Mantieni la bozza per applicarla alla versione più recente oppure scartala.",
-        "applicability": "La sede predefinita è cambiata durante la modifica; sopra è mostrata la versione più recente. Mantieni la bozza per applicare solo le tue modifiche alla versione più recente oppure scartala.",
         "applicabilityUnavailable": "La sede predefinita non fa più riferimento alla stessa sede attiva, quindi la sua applicabilità non può essere modificata qui. Scarta la bozza e verifica sopra la versione più recente.",
-        "clear": "La sede predefinita è cambiata dopo l’inizio dell’operazione; sopra è mostrata la versione più recente. Verificala e conferma di nuovo, oppure annulla.",
-        "alreadyCleared": "La sede predefinita è già stata rimossa. Non c’è più nulla da rimuovere."
+        "alreadyCleared": "La sede predefinita è già stata rimossa. Non c’è più nulla da rimuovere.",
+        "changed": "Modificata altrove (ora revisione {{revision}})."
       },
       "links": {
-        "operatorLocations": "Gestisci le sedi di {{name}}",
-        "operatorLocationsHint": "Aggiungi, correggi, trasferisci, dismetti o ripristina sedi nella pagina dell’organizzazione che gestisce la fonte."
+        "operator": "Sedi dell’operatore"
       },
       "actions": {
         "assign": "Assegna sede",
@@ -2311,7 +2262,6 @@
         "confirmReplace": "Sostituisci sede",
         "saveApplicability": "Salva applicabilità",
         "confirmClear": "Rimuovi predefinita",
-        "clearing": "Rimozione…",
         "keepDraft": "Mantieni la bozza",
         "discardDraft": "Scarta la bozza",
         "reviewLatest": "Usa la versione più recente"
@@ -2336,7 +2286,42 @@
         "invalid": "Controlla la sede e i riferimenti delle prove, poi riprova.",
         "unavailable": "Le sedi predefinite non sono temporaneamente disponibili. Riprova a breve.",
         "requestFailed": "Non è stato possibile completare la richiesta. Riprova."
+      },
+      "status": {
+        "none": "Nessuna predefinita",
+        "ACTIVE": "Attiva",
+        "RETIRED": "Dismessa",
+        "UNKNOWN": "Stato sconosciuto",
+        "revision": "Revisione {{revision}}"
       }
+    },
+    "heading": "Fonti di annunci",
+    "states": {
+      "empty": "Nessuna fonte di annunci",
+      "noMatches": "Nessun risultato",
+      "error": "Impossibile caricare le fonti di annunci"
+    },
+    "sortOptions": {
+      "name_asc": "Nome · A–Z",
+      "name_desc": "Nome · Z–A",
+      "slug_asc": "Slug · A–Z",
+      "slug_desc": "Slug · Z–A",
+      "created_desc": "Creazione · Più recenti prima",
+      "created_asc": "Creazione · Meno recenti prima",
+      "updated_desc": "Aggiornamento · Più recenti prima",
+      "updated_asc": "Aggiornamento · Meno recenti prima"
+    },
+    "facts": {
+      "id": "ID",
+      "slug": "Slug",
+      "ingestion": "Importazione",
+      "platform": "Piattaforma",
+      "website": "Sito web",
+      "image": "Immagine",
+      "referral": "Referral",
+      "operatorId": "ID dell’operatore",
+      "created": "Creata",
+      "updated": "Aggiornata"
     }
   },
   "listingSourceTypes": {
@@ -2352,82 +2337,61 @@
     }
   },
   "adminPartnerships": {
-    "title": "Gestione delle partnership",
-    "description": "Gestisci le appartenenze alle partnership e l'accesso alle fonti di annunci.",
     "loading": "Caricamento delle partnership.",
     "loadingDetail": "Caricamento della partnership.",
-    "empty": "Nessuna partnership attiva corrisponde a questi filtri.",
     "filters": {
       "title": "Filtra le partnership",
-      "partyId": "ID organizzazione",
       "memberUserId": "ID utente membro",
       "listingSourceId": "ID fonte annunci",
-      "apply": "Applica filtri",
-      "reset": "Reimposta"
+      "byId": "Filtra per ID",
+      "organizationId": "ID organizzazione"
     },
     "validation": {
       "idTooLong": "L'identificativo non può superare 128 caratteri.",
       "requiredId": "Inserisci un identificativo."
     },
     "list": {
-      "members_one": "{{count}} membro",
-      "members_other": "{{count}} membri",
-      "listingSources_one": "{{count}} accesso fonte",
-      "listingSources_other": "{{count}} accessi fonte",
-      "loaded_one": "Caricata {{count}} partnership",
-      "loaded_other": "Caricate {{count}} partnership",
-      "loadMore": "Carica altro",
-      "loadingMore": "Caricamento…"
+      "label": "Partnership",
+      "open": "Apri la partnership con {{name}}",
+      "loadMorePartnerships": "Carica altre partnership"
     },
     "fields": {
-      "created": "Creata",
-      "updated": "Ultimo aggiornamento",
-      "party": "Organizzazione",
-      "partyId": "ID organizzazione",
-      "partySlugId": "Identificativo immutabile dell'organizzazione",
       "partnershipId": "ID partnership",
-      "memberCount": "Membri (conteggio completo)",
-      "listingSourceGrantCount": "Accessi alle fonti (conteggio completo)"
+      "organizationId": "ID organizzazione",
+      "organizationSlug": "Slug dell’organizzazione",
+      "members": "Membri",
+      "sourceGrants": "Accessi alle fonti",
+      "createdUpdated": "Creata · Aggiornata"
     },
     "actions": {
-      "details": "Vedi dettagli",
-      "retry": "Riprova",
-      "saving": "Salvataggio…",
       "grantMembership": "Concedi appartenenza",
-      "revokeMembership": "Revoca appartenenza",
       "revoke": "Revoca",
       "revokeMemberFor": "Revoca appartenenza dell'utente {{id}}",
       "revokeSourceFor": "Revoca accesso alla fonte annunci {{id}}",
       "grantSource": "Concedi accesso",
       "revokeSource": "Revoca accesso",
-      "cancel": "Annulla",
       "dissolve": "Dissolvi partnership",
-      "dissolving": "Dissoluzione…",
       "confirmDissolve": "Dissolvi partnership"
     },
     "detail": {
-      "title": "Dettagli partnership",
-      "description": "Le appartenenze e gli accessi alle fonti si gestiscono separatamente. I conteggi completi possono superare gli identificativi visualizzati.",
-      "members_one": "{{count}} membro",
-      "members_other": "{{count}} membri",
-      "listingSources_one": "{{count}} accesso fonte",
-      "listingSources_other": "{{count}} accessi fonte",
-      "referencesShown": "Identificativi mostrati: {{shown}}. Conteggio completo: {{count}}.",
       "noReferences": "Nessun identificativo restituito.",
-      "close": "Chiudi"
+      "eyebrow": "Partnership",
+      "organizationLink": "Organizzazione",
+      "shown": "{{shown}} di {{count}} mostrati"
     },
     "members": {
-      "title": "Gestisci le appartenenze",
-      "description": "Concedi o revoca le appartenenze in modo esplicito. L'approvazione di una richiesta, da sola, non concede accesso.",
-      "userId": "ID utente"
+      "userId": "ID utente",
+      "heading": "Membri",
+      "confirmRevoke": "Revocare questa appartenenza?"
     },
     "sources": {
-      "title": "Gestisci l'accesso alle fonti",
-      "description": "Una fonte deve appartenere alla stessa organizzazione della partnership. Il server verifica nuovamente il requisito al salvataggio.",
       "listingSourceId": "ID fonte annunci",
       "checking": "Verifica della fonte…",
       "check": "Verifica fonte",
-      "sameParty": "{{name}} ({{listingSourceId}}) appartiene alla stessa organizzazione della partnership."
+      "heading": "Accesso alle fonti",
+      "confirmRevoke": "Revocare l’accesso a questa fonte?",
+      "sameOrganization": "{{name}} · stessa organizzazione",
+      "otherOrganization": "Appartiene a un’altra organizzazione."
     },
     "success": {
       "memberGranted": "Appartenenza concessa.",
@@ -2441,17 +2405,30 @@
       "invalid": "Controlla gli identificativi inseriti.",
       "missing": "Questa partnership non è più disponibile.",
       "partyConflict": "La fonte appartiene a un'altra organizzazione. L'accesso può essere concesso solo a una fonte dell'organizzazione della partnership.",
-      "conflict": "La partnership è cambiata durante la richiesta. Aggiorna i dettagli e riprova.",
-      "dissolveConflict": "La partnership è cambiata durante la richiesta. Aggiorna i dettagli prima di riprovare.",
       "dissolveFailed": "Non è stato possibile dissolvere la partnership. Verifica lo stato attuale e riprova.",
       "requestFailed": "Non è stato possibile completare la richiesta. Aggiorna i dettagli e riprova.",
-      "referenceMissing": "La partnership o l'identificativo indicato non è stato trovato."
+      "referenceMissing": "La partnership o l'identificativo indicato non è stato trovato.",
+      "changedElsewhere": "Modificata altrove. Ricaricata."
     },
     "dissolution": {
       "title": "Dissolvi la partnership",
-      "description": "La dissoluzione rimuove le appartenenze e gli accessi alle fonti attuali. Organizzazione, fonti, utenti, annunci e richieste restano invariati.",
-      "confirmTitle": "Conferma la dissoluzione",
-      "confirmDescription": "Dissolvere la partnership con {{name}}? Le appartenenze e gli accessi alle fonti attuali verranno rimossi."
+      "confirmQuestion": "Dissolvere questa partnership?",
+      "removes": "Rimuove {{memberships}} e {{grants}}.",
+      "memberships_one": "{{count}} appartenenza",
+      "memberships_other": "{{count}} appartenenze",
+      "grants_one": "{{count}} accesso a una fonte",
+      "grants_other": "{{count}} accessi alle fonti"
+    },
+    "pageTitle": "Partnership",
+    "emptyTitle": "Nessuna partnership",
+    "noMatches": "Nessun risultato",
+    "loadFailed": "Impossibile caricare le partnership",
+    "columns": {
+      "organization": "Organizzazione",
+      "members": "Membri",
+      "sourceGrants": "Accessi alle fonti",
+      "created": "Creata",
+      "updated": "Aggiornata"
     }
   },
   "adminDashboard": {
@@ -2460,25 +2437,18 @@
     "goHome": "Vai alla home"
   },
   "adminOverview": {
-    "title": "Panoramica amministrazione",
-    "description": "Dati attuali della piattaforma provenienti dal database di riferimento. I valori si riferiscono al momento del caricamento della pagina.",
     "loading": "Caricamento della panoramica amministrazione.",
-    "actions": {
-      "retry": "Riprova"
-    },
     "errors": {
       "forbidden": "Non hai l’autorizzazione per visualizzare la panoramica amministrazione.",
       "unavailable": "La panoramica amministrazione è temporaneamente non disponibile. Riprova tra poco.",
       "requestFailed": "Impossibile caricare la panoramica amministrazione.",
-      "stale": "Non è stato possibile aggiornare i dati più recenti. I valori mostrati potrebbero non essere aggiornati."
+      "outOfDate": "Aggiornamento non riuscito. I conteggi potrebbero non essere aggiornati."
     },
     "serviceStatus": {
       "title": "Stato del servizio",
-      "description": "Verificato da questo browser tramite gli endpoint pubblici di stato dell’API. Lo stesso risultato determina quale avviso vedono i visitatori.",
       "check": "Verifica ora",
       "loading": "Verifica dello stato del servizio in corso.",
       "noResponse": "Nessuna risposta",
-      "checkedAt": "Ultima verifica alle {{time}}.",
       "availability": {
         "operational": "Operativo",
         "maintenance": "Manutenzione",
@@ -2497,11 +2467,12 @@
         "available": "Disponibile",
         "maintenance": "Manutenzione",
         "unavailable": "Non disponibile"
-      }
+      },
+      "checking": "Verifica in corso…",
+      "lastChecked": "Ultima verifica {{time}}"
     },
     "users": {
       "title": "Utenti",
-      "link": "Gestisci utenti",
       "byTier": "Per piano",
       "byRole": "Per ruolo",
       "tiers": {
@@ -2515,8 +2486,6 @@
       }
     },
     "applications": {
-      "title": "Richieste di partnership",
-      "link": "Esamina richieste",
       "byState": "Per stato",
       "states": {
         "submitted": "Inviata",
@@ -2524,20 +2493,23 @@
         "approved": "Approvata",
         "rejected": "Rifiutata",
         "withdrawn": "Ritirata"
-      }
+      },
+      "label": "Richieste",
+      "awaitingReview_one": "<strong>{{value}}</strong> in attesa di revisione",
+      "awaitingReview_other": "<strong>{{value}}</strong> in attesa di revisione",
+      "review": "Esamina"
     },
     "listingSources": {
       "title": "Fonti di annunci",
-      "link": "Gestisci fonti di annunci",
       "withoutIngestionMethod": "Senza metodo di importazione",
       "methodAssignments": "Metodi di importazione assegnati",
-      "methodAssignmentsNote": "Una fonte può usare più metodi, quindi le assegnazioni possono superare il numero di fonti.",
       "methods": {
         "webCrawl": "Scansione web",
         "shopify": "Shopify",
         "woocommerce": "WooCommerce",
         "partnerApi": "API partner"
-      }
+      },
+      "overlapNote": "I metodi si sovrappongono; non sommarli."
     },
     "parties": {
       "title": "Organizzazioni"
@@ -2553,7 +2525,6 @@
         "withdrawn": "Ritirati"
       },
       "activeAvailability": "Disponibilità degli annunci attivi",
-      "activeAvailabilityNote": "Sono inclusi solo gli annunci attivi.",
       "activeWithoutAvailability": "Nessuna disponibilità indicata",
       "availability": {
         "available": "Disponibile",
@@ -2570,8 +2541,20 @@
       }
     },
     "summary": {
-      "label": "Totali",
-      "awaitingReview": "In attesa di revisione"
+      "label": "Totali"
+    },
+    "pageTitle": "Panoramica",
+    "breakdown": "Ripartizione",
+    "unavailable": "Conteggi non disponibili",
+    "totals": {
+      "administrators_one": "{{value}} amministratore",
+      "administrators_other": "{{value}} amministratori",
+      "awaitingReview_one": "{{value}} in attesa di revisione",
+      "awaitingReview_other": "{{value}} in attesa di revisione",
+      "withoutIngestionMethod_one": "{{value}} senza metodo di importazione",
+      "withoutIngestionMethod_other": "{{value}} senza metodo di importazione",
+      "active_one": "{{value}} attivo",
+      "active_other": "{{value}} attivi"
     }
   },
   "adminNavigation": {
@@ -3152,26 +3135,16 @@
     }
   },
   "adminApplications": {
-    "title": "Richieste di partnership",
-    "description": "Esamina le proposte inviate, mettile in revisione e registra una decisione.",
     "loading": "Caricamento delle richieste di partnership.",
     "loadingDetail": "Caricamento della richiesta.",
-    "loadError": "Impossibile caricare le richieste di partnership.",
-    "empty": "Nessuna richiesta corrisponde a questi filtri.",
-    "retry": "Riprova",
     "filters": {
       "title": "Filtra richieste",
       "states": "Stato",
-      "proposalTypes": "Tipo di proposta",
       "applicantUserId": "ID utente del richiedente",
       "listingSourceId": "ID della fonte di annunci",
-      "createdFrom": "Creata dal",
-      "createdTo": "Creata fino al",
-      "updatedFrom": "Aggiornata dal",
-      "updatedTo": "Aggiornata fino al",
-      "sort": "Ordina per",
-      "apply": "Applica filtri",
-      "reset": "Reimposta"
+      "proposal": "Proposta",
+      "created": "Creata",
+      "updated": "Aggiornata"
     },
     "sort": {
       "created_desc": "Più recenti prima",
@@ -3186,18 +3159,12 @@
       "REJECTED": "Rifiutata",
       "WITHDRAWN": "Ritirata"
     },
-    "proposalType": {
-      "EXISTING_LISTING_SOURCE": "Fornitore esistente",
-      "PROPOSED_LISTING_SOURCE": "Fornitore proposto"
-    },
     "list": {
-      "applicant": "Richiedente {{id}}",
-      "created": "Creata il {{date}}",
-      "updated": "Aggiornata il {{date}}",
-      "total_one": "{{count}} richiesta",
-      "total_other": "{{count}} richieste",
-      "loadMore": "Carica altro",
-      "loadingMore": "Caricamento…"
+      "label": "Richieste di partnership",
+      "open": "Apri la richiesta di {{name}}",
+      "existing": "Fornitore esistente",
+      "proposed": "Proposto · {{type}}",
+      "loadMoreApplications": "Carica altre richieste"
     },
     "fields": {
       "id": "ID della richiesta",
@@ -3208,23 +3175,27 @@
       "approvedListingSourceId": "ID della fonte di annunci approvata"
     },
     "links": {
-      "listingSources": "Apri l’amministrazione delle fonti di annunci"
+      "partnership": "Apri la partnership",
+      "listingSource": "Apri la fonte di annunci"
     },
     "proposal": {
       "title": "Proposta",
       "listingSourceId": "ID della fonte di annunci",
-      "partyName": "Nome della parte",
       "partyPhone": "Telefono",
       "partyEmail": "E-mail",
-      "sourceName": "Nome del fornitore",
-      "listingSourceType": "Tipo di fornitore",
-      "sourceUrl": "URL del fornitore",
-      "sourceImage": "URL dell’immagine",
-      "methods": "Metodi di importazione richiesti"
+      "provider": "Fornitore",
+      "type": "Tipo",
+      "website": "Sito web",
+      "image": "Immagine",
+      "organization": "Organizzazione",
+      "ingestion": "Importazione"
     },
     "detail": {
-      "title": "Dettagli della richiesta",
-      "description": "Le proposte non possono essere modificate. Metti in revisione le richieste inviate prima di approvarle o rifiutarle."
+      "eyebrow": {
+        "EXISTING_LISTING_SOURCE": "Richiesta · Fornitore esistente",
+        "PROPOSED_LISTING_SOURCE": "Richiesta · Fornitore proposto"
+      },
+      "fallbackTitle": "Richiesta"
     },
     "actions": {
       "details": "Vedi dettagli",
@@ -3233,10 +3204,8 @@
       "APPROVE": "Approva",
       "REJECT": "Rifiuta",
       "cancel": "Annulla",
-      "confirm": {
-        "APPROVE": "Approvare questa richiesta? L’approvazione crea o collega la partnership e concede l’accesso alla fonte di annunci.",
-        "REJECT": "Rifiutare questa richiesta? Il richiedente riceverà una notifica."
-      }
+      "confirmApprove": "Approvare? Crea o collega la partnership e concede l’accesso alla fonte.",
+      "confirmReject": "Rifiutare? Il richiedente viene avvisato."
     },
     "success": {
       "IN_REVIEW": "Richiesta messa in revisione.",
@@ -3244,29 +3213,40 @@
       "REJECT": "Richiesta rifiutata."
     },
     "errors": {
-      "conflict": "Questa richiesta è stata modificata nel frattempo o non consente più questa azione, oppure ogni slug generato per il nome dell’organizzazione o della fonte proposto è già in uso. È stato caricato lo stato attuale.",
-      "missing": "Richiesta non trovata o non disponibile."
+      "missing": "Richiesta non trovata o non disponibile.",
+      "conflictReloaded": "Modificata altrove o un nome generato è già in uso. Ricaricata."
+    },
+    "pageTitle": "Richieste",
+    "emptyTitle": "Nessuna richiesta",
+    "noMatches": "Nessun risultato",
+    "loadFailed": "Impossibile caricare le richieste",
+    "proposalOption": {
+      "EXISTING_LISTING_SOURCE": "Esistente",
+      "PROPOSED_LISTING_SOURCE": "Proposto"
+    },
+    "columns": {
+      "provider": "Fornitore",
+      "status": "Stato",
+      "applicant": "Richiedente",
+      "created": "Creata",
+      "updated": "Aggiornata"
+    },
+    "decision": {
+      "label": "Decisione"
     }
   },
   "adminParties": {
-    "title": "Gestione delle organizzazioni",
-    "description": "Gestisci le identità e i recapiti operativi delle organizzazioni collegate alle fonti e alle partnership.",
     "loading": "Caricamento delle organizzazioni.",
     "loadingDetail": "Caricamento dell’organizzazione.",
-    "empty": "Nessuna organizzazione corrisponde a questi filtri.",
     "filters": {
       "title": "Filtra le organizzazioni",
       "query": "Nome o recapito",
       "name": "Nome dell’organizzazione",
       "phone": "Telefono",
       "email": "E-mail",
-      "createdFrom": "Creata dal",
-      "createdTo": "Creata fino al",
-      "updatedFrom": "Modificata dal",
-      "updatedTo": "Modificata fino al",
-      "sort": "Ordina per",
-      "apply": "Applica filtri",
-      "reset": "Reimposta"
+      "search": "Ricerca",
+      "created": "Creata",
+      "updated": "Aggiornata"
     },
     "sort": {
       "name_asc": "Nome, dalla A alla Z",
@@ -3281,12 +3261,10 @@
       "updated_desc": "Modificate più di recente"
     },
     "list": {
-      "created": "Creata il {{date}}",
-      "updated": "Modificata il {{date}}",
-      "total_one": "{{count}} organizzazione",
-      "total_other": "{{count}} organizzazioni",
       "loadMore": "Carica altro",
-      "loadingMore": "Caricamento…"
+      "label": "Organizzazioni",
+      "open": "Apri {{name}}",
+      "loadMoreOrganizations": "Carica altre organizzazioni"
     },
     "fields": {
       "partyId": "ID organizzazione",
@@ -3299,27 +3277,19 @@
       "notProvided": "Non indicato"
     },
     "detail": {
-      "title": "Dettagli dell’organizzazione",
-      "description": "Consulta l’identità canonica, i recapiti e le date del record."
+      "eyebrow": "Organizzazione",
+      "notFound": "Organizzazione non trovata"
     },
     "form": {
       "createTitle": "Crea organizzazione",
-      "editTitle": "Modifica organizzazione",
-      "description": "Gestisci il nome dell’organizzazione e gli eventuali recapiti operativi."
+      "editTitle": "Modifica organizzazione"
     },
     "actions": {
       "create": "Crea organizzazione",
-      "details": "Vedi dettagli",
       "edit": "Modifica organizzazione",
-      "delete": "Elimina organizzazione",
-      "retry": "Riprova",
-      "cancel": "Annulla",
-      "save": "Salva modifiche",
-      "saving": "Salvataggio…",
       "confirmDelete": "Eliminare questa organizzazione? Una fonte di annunci collegata o una partnership attiva può impedirne l’eliminazione. Questa azione non elimina record correlati.",
       "confirmDeleteButton": "Elimina",
-      "deleting": "Eliminazione…",
-      "detailsFor": "Vedi dettagli di {{name}}"
+      "remove": "Elimina"
     },
     "success": {
       "created": "Organizzazione creata.",
@@ -3338,44 +3308,32 @@
     "validation": {
       "nameRequired": "Inserisci il nome dell’organizzazione.",
       "nameTooLong": "Il nome non può superare 255 byte UTF-8.",
-      "invalidEmail": "Inserisci un indirizzo e-mail valido.",
-      "invalidDate": "Inserisci una data di calendario valida."
+      "invalidEmail": "Inserisci un indirizzo e-mail valido."
     },
     "picker": {
       "label": "Organizzazione che gestisce la fonte",
-      "selected": "Organizzazione selezionata",
-      "clear": "Rimuovi selezione",
       "loading": "Ricerca delle organizzazioni…",
-      "noMatch": "Nessuna organizzazione esistente corrisponde alla ricerca. Creala nella gestione delle organizzazioni, poi torna qui per selezionarla.",
-      "searchPrompt": "Cerca organizzazioni esistenti per nome o recapito.",
-      "manageLink": "Apri la gestione delle organizzazioni"
+      "change": "Cambia",
+      "select": "Seleziona",
+      "noMatches": "Nessun risultato.",
+      "failed": "Impossibile cercare le organizzazioni.",
+      "openOrganizations": "Apri organizzazioni"
     },
     "page": {
-      "back": "Torna alle organizzazioni",
-      "deleteTitle": "Eliminare {{name}}?"
+      "deleteTitle": "Eliminare {{name}}?",
+      "allOrganizations": "Tutte le organizzazioni"
     },
     "locationAccess": {
-      "title": "Accesso alla gestione delle sedi",
-      "description": "Concedi a un account l’autorizzazione esplicita a visualizzare e gestire tutte le sedi commerciali di {{name}}, inclusi i dati privati. Questa autorizzazione è indipendente dall’appartenenza a una partnership attiva e dalle autorizzazioni sulle fonti di annunci; non ne aggiunge né ne rimuove alcuna.",
-      "managersTitle": "Gestori attuali delle sedi",
-      "managersDescription": "Account che possono attualmente visualizzare e gestire queste sedi, con ciascun motivo del loro accesso. Gli account sospesi non sono elencati e il solo ruolo di amministratore non aggiunge nessuno qui.",
       "empty": "Attualmente nessun account ha un’autorizzazione esplicita o un’appartenenza a una partnership attiva per questa organizzazione.",
       "access": {
         "explicit": "Autorizzazione esplicita",
-        "partnership": "Appartenenza a una partnership",
-        "partnerships": "Partnership:"
+        "member": "Membro di una partnership"
       },
       "revokeFor": "Revoca l’autorizzazione esplicita di {{user}}",
       "state": {
-        "checking": "Verifica dell’accesso attuale…",
-        "none": "{{user}} non ha un’autorizzazione esplicita né un’appartenenza a una partnership attiva per questa organizzazione.",
-        "explicit": "{{user}} ha un’autorizzazione esplicita per le sedi di questa organizzazione.",
-        "partnership": "{{user}} può già gestire queste sedi tramite l’appartenenza a una partnership attiva. Un’autorizzazione esplicita manterrebbe tale accesso se l’appartenenza termina.",
-        "both": "{{user}} ha un’autorizzazione esplicita e un’appartenenza a una partnership attiva. Revocando l’autorizzazione, l’accesso tramite l’appartenenza resta invariato."
+        "checking": "Verifica dell’accesso attuale…"
       },
       "userLabel": "Account utente",
-      "grant": "Concedi accesso alle sedi",
-      "revoke": "Revoca accesso alle sedi",
       "confirmGrantTitle": "Concedere l’accesso alle sedi?",
       "confirmGrant": "{{user}} potrà visualizzare e gestire tutte le sedi di {{name}}, inclusi i dati privati, finché l’autorizzazione non verrà revocata. Le appartenenze alle partnership e le autorizzazioni sulle fonti di annunci non cambiano.",
       "confirmGrantButton": "Concedi accesso",
@@ -3395,7 +3353,24 @@
         "readMissing": "Questa organizzazione non è più disponibile.",
         "readFailed": "Non è stato possibile caricare i gestori delle sedi. Riprova."
       },
-      "changeTitle": "Modifica l’autorizzazione esplicita di un account"
+      "heading": "Gestori delle sedi",
+      "cardTitle": "Concedi accesso",
+      "status": {
+        "none": "Nessuna autorizzazione né appartenenza.",
+        "explicit": "Autorizzazione esplicita.",
+        "partnership": "Membro di una partnership. Un’autorizzazione mantiene l’accesso se l’appartenenza termina.",
+        "both": "Autorizzazione esplicita e membro di una partnership. Revocare l’autorizzazione mantiene l’appartenenza."
+      }
+    },
+    "pageTitle": "Organizzazioni",
+    "emptyTitle": "Nessuna organizzazione",
+    "noMatches": "Nessun risultato",
+    "loadFailed": "Impossibile caricare le organizzazioni",
+    "columns": {
+      "organization": "Organizzazione",
+      "contact": "Contatto",
+      "created": "Creata",
+      "updated": "Aggiornata"
     }
   },
   "compareArtsyPage": {
@@ -5200,27 +5175,20 @@
     "retry": "Riprova"
   },
   "adminUsers": {
-    "title": "Gestione utenti",
-    "description": "Cerca riepiloghi degli account, esamina i dettagli e modifica separatamente profilo, ruolo e piano.",
     "loading": "Caricamento utenti…",
     "loadingDetail": "Caricamento dettagli account…",
-    "empty": "Nessun utente corrisponde a questi filtri.",
     "filters": {
       "title": "Filtra utenti",
       "query": "Nome o e-mail",
       "email": "E-mail contiene",
       "firstName": "Nome contiene",
       "lastName": "Cognome contiene",
-      "tier": "Piano di abbonamento",
       "role": "Ruolo",
       "createdFrom": "Creato da",
       "createdTo": "Creato fino al",
       "updatedFrom": "Modificato da",
       "updatedTo": "Modificato fino al",
-      "sort": "Ordina per",
-      "order": "Direzione",
-      "apply": "Applica filtri",
-      "reset": "Reimposta"
+      "tierShort": "Piano"
     },
     "sort": {
       "name": "Nome",
@@ -5234,17 +5202,16 @@
     },
     "order": {
       "asc": "Crescente",
-      "desc": "Decrescente"
+      "desc": "Decrescente",
+      "alphaAsc": "A–Z",
+      "alphaDesc": "Z–A",
+      "newest": "Più recenti prima",
+      "oldest": "Meno recenti prima"
     },
     "list": {
-      "title": "Utenti",
-      "loaded_one": "{{count}} utente caricato",
-      "loaded_other": "{{count}} utenti caricati",
-      "total_one": "{{count}} utente corrispondente in totale",
-      "total_other": "{{count}} utenti corrispondenti in totale",
-      "loadMore": "Carica altri",
-      "loadingMore": "Caricamento…",
-      "openUser": "Visualizza l’account di {{email}}"
+      "openUser": "Visualizza l’account di {{email}}",
+      "label": "Account utente",
+      "loadMoreUsers": "Carica altri utenti"
     },
     "fields": {
       "userId": "ID utente",
@@ -5257,36 +5224,20 @@
       "role": "Ruolo",
       "tier": "Piano di abbonamento"
     },
-    "profile": {
-      "title": "Profilo e preferenze",
-      "sensitiveContentHelp": "Questa preferenza riguarda contenuti non valutati e sensibili. I contenuti oscurati dal servizio restano non disponibili."
-    },
-    "role": {
-      "title": "Ruolo"
-    },
-    "tier": {
-      "title": "Piano di abbonamento"
-    },
     "detail": {
       "title": "Account utente",
-      "description": "Esamina i campi forniti dal servizio account e aggiorna separatamente ogni categoria.",
-      "close": "Chiudi"
+      "copyId": "Copia ID utente"
     },
     "delete": {
       "title": "Elimina account",
-      "description": "L’eliminazione di un account rimuove anche i relativi token di accesso, ricerche salvate, elementi della lista di controllo, notifiche, iscrizioni e richieste correlate.",
-      "confirm": "L’eliminazione è definitiva. Eliminare questo account utente?"
+      "question": "Eliminare definitivamente, con token, filtri, lista dei preferiti, notifiche, membership e richieste?"
     },
     "actions": {
-      "retry": "Riprova",
-      "saveProfile": "Salva profilo e preferenze",
       "saveRole": "Salva ruolo",
       "saveTier": "Salva piano",
-      "saving": "Salvataggio…",
       "delete": "Elimina account",
-      "confirmDelete": "Conferma eliminazione",
-      "deleting": "Eliminazione…",
-      "cancel": "Annulla"
+      "deleteForGood": "Elimina definitivamente",
+      "saveAccountProfile": "Salva profilo"
     },
     "success": {
       "profileUpdated": "Profilo e preferenze aggiornati.",
@@ -5304,39 +5255,32 @@
       "requestFailed": "Impossibile completare la richiesta dell’account. Riprova."
     },
     "security": {
-      "title": "Sicurezza dell’account",
       "suspension": {
-        "title": "Sospensione dell’account",
-        "description": "La sospensione impedisce l’autenticazione di questo account. Non revoca i token di accesso Aura né scioglie le partnership. I dettagli dell’account non includono lo stato di sospensione.",
-        "stateUnknown": "Lo stato attuale non è disponibile nei dettagli dell’account. Qui viene mostrato solo dopo la conferma di un’azione.",
-        "confirmedSuspended": "L’ultima risposta dell’azione conferma che l’account è sospeso.",
-        "confirmedActive": "L’ultima risposta dell’azione conferma che l’account è attivo.",
         "reason": "Motivo della sospensione",
-        "reasonHelp": "Il backend registra questo motivo nei log operativi. Non includere password, token, credenziali o altri segreti. Massimo 1.000 byte UTF-8.",
         "reasonRequired": "Inserisci un motivo per la sospensione.",
         "reasonTooLong": "Il motivo deve contenere al massimo 1.000 byte UTF-8.",
-        "unsuspendDescription": "La riattivazione ripristina l’autenticazione con credenziali valide. Non crea nuove credenziali.",
         "selfSuspended": "La sessione verrà chiusa. Un amministratore dovrà riattivare l’account prima che tu possa accedere di nuovo.",
         "suspended": "La risposta ha confermato la sospensione dell’account.",
-        "unsuspended": "La risposta ha confermato che l’account è di nuovo attivo."
+        "unsuspended": "La risposta ha confermato che l’account è di nuovo attivo.",
+        "heading": "Sospensione",
+        "status": {
+          "unknown": "Stato non comunicato",
+          "active": "Attivo",
+          "suspended": "Sospeso"
+        },
+        "reasonHint": "Viene registrato. Nessun segreto.",
+        "reasonBytes": "{{used}} / {{max}} byte",
+        "confirmQuestion": "Sospendere questo account?"
       },
       "sessions": {
-        "title": "Sessioni Cognito",
-        "description": "Revoca le sessioni Cognito di questo utente e lo disconnette da tutti i dispositivi. Non revoca i token di accesso Aura né scioglie le partnership.",
-        "confirm": "Revocare tutte le sessioni Cognito di questo utente? Dovrà accedere di nuovo.",
         "selfRevoked": "Le tue sessioni sono state revocate. Accedi di nuovo per continuare.",
-        "revoked": "Le sessioni Cognito sono state revocate. I token di accesso Aura e le partnership non sono stati modificati."
+        "heading": "Sessioni di accesso",
+        "confirmQuestion": "Revocare tutte le sessioni di accesso?",
+        "revokedToast": "Sessioni di accesso revocate. Token di accesso e partnership non sono stati modificati."
       },
       "tokens": {
-        "title": "Token di accesso e app collegate",
-        "description": "Esamina i token di accesso e le app collegate di questo utente. Revocare tutto termina anche ogni collegamento e ritira le autorizzazioni non ancora usate. Queste azioni non revocano le sessioni Cognito né sciolgono le partnership.",
         "loading": "Caricamento metadati dei token di accesso…",
-        "loadingMore": "Caricamento…",
         "loadMore": "Carica altri token",
-        "empty": "Non sono disponibili metadati dei token di accesso per questo utente.",
-        "origin": "Origine: {{origin}}",
-        "expires": "Scadenza: {{expires}}",
-        "confirmAll": "Revocare tutti i token di accesso di questo utente e scollegare tutte le app collegate? Vengono ritirate anche le autorizzazioni non ancora usate.",
         "confirmSingle": "Revocare «{{name}}» per questo utente?",
         "revoked": "Il token Aura Historia selezionato non è più presente per questo utente.",
         "allRevoked": "Tutti i token di accesso sono revocati e tutti i collegamenti terminati, oppure non ce n’erano.",
@@ -5350,26 +5294,30 @@
           "OAuthMetadataDocument": "Agente IA (documento di metadati del client)",
           "unknown": "Origine sconosciuta"
         },
-        "client": "Client: {{host}}",
         "connectedAt": "Collegato il {{date}}",
         "lastUsedAt": "Ultimo utilizzo il {{date}}",
         "clientTokens": "Token emessi per {{name}}",
         "confirmClientToken": "Revocare questo token di «{{name}}» per questo utente?",
         "readOnly": "Sola lettura",
-        "readOnlyNote": "Solo l’utente può scollegare questa app da sola. «Revoca tutto» la termina insieme a tutto il resto."
+        "heading": "Token e app collegate",
+        "confirmAllQuestion": "Revocare tutti i token, scollegare tutte le app e ritirare le autorizzazioni in sospeso?",
+        "connectionNote": "Termina solo con «Revoca tutto».",
+        "tokenCount_one": "{{count}} token",
+        "tokenCount_other": "{{count}} token",
+        "expiresOn": "Scade il {{date}}",
+        "expiredOn": "Scaduto il {{date}}",
+        "none": "Nessun token o app collegata.",
+        "scopes": "Autorizzazioni"
       },
       "actions": {
         "suspend": "Sospendi account",
-        "suspending": "Sospensione…",
         "unsuspend": "Riattiva account",
         "unsuspending": "Riattivazione…",
-        "revokeSessions": "Revoca sessioni Cognito",
         "confirmSessionRevocation": "Revoca sessioni",
         "confirmTokenRevocation": "Revoca token",
         "confirmAllTokenRevocation": "Revoca tutto e scollega",
         "revokeToken": "Revoca",
-        "revokeAllTokens": "Revoca tutto",
-        "revoking": "Revoca in corso…"
+        "revokeAllTokens": "Revoca tutto"
       },
       "errors": {
         "conflict": "Lo stato di sicurezza è cambiato prima del completamento dell’azione. Ricarica l’account e riprova.",
@@ -5406,78 +5354,71 @@
     },
     "picker": {
       "selected": "Account selezionato",
-      "clear": "Scegli un altro account",
       "loading": "Ricerca degli account…",
-      "noMatch": "Nessun account utente corrisponde a questa ricerca.",
-      "searchPrompt": "Cerca account utente esistenti per email o nome.",
-      "results": "Account utente trovati"
+      "results": "Account utente trovati",
+      "select": "Seleziona",
+      "change": "Cambia",
+      "none": "Nessun risultato.",
+      "failed": "Impossibile cercare gli utenti."
+    },
+    "pageTitle": "Utenti",
+    "noMatches": "Nessun risultato",
+    "noUsers": "Nessun account utente",
+    "loadFailed": "Impossibile caricare gli utenti",
+    "columns": {
+      "account": "Account"
+    },
+    "tabs": {
+      "label": "Sezioni dell’account",
+      "profile": "Profilo",
+      "role": "Ruolo",
+      "security": "Sicurezza",
+      "delete": "Elimina"
+    },
+    "sections": {
+      "access": "Ruolo e piano"
     }
   },
   "adminOAuthClients": {
-    "title": "Gestione dei client OAuth",
-    "description": "Esamina i client OAuth registrati, modifica i metadati e le autorizzazioni oppure crea un client.",
     "loading": "Caricamento dei client OAuth…",
     "loadingDetail": "Caricamento dei dettagli del client…",
-    "empty": "Nessun client OAuth corrisponde a questi filtri.",
     "filters": {
       "title": "Filtra i client OAuth",
-      "clientId": "ID esatto del client",
-      "name": "Nome del client contiene",
-      "apply": "Applica filtri",
-      "reset": "Reimposta"
+      "name": "Nome del client contiene"
     },
     "list": {
-      "total_one": "{{count}} client OAuth corrispondente",
-      "total_other": "{{count}} client OAuth corrispondenti",
-      "issued": "Emesso il {{date}}",
       "noScopes": "Nessuna autorizzazione assegnata",
-      "loadMore": "Carica altri",
-      "loadingMore": "Caricamento…"
+      "heads": {
+        "client": "Client",
+        "issued": "Emesso"
+      },
+      "loadMoreClients": "Carica altri client"
     },
     "fields": {
       "name": "Nome del client",
       "clientId": "ID client",
       "clientSecret": "Segreto del client",
-      "terms": "URL dei termini di servizio",
-      "privacy": "URL dell’informativa sulla privacy",
-      "homepage": "URL della pagina principale",
       "logo": "URL del logo",
       "redirectUris": "URI di reindirizzamento",
-      "redirectUrisHelp": "Inserisci un URI di reindirizzamento HTTPS per riga. Ne è richiesto almeno uno; i frammenti non sono consentiti e ogni URI deve essere univoco.",
       "scopes": "Autorizzazioni consentite",
-      "scopesHelp": "Seleziona le capacità che questo client può richiedere. Le autorizzazioni di lettura e scrittura sono indipendenti. Se non selezioni nulla, tutte le autorizzazioni consentite verranno rimosse.",
-      "issuedAt": "ID client emesso"
+      "homepageShort": "Homepage",
+      "termsShort": "Termini di servizio",
+      "privacyShort": "Informativa sulla privacy",
+      "redirectUrisHint": "Uno per riga."
     },
     "detail": {
       "title": "Client OAuth",
-      "description": "Esamina i metadati e le autorizzazioni registrati. Il segreto del client non è disponibile qui."
-    },
-    "create": {
-      "title": "Crea un client OAuth",
-      "description": "Il segreto del client viene mostrato una sola volta dopo la creazione. Copialo prima di chiudere questa finestra.",
-      "secretTitle": "Client creato",
-      "secretDescription": "Questo segreto in chiaro non sarà più disponibile dopo la chiusura della finestra. Conservalo in modo sicuro prima di continuare."
-    },
-    "edit": {
-      "title": "Modifica il client OAuth",
-      "description": "Verranno inviati solo i campi modificati. Deselezionando tutte le autorizzazioni, verranno rimosse quelle consentite per il client."
+      "idIssued": "{{clientId}} · emesso il {{date}}"
     },
     "delete": {
-      "title": "Elimina il client OAuth",
-      "description": "L’eliminazione di questo client invalida anche i codici di autorizzazione in attesa e le credenziali emesse tramite esso.",
-      "confirm": "Conferma eliminazione"
+      "titleNamed": "Eliminare «{{name}}»?",
+      "consequence": "I suoi codici in sospeso e le credenziali emesse smettono di funzionare."
     },
     "actions": {
       "create": "Crea client",
-      "details": "Visualizza dettagli",
       "edit": "Modifica client",
       "delete": "Elimina client",
-      "save": "Salva modifiche",
-      "saving": "Salvataggio…",
-      "deleting": "Eliminazione…",
-      "cancel": "Annulla",
-      "close": "Chiudi",
-      "retry": "Riprova"
+      "done": "Fatto"
     },
     "success": {
       "updated": "Client OAuth aggiornato.",
@@ -5497,52 +5438,57 @@
       "redirectRequired": "Inserisci almeno un URI di reindirizzamento.",
       "redirectInvalid": "Ogni URI di reindirizzamento deve essere un URL HTTPS valido senza frammento.",
       "redirectDuplicate": "Gli URI di reindirizzamento devono essere univoci."
+    },
+    "heading": "Client OAuth",
+    "states": {
+      "empty": "Nessun client OAuth",
+      "noMatches": "Nessun risultato",
+      "error": "Impossibile caricare i client OAuth"
+    },
+    "form": {
+      "newTitle": "Nuovo client OAuth",
+      "editNamed": "Modifica {{name}}"
+    },
+    "secret": {
+      "eyebrow": "Client creato",
+      "title": "Copia ora il secret. Viene mostrato una sola volta.",
+      "copyNamed": "Copia {{field}}",
+      "copyFailed": "Impossibile copiare. Seleziona il valore e copialo manualmente."
     }
   },
   "adminAuctions": {
-    "title": "Gestione aste",
-    "description": "Cerca, crea e aggiorna i record d’asta. La fonte e l’identità dell’asta presso la fonte non possono essere modificate dopo la creazione.",
     "create": {
-      "title": "Crea un’asta",
-      "description": "Associa l’asta a una fonte autorizzata e inserisci la sua identità presso tale fonte.",
-      "blankFieldsHelp": "Lascia vuoti i campi facoltativi se la fonte non ha fornito quei dati."
+      "heading": "Nuova asta"
     },
     "list": {
-      "title": "Elenco delle aste",
-      "description": "Tutti i record d’asta, anche quelli senza inserzioni visibili. Cerca per nome o ID dell’asta presso la fonte, oppure per chiave della fonte esatta.",
       "loading": "Caricamento delle aste…",
-      "empty": "Nessuna asta corrisponde a questi filtri.",
       "end": "Non ci sono altre aste.",
       "loadMore": "Carica altre aste",
       "noName": "Nessun nome comunicato",
-      "openLabel": "Apri record: {{label}}"
+      "openLabel": "Apri record: {{label}}",
+      "loadFailed": "Impossibile caricare le aste",
+      "noMatches": "Nessun risultato",
+      "none": "Nessuna asta"
     },
     "filters": {
       "title": "Filtri delle aste",
       "query": "Nome o ID dell’asta presso la fonte",
-      "queryHelp": "Trova parte del nome o dell’ID dell’asta presso la fonte, senza distinguere maiuscole e minuscole.",
-      "listingSourceIdHelp": "ID esatto della fonte.",
-      "sourceAuctionIdHelp": "Chiave esatta. Combinala con l’ID della fonte per trovare il record esistente dopo un conflitto.",
-      "allFormats": "Tutti i formati",
-      "allStatuses": "Tutti gli stati",
-      "sort": "Ordina per",
       "pageSize": "Per pagina",
-      "apply": "Applica filtri",
-      "reset": "Reimposta"
+      "chip": "{{label}}: {{value}}",
+      "search": "Ricerca"
     },
     "sourceSearch": {
-      "prompt": "Cerca per nome o slug della fonte o del suo gestore, oppure incolla un ID fonte.",
-      "loading": "Ricerca delle fonti…",
-      "noResults": "Nessuna fonte corrisponde alla ricerca.",
       "operatedBy": "Gestita da {{name}}",
-      "results": "Fonti trovate"
+      "label": "Cerca fonti",
+      "searching": "Ricerca delle fonti…",
+      "matches": "Fonti trovate",
+      "loadMore": "Carica altre fonti",
+      "none": "Nessun risultato.",
+      "placeholder": "Nome, slug o ID",
+      "select": "Seleziona"
     },
     "fields": {
-      "listingSource": "Fonte delle inserzioni",
-      "searchListingSources": "Cerca fonti",
-      "listingSourceId": "ID della fonte",
       "sourceAuctionId": "ID dell’asta presso la fonte",
-      "sourceAuctionIdHelp": "Usa l’identificativo con cui la fonte selezionata riconosce quest’asta.",
       "auctionId": "ID asta",
       "name": "Nome dell’asta",
       "nameLanguage": "Lingua del nome",
@@ -5550,44 +5496,43 @@
       "format": "Formato",
       "reportedStatus": "Stato comunicato",
       "reportedLotCount": "Numero di lotti comunicato",
-      "schedule": "Programma",
-      "scheduleHelp": "Inserisci tutte le date e gli orari in UTC.",
       "notSet": "Non specificato",
       "created": "Creato",
-      "updated": "Aggiornato"
+      "updated": "Aggiornato",
+      "status": "Stato",
+      "version": "Versione",
+      "source": "Fonte delle inserzioni",
+      "sourceId": "ID della fonte"
     },
     "detail": {
-      "title": "Record d’asta",
-      "description": "Aggiorna i dati comunicati dell’asta. L’identità dell’asta e della fonte associata non può essere modificata.",
-      "blankFieldsHelp": "I valori vuoti cancellano i dati corrispondenti, compresi i singoli orari."
+      "eyebrow": "Asta",
+      "fixed": "Fisso",
+      "loadFailed": "Impossibile caricare l’asta",
+      "loading": "Caricamento dell’asta…",
+      "notFound": "Asta non trovata"
     },
     "actions": {
       "create": "Crea asta",
       "creating": "Creazione…",
-      "open": "Apri record",
-      "loadMore": "Carica altre fonti",
-      "loadingMore": "Caricamento…",
-      "retry": "Riprova",
-      "cancel": "Annulla",
-      "save": "Salva modifiche",
-      "saving": "Salvataggio…",
       "loadLatest": "Carica il record aggiornato",
-      "backToOverview": "Torna alla gestione delle aste",
       "clearSource": "Annulla selezione",
-      "findExisting": "Trova l’asta esistente"
+      "allAuctions": "Tutte le aste",
+      "clearTime": "Cancella {{label}}",
+      "openExisting": "Aprila"
     },
     "errors": {
       "forbidden": "Non hai l’autorizzazione per gestire le aste.",
       "missing": "Il record dell’asta non è stato trovato o non è più disponibile.",
       "duplicateSourceKey": "Esiste già un’asta per questa fonte e questo ID origine.",
       "staleVersion": "L’asta è cambiata durante la modifica.",
-      "staleVersionHelp": "Il record aggiornato è stato recuperato dal server. La bozza resta visibile; carica l’ultima versione per sostituirla prima di salvare di nuovo.",
       "invalid": "Controlla i dati dell’asta e riprova.",
       "requestFailed": "La richiesta dell’asta non è stata completata. Riprova.",
       "sourceMissing": "La fonte delle inserzioni selezionata non è stata trovata.",
       "invalidId": "Questo ID asta non è valido. Gli ID asta iniziano con «auc_».",
       "invalidSearch": "Non è stato possibile applicare questi filtri. Controlla gli ID e riprova.",
-      "unavailable": "I record d’asta non sono temporaneamente disponibili. Riprova tra poco."
+      "unavailable": "I record d’asta non sono temporaneamente disponibili. Riprova tra poco.",
+      "changedElsewhere": "Modificata altrove.",
+      "duplicateShort": "Esiste già per questa fonte e questo ID."
     },
     "validation": {
       "sourceRequired": "Seleziona una fonte.",
@@ -5596,10 +5541,6 @@
       "invalidUrl": "Inserisci un URL HTTP o HTTPS valido.",
       "invalidLotCount": "Inserisci un numero intero da 0 a 4.294.967.295.",
       "invalidDateTime": "Inserisci una data e un orario UTC validi."
-    },
-    "formats": {
-      "LIVE": "Asta dal vivo",
-      "TIMED": "Asta a tempo"
     },
     "reportedStatuses": {
       "SCHEDULED": "Programmato",
@@ -5621,46 +5562,51 @@
       "liveStarts": "Inizio dal vivo",
       "lotsBeginClosing": "Inizio chiusura dei lotti",
       "scheduledEnd": "Fine prevista"
+    },
+    "columns": {
+      "auction": "Asta"
+    },
+    "formatLabels": {
+      "LIVE": "Dal vivo",
+      "TIMED": "A tempo"
+    },
+    "sections": {
+      "details": "Dati comunicati",
+      "identity": "Identità",
+      "schedule": "Calendario (UTC)"
+    },
+    "toasts": {
+      "created": "Asta creata.",
+      "saved": "Asta salvata."
     }
   },
   "adminProductListings": {
-    "title": "Gestione annunci di prodotti",
-    "description": "Cerca, esamina e correggi gli annunci di prodotti di tutte le fonti, compresi gli annunci ritirati che vengono conservati.",
     "list": {
-      "title": "Elenco degli annunci",
-      "description": "Annunci attivi e ritirati di tutte le fonti, prima quelli aggiornati più di recente. Cerca nel titolo originale e nell’ID dell’annuncio presso la fonte, oppure filtra per fonte, ciclo di vita, disponibilità o asta.",
       "loading": "Caricamento degli annunci di prodotti…",
-      "empty": "Nessun annuncio di prodotto corrisponde a questi filtri.",
       "end": "Non ci sono altri annunci di prodotti.",
       "loadMore": "Carica altri annunci",
       "noTitle": "Nessun titolo registrato",
-      "openLabel": "Apri annuncio: {{label}}"
+      "openLabel": "Apri annuncio: {{label}}",
+      "loadFailed": "Impossibile caricare gli annunci di prodotto",
+      "noMatches": "Nessun risultato",
+      "none": "Nessun annuncio di prodotto",
+      "sub": "{{lifecycle}} · {{source}}"
     },
     "filters": {
       "title": "Filtri degli annunci di prodotti",
       "query": "Titolo o ID dell’annuncio presso la fonte",
-      "queryHelp": "Trova parte del titolo originale o dell’ID dell’annuncio presso la fonte, senza distinguere maiuscole e minuscole.",
-      "listingSourceIdHelp": "ID esatto della fonte.",
-      "sourceListingIdHelp": "ID esatto assegnato dalla fonte, con distinzione tra maiuscole e minuscole. È univoco solo all’interno di una fonte, quindi combinalo con l’ID della fonte.",
-      "auctionIdHelp": "ID esatto dell’asta.",
       "allLifecycles": "Attivi e ritirati",
-      "allAvailabilities": "Qualsiasi disponibilità",
-      "sort": "Ordina per",
       "pageSize": "Per pagina",
-      "apply": "Applica filtri",
-      "reset": "Reimposta"
+      "chip": "{{label}}: {{value}}",
+      "search": "Ricerca"
     },
     "fields": {
-      "listingSource": "Fonte delle inserzioni",
-      "listingSourceId": "ID della fonte",
       "sourceListingId": "ID dell’annuncio presso la fonte",
       "productListingId": "ID dell’annuncio di prodotto",
       "auctionId": "ID asta",
       "lifecycle": "Ciclo di vita",
       "availability": "Disponibilità",
       "price": "Prezzo",
-      "estimate": "Stima",
-      "estimateRange": "{{min}} – {{max}}",
       "created": "Creato",
       "updated": "Aggiornato",
       "notAsserted": "Non specificato",
@@ -5674,27 +5620,20 @@
       "text": "Testo originale",
       "titleLanguage": "Lingua del titolo",
       "descriptionLanguage": "Lingua della descrizione",
-      "images": "Immagini",
       "auction": "Asta e lotto",
       "lotNumber": "Numero di lotto",
       "cataloguePosition": "Posizione nel catalogo",
       "pricing": "Prezzo e stime",
-      "priceAmount": "Importo",
       "estimateMin": "Stima minima",
       "estimateMax": "Stima massima",
-      "currency": "Valuta",
-      "chooseCurrency": "Scegli una valuta",
-      "chooseLanguage": "Scegli una lingua"
+      "chooseLanguage": "Scegli una lingua",
+      "source": "Fonte delle inserzioni",
+      "sourceId": "ID della fonte"
     },
     "lifecycles": {
       "ACTIVE": "Attivo",
       "WITHDRAWN": "Ritirato",
       "UNKNOWN": "Ciclo di vita non riconosciuto"
-    },
-    "priceKinds": {
-      "NONE": "Non specificato",
-      "MONETARY": "Importo",
-      "ON_REQUEST": "Prezzo su richiesta"
     },
     "sort": {
       "updated_desc": "Aggiornati di recente",
@@ -5702,54 +5641,41 @@
       "created_desc": "Più recenti prima",
       "created_asc": "Meno recenti prima"
     },
-    "timing": {
-      "biddingOpens": "Apertura delle offerte (UTC)",
-      "scheduledCloses": "Chiusura prevista (UTC)",
-      "reportedClosedAt": "Chiusura comunicata (UTC)"
-    },
     "detail": {
       "loading": "Caricamento dell’annuncio di prodotto…",
       "unavailableTitle": "Annuncio di prodotto non disponibile",
       "errorTitle": "Non è stato possibile caricare l’annuncio di prodotto",
-      "eyebrow": "Record dell’annuncio di prodotto",
-      "convergence": "Le modifiche apportate qui aggiornano il record di riferimento dell’annuncio. La ricerca pubblica, le pagine degli annunci e le cache si aggiornano in modo asincrono, e un’importazione successiva dalla fonte può sovrascrivere queste modifiche o ripristinare un annuncio ritirato. Sono correzioni, non sostituzioni permanenti.",
-      "factsTitle": "Dati registrati",
-      "factsDescription": "Identità, osservazione di vendita e marche temporali sono di sola lettura. Il testo originale e gli altri dati si modificano qui sotto; il ciclo di vita si modifica con le azioni Ritira e Ripristina.",
-      "sourceListingIdScope": "Univoco solo all’interno di questa fonte.",
       "noSaleObservation": "Nessuna registrata",
-      "noText": "Nessuno registrato"
+      "correctionsNote": "Solo correzioni: un’importazione successiva dalla fonte può sovrascriverle.",
+      "eyebrowLifecycle": "Annuncio di prodotto · {{lifecycle}}",
+      "record": "Record"
     },
     "edit": {
       "title": "Modifica i dati dell’annuncio",
-      "description": "Puoi modificare solo titolo e descrizione originali, prezzo, stime, disponibilità, URL, immagini e dati dell’asta. Il salvataggio invia solo i valori che hai modificato.",
-      "withdrawnLocked": "Questo annuncio è ritirato. Ripristinalo prima di modificarlo; le modifiche non salvate restano nel modulo.",
-      "lifecycleUnknownLocked": "Il ciclo di vita di questo annuncio non è riconosciuto, quindi non può essere modificato qui.",
-      "stale": "Questo annuncio è cambiato dopo che hai iniziato la modifica ed è ora alla versione {{version}}. Mantieni le tue modifiche per riapplicare solo i valori che hai modificato all’ultima versione, oppure scartale per caricare i valori più recenti.",
-      "staleLocked": "Questo annuncio è cambiato dopo che hai iniziato la modifica ed è ora alla versione {{version}}. Ripristinalo per mantenere le tue modifiche, oppure scartale per caricare i valori più recenti.",
-      "noChanges": "Non ci sono modifiche da salvare.",
-      "saved": "Modifiche salvate. La ricerca pubblica e le pagine degli annunci si aggiornano in modo asincrono.",
-      "unchanged": "L’annuncio aveva già questi valori; non è stato modificato nulla.",
-      "textHelp": "Inserisci il testo originale della fonte nella lingua in cui è scritto, non una traduzione. Lascia un campo vuoto per rimuovere il testo. Traduzioni, valutazione dei contenuti e ricerca si aggiornano in modo asincrono.",
-      "titleHelp": "I titoli vengono normalizzati: lettere e cifre stilizzate diventano testo normale, emoji e simboli decorativi vengono rimossi, la prima lettera diventa maiuscola e il punto finale viene eliminato. I titoli oltre 128 caratteri vengono abbreviati con «...». Un titolo senza testo residuo viene rifiutato.",
       "titleTooLong": "Questo titolo supera i 128 caratteri e verrà abbreviato al salvataggio.",
-      "pricingHelp": "Gli importi sono nella valuta della fonte. Usa un punto o una virgola decimale, senza separatori delle migliaia. Scegli «Non specificato» per rimuovere il prezzo.",
-      "estimateHelp": "Lascia vuoto l’importo di una stima per rimuoverla.",
-      "availabilityHelp": "«Non specificato» rimuove la disponibilità; non significa «non disponibile».",
-      "imagesHelp": "Gli URL delle immagini sono dati di ispezione riservati, elencati nell’ordine di visualizzazione. Qui non hanno una valutazione dei contenuti e possono mostrare materiale sensibile, quindi un’anteprima si carica solo quando la richiedi. Rimuovendo tutte le immagini la raccolta viene svuotata.",
       "noImages": "Nessuna immagine. Salvando un elenco vuoto vengono rimosse tutte le immagini.",
       "imageLabel": "URL dell’immagine {{position}}",
       "imagePreviewAlt": "Anteprima dell’immagine {{position}}",
-      "auctionHelp": "Puoi assegnare solo aste della fonte di questo annuncio. Lo scollegamento mantiene numero di lotto, posizione nel catalogo e orari, a meno che tu non li rimuova.",
       "noAuction": "Non assegnato a nessuna asta.",
-      "timingHelp": "Inserisci orari esatti in UTC. Rimuovi ogni orario singolarmente."
+      "addImage": "Aggiungi immagine",
+      "auction": "Asta",
+      "availabilityAndLink": "Disponibilità e link",
+      "currencyOf": "Valuta di {{field}}",
+      "hidePreview": "Nascondi l’anteprima dell’immagine {{position}}",
+      "showPreview": "Mostra l’anteprima dell’immagine {{position}}",
+      "imagesInOrder": "Immagini · in ordine",
+      "lockedUnknown": "Ciclo di vita non riconosciuto. Modifica bloccata.",
+      "lockedWithdrawn": "Ritirato. Ripristinalo per modificarlo.",
+      "noUnsaved": "Nessuna modifica non salvata",
+      "savedToast": "Modifiche all’annuncio salvate.",
+      "unchangedToast": "Nessuna modifica; l’annuncio aveva già questi valori.",
+      "staleShort": "Modificato altrove (ora versione {{version}}).",
+      "unsaved_one": "{{count}} modifica non salvata",
+      "unsaved_other": "{{count}} modifiche non salvate"
     },
     "lifecycle": {
-      "title": "Ciclo di vita",
       "withdrawAction": "Ritira annuncio",
       "restoreAction": "Ripristina annuncio",
-      "withdrawHelp": "Il ritiro rimuove l’annuncio dalla scoperta pubblica, ma lo conserva con la sua cronologia, le voci delle liste dei preferiti e un’eventuale osservazione di vendita. La disponibilità viene rimossa.",
-      "restoreHelp": "Il ripristino rende di nuovo attivo l’annuncio senza disponibilità specificata. La disponibilità precedente non viene ricostruita.",
-      "unknownHelp": "Il ciclo di vita di questo annuncio non è riconosciuto, quindi non viene offerta alcuna azione sul ciclo di vita.",
       "withdrawTitle": "Ritirare questo annuncio?",
       "restoreTitle": "Ripristinare questo annuncio?",
       "withdrawConsequence": "L’annuncio e la sua cronologia vengono conservati, ma l’annuncio esce dalla ricerca pubblica e dalle pagine degli annunci e la disponibilità viene rimossa. Puoi ripristinarlo in seguito.",
@@ -5758,44 +5684,35 @@
       "version": "Si applica alla versione {{version}}",
       "withdrawConfirm": "Ritira",
       "restoreConfirm": "Ripristina",
-      "withdrawn": "Ritiro registrato. La ricerca pubblica e le pagine degli annunci si aggiornano in modo asincrono.",
-      "restored": "Annuncio ripristinato. La ricerca pubblica e le pagine degli annunci si aggiornano in modo asincrono.",
-      "restoreUnchanged": "L’annuncio era già attivo; non è stato modificato nulla."
+      "restoreUnchangedToast": "Già attivo; nessuna modifica.",
+      "restoredToast": "Annuncio ripristinato.",
+      "withdrawnToast": "Annuncio ritirato."
     },
     "auctionSearch": {
       "label": "Cerca le aste di questa fonte",
-      "hint": "Trova parte del nome dell’asta o dell’ID dell’asta presso la fonte. Vengono mostrate solo le aste di questa fonte.",
       "loading": "Ricerca delle aste…",
       "empty": "Nessuna asta di questa fonte corrisponde.",
       "results": "Aste corrispondenti",
       "noName": "Nessun nome comunicato",
-      "loadMore": "Carica altre aste"
+      "loadMore": "Carica altre aste",
+      "placeholder": "Nome o ID dell’asta presso la fonte",
+      "select": "Seleziona"
     },
     "actions": {
-      "retry": "Riprova",
-      "open": "Apri annuncio",
-      "loadingMore": "Caricamento…",
-      "backToDirectory": "Torna agli annunci di prodotti",
-      "viewPublicListing": "Visualizza la pagina pubblica dell’annuncio",
-      "save": "Salva modifiche",
-      "saving": "Salvataggio…",
       "keepDraft": "Mantieni le mie modifiche",
       "discardDraft": "Scarta le mie modifiche",
       "resetDraft": "Reimposta modulo",
-      "cancel": "Annulla",
-      "working": "Elaborazione…",
-      "showPreview": "Mostra anteprima",
-      "hidePreview": "Nascondi anteprima",
       "moveImageUp": "Sposta su l’immagine {{position}}",
       "moveImageDown": "Sposta giù l’immagine {{position}}",
       "removeImage": "Rimuovi l’immagine {{position}}",
-      "addImage": "Aggiungi URL immagine",
       "openAuction": "Apri il record dell’asta",
-      "detachAuction": "Scollega dall’asta",
       "chooseAuction": "Scegli un’asta",
-      "closeAuctionSearch": "Chiudi la ricerca delle aste",
-      "clearTiming": "Rimuovi",
-      "clearTimingLabel": "Rimuovi {{label}}"
+      "clearTimingLabel": "Rimuovi {{label}}",
+      "allListings": "Tutti gli annunci di prodotto",
+      "changeAuction": "Cambia",
+      "detach": "Scollega",
+      "originalPage": "Pagina originale",
+      "publicPage": "Pagina pubblica"
     },
     "errors": {
       "forbidden": "Non hai l’autorizzazione per gestire gli annunci di prodotti.",
@@ -5827,6 +5744,19 @@
       "lotNumber": "Inserisci un numero di lotto di al massimo 128 byte UTF-8.",
       "cataloguePosition": "Inserisci un numero intero da 1 a 4.294.967.295.",
       "invalidDateTime": "Inserisci una data e un orario UTC validi."
+    },
+    "columns": {
+      "listing": "Annuncio"
+    },
+    "priceOptions": {
+      "NONE": "Non specificato",
+      "MONETARY": "Importo",
+      "ON_REQUEST": "Su richiesta"
+    },
+    "times": {
+      "biddingOpens": "Apertura delle offerte",
+      "scheduledCloses": "Chiusura prevista",
+      "reportedClosedAt": "Chiusura comunicata"
     }
   },
   "geography": {
@@ -5843,7 +5773,6 @@
   },
   "partyLocations": {
     "title": "Sedi",
-    "description": "Ogni sede ha una propria identità. Correggete i dati di una sede, trasferitela quando l’attività si sposta oppure dismettetela quando non è più utilizzata.",
     "list": {
       "loading": "Caricamento delle sedi.",
       "empty": "Per questa organizzazione non è ancora stata registrata alcuna sede.",
@@ -5852,11 +5781,6 @@
     },
     "detail": {
       "unsupportedValues": "Alcuni valori salvati usano un codice o un formato che questa applicazione non può visualizzare, quindi non sono mostrati qui."
-    },
-    "eligibility": {
-      "ACTIVE": "Attiva e pubblica: il punto esatto, il paese e la regione possono comparire nei risultati di ricerca e nelle ricerche per raggio.",
-      "RETIRED": "Dismessa: non compare nei risultati pubblici e non fornisce geografia ereditata agli annunci.",
-      "UNKNOWN": "Questa sede ha uno stato che questa applicazione non riconosce, quindi non sono disponibili azioni."
     },
     "lifecycle": {
       "ACTIVE": "Attiva",
@@ -6008,6 +5932,17 @@
     "confirm": {
       "retireTitle": "Dismettere «{{label}}»?",
       "restoreTitle": "Ripristinare «{{label}}»?"
+    },
+    "card": {
+      "countryRegion": "Paese · regione",
+      "evidence": "Prova",
+      "observed": "rilevato il {{date}}",
+      "publicResults": "Risultati pubblici",
+      "public": {
+        "ACTIVE": "Idonea",
+        "RETIRED": "Non idonea",
+        "UNKNOWN": "Non determinata"
+      }
     }
   },
   "comparison": {

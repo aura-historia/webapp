@@ -8,12 +8,12 @@ export const Route = createFileRoute("/$lng/_auth/admin/partnership-applications
 });
 
 function AdminPartnershipApplicationsRoute() {
-    const filters = Route.useSearch();
+    const search = Route.useSearch();
     const navigate = Route.useNavigate();
     return (
         <AdminPartnershipApplicationsPage
-            filters={filters}
-            onFiltersChange={(next) => navigate({ search: next, replace: true })}
+            search={search}
+            onSearchChange={(next) => navigate({ search: next, replace: true })}
         />
     );
 }

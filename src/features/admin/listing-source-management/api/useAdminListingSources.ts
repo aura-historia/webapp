@@ -67,7 +67,7 @@ export function createAdminListingSourceErrorFactory(t: TFunction): ListingSourc
         } else if (safeStatus === 409 && operation === "create") {
             key = "adminListingSources.errors.createConflict";
         } else if (safeStatus === 409) {
-            key = "adminListingSources.errors.updateConflict";
+            key = "adminListingSources.errors.changedElsewhere";
         } else if (safeStatus === 400) {
             key = "adminListingSources.errors.invalid";
         } else {

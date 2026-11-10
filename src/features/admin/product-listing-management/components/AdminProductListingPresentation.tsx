@@ -1,27 +1,21 @@
-import type { ReactNode } from "react";
+import { type ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Badge } from "@/components/ui/badge.tsx";
+import type { AdminMarkTone } from "@/features/admin/common/components/AdminStatusMark.tsx";
+import { FIELD_ERROR_CLASS, FIELD_LABEL_CLASS } from "@/features/admin/common/lib/adminStyles.ts";
 import { formatPrice } from "@/data/internal/price/Price.ts";
 import { LISTING_AVAILABILITY_TRANSLATION_KEYS } from "@/data/internal/product/ListingAvailability.ts";
 import type {
     ListingAvailability,
     ListingLifecycle,
     ListingPrice,
-    ListingPriceEstimate,
 } from "@/data/internal/product/ProductListingDomain.ts";
-import { formatDateTime } from "@/lib/utils.ts";
+import { cn, formatDateTime } from "@/lib/utils.ts";
 
-export function AdminProductListingLifecycleBadge({
-    lifecycle,
-}: {
-    readonly lifecycle: ListingLifecycle;
-}) {
-    const { t } = useTranslation();
-    return (
-        <Badge variant={lifecycle === "ACTIVE" ? "secondary" : "outline"}>
-            {t(`adminProductListings.lifecycles.${lifecycle}`)}
-        </Badge>
-    );
+/** Active listings carry the ink mark, withdrawn ones the hollow mark. */
+export function lifecycleTone(lifecycle: ListingLifecycle): AdminMarkTone {
+    if (lifecycle === "ACTIVE") return "ink";
+    if (lifecycle === "WITHDRAWN") return "hollow";
+    return "dashed";
 }
 
 /** Absent availability means no reliable current assertion, never "unavailable". */
@@ -37,19 +31,10 @@ export function useAvailabilityLabel() {
 /** Source-currency amounts only; the admin view performs no conversion. */
 export function useSourcePriceLabel() {
     const { t, i18n } = useTranslation();
-    return {
-        price: (price: ListingPrice | null) => {
-            if (price === null) return t("adminProductListings.fields.notAsserted");
-            if (price.type === "ON_REQUEST") return t("adminProductListings.priceKinds.ON_REQUEST");
-            return formatPrice(price, i18n.language);
-        },
-        estimate: (min: ListingPriceEstimate | null, max: ListingPriceEstimate | null) => {
-            if (min === null && max === null) return t("adminProductListings.fields.notAsserted");
-            return t("adminProductListings.fields.estimateRange", {
-                min: min ? formatPrice(min, i18n.language) : "–",
-                max: max ? formatPrice(max, i18n.language) : "–",
-            });
-        },
+    return (price: ListingPrice | null): string | undefined => {
+        if (price === null) return undefined;
+        if (price.type === "ON_REQUEST") return t("adminProductListings.priceOptions.ON_REQUEST");
+        return formatPrice(price, i18n.language);
     };
 }
 
@@ -59,6 +44,36 @@ export function UtcDateTime({ value }: { readonly value: Date }) {
         <time dateTime={value.toISOString()}>
             {formatDateTime(value, i18n.language, "UTC")} UTC
         </time>
+    );
+}
+
+/** A labelled form control with its translated validation message. */
+export function FormField({
+    id,
+    label,
+    error,
+    className,
+    children,
+}: {
+    readonly id: string;
+    readonly label: ReactNode;
+    /** A translation key from the form schema. */
+    readonly error?: string;
+    readonly className?: string;
+    readonly children: ReactNode;
+}) {
+    return (
+        <div className={cn("flex min-w-0 flex-col gap-2", className)}>
+            <label
+                htmlFor={id}
+                className={FIELD_LABEL_CLASS}
+                data-error={error ? "true" : undefined}
+            >
+                {label}
+            </label>
+            {children}
+            <FormFieldError id={`${id}-error`} message={error} />
+        </div>
     );
 }
 
@@ -73,27 +88,33 @@ export function FormFieldError({
     const { t } = useTranslation();
     if (!message) return null;
     return (
-        <p id={id} role="alert" className="text-sm text-destructive">
+        <p id={id} className={FIELD_ERROR_CLASS}>
             {t(message)}
         </p>
     );
 }
 
-export function ReadOnlyFact({
-    label,
-    children,
-    mono = false,
-}: {
-    readonly label: string;
-    readonly children: ReactNode;
-    readonly mono?: boolean;
-}) {
+/** Names a UTC time field: the label, then a small mono "UTC". */
+export function UtcLabel({ children }: { readonly children: ReactNode }) {
     return (
-        <div className="grid min-w-0 gap-1">
-            <dt className="text-xs uppercase tracking-[0.08em] text-muted-foreground">{label}</dt>
-            <dd className={mono ? "break-all font-mono text-xs" : "break-words text-sm"}>
-                {children}
-            </dd>
-        </div>
+        <>
+            {children}{" "}
+            <span className="font-mono text-[10px] font-normal tracking-[0.1em] text-ink-muted">
+                UTC
+            </span>
+        </>
     );
+}
+
+/** Names a language code in the page language ("Deutsch", "English"), falling back to the code. */
+export function useLanguageNames() {
+    const { i18n } = useTranslation();
+    return useMemo(() => {
+        try {
+            const names = new Intl.DisplayNames([i18n.language], { type: "language" });
+            return (code: string) => names.of(code) ?? code.toUpperCase();
+        } catch {
+            return (code: string) => code.toUpperCase();
+        }
+    }, [i18n.language]);
 }

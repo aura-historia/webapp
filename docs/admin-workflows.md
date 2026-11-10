@@ -26,7 +26,8 @@ Route: `/$lng/admin/partnership-applications`.
   calendar-day `created`/`updated` ranges, and `sort` with `order` (only together; default
   `created desc`). The JSON-encoded `[timestamp, id]` cursor is resent with unchanged filters.
   Filters live in URL search params; route validation drops impossible days and an incomplete
-  sort/order pair, so the form always reflects the order the API applies.
+  sort/order pair, so the form always reflects the order the API applies. The open review dialog
+  is the `application` search param, which never changes the list query.
 - Review is the body-less `adminMarkPartnershipApplicationInReview` (`SUBMITTED` → `IN_REVIEW`).
   Decisions send only `{ decision: "APPROVE" | "REJECT" }` from `IN_REVIEW` after inline
   confirmation. Proposals, states and decision notes are never editable.
@@ -50,12 +51,15 @@ Route: `/$lng/admin/partnerships`.
 - Summaries provide the party, member and source-grant counts, and timestamps. Detail adds member
   and source IDs capped at 100 each beside the complete counts. The page labels loaded summaries
   separately and never treats page size or loaded ID arrays as totals.
+- The open dialog is the `partnership` search param (the application dialog links to it), never
+  part of the list query. The dialog links to the organization page by the summary's party ID.
 - Beyond what an approval creates, membership and source grants are explicit operations; they
   are never inferred from an admin role. Mutations refresh partnership data, the overview and the
   viewer's own listing-source query, clearing it first so a revoked source cannot stay selectable.
 - The source-grant UI enables a grant only when the source's operator party matches the
   partnership party. The API stays authoritative; a 409 is shown as a party mismatch.
 - Grant and revoke are body-less, idempotent 204 requests followed by an authoritative refetch.
+  Revoking a listed member or source grant confirms inline in its row.
   Dissolution requires explicit confirmation; it removes memberships and grants but keeps history,
   party, users, sources, listings and applications.
 
@@ -100,8 +104,7 @@ Routes: `/$lng/admin/product-listings` (directory) and `/$lng/admin/product-list
   `listingSource`, `auction` and `availabilityCode` map to `listingSourceId`, `auctionId` and
   `availability`; product search declares those keys as lists. The list query key holds every
   filter, sort and size, so a changed scope starts without a cursor; `searchAfter` is resent
-  verbatim. No total is shown, and the source listing ID is labelled as unique only within its
-  source.
+  verbatim. No total is shown.
 - Rows show the title (or "no title recorded"), lifecycle, source name and ID, source listing ID,
   listing ID, availability, source-currency price and estimates, and UTC timestamps, and link to
   the record. The record adds the slug, version, original title and description with their
@@ -112,7 +115,7 @@ Routes: `/$lng/admin/product-listings` (directory) and `/$lng/admin/product-list
   membership with lot facts. Text is the source's original, never a translation: new text needs a
   language from `SOURCE_TEXT_LANGUAGES` (the listing's other text's language is preselected), a
   language switch alone is a change, and an emptied field sends `null` to clear it. Text is
-  trimmed; the backend normalizes titles (the help text lists the rules), treats
+  trimmed; the backend normalizes titles, treats
   whitespace-equivalent text as unchanged and shortens titles over 128 characters, which the form
   notes before saving. A title with no remaining text is rejected (`400` on `title.text`) with its
   own message. The text inputs carry the chosen language and `dir="auto"`. The PATCH contains only groups that differ
@@ -131,7 +134,8 @@ Routes: `/$lng/admin/product-listings` (directory) and `/$lng/admin/product-list
   saving waits for an explicit "keep my changes" (reapply only the edited groups to the latest
   version) or "discard"; a form without changes adopts the newer record. After a lost response,
   keeping a draft that already committed produces no changes. Success uses the returned version
-  and outcome (`CHANGED`/`UNCHANGED`) and invalidates the directory and `["admin", "overview"]`.
+  and outcome (`CHANGED`/`UNCHANGED`), confirms with a toast and invalidates the directory and
+  `["admin", "overview"]`. Save stays disabled until the draft differs from the record.
 - Withdraw (`DELETE` with `expectedVersion` in the query, `204`) and restore (`POST` with
   `expectedVersion` in the body) each need confirmation showing the version captured when it
   opened. Withdrawal retains the listing, history, watchlist state and sale observation and clears

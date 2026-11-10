@@ -38,9 +38,7 @@ describe("AdminPartyFormDialog", () => {
         fireEvent.change(screen.getByLabelText(nameLabel), {
             target: { value: "Atelier Bleu" },
         });
-        fireEvent.click(
-            screen.getByRole("button", { name: testI18n.t("adminParties.actions.cancel") }),
-        );
+        fireEvent.click(screen.getByRole("button", { name: testI18n.t("adminCommon.cancel") }));
         fireEvent.click(screen.getByRole("button", { name: "reopen" }));
 
         expect((screen.getByLabelText(nameLabel) as HTMLInputElement).value).toBe("");

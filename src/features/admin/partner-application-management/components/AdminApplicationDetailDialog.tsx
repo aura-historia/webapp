@@ -1,65 +1,236 @@
-import { type ReactNode, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Link } from "@tanstack/react-router";
+import { type ReactNode, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { Badge } from "@/components/ui/badge.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogLoadingState,
-    DialogTitle,
-} from "@/components/ui/dialog.tsx";
 import {
     type AdminApplicationDecision,
     type AdminPartnershipApplication,
+    type AdminPartnershipApplicationSummary,
     adminApplicationName,
     canDecideApplication,
     canMarkApplicationInReview,
 } from "@/data/internal/partner-application/AdminPartnershipApplication.ts";
-import { useRetainedDialogValue } from "@/hooks/common/useRetainedDialogValue.ts";
-import { formatDateTime } from "@/lib/utils.ts";
+import { AdminFacts } from "@/features/admin/common/components/AdminFacts.tsx";
+import { AdminInlineConfirm } from "@/features/admin/common/components/AdminInlineConfirm.tsx";
+import { AdminRecordDialog } from "@/features/admin/common/components/AdminRecordDialog.tsx";
+import { AdminStatusMark } from "@/features/admin/common/components/AdminStatusMark.tsx";
 import {
+    ADMIN_DANGER_OUTLINE_CLASS,
+    ADMIN_SECTION_TITLE_CLASS,
+    ADMIN_SKELETON_CLASS,
+    PRIMARY_PILL_CLASS,
+    SMALL_SECONDARY_PILL_CLASS,
+    TEXT_LINK_CLASS,
+} from "@/features/admin/common/lib/adminStyles.ts";
+import { formatAdminTimestamp } from "@/features/admin/party-management/lib/adminDates.ts";
+import {
+    AdminConflictNotice,
+    AdminErrorLine,
+} from "@/features/admin/partnership-management/components/AdminConflictNotice.tsx";
+import { useRetainedDialogValue } from "@/hooks/common/useRetainedDialogValue.ts";
+import { cn } from "@/lib/utils.ts";
+import {
+    AdminApplicationRequestError,
     useAdminPartnershipApplication,
     useDecideAdminApplication,
     useMarkAdminApplicationInReview,
 } from "../api/useAdminPartnershipApplications.ts";
 import {
+    ADMIN_APPLICATION_STATE_TONE,
     ADMIN_APPLICATION_STATE_TRANSLATION_KEY,
-    adminApplicationStateVariant,
-    PROPOSAL_TYPE_TRANSLATION_KEY,
 } from "../lib/adminApplicationPresentation.ts";
 import { AdminApplicationProposal } from "./AdminApplicationProposal.tsx";
 
-/** Timestamps come only from the search summary; the detail response omits them. */
-export type AdminApplicationTimestamps = {
-    readonly created?: Date;
-    readonly updated?: Date;
-};
+/**
+ * The review dialog (board "Admin · Application"). Timestamps come only from the list row that
+ * opened it; the detail response has none. Proposals are read-only.
+ */
+export function AdminApplicationDetailDialog({
+    applicationId: requestedId,
+    summary: requestedSummary,
+    onClose,
+}: {
+    readonly applicationId?: string;
+    readonly summary?: AdminPartnershipApplicationSummary;
+    readonly onClose: () => void;
+}) {
+    const { t } = useTranslation();
+    const open = Boolean(requestedId);
+    const [applicationId, releaseId] = useRetainedDialogValue(requestedId, open);
+    const [summary, releaseSummary] = useRetainedDialogValue(requestedSummary, open);
+    const {
+        data: application,
+        isPending,
+        error,
+        refetch,
+    } = useAdminPartnershipApplication(applicationId, open);
+    const shown = application ?? summary;
+    const existing = shown?.proposal.type === "EXISTING_LISTING_SOURCE";
 
-function DetailRow({ label, children }: { readonly label: string; readonly children: ReactNode }) {
+    let content: ReactNode;
+    if (application) {
+        content = <ApplicationBody application={application} summary={summary} />;
+    } else if (error) {
+        content = (
+            <div className="flex flex-wrap items-center justify-between gap-3.5">
+                <AdminErrorLine message={error.message} className="text-sm" />
+                <button
+                    type="button"
+                    onClick={() => refetch()}
+                    className={SMALL_SECONDARY_PILL_CLASS}
+                >
+                    {t("adminCommon.retry")}
+                </button>
+            </div>
+        );
+    } else if (isPending) {
+        content = (
+            <div aria-busy="true" className="flex flex-col gap-3.5">
+                <div className="grid grid-cols-2 gap-2.5">
+                    {[0, 1, 2, 3].map((index) => (
+                        <span key={index} className={cn(ADMIN_SKELETON_CLASS, "h-10 rounded-sm")} />
+                    ))}
+                </div>
+                <p role="status" className="text-meta text-ink-secondary">
+                    {t("adminApplications.loadingDetail")}
+                </p>
+            </div>
+        );
+    }
+
     return (
-        <div className="min-w-0">
-            <dt className="text-sm text-muted-foreground">{label}</dt>
-            <dd className="break-all">{children}</dd>
-        </div>
+        <AdminRecordDialog
+            open={open}
+            onOpenChange={(next) => {
+                if (!next) onClose();
+            }}
+            onCloseAutoFocus={() => {
+                releaseId();
+                releaseSummary();
+            }}
+            eyebrow={
+                shown
+                    ? t(`adminApplications.detail.eyebrow.${shown.proposal.type}`)
+                    : t("adminApplications.detail.fallbackTitle")
+            }
+            title={
+                shown ? (
+                    <span className={cn(existing && "font-mono text-xl break-all sm:text-2xl")}>
+                        {adminApplicationName(shown)}
+                    </span>
+                ) : (
+                    t("adminApplications.detail.fallbackTitle")
+                )
+            }
+            subtitle={
+                shown ? (
+                    <AdminStatusMark
+                        tone={ADMIN_APPLICATION_STATE_TONE[shown.state]}
+                        label={t(ADMIN_APPLICATION_STATE_TRANSLATION_KEY[shown.state])}
+                        className="text-ink"
+                    />
+                ) : undefined
+            }
+        >
+            {content}
+        </AdminRecordDialog>
     );
 }
 
-function ApplicationActions({
+function ApplicationBody({
     application,
+    summary,
 }: {
     readonly application: AdminPartnershipApplication;
+    readonly summary?: AdminPartnershipApplicationSummary;
 }) {
+    const { t, i18n } = useTranslation();
+    const timestamps = summary?.id === application.id ? summary : undefined;
+    const facts = [
+        { key: "id", label: t("adminApplications.fields.id"), value: application.id, mono: true },
+        {
+            key: "applicant",
+            label: t("adminApplications.fields.applicantUserId"),
+            value: application.applicantUserId,
+            mono: true,
+        },
+        ...(timestamps
+            ? [
+                  {
+                      key: "created",
+                      label: t("adminApplications.fields.created"),
+                      value: formatAdminTimestamp(timestamps.created, i18n.language),
+                  },
+                  {
+                      key: "updated",
+                      label: t("adminApplications.fields.updated"),
+                      value: formatAdminTimestamp(timestamps.updated, i18n.language),
+                  },
+              ]
+            : []),
+        ...(application.approvedPartnershipId
+            ? [
+                  {
+                      key: "partnership",
+                      label: t("adminApplications.fields.approvedPartnershipId"),
+                      value: application.approvedPartnershipId,
+                      mono: true,
+                  },
+              ]
+            : []),
+        ...(application.approvedListingSourceId
+            ? [
+                  {
+                      key: "source",
+                      label: t("adminApplications.fields.approvedListingSourceId"),
+                      value: application.approvedListingSourceId,
+                      mono: true,
+                  },
+              ]
+            : []),
+    ];
+
+    return (
+        <>
+            <AdminFacts facts={facts} />
+            <section aria-labelledby="admin-application-proposal" className="flex flex-col gap-3">
+                <h3
+                    id="admin-application-proposal"
+                    className={cn(ADMIN_SECTION_TITLE_CLASS, "text-[22px]")}
+                >
+                    {t("adminApplications.proposal.title")}
+                </h3>
+                <AdminApplicationProposal proposal={application.proposal} />
+            </section>
+            <DecisionBlock key={application.id} application={application} />
+        </>
+    );
+}
+
+function DecisionBlock({ application }: { readonly application: AdminPartnershipApplication }) {
     const { t } = useTranslation();
     const markInReview = useMarkAdminApplicationInReview();
     const decide = useDecideAdminApplication();
     const [confirming, setConfirming] = useState<AdminApplicationDecision>();
+    const [returnFocus, setReturnFocus] = useState<AdminApplicationDecision>();
+    const approveButton = useRef<HTMLButtonElement>(null);
+    const rejectButton = useRef<HTMLButtonElement>(null);
     const pending = markInReview.isPending || decide.isPending;
     const error = markInReview.error ?? decide.error;
+    const approved = application.state === "APPROVED";
 
+    useEffect(() => {
+        if (confirming || !returnFocus) return;
+        (returnFocus === "APPROVE" ? approveButton : rejectButton).current?.focus();
+        setReturnFocus(undefined);
+    }, [confirming, returnFocus]);
+
+    const startReview = () => {
+        decide.reset();
+        markInReview.mutate(application.id, {
+            onSuccess: () => toast.success(t("adminApplications.success.IN_REVIEW")),
+        });
+    };
     const submitDecision = (decision: AdminApplicationDecision) => {
         markInReview.reset();
         decide.mutate(
@@ -73,191 +244,106 @@ function ApplicationActions({
             },
         );
     };
+    const ask = (decision: AdminApplicationDecision) => {
+        markInReview.reset();
+        decide.reset();
+        setConfirming(decision);
+    };
+
+    const canReview = canMarkApplicationInReview(application);
+    const canDecide = canDecideApplication(application);
+    const hasLinks =
+        approved && (application.approvedPartnershipId || application.approvedListingSourceId);
+    if (!canReview && !canDecide && !hasLinks && !error) return null;
 
     return (
-        <div className="grid gap-3">
-            {canMarkApplicationInReview(application) && (
-                <div className="grid gap-2">
-                    <p className="text-sm text-muted-foreground">
-                        {t("adminApplications.actions.markInReviewHint")}
-                    </p>
-                    <Button
-                        className="justify-self-start"
+        <section
+            aria-label={t("adminApplications.decision.label")}
+            className="flex flex-col gap-3.5 border-t border-line pt-5"
+        >
+            {canReview && (
+                <div className="flex justify-end">
+                    <button
+                        type="button"
                         disabled={pending}
-                        onClick={() => {
-                            decide.reset();
-                            markInReview.mutate(application.id, {
-                                onSuccess: () =>
-                                    toast.success(t("adminApplications.success.IN_REVIEW")),
-                            });
-                        }}
+                        onClick={startReview}
+                        className={PRIMARY_PILL_CLASS}
                     >
                         {t("adminApplications.actions.markInReview")}
-                    </Button>
+                    </button>
                 </div>
             )}
-            {canDecideApplication(application) &&
+            {canDecide &&
                 (confirming ? (
-                    <div className="grid gap-2">
-                        <p className="text-sm text-muted-foreground">
-                            {t(`adminApplications.actions.confirm.${confirming}`)}
-                        </p>
-                        <div className="flex flex-wrap gap-2">
-                            <Button
-                                variant={confirming === "REJECT" ? "destructive" : "default"}
-                                disabled={pending}
-                                onClick={() => submitDecision(confirming)}
-                            >
-                                {t(`adminApplications.actions.${confirming}`)}
-                            </Button>
-                            <Button
-                                variant="outline"
-                                disabled={pending}
-                                onClick={() => setConfirming(undefined)}
-                            >
-                                {t("adminApplications.actions.cancel")}
-                            </Button>
-                        </div>
-                    </div>
+                    <AdminInlineConfirm
+                        message={t(
+                            confirming === "APPROVE"
+                                ? "adminApplications.actions.confirmApprove"
+                                : "adminApplications.actions.confirmReject",
+                        )}
+                        confirmLabel={t(`adminApplications.actions.${confirming}`)}
+                        tone={confirming === "APPROVE" ? "primary" : "danger"}
+                        pending={decide.isPending}
+                        onConfirm={() => submitDecision(confirming)}
+                        onCancel={() => {
+                            setReturnFocus(confirming);
+                            setConfirming(undefined);
+                        }}
+                    />
                 ) : (
-                    <div className="flex flex-wrap gap-2">
-                        <Button disabled={pending} onClick={() => setConfirming("APPROVE")}>
-                            {t("adminApplications.actions.APPROVE")}
-                        </Button>
-                        <Button
-                            variant="destructive"
+                    <div className="flex flex-wrap justify-end gap-2.5">
+                        <button
+                            ref={rejectButton}
+                            type="button"
                             disabled={pending}
-                            onClick={() => setConfirming("REJECT")}
+                            onClick={() => ask("REJECT")}
+                            className={ADMIN_DANGER_OUTLINE_CLASS}
                         >
                             {t("adminApplications.actions.REJECT")}
-                        </Button>
+                        </button>
+                        <button
+                            ref={approveButton}
+                            type="button"
+                            disabled={pending}
+                            onClick={() => ask("APPROVE")}
+                            className={PRIMARY_PILL_CLASS}
+                        >
+                            {t("adminApplications.actions.APPROVE")}
+                        </button>
                     </div>
                 ))}
-            {error && (
-                <p role="alert" className="text-sm text-destructive">
-                    {error.message}
-                </p>
-            )}
-        </div>
-    );
-}
-
-export function AdminApplicationDetailDialog({
-    applicationId: requestedApplicationId,
-    timestamps: requestedTimestamps,
-    open,
-    onOpenChange,
-}: {
-    readonly applicationId?: string;
-    readonly timestamps?: AdminApplicationTimestamps;
-    readonly open: boolean;
-    readonly onOpenChange: (open: boolean) => void;
-}) {
-    const { t, i18n } = useTranslation();
-    const [applicationId, releaseApplicationId] = useRetainedDialogValue(
-        requestedApplicationId,
-        open,
-    );
-    const [timestamps, releaseTimestamps] = useRetainedDialogValue(requestedTimestamps, open);
-    const {
-        data: application,
-        isPending,
-        error,
-        refetch,
-    } = useAdminPartnershipApplication(applicationId, open);
-
-    let content: ReactNode;
-    if (error) {
-        content = (
-            <div role="alert" className="grid gap-3">
-                <p>{error.message}</p>
-                <Button variant="outline" className="justify-self-start" onClick={() => refetch()}>
-                    {t("adminApplications.retry")}
-                </Button>
-            </div>
-        );
-    } else if (isPending || !application) {
-        content = <DialogLoadingState>{t("adminApplications.loadingDetail")}</DialogLoadingState>;
-    } else {
-        content = (
-            <div className="grid gap-5">
-                <div className="flex flex-wrap items-center gap-2">
-                    <h3 className="break-all font-medium">{adminApplicationName(application)}</h3>
-                    <Badge variant={adminApplicationStateVariant(application.state)}>
-                        {t(ADMIN_APPLICATION_STATE_TRANSLATION_KEY[application.state])}
-                    </Badge>
-                    <Badge variant="outline">
-                        {t(PROPOSAL_TYPE_TRANSLATION_KEY[application.proposal.type])}
-                    </Badge>
-                </div>
-                <dl className="grid gap-3 sm:grid-cols-2">
-                    <DetailRow label={t("adminApplications.fields.id")}>
-                        <span className="font-mono text-sm">{application.id}</span>
-                    </DetailRow>
-                    <DetailRow label={t("adminApplications.fields.applicantUserId")}>
-                        <span className="font-mono text-sm">{application.applicantUserId}</span>
-                    </DetailRow>
-                    {timestamps?.created && (
-                        <DetailRow label={t("adminApplications.fields.created")}>
-                            {formatDateTime(timestamps.created, i18n.language)}
-                        </DetailRow>
-                    )}
-                    {timestamps?.updated && (
-                        <DetailRow label={t("adminApplications.fields.updated")}>
-                            {formatDateTime(timestamps.updated, i18n.language)}
-                        </DetailRow>
-                    )}
+            {hasLinks && (
+                <div className="flex flex-wrap gap-4">
                     {application.approvedPartnershipId && (
-                        <DetailRow label={t("adminApplications.fields.approvedPartnershipId")}>
-                            <span className="font-mono text-sm">
-                                {application.approvedPartnershipId}
-                            </span>
-                        </DetailRow>
+                        <Link
+                            to="/$lng/admin/partnerships"
+                            from="/$lng"
+                            params={true}
+                            search={{ partnership: application.approvedPartnershipId }}
+                            className={TEXT_LINK_CLASS}
+                        >
+                            {t("adminApplications.links.partnership")}
+                        </Link>
                     )}
                     {application.approvedListingSourceId && (
-                        <DetailRow label={t("adminApplications.fields.approvedListingSourceId")}>
-                            <span className="block font-mono text-sm">
-                                {application.approvedListingSourceId}
-                            </span>
-                            <Link
-                                to="/$lng/admin/listing-sources"
-                                params={true}
-                                from="/$lng"
-                                className="text-sm text-primary underline-offset-4 hover:underline"
-                            >
-                                {t("adminApplications.links.listingSources")}
-                            </Link>
-                        </DetailRow>
+                        <Link
+                            to="/$lng/admin/listing-sources"
+                            from="/$lng"
+                            params={true}
+                            search={{ source: application.approvedListingSourceId }}
+                            className={TEXT_LINK_CLASS}
+                        >
+                            {t("adminApplications.links.listingSource")}
+                        </Link>
                     )}
-                </dl>
-                <section className="grid gap-2" aria-labelledby="admin-application-proposal">
-                    <h4 id="admin-application-proposal" className="text-sm font-medium">
-                        {t("adminApplications.proposal.title")}
-                    </h4>
-                    <AdminApplicationProposal proposal={application.proposal} />
-                </section>
-                <ApplicationActions application={application} />
-            </div>
-        );
-    }
-
-    return (
-        <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent
-                className="flex h-[min(90vh,40rem)] flex-col overflow-y-auto sm:max-w-2xl"
-                onCloseAutoFocus={() => {
-                    releaseApplicationId();
-                    releaseTimestamps();
-                }}
-            >
-                <DialogHeader>
-                    <DialogTitle>{t("adminApplications.detail.title")}</DialogTitle>
-                    <DialogDescription>
-                        {t("adminApplications.detail.description")}
-                    </DialogDescription>
-                </DialogHeader>
-                {content}
-            </DialogContent>
-        </Dialog>
+                </div>
+            )}
+            {error &&
+                (error instanceof AdminApplicationRequestError && error.status === 409 ? (
+                    <AdminConflictNotice message={error.message} />
+                ) : (
+                    <AdminErrorLine message={error.message} />
+                ))}
+        </section>
     );
 }

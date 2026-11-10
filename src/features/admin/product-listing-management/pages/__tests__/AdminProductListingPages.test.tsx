@@ -15,9 +15,12 @@ const api = vi.hoisted(() => ({
     withdrawAdminProductListing: vi.fn(),
     restoreAdminProductListing: vi.fn(),
     adminSearchAuctions: vi.fn(),
+    getAdminAuction: vi.fn(),
 }));
+const toasts = vi.hoisted(() => ({ success: vi.fn(), error: vi.fn() }));
 
 vi.mock("@/client", () => api);
+vi.mock("sonner", () => ({ toast: toasts }));
 vi.mock("@tanstack/react-router", () => ({
     Link: ({
         children,
@@ -89,10 +92,24 @@ function renderWithClient(ui: ReactNode) {
     return render(<QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>);
 }
 
+const auctionDto = {
+    auctionId: "auc_01",
+    listingSourceId: "ls_01",
+    sourceAuctionId: "A-2026-11",
+    name: { text: "Autumn Sale", language: "en" },
+    schedule: {},
+    expectedVersion: 2,
+    created: "2026-08-01T00:00:00Z",
+    updated: "2026-08-02T00:00:00Z",
+};
+
 beforeEach(() => {
     // Also drops unconsumed one-off responses, so a failing test cannot leak them into the next.
     vi.resetAllMocks();
+    api.getAdminAuction.mockResolvedValue(ok(auctionDto));
 });
+
+const save = () => screen.getByRole("button", { name: t("adminCommon.save") });
 
 describe("AdminProductListingsPage", () => {
     it("lists active and withdrawn listings with source identity and opens each record", async () => {
@@ -118,14 +135,28 @@ describe("AdminProductListingsPage", () => {
             <AdminProductListingsPage language="en" filters={{}} onFiltersChange={vi.fn()} />,
         );
 
-        expect(await screen.findByText("Walnut cabinet")).toHaveAttribute("lang", "en");
+        expect(await screen.findByText("Walnut cabinet")).toBeInTheDocument();
+        expect(
+            screen.getByRole("heading", {
+                level: 1,
+                name: t("adminNavigation.items.productListings"),
+            }),
+        ).toBeInTheDocument();
         expect(screen.getByText("SKU 0042")).toBeInTheDocument();
+        expect(
+            screen.getByText(
+                t("adminProductListings.list.sub", {
+                    lifecycle: t("adminProductListings.lifecycles.ACTIVE"),
+                    source: "Galerie Nord",
+                }),
+            ),
+        ).toBeInTheDocument();
+        expect(screen.getByText(t("adminCommon.result.loaded", { loaded: "1" }))).toBeVisible();
         expect(
             screen.getByRole("link", {
                 name: t("adminProductListings.list.openLabel", { label: "Walnut cabinet" }),
             }),
         ).toHaveAttribute("href", "/en/admin/product-listings/pl_01");
-        expect(screen.queryByText(/\d+ (results|Ergebnisse)/)).not.toBeInTheDocument();
 
         fireEvent.click(
             screen.getByRole("button", { name: t("adminProductListings.list.loadMore") }),
@@ -134,18 +165,88 @@ describe("AdminProductListingsPage", () => {
         const withdrawn = await screen.findByRole("link", {
             name: t("adminProductListings.list.openLabel", { label: "SKU 0043" }),
         });
-        const row = within(withdrawn.closest("li") as HTMLElement);
-        expect(row.getByText(t("adminProductListings.lifecycles.WITHDRAWN"))).toBeInTheDocument();
+        const row = within(withdrawn);
+        expect(
+            row.getByText(
+                t("adminProductListings.list.sub", {
+                    lifecycle: t("adminProductListings.lifecycles.WITHDRAWN"),
+                    source: "Galerie Nord",
+                }),
+            ),
+        ).toBeInTheDocument();
         expect(row.getByText(t("adminProductListings.list.noTitle"))).toBeInTheDocument();
+        expect(row.getByText(t("adminProductListings.priceOptions.ON_REQUEST"))).toBeVisible();
+        expect(row.getByText(t("adminProductListings.fields.notAsserted"))).toBeVisible();
         expect(api.searchAdminProductListings).toHaveBeenLastCalledWith(
             expect.objectContaining({ query: { size: 25, searchAfter: "cursor-1" } }),
         );
+        expect(screen.getByText(t("adminCommon.result.loaded", { loaded: "2" }))).toBeVisible();
         expect(screen.getByText(t("adminProductListings.list.end"))).toBeInTheDocument();
     });
 
-    it("applies trimmed exact filters, lifecycle, sort and page size", async () => {
-        api.searchAdminProductListings.mockResolvedValue(ok({ items: [], size: 0 }));
+    it("applies the search, a quick filter and trimmed panel filters", async () => {
+        api.searchAdminProductListings.mockResolvedValue(ok({ items: [detailDto], size: 1 }));
         const user = userEvent.setup();
+        const onFiltersChange = vi.fn();
+        renderWithClient(
+            <AdminProductListingsPage
+                language="en"
+                filters={{ sort: "created", order: "asc" }}
+                onFiltersChange={onFiltersChange}
+            />,
+        );
+        await screen.findByText("Walnut cabinet");
+
+        await user.type(
+            screen.getByRole("searchbox", { name: t("adminProductListings.filters.query") }),
+            " cabinet {Enter}",
+        );
+        expect(onFiltersChange).toHaveBeenLastCalledWith({
+            sort: "created",
+            order: "asc",
+            query: "cabinet",
+        });
+
+        fireEvent.keyDown(
+            screen.getByRole("button", {
+                name: new RegExp(t("adminProductListings.fields.lifecycle")),
+            }),
+            { key: "Enter" },
+        );
+        fireEvent.click(
+            await screen.findByRole("menuitemradio", {
+                name: t("adminProductListings.lifecycles.WITHDRAWN"),
+            }),
+        );
+        expect(onFiltersChange).toHaveBeenLastCalledWith({
+            sort: "created",
+            order: "asc",
+            lifecycle: "WITHDRAWN",
+        });
+
+        await user.click(screen.getByRole("button", { name: t("adminCommon.filters.all") }));
+        fireEvent.change(screen.getByLabelText(t("adminProductListings.fields.sourceId")), {
+            target: { value: " ls_01 " },
+        });
+        fireEvent.change(screen.getByLabelText(t("adminProductListings.fields.sourceListingId")), {
+            target: { value: " SKU 0042 " },
+        });
+        fireEvent.change(screen.getByLabelText(t("adminProductListings.filters.pageSize")), {
+            target: { value: "100" },
+        });
+        await user.click(screen.getByRole("button", { name: t("adminCommon.filters.apply") }));
+
+        expect(onFiltersChange).toHaveBeenLastCalledWith({
+            sort: "created",
+            order: "asc",
+            listingSourceId: "ls_01",
+            sourceListingId: "SKU 0042",
+            size: 100,
+        });
+    });
+
+    it("rejects an over-long source listing ID in the panel", async () => {
+        api.searchAdminProductListings.mockResolvedValue(ok({ items: [detailDto], size: 1 }));
         const onFiltersChange = vi.fn();
         renderWithClient(
             <AdminProductListingsPage
@@ -154,44 +255,73 @@ describe("AdminProductListingsPage", () => {
                 onFiltersChange={onFiltersChange}
             />,
         );
-        expect(await screen.findByText(t("adminProductListings.list.empty"))).toBeInTheDocument();
+        await screen.findByText("Walnut cabinet");
 
-        fireEvent.change(screen.getByLabelText(t("adminProductListings.fields.listingSourceId")), {
-            target: { value: " ls_01 " },
-        });
+        fireEvent.click(screen.getByRole("button", { name: t("adminCommon.filters.all") }));
         fireEvent.change(screen.getByLabelText(t("adminProductListings.fields.sourceListingId")), {
-            target: { value: " SKU 0042 " },
+            target: { value: "x".repeat(513) },
         });
-        await user.click(
-            screen.getByRole("combobox", { name: t("adminProductListings.fields.lifecycle") }),
-        );
-        await user.click(
-            screen.getByRole("option", { name: t("adminProductListings.lifecycles.WITHDRAWN") }),
-        );
-        await user.click(
-            screen.getByRole("combobox", { name: t("adminProductListings.filters.sort") }),
-        );
-        await user.click(
-            screen.getByRole("option", { name: t("adminProductListings.sort.created_asc") }),
-        );
-        await user.click(
-            screen.getByRole("combobox", { name: t("adminProductListings.filters.pageSize") }),
-        );
-        await user.click(screen.getByRole("option", { name: "100" }));
-        await user.click(
-            screen.getByRole("button", { name: t("adminProductListings.filters.apply") }),
-        );
+        fireEvent.click(screen.getByRole("button", { name: t("adminCommon.filters.apply") }));
 
-        await waitFor(() =>
-            expect(onFiltersChange).toHaveBeenCalledWith({
-                listingSourceId: "ls_01",
-                sourceListingId: "SKU 0042",
-                lifecycle: "WITHDRAWN",
-                sort: "created",
-                order: "asc",
-                size: 100,
+        expect(
+            screen.getByText(t("adminProductListings.validation.filterTooLong")),
+        ).toBeInTheDocument();
+        expect(onFiltersChange).not.toHaveBeenCalled();
+    });
+
+    it("sorts and shows active filters as chips", async () => {
+        api.searchAdminProductListings.mockResolvedValue(ok({ items: [detailDto], size: 1 }));
+        const onFiltersChange = vi.fn();
+        renderWithClient(
+            <AdminProductListingsPage
+                language="en"
+                filters={{ availability: "SOLD_OUT", auctionId: "auc_01" }}
+                onFiltersChange={onFiltersChange}
+            />,
+        );
+        await screen.findByText("Walnut cabinet");
+
+        fireEvent.change(screen.getByRole("combobox", { name: t("adminCommon.sort") }), {
+            target: { value: "created:desc" },
+        });
+        expect(onFiltersChange).toHaveBeenLastCalledWith({
+            availability: "SOLD_OUT",
+            auctionId: "auc_01",
+            sort: "created",
+            order: "desc",
+        });
+
+        const auctionChip = t("adminProductListings.filters.chip", {
+            label: t("adminProductListings.fields.auctionId"),
+            value: "auc_01",
+        });
+        fireEvent.click(
+            screen.getByRole("button", {
+                name: t("adminCommon.filters.remove", { filter: auctionChip }),
             }),
         );
+        expect(onFiltersChange).toHaveBeenLastCalledWith({
+            availability: "SOLD_OUT",
+            auctionId: undefined,
+        });
+    });
+
+    it("offers to reset filters when nothing matches", async () => {
+        api.searchAdminProductListings.mockResolvedValue(ok({ items: [], size: 0 }));
+        const onFiltersChange = vi.fn();
+        renderWithClient(
+            <AdminProductListingsPage
+                language="en"
+                filters={{ lifecycle: "WITHDRAWN", sort: "updated", order: "asc" }}
+                onFiltersChange={onFiltersChange}
+            />,
+        );
+
+        expect(
+            await screen.findByRole("heading", { name: t("adminProductListings.list.noMatches") }),
+        ).toBeInTheDocument();
+        fireEvent.click(screen.getByRole("button", { name: t("adminCommon.filters.clearSearch") }));
+        expect(onFiltersChange).toHaveBeenCalledWith({ sort: "updated", order: "asc" });
     });
 
     it("shows a retryable error without exposing API details", async () => {
@@ -203,14 +333,15 @@ describe("AdminProductListingsPage", () => {
         );
 
         expect(await screen.findByRole("alert")).toHaveTextContent(
-            t("adminProductListings.errors.unavailable"),
+            t("adminProductListings.list.loadFailed"),
         );
+        expect(screen.getByRole("button", { name: t("adminCommon.retry") })).toBeInTheDocument();
         expect(screen.queryByText(/private diagnostic/)).not.toBeInTheDocument();
     });
 });
 
 describe("AdminProductListingDetailPage", () => {
-    it("shows read-only facts and previews an image only on request", async () => {
+    it("shows the record facts and previews an image only on request", async () => {
         api.getAdminProductListing.mockResolvedValue(ok(detailDto));
         const { container } = renderWithClient(
             <AdminProductListingDetailPage productListingId="pl_01" language="en" />,
@@ -219,21 +350,47 @@ describe("AdminProductListingDetailPage", () => {
         expect(
             await screen.findByRole("heading", { level: 1, name: "Walnut cabinet" }),
         ).toBeInTheDocument();
-        expect(screen.getByText("walnut-cabinet-pl01")).toBeInTheDocument();
-        expect(screen.getByText("Two doors and the original key.")).toBeInTheDocument();
         expect(
-            screen.getByText(t("adminProductListings.detail.noSaleObservation")),
+            screen.getByRole("link", { name: t("adminProductListings.actions.allListings") }),
+        ).toHaveAttribute("href", "/en/admin/product-listings");
+        expect(
+            screen.getByText(
+                t("adminProductListings.detail.eyebrowLifecycle", {
+                    lifecycle: t("adminProductListings.lifecycles.ACTIVE"),
+                }),
+            ),
         ).toBeInTheDocument();
-        expect(screen.getByText(t("adminProductListings.detail.convergence"))).toBeInTheDocument();
         expect(
-            screen.getByRole("link", { name: t("adminProductListings.actions.openAuction") }),
-        ).toHaveAttribute("href", "/en/admin/auctions/auc_01");
+            screen.getByRole("link", { name: t("adminProductListings.actions.publicPage") }),
+        ).toHaveAttribute("href", "/en/products/walnut-cabinet-pl01");
+        expect(screen.getByText(t("adminProductListings.detail.correctionsNote"))).toBeVisible();
+
+        const record = within(
+            screen.getByRole("complementary", { name: t("adminProductListings.detail.record") }),
+        );
+        expect(record.getByText("walnut-cabinet-pl01")).toBeInTheDocument();
+        expect(record.getByText("7")).toBeInTheDocument();
+        expect(
+            record.getByText(t("adminProductListings.detail.noSaleObservation")),
+        ).toBeInTheDocument();
+        expect(
+            record.getByRole("link", { name: t("adminProductListings.actions.originalPage") }),
+        ).toHaveAttribute("href", "https://galerie.example/items/42");
+
+        expect(
+            screen.getByLabelText(t("adminProductListings.fields.originalDescription")),
+        ).toHaveValue("Two doors and the original key.");
+        expect(await screen.findByRole("link", { name: "Autumn Sale" })).toHaveAttribute(
+            "href",
+            "/en/admin/auctions/auc_01",
+        );
         expect(container.querySelector("img")).toBeNull();
 
-        const previewButtons = screen.getAllByRole("button", {
-            name: t("adminProductListings.actions.showPreview"),
-        });
-        fireEvent.click(previewButtons[1] as HTMLElement);
+        fireEvent.click(
+            screen.getByRole("button", {
+                name: t("adminProductListings.edit.showPreview", { position: 2 }),
+            }),
+        );
 
         const images = container.querySelectorAll("img");
         expect(images).toHaveLength(1);
@@ -243,6 +400,11 @@ describe("AdminProductListingDetailPage", () => {
             "alt",
             t("adminProductListings.edit.imagePreviewAlt", { position: 2 }),
         );
+        expect(
+            screen.getByRole("button", {
+                name: t("adminProductListings.edit.hidePreview", { position: 2 }),
+            }),
+        ).toHaveAttribute("aria-pressed", "true");
 
         // An edited URL is not loaded until the administrator asks for its preview again.
         fireEvent.change(
@@ -251,13 +413,13 @@ describe("AdminProductListingDetailPage", () => {
         );
         expect(container.querySelector("img")).toBeNull();
         expect(
-            screen.getAllByRole("button", {
-                name: t("adminProductListings.actions.showPreview"),
+            screen.getByRole("button", {
+                name: t("adminProductListings.edit.showPreview", { position: 2 }),
             }),
-        ).toHaveLength(2);
+        ).toBeInTheDocument();
     });
 
-    it("saves only changed facts with the loaded version and reports the outcome", async () => {
+    it("saves only changed facts with the loaded version and confirms with a toast", async () => {
         api.getAdminProductListing
             .mockResolvedValueOnce(ok(detailDto))
             .mockResolvedValue(
@@ -269,15 +431,21 @@ describe("AdminProductListingDetailPage", () => {
         renderWithClient(<AdminProductListingDetailPage productListingId="pl_01" language="en" />);
 
         const url = await screen.findByLabelText(t("adminProductListings.fields.url"));
+        expect(save()).toBeDisabled();
+        expect(screen.getByText(t("adminProductListings.edit.noUnsaved"))).toBeVisible();
         fireEvent.change(url, { target: { value: "https://galerie.example/items/42b" } });
         fireEvent.click(
-            screen.getByRole("button", { name: t("adminProductListings.actions.detachAuction") }),
+            screen.getByRole("button", { name: t("adminProductListings.actions.detach") }),
         );
-        fireEvent.click(
-            screen.getByRole("button", { name: t("adminProductListings.actions.save") }),
-        );
+        expect(
+            screen.getByText(t("adminProductListings.edit.unsaved", { count: 2 })),
+        ).toBeVisible();
+        expect(screen.getByText(t("adminProductListings.edit.noAuction"))).toBeVisible();
+        fireEvent.click(save());
 
-        expect(await screen.findByText(t("adminProductListings.edit.saved"))).toBeInTheDocument();
+        await waitFor(() =>
+            expect(toasts.success).toHaveBeenCalledWith(t("adminProductListings.edit.savedToast")),
+        );
         expect(api.updateAdminProductListing).toHaveBeenCalledWith({
             path: { productListingId: "pl_01" },
             body: {
@@ -289,10 +457,44 @@ describe("AdminProductListingDetailPage", () => {
         });
     });
 
+    it("chooses an auction of the listing's own source", async () => {
+        api.getAdminProductListing.mockResolvedValue(
+            ok({ ...detailDto, auctionId: undefined, auction: undefined }),
+        );
+        api.adminSearchAuctions.mockResolvedValue(
+            ok({ items: [{ ...auctionDto, auctionId: "auc_02" }], size: 1 }),
+        );
+        api.updateAdminProductListing.mockResolvedValue(
+            ok({ productListingId: "pl_01", expectedVersion: 8, outcome: "CHANGED" }),
+        );
+        renderWithClient(<AdminProductListingDetailPage productListingId="pl_01" language="en" />);
+
+        fireEvent.click(
+            await screen.findByRole("button", {
+                name: t("adminProductListings.actions.chooseAuction"),
+            }),
+        );
+        fireEvent.click(await screen.findByRole("button", { name: /Autumn Sale/ }));
+        expect(api.adminSearchAuctions).toHaveBeenCalledWith(
+            expect.objectContaining({
+                query: expect.objectContaining({ listingSourceId: "ls_01" }),
+            }),
+        );
+        fireEvent.click(save());
+
+        await waitFor(() =>
+            expect(api.updateAdminProductListing).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    body: { expectedVersion: 7, auction: { auctionId: "auc_02" } },
+                }),
+            ),
+        );
+    });
+
     it("replaces the original title in its language and clears the description", async () => {
         api.getAdminProductListing.mockResolvedValue(ok(detailDto));
         api.updateAdminProductListing.mockResolvedValue(
-            ok({ productListingId: "pl_01", expectedVersion: 8, outcome: "CHANGED" }),
+            ok({ productListingId: "pl_01", expectedVersion: 8, outcome: "UNCHANGED" }),
         );
         renderWithClient(<AdminProductListingDetailPage productListingId="pl_01" language="en" />);
 
@@ -301,15 +503,15 @@ describe("AdminProductListingDetailPage", () => {
         fireEvent.change(title, { target: { value: "Walnut cabinet, 1890" } });
         fireEvent.change(
             screen.getByLabelText(t("adminProductListings.fields.originalDescription")),
-            {
-                target: { value: "" },
-            },
+            { target: { value: "" } },
         );
-        fireEvent.click(
-            screen.getByRole("button", { name: t("adminProductListings.actions.save") }),
-        );
+        fireEvent.click(save());
 
-        expect(await screen.findByText(t("adminProductListings.edit.saved"))).toBeInTheDocument();
+        await waitFor(() =>
+            expect(toasts.success).toHaveBeenCalledWith(
+                t("adminProductListings.edit.unchangedToast"),
+            ),
+        );
         expect(api.updateAdminProductListing).toHaveBeenCalledWith({
             path: { productListingId: "pl_01" },
             body: {
@@ -338,10 +540,9 @@ describe("AdminProductListingDetailPage", () => {
         renderWithClient(<AdminProductListingDetailPage productListingId="pl_01" language="en" />);
 
         const title = await screen.findByLabelText(t("adminProductListings.fields.originalTitle"));
-        const save = screen.getByRole("button", { name: t("adminProductListings.actions.save") });
         fireEvent.change(title, { target: { value: "x".repeat(129) } });
         expect(screen.getByText(t("adminProductListings.edit.titleTooLong"))).toBeInTheDocument();
-        fireEvent.click(save);
+        fireEvent.click(save());
 
         expect(
             await screen.findByText(t("adminProductListings.validation.languageRequired")),
@@ -350,11 +551,10 @@ describe("AdminProductListingDetailPage", () => {
 
         fireEvent.change(title, { target: { value: "✨" } });
         expect(screen.queryByText(t("adminProductListings.edit.titleTooLong"))).toBeNull();
-        await userEvent.click(
-            screen.getByRole("combobox", { name: t("adminProductListings.fields.titleLanguage") }),
-        );
-        await userEvent.click(await screen.findByRole("option", { name: "DE" }));
-        fireEvent.click(save);
+        fireEvent.change(screen.getByLabelText(t("adminProductListings.fields.titleLanguage")), {
+            target: { value: "de" },
+        });
+        fireEvent.click(save());
 
         expect(
             await screen.findByText(t("adminProductListings.errors.invalidTitle")),
@@ -382,11 +582,11 @@ describe("AdminProductListingDetailPage", () => {
 
         const url = await screen.findByLabelText(t("adminProductListings.fields.url"));
         fireEvent.change(url, { target: { value: "https://galerie.example/items/42b" } });
-        fireEvent.click(
-            screen.getByRole("button", { name: t("adminProductListings.actions.save") }),
-        );
+        fireEvent.click(save());
 
-        expect(await screen.findByText(t("adminProductListings.edit.saved"))).toBeInTheDocument();
+        await waitFor(() =>
+            expect(toasts.success).toHaveBeenCalledWith(t("adminProductListings.edit.savedToast")),
+        );
         // The older cached record must not replace the committed values or their version.
         expect(url).toHaveValue("https://galerie.example/items/42b");
         expect(
@@ -396,9 +596,7 @@ describe("AdminProductListingDetailPage", () => {
         fireEvent.change(screen.getByLabelText(t("adminProductListings.fields.lotNumber")), {
             target: { value: "13" },
         });
-        fireEvent.click(
-            screen.getByRole("button", { name: t("adminProductListings.actions.save") }),
-        );
+        fireEvent.click(save());
 
         await waitFor(() => expect(api.updateAdminProductListing).toHaveBeenCalledTimes(2));
         expect(api.updateAdminProductListing).toHaveBeenLastCalledWith(
@@ -408,17 +606,18 @@ describe("AdminProductListingDetailPage", () => {
         );
     });
 
-    it("does not send a request without changes", async () => {
+    it("resets the form to the loaded record", async () => {
         api.getAdminProductListing.mockResolvedValue(ok(detailDto));
         renderWithClient(<AdminProductListingDetailPage productListingId="pl_01" language="en" />);
 
+        const lotNumber = await screen.findByLabelText(t("adminProductListings.fields.lotNumber"));
+        fireEvent.change(lotNumber, { target: { value: "13" } });
         fireEvent.click(
-            await screen.findByRole("button", { name: t("adminProductListings.actions.save") }),
+            screen.getByRole("button", { name: t("adminProductListings.actions.resetDraft") }),
         );
 
-        expect(
-            await screen.findByText(t("adminProductListings.edit.noChanges")),
-        ).toBeInTheDocument();
+        expect(lotNumber).toHaveValue("12A");
+        expect(save()).toBeDisabled();
         expect(api.updateAdminProductListing).not.toHaveBeenCalled();
     });
 
@@ -437,20 +636,16 @@ describe("AdminProductListingDetailPage", () => {
 
         const lotNumber = await screen.findByLabelText(t("adminProductListings.fields.lotNumber"));
         fireEvent.change(lotNumber, { target: { value: "13" } });
-        fireEvent.click(
-            screen.getByRole("button", { name: t("adminProductListings.actions.save") }),
-        );
+        fireEvent.click(save());
 
         expect(
             await screen.findByText(t("adminProductListings.errors.versionConflict")),
         ).toBeInTheDocument();
         expect(
-            screen.getByText(t("adminProductListings.edit.stale", { version: 8 })),
+            await screen.findByText(t("adminProductListings.edit.staleShort", { version: 8 })),
         ).toBeInTheDocument();
         expect(lotNumber).toHaveValue("13");
-        expect(
-            screen.getByRole("button", { name: t("adminProductListings.actions.save") }),
-        ).toBeDisabled();
+        expect(save()).toBeDisabled();
         expect(api.updateAdminProductListing).toHaveBeenCalledTimes(1);
 
         fireEvent.click(
@@ -459,9 +654,7 @@ describe("AdminProductListingDetailPage", () => {
         expect(screen.getByLabelText(t("adminProductListings.fields.url"))).toHaveValue(
             "https://galerie.example/moved",
         );
-        fireEvent.click(
-            screen.getByRole("button", { name: t("adminProductListings.actions.save") }),
-        );
+        fireEvent.click(save());
 
         await waitFor(() => expect(api.updateAdminProductListing).toHaveBeenCalledTimes(2));
         expect(api.updateAdminProductListing).toHaveBeenLastCalledWith(
@@ -483,12 +676,13 @@ describe("AdminProductListingDetailPage", () => {
         renderWithClient(<AdminProductListingDetailPage productListingId="pl_01" language="en" />);
 
         expect(
-            await screen.findByText(t("adminProductListings.edit.withdrawnLocked")),
+            await screen.findByText(t("adminProductListings.edit.lockedWithdrawn")),
         ).toBeInTheDocument();
         expect(screen.getByLabelText(t("adminProductListings.fields.url"))).toBeDisabled();
+        expect(save()).toBeDisabled();
         expect(
-            screen.getByRole("button", { name: t("adminProductListings.actions.save") }),
-        ).toBeDisabled();
+            screen.queryByRole("link", { name: t("adminProductListings.actions.publicPage") }),
+        ).not.toBeInTheDocument();
         expect(
             screen.queryByRole("button", {
                 name: t("adminProductListings.lifecycle.withdrawAction"),
@@ -509,9 +703,11 @@ describe("AdminProductListingDetailPage", () => {
             }),
         );
 
-        expect(
-            await screen.findByText(t("adminProductListings.lifecycle.restored")),
-        ).toBeInTheDocument();
+        await waitFor(() =>
+            expect(toasts.success).toHaveBeenCalledWith(
+                t("adminProductListings.lifecycle.restoredToast"),
+            ),
+        );
         expect(api.restoreAdminProductListing).toHaveBeenCalledWith({
             path: { productListingId: "pl_01" },
             body: { expectedVersion: 7 },
@@ -549,17 +745,36 @@ describe("AdminProductListingDetailPage", () => {
             }),
         );
 
-        expect(
-            await screen.findByText(t("adminProductListings.lifecycle.withdrawn")),
-        ).toBeInTheDocument();
+        await waitFor(() =>
+            expect(toasts.success).toHaveBeenCalledWith(
+                t("adminProductListings.lifecycle.withdrawnToast"),
+            ),
+        );
         expect(api.withdrawAdminProductListing).toHaveBeenCalledWith({
             path: { productListingId: "pl_01" },
             query: { expectedVersion: 7 },
             cache: "no-store",
         });
         expect(
-            await screen.findByText(t("adminProductListings.edit.withdrawnLocked")),
+            await screen.findByText(t("adminProductListings.edit.lockedWithdrawn")),
         ).toBeInTheDocument();
+    });
+
+    it("shows a missing listing with a way back", async () => {
+        api.getAdminProductListing.mockResolvedValue(failure(404, "PRODUCT_LISTING_NOT_FOUND"));
+        renderWithClient(<AdminProductListingDetailPage productListingId="pl_01" language="en" />);
+
+        expect(
+            await screen.findByRole("heading", {
+                name: t("adminProductListings.detail.unavailableTitle"),
+            }),
+        ).toBeInTheDocument();
+        expect(
+            screen.getByRole("link", { name: t("adminProductListings.actions.allListings") }),
+        ).toHaveAttribute("href", "/en/admin/product-listings");
+        expect(
+            screen.queryByRole("button", { name: t("adminCommon.retry") }),
+        ).not.toBeInTheDocument();
     });
 
     it("hides protected content when access is denied", async () => {

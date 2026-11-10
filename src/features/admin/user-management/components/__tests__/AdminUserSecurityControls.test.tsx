@@ -5,7 +5,6 @@ import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { CredentialListEntryData } from "@/data/internal/access-tokens/OwnCredentials.ts";
 import testI18n from "@/i18n/i18nForTests";
-import { formatDateTime } from "@/lib/utils.ts";
 import { AdminUserSecurityControls } from "../AdminUserSecurityControls.tsx";
 
 const CATALOG_INTEGRATION: CredentialListEntryData = {
@@ -92,8 +91,10 @@ vi.mock("../../api/useAdminUserSecurity.ts", () => ({
         data: { pages: [{ items: mocks.tokenItems }] },
         isLoading: false,
         isError: false,
+        dataUpdatedAt: 1,
         hasNextPage: false,
         isFetchingNextPage: false,
+        isFetchNextPageError: false,
         refetch: vi.fn(),
         fetchNextPage: vi.fn(),
     }),
@@ -106,6 +107,10 @@ vi.mock("../../api/useAdminUserSecurity.ts", () => ({
     }),
 }));
 
+const t = (key: string, options?: Record<string, unknown>) => testI18n.t(key, options);
+const formatDate = (value: string) =>
+    new Intl.DateTimeFormat("de", { dateStyle: "medium" }).format(new Date(value));
+
 describe("AdminUserSecurityControls", () => {
     let client: QueryClient;
     const wrapper = ({ children }: { children: ReactNode }) =>
@@ -113,37 +118,53 @@ describe("AdminUserSecurityControls", () => {
 
     beforeEach(() => {
         vi.clearAllMocks();
-        mocks.currentUserId = "usr_target";
+        mocks.currentUserId = "usr_admin";
         mocks.tokenItems = [CATALOG_INTEGRATION];
         mocks.suspend.mockResolvedValue({ userId: "usr_target", suspended: true });
+        mocks.unsuspend.mockResolvedValue({ userId: "usr_target", suspended: false });
         mocks.sessions.mockResolvedValue(undefined);
         mocks.revokeToken.mockResolvedValue(undefined);
+        mocks.revokeAllTokens.mockResolvedValue(undefined);
         client = new QueryClient({ defaultOptions: { queries: { retry: false } } });
     });
 
-    it("validates blank reasons and the Unicode UTF-8 byte limit before sending a suspension", async () => {
+    const suspendButton = () =>
+        screen.getByRole("button", { name: t("adminUsers.security.actions.suspend") });
+
+    it("validates the reason, then confirms inline before sending a suspension", async () => {
         const user = userEvent.setup();
         render(<AdminUserSecurityControls userId="usr_target" />, { wrapper });
-        const reason = screen.getByLabelText(testI18n.t("adminUsers.security.suspension.reason"));
-        const suspend = screen.getByRole("button", {
-            name: testI18n.t("adminUsers.security.actions.suspend"),
-        });
+        const reason = screen.getByLabelText(t("adminUsers.security.suspension.reason"));
 
-        await user.click(suspend);
+        await user.click(suspendButton());
         expect(
-            await screen.findByText(testI18n.t("adminUsers.security.suspension.reasonRequired")),
+            await screen.findByText(t("adminUsers.security.suspension.reasonRequired")),
         ).toBeInTheDocument();
         expect(mocks.suspend).not.toHaveBeenCalled();
 
         fireEvent.change(reason, { target: { value: "é".repeat(501) } });
-        await user.click(suspend);
+        await user.click(suspendButton());
         expect(
-            await screen.findByText(testI18n.t("adminUsers.security.suspension.reasonTooLong")),
+            await screen.findByText(t("adminUsers.security.suspension.reasonTooLong")),
         ).toBeInTheDocument();
+        expect(screen.getByText(/1\.002 \/ 1\.000/)).toBeInTheDocument();
         expect(mocks.suspend).not.toHaveBeenCalled();
 
         fireEvent.change(reason, { target: { value: "é".repeat(500) } });
-        await user.click(suspend);
+        await user.click(suspendButton());
+        const confirmation = screen.getByRole("group", {
+            name: t("adminUsers.security.suspension.confirmQuestion"),
+        });
+        expect(
+            within(confirmation).getByRole("button", { name: t("adminCommon.cancel") }),
+        ).toHaveFocus();
+        expect(mocks.suspend).not.toHaveBeenCalled();
+
+        await user.click(
+            within(confirmation).getByRole("button", {
+                name: t("adminUsers.security.actions.suspend"),
+            }),
+        );
         await waitFor(() =>
             expect(mocks.suspend).toHaveBeenCalledWith({
                 userId: "usr_target",
@@ -151,17 +172,31 @@ describe("AdminUserSecurityControls", () => {
             }),
         );
         expect(reason).toHaveValue("");
+        expect(
+            await screen.findByText(t("adminUsers.security.suspension.status.suspended")),
+        ).toBeInTheDocument();
+        expect(mocks.signOut).not.toHaveBeenCalled();
     });
 
-    it("does not claim a suspension state until the API confirms one", () => {
+    it("does not claim a suspension state until a response confirms one", async () => {
+        const user = userEvent.setup();
         render(<AdminUserSecurityControls userId="usr_target" />, { wrapper });
 
         expect(
-            screen.getByText(testI18n.t("adminUsers.security.suspension.stateUnknown")),
+            screen.getByText(t("adminUsers.security.suspension.status.unknown")),
         ).toBeInTheDocument();
         expect(
-            screen.queryByText(testI18n.t("adminUsers.security.suspension.confirmedSuspended")),
+            screen.queryByText(t("adminUsers.security.suspension.status.active")),
         ).not.toBeInTheDocument();
+
+        // Reactivation does not ask first.
+        await user.click(
+            screen.getByRole("button", { name: t("adminUsers.security.actions.unsuspend") }),
+        );
+        await waitFor(() => expect(mocks.unsuspend).toHaveBeenCalledWith("usr_target"));
+        expect(
+            await screen.findByText(t("adminUsers.security.suspension.status.active")),
+        ).toBeInTheDocument();
     });
 
     it("ends the current session after a confirmed self-suspension", async () => {
@@ -170,14 +205,16 @@ describe("AdminUserSecurityControls", () => {
         const user = userEvent.setup();
         render(<AdminUserSecurityControls userId="usr_self" />, { wrapper });
 
-        fireEvent.change(
-            screen.getByLabelText(testI18n.t("adminUsers.security.suspension.reason")),
-            { target: { value: "Policy breach" } },
-        );
+        fireEvent.change(screen.getByLabelText(t("adminUsers.security.suspension.reason")), {
+            target: { value: "  Policy breach  " },
+        });
+        await user.click(suspendButton());
         await user.click(
-            screen.getByRole("button", {
-                name: testI18n.t("adminUsers.security.actions.suspend"),
-            }),
+            within(
+                screen.getByRole("group", {
+                    name: t("adminUsers.security.suspension.confirmQuestion"),
+                }),
+            ).getByRole("button", { name: t("adminUsers.security.actions.suspend") }),
         );
 
         await waitFor(() =>
@@ -186,7 +223,7 @@ describe("AdminUserSecurityControls", () => {
                 reason: "Policy breach",
             }),
         );
-        expect(mocks.signOut).toHaveBeenCalledTimes(1);
+        await waitFor(() => expect(mocks.signOut).toHaveBeenCalledTimes(1));
         expect(mocks.navigate).toHaveBeenCalledWith({
             to: "/$lng/login",
             params: { lng: "en" },
@@ -195,25 +232,30 @@ describe("AdminUserSecurityControls", () => {
         });
     });
 
-    it("treats self session revocation as a fresh-sign-in action, separate from Aura token revocation", async () => {
+    it("treats self session revocation as a fresh-sign-in action, separate from token revocation", async () => {
         mocks.currentUserId = "usr_self";
-        mocks.sessions.mockResolvedValue(undefined);
         const user = userEvent.setup();
         render(<AdminUserSecurityControls userId="usr_self" />, { wrapper });
 
+        expect(
+            screen.getByRole("heading", { name: t("adminUsers.security.sessions.heading") }),
+        ).toBeInTheDocument();
         await user.click(
             screen.getByRole("button", {
-                name: testI18n.t("adminUsers.security.actions.revokeSessions"),
+                name: t("adminUsers.security.actions.confirmSessionRevocation"),
             }),
         );
+        const confirmation = screen.getByRole("group", {
+            name: t("adminUsers.security.sessions.confirmQuestion"),
+        });
         await user.click(
-            screen.getByRole("button", {
-                name: testI18n.t("adminUsers.security.actions.confirmSessionRevocation"),
+            within(confirmation).getByRole("button", {
+                name: t("adminUsers.security.actions.confirmSessionRevocation"),
             }),
         );
 
         await waitFor(() => expect(mocks.sessions).toHaveBeenCalledWith("usr_self"));
-        expect(mocks.signOut).toHaveBeenCalledTimes(1);
+        await waitFor(() => expect(mocks.signOut).toHaveBeenCalledTimes(1));
         expect(mocks.navigate).toHaveBeenCalledWith({
             to: "/$lng/login",
             params: { lng: "en" },
@@ -224,18 +266,40 @@ describe("AdminUserSecurityControls", () => {
         expect(mocks.revokeAllTokens).not.toHaveBeenCalled();
     });
 
-    it("revokes a single Aura token for the selected user without revoking Cognito sessions", async () => {
+    it("shows a failed action in its own block", async () => {
+        mocks.sessions.mockRejectedValue(new Error("Request failed"));
         const user = userEvent.setup();
         render(<AdminUserSecurityControls userId="usr_target" />, { wrapper });
 
         await user.click(
             screen.getByRole("button", {
-                name: testI18n.t("adminUsers.security.actions.revokeToken"),
+                name: t("adminUsers.security.actions.confirmSessionRevocation"),
             }),
         );
         await user.click(
+            within(
+                screen.getByRole("group", {
+                    name: t("adminUsers.security.sessions.confirmQuestion"),
+                }),
+            ).getByRole("button", {
+                name: t("adminUsers.security.actions.confirmSessionRevocation"),
+            }),
+        );
+
+        expect(await screen.findByRole("alert")).toHaveTextContent("Request failed");
+        expect(mocks.signOut).not.toHaveBeenCalled();
+    });
+
+    it("revokes a single token for the selected user without revoking sign-in sessions", async () => {
+        const user = userEvent.setup();
+        render(<AdminUserSecurityControls userId="usr_target" />, { wrapper });
+
+        await user.click(
+            screen.getByRole("button", { name: t("adminUsers.security.actions.revokeToken") }),
+        );
+        await user.click(
             screen.getByRole("button", {
-                name: testI18n.t("adminUsers.security.actions.confirmTokenRevocation"),
+                name: t("adminUsers.security.actions.confirmTokenRevocation"),
             }),
         );
 
@@ -253,20 +317,20 @@ describe("AdminUserSecurityControls", () => {
     it("moves focus into a revocation confirmation and restores it to the trigger on cancel", async () => {
         const user = userEvent.setup();
         render(<AdminUserSecurityControls userId="usr_target" />, { wrapper });
-        const triggerName = testI18n.t("adminUsers.security.actions.revokeToken");
+        const triggerName = t("adminUsers.security.actions.revokeToken");
 
         await user.click(screen.getByRole("button", { name: triggerName }));
 
+        const confirmation = screen.getByRole("group", {
+            name: t("adminUsers.security.tokens.confirmSingle", { name: "Catalog integration" }),
+        });
         expect(
-            screen.getByRole("group", {
-                name: testI18n.t("adminUsers.security.tokens.confirmSingle", {
-                    name: "Catalog integration",
-                }),
-            }),
+            within(confirmation).getByRole("button", { name: t("adminCommon.cancel") }),
         ).toHaveFocus();
+        expect(screen.queryByRole("button", { name: triggerName })).not.toBeInTheDocument();
 
         await user.click(
-            screen.getByRole("button", { name: testI18n.t("adminUsers.actions.cancel") }),
+            within(confirmation).getByRole("button", { name: t("adminCommon.cancel") }),
         );
 
         expect(screen.getByRole("button", { name: triggerName })).toHaveFocus();
@@ -279,34 +343,30 @@ describe("AdminUserSecurityControls", () => {
 
         expect(
             screen.getByRole("heading", {
-                name: `${testI18n.t("adminUsers.security.tokens.groups.connectedApps")} · 1`,
+                name: `${t("adminUsers.security.tokens.groups.connectedApps")} · 1`,
             }),
         ).toBeInTheDocument();
-        const app = screen.getByRole("heading", { name: "Claude Code" }).closest("li");
+        const app = screen.getByText("Claude Code").closest("li");
         if (!app) throw new Error("No connected app row");
-        expect(
-            within(app).getByText(testI18n.t("adminUsers.security.tokens.readOnly")),
-        ).toBeInTheDocument();
-        expect(app).toHaveTextContent(testI18n.t("adminUsers.security.tokens.readOnlyNote"));
-        expect(app).toHaveTextContent("ocn_agent");
+        expect(within(app).getByText(t("adminUsers.security.tokens.readOnly"))).toBeInTheDocument();
+        expect(app).toHaveTextContent(t("adminUsers.security.tokens.connectionNote"));
+        expect(app).toHaveTextContent("claude.ai");
         expect(app).toHaveTextContent(
-            testI18n.t("adminUsers.security.tokens.connectedAt", {
-                date: formatDateTime(new Date("2026-11-01T09:00:00Z"), "de"),
+            t("adminUsers.security.tokens.connectedAt", {
+                date: formatDate("2026-11-01T09:00:00Z"),
             }),
         );
         expect(app).toHaveTextContent(
-            testI18n.t("adminUsers.security.tokens.lastUsedAt", {
-                date: formatDateTime(new Date("2026-11-06T12:00:00Z"), "de"),
+            t("adminUsers.security.tokens.lastUsedAt", {
+                date: formatDate("2026-11-06T12:00:00Z"),
             }),
         );
         expect(
-            screen.queryByRole("button", {
-                name: testI18n.t("adminUsers.security.actions.revokeToken"),
-            }),
+            screen.queryByRole("button", { name: t("adminUsers.security.actions.revokeToken") }),
         ).not.toBeInTheDocument();
         expect(
             screen.queryByRole("heading", {
-                name: `${testI18n.t("adminUsers.security.tokens.groups.personal")} · 1`,
+                name: `${t("adminUsers.security.tokens.groups.personal")} · 1`,
             }),
         ).not.toBeInTheDocument();
     });
@@ -316,42 +376,39 @@ describe("AdminUserSecurityControls", () => {
         const user = userEvent.setup();
         render(<AdminUserSecurityControls userId="usr_target" />, { wrapper });
 
-        const app = screen.getByRole("heading", { name: "Shopify" }).closest("li");
+        const tokens = screen.getByRole("list", {
+            name: t("adminUsers.security.tokens.clientTokens", { name: "Shopify" }),
+        });
+        const app = tokens.closest("li");
         if (!app) throw new Error("No connected app row");
         expect(
-            within(app).queryByText(testI18n.t("adminUsers.security.tokens.readOnly")),
+            within(app).queryByText(t("adminUsers.security.tokens.readOnly")),
         ).not.toBeInTheDocument();
-        const tokens = within(app).getByRole("list", {
-            name: testI18n.t("adminUsers.security.tokens.clientTokens", { name: "Shopify" }),
-        });
+        expect(app).toHaveTextContent(t("adminUsers.security.tokens.tokenCount", { count: 2 }));
         const tokenRows = within(tokens).getAllByRole("listitem");
         expect(tokenRows).toHaveLength(2);
         expect(tokenRows[0]).toHaveTextContent("at_shop_1");
-        expect(tokenRows[0]).toHaveTextContent(testI18n.t("partnerAccessTokens.noExpiration"));
+        expect(tokenRows[0]).toHaveTextContent(t("partnerAccessTokens.noExpiration"));
         expect(tokenRows[1]).toHaveTextContent("at_shop_2");
         expect(tokenRows[1]).toHaveTextContent(
-            testI18n.t("adminUsers.security.tokens.expires", {
-                expires: formatDateTime(new Date("2027-01-01T00:00:00Z"), "de"),
-            }),
+            t("adminUsers.security.tokens.expiresOn", { date: formatDate("2027-01-01T00:00:00Z") }),
         );
         // Two client tokens and one personal token, each revocable on its own.
         expect(
-            screen.getAllByRole("button", {
-                name: testI18n.t("adminUsers.security.actions.revokeToken"),
-            }),
+            screen.getAllByRole("button", { name: t("adminUsers.security.actions.revokeToken") }),
         ).toHaveLength(3);
 
         await user.click(
-            within(tokenRows[1]).getByRole("button", {
-                name: testI18n.t("adminUsers.security.actions.revokeToken"),
+            within(tokenRows[1] as HTMLElement).getByRole("button", {
+                name: t("adminUsers.security.actions.revokeToken"),
             }),
         );
         const confirmation = screen.getByRole("group", {
-            name: testI18n.t("adminUsers.security.tokens.confirmClientToken", { name: "Shopify" }),
+            name: t("adminUsers.security.tokens.confirmClientToken", { name: "Shopify" }),
         });
         await user.click(
             within(confirmation).getByRole("button", {
-                name: testI18n.t("adminUsers.security.actions.confirmTokenRevocation"),
+                name: t("adminUsers.security.actions.confirmTokenRevocation"),
             }),
         );
 
@@ -379,50 +436,54 @@ describe("AdminUserSecurityControls", () => {
         ];
         render(<AdminUserSecurityControls userId="usr_target" />, { wrapper });
 
-        const originText = (key: string) =>
-            testI18n.t("adminUsers.security.tokens.origin", {
-                origin: testI18n.t(`adminUsers.security.tokens.origins.${key}`),
-            });
-        expect(screen.getByText(originText("OAuthMetadataDocument"))).toBeInTheDocument();
-        expect(screen.getByText(originText("OAuth"))).toBeInTheDocument();
-        expect(screen.getAllByText(originText("User"))).toHaveLength(1);
-        expect(screen.getByText(originText("unknown"))).toBeInTheDocument();
+        const origin = (key: string) => t(`adminUsers.security.tokens.origins.${key}`);
+        expect(document.body).toHaveTextContent(origin("OAuthMetadataDocument"));
+        expect(document.body).toHaveTextContent(origin("OAuth"));
+        expect(document.body).toHaveTextContent(origin("unknown"));
+        // A personal token's own origin is implied by its group.
+        expect(document.body).not.toHaveTextContent(origin("User"));
         expect(screen.queryByText(/OAuthMetadataDocument|LegacyOrigin/)).not.toBeInTheDocument();
         expect(
             screen.getByRole("heading", {
-                name: `${testI18n.t("adminUsers.security.tokens.groups.connectedApps")} · 2`,
+                name: `${t("adminUsers.security.tokens.groups.connectedApps")} · 2`,
             }),
         ).toBeInTheDocument();
         expect(
             screen.getByRole("heading", {
-                name: `${testI18n.t("adminUsers.security.tokens.groups.personal")} · 2`,
+                name: `${t("adminUsers.security.tokens.groups.personal")} · 2`,
             }),
         ).toBeInTheDocument();
     });
 
-    it("warns that revoking all also ends every connected app", async () => {
+    it("confirms that revoking all also ends every connected app", async () => {
         mocks.tokenItems = [AGENT_CONNECTION, CATALOG_INTEGRATION];
-        mocks.revokeAllTokens.mockResolvedValue(undefined);
         const user = userEvent.setup();
         render(<AdminUserSecurityControls userId="usr_target" />, { wrapper });
 
         await user.click(
-            screen.getByRole("button", {
-                name: testI18n.t("adminUsers.security.actions.revokeAllTokens"),
-            }),
+            screen.getByRole("button", { name: t("adminUsers.security.actions.revokeAllTokens") }),
         );
 
         const confirmation = screen.getByRole("group", {
-            name: "Alle Zugriffstoken dieses Benutzers widerrufen und alle verbundenen Apps trennen? Noch nicht genutzte Freigaben werden ebenfalls zurückgezogen.",
+            name: t("adminUsers.security.tokens.confirmAllQuestion"),
         });
-        expect(confirmation).toHaveFocus();
+        expect(
+            within(confirmation).getByRole("button", { name: t("adminCommon.cancel") }),
+        ).toHaveFocus();
         await user.click(
             within(confirmation).getByRole("button", {
-                name: testI18n.t("adminUsers.security.actions.confirmAllTokenRevocation"),
+                name: t("adminUsers.security.actions.confirmAllTokenRevocation"),
             }),
         );
 
         await waitFor(() => expect(mocks.revokeAllTokens).toHaveBeenCalledWith("usr_target"));
         expect(mocks.revokeToken).not.toHaveBeenCalled();
+    });
+
+    it("says when there is nothing to revoke", () => {
+        mocks.tokenItems = [];
+        render(<AdminUserSecurityControls userId="usr_target" />, { wrapper });
+
+        expect(screen.getByText(t("adminUsers.security.tokens.none"))).toBeInTheDocument();
     });
 });

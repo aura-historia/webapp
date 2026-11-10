@@ -1,19 +1,20 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useIsMutating } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button.tsx";
-import { Label } from "@/components/ui/label.tsx";
+import { z } from "zod";
+import { SUBSCRIPTION_TYPES } from "@/data/internal/account/SubscriptionType.ts";
 import type { AdminUserAccount } from "@/data/internal/admin/AdminUser.ts";
 import { mapToAdminUserTierPatch } from "@/data/internal/admin/AdminUser.ts";
-import { SUBSCRIPTION_TYPES } from "@/data/internal/account/SubscriptionType.ts";
 import { ADMIN_USER_PATCH_MUTATION_KEY, useUpdateAdminUserTier } from "../api/useAdminUsers.ts";
+import { AdminUserAccessCard } from "./AdminUserAccessCard.tsx";
+import { AdminUserSelect } from "./AdminUserProfileForm.tsx";
 
 const tierSchema = z.object({ tier: z.enum(SUBSCRIPTION_TYPES) });
 type TierValues = z.infer<typeof tierSchema>;
 
+/** The tier card: saves on its own and sends only the tier. */
 export function AdminUserTierForm({ account }: { readonly account: AdminUserAccount }) {
     const { t } = useTranslation();
     const patchPending = useIsMutating({ mutationKey: ADMIN_USER_PATCH_MUTATION_KEY }) > 0;
@@ -39,37 +40,22 @@ export function AdminUserTierForm({ account }: { readonly account: AdminUserAcco
     };
 
     return (
-        <form noValidate onSubmit={form.handleSubmit(submit)} className="grid gap-3">
-            <h3 className="font-semibold">{t("adminUsers.tier.title")}</h3>
-            <div className="grid gap-2">
-                <Label htmlFor="admin-user-tier">{t("adminUsers.fields.tier")}</Label>
-                <select
-                    id="admin-user-tier"
-                    className="h-9 w-full border bg-background px-3 text-sm"
-                    {...form.register("tier")}
-                >
-                    {SUBSCRIPTION_TYPES.map((tier) => (
-                        <option key={tier} value={tier}>
-                            {t(`adminUsers.options.tiers.${tier.toUpperCase()}`)}
-                        </option>
-                    ))}
-                </select>
-            </div>
-            {updateTier.error && (
-                <p role="alert" className="text-sm text-destructive">
-                    {updateTier.error.message}
-                </p>
-            )}
-            <div>
-                <Button
-                    type="submit"
-                    disabled={patchPending || updateTier.isPending || !form.formState.isDirty}
-                >
-                    {updateTier.isPending
-                        ? t("adminUsers.actions.saving")
-                        : t("adminUsers.actions.saveTier")}
-                </Button>
-            </div>
-        </form>
+        <AdminUserAccessCard
+            id="admin-user-tier"
+            label={t("adminUsers.fields.tier")}
+            saveLabel={t("adminUsers.actions.saveTier")}
+            saving={updateTier.isPending}
+            disabled={patchPending || updateTier.isPending || !form.formState.isDirty}
+            error={updateTier.error?.message}
+            onSubmit={form.handleSubmit(submit)}
+        >
+            <AdminUserSelect id="admin-user-tier" register={form.register("tier")} raised>
+                {SUBSCRIPTION_TYPES.map((tier) => (
+                    <option key={tier} value={tier}>
+                        {t(`adminUsers.options.tiers.${tier.toUpperCase()}`)}
+                    </option>
+                ))}
+            </AdminUserSelect>
+        </AdminUserAccessCard>
     );
 }

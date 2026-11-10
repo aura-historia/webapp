@@ -1,5 +1,7 @@
+import { Loader2 } from "lucide-react";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 import {
     AlertDialog,
     AlertDialogCancel,
@@ -9,13 +11,19 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog.tsx";
-import { Button } from "@/components/ui/button.tsx";
+import {
+    ADMIN_DANGER_OUTLINE_CLASS,
+    ADMIN_DIALOG_CONTENT_CLASS,
+    ADMIN_SECTION_TITLE_CLASS,
+    PRIMARY_PILL_CLASS,
+    SECONDARY_PILL_CLASS,
+} from "@/features/admin/common/lib/adminStyles.ts";
 import type { AdminProductListingDetail } from "@/data/internal/product/AdminProductListing.ts";
+import { cn } from "@/lib/utils.ts";
 import {
     useRestoreAdminProductListing,
     useWithdrawAdminProductListing,
 } from "../api/useAdminProductListings.ts";
-import { AdminProductListingLifecycleBadge } from "./AdminProductListingPresentation.tsx";
 
 type LifecycleAction = "withdraw" | "restore";
 
@@ -31,7 +39,11 @@ function availableAction(listing: AdminProductListingDetail): LifecycleAction | 
     return undefined;
 }
 
-export function AdminProductListingLifecycleSection({
+/**
+ * The header's Withdraw (oxblood outline) or Restore (ink) action and its confirmation, which
+ * shows the version captured when it opened. Unrecognized lifecycles offer no action.
+ */
+export function AdminProductListingLifecycleAction({
     listing,
 }: {
     readonly listing: AdminProductListingDetail;
@@ -40,17 +52,16 @@ export function AdminProductListingLifecycleSection({
     const withdraw = useWithdrawAdminProductListing(listing.productListingId);
     const restore = useRestoreAdminProductListing(listing.productListingId);
     const [confirmation, setConfirmation] = useState<PendingConfirmation>();
-    const [notice, setNotice] = useState<string>();
     const actionButton = useRef<HTMLButtonElement>(null);
     const action = availableAction(listing);
     const pending = withdraw.isPending || restore.isPending;
-    const error = withdraw.error ?? restore.error;
 
-    const open = (next: LifecycleAction) => {
+    if (!action) return null;
+
+    const open = () => {
         withdraw.reset();
         restore.reset();
-        setNotice(undefined);
-        setConfirmation({ action: next, expectedVersion: listing.expectedVersion });
+        setConfirmation({ action, expectedVersion: listing.expectedVersion });
     };
 
     const confirm = async () => {
@@ -59,63 +70,39 @@ export function AdminProductListingLifecycleSection({
         try {
             if (confirmation.action === "withdraw") {
                 await withdraw.mutateAsync({ expectedVersion });
-                setNotice(t("adminProductListings.lifecycle.withdrawn"));
+                toast.success(t("adminProductListings.lifecycle.withdrawnToast"));
             } else {
                 const result = await restore.mutateAsync({ expectedVersion });
-                setNotice(
+                toast.success(
                     t(
                         result.outcome === "CHANGED"
-                            ? "adminProductListings.lifecycle.restored"
-                            : "adminProductListings.lifecycle.restoreUnchanged",
+                            ? "adminProductListings.lifecycle.restoredToast"
+                            : "adminProductListings.lifecycle.restoreUnchangedToast",
                     ),
                 );
             }
-        } catch {
-            // The error is shown below; the refetched listing must be reviewed before retrying.
+        } catch (error) {
+            // The listing is refetched; it must be reviewed before another attempt.
+            toast.error(
+                error instanceof Error
+                    ? error.message
+                    : t("adminProductListings.errors.requestFailed"),
+            );
         }
         setConfirmation(undefined);
     };
 
     return (
-        <section
-            className="grid gap-4 border bg-surface-container-low p-5"
-            aria-labelledby="admin-product-listing-lifecycle-title"
-        >
-            <div className="flex flex-wrap items-center justify-between gap-3">
-                <div className="flex flex-wrap items-center gap-3">
-                    <h2
-                        id="admin-product-listing-lifecycle-title"
-                        className="font-display text-2xl italic"
-                    >
-                        {t("adminProductListings.lifecycle.title")}
-                    </h2>
-                    <AdminProductListingLifecycleBadge lifecycle={listing.lifecycle} />
-                </div>
-                {action && (
-                    <Button
-                        ref={actionButton}
-                        type="button"
-                        variant={action === "withdraw" ? "destructive" : "default"}
-                        disabled={pending}
-                        onClick={() => open(action)}
-                    >
-                        {t(`adminProductListings.lifecycle.${action}Action`)}
-                    </Button>
-                )}
-            </div>
-            <p className="text-sm text-muted-foreground">
-                {t(
-                    action
-                        ? `adminProductListings.lifecycle.${action}Help`
-                        : "adminProductListings.lifecycle.unknownHelp",
-                )}
-            </p>
-            {error && (
-                <p role="alert" className="text-sm text-destructive">
-                    {error.message}
-                </p>
-            )}
-            {notice && <output className="text-sm text-muted-foreground">{notice}</output>}
+        <>
+            <button
+                ref={actionButton}
+                type="button"
+                disabled={pending}
+                onClick={open}
+                className={action === "withdraw" ? ADMIN_DANGER_OUTLINE_CLASS : PRIMARY_PILL_CLASS}
+            >
+                {t(`adminProductListings.lifecycle.${action}Action`)}
+            </button>
             <AlertDialog
                 open={confirmation !== undefined}
                 onOpenChange={(nextOpen) => {
@@ -123,6 +110,7 @@ export function AdminProductListingLifecycleSection({
                 }}
             >
                 <AlertDialogContent
+                    className={cn(ADMIN_DIALOG_CONTENT_CLASS, "gap-5 p-6 sm:max-w-[480px] sm:p-7")}
                     onCloseAutoFocus={(event) => {
                         if (!actionButton.current) return;
                         event.preventDefault();
@@ -131,21 +119,21 @@ export function AdminProductListingLifecycleSection({
                 >
                     {confirmation && (
                         <>
-                            <AlertDialogHeader>
-                                <AlertDialogTitle>
+                            <AlertDialogHeader className="gap-3 text-left">
+                                <AlertDialogTitle className={ADMIN_SECTION_TITLE_CLASS}>
                                     {t(
                                         `adminProductListings.lifecycle.${confirmation.action}Title`,
                                     )}
                                 </AlertDialogTitle>
                                 <AlertDialogDescription asChild>
-                                    <div className="grid gap-2">
+                                    <div className="flex flex-col gap-2 text-sm leading-normal text-ink-secondary">
                                         <p>
                                             {t(
                                                 `adminProductListings.lifecycle.${confirmation.action}Consequence`,
                                             )}
                                         </p>
                                         <p>{t("adminProductListings.lifecycle.convergence")}</p>
-                                        <p className="font-mono text-xs">
+                                        <p className="font-mono text-xs text-ink-muted">
                                             {t("adminProductListings.lifecycle.version", {
                                                 version: confirmation.expectedVersion,
                                             })}
@@ -153,32 +141,40 @@ export function AdminProductListingLifecycleSection({
                                     </div>
                                 </AlertDialogDescription>
                             </AlertDialogHeader>
-                            <AlertDialogFooter>
-                                <AlertDialogCancel disabled={pending}>
-                                    {t("adminProductListings.actions.cancel")}
+                            <AlertDialogFooter className="gap-2.5">
+                                <AlertDialogCancel
+                                    disabled={pending}
+                                    className={SECONDARY_PILL_CLASS}
+                                >
+                                    {t("adminCommon.cancel")}
                                 </AlertDialogCancel>
                                 {/* A plain button keeps the dialog open until the request settles. */}
-                                <Button
+                                <button
                                     type="button"
-                                    variant={
-                                        confirmation.action === "withdraw"
-                                            ? "destructive"
-                                            : "default"
-                                    }
                                     disabled={pending}
+                                    aria-busy={pending}
                                     onClick={() => void confirm()}
+                                    className={cn(
+                                        PRIMARY_PILL_CLASS,
+                                        confirmation.action === "withdraw" &&
+                                            "bg-oxblood text-on-oxblood",
+                                    )}
                                 >
-                                    {pending
-                                        ? t("adminProductListings.actions.working")
-                                        : t(
-                                              `adminProductListings.lifecycle.${confirmation.action}Confirm`,
-                                          )}
-                                </Button>
+                                    {pending && (
+                                        <Loader2
+                                            aria-hidden="true"
+                                            className="size-[15px] animate-spin motion-reduce:animate-none"
+                                        />
+                                    )}
+                                    {t(
+                                        `adminProductListings.lifecycle.${confirmation.action}Confirm`,
+                                    )}
+                                </button>
                             </AlertDialogFooter>
                         </>
                     )}
                 </AlertDialogContent>
             </AlertDialog>
-        </section>
+        </>
     );
 }

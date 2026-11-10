@@ -1,14 +1,55 @@
-import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
+import { Plus } from "lucide-react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { H1 } from "@/components/typography/H1.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import { Skeleton } from "@/components/ui/skeleton.tsx";
+import type { AuctionFormatData, AuctionReportedStatusData } from "@/client";
+import {
+    type AdminChip,
+    AdminActiveChips,
+    AdminCell,
+    AdminFilterPanel,
+    AdminLedger,
+    AdminLedgerRow,
+    AdminLedgerSkeleton,
+    AdminLoadMore,
+    AdminPrimaryCell,
+    AdminQuickSelect,
+    AdminResultLine,
+    AdminRowChevron,
+    AdminSelectField,
+    AdminSortSelect,
+    AdminTextField,
+    AdminToolbar,
+} from "@/features/admin/common/components/AdminDirectory.tsx";
+import { AdminPageHeader } from "@/features/admin/common/components/AdminPageHeader.tsx";
+import { AdminStatePanel } from "@/features/admin/common/components/AdminStatePanel.tsx";
+import { AdminStatusMark } from "@/features/admin/common/components/AdminStatusMark.tsx";
+import {
+    PRIMARY_PILL_CLASS,
+    SECONDARY_PILL_CLASS,
+} from "@/features/admin/common/lib/adminStyles.ts";
 import type { AdminAuction } from "@/data/internal/auction/AdminAuction.ts";
-import { formatDateTime } from "@/lib/utils.ts";
+import { formatDate } from "@/lib/utils.ts";
 import { useAdminAuctions } from "../api/useAdminAuctions.ts";
-import { AdminAuctionFiltersForm } from "../components/AdminAuctionFiltersForm.tsx";
-import type { AdminAuctionFilters } from "../lib/adminAuctionSearch.ts";
+import { AUCTION_STATUS_TONES } from "../components/AuctionStatus.ts";
+import {
+    ADMIN_AUCTION_FORMATS,
+    ADMIN_AUCTION_PAGE_SIZE,
+    ADMIN_AUCTION_PAGE_SIZE_OPTIONS,
+    ADMIN_AUCTION_REPORTED_STATUSES,
+    ADMIN_AUCTION_SORT_FIELDS,
+    type AdminAuctionFilters,
+    type AdminAuctionSortField,
+    type AdminAuctionSortOrder,
+    DEFAULT_ADMIN_AUCTION_SORT,
+} from "../lib/adminAuctionSearch.ts";
+
+const LEDGER_COLUMNS =
+    "minmax(0,2.2fr) minmax(0,1.1fr) minmax(0,0.7fr) minmax(0,0.9fr) minmax(0,0.8fr) 16px";
+const DEFAULT_SORT_OPTION = `${DEFAULT_ADMIN_AUCTION_SORT.sort}:${DEFAULT_ADMIN_AUCTION_SORT.order}`;
+const SORT_OPTIONS = ADMIN_AUCTION_SORT_FIELDS.flatMap((sort) =>
+    sort === "name" ? [`${sort}:asc`, `${sort}:desc`] : [`${sort}:desc`, `${sort}:asc`],
+);
 
 export function AdminAuctionsPage({
     language,
@@ -20,81 +61,323 @@ export function AdminAuctionsPage({
     readonly onFiltersChange: (filters: AdminAuctionFilters) => void;
 }) {
     const { t } = useTranslation();
+    // Clearing filters keeps the chosen order; it is not a filter.
+    const clearFilters = () => onFiltersChange({ sort: filters.sort, order: filters.order });
 
     return (
-        <main className="mx-auto grid w-full max-w-6xl gap-8 px-4 py-10 sm:px-6">
-            <header className="flex flex-wrap items-end justify-between gap-3">
-                <div className="grid gap-2">
-                    <H1>{t("adminAuctions.title")}</H1>
-                    <p className="max-w-3xl text-muted-foreground">
-                        {t("adminAuctions.description")}
-                    </p>
-                </div>
-                <Button asChild>
-                    <Link to="/$lng/admin/auctions/new" params={{ lng: language }}>
-                        {t("adminAuctions.actions.create")}
-                    </Link>
-                </Button>
-            </header>
-
-            <section className="grid gap-4" aria-labelledby="admin-auction-directory-title">
-                <div className="grid gap-2">
-                    <h2 id="admin-auction-directory-title" className="font-display text-2xl italic">
-                        {t("adminAuctions.list.title")}
-                    </h2>
-                    <p className="text-sm text-muted-foreground">
-                        {t("adminAuctions.list.description")}
-                    </p>
-                </div>
-                <AdminAuctionFiltersForm
-                    key={JSON.stringify(filters)}
-                    filters={filters}
-                    onApply={onFiltersChange}
-                />
-                <AdminAuctionResults language={language} filters={filters} />
-            </section>
-        </main>
+        <>
+            <AdminPageHeader
+                title={t("adminNavigation.items.auctions")}
+                action={<CreateAuctionLink language={language} />}
+            />
+            <AdminAuctionToolbar
+                filters={filters}
+                onFiltersChange={onFiltersChange}
+                onClearFilters={clearFilters}
+            />
+            <AdminAuctionResults
+                language={language}
+                filters={filters}
+                onFiltersChange={onFiltersChange}
+                onClearFilters={clearFilters}
+            />
+        </>
     );
+}
+
+function CreateAuctionLink({ language }: { readonly language: string }) {
+    const { t } = useTranslation();
+    return (
+        <Link
+            to="/$lng/admin/auctions/new"
+            params={{ lng: language }}
+            className={PRIMARY_PILL_CLASS}
+        >
+            <Plus aria-hidden="true" className="size-4" strokeWidth={1.8} />
+            {t("adminAuctions.actions.create")}
+        </Link>
+    );
+}
+
+function AdminAuctionToolbar({
+    filters,
+    onFiltersChange,
+    onClearFilters,
+}: {
+    readonly filters: AdminAuctionFilters;
+    readonly onFiltersChange: (filters: AdminAuctionFilters) => void;
+    readonly onClearFilters: () => void;
+}) {
+    const { t } = useTranslation();
+    const [query, setQuery] = useState(filters.query ?? "");
+    const [appliedQuery, setAppliedQuery] = useState(filters.query);
+    // A changed URL (chip removed, back navigation) replaces the typed search text.
+    if (filters.query !== appliedQuery) {
+        setAppliedQuery(filters.query);
+        setQuery(filters.query ?? "");
+    }
+    const update = (changes: Partial<AdminAuctionFilters>) =>
+        onFiltersChange({ ...filters, ...changes });
+    const chip = (key: string, label: string, value: string, remove: () => void): AdminChip => ({
+        key,
+        label: t("adminAuctions.filters.chip", { label, value }),
+        onRemove: remove,
+    });
+
+    const chips: AdminChip[] = [
+        filters.query &&
+            chip("query", t("adminAuctions.filters.search"), filters.query, () =>
+                update({ query: undefined }),
+            ),
+        filters.format &&
+            chip(
+                "format",
+                t("adminAuctions.fields.format"),
+                t(`adminAuctions.formatLabels.${filters.format}`),
+                () => update({ format: undefined }),
+            ),
+        filters.reportedStatus &&
+            chip(
+                "status",
+                t("adminAuctions.fields.status"),
+                t(`adminAuctions.reportedStatuses.${filters.reportedStatus}`),
+                () => update({ reportedStatus: undefined }),
+            ),
+        filters.listingSourceId &&
+            chip("listingSource", t("adminAuctions.fields.sourceId"), filters.listingSourceId, () =>
+                update({ listingSourceId: undefined }),
+            ),
+        filters.sourceAuctionId &&
+            chip(
+                "sourceAuctionId",
+                t("adminAuctions.fields.sourceAuctionId"),
+                filters.sourceAuctionId,
+                () => update({ sourceAuctionId: undefined }),
+            ),
+        filters.size !== undefined &&
+            chip("size", t("adminAuctions.filters.pageSize"), String(filters.size), () =>
+                update({ size: undefined }),
+            ),
+    ].filter((entry): entry is AdminChip => Boolean(entry));
+
+    const panelCount = [filters.listingSourceId, filters.sourceAuctionId, filters.size].filter(
+        (value) => value !== undefined,
+    ).length;
+
+    return (
+        <AdminToolbar
+            label={t("adminAuctions.filters.title")}
+            search={{
+                label: t("adminAuctions.filters.query"),
+                value: query,
+                onChange: setQuery,
+                onSubmit: () => update({ query: query.trim() || undefined }),
+            }}
+            quickFilters={
+                <>
+                    <AdminQuickSelect
+                        label={t("adminAuctions.fields.format")}
+                        value={filters.format ?? ""}
+                        options={ADMIN_AUCTION_FORMATS.map((format) => ({
+                            value: format,
+                            label: t(`adminAuctions.formatLabels.${format}`),
+                        }))}
+                        onChange={(value) =>
+                            update({ format: (value as AuctionFormatData) || undefined })
+                        }
+                    />
+                    <AdminQuickSelect
+                        label={t("adminAuctions.fields.status")}
+                        value={filters.reportedStatus ?? ""}
+                        options={ADMIN_AUCTION_REPORTED_STATUSES.map((status) => ({
+                            value: status,
+                            label: t(`adminAuctions.reportedStatuses.${status}`),
+                        }))}
+                        onChange={(value) =>
+                            update({
+                                reportedStatus: (value as AuctionReportedStatusData) || undefined,
+                            })
+                        }
+                    />
+                </>
+            }
+            panelCount={panelCount}
+            panel={(close) => (
+                <AdminAuctionFilterPanel
+                    filters={filters}
+                    onApply={(changes) => {
+                        update(changes);
+                        close();
+                    }}
+                />
+            )}
+            chips={<AdminActiveChips chips={chips} onClearAll={onClearFilters} />}
+        />
+    );
+}
+
+type PanelValues = {
+    readonly listingSourceId: string;
+    readonly sourceAuctionId: string;
+    readonly size: string;
+};
+
+const EMPTY_PANEL: PanelValues = {
+    listingSourceId: "",
+    sourceAuctionId: "",
+    size: String(ADMIN_AUCTION_PAGE_SIZE),
+};
+
+function AdminAuctionFilterPanel({
+    filters,
+    onApply,
+}: {
+    readonly filters: AdminAuctionFilters;
+    readonly onApply: (changes: Partial<AdminAuctionFilters>) => void;
+}) {
+    const { t } = useTranslation();
+    const [values, setValues] = useState<PanelValues>({
+        listingSourceId: filters.listingSourceId ?? "",
+        sourceAuctionId: filters.sourceAuctionId ?? "",
+        size: String(filters.size ?? ADMIN_AUCTION_PAGE_SIZE),
+    });
+    const set = (key: keyof PanelValues) => (value: string) =>
+        setValues((current) => ({ ...current, [key]: value }));
+
+    return (
+        <AdminFilterPanel
+            onApply={() => {
+                const size = Number(values.size);
+                onApply({
+                    listingSourceId: values.listingSourceId.trim() || undefined,
+                    sourceAuctionId: values.sourceAuctionId.trim() || undefined,
+                    // The default page size is the API default, so it stays out of the URL.
+                    size: size === ADMIN_AUCTION_PAGE_SIZE ? undefined : size,
+                });
+            }}
+            onReset={() => setValues(EMPTY_PANEL)}
+        >
+            <AdminTextField
+                label={t("adminAuctions.fields.sourceId")}
+                value={values.listingSourceId}
+                onChange={set("listingSourceId")}
+                mono
+            />
+            <AdminTextField
+                label={t("adminAuctions.fields.sourceAuctionId")}
+                value={values.sourceAuctionId}
+                onChange={set("sourceAuctionId")}
+                mono
+            />
+            <AdminSelectField
+                label={t("adminAuctions.filters.pageSize")}
+                value={values.size}
+                onChange={set("size")}
+                options={ADMIN_AUCTION_PAGE_SIZE_OPTIONS.map((size) => ({
+                    value: String(size),
+                    label: String(size),
+                }))}
+            />
+        </AdminFilterPanel>
+    );
+}
+
+function hasFilters(filters: AdminAuctionFilters): boolean {
+    return [
+        filters.query,
+        filters.listingSourceId,
+        filters.sourceAuctionId,
+        filters.format,
+        filters.reportedStatus,
+    ].some((value) => value !== undefined);
 }
 
 function AdminAuctionResults({
     language,
     filters,
+    onFiltersChange,
+    onClearFilters,
 }: {
     readonly language: string;
     readonly filters: AdminAuctionFilters;
+    readonly onFiltersChange: (filters: AdminAuctionFilters) => void;
+    readonly onClearFilters: () => void;
 }) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const auctionsQuery = useAdminAuctions(filters);
     const auctions = auctionsQuery.data?.pages.flatMap((page) => page.items) ?? [];
+    const sortValue =
+        filters.sort && filters.order ? `${filters.sort}:${filters.order}` : DEFAULT_SORT_OPTION;
 
+    if (auctionsQuery.isPending) {
+        return <AdminLedgerSkeleton label={t("adminAuctions.list.loading")} />;
+    }
     if (auctionsQuery.error && auctions.length === 0) {
         return (
-            <div role="alert" className="grid justify-items-start gap-3 py-6">
-                <p className="text-muted-foreground">{auctionsQuery.error.message}</p>
-                <Button variant="outline" onClick={() => auctionsQuery.refetch()}>
-                    {t("adminAuctions.actions.retry")}
-                </Button>
-            </div>
-        );
-    }
-    if (auctionsQuery.isPending) {
-        return (
-            <div className="grid gap-2" aria-busy="true">
-                <output className="sr-only">{t("adminAuctions.list.loading")}</output>
-                {[0, 1, 2].map((index) => (
-                    <Skeleton key={index} className="h-28 w-full" />
-                ))}
-            </div>
+            <AdminStatePanel tone="error" title={t("adminAuctions.list.loadFailed")}>
+                <button
+                    type="button"
+                    onClick={() => auctionsQuery.refetch()}
+                    className={SECONDARY_PILL_CLASS}
+                >
+                    {t("adminCommon.retry")}
+                </button>
+            </AdminStatePanel>
         );
     }
     if (auctions.length === 0) {
-        return <p className="py-6 text-muted-foreground">{t("adminAuctions.list.empty")}</p>;
+        return hasFilters(filters) ? (
+            <AdminStatePanel tone="empty" title={t("adminAuctions.list.noMatches")}>
+                <button type="button" onClick={onClearFilters} className={SECONDARY_PILL_CLASS}>
+                    {t("adminCommon.filters.clearSearch")}
+                </button>
+            </AdminStatePanel>
+        ) : (
+            <AdminStatePanel tone="empty" title={t("adminAuctions.list.none")}>
+                <CreateAuctionLink language={language} />
+            </AdminStatePanel>
+        );
     }
 
     return (
-        <div className="grid gap-3">
-            <ul className="grid gap-2" aria-labelledby="admin-auction-directory-title">
+        <>
+            <AdminResultLine
+                summary={t("adminCommon.result.loaded", {
+                    loaded: new Intl.NumberFormat(i18n.language).format(auctions.length),
+                })}
+                sort={
+                    <AdminSortSelect
+                        value={sortValue}
+                        options={SORT_OPTIONS.map((option) => ({
+                            value: option,
+                            label: t(`adminAuctions.sort.${option.replace(":", "_")}`),
+                        }))}
+                        onChange={(value) => {
+                            const [sort, order] = value.split(":") as [
+                                AdminAuctionSortField,
+                                AdminAuctionSortOrder,
+                            ];
+                            // The default ordering is the API default and stays out of the URL.
+                            onFiltersChange({
+                                ...filters,
+                                sort: value === DEFAULT_SORT_OPTION ? undefined : sort,
+                                order: value === DEFAULT_SORT_OPTION ? undefined : order,
+                            });
+                        }}
+                    />
+                }
+            />
+            <AdminLedger
+                label={t("adminNavigation.items.auctions")}
+                columns={LEDGER_COLUMNS}
+                headings={[
+                    t("adminAuctions.columns.auction"),
+                    t("adminAuctions.fields.source"),
+                    t("adminAuctions.fields.format"),
+                    t("adminAuctions.fields.status"),
+                    t("adminAuctions.fields.updated"),
+                ]}
+            >
                 {auctions.map((auction) => (
                     <AdminAuctionRow
                         key={auction.auctionId}
@@ -102,30 +385,16 @@ function AdminAuctionResults({
                         language={language}
                     />
                 ))}
-            </ul>
-            {auctionsQuery.error && (
-                <p role="alert" className="text-sm text-destructive">
-                    {auctionsQuery.error.message}
-                </p>
-            )}
-            {auctionsQuery.hasNextPage ? (
-                <Button
-                    type="button"
-                    variant="outline"
-                    className="justify-self-center"
-                    disabled={auctionsQuery.isFetchingNextPage}
-                    onClick={() => auctionsQuery.fetchNextPage()}
-                >
-                    {auctionsQuery.isFetchingNextPage
-                        ? t("adminAuctions.actions.loadingMore")
-                        : t("adminAuctions.list.loadMore")}
-                </Button>
-            ) : (
-                <p className="justify-self-center text-sm text-muted-foreground">
-                    {t("adminAuctions.list.end")}
-                </p>
-            )}
-        </div>
+            </AdminLedger>
+            <AdminLoadMore
+                hasNextPage={auctionsQuery.hasNextPage}
+                isFetchingNextPage={auctionsQuery.isFetchingNextPage}
+                isError={auctionsQuery.isFetchNextPageError}
+                onLoadMore={() => auctionsQuery.fetchNextPage()}
+                label={t("adminAuctions.list.loadMore")}
+                endLabel={t("adminAuctions.list.end")}
+            />
+        </>
     );
 }
 
@@ -138,75 +407,49 @@ function AdminAuctionRow({
 }) {
     const { t, i18n } = useTranslation();
     return (
-        <li className="flex flex-wrap items-center justify-between gap-4 border bg-surface-container-low p-4">
-            <div className="grid min-w-0 gap-2">
-                {auction.name ? (
-                    <p className="break-words font-medium" lang={auction.name.language}>
-                        {auction.name.text}
-                    </p>
-                ) : (
-                    <p className="font-medium text-muted-foreground italic">
-                        {t("adminAuctions.list.noName")}
-                    </p>
-                )}
-                <dl className="grid gap-x-6 gap-y-1 text-xs text-muted-foreground sm:grid-cols-[auto_1fr]">
-                    <SummaryRow label={t("adminAuctions.fields.sourceAuctionId")}>
-                        <span className="break-all font-mono">{auction.sourceAuctionId}</span>
-                    </SummaryRow>
-                    <SummaryRow label={t("adminAuctions.fields.listingSourceId")}>
-                        <span className="break-all font-mono">{auction.listingSourceId}</span>
-                    </SummaryRow>
-                    <SummaryRow label={t("adminAuctions.fields.auctionId")}>
-                        <span className="break-all font-mono">{auction.auctionId}</span>
-                    </SummaryRow>
-                </dl>
-                <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
-                    <span>
-                        {t("adminAuctions.fields.format")}:{" "}
-                        {auction.format
-                            ? t(`adminAuctions.formats.${auction.format}`)
-                            : t("adminAuctions.fields.notSet")}
-                    </span>
-                    <span>
-                        {t("adminAuctions.fields.reportedStatus")}:{" "}
-                        {auction.reportedStatus
-                            ? t(`adminAuctions.reportedStatuses.${auction.reportedStatus}`)
-                            : t("adminAuctions.fields.notSet")}
-                    </span>
-                    <span>
-                        {t("adminAuctions.fields.created")}:{" "}
-                        <time dateTime={auction.created.toISOString()}>
-                            {formatDateTime(auction.created, i18n.language, "UTC")}
-                        </time>
-                    </span>
-                    <span>
-                        {t("adminAuctions.fields.updated")}:{" "}
-                        <time dateTime={auction.updated.toISOString()}>
-                            {formatDateTime(auction.updated, i18n.language, "UTC")}
-                        </time>
-                    </span>
-                </div>
-            </div>
-            <Button asChild variant="outline">
-                <Link
-                    to="/$lng/admin/auctions/$auctionId"
-                    params={{ lng: language, auctionId: auction.auctionId }}
-                    aria-label={t("adminAuctions.list.openLabel", {
-                        label: auction.name?.text ?? auction.sourceAuctionId,
-                    })}
-                >
-                    {t("adminAuctions.actions.open")}
-                </Link>
-            </Button>
-        </li>
-    );
-}
-
-function SummaryRow({ label, children }: { readonly label: string; readonly children: ReactNode }) {
-    return (
-        <div className="contents">
-            <dt>{label}</dt>
-            <dd className="min-w-0">{children}</dd>
-        </div>
+        <AdminLedgerRow asChild>
+            <Link
+                to="/$lng/admin/auctions/$auctionId"
+                params={{ lng: language, auctionId: auction.auctionId }}
+                aria-label={t("adminAuctions.list.openLabel", {
+                    label: auction.name?.text ?? auction.sourceAuctionId,
+                })}
+            >
+                <AdminPrimaryCell
+                    title={auction.name?.text ?? t("adminAuctions.list.noName")}
+                    titleMuted={!auction.name}
+                    sub={auction.sourceAuctionId}
+                    subMono
+                />
+                <AdminCell head={t("adminAuctions.fields.source")}>
+                    <code className="truncate font-mono text-xs text-ink-secondary">
+                        {auction.listingSourceId}
+                    </code>
+                </AdminCell>
+                <AdminCell head={t("adminAuctions.fields.format")}>
+                    {auction.format ? (
+                        t(`adminAuctions.formatLabels.${auction.format}`)
+                    ) : (
+                        <span className="text-ink-muted">{t("adminCommon.none")}</span>
+                    )}
+                </AdminCell>
+                <AdminCell head={t("adminAuctions.fields.status")}>
+                    {auction.reportedStatus ? (
+                        <AdminStatusMark
+                            tone={AUCTION_STATUS_TONES[auction.reportedStatus]}
+                            label={t(`adminAuctions.reportedStatuses.${auction.reportedStatus}`)}
+                        />
+                    ) : (
+                        <span className="text-ink-muted">{t("adminAuctions.fields.notSet")}</span>
+                    )}
+                </AdminCell>
+                <AdminCell head={t("adminAuctions.fields.updated")}>
+                    <time dateTime={auction.updated.toISOString()} className="tabular-nums">
+                        {formatDate(auction.updated, i18n.language, "UTC")}
+                    </time>
+                </AdminCell>
+                <AdminRowChevron />
+            </Link>
+        </AdminLedgerRow>
     );
 }
