@@ -120,6 +120,10 @@
     },
     "partnerDashboard": {
       "title": "Dashboard partner | Aura Historia"
+    },
+    "aiAgents": {
+      "title": "Aura Historia in Claude, ChatGPT e altri assistenti IA",
+      "description": "Collegate Aura Historia a Claude o ChatGPT e cercate arte e antiquariato con parole vostre, con o senza account. Le app per Gemini, Grok e Muse sono in arrivo."
     }
   },
   "validation": {
@@ -221,7 +225,8 @@
       "apply": "Richiedi l’ammissione"
     },
     "tagline": "Il mercato globale dell'arte e dell'antiquariato, in un'unica ricerca.",
-    "socialNavigation": "Social media"
+    "socialNavigation": "Social media",
+    "aiAgents": "Agenti IA"
   },
   "aboutPage": {
     "hero": {
@@ -6033,5 +6038,188 @@
     },
     "searchObjects": "Cerca oggetti",
     "goHome": "Vai alla homepage"
+  },
+  "aiAgentsPage": {
+    "hero": {
+      "eyebrow": "Agenti IA",
+      "title": "Esplorate il mercato con <em>il vostro assistente IA.</em>",
+      "subtitle": "Collegate Aura Historia a Claude o ChatGPT e chiedete con parole vostre. Il vostro assistente cerca per voi tra antiquari e case d’asta e vi mostra ciò che è in offerta ora.",
+      "addressLabel": "Indirizzo da incollare nel vostro assistente",
+      "noAccount": "Per cercare non serve un account. Accedete solo se volete che il vostro assistente usi la vostra lista, i vostri avvisi di ricerca o le notifiche.",
+      "navLabel": "In questa pagina",
+      "nav": {
+        "what-it-can-do": "Cosa può fare",
+        "connect": "Collegare l’assistente",
+        "your-account": "Il vostro account"
+      }
+    },
+    "copy": {
+      "copy": "Copia",
+      "copied": "Copiato",
+      "label": "Copia indirizzo",
+      "copiedLabel": "Indirizzo copiato",
+      "failedTitle": "Impossibile copiare",
+      "failedDescription": "Il browser ha bloccato gli appunti. Selezionate il testo e copiatelo voi."
+    },
+    "capabilities": {
+      "eyebrow": "Cosa può fare",
+      "title": "Il vostro assistente, <em>il nostro catalogo.</em>",
+      "description": "Il vostro assistente può usare la stessa ricerca del nostro sito. Con il vostro permesso, può anche occuparsi della vostra lista e dei vostri avvisi di ricerca.",
+      "groups": {
+        "public": {
+          "heading": "Senza account",
+          "items": {
+            "search": "Cercare nel catalogo di antiquari, case d’asta e marketplace",
+            "listing": "Aprire un annuncio con i dettagli e lo storico dei prezzi",
+            "similar": "Trovare oggetti simili",
+            "auctions": "Consultare le aste e i loro cataloghi",
+            "providers": "Trovare antiquari e case d’asta, e dove si trovano"
+          }
+        },
+        "signedIn": {
+          "heading": "Dopo l’accesso",
+          "items": {
+            "watchlist": "Aggiungere oggetti alla vostra lista o rimuoverli",
+            "alerts": "Creare e modificare avvisi di ricerca e vederne i risultati",
+            "notifications": "Leggere le notifiche e segnarle come viste",
+            "profile": "Consultare e aggiornare il profilo e gli indirizzi"
+          }
+        }
+      },
+      "examples": {
+        "label": "Con parole vostre · per esempio",
+        "quoted": "«{{text}}»",
+        "public": "Senza account",
+        "signedIn": "Con accesso · crea un avviso di ricerca",
+        "items": {
+          "meissen": "Trova figure in porcellana di Meissen sotto i 2.000 € presso antiquari in Germania.",
+          "auctions": "Quali aste di questo mese includono lampade Art Déco?",
+          "history": "Mostrami lo storico dei prezzi di questo cassettone gustaviano.",
+          "alert": "Avvisami quando compare un secrétaire Biedermeier sotto i 5.000 €."
+        }
+      }
+    },
+    "connect": {
+      "eyebrow": "Collegare",
+      "title": "Collegato <em>in pochi passi.</em>",
+      "description": "Scegliete il vostro assistente. Claude e ChatGPT funzionano già oggi con l’indirizzo qui sopra, in circa due minuti. Le nostre app per Gemini, Grok e Muse sono in arrivo.",
+      "tabsLabel": "Scegliete il vostro assistente",
+      "stepsLabel": "Passi per {{name}}",
+      "disclaimer": "Le app in sviluppo non sono ancora disponibili e ciascuna dipende dalla revisione del fornitore. Aura Historia non è affiliata a OpenAI, Anthropic, Google, xAI o Meta, né da loro sostenuta; i nomi dei prodotti sono marchi dei rispettivi titolari.",
+      "appNote": {
+        "status": "App in sviluppo"
+      },
+      "soon": {
+        "status": "In sviluppo",
+        "title": "La nostra app per {{name}} <em>è in arrivo.</em>",
+        "today": "Usate Aura Historia già oggi in",
+        "tab": "Presto",
+        "tabLabel": ", presto disponibile"
+      },
+      "assistants": {
+        "claude": {
+          "kind": "Anthropic · web, desktop e smartphone",
+          "intro": "Aggiungete Aura Historia una sola volta sul sito di Claude o nell’app desktop. Sarà poi disponibile in ogni chat, anche sullo smartphone.",
+          "appNote": "La nostra app per Claude è in arrivo. Una volta pubblicata, potrete aggiungerla dall’elenco dei connettori di Claude senza copiare l’indirizzo.",
+          "steps": {
+            "settings": {
+              "title": "Aprite Impostazioni, poi Connettori.",
+              "body": "Scegliete «Aggiungi connettore personalizzato»."
+            },
+            "paste": {
+              "title": "Incollate l’indirizzo.",
+              "body": "Chiamatelo Aura Historia, incollate l’indirizzo e scegliete «Aggiungi»."
+            },
+            "signIn": {
+              "title": "Scegliete «Connetti» e accedete.",
+              "body": "Serve solo per la vostra lista, gli avvisi di ricerca e le notifiche. La ricerca funziona anche senza."
+            },
+            "ask": {
+              "title": "Chiedete in una chat.",
+              "body": "Attivate Aura Historia nel menu strumenti della chat e chiedete con parole vostre."
+            }
+          }
+        },
+        "chatgpt": {
+          "kind": "OpenAI · web, desktop e smartphone",
+          "intro": "Finché la nostra app non sarà pubblicata, aggiungete voi Aura Historia nelle impostazioni di ChatGPT. La disponibilità dipende dal vostro piano ChatGPT.",
+          "appNote": "La nostra app per ChatGPT è in arrivo. Una volta pubblicata, potrete aggiungerla in pochi tocchi dalla directory delle app di ChatGPT.",
+          "steps": {
+            "developerMode": {
+              "title": "Consentite le vostre app.",
+              "body": "In Impostazioni, aprite «App», poi «Impostazioni avanzate», e attivate la modalità sviluppatore."
+            },
+            "paste": {
+              "title": "Incollate l’indirizzo.",
+              "body": "Scegliete «Crea app», chiamatela Aura Historia, incollate l’indirizzo e scegliete «Crea»."
+            },
+            "signIn": {
+              "title": "Accedete quando ChatGPT lo chiede.",
+              "body": "Approvate sulla nostra pagina. La ricerca funziona anche senza accesso."
+            },
+            "ask": {
+              "title": "Chiedete in una chat.",
+              "body": "Scegliete Aura Historia dal menu + di una chat e chiedete con parole vostre."
+            }
+          }
+        },
+        "gemini": {
+          "kind": "Google · Gemini e Ricerca Google",
+          "intro": "Stiamo sviluppando un’app di Aura Historia per Gemini e la Ricerca Google.",
+          "soon": "Quando Google l’avrà esaminata e pubblicata, aggiungerete Aura Historia dalle app collegate di Gemini e accederete una sola volta. Non c’è nulla da copiare o configurare."
+        },
+        "grok": {
+          "kind": "xAI",
+          "intro": "Stiamo sviluppando un’app di Aura Historia per Grok.",
+          "soon": "Quando xAI l’avrà esaminata e pubblicata, aggiungerete Aura Historia in Grok e accederete una sola volta. Non c’è nulla da copiare o configurare."
+        },
+        "muse": {
+          "kind": "Meta",
+          "intro": "Stiamo sviluppando un’app di Aura Historia per Muse.",
+          "soon": "Quando Meta l’avrà esaminata e pubblicata, aggiungerete Aura Historia in Muse e accederete una sola volta. Non c’è nulla da copiare o configurare."
+        }
+      }
+    },
+    "account": {
+      "eyebrow": "Il vostro account",
+      "title": "L’accesso, <em>alle vostre condizioni.</em>",
+      "description": "Approvate una sola volta sulla nostra pagina, vedete chi lo chiede e potete chiudere il collegamento quando volete.",
+      "signIn": {
+        "title": "Cosa chiede l’accesso",
+        "body": "Un’unica approvazione, la prima volta, per consultare e modificare quattro parti del vostro account. La nostra pagina mostra il nome dell’assistente e il sito da cui proviene, così sapete chi lo chiede.",
+        "scopesLabel": "Parti del vostro account",
+        "scopes": {
+          "profile": "Profilo e indirizzi",
+          "alerts": "Avvisi di ricerca",
+          "watchlist": "Lista",
+          "notifications": "Notifiche"
+        }
+      },
+      "duration": {
+        "title": "Quanto dura",
+        "body": "Finché lo usate, restate collegati. Dopo 30 giorni senza utilizzo, e comunque dopo 90 giorni, l’assistente vi chiede di accedere di nuovo.",
+        "unusedLabel": "Inutilizzato",
+        "unusedValue": "30 giorni",
+        "maxLabel": "Al massimo",
+        "maxValue": "90 giorni"
+      },
+      "disconnect": {
+        "title": "Come scollegare",
+        "body": "Scegliete «Scollega» in «App collegate» nel vostro account. L’assistente perde subito l’accesso, ovunque lo usiate. Per usarlo di nuovo, collegatelo e accedete ancora una volta.",
+        "cta": "Apri le app collegate"
+      },
+      "privacy": "Il fornitore del vostro assistente tratta i risultati che riceve secondo la propria informativa sulla privacy. Come gestiamo collegamenti e accessi è descritto nella nostra <privacyLink>informativa sulla privacy</privacyLink>."
+    },
+    "closing": {
+      "title": "Vi aiutiamo a trovarlo. <em>Acquistate dal venditore.</em>",
+      "body": "Aura Historia è un servizio di ricerca. Per acquistare o fare un’offerta, proseguite sul sito dell’antiquario o della casa d’asta, come dalla nostra ricerca.",
+      "cta": "Esplora il mercato",
+      "agentsLabel": "Per agenti IA",
+      "docs": {
+        "authMd": "auth.md",
+        "skills": "Skill per agenti",
+        "llmsTxt": "llms.txt"
+      }
+    }
   }
 }

@@ -110,7 +110,7 @@ Where partner, shop, or administration features are used, we may additionally pr
 - API access data or related administration data
 - role and activation information
 
-If you explicitly authorize an external application, it can access the data or resources shown on the authorization screen. You may decline a request. After you approve it, the application may handle the data it receives under its own privacy policy. You can ask us to revoke an authorization; this does not delete data the application has already received. Contact us to request revocation, and contact the application provider about data it has already received.
+**AI assistants and other connected applications:** If you connect an AI assistant or another application to your account, it asks for your approval on our authorization page. The page shows the application's name, the website that identifies it and the address it returns to; you may decline. Once you approve, the application can access the data and functions shown there, for example your profile and addresses, saved searches, watchlist and notifications. For each connection, we store the address of the application's public client document, the name the application gives itself, the permissions you approved, and when the connection was created and last used. We store access and refresh tokens only in hashed form. To check an application, we retrieve its public client document from the application's own website; we send no data about you with this request and keep the document for at most one hour. The authorization page may load the application's logo from its website, which transmits your IP address to that website. We process the application's requests like other requests to our service. Our logs record the application's host and security events, such as the reuse of a refresh token, but never token values or the content of results. The application's provider processes the results it receives under its own privacy policy. You can disconnect an application at any time in your account under Access tokens, Connected apps; this ends all of its access at once. Disconnecting does not delete data the application has already received; contact its provider about such data. The client document, the logo and the connection details above concern AI assistants that identify themselves with a public client document. Other applications, such as shop integrations we register, also show the requested permissions on the authorization page and can be disconnected in the same place.
 
 **Shopify connection:** When you install the Aura Historia sales channel in Shopify and connect your Aura Historia account, we process the shop domain, product data, shop language and currency, and shipping profiles, destination areas, advertised methods, conditions, prices and product/variant membership to publish your listings and supported shipping information on Aura Historia. Shopify sessions and access credentials, together with bounded import progress, are stored with Cloudflare. This integration does not request customer data; precise fulfillment addresses are not imported. You can disconnect in the Shopify channel or uninstall the app. This stops further shipping imports and starts removal of owned imported shipping assertions and revocation of Aura Historia access; manual partner edits are preserved. Credentials and bounded job data needed for pending cleanup can be retained separately for up to seven days. Disconnecting does not automatically confirm deletion of listings already submitted or all imported assertions; contact support when cleanup remains unconfirmed.
 
@@ -308,6 +308,7 @@ We use external service providers and infrastructure providers. Personal data ma
 - **Loops** – for newsletters and marketing emails
 - **Google** – if you use Google Analytics, Google Maps, or Google sign-in
 - **Meta/Facebook** – if you use Facebook sign-in
+- **applications you connect yourself, such as AI assistants** – for the data and results you allow them to access; their providers process these under their own privacy policies
 - **additional technical, legal, tax, or organizational service providers** – where required for operations, support, security, compliance, or the enforcement of claims
 - **authorities, courts, and third parties** – where we are legally obliged to do so or where this is necessary to enforce legal claims
 
@@ -334,6 +335,7 @@ The following criteria typically apply in particular:
 - **Contract, billing, and tax data:** for the duration of statutory commercial-law and tax-law retention periods
 - **Newsletter data:** while you are subscribed; evidence of your consent and unsubscription may be kept longer where needed to document your choice and handle legal claims
 - **Technical and security data:** for as long as needed to protect and maintain the service or investigate an incident
+- **Connections of AI assistants and other applications:** until you disconnect the application, otherwise as for account data. Access and refresh tokens are deleted when you disconnect, and otherwise by scheduled cleanup after they expire
 - **Data from public sources:** as long as required for documentation, research, or platform purposes, or until a justified deletion or blocking request must be complied with
 - **Browser storage:** until expiry of the relevant storage period or until you delete it yourself
 
@@ -384,4 +386,4 @@ We may adapt these privacy notices where this becomes necessary due to legal, te
 
 ---
 
-_Status: 26 October 2026_
+_Status: 10 November 2026_

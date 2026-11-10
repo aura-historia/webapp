@@ -120,6 +120,10 @@
     },
     "partnerDashboard": {
       "title": "Partner dashboard | Aura Historia"
+    },
+    "aiAgents": {
+      "title": "Aura Historia in Claude, ChatGPT & other AI assistants",
+      "description": "Connect Aura Historia to Claude or ChatGPT and search art and antiques in your own words, with or without an account. Apps for Gemini, Grok and Muse are on their way."
     }
   },
   "validation": {
@@ -221,7 +225,8 @@
       "apply": "Apply for admission"
     },
     "tagline": "The global art and antiques market, in a single search.",
-    "socialNavigation": "Social media"
+    "socialNavigation": "Social media",
+    "aiAgents": "AI agents"
   },
   "aboutPage": {
     "hero": {
@@ -6033,5 +6038,188 @@
     },
     "searchObjects": "Search objects",
     "goHome": "Go to homepage"
+  },
+  "aiAgentsPage": {
+    "hero": {
+      "eyebrow": "AI agents",
+      "title": "Search the market from <em>your AI assistant.</em>",
+      "subtitle": "Connect Aura Historia to Claude or ChatGPT, then ask in your own words. Your assistant searches dealers and auction houses for you, and shows what is offered now.",
+      "addressLabel": "Address to paste into your assistant",
+      "noAccount": "Searching needs no account. Sign in only when you want your assistant to use your watchlist, search alerts or notifications.",
+      "navLabel": "On this page",
+      "nav": {
+        "what-it-can-do": "What it can do",
+        "connect": "Connect your assistant",
+        "your-account": "Your account"
+      }
+    },
+    "copy": {
+      "copy": "Copy",
+      "copied": "Copied",
+      "label": "Copy address",
+      "copiedLabel": "Address copied",
+      "failedTitle": "Couldn’t copy",
+      "failedDescription": "Your browser blocked the clipboard. Select the text and copy it yourself."
+    },
+    "capabilities": {
+      "eyebrow": "What it can do",
+      "title": "Your assistant, <em>our catalogue.</em>",
+      "description": "Your assistant can use the same search as our website. With your permission, it can also look after your watchlist and search alerts.",
+      "groups": {
+        "public": {
+          "heading": "Without an account",
+          "items": {
+            "search": "Search the catalogue of dealers, auction houses and marketplaces",
+            "listing": "Open a listing with its details and price history",
+            "similar": "Find similar objects",
+            "auctions": "Look up auctions and their catalogues",
+            "providers": "Find dealers and auction houses, and where they are"
+          }
+        },
+        "signedIn": {
+          "heading": "When you sign in",
+          "items": {
+            "watchlist": "Add objects to your watchlist, or remove them",
+            "alerts": "Create and change search alerts, and see their matches",
+            "notifications": "Read your notifications and mark them as seen",
+            "profile": "Read and update your profile and addresses"
+          }
+        }
+      },
+      "examples": {
+        "label": "Ask in your own words · for example",
+        "quoted": "“{{text}}”",
+        "public": "No account needed",
+        "signedIn": "Signed in · creates a search alert",
+        "items": {
+          "meissen": "Find Meissen porcelain figures under €2,000 from dealers in Germany.",
+          "auctions": "Which auctions this month include Art Deco lamps?",
+          "history": "Show me the price history of this Gustavian commode.",
+          "alert": "Tell me when a Biedermeier secretary under €5,000 comes up."
+        }
+      }
+    },
+    "connect": {
+      "eyebrow": "Connect",
+      "title": "Connect in <em>a few steps.</em>",
+      "description": "Choose your assistant. Claude and ChatGPT work today with the address above and take about two minutes. Our apps for Gemini, Grok and Muse are on their way.",
+      "tabsLabel": "Choose your assistant",
+      "stepsLabel": "Steps for {{name}}",
+      "disclaimer": "Apps in development are not yet available, and each depends on the provider’s review. Aura Historia is not affiliated with or endorsed by OpenAI, Anthropic, Google, xAI or Meta; product names are trademarks of their respective owners.",
+      "appNote": {
+        "status": "App in development"
+      },
+      "soon": {
+        "status": "In development",
+        "title": "Our app for {{name}} is <em>on its way.</em>",
+        "today": "Use Aura Historia today in",
+        "tab": "Soon",
+        "tabLabel": ", coming soon"
+      },
+      "assistants": {
+        "claude": {
+          "kind": "Anthropic · web, desktop and phone",
+          "intro": "Add Aura Historia once on the Claude website or in the desktop app. It is then there in every chat, on your phone too.",
+          "appNote": "Our app for Claude is on its way. Once it is published, you can add it from Claude’s list of connectors without copying the address.",
+          "steps": {
+            "settings": {
+              "title": "Open Settings, then Connectors.",
+              "body": "Choose Add custom connector."
+            },
+            "paste": {
+              "title": "Paste the address.",
+              "body": "Name it Aura Historia, paste the address and choose Add."
+            },
+            "signIn": {
+              "title": "Choose Connect and sign in.",
+              "body": "Only needed for your watchlist, search alerts and notifications. Searching works without it."
+            },
+            "ask": {
+              "title": "Ask in a chat.",
+              "body": "Turn on Aura Historia in the chat’s tools menu, then ask in your own words."
+            }
+          }
+        },
+        "chatgpt": {
+          "kind": "OpenAI · web, desktop and phone",
+          "intro": "Until our app is published, you add Aura Historia yourself in ChatGPT’s settings. Whether this is offered depends on your ChatGPT plan.",
+          "appNote": "Our app for ChatGPT is on its way. Once it is published, you can add it from ChatGPT’s app directory in a few taps.",
+          "steps": {
+            "developerMode": {
+              "title": "Allow your own apps.",
+              "body": "In Settings, open Apps, then Advanced settings, and turn on Developer mode."
+            },
+            "paste": {
+              "title": "Paste the address.",
+              "body": "Choose Create app, name it Aura Historia, paste the address and choose Create."
+            },
+            "signIn": {
+              "title": "Sign in when ChatGPT asks.",
+              "body": "Approve on our page. Searching works without signing in."
+            },
+            "ask": {
+              "title": "Ask in a chat.",
+              "body": "Choose Aura Historia from the + menu of a chat, then ask in your own words."
+            }
+          }
+        },
+        "gemini": {
+          "kind": "Google · Gemini and Google Search",
+          "intro": "We are building an Aura Historia app for Gemini and Google Search.",
+          "soon": "Once Google has reviewed and published it, you add Aura Historia from Gemini’s connected apps and sign in once. There is nothing to copy or set up."
+        },
+        "grok": {
+          "kind": "xAI",
+          "intro": "We are building an Aura Historia app for Grok.",
+          "soon": "Once xAI has reviewed and published it, you add Aura Historia in Grok and sign in once. There is nothing to copy or set up."
+        },
+        "muse": {
+          "kind": "Meta",
+          "intro": "We are building an Aura Historia app for Muse.",
+          "soon": "Once Meta has reviewed and published it, you add Aura Historia in Muse and sign in once. There is nothing to copy or set up."
+        }
+      }
+    },
+    "account": {
+      "eyebrow": "Your account",
+      "title": "Signed in on <em>your terms.</em>",
+      "description": "You approve once on our own page, see who is asking, and can end the connection whenever you like.",
+      "signIn": {
+        "title": "What sign-in asks for",
+        "body": "One approval, the first time, to read and change four parts of your account. Our page shows the assistant’s name and the website it comes from, so you know who is asking.",
+        "scopesLabel": "Parts of your account",
+        "scopes": {
+          "profile": "Profile & addresses",
+          "alerts": "Search alerts",
+          "watchlist": "Watchlist",
+          "notifications": "Notifications"
+        }
+      },
+      "duration": {
+        "title": "How long it lasts",
+        "body": "You stay signed in while you use it. After 30 days without use, and after 90 days in any case, your assistant asks you to sign in again.",
+        "unusedLabel": "Unused",
+        "unusedValue": "30 days",
+        "maxLabel": "At most",
+        "maxValue": "90 days"
+      },
+      "disconnect": {
+        "title": "How to disconnect",
+        "body": "Choose Disconnect under Connected apps in your account. That assistant loses access at once, wherever you use it. To use it again, connect it and sign in once more.",
+        "cta": "Open connected apps"
+      },
+      "privacy": "Your assistant’s provider processes the results it receives under its own privacy policy. How we handle connections and sign-ins is set out in our <privacyLink>privacy policy</privacyLink>."
+    },
+    "closing": {
+      "title": "We help you find it. <em>You buy from the seller.</em>",
+      "body": "Aura Historia is a discovery service. To buy or bid, you continue to the dealer’s or auction house’s own website, as you would from our search.",
+      "cta": "Search the market",
+      "agentsLabel": "For AI agents",
+      "docs": {
+        "authMd": "auth.md",
+        "skills": "Agent skills",
+        "llmsTxt": "llms.txt"
+      }
+    }
   }
 }

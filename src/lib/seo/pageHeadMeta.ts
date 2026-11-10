@@ -17,6 +17,7 @@ type HeadMeta = {
 export type PageMetaKey =
     | "home"
     | "about"
+    | "aiAgents"
     | "search"
     | "searchShops"
     | "login"
@@ -53,6 +54,10 @@ const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string 
     about: {
         title: "meta.about.title",
         description: "meta.about.description",
+    },
+    aiAgents: {
+        title: "meta.aiAgents.title",
+        description: "meta.aiAgents.description",
     },
     search: {
         title: "meta.search.title",

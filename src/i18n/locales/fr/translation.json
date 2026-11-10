@@ -120,6 +120,10 @@
     },
     "partnerDashboard": {
       "title": "Tableau de bord partenaire | Aura Historia"
+    },
+    "aiAgents": {
+      "title": "Aura Historia dans Claude, ChatGPT et d’autres assistants IA",
+      "description": "Connectez Aura Historia à Claude ou ChatGPT et recherchez art et antiquités avec vos propres mots, avec ou sans compte. Les applications pour Gemini, Grok et Muse arrivent bientôt."
     }
   },
   "validation": {
@@ -221,7 +225,8 @@
       "apply": "Demander l’admission"
     },
     "tagline": "Le marché mondial de l’art et des antiquités, en une seule recherche.",
-    "socialNavigation": "Réseaux sociaux"
+    "socialNavigation": "Réseaux sociaux",
+    "aiAgents": "Agents IA"
   },
   "aboutPage": {
     "hero": {
@@ -6033,5 +6038,188 @@
     },
     "searchObjects": "Rechercher des objets",
     "goHome": "Retour à l'accueil"
+  },
+  "aiAgentsPage": {
+    "hero": {
+      "eyebrow": "Agents IA",
+      "title": "Explorez le marché depuis <em>votre assistant IA.</em>",
+      "subtitle": "Connectez Aura Historia à Claude ou ChatGPT, puis posez vos questions avec vos propres mots. Votre assistant cherche pour vous chez les marchands et les maisons de ventes, et vous montre ce qui est proposé aujourd’hui.",
+      "addressLabel": "Adresse à coller dans votre assistant",
+      "noAccount": "La recherche ne demande aucun compte. Connectez-vous seulement si vous voulez que votre assistant utilise votre liste de surveillance, vos alertes de recherche ou vos notifications.",
+      "navLabel": "Sur cette page",
+      "nav": {
+        "what-it-can-do": "Ce qu’il peut faire",
+        "connect": "Connecter votre assistant",
+        "your-account": "Votre compte"
+      }
+    },
+    "copy": {
+      "copy": "Copier",
+      "copied": "Copié",
+      "label": "Copier l’adresse",
+      "copiedLabel": "Adresse copiée",
+      "failedTitle": "Copie impossible",
+      "failedDescription": "Votre navigateur a bloqué le presse-papiers. Sélectionnez le texte et copiez-le vous-même."
+    },
+    "capabilities": {
+      "eyebrow": "Ce qu’il peut faire",
+      "title": "Votre assistant, <em>notre catalogue.</em>",
+      "description": "Votre assistant peut utiliser la même recherche que notre site. Avec votre accord, il peut aussi gérer votre liste de surveillance et vos alertes de recherche.",
+      "groups": {
+        "public": {
+          "heading": "Sans compte",
+          "items": {
+            "search": "Rechercher dans le catalogue des marchands, maisons de ventes et places de marché",
+            "listing": "Ouvrir une annonce avec ses détails et l’historique de ses prix",
+            "similar": "Trouver des objets similaires",
+            "auctions": "Consulter les ventes aux enchères et leurs catalogues",
+            "providers": "Trouver des marchands et des maisons de ventes, et savoir où ils se trouvent"
+          }
+        },
+        "signedIn": {
+          "heading": "Une fois connecté",
+          "items": {
+            "watchlist": "Ajouter des objets à votre liste de surveillance ou les retirer",
+            "alerts": "Créer et modifier des alertes de recherche, et voir leurs résultats",
+            "notifications": "Lire vos notifications et les marquer comme vues",
+            "profile": "Consulter et mettre à jour votre profil et vos adresses"
+          }
+        }
+      },
+      "examples": {
+        "label": "Avec vos propres mots · par exemple",
+        "quoted": "« {{text}} »",
+        "public": "Sans compte",
+        "signedIn": "Connecté · crée une alerte de recherche",
+        "items": {
+          "meissen": "Trouve des figurines en porcelaine de Meissen à moins de 2 000 € chez des marchands en Allemagne.",
+          "auctions": "Quelles ventes de ce mois proposent des lampes Art déco ?",
+          "history": "Montre-moi l’historique des prix de cette commode gustavienne.",
+          "alert": "Préviens-moi quand un secrétaire Biedermeier à moins de 5 000 € apparaît."
+        }
+      }
+    },
+    "connect": {
+      "eyebrow": "Connecter",
+      "title": "Connecté <em>en quelques étapes.</em>",
+      "description": "Choisissez votre assistant. Claude et ChatGPT fonctionnent dès aujourd’hui avec l’adresse ci-dessus, en deux minutes environ. Nos applications pour Gemini, Grok et Muse arrivent bientôt.",
+      "tabsLabel": "Choisissez votre assistant",
+      "stepsLabel": "Étapes pour {{name}}",
+      "disclaimer": "Les applications en développement ne sont pas encore disponibles, et chacune dépend de l’examen du fournisseur. Aura Historia n’est ni affiliée à OpenAI, Anthropic, Google, xAI ou Meta, ni soutenue par eux ; les noms de produits sont des marques de leurs propriétaires respectifs.",
+      "appNote": {
+        "status": "Application en développement"
+      },
+      "soon": {
+        "status": "En développement",
+        "title": "Notre application pour {{name}} <em>arrive bientôt.</em>",
+        "today": "Utilisez Aura Historia dès aujourd’hui dans",
+        "tab": "Bientôt",
+        "tabLabel": ", bientôt disponible"
+      },
+      "assistants": {
+        "claude": {
+          "kind": "Anthropic · web, ordinateur et mobile",
+          "intro": "Ajoutez Aura Historia une seule fois sur le site de Claude ou dans l’application de bureau. Il est ensuite disponible dans chaque conversation, aussi sur votre téléphone.",
+          "appNote": "Notre application pour Claude arrive bientôt. Une fois publiée, vous pourrez l’ajouter depuis la liste des connecteurs de Claude sans copier l’adresse.",
+          "steps": {
+            "settings": {
+              "title": "Ouvrez Paramètres, puis Connecteurs.",
+              "body": "Choisissez « Ajouter un connecteur personnalisé »."
+            },
+            "paste": {
+              "title": "Collez l’adresse.",
+              "body": "Nommez-le Aura Historia, collez l’adresse et choisissez « Ajouter »."
+            },
+            "signIn": {
+              "title": "Choisissez « Connecter » et connectez-vous.",
+              "body": "Nécessaire seulement pour votre liste de surveillance, vos alertes de recherche et vos notifications. La recherche fonctionne sans."
+            },
+            "ask": {
+              "title": "Posez votre question dans une conversation.",
+              "body": "Activez Aura Historia dans le menu des outils de la conversation, puis demandez avec vos propres mots."
+            }
+          }
+        },
+        "chatgpt": {
+          "kind": "OpenAI · web, ordinateur et mobile",
+          "intro": "En attendant la publication de notre application, vous ajoutez vous-même Aura Historia dans les paramètres de ChatGPT. Cette option dépend de votre forfait ChatGPT.",
+          "appNote": "Notre application pour ChatGPT arrive bientôt. Une fois publiée, vous pourrez l’ajouter en quelques gestes depuis le répertoire d’applications de ChatGPT.",
+          "steps": {
+            "developerMode": {
+              "title": "Autorisez vos propres applications.",
+              "body": "Dans Paramètres, ouvrez « Applications », puis « Paramètres avancés », et activez le mode développeur."
+            },
+            "paste": {
+              "title": "Collez l’adresse.",
+              "body": "Choisissez « Créer une application », nommez-la Aura Historia, collez l’adresse et choisissez « Créer »."
+            },
+            "signIn": {
+              "title": "Connectez-vous quand ChatGPT le demande.",
+              "body": "Validez sur notre page. La recherche fonctionne sans connexion."
+            },
+            "ask": {
+              "title": "Posez votre question dans une conversation.",
+              "body": "Choisissez Aura Historia dans le menu + d’une conversation, puis demandez avec vos propres mots."
+            }
+          }
+        },
+        "gemini": {
+          "kind": "Google · Gemini et la recherche Google",
+          "intro": "Nous développons une application Aura Historia pour Gemini et la recherche Google.",
+          "soon": "Une fois examinée et publiée par Google, vous ajouterez Aura Historia depuis les applications connectées de Gemini et vous connecterez une seule fois. Rien à copier ni à configurer."
+        },
+        "grok": {
+          "kind": "xAI",
+          "intro": "Nous développons une application Aura Historia pour Grok.",
+          "soon": "Une fois examinée et publiée par xAI, vous ajouterez Aura Historia dans Grok et vous connecterez une seule fois. Rien à copier ni à configurer."
+        },
+        "muse": {
+          "kind": "Meta",
+          "intro": "Nous développons une application Aura Historia pour Muse.",
+          "soon": "Une fois examinée et publiée par Meta, vous ajouterez Aura Historia dans Muse et vous connecterez une seule fois. Rien à copier ni à configurer."
+        }
+      }
+    },
+    "account": {
+      "eyebrow": "Votre compte",
+      "title": "Connecté, <em>selon vos règles.</em>",
+      "description": "Vous donnez votre accord une fois, sur notre propre page, vous voyez qui le demande et vous pouvez mettre fin à la connexion quand vous le souhaitez.",
+      "signIn": {
+        "title": "Ce que demande la connexion",
+        "body": "Un seul accord, la première fois, pour consulter et modifier quatre parties de votre compte. Notre page affiche le nom de l’assistant et le site dont il provient, pour que vous sachiez qui le demande.",
+        "scopesLabel": "Parties de votre compte",
+        "scopes": {
+          "profile": "Profil et adresses",
+          "alerts": "Alertes de recherche",
+          "watchlist": "Liste de surveillance",
+          "notifications": "Notifications"
+        }
+      },
+      "duration": {
+        "title": "Combien de temps elle dure",
+        "body": "Tant que vous l’utilisez, vous restez connecté. Après 30 jours sans utilisation, et au plus tard après 90 jours, votre assistant vous demande de vous reconnecter.",
+        "unusedLabel": "Inutilisée",
+        "unusedValue": "30 jours",
+        "maxLabel": "Au plus",
+        "maxValue": "90 jours"
+      },
+      "disconnect": {
+        "title": "Comment déconnecter",
+        "body": "Choisissez « Déconnecter » sous « Applications connectées » dans votre compte. L’assistant perd aussitôt son accès, où que vous l’utilisiez. Pour l’utiliser à nouveau, connectez-le et reconnectez-vous.",
+        "cta": "Ouvrir les applications connectées"
+      },
+      "privacy": "Le fournisseur de votre assistant traite les résultats qu’il reçoit selon sa propre politique de confidentialité. La façon dont nous traitons les connexions d’applications et les ouvertures de session est décrite dans notre <privacyLink>politique de confidentialité</privacyLink>."
+    },
+    "closing": {
+      "title": "Nous vous aidons à trouver. <em>Vous achetez au vendeur.</em>",
+      "body": "Aura Historia est un service de recherche. Pour acheter ou enchérir, vous continuez sur le site du marchand ou de la maison de ventes, comme depuis notre recherche.",
+      "cta": "Explorer le marché",
+      "agentsLabel": "Pour les agents IA",
+      "docs": {
+        "authMd": "auth.md",
+        "skills": "Skills pour agents",
+        "llmsTxt": "llms.txt"
+      }
+    }
   }
 }
