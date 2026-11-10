@@ -3086,7 +3086,7 @@ export type AdminUserSummaryData = {
 };
 
 /**
- * User-owned account information for `/v1/me/account`. Role, tier, and Stripe customer ID are read-only here.
+ * User-owned account information for `/v1/me/account`. Role and tier are read-only here.
  */
 export type OwnUserAccountData = {
   /**
@@ -3112,13 +3112,14 @@ export type OwnUserAccountData = {
   readonly marketingEmailConsent: boolean;
   tier: UserTierData;
   role: UserRoleData;
+};
+
+export type AdminUserAccountData = OwnUserAccountData & {
   /**
    * Persisted Stripe customer identifier, omitted when absent.
    */
   stripeCustomerId?: string;
 };
-
-export type AdminUserAccountData = OwnUserAccountData;
 
 /**
  * Required administrator-supplied explanation for suspending a user.
@@ -5120,7 +5121,7 @@ export type AdminProductListingPageWritable = {
 };
 
 /**
- * User-owned account information for `/v1/me/account`. Role, tier, and Stripe customer ID are read-only here.
+ * User-owned account information for `/v1/me/account`. Role and tier are read-only here.
  */
 export type OwnUserAccountDataWritable = {
   /**
@@ -5142,13 +5143,14 @@ export type OwnUserAccountDataWritable = {
   showUnassessedOrSensitiveContent: boolean;
   tier: UserTierData;
   role: UserRoleData;
+};
+
+export type AdminUserAccountDataWritable = OwnUserAccountDataWritable & {
   /**
    * Persisted Stripe customer identifier, omitted when absent.
    */
   stripeCustomerId?: string;
 };
-
-export type AdminUserAccountDataWritable = OwnUserAccountDataWritable;
 
 export type PutWoocommerceListingSourceIngestionConfigurationDataWritable = {
   /**

@@ -4,7 +4,7 @@ import type { OwnUserAccountData } from "@/client";
 import type { UserAccountPatchData } from "../UserAccountData.ts";
 
 describe("mapToInternalUserAccount", () => {
-    it("keeps omitted preferences and billing identity absent without audit fields", () => {
+    it("keeps omitted preferences absent without audit fields or billing identity", () => {
         const account = mapToInternalUserAccount({
             userId: "user-1",
             email: "user@example.com",
@@ -18,15 +18,15 @@ describe("mapToInternalUserAccount", () => {
         expect(account.language).toBeUndefined();
         expect(account.currency).toBeUndefined();
         expect(account.unitSystem).toBeUndefined();
-        expect(account.stripeCustomerId).toBeUndefined();
         expect(account.showUnassessedOrSensitiveContent).toBe(false);
         expect(account).not.toHaveProperty("created");
         expect(account).not.toHaveProperty("updated");
         expect(account).not.toHaveProperty("structuredAddress");
         expect(account).not.toHaveProperty("geoAddress");
         expect(account).not.toHaveProperty("marketingEmailConsent");
+        expect(account).not.toHaveProperty("stripeCustomerId");
     });
-    it("maps measurement units and preserves a Stripe customer identifier", () => {
+    it("maps measurement units", () => {
         expect(
             mapToInternalUserAccount({
                 userId: "u",
@@ -34,11 +34,25 @@ describe("mapToInternalUserAccount", () => {
                 tier: "PRO",
                 role: "USER",
                 measurementUnit: "IMPERIAL",
-                stripeCustomerId: "cus_123",
                 showUnassessedOrSensitiveContent: true,
                 marketingEmailConsent: false,
-            }),
-        ).toMatchObject({ unitSystem: "IMPERIAL", stripeCustomerId: "cus_123" });
+            }).unitSystem,
+        ).toBe("IMPERIAL");
+    });
+    it("never carries a Stripe customer identifier, even from an older backend", () => {
+        const olderBackendResponse = {
+            userId: "u",
+            email: "u@example.com",
+            tier: "PRO",
+            role: "USER",
+            stripeCustomerId: "cus_123",
+            showUnassessedOrSensitiveContent: true,
+            marketingEmailConsent: false,
+        } satisfies OwnUserAccountData & { stripeCustomerId: string };
+
+        expect(mapToInternalUserAccount(olderBackendResponse)).not.toHaveProperty(
+            "stripeCustomerId",
+        );
     });
     it.each(["KRW", "SEK", "ZAR", "JPY", "THB"] as const)(
         "maps the backend currency %s unchanged",

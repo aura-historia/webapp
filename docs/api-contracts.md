@@ -10,13 +10,13 @@ admin workflows in [admin workflows](admin-workflows.md).
   (`public/partner-products.openapi.json`) from the same pinned contract, `openapi/swagger.yaml`.
   Generation never fetches a moving contract. Never hand-edit either output.
 - The pinned capture is the complete backend `docs/swagger.yaml` at `develop`
-  `960e0ac82d85852dfc763a5fb4e1e7f39e64da93` (2026-11-10); its last contract change is
-  `960e0ac82d` ([backend#2851](https://github.com/aura-historia/backend/pull/2851)). Git blob
-  `29731a068ebdd7e20ecbef7fd6336c3148358959`; file SHA-256
-  `43db513054e7ce56a8298588086a4076ed8a6c160587bd034af64d3ea15454db`; canonical parsed-JSON
+  `b7477308184e8c1eed7b5dd855bfb020d7af20df` (2026-11-10); its last contract change is
+  `b747730` ([backend#2857](https://github.com/aura-historia/backend/pull/2857)). Git blob
+  `6b3c27f556c44b40203e9130a287e32bf6c6a9af`; file SHA-256
+  `ffcf97f01fdf5903a215d540b0db357961e2cd323c4dc08a372ed4d90286d0a8`; canonical parsed-JSON
   SHA-256 (recorded as `x-source-contract-sha256` in the partner reference):
-  `8f5e8cc989fb5cfce29208c5c238c9467776e15e59e2474a0b4d011bd09ae6bf`. It replaces the
-  `867bfe2c79` capture (2026-11-09, last contract change `867bfe2c79`).
+  `b1d1e8f037f81008fa9ab09b9d5e4735b0bcff532760680abdc43c9fdaa2ffe3`. It replaces the
+  `960e0ac82d` capture (2026-11-10, last contract change `960e0ac82d`).
 - Every REST operation lives under `/v1/...` on `https://api.aura-historia.com` (production) and
   `https://api.stage.aura-historia.com`; `/api/v1/...` is gone without aliases
   ([backend#2216](https://github.com/aura-historia/backend/issues/2216)). The generated client and
@@ -26,7 +26,21 @@ admin workflows in [admin workflows](admin-workflows.md).
   keep their paths. Release this webapp only with or after a backend that serves `/v1`.
 - Without `VITE_API_URL` the app calls the production API (`getApiBaseUrl`); each deployment
   sets its environment's API URL explicitly.
-- Changes against the previous pin (`867bfe2c79`, 2026-11-09), with their decisions:
+- Changes against the previous pin (`960e0ac82d`, 2026-11-10), with their decisions:
+  - **The own account no longer carries `stripeCustomerId`**
+    ([backend#2857](https://github.com/aura-historia/backend/pull/2857)): `OwnUserAccountData`
+    (`GET`/`PATCH /v1/me/account`) drops the optional Stripe customer identifier, so the account
+    response is one shared shape; `AdminUserAccountData` is now `OwnUserAccountData` plus
+    `stripeCustomerId`, and the admin endpoints still return it. `UserAccountData` and
+    `mapToInternalUserAccount` lose `stripeCustomerId`; nothing in the app read it, and billing
+    (`postBillingManage`) never needed it. The admin mappers leave it unmapped, as before (see
+    **Account preferences**).
+  - Backend#2857 also reshapes the MCP tool catalogue, which touches no REST operation or schema;
+    `mcp/mcp-tools.json` is not synced with this capture (see **MCP tool snapshot**).
+  - Not breaking: an older backend's `stripeCustomerId` is never mapped, and the app never sent
+    the field.
+- Changes adopted with the `960e0ac82d` capture (against `867bfe2c79`, 2026-11-09), with their
+  decisions:
   - **Classifier-accurate search-filter match previews**
     ([backend#2849](https://github.com/aura-historia/backend/issues/2849),
     [backend#2851](https://github.com/aura-historia/backend/pull/2851), webapp
@@ -369,6 +383,12 @@ To adopt a backend revision:
   The backend records renamed and removed tools, and incompatible argument changes, in its
   `docs/CHANGELOG.md`. Until this repo syncs such a change, browser calls to the affected tool
   fail with `-32602`.
+- The snapshot has not followed the `b747730` swagger capture
+  ([backend#2857](https://github.com/aura-historia/backend/pull/2857)). That backend commit's
+  catalogue lists 37 tools: `discoverPartyLocations` is removed (REST `GET /v1/party-locations`
+  is unchanged), `getSimilarProductListings` takes an optional `size`, and every argument is
+  described. Until the snapshot is synced, WebMCP still registers `discoverPartyLocations` and
+  its call fails.
 
 To sync a backend revision:
 
@@ -631,8 +651,9 @@ stable error codes, never raw server detail.
 
 ## Account preferences
 
-- `mapToInternalUserAccount` keeps absent names, language, currency, measurement units and Stripe
-  customer identity absent. The account has no audit dates or addresses. The email and
+- `mapToInternalUserAccount` keeps absent names, language, currency and measurement units absent.
+  The account has no audit dates, addresses or Stripe customer identifier (only the admin
+  endpoints return it, and the admin mappers leave it unmapped). The email and
   `marketingEmailConsent` are read-only, and the backend truncates names to 64 characters.
 - The admin user profile form never edits the email: `PatchAdminUserData` has no email member,
   and the dialog shows the canonical address as read-only text.

@@ -19,7 +19,6 @@ export type UserAccountData = {
     readonly showUnassessedOrSensitiveContent: boolean;
     readonly role: UserRole;
     readonly subscriptionType: SubscriptionType;
-    readonly stripeCustomerId?: string | null;
 };
 
 export type UserAccountPatchData = {
@@ -46,7 +45,6 @@ export function mapToInternalUserAccount(apiData: OwnUserAccountData): UserAccou
         showUnassessedOrSensitiveContent: apiData.showUnassessedOrSensitiveContent,
         role: parseUserRole(apiData.role),
         subscriptionType: parseSubscriptionType(apiData.tier),
-        stripeCustomerId: apiData.stripeCustomerId,
     };
 }
 
