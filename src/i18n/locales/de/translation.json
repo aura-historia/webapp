@@ -2209,9 +2209,11 @@
     "feedbackError": "Feedback konnte nicht gespeichert werden.",
     "preview": {
       "title": "Vorschau der Angebote",
-      "description": "Eine aktuelle Vorschau aus der Angebotssuche. Gespeicherte Treffer erscheinen separat auf der Detailseite des Suchauftrags.",
+      "description": "Eine Vorschau der Angebote, die dieser Suchauftrag jetzt findet – entschieden wie beim gespeicherten Suchauftrag. Gespeicherte Treffer erscheinen separat auf der Detailseite des Suchauftrags.",
       "error": "Die Vorschau konnte nicht geladen werden.",
-      "empty": "Derzeit entsprechen keine Angebote diesen Kriterien."
+      "unavailable": "Die Vorschau ist vorübergehend nicht verfügbar. Der Suchauftrag kann trotzdem gespeichert werden.",
+      "empty": "Derzeit entsprechen keine Angebote diesen Kriterien.",
+      "moreMayMatch": "Es könnten mehr Angebote passen, als hier angezeigt werden."
     },
     "searchLabel": "Ihre Suchaufträge durchsuchen",
     "heading": "Meine <em>Suchaufträge.</em>",

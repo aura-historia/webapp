@@ -6,19 +6,35 @@ import { SearchFilterWizardConfirmStep } from "../SearchFilterWizardConfirmStep.
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 
+type PreviewData = { items: ProductListing[]; candidateLimitReached: boolean };
 type PreviewResult = {
     isPending: boolean;
     error: Error | null;
-    data: ProductListing[] | undefined;
+    data: PreviewData | undefined;
 };
 
 const mockPreview = vi.hoisted(() =>
-    vi.fn((): PreviewResult => ({ isPending: false, error: null, data: [] })),
+    vi.fn(
+        (): PreviewResult => ({
+            isPending: false,
+            error: null,
+            data: { items: [], candidateLimitReached: false },
+        }),
+    ),
 );
 
-vi.mock("@/features/saved-searches/api/useSearchFilterPreviewProducts.ts", () => ({
-    useSearchFilterPreviewProducts: mockPreview,
-}));
+vi.mock("@/features/saved-searches/api/useSearchFilterPreviewProducts.ts", () => {
+    class SearchFilterPreviewError extends Error {
+        constructor(
+            readonly code: string,
+            message: string,
+        ) {
+            super(message);
+            this.name = "SearchFilterPreviewError";
+        }
+    }
+    return { useSearchFilterPreviewProducts: mockPreview, SearchFilterPreviewError };
+});
 
 vi.mock("@/features/search/products/components/results/SearchResultCard.tsx", () => ({
     SearchResultCard: ({ product }: { product: ProductListing }) => (
@@ -29,6 +45,8 @@ vi.mock("@/features/search/products/components/results/SearchResultCard.tsx", ()
 vi.mock("@/features/preferences/hooks/useUserPreferences.tsx", () => ({
     useUserPreferences: () => ({ preferences: { currency: "EUR" }, updatePreferences: vi.fn() }),
 }));
+
+import { SearchFilterPreviewError } from "@/features/saved-searches/api/useSearchFilterPreviewProducts.ts";
 
 function FormWrapper({ children }: { children: ReactNode }) {
     const methods = useForm({
@@ -56,7 +74,11 @@ function renderConfirmStep(
 describe("SearchFilterWizardConfirmStep", () => {
     beforeEach(() => {
         vi.clearAllMocks();
-        mockPreview.mockReturnValue({ isPending: false, error: null, data: [] });
+        mockPreview.mockReturnValue({
+            isPending: false,
+            error: null,
+            data: { items: [], candidateLimitReached: false },
+        });
     });
 
     it("includes the current enhanced description in the preview search", () => {
@@ -123,7 +145,7 @@ describe("SearchFilterWizardConfirmStep", () => {
             expect(screen.getAllByTestId("search-result-skeleton")).toHaveLength(2);
         });
 
-        it("shows an error when the preview fails", () => {
+        it("shows the generic preview error for an unrecognized failure", () => {
             mockPreview.mockReturnValue({
                 isPending: false,
                 error: new Error("x"),
@@ -132,6 +154,36 @@ describe("SearchFilterWizardConfirmStep", () => {
             renderConfirmStep("Filter", { q: "Tisch" });
             expect(screen.getByRole("status")).toHaveTextContent(
                 "Die Vorschau konnte nicht geladen werden.",
+            );
+        });
+
+        it("shows a reassuring message and does not block saving when the classifier is temporarily unavailable", () => {
+            mockPreview.mockReturnValue({
+                isPending: false,
+                error: new SearchFilterPreviewError(
+                    "SEARCH_FILTER_TEMPORARILY_UNAVAILABLE",
+                    "generic message",
+                ),
+                data: undefined,
+            });
+            renderConfirmStep("Filter", { q: "Tisch" });
+            expect(screen.getByRole("status")).toHaveTextContent(
+                "Die Vorschau ist vorübergehend nicht verfügbar. Der Suchauftrag kann trotzdem gespeichert werden.",
+            );
+        });
+
+        it("shows the restricted-field message from the API error", () => {
+            mockPreview.mockReturnValue({
+                isPending: false,
+                error: new SearchFilterPreviewError(
+                    "SEARCH_FILTER_RESTRICTED_FEATURE",
+                    "Some of your active filters are only available for premium users.",
+                ),
+                data: undefined,
+            });
+            renderConfirmStep("Filter", { q: "Tisch" });
+            expect(screen.getByRole("status")).toHaveTextContent(
+                "Some of your active filters are only available for premium users.",
             );
         });
 
@@ -146,14 +198,52 @@ describe("SearchFilterWizardConfirmStep", () => {
             mockPreview.mockReturnValue({
                 isPending: false,
                 error: null,
-                data: [
-                    { productListingId: "1", title: "Barocktisch" },
-                    { productListingId: "2", title: "Barockstuhl" },
-                ] as ProductListing[],
+                data: {
+                    items: [
+                        { productListingId: "1", title: "Barocktisch" },
+                        { productListingId: "2", title: "Barockstuhl" },
+                    ] as ProductListing[],
+                    candidateLimitReached: false,
+                },
             });
             renderConfirmStep("Filter", { q: "Tisch" });
             expect(screen.getAllByTestId("search-result-card")).toHaveLength(2);
             expect(screen.getByText("Barocktisch")).toBeInTheDocument();
+        });
+
+        it("hints that more listings may match when the candidate limit was reached", () => {
+            mockPreview.mockReturnValue({
+                isPending: false,
+                error: null,
+                data: {
+                    items: [{ productListingId: "1", title: "Barocktisch" }] as ProductListing[],
+                    candidateLimitReached: true,
+                },
+            });
+            renderConfirmStep("Filter", { q: "Tisch" });
+            expect(
+                screen.getByText("Es könnten mehr Angebote passen, als hier angezeigt werden."),
+            ).toBeInTheDocument();
+        });
+
+        it("does not show the candidate-limit hint once four listings are shown", () => {
+            mockPreview.mockReturnValue({
+                isPending: false,
+                error: null,
+                data: {
+                    items: [
+                        { productListingId: "1", title: "A" },
+                        { productListingId: "2", title: "B" },
+                        { productListingId: "3", title: "C" },
+                        { productListingId: "4", title: "D" },
+                    ] as ProductListing[],
+                    candidateLimitReached: true,
+                },
+            });
+            renderConfirmStep("Filter", { q: "Tisch" });
+            expect(
+                screen.queryByText("Es könnten mehr Angebote passen, als hier angezeigt werden."),
+            ).not.toBeInTheDocument();
         });
     });
 });

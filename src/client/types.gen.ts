@@ -1592,7 +1592,7 @@ export type ProductListingHistoryEntryData = {
  * - fr: French (includes fr-FR, fr-CA, fr-BE, fr-CH, fr-LU)
  * - es: Spanish (includes es-ES, es-MX, es-AR, es-CO, es-CL, es-PE, es-VE)
  * - it: Italian (includes it-IT, it-CH)
- * - zh: Chinese (Simplified) (includes zh-CN, zh-Hans)
+ * - zh: Chinese, Simplified or Traditional (includes zh-CN, zh-Hans, zh-TW, zh-Hant, zh-HK)
  * - pt: Portuguese (includes pt-PT, pt-BR)
  * - pl: Polish (includes pl-PL)
  * - tr: Turkish (includes tr-TR)
@@ -1601,14 +1601,19 @@ export type ProductListingHistoryEntryData = {
  * - ja: Japanese (includes ja-JP)
  * - ru: Russian (includes ru-RU)
  * - ar: Arabic (includes ar-SA, ar-EG, ar-AE)
+ * - ko: Korean (includes ko-KR)
+ * - el: Greek (includes el-GR)
+ * - he: Hebrew (includes he-IL)
+ * - th: Thai (includes th-TH)
+ * - hi: Hindi (includes hi-IN)
  *
  * `de`, `en`, `fr`, `es`, and `it` are fully supported localization/translation-target languages.
- * `zh`, `pt`, `pl`, `tr`, `nl`, `cs`, `ja`, `ru`, and `ar` are ingestion-only languages:
+ * `zh`, `pt`, `pl`, `tr`, `nl`, `cs`, `ja`, `ru`, `ar`, `ko`, `el`, `he`, `th`, and `hi` are ingestion-only languages:
  * they can appear in stored/native content and are accepted anywhere `LanguageData` is used,
  * but backend-generated translations and fallback localized strings are not produced in these languages.
  *
  */
-export type LanguageData = 'de' | 'en' | 'fr' | 'es' | 'it' | 'zh' | 'pt' | 'pl' | 'tr' | 'nl' | 'cs' | 'ja' | 'ru' | 'ar';
+export type LanguageData = 'de' | 'en' | 'fr' | 'es' | 'it' | 'zh' | 'pt' | 'pl' | 'tr' | 'nl' | 'cs' | 'ja' | 'ru' | 'ar' | 'ko' | 'el' | 'he' | 'th' | 'hi';
 
 /**
  * Supported currencies (ISO 4217 codes):
@@ -1981,6 +1986,24 @@ export type PostUserSearchFilterData = {
    */
   notifications?: boolean;
   search: ProductListingSearchData;
+};
+
+/**
+ * Search filter criteria to preview before they are saved
+ */
+export type PreviewUserSearchFilterMatchesData = {
+  search: ProductListingSearchData;
+};
+
+/**
+ * Up to four listings search filter criteria match now, most relevant first
+ */
+export type UserSearchFilterMatchPreviewData = {
+  items: Array<PersonalizedProductListingSummaryData>;
+  /**
+   * `true` when fewer than four matches were found among the candidates the preview evaluates, so more listings may match than it shows
+   */
+  candidateLimitReached: boolean;
 };
 
 /**
@@ -7731,6 +7754,58 @@ export type CreateUserSearchFilterResponses = {
 };
 
 export type CreateUserSearchFilterResponse = CreateUserSearchFilterResponses[keyof CreateUserSearchFilterResponses];
+
+export type PreviewUserSearchFilterMatchesData2 = {
+  /**
+   * Search filter criteria to preview
+   */
+  body: PreviewUserSearchFilterMatchesData;
+  path?: never;
+  query?: never;
+  url: '/v1/me/search-filters/preview';
+};
+
+export type PreviewUserSearchFilterMatchesErrors = {
+  /**
+   * Bad request - invalid request body
+   */
+  400: ApiError;
+  /**
+   * Unauthorized - missing or invalid Cognito JWT or Aura access token
+   */
+  401: ApiError;
+  /**
+   * Forbidden - Aura access token lacks the required `search-filters:write` scope
+   */
+  403: ApiError;
+  /**
+   * User not found
+   */
+  404: ApiError;
+  /**
+   * Unprocessable Entity - the criteria use a search field the user's tier may not save
+   */
+  422: ApiError;
+  /**
+   * Internal server error
+   */
+  500: ApiError;
+  /**
+   * The classifier or another dependency cannot decide the preview right now
+   */
+  503: ApiError;
+};
+
+export type PreviewUserSearchFilterMatchesError = PreviewUserSearchFilterMatchesErrors[keyof PreviewUserSearchFilterMatchesErrors];
+
+export type PreviewUserSearchFilterMatchesResponses = {
+  /**
+   * Up to four listings the criteria match now
+   */
+  200: UserSearchFilterMatchPreviewData;
+};
+
+export type PreviewUserSearchFilterMatchesResponse = PreviewUserSearchFilterMatchesResponses[keyof PreviewUserSearchFilterMatchesResponses];
 
 export type DeleteUserSearchFilterData = {
   body?: never;

@@ -2722,9 +2722,11 @@
     "feedbackError": "No se pudo guardar el comentario.",
     "preview": {
       "title": "Vista previa de anuncios",
-      "description": "Una vista previa actual de la búsqueda de anuncios. Las coincidencias guardadas aparecen por separado en el detalle del filtro.",
+      "description": "Una vista previa de los anuncios que este filtro de búsqueda encuentra ahora mismo, decidida igual que para el filtro guardado. Las coincidencias guardadas aparecen por separado en el detalle del filtro.",
       "error": "No se pudo cargar la vista previa.",
-      "empty": "Ahora mismo no hay anuncios que coincidan con estos criterios."
+      "unavailable": "La vista previa no está disponible temporalmente. Aun así, puede guardar este filtro de búsqueda.",
+      "empty": "Ahora mismo no hay anuncios que coincidan con estos criterios.",
+      "moreMayMatch": "Podrían coincidir más anuncios de los que se muestran aquí."
     },
     "searchLabel": "Buscar en tus filtros de búsqueda",
     "heading": "Mis <em>filtros de búsqueda.</em>",

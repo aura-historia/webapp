@@ -4,6 +4,7 @@ import type {
     PostUserSearchFilterData,
     PatchProductListingSearchData,
     PatchUserSearchFilterData,
+    PreviewUserSearchFilterMatchesData,
 } from "@/client";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { mapToBackendCurrency, parseCurrency } from "@/data/internal/common/Currency.ts";
@@ -208,6 +209,13 @@ export function mapToBackendCreateUserSearchFilter(
             ...(data.geography ? { geography: mapToBackendGeographicSearch(data.geography) } : {}),
         },
     };
+}
+
+/** Same `search` mapping as `mapToBackendCreateUserSearchFilter`, without `name`. */
+export function mapToBackendPreviewUserSearchFilter(
+    search: SearchFilterArguments,
+): PreviewUserSearchFilterMatchesData {
+    return { search: mapSearchFilterArgumentsToProductSearchData(search) };
 }
 
 export function mapToBackendPatchUserSearchFilter(

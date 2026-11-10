@@ -6,7 +6,10 @@ import type { FilterSchema } from "@/features/search/common/lib/filterForm.ts";
 import { SearchFilterSummary } from "@/features/saved-searches/components/SearchFilterSummary.tsx";
 import { SearchResultCard } from "@/features/search/products/components/results/SearchResultCard.tsx";
 import { SearchResultCardSkeleton } from "@/features/search/products/components/results/SearchResultPlaceholders.tsx";
-import { useSearchFilterPreviewProducts } from "@/features/saved-searches/api/useSearchFilterPreviewProducts.ts";
+import {
+    SearchFilterPreviewError,
+    useSearchFilterPreviewProducts,
+} from "@/features/saved-searches/api/useSearchFilterPreviewProducts.ts";
 import { cn } from "@/lib/utils.ts";
 
 type Props = {
@@ -45,15 +48,20 @@ export function SearchFilterWizardConfirmStep({
             </div>
         );
     } else if (preview.error) {
-        previewContent = (
-            <output className={cn(PREVIEW_NOTE_CLASS, "block")}>
-                {t("searchFilters.preview.error")}
-            </output>
-        );
-    } else if (preview.data?.length) {
+        // Saving must never be blocked by a failed preview: a transient classifier outage gets
+        // its own reassuring copy, a restricted field reuses the same message the save request
+        // would show, and anything else falls back to the generic preview error.
+        const message =
+            preview.error instanceof SearchFilterPreviewError
+                ? preview.error.code === "SEARCH_FILTER_TEMPORARILY_UNAVAILABLE"
+                    ? t("searchFilters.preview.unavailable")
+                    : preview.error.message
+                : t("searchFilters.preview.error");
+        previewContent = <output className={cn(PREVIEW_NOTE_CLASS, "block")}>{message}</output>;
+    } else if (preview.data?.items.length) {
         previewContent = (
             <div className={PREVIEW_GRID_CLASS}>
-                {preview.data.map((product) => (
+                {preview.data.items.map((product) => (
                     <SearchResultCard key={product.productListingId} product={product} />
                 ))}
             </div>
@@ -61,6 +69,11 @@ export function SearchFilterWizardConfirmStep({
     } else {
         previewContent = <p className={PREVIEW_NOTE_CLASS}>{t("searchFilters.preview.empty")}</p>;
     }
+    const showMoreMayMatchHint =
+        !preview.isPending &&
+        !preview.error &&
+        !!preview.data?.candidateLimitReached &&
+        preview.data.items.length < 4;
 
     return (
         <div className="flex flex-col gap-7">
@@ -83,6 +96,11 @@ export function SearchFilterWizardConfirmStep({
                     </p>
                 </div>
                 {previewContent}
+                {showMoreMayMatchHint && (
+                    <p className="text-meta text-ink-muted">
+                        {t("searchFilters.preview.moreMayMatch")}
+                    </p>
+                )}
             </section>
         </div>
     );

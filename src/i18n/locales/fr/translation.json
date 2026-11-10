@@ -2722,9 +2722,11 @@
     "feedbackError": "Échec de l'enregistrement des commentaires.",
     "preview": {
       "title": "Aperçu des annonces",
-      "description": "Un aperçu en temps réel issu de la recherche d’annonces. Les correspondances enregistrées figurent séparément sur la page de détail du filtre.",
+      "description": "Un aperçu des annonces que ce filtre de recherche trouve dès maintenant, déterminé de la même façon que pour le filtre enregistré. Les correspondances enregistrées figurent séparément sur la page de détail du filtre.",
       "error": "Impossible de charger l’aperçu.",
-      "empty": "Aucune annonce ne correspond à ces critères pour le moment."
+      "unavailable": "L’aperçu est temporairement indisponible. Vous pouvez tout de même enregistrer ce filtre de recherche.",
+      "empty": "Aucune annonce ne correspond à ces critères pour le moment.",
+      "moreMayMatch": "D’autres annonces pourraient correspondre au-delà de celles affichées ici."
     },
     "searchLabel": "Rechercher dans vos filtres de recherche",
     "heading": "Mes <em>filtres de recherche.</em>",

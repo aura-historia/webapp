@@ -6,7 +6,7 @@
     "description": "Listing-source batch writes in two modes, each with POST, PATCH, PUT and DELETE. Asynchronous submission (recommended, /async) answers HTTP 202 once entries are admitted; admitted entries are then processed for you. Synchronous batches answer HTTP 200 with completed writes and the entries that failed. Both use product-listings:write and a current grant for the target listing source."
   },
   "x-source-url": "https://raw.githubusercontent.com/aura-historia/backend/refs/heads/develop/docs/swagger.yaml",
-  "x-source-contract-sha256": "6e3eaace9bb4fc39f27ed4cba1d118843c9c451dbf4c44e2d468a95294080b02",
+  "x-source-contract-sha256": "8f5e8cc989fb5cfce29208c5c238c9467776e15e59e2474a0b4d011bd09ae6bf",
   "servers": [
     {
       "url": "https://api.stage.aura-historia.com",
@@ -2106,9 +2106,14 @@
           "cs",
           "ja",
           "ru",
-          "ar"
+          "ar",
+          "ko",
+          "el",
+          "he",
+          "th",
+          "hi"
         ],
-        "description": "Supported language codes (ISO 639-1 canonical values):\n- de: German (includes de-DE, de-AT, de-CH, de-LU, de-LI)\n- en: English (includes en-US, en-GB, en-AU, en-CA, en-NZ, and backend-specific accepted alias en_IE)\n- fr: French (includes fr-FR, fr-CA, fr-BE, fr-CH, fr-LU)\n- es: Spanish (includes es-ES, es-MX, es-AR, es-CO, es-CL, es-PE, es-VE)\n- it: Italian (includes it-IT, it-CH)\n- zh: Chinese (Simplified) (includes zh-CN, zh-Hans)\n- pt: Portuguese (includes pt-PT, pt-BR)\n- pl: Polish (includes pl-PL)\n- tr: Turkish (includes tr-TR)\n- nl: Dutch (includes nl-NL, nl-BE)\n- cs: Czech (includes cs-CZ)\n- ja: Japanese (includes ja-JP)\n- ru: Russian (includes ru-RU)\n- ar: Arabic (includes ar-SA, ar-EG, ar-AE)\n\n`de`, `en`, `fr`, `es`, and `it` are fully supported localization/translation-target languages.\n`zh`, `pt`, `pl`, `tr`, `nl`, `cs`, `ja`, `ru`, and `ar` are ingestion-only languages:\nthey can appear in stored/native content and are accepted anywhere `LanguageData` is used,\nbut backend-generated translations and fallback localized strings are not produced in these languages.\n",
+        "description": "Supported language codes (ISO 639-1 canonical values):\n- de: German (includes de-DE, de-AT, de-CH, de-LU, de-LI)\n- en: English (includes en-US, en-GB, en-AU, en-CA, en-NZ, and backend-specific accepted alias en_IE)\n- fr: French (includes fr-FR, fr-CA, fr-BE, fr-CH, fr-LU)\n- es: Spanish (includes es-ES, es-MX, es-AR, es-CO, es-CL, es-PE, es-VE)\n- it: Italian (includes it-IT, it-CH)\n- zh: Chinese, Simplified or Traditional (includes zh-CN, zh-Hans, zh-TW, zh-Hant, zh-HK)\n- pt: Portuguese (includes pt-PT, pt-BR)\n- pl: Polish (includes pl-PL)\n- tr: Turkish (includes tr-TR)\n- nl: Dutch (includes nl-NL, nl-BE)\n- cs: Czech (includes cs-CZ)\n- ja: Japanese (includes ja-JP)\n- ru: Russian (includes ru-RU)\n- ar: Arabic (includes ar-SA, ar-EG, ar-AE)\n- ko: Korean (includes ko-KR)\n- el: Greek (includes el-GR)\n- he: Hebrew (includes he-IL)\n- th: Thai (includes th-TH)\n- hi: Hindi (includes hi-IN)\n\n`de`, `en`, `fr`, `es`, and `it` are fully supported localization/translation-target languages.\n`zh`, `pt`, `pl`, `tr`, `nl`, `cs`, `ja`, `ru`, `ar`, `ko`, `el`, `he`, `th`, and `hi` are ingestion-only languages:\nthey can appear in stored/native content and are accepted anywhere `LanguageData` is used,\nbut backend-generated translations and fallback localized strings are not produced in these languages.\n",
         "default": "en",
         "example": "de"
       },

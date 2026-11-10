@@ -2209,9 +2209,11 @@
     "feedbackError": "Failed to save feedback.",
     "preview": {
       "title": "Listing preview",
-      "description": "A live preview from listing search. Persisted matches appear separately on the filter detail page.",
+      "description": "A preview of the listings this search filter matches now, decided the same way the saved filter will be. Persisted matches appear separately on the filter detail page.",
       "error": "The preview could not be loaded.",
-      "empty": "No listings match these criteria right now."
+      "unavailable": "The preview is temporarily unavailable. You can still save this search filter.",
+      "empty": "No listings match these criteria right now.",
+      "moreMayMatch": "More listings may match than are shown here."
     },
     "searchLabel": "Search your search filters",
     "heading": "My <em>search filters.</em>",
