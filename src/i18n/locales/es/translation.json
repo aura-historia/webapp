@@ -2456,10 +2456,8 @@
   },
   "adminDashboard": {
     "loading": "Cargando…",
-    "forbidden": {
-      "title": "Acceso denegado",
-      "description": "No tienes permiso para ver el panel de administración. Inicia sesión con una cuenta de administrador."
-    }
+    "accessDenied": "Solo para administradores",
+    "goHome": "Ir a la página de inicio"
   },
   "adminOverview": {
     "title": "Resumen de administración",
@@ -2594,7 +2592,8 @@
       "auctions": "Subastas",
       "productListings": "Anuncios de productos",
       "oauthClients": "Clientes OAuth"
-    }
+    },
+    "title": "Admin"
   },
   "searchFilter": {
     "saveSuccess": "¡Filtro de búsqueda guardado exitosamente!",
@@ -6220,6 +6219,37 @@
         "skills": "Skills para agentes",
         "llmsTxt": "llms.txt"
       }
+    }
+  },
+  "adminCommon": {
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "retry": "Reintentar",
+    "loading": "Cargando…",
+    "loadMoreFailed": "No se pudieron cargar más elementos.",
+    "sort": "Orden",
+    "copy": "Copiar",
+    "copied": "Copiado",
+    "save": "Guardar cambios",
+    "saving": "Guardando…",
+    "none": "—",
+    "result": {
+      "loaded": "{{loaded}} cargados",
+      "loadedOfTotal": "{{loaded}} cargados · {{total}} coincidencias"
+    },
+    "filters": {
+      "all": "Todos los filtros",
+      "title": "Filtros",
+      "any": "Todos",
+      "selected": "{{count}} seleccionados",
+      "reset": "Restablecer",
+      "apply": "Aplicar filtros",
+      "from": "{{field}} desde",
+      "until": "{{field}} hasta",
+      "active": "Activos",
+      "remove": "Quitar filtro {{filter}}",
+      "clearAll": "Quitar todos",
+      "clearSearch": "Restablecer filtros"
     }
   }
 }

@@ -15,7 +15,7 @@ import {
     type AdminOverview,
     type AdminOverviewBreakdown,
 } from "@/data/internal/admin/AdminOverview.ts";
-import type { AdminSectionRoute } from "@/features/admin/common/components/AdminSidebar.tsx";
+import type { AdminSectionRoute } from "@/features/admin/common/components/AdminNav.tsx";
 import { cn } from "@/lib/utils.ts";
 import { useAdminOverview } from "../api/useAdminOverview.ts";
 import { AdminServiceStatusPanel } from "../components/AdminServiceStatusPanel.tsx";

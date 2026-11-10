@@ -3320,10 +3320,8 @@
   },
   "adminDashboard": {
     "loading": "Loading…",
-    "forbidden": {
-      "title": "Access denied",
-      "description": "You do not have permission to view the admin dashboard. Please sign in with an administrator account."
-    }
+    "accessDenied": "Administrators only",
+    "goHome": "Go to homepage"
   },
   "adminOverview": {
     "title": "Admin overview",
@@ -3458,7 +3456,8 @@
       "auctions": "Auctions",
       "productListings": "Product listings",
       "oauthClients": "OAuth clients"
-    }
+    },
+    "title": "Admin"
   },
   "oauth": {
     "authorize": {
@@ -6220,6 +6219,37 @@
         "skills": "Agent skills",
         "llmsTxt": "llms.txt"
       }
+    }
+  },
+  "adminCommon": {
+    "cancel": "Cancel",
+    "close": "Close",
+    "retry": "Try again",
+    "loading": "Loading…",
+    "loadMoreFailed": "More could not be loaded.",
+    "sort": "Sort",
+    "copy": "Copy",
+    "copied": "Copied",
+    "save": "Save changes",
+    "saving": "Saving…",
+    "none": "—",
+    "result": {
+      "loaded": "{{loaded}} loaded",
+      "loadedOfTotal": "{{loaded}} loaded · {{total}} matching"
+    },
+    "filters": {
+      "all": "All filters",
+      "title": "Filters",
+      "any": "All",
+      "selected": "{{count}} selected",
+      "reset": "Reset",
+      "apply": "Apply filters",
+      "from": "{{field}} from",
+      "until": "{{field}} until",
+      "active": "Active",
+      "remove": "Remove filter {{filter}}",
+      "clearAll": "Clear all",
+      "clearSearch": "Reset filters"
     }
   }
 }

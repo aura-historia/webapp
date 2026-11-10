@@ -85,6 +85,12 @@ const adminOverviewRoute = createRoute({
     component: () => <>{injectedChildren}</>,
 });
 
+const adminUsersRoute = createRoute({
+    getParentRoute: () => languageRoute,
+    path: "admin/users",
+    component: () => <>{injectedChildren}</>,
+});
+
 const routeTree = rootRoute.addChildren([
     languageRoute.addChildren([
         indexRoute,
@@ -97,6 +103,7 @@ const routeTree = rootRoute.addChildren([
         partnerOverviewRoute,
         partnerApplicationsRoute,
         adminOverviewRoute,
+        adminUsersRoute,
     ]),
 ]);
 

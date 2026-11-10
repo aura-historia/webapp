@@ -8,6 +8,12 @@ All admin routes are nested under the authenticated `/$lng/admin` route (`AdminG
 operation. Query keys use the `admin` prefix, which is cleared on viewer changes, and list/detail
 reads forward abort signals. API error bodies are never surfaced in the UI.
 
+Every list page uses the shared directory (`src/features/admin/common/components/AdminDirectory.tsx`,
+design board "Admin · Directory"). Its filters live in URL search params validated by the route,
+never the opaque cursor: the search field applies on Enter, quick-filter pills apply at once and the
+full filter panel applies on "Apply filters". Each active filter shows as a removable chip. The
+result line shows the loaded count and the API total only when the API returns one.
+
 ## Partnership application review
 
 Route: `/$lng/admin/partnership-applications`.
@@ -29,8 +35,10 @@ Route: `/$lng/admin/partnership-applications`.
   `["admin", "overview"]`, `["admin", "partnerships"]` and `["admin", "listing-sources"]`.
 - A proposed source shows the applicant's `listingSourceType`. Approval creates the source with
   that type; correct it afterwards in listing-source management.
-- Approved listing-source IDs link to listing-source management. Approval does not create a
-  partnership membership or source grant; those are managed below.
+- Approval creates or links the partnership and grants it access to the listing source; the
+  inline confirmation says so. The approved partnership and listing-source IDs link to their
+  dialogs (`?partnership=` on partnerships, `?source=` on listing sources). Further members and
+  source grants are managed below.
 
 ## Partnership membership and source grants
 
@@ -42,8 +50,8 @@ Route: `/$lng/admin/partnerships`.
 - Summaries provide the party, member and source-grant counts, and timestamps. Detail adds member
   and source IDs capped at 100 each beside the complete counts. The page labels loaded summaries
   separately and never treats page size or loaded ID arrays as totals.
-- Membership and source grants are explicit operations; they are never inferred from an admin
-  role or an approved application. Mutations refresh partnership data, the overview and the
+- Beyond what an approval creates, membership and source grants are explicit operations; they
+  are never inferred from an admin role. Mutations refresh partnership data, the overview and the
   viewer's own listing-source query, clearing it first so a revoked source cannot stay selectable.
 - The source-grant UI enables a grant only when the source's operator party matches the
   partnership party. The API stays authoritative; a 409 is shown as a party mismatch.

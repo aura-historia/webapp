@@ -1,6 +1,7 @@
+import { screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
 import type { UserAccountData } from "@/data/internal/account/UserAccountData.ts";
+import { renderWithRouter } from "@/test/utils.tsx";
 import { AdminGuard } from "../AdminGuard.tsx";
 
 const mockUseUserAccount = vi.hoisted(() => vi.fn());
@@ -17,81 +18,46 @@ const baseUser: UserAccountData = {
     subscriptionType: "free",
 };
 
+function renderGuard() {
+    return renderWithRouter(
+        <AdminGuard>
+            <span>secret-content</span>
+        </AdminGuard>,
+    );
+}
+
 describe("AdminGuard", () => {
-    it("shows a loading indicator while the role is being fetched", () => {
+    it("shows the shell's loading shape while the role is being fetched", async () => {
         mockUseUserAccount.mockReturnValue({ data: undefined, isLoading: true, isError: false });
+        renderGuard();
 
-        render(
-            <AdminGuard>
-                <span>secret-content</span>
-            </AdminGuard>,
-        );
-
+        expect(await screen.findByRole("status", { name: "Wird geladen…" })).toBeInTheDocument();
         expect(screen.queryByText("secret-content")).not.toBeInTheDocument();
-        expect(screen.getAllByRole("status").length).toBeGreaterThan(0);
     });
 
-    it("denies access and hides children when no user is loaded", () => {
-        mockUseUserAccount.mockReturnValue({ data: undefined, isLoading: false, isError: false });
+    it.each([
+        ["no account is loaded", { data: undefined, isError: false }],
+        ["the role is USER", { data: { ...baseUser, role: "USER" }, isError: false }],
+        ["the account request fails", { data: { ...baseUser, role: "ADMIN" }, isError: true }],
+    ])("denies access when %s", async (_case, state) => {
+        mockUseUserAccount.mockReturnValue({ ...state, isLoading: false });
+        renderGuard();
 
-        render(
-            <AdminGuard>
-                <span>secret-content</span>
-            </AdminGuard>,
-        );
-
+        const alert = await screen.findByRole("alert");
+        expect(alert).toHaveTextContent("Nur für Administratoren");
+        expect(screen.getByRole("link", { name: "Zur Startseite" })).toHaveAttribute("href", "/de");
         expect(screen.queryByText("secret-content")).not.toBeInTheDocument();
-        expect(screen.getByRole("alert")).toBeInTheDocument();
     });
 
-    it("denies access and hides children when the role is USER", () => {
-        mockUseUserAccount.mockReturnValue({
-            data: { ...baseUser, role: "USER" },
-            isLoading: false,
-            isError: false,
-        });
-
-        render(
-            <AdminGuard>
-                <span>secret-content</span>
-            </AdminGuard>,
-        );
-
-        expect(screen.queryByText("secret-content")).not.toBeInTheDocument();
-        expect(screen.getByRole("alert")).toBeInTheDocument();
-    });
-
-    it("denies access and hides children when the account request errors", () => {
-        mockUseUserAccount.mockReturnValue({
-            data: { ...baseUser, role: "ADMIN" },
-            isLoading: false,
-            isError: true,
-        });
-
-        render(
-            <AdminGuard>
-                <span>secret-content</span>
-            </AdminGuard>,
-        );
-
-        expect(screen.queryByText("secret-content")).not.toBeInTheDocument();
-        expect(screen.getByRole("alert")).toBeInTheDocument();
-    });
-
-    it("renders children only when the role is ADMIN", () => {
+    it("renders children only when the role is ADMIN", async () => {
         mockUseUserAccount.mockReturnValue({
             data: { ...baseUser, role: "ADMIN" },
             isLoading: false,
             isError: false,
         });
+        renderGuard();
 
-        render(
-            <AdminGuard>
-                <span>secret-content</span>
-            </AdminGuard>,
-        );
-
-        expect(screen.getByText("secret-content")).toBeInTheDocument();
+        expect(await screen.findByText("secret-content")).toBeInTheDocument();
         expect(screen.queryByRole("alert")).not.toBeInTheDocument();
     });
 });
