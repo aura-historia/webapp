@@ -116,7 +116,43 @@ describe("callMcpTool", () => {
             name: "McpToolError",
             toolName: "getAuction",
             toolError: "NOT_FOUND",
+            detail: undefined,
             message: "getAuction failed: NOT_FOUND",
+        });
+    });
+
+    it("keeps the bare error code apart from the explanation the backend adds", async () => {
+        fetchMock.mockResolvedValue(
+            jsonRpc({
+                result: {
+                    isError: true,
+                    content: [
+                        { type: "text", text: "CONFLICT" },
+                        { type: "text", text: "Listing is already on the watchlist." },
+                    ],
+                },
+            }),
+        );
+
+        const error = await callMcpTool(ENDPOINT, "addWatchlistProduct", {}).catch(
+            (reason: unknown) => reason,
+        );
+
+        expect(error).toBeInstanceOf(McpToolError);
+        expect(error).toMatchObject({
+            toolError: "CONFLICT",
+            detail: "Listing is already on the watchlist.",
+            message: "addWatchlistProduct failed: CONFLICT. Listing is already on the watchlist.",
+        });
+    });
+
+    it("reports an isError result without text as an unknown error", async () => {
+        fetchMock.mockResolvedValue(jsonRpc({ result: { isError: true, content: [] } }));
+
+        await expect(callMcpTool(ENDPOINT, "getAuction", {})).rejects.toMatchObject({
+            name: "McpToolError",
+            toolError: "unknown error",
+            message: "getAuction failed: unknown error",
         });
     });
 

@@ -65,7 +65,8 @@ describe("registerWebMcpTools", () => {
 
         register(modelContext);
 
-        expect(PUBLIC_TOOLS).toHaveLength(12);
+        expect(PUBLIC_TOOLS).toHaveLength(11);
+        expect(PUBLIC_TOOLS).not.toContain("discoverPartyLocations");
         expect([...tools.keys()].sort()).toEqual([...NAVIGATION_TOOLS, ...PUBLIC_TOOLS].sort());
         expect(tools.has("getUserAccount")).toBe(false);
     });
