@@ -3,6 +3,7 @@ import {
     mapToInternalUserSearchFilter,
     mapToBackendCreateUserSearchFilter,
     mapToBackendPatchUserSearchFilter,
+    mapToBackendPreviewUserSearchFilter,
     mapProductSearchDataToSearchFilterArguments,
     mapSearchFilterArgumentsToProductSearchData,
 } from "../UserSearchFilter.ts";
@@ -241,6 +242,21 @@ describe("mapToBackendCreateUserSearchFilter", () => {
             search: { q: "" },
         });
         expect(result.search.enhancedSearchDescription).toBe("KI-Beschreibung");
+    });
+});
+
+describe("mapToBackendPreviewUserSearchFilter", () => {
+    it("maps search with the same mapping mapToBackendCreateUserSearchFilter uses, without name", () => {
+        const search = { q: "Sofa", enhancedSearchDescription: "KI-Beschreibung" };
+        const preview = mapToBackendPreviewUserSearchFilter(search);
+        const created = mapToBackendCreateUserSearchFilter({
+            name: "Test",
+            enhancedSearchDescription: search.enhancedSearchDescription,
+            search,
+        });
+
+        expect(preview).not.toHaveProperty("name");
+        expect(preview.search).toEqual(created.search);
     });
 });
 

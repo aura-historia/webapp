@@ -1,91 +1,42 @@
 import { productListingQueryKeys } from "@/data/internal/product/ProductListingQueryKeys.ts";
-import { simpleSearchProductListings, type SimpleSearchProductListingsData } from "@/client";
+import { previewUserSearchFilterMatches } from "@/client";
 import {
     mapPersonalizedProductListingSummary,
     type ProductListing,
 } from "@/data/internal/product/ProductListing.ts";
-import { toMinorCurrencyAmount } from "@/data/internal/price/Price.ts";
+import { mapToBackendPreviewUserSearchFilter } from "@/data/internal/search-filter/UserSearchFilter.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
-import {
-    mapToListingAvailabilityQuery,
-    matchesNoListingAvailability,
-} from "@/data/internal/search/ListingAvailabilityQuery.ts";
+import { matchesNoListingAvailability } from "@/data/internal/search/ListingAvailabilityQuery.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
-import { parseCurrency, type Currency } from "@/data/internal/common/Currency.ts";
 import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
-const PREVIEW_SIZE = 4;
+export type SearchFilterPreviewResult = {
+    readonly items: ProductListing[];
+    /** Fewer than four matches were found among the candidates the preview evaluates. */
+    readonly candidateLimitReached: boolean;
+};
 
-function toListingSearchQuery(
-    search: SearchFilterArguments,
-    language: string,
-    currency: Currency,
-): NonNullable<SimpleSearchProductListingsData["query"]> {
-    let productQuery: string[];
-    if (search.queryTerms?.length) {
-        productQuery = search.queryTerms;
-    } else if (search.q) {
-        productQuery = [search.q];
-    } else {
-        productQuery = [];
+/** Carries the backend error code so the confirm step can tell a transient outage from a 422. */
+export class SearchFilterPreviewError extends Error {
+    constructor(
+        readonly code: string,
+        message: string,
+    ) {
+        super(message);
+        this.name = "SearchFilterPreviewError";
     }
-
-    return {
-        language: parseLanguage(language),
-        currency: parseCurrency(currency),
-        productQuery,
-        enhancedSearchDescription: search.enhancedSearchDescription,
-        excludeProductListingId: search.excludeProductId,
-        listingSourceId: search.listingSourceId,
-        excludeListingSourceId: search.excludeListingSourceId,
-        auctionId: search.auctionId,
-        price:
-            search.priceFrom != null || search.priceTo != null
-                ? {
-                      min:
-                          search.priceFrom == null
-                              ? undefined
-                              : toMinorCurrencyAmount(search.priceFrom, currency),
-                      max:
-                          search.priceTo == null
-                              ? undefined
-                              : toMinorCurrencyAmount(search.priceTo, currency),
-                  }
-                : undefined,
-        ...mapToListingAvailabilityQuery(search),
-        created:
-            search.creationDateFrom != null || search.creationDateTo != null
-                ? {
-                      min: search.creationDateFrom?.toISOString(),
-                      max: search.creationDateTo?.toISOString(),
-                  }
-                : undefined,
-        updated:
-            search.updateDateFrom != null || search.updateDateTo != null
-                ? {
-                      min: search.updateDateFrom?.toISOString(),
-                      max: search.updateDateTo?.toISOString(),
-                  }
-                : undefined,
-        lotBiddingOpens:
-            search.auctionDateFrom != null || search.auctionDateTo != null
-                ? {
-                      min: search.auctionDateFrom?.toISOString(),
-                      max: search.auctionDateTo?.toISOString(),
-                  }
-                : undefined,
-        size: PREVIEW_SIZE,
-    };
 }
+
+const NO_MATCHES_RESULT: SearchFilterPreviewResult = { items: [], candidateLimitReached: false };
 
 export function useSearchFilterPreviewProducts(
     search: SearchFilterArguments,
     enabled: boolean,
-): UseQueryResult<ProductListing[]> {
+): UseQueryResult<SearchFilterPreviewResult> {
     const { getErrorMessage } = useApiError();
     const { i18n } = useTranslation();
     const { preferences } = useUserPreferences();
@@ -96,21 +47,31 @@ export function useSearchFilterPreviewProducts(
             currency: preferences.currency,
         }),
         enabled,
+        // Each request costs up to 16 classifier calls: retry a transient outage once, never a
+        // restricted-field or other error that a retry cannot fix.
+        retry: (failureCount, error) =>
+            failureCount < 1 &&
+            error instanceof SearchFilterPreviewError &&
+            error.code === "SEARCH_FILTER_TEMPORARILY_UNAVAILABLE",
         queryFn: async () => {
-            if (matchesNoListingAvailability(search)) return [];
+            if (matchesNoListingAvailability(search)) return NO_MATCHES_RESULT;
 
             const currency = search.currency ?? preferences.currency;
-            const result = await simpleSearchProductListings({
-                query: toListingSearchQuery(search, i18n.language, currency),
+            const result = await previewUserSearchFilterMatches({
+                body: mapToBackendPreviewUserSearchFilter({ ...search, currency }),
             });
 
             if (result.error) {
-                throw new Error(getErrorMessage(mapToInternalApiError(result.error)));
+                const apiError = mapToInternalApiError(result.error);
+                throw new SearchFilterPreviewError(apiError.error, getErrorMessage(apiError));
             }
 
-            return result.data.items.map((item) =>
-                mapPersonalizedProductListingSummary(item, i18n.language),
-            );
+            return {
+                items: result.data.items.map((item) =>
+                    mapPersonalizedProductListingSummary(item, i18n.language),
+                ),
+                candidateLimitReached: result.data.candidateLimitReached,
+            };
         },
     });
 }

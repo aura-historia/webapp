@@ -2722,9 +2722,11 @@
     "feedbackError": "Impossibile salvare il feedback.",
     "preview": {
       "title": "Anteprima degli annunci",
-      "description": "Un’anteprima aggiornata dalla ricerca degli annunci. Le corrispondenze salvate sono mostrate separatamente nella pagina dei dettagli del filtro.",
+      "description": "Un’anteprima degli annunci che questo filtro di ricerca trova ora, decisa come per il filtro salvato. Le corrispondenze salvate sono mostrate separatamente nella pagina dei dettagli del filtro.",
       "error": "Impossibile caricare l’anteprima.",
-      "empty": "Al momento nessun annuncio corrisponde a questi criteri."
+      "unavailable": "L’anteprima non è temporaneamente disponibile. È comunque possibile salvare questo filtro di ricerca.",
+      "empty": "Al momento nessun annuncio corrisponde a questi criteri.",
+      "moreMayMatch": "Potrebbero corrispondere più annunci di quelli mostrati qui."
     },
     "searchLabel": "Cerca nei tuoi filtri di ricerca",
     "heading": "I miei <em>filtri di ricerca.</em>",

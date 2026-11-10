@@ -4,10 +4,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createElement } from "react";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 
-const mockSearchListings = vi.hoisted(() => vi.fn());
+const mockPreviewMatches = vi.hoisted(() => vi.fn());
 const mockGetErrorMessage = vi.hoisted(() => vi.fn(() => "Fehler"));
 
-vi.mock("@/client", () => ({ simpleSearchProductListings: mockSearchListings }));
+vi.mock("@/client", () => ({ previewUserSearchFilterMatches: mockPreviewMatches }));
 vi.mock("@/hooks/common/useApiError", () => ({
     useApiError: () => ({ getErrorMessage: mockGetErrorMessage }),
 }));
@@ -22,7 +22,10 @@ vi.mock("@/data/internal/product/ProductListing.ts", () => ({
     mapPersonalizedProductListingSummary: vi.fn(() => ({ productListingId: "listing-1" })),
 }));
 
-import { useSearchFilterPreviewProducts } from "../useSearchFilterPreviewProducts.ts";
+import {
+    SearchFilterPreviewError,
+    useSearchFilterPreviewProducts,
+} from "../useSearchFilterPreviewProducts.ts";
 
 const baseSearch: SearchFilterArguments = {
     q: "Tisch",
@@ -41,12 +44,14 @@ describe("useSearchFilterPreviewProducts", () => {
 
     beforeEach(() => {
         vi.clearAllMocks();
-        queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+        queryClient = new QueryClient({
+            defaultOptions: { queries: { retry: false, retryDelay: 0 } },
+        });
     });
 
-    it("uses canonical listing search and maps its results", async () => {
-        mockSearchListings.mockResolvedValue({
-            data: { items: [{ productListingId: "listing-1" }] },
+    it("calls the classifier-accurate preview endpoint with the create-filter search mapping", async () => {
+        mockPreviewMatches.mockResolvedValue({
+            data: { items: [{ productListingId: "listing-1" }], candidateLimitReached: false },
             error: null,
         });
 
@@ -55,15 +60,36 @@ describe("useSearchFilterPreviewProducts", () => {
         });
 
         await waitFor(() => expect(result.current.isSuccess).toBe(true));
-        expect(result.current.data).toEqual([{ productListingId: "listing-1" }]);
-        expect(mockSearchListings).toHaveBeenCalledWith({
-            query: expect.objectContaining({
-                productQuery: ["Tisch", "Stuhl"],
-                listingSourceId: ["source-1"],
-                price: { min: 1000, max: undefined },
-                size: 4,
-            }),
+        expect(result.current.data).toEqual({
+            items: [{ productListingId: "listing-1" }],
+            candidateLimitReached: false,
         });
+        expect(mockPreviewMatches).toHaveBeenCalledWith({
+            body: {
+                search: expect.objectContaining({
+                    productQuery: ["Tisch", "Stuhl"],
+                    listingSourceId: ["source-1"],
+                    price: { min: 1000, max: undefined },
+                    currency: "EUR",
+                }),
+            },
+        });
+        // The preview never sends `size`: there is no paging on this endpoint.
+        expect(mockPreviewMatches.mock.calls[0][0].body.search).not.toHaveProperty("size");
+    });
+
+    it("returns candidateLimitReached alongside the items", async () => {
+        mockPreviewMatches.mockResolvedValue({
+            data: { items: [], candidateLimitReached: true },
+            error: null,
+        });
+
+        const { result } = renderHook(() => useSearchFilterPreviewProducts(baseSearch, true), {
+            wrapper: createWrapper(),
+        });
+
+        await waitFor(() => expect(result.current.isSuccess).toBe(true));
+        expect(result.current.data).toEqual({ items: [], candidateLimitReached: true });
     });
 
     it("does not fetch when disabled", () => {
@@ -72,7 +98,7 @@ describe("useSearchFilterPreviewProducts", () => {
         });
 
         expect(result.current.fetchStatus).toBe("idle");
-        expect(mockSearchListings).not.toHaveBeenCalled();
+        expect(mockPreviewMatches).not.toHaveBeenCalled();
     });
 
     it("returns no preview results when every availability option is unchecked", async () => {
@@ -82,12 +108,15 @@ describe("useSearchFilterPreviewProducts", () => {
         );
 
         await waitFor(() => expect(result.current.isSuccess).toBe(true));
-        expect(result.current.data).toEqual([]);
-        expect(mockSearchListings).not.toHaveBeenCalled();
+        expect(result.current.data).toEqual({ items: [], candidateLimitReached: false });
+        expect(mockPreviewMatches).not.toHaveBeenCalled();
     });
 
     it("previews an orderability-only filter instead of reporting no matches", async () => {
-        mockSearchListings.mockResolvedValue({ data: { items: [] }, error: null });
+        mockPreviewMatches.mockResolvedValue({
+            data: { items: [], candidateLimitReached: false },
+            error: null,
+        });
 
         const { result } = renderHook(
             () =>
@@ -104,68 +133,63 @@ describe("useSearchFilterPreviewProducts", () => {
         );
 
         await waitFor(() => expect(result.current.isSuccess).toBe(true));
-        expect(mockSearchListings).toHaveBeenCalledWith({
-            query: expect.objectContaining({
-                orderability: ["ORDERABLE_NOW"],
-                includeUnspecifiedAvailability: false,
-            }),
+        expect(mockPreviewMatches).toHaveBeenCalledWith({
+            body: {
+                search: expect.objectContaining({
+                    orderability: ["ORDERABLE_NOW"],
+                    includeUnspecifiedAvailability: false,
+                }),
+            },
         });
     });
 
-    it("previews retained availability flags as unfiltered when every availability is selected", async () => {
-        mockSearchListings.mockResolvedValue({ data: { items: [] }, error: null });
-
-        const { result } = renderHook(
-            () =>
-                useSearchFilterPreviewProducts(
-                    {
-                        ...baseSearch,
-                        availability: undefined,
-                        includeUnspecifiedAvailability: false,
-                    },
-                    true,
-                ),
-            { wrapper: createWrapper() },
-        );
-
-        await waitFor(() => expect(result.current.isSuccess).toBe(true));
-        const query = mockSearchListings.mock.calls[0][0].query;
-        expect(query).not.toHaveProperty("includeUnspecifiedAvailability");
-        expect(query).not.toHaveProperty("orderability");
-    });
-
-    it("applies saved-search availability conditions instead of broadening them", async () => {
-        mockSearchListings.mockResolvedValue({ data: { items: [] }, error: null });
-
-        const { result } = renderHook(
-            () =>
-                useSearchFilterPreviewProducts(
-                    {
-                        ...baseSearch,
-                        orderability: ["ORDERABLE_NOW"],
-                        includeUnspecifiedAvailability: false,
-                    },
-                    true,
-                ),
-            { wrapper: createWrapper() },
-        );
-
-        await waitFor(() => expect(result.current.isSuccess).toBe(true));
-        expect(mockSearchListings).toHaveBeenCalledWith({
-            query: expect.objectContaining({
-                orderability: ["ORDERABLE_NOW"],
-                includeUnspecifiedAvailability: false,
-            }),
+    it("exposes a SearchFilterPreviewError with the backend error code", async () => {
+        mockPreviewMatches.mockResolvedValue({
+            data: null,
+            error: { status: 422, error: "SEARCH_FILTER_RESTRICTED_FEATURE" },
         });
-    });
-
-    it("exposes API failures as query errors", async () => {
-        mockSearchListings.mockResolvedValue({ data: null, error: { status: 403 } });
 
         const { result } = renderHook(() => useSearchFilterPreviewProducts(baseSearch, true), {
             wrapper: createWrapper(),
         });
 
         await waitFor(() => expect(result.current.isError).toBe(true));
+        expect(result.current.error).toBeInstanceOf(SearchFilterPreviewError);
+        expect((result.current.error as SearchFilterPreviewError).code).toBe(
+            "SEARCH_FILTER_RESTRICTED_FEATURE",
+        );
+    });
+
+    it("retries a temporarily-unavailable classifier exactly once", async () => {
+        queryClient = new QueryClient({ defaultOptions: { queries: { retryDelay: 0 } } });
+        mockPreviewMatches.mockResolvedValue({
+            data: null,
+            error: { status: 503, error: "SEARCH_FILTER_TEMPORARILY_UNAVAILABLE" },
+        });
+
+        const { result } = renderHook(() => useSearchFilterPreviewProducts(baseSearch, true), {
+            wrapper: createWrapper(),
+        });
+
+        await waitFor(() => expect(result.current.isError).toBe(true));
+        expect(mockPreviewMatches).toHaveBeenCalledTimes(2);
+        expect((result.current.error as SearchFilterPreviewError).code).toBe(
+            "SEARCH_FILTER_TEMPORARILY_UNAVAILABLE",
+        );
+    });
+
+    it("never retries a restricted-field error", async () => {
+        queryClient = new QueryClient({ defaultOptions: { queries: { retryDelay: 0 } } });
+        mockPreviewMatches.mockResolvedValue({
+            data: null,
+            error: { status: 422, error: "SEARCH_FILTER_RESTRICTED_FEATURE" },
+        });
+
+        const { result } = renderHook(() => useSearchFilterPreviewProducts(baseSearch, true), {
+            wrapper: createWrapper(),
+        });
+
+        await waitFor(() => expect(result.current.isError).toBe(true));
+        expect(mockPreviewMatches).toHaveBeenCalledTimes(1);
     });
 });

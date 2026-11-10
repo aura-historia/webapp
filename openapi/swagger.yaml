@@ -4611,6 +4611,143 @@ paths:
                 status: 500
                 title: Internal Server Error
                 error: INTERNAL_SERVER_ERROR
+  /v1/me/search-filters/preview:
+    post:
+      summary: Preview the listings search filter criteria match now
+      description: "Shows up to four listings that the supplied criteria match now, before they are saved as a search
+        filter. Nothing is stored.
+
+
+        Matches are decided exactly as scheduled search-filter matching decides them: the same retrieval, the same
+        classifier with the same acceptance threshold, and the evidence the user's tier allows (`FREE` text only,
+        `PRO` text and one image, `ULTIMATE` the enhanced description and up to four images). Criteria without
+        `productQuery` or `enhancedSearchDescription` match on retrieval alone. Unlike scheduled matching, which only
+        considers listings that changed since the last run, the preview considers the whole catalogue. A listing image
+        that cannot be fetched within a short interactive budget is left out of the evidence, as a failed fetch is.
+
+
+        The preview classifies at most sixteen of the most relevant candidates and stops as soon as four match.
+        `candidateLimitReached` is `true` when it stopped before finding four, so more listings may match than it
+        shows. Items have the same shape as `GET /v1/product-listings` items, most relevant first. There is no
+        paging.
+
+
+        If the classifier still cannot decide a candidate after retrying, the preview fails with
+        `503 SEARCH_FILTER_TEMPORARILY_UNAVAILABLE` instead of showing results that scheduled matching might not
+        produce; retry later. A classifier configuration failure returns `500 SEARCH_FILTER_INTERNAL_ERROR`.
+
+
+        Requires a Cognito JWT or an Aura access token with `search-filters:write`. Search fields are restricted by
+        tier exactly as for `POST /v1/me/search-filters`; restricted fields return `SEARCH_FILTER_RESTRICTED_FEATURE`.
+        Responses use `Cache-Control: no-store`."
+      operationId: previewUserSearchFilterMatches
+      tags:
+        - Search Filters
+      security:
+        - BearerAuth: []
+        - AccessTokenAuth: []
+      requestBody:
+        required: true
+        description: Search filter criteria to preview
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PreviewUserSearchFilterMatchesData"
+            example:
+              search:
+                language: en
+                currency: EUR
+                productQuery:
+                  - antique clock
+                price:
+                  min: 1000
+                  max: 5000
+      responses:
+        "200":
+          description: Up to four listings the criteria match now
+          headers:
+            Cache-Control:
+              description: Previews are never cached
+              schema:
+                type: string
+              example: no-store
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserSearchFilterMatchPreviewData"
+        "400":
+          description: Bad request - invalid request body
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 400
+                title: Bad Request
+                error: BAD_BODY_VALUE
+                detail: Request body is required.
+        "401":
+          description: Unauthorized - missing or invalid Cognito JWT or Aura access token
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 401
+                title: Unauthorized
+                error: INVALID_CREDENTIALS
+        "403":
+          description: Forbidden - Aura access token lacks the required `search-filters:write` scope
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 403
+                title: Forbidden
+                error: FORBIDDEN
+        "404":
+          description: User not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 404
+                title: Not Found
+                error: USER_NOT_FOUND
+        "422":
+          description: Unprocessable Entity - the criteria use a search field the user's tier may not save
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 422
+                title: Unprocessable Content
+                error: SEARCH_FILTER_RESTRICTED_FEATURE
+                detail: Search filter contains forbidden search field 'enhancedSearchDescription' which requires a higher user tier.
+        "500":
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 500
+                title: Internal Server Error
+                error: SEARCH_FILTER_INTERNAL_ERROR
+        "503":
+          description: The classifier or another dependency cannot decide the preview right now
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 503
+                title: Service Unavailable
+                error: SEARCH_FILTER_TEMPORARILY_UNAVAILABLE
+                detail: Search filter preview is temporarily unavailable.
   /v1/me/search-filters/{userSearchFilterId}:
     get:
       summary: Get a specific search filter
@@ -21984,6 +22121,11 @@ components:
         - ja
         - ru
         - ar
+        - ko
+        - el
+        - he
+        - th
+        - hi
       description: "Supported language codes (ISO 639-1 canonical values):
 
         - de: German (includes de-DE, de-AT, de-CH, de-LU, de-LI)
@@ -21996,7 +22138,7 @@ components:
 
         - it: Italian (includes it-IT, it-CH)
 
-        - zh: Chinese (Simplified) (includes zh-CN, zh-Hans)
+        - zh: Chinese, Simplified or Traditional (includes zh-CN, zh-Hans, zh-TW, zh-Hant, zh-HK)
 
         - pt: Portuguese (includes pt-PT, pt-BR)
 
@@ -22014,10 +22156,20 @@ components:
 
         - ar: Arabic (includes ar-SA, ar-EG, ar-AE)
 
+        - ko: Korean (includes ko-KR)
+
+        - el: Greek (includes el-GR)
+
+        - he: Hebrew (includes he-IL)
+
+        - th: Thai (includes th-TH)
+
+        - hi: Hindi (includes hi-IN)
+
 
         `de`, `en`, `fr`, `es`, and `it` are fully supported localization/translation-target languages.
 
-        `zh`, `pt`, `pl`, `tr`, `nl`, `cs`, `ja`, `ru`, and `ar` are ingestion-only languages:
+        `zh`, `pt`, `pl`, `tr`, `nl`, `cs`, `ja`, `ru`, `ar`, `ko`, `el`, `he`, `th`, and `hi` are ingestion-only languages:
 
         they can appear in stored/native content and are accepted anywhere `LanguageData` is used,
 
@@ -22729,6 +22881,30 @@ components:
           example: false
         search:
           $ref: "#/components/schemas/ProductListingSearchData"
+    PreviewUserSearchFilterMatchesData:
+      type: object
+      description: Search filter criteria to preview before they are saved
+      required:
+        - search
+      properties:
+        search:
+          $ref: "#/components/schemas/ProductListingSearchData"
+    UserSearchFilterMatchPreviewData:
+      type: object
+      description: Up to four listings search filter criteria match now, most relevant first
+      required:
+        - items
+        - candidateLimitReached
+      properties:
+        items:
+          type: array
+          maxItems: 4
+          items:
+            $ref: "#/components/schemas/PersonalizedProductListingSummaryData"
+        candidateLimitReached:
+          type: boolean
+          description: "`true` when fewer than four matches were found among the candidates the preview evaluates, so
+            more listings may match than it shows"
     PatchUserSearchFilterData:
       type: object
       description: "Partial search filter update data.

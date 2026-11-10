@@ -10,13 +10,13 @@ admin workflows in [admin workflows](admin-workflows.md).
   (`public/partner-products.openapi.json`) from the same pinned contract, `openapi/swagger.yaml`.
   Generation never fetches a moving contract. Never hand-edit either output.
 - The pinned capture is the complete backend `docs/swagger.yaml` at `develop`
-  `867bfe2c79ba9a3daa47deb0715e5f66a0865c31` (2026-11-09); its last contract change is
-  `867bfe2c79` ([backend#2829](https://github.com/aura-historia/backend/pull/2829)). Git blob
-  `002f553f4a911dd1f9646c15a1a8cf9cd470659c`; file SHA-256
-  `42efa03d0577eaafbe351bc25c72c483221ed8f26f7b0131ff0f7df759dd8d34`; canonical parsed-JSON
+  `960e0ac82d85852dfc763a5fb4e1e7f39e64da93` (2026-11-10); its last contract change is
+  `960e0ac82d` ([backend#2851](https://github.com/aura-historia/backend/pull/2851)). Git blob
+  `29731a068ebdd7e20ecbef7fd6336c3148358959`; file SHA-256
+  `43db513054e7ce56a8298588086a4076ed8a6c160587bd034af64d3ea15454db`; canonical parsed-JSON
   SHA-256 (recorded as `x-source-contract-sha256` in the partner reference):
-  `6e3eaace9bb4fc39f27ed4cba1d118843c9c451dbf4c44e2d468a95294080b02`. It replaces the
-  `40f76513aa` capture (2026-11-08, last contract change `1ef4282b99`).
+  `8f5e8cc989fb5cfce29208c5c238c9467776e15e59e2474a0b4d011bd09ae6bf`. It replaces the
+  `867bfe2c79` capture (2026-11-09, last contract change `867bfe2c79`).
 - Every REST operation lives under `/v1/...` on `https://api.aura-historia.com` (production) and
   `https://api.stage.aura-historia.com`; `/api/v1/...` is gone without aliases
   ([backend#2216](https://github.com/aura-historia/backend/issues/2216)). The generated client and
@@ -26,7 +26,34 @@ admin workflows in [admin workflows](admin-workflows.md).
   keep their paths. Release this webapp only with or after a backend that serves `/v1`.
 - Without `VITE_API_URL` the app calls the production API (`getApiBaseUrl`); each deployment
   sets its environment's API URL explicitly.
-- Changes against the previous pin (`40f76513aa`, 2026-11-08), with their decisions:
+- Changes against the previous pin (`867bfe2c79`, 2026-11-09), with their decisions:
+  - **Classifier-accurate search-filter match previews**
+    ([backend#2849](https://github.com/aura-historia/backend/issues/2849),
+    [backend#2851](https://github.com/aura-historia/backend/pull/2851), webapp
+    [#1300](https://github.com/aura-historia/webapp/issues/1300)): new `POST
+    /v1/me/search-filters/preview` (`previewUserSearchFilterMatches`) takes `{ search:
+    ProductListingSearchData }` — the same `search` shape `createUserSearchFilter` sends, built with
+    `mapSearchFilterArgumentsToProductSearchData` — and returns `{ items:
+    PersonalizedProductListingSummaryData[], candidateLimitReached: boolean }`, at most four items,
+    most relevant first, `Cache-Control: no-store`. It decides matches as scheduled matching does
+    (same classifier, acceptance threshold and tier evidence) over the whole catalogue, unlike plain
+    listing search. `useSearchFilterPreviewProducts` (confirm step of the create wizard) calls it
+    instead of `simpleSearchProductListings`; the create and patch operations are unaffected.
+  - **Korean, Greek, Hebrew, Thai and Hindi catalogue languages; `zh` covers Traditional Chinese**
+    ([backend#2842](https://github.com/aura-historia/backend/issues/2842),
+    [backend#2844](https://github.com/aura-historia/backend/pull/2844)): `LanguageData` gains `ko`,
+    `el`, `he`, `th` and `hi` as source-only languages, alongside the existing `zh`, `ja` and `ar`;
+    `zh` now also covers Traditional Chinese (`zh-TW`/`zh-Hant`/`zh-HK` resolve to it server-side).
+    `SOURCE_TEXT_LANGUAGES` (`src/data/internal/common/Language.ts`) lists all five new codes, so
+    `MissingSourceTextLanguages` keeps compiling and the admin listing/auction language pickers
+    (`SOURCE_TEXT_LANGUAGES.map`, labelled by uppercased code, no per-language copy) offer them
+    without further changes. The app's own interface languages (`LANGUAGES`,
+    `parseLanguage`/`mapToBackendLanguage`) are unaffected: these remain source-only, backend
+    translations and notification emails for such a profile still fall back to English.
+  - Not breaking: an older backend accepts neither the new languages nor the preview request, but
+    every other operation (including search-filter create, patch, and plain listing search) is
+    unchanged.
+- Changes adopted with the `867bfe2c79` capture (against `40f76513aa`, 2026-11-08), with their decisions:
   - **Nudity is sensitive content** ([backend#2830](https://github.com/aura-historia/backend/issues/2830),
     [backend#2832](https://github.com/aura-historia/backend/pull/2832), webapp
     [#1288](https://github.com/aura-historia/webapp/issues/1288)): `ContentPolicyData.category`

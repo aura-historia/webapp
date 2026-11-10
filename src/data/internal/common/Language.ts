@@ -50,6 +50,11 @@ export const SOURCE_TEXT_LANGUAGES = [
     "ja",
     "ru",
     "ar",
+    "ko",
+    "el",
+    "he",
+    "th",
+    "hi",
 ] as const satisfies readonly LanguageData[];
 export type SourceTextLanguage = (typeof SOURCE_TEXT_LANGUAGES)[number];
 
