@@ -93,40 +93,41 @@ export function AdminPartnershipDetailDialog({
                 ) : undefined
             }
         >
-            {partnershipId &&
-                (detailQuery.data ? (
-                    // Keyed so member and source drafts never carry over to another partnership.
-                    <PartnershipBody
-                        key={partnershipId}
-                        partnership={detailQuery.data}
-                        onDissolved={onClose}
-                    />
-                ) : detailQuery.error ? (
-                    <div className="flex flex-wrap items-center justify-between gap-3.5">
-                        <AdminErrorLine message={detailQuery.error.message} className="text-sm" />
-                        <button
-                            type="button"
-                            onClick={() => detailQuery.refetch()}
-                            className={SMALL_SECONDARY_PILL_CLASS}
-                        >
-                            {t("adminCommon.retry")}
-                        </button>
+            {partnershipId && detailQuery.data && (
+                // Keyed so member and source drafts never carry over to another partnership.
+                <PartnershipBody
+                    key={partnershipId}
+                    partnership={detailQuery.data}
+                    onDissolved={onClose}
+                />
+            )}
+            {partnershipId && !detailQuery.data && detailQuery.error && (
+                <div className="flex flex-wrap items-center justify-between gap-3.5">
+                    <AdminErrorLine message={detailQuery.error.message} className="text-sm" />
+                    <button
+                        type="button"
+                        onClick={() => detailQuery.refetch()}
+                        className={SMALL_SECONDARY_PILL_CLASS}
+                    >
+                        {t("adminCommon.retry")}
+                    </button>
+                </div>
+            )}
+            {partnershipId && !detailQuery.data && !detailQuery.error && (
+                <div aria-busy="true" className="flex flex-col gap-3.5">
+                    <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
+                        {[0, 1, 2, 3, 4, 5].map((index) => (
+                            <span
+                                key={index}
+                                className={cn(ADMIN_SKELETON_CLASS, "h-10 rounded-sm")}
+                            />
+                        ))}
                     </div>
-                ) : (
-                    <div aria-busy="true" className="flex flex-col gap-3.5">
-                        <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
-                            {[0, 1, 2, 3, 4, 5].map((index) => (
-                                <span
-                                    key={index}
-                                    className={cn(ADMIN_SKELETON_CLASS, "h-10 rounded-sm")}
-                                />
-                            ))}
-                        </div>
-                        <p role="status" className="text-meta text-ink-secondary">
-                            {t("adminPartnerships.loadingDetail")}
-                        </p>
-                    </div>
-                ))}
+                    <output className="block text-meta text-ink-secondary">
+                        {t("adminPartnerships.loadingDetail")}
+                    </output>
+                </div>
+            )}
         </AdminRecordDialog>
     );
 }
@@ -336,10 +337,9 @@ function RowConfirm({
         cancelButton.current?.focus();
     }, []);
     return (
-        <span
-            role="group"
+        <fieldset
             aria-label={text}
-            className="flex w-full flex-wrap items-center justify-between gap-2"
+            className="m-0 min-w-0 border-0 p-0 flex w-full flex-wrap items-center justify-between gap-2"
         >
             <span className="text-meta text-oxblood">{text}</span>
             <span className="flex gap-1.5">
@@ -365,7 +365,7 @@ function RowConfirm({
                     {t("adminPartnerships.actions.revoke")}
                 </button>
             </span>
-        </span>
+        </fieldset>
     );
 }
 
@@ -574,19 +574,16 @@ function SourcesInset({ partnership }: { readonly partnership: AdminPartnershipD
     let checkResult: ReactNode;
     if (checkedCurrent && sourceQuery.isPending) {
         checkResult = (
-            <p role="status" className="text-meta text-ink-secondary">
+            <output className="block text-meta text-ink-secondary">
                 {t("adminPartnerships.sources.checking")}
-            </p>
+            </output>
         );
     } else if (checkedCurrent && sourceQuery.error) {
         checkResult = <AdminErrorLine message={sourceQuery.error.message} />;
     } else if (source && matches) {
         checkResult = (
-            <div
-                role="status"
-                className="flex flex-col gap-2.5 rounded-md bg-surface-raised px-3.5 py-3 shadow-ring"
-            >
-                <p className="flex gap-2 text-meta leading-normal">
+            <div className="flex flex-col gap-2.5 rounded-md bg-surface-raised px-3.5 py-3 shadow-ring">
+                <output className="flex gap-2 text-meta leading-normal">
                     <span
                         aria-hidden="true"
                         className="mt-0.5 inline-flex size-4 shrink-0 items-center justify-center rounded-pill bg-ink text-surface"
@@ -596,7 +593,7 @@ function SourcesInset({ partnership }: { readonly partnership: AdminPartnershipD
                     <span className="min-w-0 break-words">
                         {t("adminPartnerships.sources.sameOrganization", { name: source.name })}
                     </span>
-                </p>
+                </output>
                 <div className="flex flex-wrap gap-2">
                     <button
                         type="button"

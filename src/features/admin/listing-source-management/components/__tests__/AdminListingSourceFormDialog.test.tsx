@@ -123,7 +123,7 @@ describe("AdminListingSourceFormDialog", () => {
         fireEvent.click(screen.getByRole("button", { name: "Pick operator" }));
         expect(
             screen.getByRole("heading", { name: testI18n.t("adminListingSources.form.newTitle") }),
-        );
+        ).toBeInTheDocument();
         for (const radio of screen.getAllByRole("radio", { name: /./ })) {
             if (radio.getAttribute("name") !== "admin-listing-source-operator-type") {
                 expect(radio).not.toBeChecked();
@@ -150,7 +150,7 @@ describe("AdminListingSourceFormDialog", () => {
             screen.getByRole("heading", {
                 name: testI18n.t("adminListingSources.form.editNamed", { name: "Antique House" }),
             }),
-        );
+        ).toBeInTheDocument();
         expect(sourceType("DEALER")).toBeChecked();
 
         await user.click(sourceType("AUCTION_HOUSE"));

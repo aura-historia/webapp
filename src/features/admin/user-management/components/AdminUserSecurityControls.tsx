@@ -236,13 +236,10 @@ export function AdminUserSecurityControls({ userId }: { readonly userId: string 
                     <h4 className={BLOCK_TITLE_CLASS}>
                         {t("adminUsers.security.suspension.heading")}
                     </h4>
-                    <span
-                        role="status"
-                        className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.12em] text-ink-secondary uppercase"
-                    >
+                    <output className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.12em] text-ink-secondary uppercase">
                         <AdminMark tone={suspensionTone} />
                         {suspensionLabel}
-                    </span>
+                    </output>
                 </div>
                 <div className="flex flex-col gap-2">
                     <label
@@ -256,7 +253,9 @@ export function AdminUserSecurityControls({ userId }: { readonly userId: string 
                         id={reasonId}
                         rows={3}
                         aria-invalid={reasonError ? true : undefined}
-                        aria-describedby={`${reasonId}-hint${reasonError ? ` ${reasonId}-error` : ""}`}
+                        aria-describedby={[`${reasonId}-hint`, reasonError && `${reasonId}-error`]
+                            .filter(Boolean)
+                            .join(" ")}
                         readOnly={confirmation === "suspend"}
                         disabled={busy}
                         className={cn(

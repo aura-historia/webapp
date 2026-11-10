@@ -75,9 +75,15 @@ export function PartyLocationSelector({
                 {active.map((location) => {
                     const id = `${name}-${location.id}`;
                     return (
-                        <label key={location.id} htmlFor={id} className={OPTION_CARD_CLASS}>
+                        <label
+                            key={location.id}
+                            htmlFor={id}
+                            aria-label={location.label}
+                            className={OPTION_CARD_CLASS}
+                        >
                             <input
                                 id={id}
+                                aria-describedby={`${id}-region`}
                                 type="radio"
                                 name={name}
                                 value={location.id}
@@ -90,7 +96,7 @@ export function PartyLocationSelector({
                                 <span className="text-sm font-medium break-words">
                                     {location.label}
                                 </span>
-                                <span className="text-meta text-ink-secondary">
+                                <span id={`${id}-region`} className="text-meta text-ink-secondary">
                                     {formatPartyLocationRegion(location, i18n.language, t)}
                                 </span>
                             </span>

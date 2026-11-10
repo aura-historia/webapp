@@ -56,9 +56,9 @@ export function AdminAuctionDetailPage({
                     ))}
                 </span>
                 <span className={cn(ADMIN_SKELETON_CLASS, "h-44 rounded-panel")} />
-                <p role="status" className="text-meta text-ink-secondary">
+                <output className="block text-meta text-ink-secondary">
                     {t("adminAuctions.detail.loading")}
-                </p>
+                </output>
             </div>
         );
     }
@@ -74,13 +74,7 @@ export function AdminAuctionDetailPage({
             <AdminStatePanel
                 tone={missing ? "empty" : "error"}
                 icon={missing ? Gavel : undefined}
-                title={
-                    missing
-                        ? t("adminAuctions.detail.notFound")
-                        : forbidden
-                          ? t("adminAuctions.errors.forbidden")
-                          : t("adminAuctions.detail.loadFailed")
-                }
+                title={t(auctionErrorTitleKey(missing, forbidden))}
             >
                 <Link
                     to="/$lng/admin/auctions"
@@ -259,4 +253,10 @@ function AuctionIdentity({ auction }: { readonly auction: AdminAuction }) {
             />
         </section>
     );
+}
+
+function auctionErrorTitleKey(missing: boolean, forbidden: boolean): string {
+    if (missing) return "adminAuctions.detail.notFound";
+    if (forbidden) return "adminAuctions.errors.forbidden";
+    return "adminAuctions.detail.loadFailed";
 }

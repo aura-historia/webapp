@@ -40,10 +40,10 @@ export function AdminInlineConfirm({
     }, []);
 
     return (
-        <div
-            role="group"
+        <fieldset
             aria-label={message}
             className={cn(
+                "m-0 min-w-0 border-0 p-0",
                 "flex flex-col gap-3 rounded-md bg-surface p-4",
                 tone === "danger"
                     ? "shadow-[inset_0_0_0_1.5px_var(--oxblood)]"
@@ -85,6 +85,6 @@ export function AdminInlineConfirm({
                     {confirmLabel}
                 </button>
             </div>
-        </div>
+        </fieldset>
     );
 }

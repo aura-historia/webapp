@@ -216,16 +216,15 @@ function OAuthClientToolbar({
                 onSubmit: () => onFiltersChange({ ...filters, name: name.trim() || undefined }),
             }}
             panelCount={filters.clientId ? 1 : 0}
-            panel={(close) => (
+            panel={
                 <ClientIdPanel
                     label={clientIdLabel}
                     initial={filters.clientId ?? ""}
                     onApply={(clientId) => {
                         onFiltersChange({ ...filters, clientId });
-                        close();
                     }}
                 />
-            )}
+            }
             chips={<AdminActiveChips chips={chips} onClearAll={() => onFiltersChange({})} />}
         />
     );

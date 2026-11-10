@@ -137,10 +137,10 @@ describe("AdminAuctionsPage", () => {
         expect(
             screen.getByRole("heading", { level: 1, name: t("adminNavigation.items.auctions") }),
         ).toBeInTheDocument();
-        expect(screen.getByText(t("adminCommon.result.loaded", { loaded: "2" }))).toHaveAttribute(
-            "role",
-            "status",
-        );
+        // The result line is a live <output> (implicit status role).
+        expect(
+            screen.getByText(t("adminCommon.result.loaded", { loaded: "2" })).closest("output"),
+        ).toBeInTheDocument();
         const list = within(
             screen.getByRole("list", { name: t("adminNavigation.items.auctions") }),
         );

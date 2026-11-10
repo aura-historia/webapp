@@ -198,15 +198,14 @@ function AdminProductListingToolbar({
                 </>
             }
             panelCount={panelCount}
-            panel={(close) => (
+            panel={
                 <AdminProductListingFilterPanel
                     filters={filters}
                     onApply={(changes) => {
                         update(changes);
-                        close();
                     }}
                 />
-            )}
+            }
             chips={
                 <AdminActiveChips
                     chips={chips}
@@ -252,7 +251,7 @@ function AdminProductListingFilterPanel({
 
     const apply = () => {
         setSubmitted(true);
-        if (sourceListingIdTooLong) return;
+        if (sourceListingIdTooLong) return false;
         const size = Number(values.size);
         onApply({
             listingSourceId: values.listingSourceId.trim() || undefined,

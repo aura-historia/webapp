@@ -156,19 +156,17 @@ export function AdminPartnershipsPage({
                 label={t("adminPartnerships.filters.title")}
                 panelLabel={t("adminPartnerships.filters.byId")}
                 panelCount={chips.length}
-                panel={(close) => (
+                panel={
                     <PartnershipFilterPanel
                         filters={filters}
                         onApply={(next) => {
                             setFilters(next);
-                            close();
                         }}
                         onReset={() => {
                             setFilters({});
-                            close();
                         }}
                     />
-                )}
+                }
                 chips={<AdminActiveChips chips={chips} onClearAll={() => setFilters({})} />}
             />
             <AdminResultLine
@@ -180,7 +178,7 @@ export function AdminPartnershipsPage({
             <AdminPartnershipDetailDialog
                 partnershipId={search.partnership}
                 summary={selected}
-                onClose={() => openPartnership(undefined)}
+                onClose={() => openPartnership()}
             />
         </>
     );
@@ -257,7 +255,7 @@ function PartnershipFilterPanel({
     return (
         <AdminFilterPanel
             onApply={() => {
-                if (invalid) return;
+                if (invalid) return false;
                 onApply(
                     Object.fromEntries(
                         ID_FILTERS.map((key) => [key, draft[key].trim() || undefined]),

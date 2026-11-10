@@ -109,63 +109,8 @@ export function AdminPartnershipApplicationsPage({
         value: type,
         label: t(PROPOSAL_OPTION_TRANSLATION_KEY[type]),
     }));
-    const range = (from?: string, until?: string) => `${from ?? "…"} – ${until ?? "…"}`;
-    const chips: AdminChip[] = [
-        ...(filters.states ?? []).map((state) => ({
-            key: `state-${state}`,
-            label: `${t("adminApplications.filters.states")}: ${t(ADMIN_APPLICATION_STATE_TRANSLATION_KEY[state])}`,
-            onRemove: () => update({ states: filters.states?.filter((value) => value !== state) }),
-        })),
-        ...(filters.proposalTypes ?? []).map((type) => ({
-            key: `proposal-${type}`,
-            label: `${t("adminApplications.filters.proposal")}: ${t(PROPOSAL_OPTION_TRANSLATION_KEY[type])}`,
-            onRemove: () =>
-                update({
-                    proposalTypes: filters.proposalTypes?.filter((value) => value !== type),
-                }),
-        })),
-        ...(filters.applicantUserId
-            ? [
-                  {
-                      key: "applicant",
-                      label: `${t("adminApplications.filters.applicantUserId")}: ${filters.applicantUserId}`,
-                      onRemove: () => update({ applicantUserId: undefined }),
-                  },
-              ]
-            : []),
-        ...(filters.sourceId
-            ? [
-                  {
-                      key: "source",
-                      label: `${t("adminApplications.filters.listingSourceId")}: ${filters.sourceId}`,
-                      onRemove: () => update({ sourceId: undefined }),
-                  },
-              ]
-            : []),
-        ...(filters.createdFrom || filters.createdTo
-            ? [
-                  {
-                      key: "created",
-                      label: `${t("adminApplications.filters.created")}: ${range(filters.createdFrom, filters.createdTo)}`,
-                      onRemove: () => update({ createdFrom: undefined, createdTo: undefined }),
-                  },
-              ]
-            : []),
-        ...(filters.updatedFrom || filters.updatedTo
-            ? [
-                  {
-                      key: "updated",
-                      label: `${t("adminApplications.filters.updated")}: ${range(filters.updatedFrom, filters.updatedTo)}`,
-                      onRemove: () => update({ updatedFrom: undefined, updatedTo: undefined }),
-                  },
-              ]
-            : []),
-    ];
-    const panelCount =
-        (filters.applicantUserId ? 1 : 0) +
-        (filters.sourceId ? 1 : 0) +
-        (filters.createdFrom || filters.createdTo ? 1 : 0) +
-        (filters.updatedFrom || filters.updatedTo ? 1 : 0);
+    const chips = applicationChips(filters, t, update);
+    const panelCount = applicationPanelCount(filters);
     const hasFilters = chips.length > 0;
     const sortValue =
         filters.sort && filters.order ? `${filters.sort}:${filters.order}` : DEFAULT_SORT;
@@ -272,19 +217,17 @@ export function AdminPartnershipApplicationsPage({
                     </>
                 }
                 panelCount={panelCount}
-                panel={(close) => (
+                panel={
                     <ApplicationFilterPanel
                         filters={filters}
                         onApply={(draft) => {
                             update(draft);
-                            close();
                         }}
                         onReset={() => {
                             update(Object.fromEntries(PANEL_KEYS.map((key) => [key, undefined])));
-                            close();
                         }}
                     />
-                )}
+                }
                 chips={<AdminActiveChips chips={chips} onClearAll={resetFilters} />}
             />
             <AdminResultLine
@@ -314,7 +257,7 @@ export function AdminPartnershipApplicationsPage({
             <AdminApplicationDetailDialog
                 applicationId={search.application}
                 summary={selected}
-                onClose={() => openApplication(undefined)}
+                onClose={() => openApplication()}
             />
         </>
     );
@@ -432,4 +375,79 @@ function ApplicationFilterPanel({
             />
         </AdminFilterPanel>
     );
+}
+
+type Translate = ReturnType<typeof useTranslation>["t"];
+
+function dateRange(from?: string, until?: string): string {
+    return `${from ?? "…"} – ${until ?? "…"}`;
+}
+
+/** One removable chip per active filter. */
+function applicationChips(
+    filters: AdminApplicationFilters,
+    t: Translate,
+    update: (patch: Partial<AdminApplicationFilters>) => void,
+): AdminChip[] {
+    return [
+        ...(filters.states ?? []).map((state) => ({
+            key: `state-${state}`,
+            label: `${t("adminApplications.filters.states")}: ${t(ADMIN_APPLICATION_STATE_TRANSLATION_KEY[state])}`,
+            onRemove: () => update({ states: filters.states?.filter((value) => value !== state) }),
+        })),
+        ...(filters.proposalTypes ?? []).map((type) => ({
+            key: `proposal-${type}`,
+            label: `${t("adminApplications.filters.proposal")}: ${t(PROPOSAL_OPTION_TRANSLATION_KEY[type])}`,
+            onRemove: () =>
+                update({
+                    proposalTypes: filters.proposalTypes?.filter((value) => value !== type),
+                }),
+        })),
+        ...(filters.applicantUserId
+            ? [
+                  {
+                      key: "applicant",
+                      label: `${t("adminApplications.filters.applicantUserId")}: ${filters.applicantUserId}`,
+                      onRemove: () => update({ applicantUserId: undefined }),
+                  },
+              ]
+            : []),
+        ...(filters.sourceId
+            ? [
+                  {
+                      key: "source",
+                      label: `${t("adminApplications.filters.listingSourceId")}: ${filters.sourceId}`,
+                      onRemove: () => update({ sourceId: undefined }),
+                  },
+              ]
+            : []),
+        ...(filters.createdFrom || filters.createdTo
+            ? [
+                  {
+                      key: "created",
+                      label: `${t("adminApplications.filters.created")}: ${dateRange(filters.createdFrom, filters.createdTo)}`,
+                      onRemove: () => update({ createdFrom: undefined, createdTo: undefined }),
+                  },
+              ]
+            : []),
+        ...(filters.updatedFrom || filters.updatedTo
+            ? [
+                  {
+                      key: "updated",
+                      label: `${t("adminApplications.filters.updated")}: ${dateRange(filters.updatedFrom, filters.updatedTo)}`,
+                      onRemove: () => update({ updatedFrom: undefined, updatedTo: undefined }),
+                  },
+              ]
+            : []),
+    ];
+}
+
+/** Active filters that live only in the panel. */
+function applicationPanelCount(filters: AdminApplicationFilters): number {
+    return [
+        filters.applicantUserId,
+        filters.sourceId,
+        filters.createdFrom || filters.createdTo,
+        filters.updatedFrom || filters.updatedTo,
+    ].filter(Boolean).length;
 }

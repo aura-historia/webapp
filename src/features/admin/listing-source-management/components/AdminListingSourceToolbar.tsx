@@ -86,7 +86,9 @@ export function AdminListingSourceToolbar({
             ? [
                   {
                       key: "type",
-                      label: `${typeLabel}: ${t(`listingSourceTypes.${filters.listingSourceType}`)}`,
+                      label: [typeLabel, t(`listingSourceTypes.${filters.listingSourceType}`)].join(
+                          ": ",
+                      ),
                       onRemove: () => apply({ listingSourceType: undefined }),
                   },
               ]
@@ -95,7 +97,10 @@ export function AdminListingSourceToolbar({
             ? [
                   {
                       key: "ingestion",
-                      label: `${ingestionLabel}: ${t(`adminListingSources.methods.${filters.ingestionMethod}`)}`,
+                      label: [
+                          ingestionLabel,
+                          t(`adminListingSources.methods.${filters.ingestionMethod}`),
+                      ].join(": "),
                       onRemove: () => apply({ ingestionMethod: undefined }),
                   },
               ]
@@ -158,16 +163,15 @@ export function AdminListingSourceToolbar({
                 </>
             }
             panelCount={PANEL_KEYS.filter((key) => filters[key] !== undefined).length}
-            panel={(close) => (
+            panel={
                 <ListingSourceFilterPanel
                     filters={filters}
                     labels={panelLabels}
                     onApply={(values) => {
                         apply(values);
-                        close();
                     }}
                 />
-            )}
+            }
             chips={
                 <AdminActiveChips
                     chips={chips}
@@ -210,7 +214,7 @@ function ListingSourceFilterPanel({
             onApply={() => {
                 if (!isOptionalPlatformTechnology(values.platformTechnology)) {
                     setPlatformError(true);
-                    return;
+                    return false;
                 }
                 const platformTechnology = normalizePlatformTechnology(values.platformTechnology);
                 onApply({

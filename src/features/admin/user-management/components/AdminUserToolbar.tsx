@@ -81,7 +81,7 @@ function AdminUserFilterPanel({
             updated: rangeError(draft.updatedFrom, draft.updatedTo),
         };
         setErrors(next);
-        if (next.created || next.updated) return;
+        if (next.created || next.updated) return false;
         onApply({
             ...filters,
             email: draft.email.trim() || undefined,
@@ -177,7 +177,9 @@ export function AdminUserToolbar({
     for (const tier of filters.tier ?? []) {
         chips.push({
             key: `tier:${tier}`,
-            label: `${t("adminUsers.filters.tierShort")}: ${t(`adminUsers.options.tiers.${tier}`)}`,
+            label: [t("adminUsers.filters.tierShort"), t(`adminUsers.options.tiers.${tier}`)].join(
+                ": ",
+            ),
             onRemove: () => {
                 const rest = (filters.tier ?? []).filter((value) => value !== tier);
                 change({ tier: rest.length > 0 ? rest : undefined });
@@ -187,7 +189,7 @@ export function AdminUserToolbar({
     for (const role of filters.role ?? []) {
         chips.push({
             key: `role:${role}`,
-            label: `${t("adminUsers.filters.role")}: ${t(`adminUsers.options.roles.${role}`)}`,
+            label: [t("adminUsers.filters.role"), t(`adminUsers.options.roles.${role}`)].join(": "),
             onRemove: () => {
                 const rest = (filters.role ?? []).filter((value) => value !== role);
                 change({ role: rest.length > 0 ? rest : undefined });
@@ -243,15 +245,14 @@ export function AdminUserToolbar({
                     />
                 </>
             }
-            panel={(close) => (
+            panel={
                 <AdminUserFilterPanel
                     filters={filters}
                     onApply={(next) => {
                         onFiltersChange(next);
-                        close();
                     }}
                 />
-            )}
+            }
             panelCount={panelCount}
             chips={
                 <AdminActiveChips

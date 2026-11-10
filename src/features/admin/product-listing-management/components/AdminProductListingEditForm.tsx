@@ -156,10 +156,7 @@ export function AdminProductListingEditForm({
                 {t("adminProductListings.edit.title")}
             </h2>
             {!editable && (
-                <p
-                    role="status"
-                    className="mb-6 flex gap-2.5 rounded-md px-4 py-3.5 text-sm leading-normal shadow-[inset_0_0_0_1px_var(--line-strong)]"
-                >
+                <output className="mb-6 flex gap-2.5 rounded-md px-4 py-3.5 text-sm leading-normal shadow-[inset_0_0_0_1px_var(--line-strong)]">
                     <Lock
                         aria-hidden="true"
                         className="mt-0.5 size-4 shrink-0 text-ink-secondary"
@@ -170,7 +167,7 @@ export function AdminProductListingEditForm({
                             ? "adminProductListings.edit.lockedWithdrawn"
                             : "adminProductListings.edit.lockedUnknown",
                     )}
-                </p>
+                </output>
             )}
             {stale && hasChanges && !busy && (
                 <div
@@ -260,15 +257,12 @@ export function AdminProductListingEditForm({
                     </p>
                 )}
                 <div className="flex flex-wrap items-center justify-between gap-3 rounded-[28px] bg-surface-raised py-3 pr-3 pl-5 shadow-menu">
-                    <span
-                        role="status"
-                        className="inline-flex items-center gap-2 text-meta text-ink-secondary"
-                    >
+                    <output className="inline-flex items-center gap-2 text-meta text-ink-secondary">
                         {hasChanges && <AdminMark tone="brass" className="size-2 bg-brass" />}
                         {hasChanges
                             ? t("adminProductListings.edit.unsaved", { count: changeCount })
                             : t("adminProductListings.edit.noUnsaved")}
-                    </span>
+                    </output>
                     <span className="flex flex-wrap gap-2">
                         <button
                             type="button"

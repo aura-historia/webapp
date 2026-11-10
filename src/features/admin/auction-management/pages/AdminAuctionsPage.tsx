@@ -202,15 +202,14 @@ function AdminAuctionToolbar({
                 </>
             }
             panelCount={panelCount}
-            panel={(close) => (
+            panel={
                 <AdminAuctionFilterPanel
                     filters={filters}
                     onApply={(changes) => {
                         update(changes);
-                        close();
                     }}
                 />
-            )}
+            }
             chips={<AdminActiveChips chips={chips} onClearAll={onClearFilters} />}
         />
     );

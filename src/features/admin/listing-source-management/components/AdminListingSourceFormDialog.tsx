@@ -340,7 +340,9 @@ function CreateListingSourceForm({
     const operatorType = useController({ control: form.control, name: "operatorType" }).field;
     const errors = form.formState.errors;
     const [requestError, setRequestError] = useState<string>();
-    const addedMethods = form.watch("configurations").map((configuration) => configuration.type);
+    const addedMethods = new Set(
+        form.watch("configurations").map((configuration) => configuration.type),
+    );
 
     const clearSecrets = (values: CreateFormData) =>
         form.setValue(
@@ -491,7 +493,7 @@ function CreateListingSourceForm({
                 ))}
                 <AddMethodMenu
                     available={ADMIN_LISTING_SOURCE_INGESTION_METHODS.filter(
-                        (method) => !addedMethods.includes(method),
+                        (method) => !addedMethods.has(method),
                     )}
                     onAdd={(method) => append(createDefaultConfiguration(method))}
                 />

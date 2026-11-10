@@ -25,13 +25,15 @@ export function AdminGuard({ children }: { readonly children: ReactNode }) {
     if (isLoading) {
         return (
             <div
-                role="status"
-                aria-label={t("adminDashboard.loading")}
+                aria-busy="true"
                 className={cn(
                     PAGE_COLUMN_CLASS,
                     "grid items-start gap-16 pt-7 pb-24 sm:pt-14 lg:grid-cols-[240px_minmax(0,1fr)]",
                 )}
             >
+                <output aria-label={t("adminDashboard.loading")} className="sr-only">
+                    {t("adminDashboard.loading")}
+                </output>
                 <div className="hidden flex-col gap-2.5 lg:flex">
                     <span className={cn(ADMIN_SKELETON_CLASS, "h-2.5 w-1/2")} />
                     {Array.from({ length: 9 }, (_, index) => (

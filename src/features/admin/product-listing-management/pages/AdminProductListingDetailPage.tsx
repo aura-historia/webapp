@@ -55,9 +55,9 @@ export function AdminProductListingDetailPage({
                 <span className={cn(ADMIN_SKELETON_CLASS, "h-3 w-1/4")} />
                 <span className={cn(ADMIN_SKELETON_CLASS, "h-11 w-2/3 rounded-sm")} />
                 <span className={cn(ADMIN_SKELETON_CLASS, "mt-6 h-[420px] rounded-panel")} />
-                <p role="status" className="text-meta text-ink-secondary">
+                <output className="block text-meta text-ink-secondary">
                     {t("adminProductListings.detail.loading")}
-                </p>
+                </output>
             </div>
         );
     }

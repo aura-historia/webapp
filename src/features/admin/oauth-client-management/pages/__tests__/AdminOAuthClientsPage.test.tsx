@@ -85,7 +85,9 @@ describe("AdminOAuthClientsPage", () => {
     it("lists clients with their ID, at most two scopes and the result line", () => {
         render(<Harness />);
 
-        expect(screen.getByRole("heading", { level: 1, name: t("adminOAuthClients.heading") }));
+        expect(
+            screen.getByRole("heading", { level: 1, name: t("adminOAuthClients.heading") }),
+        ).toBeInTheDocument();
         const row = screen.getByRole("button", { name: /Cabinet integration/ });
         expect(within(row).getByText("oc_test123")).toBeTruthy();
         expect(
@@ -118,7 +120,9 @@ describe("AdminOAuthClientsPage", () => {
 
         api.useAdminOAuthClients.mockReturnValue(listState({ data: { pages: [] } }));
         const empty = render(<Harness />);
-        expect(screen.getByRole("heading", { name: t("adminOAuthClients.states.empty") }));
+        expect(
+            screen.getByRole("heading", { name: t("adminOAuthClients.states.empty") }),
+        ).toBeInTheDocument();
         fireEvent.click(
             within(screen.getByRole("status")).getByRole("button", {
                 name: t("adminOAuthClients.actions.create"),
@@ -128,7 +132,9 @@ describe("AdminOAuthClientsPage", () => {
         empty.unmount();
 
         const noMatches = render(<Harness initial={{ name: "Nothing" }} />);
-        expect(screen.getByRole("heading", { name: t("adminOAuthClients.states.noMatches") }));
+        expect(
+            screen.getByRole("heading", { name: t("adminOAuthClients.states.noMatches") }),
+        ).toBeInTheDocument();
         fireEvent.click(screen.getByRole("button", { name: t("adminCommon.filters.clearSearch") }));
         expect(api.useAdminOAuthClients).toHaveBeenLastCalledWith({});
         noMatches.unmount();
@@ -137,7 +143,9 @@ describe("AdminOAuthClientsPage", () => {
             listState({ data: undefined, error: new Error("List failed"), refetch }),
         );
         render(<Harness />);
-        expect(screen.getByRole("heading", { name: t("adminOAuthClients.states.error") }));
+        expect(
+            screen.getByRole("heading", { name: t("adminOAuthClients.states.error") }),
+        ).toBeInTheDocument();
         fireEvent.click(screen.getByRole("button", { name: t("adminCommon.retry") }));
         expect(refetch).toHaveBeenCalled();
     });

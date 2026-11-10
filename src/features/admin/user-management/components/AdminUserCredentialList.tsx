@@ -1,6 +1,6 @@
 import { AppWindow, Bot, KeyRound, Plug } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { Fragment, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { ACCESS_TOKEN_SCOPE_METADATA } from "@/data/internal/access-tokens/AccessTokenScope.ts";
 import type {
@@ -307,13 +307,8 @@ function CredentialRow({
             <div className="flex min-w-0 flex-col gap-1.5">
                 <p className="text-[15px] font-medium break-words">{title}</p>
                 <p className="font-mono text-[10px] tracking-[0.1em] [overflow-wrap:anywhere] text-ink-secondary uppercase">
-                    {meta.map((part, index) => (
-                        // biome-ignore lint/suspicious/noArrayIndexKey: the meta parts are positional
-                        <Fragment key={index}>
-                            {index > 0 && " · "}
-                            {part}
-                        </Fragment>
-                    ))}
+                    {/* Strings need no key; the only element (the mono ID) carries its own. */}
+                    {meta.flatMap((part, index) => (index === 0 ? [part] : [" · ", part]))}
                 </p>
                 <ul
                     aria-label={t("adminUsers.security.tokens.scopes")}

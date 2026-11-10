@@ -93,14 +93,14 @@ export function AdminPartyLocationAccessSection({ party }: { readonly party: Par
             </h2>
             {setGrant.error && !confirming && <AdminErrorLine message={setGrant.error.message} />}
             {result && (
-                <p role="status" className="text-sm text-ink-secondary">
+                <output className="block text-sm text-ink-secondary">
                     {t(
                         result.granted
                             ? "adminParties.locationAccess.granted"
                             : "adminParties.locationAccess.revoked",
                         { user: adminUserDisplayName(result.user), name: party.name },
                     )}
-                </p>
+                </output>
             )}
 
             <PartyLocationManagerList
@@ -307,9 +307,9 @@ function SelectedUserAccess({
 
     if (accessQuery.isPending) {
         return (
-            <p role="status" className="text-sm text-ink-secondary">
+            <output className="block text-sm text-ink-secondary">
                 {t("adminParties.locationAccess.state.checking")}
-            </p>
+            </output>
         );
     }
     if (accessQuery.error) {
@@ -337,9 +337,9 @@ function SelectedUserAccess({
 
     return (
         <>
-            <p role="status" className="text-sm leading-normal text-ink-secondary">
+            <output className="block text-sm leading-normal text-ink-secondary">
                 {t(`adminParties.locationAccess.status.${statusKey}`)}
-            </p>
+            </output>
             {hasExplicitGrant ? (
                 <button
                     type="button"

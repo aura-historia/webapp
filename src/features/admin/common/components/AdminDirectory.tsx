@@ -9,7 +9,7 @@ import {
     X,
 } from "lucide-react";
 import type { ButtonHTMLAttributes, CSSProperties, FormEvent, ReactNode } from "react";
-import { useId, useState } from "react";
+import { createContext, useCallback, useContext, useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
     DropdownMenu,
@@ -47,6 +47,9 @@ const PILL_TRIGGER_CLASS = cn(
     FOCUS_CLASS,
 );
 
+/** Lets the filter panel close the toolbar after Apply or Reset. */
+const PanelCloseContext = createContext<(() => void) | undefined>(undefined);
+
 // ─── Toolbar ────────────────────────────────────────────────────────────────
 
 /**
@@ -72,7 +75,8 @@ export function AdminToolbar({
     };
     readonly quickFilters?: ReactNode;
     /** Rendered while the panel is open; receives a close callback. */
-    readonly panel?: (close: () => void) => ReactNode;
+    /** The full filter form (an `AdminFilterPanel`); it closes itself after Apply or Reset. */
+    readonly panel?: ReactNode;
     /** Panel button label; defaults to "All filters", or "Filters" when there is no other control. */
     readonly panelLabel?: string;
     /** Active filters that live only in the panel. */
@@ -81,6 +85,7 @@ export function AdminToolbar({
 }) {
     const { t } = useTranslation();
     const [open, setOpen] = useState(false);
+    const closePanel = useCallback(() => setOpen(false), []);
     const panelId = useId();
     const searchId = useId();
 
@@ -151,7 +156,11 @@ export function AdminToolbar({
                     </button>
                 )}
             </div>
-            {panel && open && <div id={panelId}>{panel(() => setOpen(false))}</div>}
+            {panel && open && (
+                <PanelCloseContext.Provider value={closePanel}>
+                    <div id={panelId}>{panel}</div>
+                </PanelCloseContext.Provider>
+            )}
             {chips}
         </section>
     );
@@ -231,12 +240,9 @@ export function AdminQuickMulti({
 }) {
     const { t } = useTranslation();
     const selected = options.filter((option) => values.includes(option.value));
-    const summary =
-        selected.length === 0
-            ? t("adminCommon.filters.any")
-            : selected.length <= 2
-              ? selected.map((option) => option.label).join(", ")
-              : t("adminCommon.filters.selected", { count: selected.length });
+    let summary = t("adminCommon.filters.selected", { count: selected.length });
+    if (selected.length === 0) summary = t("adminCommon.filters.any");
+    else if (selected.length <= 2) summary = selected.map((option) => option.label).join(", ");
     return (
         <DropdownMenu modal={false}>
             <DropdownMenuTrigger
@@ -290,14 +296,16 @@ export function AdminFilterPanel({
     onReset,
     children,
 }: {
-    readonly onApply: () => void;
+    /** Return `false` when the draft is invalid, to keep the panel open. */
+    readonly onApply: () => boolean | void;
     readonly onReset: () => void;
     readonly children: ReactNode;
 }) {
     const { t } = useTranslation();
+    const closePanel = useContext(PanelCloseContext);
     function submit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        onApply();
+        if (onApply() !== false) closePanel?.();
     }
     return (
         <form
@@ -309,7 +317,14 @@ export function AdminFilterPanel({
                 {children}
             </div>
             <div className="flex flex-wrap justify-end gap-2.5 border-t border-line-subtle pt-5">
-                <button type="button" onClick={onReset} className={SECONDARY_PILL_CLASS}>
+                <button
+                    type="button"
+                    onClick={() => {
+                        onReset();
+                        closePanel?.();
+                    }}
+                    className={SECONDARY_PILL_CLASS}
+                >
                     {t("adminCommon.filters.reset")}
                 </button>
                 <button type="submit" className={PRIMARY_PILL_CLASS}>
@@ -649,12 +664,9 @@ export function AdminResultLine({
 }) {
     return (
         <div className="mb-2 flex flex-wrap items-center justify-between gap-3">
-            <p
-                role="status"
-                className="font-mono text-[11px] tracking-[0.12em] text-ink-secondary uppercase"
-            >
+            <output className="block font-mono text-[11px] tracking-[0.12em] text-ink-secondary uppercase">
                 {summary}
-            </p>
+            </output>
             {sort}
         </div>
     );
@@ -717,6 +729,7 @@ export function AdminLedger({
 }: {
     readonly label: string;
     readonly columns: string;
+    /** Column headings, one per cell after the first; must be unique (they key the header). */
     readonly headings: readonly string[];
     readonly children: ReactNode;
 }) {
@@ -727,10 +740,9 @@ export function AdminLedger({
                 aria-hidden="true"
                 className="hidden gap-5 border-b border-line px-3 pb-2.5 lg:grid lg:grid-cols-(--admin-cols)"
             >
-                {headings.map((heading, index) => (
+                {headings.map((heading) => (
                     <span
-                        // biome-ignore lint/suspicious/noArrayIndexKey: headings may repeat ("")
-                        key={index}
+                        key={heading}
                         className="font-mono text-[10px] tracking-[0.14em] text-ink-muted uppercase"
                     >
                         {heading}
@@ -860,7 +872,10 @@ export function AdminLedgerSkeleton({
     readonly label: string;
 }) {
     return (
-        <div role="status" aria-label={label} aria-busy="true">
+        <div aria-busy="true">
+            <output aria-label={label} className="sr-only">
+                {label}
+            </output>
             <ul className="border-t border-line">
                 {Array.from({ length: rows }, (_, index) => (
                     <li
@@ -903,9 +918,11 @@ export function AdminLoadMore({
 }) {
     const { t } = useTranslation();
     if (!hasNextPage && !isFetchingNextPage && !endLabel) return null;
+    const failed = isError && !isFetchingNextPage;
+    const more = !failed && (hasNextPage || isFetchingNextPage);
     return (
         <div className="flex flex-wrap items-center justify-center gap-4 border-b border-line py-5">
-            {isError && !isFetchingNextPage ? (
+            {failed && (
                 <div className="flex flex-col items-center gap-2.5">
                     <p role="alert" className="text-meta text-oxblood">
                         {t("adminCommon.loadMoreFailed")}
@@ -914,7 +931,8 @@ export function AdminLoadMore({
                         {t("adminCommon.retry")}
                     </button>
                 </div>
-            ) : hasNextPage || isFetchingNextPage ? (
+            )}
+            {more && (
                 <button
                     type="button"
                     onClick={onLoadMore}
@@ -929,8 +947,9 @@ export function AdminLoadMore({
                     )}
                     {isFetchingNextPage ? t("adminCommon.loading") : label}
                 </button>
-            ) : (
-                <p role="status" className="flex items-center gap-2.5 text-sm text-ink-secondary">
+            )}
+            {!failed && !more && (
+                <output className="flex items-center gap-2.5 text-sm text-ink-secondary">
                     <span
                         aria-hidden="true"
                         className="inline-flex size-[22px] items-center justify-center rounded-pill bg-oxblood text-on-oxblood"
@@ -938,7 +957,7 @@ export function AdminLoadMore({
                         <Check className="size-[11px]" strokeWidth={3} />
                     </span>
                     {endLabel}
-                </p>
+                </output>
             )}
         </div>
     );

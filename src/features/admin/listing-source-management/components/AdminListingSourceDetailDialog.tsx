@@ -109,9 +109,9 @@ export function AdminListingSourceDetailDialog({
                         <span key={index} className={cn(ADMIN_SKELETON_CLASS, "h-10 rounded-sm")} />
                     ))}
                 </div>
-                <p role="status" className="text-meta text-ink-secondary">
+                <output className="block text-meta text-ink-secondary">
                     {t("adminListingSources.loadingDetail")}
-                </p>
+                </output>
             </div>
         );
     } else {
@@ -223,6 +223,26 @@ export function AdminListingSourceDetailDialog({
     );
 }
 
+/** The referral fact: unavailable while the summary is older than the detail, else the setting. */
+function referralFact(
+    referralConfiguration: ReferralConfigurationData | null | undefined,
+    t: ReturnType<typeof useTranslation>["t"],
+    none: string,
+): Pick<AdminFact, "value" | "muted" | "mono"> {
+    if (referralConfiguration === undefined) {
+        return { value: t("adminListingSources.fields.referralUnavailable"), muted: true };
+    }
+    if (referralConfiguration?.type === "PARTNERIZE") {
+        return {
+            value: t("adminListingSources.referral.partnerizeValue", {
+                camref: referralConfiguration.camref,
+            }),
+            mono: true,
+        };
+    }
+    return { value: none, muted: true };
+}
+
 function listingSourceFacts(
     source: AdminListingSourceDetail,
     referralConfiguration: ReferralConfigurationData | null | undefined,
@@ -240,17 +260,11 @@ function listingSourceFacts(
                   ),
               }
             : { value: none, muted: true };
-    const referral: Pick<AdminFact, "value" | "muted" | "mono"> =
-        referralConfiguration === undefined
-            ? { value: t("adminListingSources.fields.referralUnavailable"), muted: true }
-            : referralConfiguration?.type === "PARTNERIZE"
-              ? {
-                    value: t("adminListingSources.referral.partnerizeValue", {
-                        camref: referralConfiguration.camref,
-                    }),
-                    mono: true,
-                }
-              : { value: none, muted: true };
+    const referral: Pick<AdminFact, "value" | "muted" | "mono"> = referralFact(
+        referralConfiguration,
+        t,
+        none,
+    );
     return [
         {
             key: "id",

@@ -100,9 +100,9 @@ export function AdminOAuthClientDetailDialog({
                         <span key={index} className={cn(ADMIN_SKELETON_CLASS, "h-10 rounded-sm")} />
                     ))}
                 </div>
-                <p role="status" className="text-meta text-ink-secondary">
+                <output className="block text-meta text-ink-secondary">
                     {t("adminOAuthClients.loadingDetail")}
-                </p>
+                </output>
             </div>
         );
     } else {

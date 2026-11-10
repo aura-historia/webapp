@@ -135,6 +135,32 @@ type CreatedClient = { readonly clientId: string; readonly clientSecret: string 
  * creation the same dialog shows the client ID and the plaintext secret once; it cannot be
  * dismissed by Escape or an outside click, and the secret is cleared when it closes.
  */
+type Translate = ReturnType<typeof useTranslation>["t"];
+
+function dialogTitle(
+    t: Translate,
+    secretShown: boolean,
+    mode: "create" | "edit",
+    client?: AdminOAuthClient,
+): string {
+    if (secretShown) return t("adminOAuthClients.secret.title");
+    if (mode === "edit" && client) {
+        return t("adminOAuthClients.form.editNamed", { name: client.clientName });
+    }
+    return t("adminOAuthClients.form.newTitle");
+}
+
+function submitLabelKey(isSaving: boolean, mode: "create" | "edit"): string {
+    if (isSaving) return "adminCommon.saving";
+    return mode === "create" ? "adminOAuthClients.actions.create" : "adminCommon.save";
+}
+
+function requestErrorMessage(error: unknown, t: Translate): string {
+    return error instanceof AdminOAuthClientRequestError
+        ? error.message
+        : t("adminOAuthClients.errors.requestFailed");
+}
+
 export function AdminOAuthClientFormDialog({
     mode,
     client,
@@ -199,11 +225,7 @@ export function AdminOAuthClientFormDialog({
             clearDialogState();
             onOpenChange(false);
         } catch (error) {
-            setRequestError(
-                error instanceof AdminOAuthClientRequestError
-                    ? error.message
-                    : t("adminOAuthClients.errors.requestFailed"),
-            );
+            setRequestError(requestErrorMessage(error, t));
         } finally {
             requestPendingRef.current = false;
         }
@@ -236,13 +258,7 @@ export function AdminOAuthClientFormDialog({
                     </span>
                 ) : undefined
             }
-            title={
-                createdClient
-                    ? t("adminOAuthClients.secret.title")
-                    : mode === "edit" && client
-                      ? t("adminOAuthClients.form.editNamed", { name: client.clientName })
-                      : t("adminOAuthClients.form.newTitle")
-            }
+            title={dialogTitle(t, Boolean(createdClient), mode, client)}
         >
             {createdClient ? (
                 <>
@@ -368,13 +384,7 @@ export function AdminOAuthClientFormDialog({
                             aria-busy={isSaving}
                             className={PRIMARY_PILL_CLASS}
                         >
-                            {isSaving
-                                ? t("adminCommon.saving")
-                                : t(
-                                      mode === "create"
-                                          ? "adminOAuthClients.actions.create"
-                                          : "adminCommon.save",
-                                  )}
+                            {t(submitLabelKey(isSaving, mode))}
                         </button>
                     </div>
                 </form>

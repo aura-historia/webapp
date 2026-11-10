@@ -105,13 +105,10 @@ export function AdminAuctionCreatePage({ language }: { readonly language: string
                             spellCheck={false}
                             value={sourceAuctionId}
                             aria-invalid={sourceAuctionIdError || conflictingKey ? true : undefined}
-                            aria-describedby={
-                                sourceAuctionIdError
-                                    ? "auction-source-auction-id-error"
-                                    : conflictingKey
-                                      ? "auction-duplicate"
-                                      : undefined
-                            }
+                            aria-describedby={sourceAuctionIdDescription(
+                                Boolean(sourceAuctionIdError),
+                                Boolean(conflictingKey),
+                            )}
                             onChange={(event) => {
                                 setSourceAuctionId(event.currentTarget.value);
                                 setSourceAuctionIdError(undefined);
@@ -155,4 +152,11 @@ export function AdminAuctionCreatePage({ language }: { readonly language: string
             </form>
         </div>
     );
+}
+
+/** The element describing the source auction ID field: its own error first, then a duplicate. */
+function sourceAuctionIdDescription(hasError: boolean, isDuplicate: boolean): string | undefined {
+    if (hasError) return "auction-source-auction-id-error";
+    if (isDuplicate) return "auction-duplicate";
+    return undefined;
 }

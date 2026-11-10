@@ -125,9 +125,7 @@ function PanelSkeleton() {
             <span className={cn(ADMIN_SKELETON_CLASS, "h-5 w-1/2 rounded-sm")} />
             <span className={cn(ADMIN_SKELETON_CLASS, "h-3 w-1/3")} />
             <span className={cn(ADMIN_SKELETON_CLASS, "h-10 w-full rounded-sm")} />
-            <p role="status" className="sr-only">
-                {t("adminListingSources.locationDefault.loading")}
-            </p>
+            <output className="sr-only">{t("adminListingSources.locationDefault.loading")}</output>
         </div>
     );
 }
@@ -720,9 +718,9 @@ function ApplicabilityForm({
                 }}
             />
             {noChanges && (
-                <p role="status" className="text-meta text-ink-secondary">
+                <output className="block text-meta text-ink-secondary">
                     {t("adminListingSources.locationDefault.applicabilityForm.noChanges")}
-                </p>
+                </output>
             )}
             {change.error && (
                 <p role="alert" className={FIELD_ERROR_CLASS}>

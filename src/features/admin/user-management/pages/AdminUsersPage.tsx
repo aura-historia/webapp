@@ -57,7 +57,10 @@ export function AdminUsersPage({
 
     const sortOptions = ADMIN_USER_SORT_OPTIONS.map((option) => ({
         value: option.value,
-        label: `${t(`adminUsers.sort.${option.sort}`)} · ${t(`adminUsers.order.${option.direction}`)}`,
+        label: [
+            t(`adminUsers.sort.${option.sort}`),
+            t(`adminUsers.order.${option.direction}`),
+        ].join(" · "),
     }));
     const resetFilters = () => onFiltersChange(clearAdminUserFilters(filters));
 

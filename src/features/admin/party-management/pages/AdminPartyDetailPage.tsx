@@ -104,9 +104,9 @@ export function AdminPartyDetailPage({
                             />
                         ))}
                     </div>
-                    <p role="status" className="text-meta text-ink-secondary">
+                    <output className="block text-meta text-ink-secondary">
                         {t("adminParties.loadingDetail")}
-                    </p>
+                    </output>
                 </div>
             )}
             <div className="flex flex-col gap-10 sm:gap-14">

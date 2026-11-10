@@ -176,11 +176,7 @@ function AuctionMembership({
                         onClick={() => setChoosing((value) => !value)}
                         className={ADMIN_ROW_ACTION_CLASS}
                     >
-                        {open
-                            ? t("adminCommon.cancel")
-                            : current
-                              ? t("adminProductListings.actions.changeAuction")
-                              : t("adminProductListings.actions.chooseAuction")}
+                        {t(pickerToggleKey(open, Boolean(current)))}
                     </button>
                     {current && (
                         <button
@@ -228,13 +224,9 @@ function AssignedAuction({
                 params={{ lng: language, auctionId }}
                 className={cn(TEXT_LINK_CLASS, "min-h-0 self-start text-sm break-words")}
             >
-                {auction?.name ? (
-                    <span lang={auction.name.language}>{auction.name.text}</span>
-                ) : auction ? (
-                    t("adminProductListings.auctionSearch.noName")
-                ) : (
-                    t("adminProductListings.actions.openAuction")
-                )}
+                {auction?.name && <span lang={auction.name.language}>{auction.name.text}</span>}
+                {auction && !auction.name && t("adminProductListings.auctionSearch.noName")}
+                {!auction && t("adminProductListings.actions.openAuction")}
             </Link>
             <code className="font-mono text-[11px] break-all text-ink-secondary">
                 {auction ? `${auction.sourceAuctionId} · ${auctionId}` : auctionId}
@@ -263,6 +255,7 @@ function AuctionPicker({
     const auctions = auctionsQuery.data?.pages.flatMap((page) => page.items) ?? [];
     // Results for an older search term must never be offered for the current one.
     const settling = auctionsQuery.isPending || debouncedSearch !== search.trim();
+    const pickerState = auctionPickerState(settling, Boolean(auctionsQuery.error), auctions.length);
 
     return (
         <div className={cn(ADMIN_PANEL_CLASS, "flex flex-col gap-4 p-5 sm:p-6")}>
@@ -286,7 +279,7 @@ function AuctionPicker({
                     className={cn(FIELD_CLASS, "pl-[42px]")}
                 />
             </div>
-            {settling ? (
+            {pickerState === "loading" && (
                 <PickerState>
                     <Loader2
                         aria-hidden="true"
@@ -294,7 +287,8 @@ function AuctionPicker({
                     />
                     {t("adminProductListings.auctionSearch.loading")}
                 </PickerState>
-            ) : auctionsQuery.error && auctions.length === 0 ? (
+            )}
+            {pickerState === "error" && (
                 <PickerState
                     error
                     action={
@@ -307,11 +301,13 @@ function AuctionPicker({
                         </button>
                     }
                 >
-                    {auctionsQuery.error.message}
+                    {auctionsQuery.error?.message}
                 </PickerState>
-            ) : auctions.length === 0 ? (
+            )}
+            {pickerState === "empty" && (
                 <PickerState>{t("adminProductListings.auctionSearch.empty")}</PickerState>
-            ) : (
+            )}
+            {pickerState === "results" && (
                 <>
                     <ul
                         aria-label={t("adminProductListings.auctionSearch.results")}
@@ -370,4 +366,23 @@ function AuctionPicker({
             )}
         </div>
     );
+}
+
+/** Which of the picker's mutually exclusive states to show. */
+function auctionPickerState(
+    settling: boolean,
+    failed: boolean,
+    count: number,
+): "loading" | "error" | "empty" | "results" {
+    if (settling) return "loading";
+    if (failed && count === 0) return "error";
+    if (count === 0) return "empty";
+    return "results";
+}
+
+function pickerToggleKey(open: boolean, assigned: boolean): string {
+    if (open) return "adminCommon.cancel";
+    return assigned
+        ? "adminProductListings.actions.changeAuction"
+        : "adminProductListings.actions.chooseAuction";
 }

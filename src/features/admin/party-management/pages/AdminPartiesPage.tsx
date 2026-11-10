@@ -224,19 +224,17 @@ export function AdminPartiesPage({
                     onSubmit: () => update({ query: searchText.trim() || undefined }),
                 }}
                 panelCount={panelCount}
-                panel={(close) => (
+                panel={
                     <PartyFilterPanel
                         filters={filters}
                         onApply={(draft) => {
                             update(draft);
-                            close();
                         }}
                         onReset={() => {
                             update(Object.fromEntries(PANEL_KEYS.map((key) => [key, undefined])));
-                            close();
                         }}
                     />
-                )}
+                }
                 chips={<AdminActiveChips chips={chips} onClearAll={resetFilters} />}
             />
             <AdminResultLine

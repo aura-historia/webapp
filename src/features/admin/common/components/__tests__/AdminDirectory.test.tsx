@@ -24,7 +24,7 @@ describe("AdminToolbar", () => {
                 label="Benutzer filtern"
                 search={{ label: "Name oder E-Mail", value: "clara", onChange, onSubmit }}
                 panelCount={2}
-                panel={() => <p>Panel content</p>}
+                panel={<p>Panel content</p>}
             />,
         );
 
@@ -42,8 +42,36 @@ describe("AdminToolbar", () => {
     });
 
     it("names the panel button Filters when it is the only control", () => {
-        render(<AdminToolbar label="Partnerschaften filtern" panel={() => null} />);
+        render(<AdminToolbar label="Partnerschaften filtern" panel={<span />} />);
         expect(screen.getByRole("button", { name: "Filter" })).toBeInTheDocument();
+    });
+});
+
+describe("AdminToolbar with AdminFilterPanel", () => {
+    it("closes the panel after Apply and after Reset", async () => {
+        const user = userEvent.setup();
+        const onApply = vi.fn();
+        render(
+            <AdminToolbar
+                label="Benutzer filtern"
+                panel={
+                    <AdminFilterPanel onApply={onApply} onReset={vi.fn()}>
+                        <span>Fields</span>
+                    </AdminFilterPanel>
+                }
+            />,
+        );
+        const toggle = screen.getByRole("button", { name: "Filter" });
+
+        await user.click(toggle);
+        await user.click(screen.getByRole("button", { name: "Filter anwenden" }));
+        expect(onApply).toHaveBeenCalledOnce();
+        expect(screen.queryByText("Fields")).not.toBeInTheDocument();
+        expect(toggle).toHaveAttribute("aria-expanded", "false");
+
+        await user.click(toggle);
+        await user.click(screen.getByRole("button", { name: "Zurücksetzen" }));
+        expect(screen.queryByText("Fields")).not.toBeInTheDocument();
     });
 });
 

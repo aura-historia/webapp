@@ -152,7 +152,9 @@ describe("AdminListingSourcesPage", () => {
         mockList([summary, bare]);
         render(<Harness />);
 
-        expect(screen.getByRole("heading", { level: 1, name: t("adminListingSources.heading") }));
+        expect(
+            screen.getByRole("heading", { level: 1, name: t("adminListingSources.heading") }),
+        ).toBeInTheDocument();
         const row = screen.getByRole("button", { name: /^Antique House/ });
         expect(
             within(row).getByText(
@@ -179,7 +181,9 @@ describe("AdminListingSourcesPage", () => {
 
         mockList([]);
         const empty = render(<Harness />);
-        expect(screen.getByRole("heading", { name: t("adminListingSources.states.empty") }));
+        expect(
+            screen.getByRole("heading", { name: t("adminListingSources.states.empty") }),
+        ).toBeInTheDocument();
         fireEvent.click(
             within(screen.getByRole("status")).getByRole("button", {
                 name: t("adminListingSources.actions.create"),
@@ -191,7 +195,9 @@ describe("AdminListingSourcesPage", () => {
         const noMatches = render(
             <Harness initial={{ sort: "slug", order: "desc", listingSourceType: "DEALER" }} />,
         );
-        expect(screen.getByRole("heading", { name: t("adminListingSources.states.noMatches") }));
+        expect(
+            screen.getByRole("heading", { name: t("adminListingSources.states.noMatches") }),
+        ).toBeInTheDocument();
         fireEvent.click(screen.getByRole("button", { name: t("adminCommon.filters.clearSearch") }));
         expect(route.filters).toHaveBeenLastCalledWith({ sort: "name", order: "asc" });
         noMatches.unmount();
@@ -201,7 +207,9 @@ describe("AdminListingSourcesPage", () => {
             listState({ data: undefined, error: new Error("List failed"), refetch }),
         );
         render(<Harness />);
-        expect(screen.getByRole("heading", { name: t("adminListingSources.states.error") }));
+        expect(
+            screen.getByRole("heading", { name: t("adminListingSources.states.error") }),
+        ).toBeInTheDocument();
         fireEvent.click(screen.getByRole("button", { name: t("adminCommon.retry") }));
         expect(refetch).toHaveBeenCalled();
     });

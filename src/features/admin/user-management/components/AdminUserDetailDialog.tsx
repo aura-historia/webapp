@@ -76,7 +76,7 @@ export function AdminUserDetailDialog({
             title={name ?? t("adminUsers.detail.title")}
             subtitle={account && name !== account.email ? account.email : undefined}
         >
-            {account ? (
+            {account && (
                 <AdminUserDetails
                     key={account.userId}
                     account={account}
@@ -86,7 +86,8 @@ export function AdminUserDetailDialog({
                     onAskDelete={() => deleteAdminUser.reset()}
                     onDelete={() => void handleDelete(account)}
                 />
-            ) : user.isError ? (
+            )}
+            {!account && user.isError && (
                 <div
                     role="alert"
                     className="flex flex-wrap items-center justify-between gap-3.5 rounded-md bg-surface px-5 py-[18px] shadow-ring"
@@ -97,7 +98,7 @@ export function AdminUserDetailDialog({
                             className="mt-0.5 size-4 shrink-0"
                             strokeWidth={2}
                         />
-                        {user.error.message}
+                        {user.error?.message}
                     </span>
                     <button
                         type="button"
@@ -107,16 +108,17 @@ export function AdminUserDetailDialog({
                         {t("adminCommon.retry")}
                     </button>
                 </div>
-            ) : (
+            )}
+            {!account && !user.isError && (
                 <div aria-busy="true" className="flex flex-col gap-3.5">
                     <div aria-hidden="true" className="grid grid-cols-2 gap-2.5">
                         {[0, 1, 2, 3].map((index) => (
                             <span key={index} className={cn(ADMIN_SKELETON_CLASS, "h-10")} />
                         ))}
                     </div>
-                    <p role="status" className="text-meta text-ink-secondary">
+                    <output className="block text-meta text-ink-secondary">
                         {t("adminUsers.loadingDetail")}
-                    </p>
+                    </output>
                 </div>
             )}
         </AdminRecordDialog>
