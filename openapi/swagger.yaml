@@ -24463,8 +24463,7 @@ components:
     OwnUserAccountData:
       type: object
       description:
-        User-owned account information for `/v1/me/account`. Role, tier, and Stripe customer ID are read-only
-        here.
+        User-owned account information for `/v1/me/account`. Role and tier are read-only here.
       required:
         - userId
         - email
@@ -24506,15 +24505,16 @@ components:
           $ref: "#/components/schemas/UserTierData"
         role:
           $ref: "#/components/schemas/UserRoleData"
-        stripeCustomerId:
-          type: string
-          description: Persisted Stripe customer identifier, omitted when absent.
 
     AdminUserAccountData:
       allOf:
         - $ref: "#/components/schemas/OwnUserAccountData"
         - type: object
-          description: Admin user account view. Same read fields as own account; write permissions differ by endpoint.
+          description: Admin user account view. Same read fields as own account plus the persisted Stripe customer identifier; write permissions differ by endpoint.
+          properties:
+            stripeCustomerId:
+              type: string
+              description: Persisted Stripe customer identifier, omitted when absent.
     SuspendUserData:
       type: object
       description: Required administrator-supplied explanation for suspending a user.
