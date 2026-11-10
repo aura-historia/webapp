@@ -13,6 +13,7 @@ import { Route as LngRouteImport } from './routes/$lng'
 import { Route as LngIndexRouteImport } from './routes/$lng.index'
 import { Route as LngAuthRouteImport } from './routes/$lng._auth'
 import { Route as LngAboutUsRouteImport } from './routes/$lng.about-us'
+import { Route as LngAiAgentsRouteImport } from './routes/$lng.ai-agents'
 import { Route as LngConsentSettingsRouteImport } from './routes/$lng.consent-settings'
 import { Route as LngImprintRouteImport } from './routes/$lng.imprint'
 import { Route as LngLoginRouteImport } from './routes/$lng.login'
@@ -87,6 +88,11 @@ const LngAuthRoute = LngAuthRouteImport.update({
 const LngAboutUsRoute = LngAboutUsRouteImport.update({
   id: '/about-us',
   path: '/about-us',
+  getParentRoute: () => LngRoute,
+} as any)
+const LngAiAgentsRoute = LngAiAgentsRouteImport.update({
+  id: '/ai-agents',
+  path: '/ai-agents',
   getParentRoute: () => LngRoute,
 } as any)
 const LngConsentSettingsRoute = LngConsentSettingsRouteImport.update({
@@ -400,6 +406,7 @@ const ApiOauthClientRedirectBrokerWoocommerceTransactionsCompleteRoute =
 export interface FileRoutesByFullPath {
   '/$lng': typeof LngRouteWithChildren
   '/$lng/about-us': typeof LngAboutUsRoute
+  '/$lng/ai-agents': typeof LngAiAgentsRoute
   '/$lng/consent-settings': typeof LngConsentSettingsRoute
   '/$lng/imprint': typeof LngImprintRoute
   '/$lng/login': typeof LngLoginRoute
@@ -461,6 +468,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/$lng': typeof LngIndexRoute
   '/$lng/about-us': typeof LngAboutUsRoute
+  '/$lng/ai-agents': typeof LngAiAgentsRoute
   '/$lng/consent-settings': typeof LngConsentSettingsRoute
   '/$lng/imprint': typeof LngImprintRoute
   '/$lng/login': typeof LngLoginRoute
@@ -520,6 +528,7 @@ export interface FileRoutesById {
   '/$lng': typeof LngRouteWithChildren
   '/$lng/_auth': typeof LngAuthRouteWithChildren
   '/$lng/about-us': typeof LngAboutUsRoute
+  '/$lng/ai-agents': typeof LngAiAgentsRoute
   '/$lng/consent-settings': typeof LngConsentSettingsRoute
   '/$lng/imprint': typeof LngImprintRoute
   '/$lng/login': typeof LngLoginRoute
@@ -583,6 +592,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/$lng'
     | '/$lng/about-us'
+    | '/$lng/ai-agents'
     | '/$lng/consent-settings'
     | '/$lng/imprint'
     | '/$lng/login'
@@ -644,6 +654,7 @@ export interface FileRouteTypes {
   to:
     | '/$lng'
     | '/$lng/about-us'
+    | '/$lng/ai-agents'
     | '/$lng/consent-settings'
     | '/$lng/imprint'
     | '/$lng/login'
@@ -702,6 +713,7 @@ export interface FileRouteTypes {
     | '/$lng'
     | '/$lng/_auth'
     | '/$lng/about-us'
+    | '/$lng/ai-agents'
     | '/$lng/consent-settings'
     | '/$lng/imprint'
     | '/$lng/login'
@@ -800,6 +812,13 @@ declare module '@tanstack/react-router' {
       path: '/about-us'
       fullPath: '/$lng/about-us'
       preLoaderRoute: typeof LngAboutUsRouteImport
+      parentRoute: typeof LngRoute
+    }
+    '/$lng/ai-agents': {
+      id: '/$lng/ai-agents'
+      path: '/ai-agents'
+      fullPath: '/$lng/ai-agents'
+      preLoaderRoute: typeof LngAiAgentsRouteImport
       parentRoute: typeof LngRoute
     }
     '/$lng/consent-settings': {
@@ -1301,6 +1320,7 @@ const LngPartnerProgramRouteWithChildren =
 interface LngRouteChildren {
   LngAuthRoute: typeof LngAuthRouteWithChildren
   LngAboutUsRoute: typeof LngAboutUsRoute
+  LngAiAgentsRoute: typeof LngAiAgentsRoute
   LngConsentSettingsRoute: typeof LngConsentSettingsRoute
   LngImprintRoute: typeof LngImprintRoute
   LngLoginRoute: typeof LngLoginRoute
@@ -1326,6 +1346,7 @@ interface LngRouteChildren {
 const LngRouteChildren: LngRouteChildren = {
   LngAuthRoute: LngAuthRouteWithChildren,
   LngAboutUsRoute: LngAboutUsRoute,
+  LngAiAgentsRoute: LngAiAgentsRoute,
   LngConsentSettingsRoute: LngConsentSettingsRoute,
   LngImprintRoute: LngImprintRoute,
   LngLoginRoute: LngLoginRoute,

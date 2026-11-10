@@ -12,6 +12,7 @@ export type FooterRoute =
     | "/$lng/partners/applications"
     | "/$lng/partner-program/custom-integration"
     | "/$lng/about-us"
+    | "/$lng/ai-agents"
     | "/$lng/imprint"
     | "/$lng/privacy"
     | "/$lng/terms-and-conditions"
@@ -67,6 +68,7 @@ export const FOOTER_GROUPS: readonly FooterGroup[] = [
                 translationKey: "footer.landingPageLinks.features",
                 fragment: LANDING_PAGE_FRAGMENTS.agent,
             },
+            { kind: "route", translationKey: "footer.aiAgents", to: "/$lng/ai-agents" },
             {
                 kind: "landing",
                 translationKey: "footer.landingPageLinks.howItWorks",
