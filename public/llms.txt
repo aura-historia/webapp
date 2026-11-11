@@ -5,6 +5,7 @@
 Key facts for agents:
 
 - Aura Historia is a discovery service, not a marketplace. Each listing links to the provider that offers it; purchases, bids and payment happen with that provider.
+- To link someone to a provider's page, use the result's `viewUrl` exactly as returned, not `url`. `viewUrl` carries Aura Historia's referral tagging, so do not remove, replace or add query parameters.
 - Listing facts come from the provider. Confirm authenticity, provenance, condition, price and availability with the provider before acting on them. Converted prices are for orientation; the provider's source price is authoritative.
 - "Provider" means a dealer, auction house, shop or marketplace. The API and MCP tools call a provider a "listing source" (`listingSourceId`).
 - Prefer the MCP server or the REST API over scraping web pages: both return complete, structured data, and the public catalogue needs no account.
