@@ -8,6 +8,7 @@ import { AdminAuctionRequestError } from "../../api/useAdminAuctions.ts";
 import { AdminAuctionCreatePage } from "../AdminAuctionCreatePage.tsx";
 import { AdminAuctionDetailPage } from "../AdminAuctionDetailPage.tsx";
 import { AdminAuctionsPage } from "../AdminAuctionsPage.tsx";
+import { chooseSelectOption } from "@/test/utils.tsx";
 
 const mocks = vi.hoisted(() => ({
     navigate: vi.fn(),
@@ -19,7 +20,8 @@ const mocks = vi.hoisted(() => ({
     useUpdateAdminAuction: vi.fn(),
 }));
 
-vi.mock("@tanstack/react-router", () => ({
+vi.mock("@tanstack/react-router", async (importOriginal) => ({
+    ...(await importOriginal<typeof import("@tanstack/react-router")>()),
     Link: ({
         children,
         to,
@@ -195,9 +197,11 @@ describe("AdminAuctionsPage", () => {
         fireEvent.change(screen.getByLabelText(t("adminAuctions.fields.sourceAuctionId")), {
             target: { value: " sale-2026 " },
         });
-        fireEvent.change(screen.getByLabelText(t("adminAuctions.filters.pageSize")), {
-            target: { value: "50" },
-        });
+        await chooseSelectOption(
+            user,
+            screen.getByRole("combobox", { name: t("adminAuctions.filters.pageSize") }),
+            "50",
+        );
         await user.click(screen.getByRole("button", { name: t("adminCommon.filters.apply") }));
 
         expect(onFiltersChange).toHaveBeenLastCalledWith({
@@ -211,16 +215,17 @@ describe("AdminAuctionsPage", () => {
         ).not.toBeInTheDocument();
     });
 
-    it("sorts, keeping the default ordering out of the filters", () => {
+    it("sorts, keeping the default ordering out of the filters", async () => {
         mocks.useAdminAuctions.mockReturnValue(auctionsQuery());
+        const user = userEvent.setup();
         const onFiltersChange = renderPage({ sort: "name", order: "asc" });
 
         const sort = screen.getByRole("combobox", { name: t("adminCommon.sort") });
-        expect(sort).toHaveValue("name:asc");
-        fireEvent.change(sort, { target: { value: "created:desc" } });
+        expect(sort).toHaveTextContent(t("adminAuctions.sort.name_asc"));
+        await chooseSelectOption(user, sort, t("adminAuctions.sort.created_desc"));
         expect(onFiltersChange).toHaveBeenLastCalledWith({ sort: "created", order: "desc" });
 
-        fireEvent.change(sort, { target: { value: "updated:desc" } });
+        await chooseSelectOption(user, sort, t("adminAuctions.sort.updated_desc"));
         expect(onFiltersChange).toHaveBeenLastCalledWith({ sort: undefined, order: undefined });
     });
 

@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import testI18n from "@/i18n/i18nForTests";
 import { AdminPartiesPage } from "../AdminPartiesPage.tsx";
+import { chooseSelectOption } from "@/test/utils.tsx";
 
 const api = vi.hoisted(() => ({
     useAdminParties: vi.fn(),
@@ -12,7 +13,8 @@ const api = vi.hoisted(() => ({
     formOpen: false,
 }));
 vi.mock("../../api/useAdminParties.ts", () => ({ useAdminParties: api.useAdminParties }));
-vi.mock("@tanstack/react-router", () => ({
+vi.mock("@tanstack/react-router", async (importOriginal) => ({
+    ...(await importOriginal<typeof import("@tanstack/react-router")>()),
     useNavigate: () => api.navigate,
     Link: ({
         children,
@@ -147,8 +149,8 @@ describe("AdminPartiesPage", () => {
         const onFiltersChange = vi.fn();
         render(<AdminPartiesPage filters={{}} onFiltersChange={onFiltersChange} />);
         const sort = screen.getByRole("combobox", { name: t("adminCommon.sort") });
-        expect(sort).toHaveValue("name:asc");
-        await user.selectOptions(sort, "updated:desc");
+        expect(sort).toHaveTextContent(t("adminParties.sort.name_asc"));
+        await chooseSelectOption(user, sort, t("adminParties.sort.updated_desc"));
         expect(onFiltersChange).toHaveBeenLastCalledWith({ sort: "updated", order: "desc" });
     });
 

@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { AdminPartnershipApplicationSummary } from "@/data/internal/partner-application/AdminPartnershipApplication.ts";
 import testI18n from "@/i18n/i18nForTests";
 import { AdminPartnershipApplicationsPage } from "../AdminPartnershipApplicationsPage.tsx";
+import { chooseSelectOption } from "@/test/utils.tsx";
 
 const mocks = vi.hoisted(() => ({ list: vi.fn(), dialog: vi.fn() }));
 vi.mock("../../api/useAdminPartnershipApplications.ts", () => ({
@@ -201,9 +202,9 @@ describe("AdminPartnershipApplicationsPage", () => {
             />,
         );
         const sort = screen.getByRole("combobox", { name: t("adminCommon.sort") });
-        await user.selectOptions(sort, "updated:desc");
+        await chooseSelectOption(user, sort, t("adminApplications.sort.updated_desc"));
         expect(onSearchChange).toHaveBeenLastCalledWith({ sort: "updated", order: "desc" });
-        await user.selectOptions(sort, "created:desc");
+        await chooseSelectOption(user, sort, t("adminApplications.sort.created_desc"));
         expect(onSearchChange).toHaveBeenLastCalledWith({});
     });
 

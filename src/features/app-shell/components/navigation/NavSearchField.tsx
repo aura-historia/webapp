@@ -8,17 +8,13 @@ import { NAV_FOCUS_CLASS } from "./navigationConfig.ts";
 
 interface NavSearchFieldProps {
     /**
-     * `compact`: the app-bar field with a ⌘K hint.
+     * `compact`: the app-bar field; ⌘K / Ctrl K focuses it (no visible hint).
      * `menu`: the larger field at the top of the phone menu, with an oxblood submit.
      * `bar`: the compact field in the phone app bar, at 16px so iOS does not zoom.
      */
     readonly variant: "compact" | "menu" | "bar";
     readonly onSubmitted?: () => void;
     readonly className?: string;
-}
-
-function isApplePlatform(): boolean {
-    return /mac|iphone|ipad|ipod/i.test(navigator.platform || navigator.userAgent);
 }
 
 export function NavSearchField({ variant, onSubmitted, className }: NavSearchFieldProps) {
@@ -28,8 +24,6 @@ export function NavSearchField({ variant, onSubmitted, className }: NavSearchFie
     const { setQuery } = useSearchQueryContext();
     const { currentQuery, isOnShopSearch, isPending, submit } = useGlobalSearchSubmit();
     const [value, setValue] = useState(currentQuery);
-    // Platform-specific hint is resolved after mount to keep server markup deterministic.
-    const [shortcutHint, setShortcutHint] = useState<string | null>(null);
 
     useEffect(() => {
         setValue(currentQuery);
@@ -43,8 +37,6 @@ export function NavSearchField({ variant, onSubmitted, className }: NavSearchFie
         if (variant !== "compact") {
             return;
         }
-
-        setShortcutHint(isApplePlatform() ? "⌘K" : "Ctrl K");
 
         const handleKeyDown = (event: KeyboardEvent) => {
             const input = inputRef.current;
@@ -103,6 +95,8 @@ export function NavSearchField({ variant, onSubmitted, className }: NavSearchFie
                 inputMode="search"
                 enterKeyHint="search"
                 autoComplete="off"
+                // The shortcut stays for power users; it is announced, not shown.
+                aria-keyshortcuts={variant === "compact" ? "Control+K Meta+K" : undefined}
                 value={value}
                 onChange={(event) => setValue(event.target.value)}
                 placeholder={isMenu ? t("header.searchLabel") : t("header.searchPlaceholder")}
@@ -134,14 +128,6 @@ export function NavSearchField({ variant, onSubmitted, className }: NavSearchFie
                             aria-hidden="true"
                             className="size-4 shrink-0 animate-spin text-ink-muted"
                         />
-                    )}
-                    {shortcutHint && !isPending && (
-                        <span
-                            aria-hidden="true"
-                            className="hidden shrink-0 rounded-sm border border-line px-1.5 py-px font-mono text-[10px] text-ink-muted md:inline"
-                        >
-                            {shortcutHint}
-                        </span>
                     )}
                     <button type="submit" className="sr-only">
                         {t("header.searchSubmit")}

@@ -49,13 +49,16 @@ export function AdminUserTierForm({ account }: { readonly account: AdminUserAcco
             error={updateTier.error?.message}
             onSubmit={form.handleSubmit(submit)}
         >
-            <AdminUserSelect id="admin-user-tier" register={form.register("tier")} raised>
-                {SUBSCRIPTION_TYPES.map((tier) => (
-                    <option key={tier} value={tier}>
-                        {t(`adminUsers.options.tiers.${tier.toUpperCase()}`)}
-                    </option>
-                ))}
-            </AdminUserSelect>
+            <AdminUserSelect
+                id="admin-user-tier"
+                control={form.control}
+                name="tier"
+                raised
+                options={SUBSCRIPTION_TYPES.map((tier) => ({
+                    value: tier,
+                    label: t(`adminUsers.options.tiers.${tier.toUpperCase()}`),
+                }))}
+            />
         </AdminUserAccessCard>
     );
 }

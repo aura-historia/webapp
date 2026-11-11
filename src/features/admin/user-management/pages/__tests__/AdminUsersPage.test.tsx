@@ -1,8 +1,10 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import testI18n from "@/i18n/i18nForTests";
 import { type AdminUserFilters, DEFAULT_ADMIN_USER_FILTERS } from "../../lib/adminUserSearch.ts";
 import { AdminUsersPage } from "../AdminUsersPage.tsx";
+import { chooseSelectOption } from "@/test/utils.tsx";
 
 const api = vi.hoisted(() => ({ useAdminUsers: vi.fn() }));
 vi.mock("../../api/useAdminUsers.ts", () => ({ useAdminUsers: api.useAdminUsers }));
@@ -86,18 +88,20 @@ describe("AdminUsersPage", () => {
         expect(onUserSelect).toHaveBeenCalledWith("opaque/user+01");
     });
 
-    it("sorts with one select that combines field and direction", () => {
+    it("sorts with one select that combines field and direction", async () => {
         api.useAdminUsers.mockReturnValue(listResult([ADA]));
+        const user = userEvent.setup();
         const { onFiltersChange } = renderPage();
 
-        const sort = screen.getByLabelText(t("adminCommon.sort"));
-        expect(sort).toHaveValue("name:asc");
-        expect(
-            within(sort).getByRole("option", {
-                name: `${t("adminUsers.sort.created")} · ${t("adminUsers.order.newest")}`,
-            }),
-        ).toBeInTheDocument();
-        fireEvent.change(sort, { target: { value: "created:desc" } });
+        const sort = screen.getByRole("combobox", { name: t("adminCommon.sort") });
+        expect(sort).toHaveTextContent(
+            `${t("adminUsers.sort.name")} · ${t("adminUsers.order.alphaAsc")}`,
+        );
+        await chooseSelectOption(
+            user,
+            sort,
+            `${t("adminUsers.sort.created")} · ${t("adminUsers.order.newest")}`,
+        );
         expect(onFiltersChange).toHaveBeenCalledWith({
             ...DEFAULT_ADMIN_USER_FILTERS,
             sort: "created",

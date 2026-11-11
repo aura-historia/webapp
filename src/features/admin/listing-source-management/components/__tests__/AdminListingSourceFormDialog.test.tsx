@@ -303,7 +303,7 @@ describe("AdminListingSourceFormDialog", () => {
             screen.getByRole("combobox", {
                 name: testI18n.t("adminListingSources.fields.referral"),
             }),
-        ).toHaveValue("KEEP");
+        ).toHaveTextContent(testI18n.t("adminListingSources.referral.keepCurrent"));
 
         const toggle = screen.getByRole("switch", {
             name: testI18n.t("adminListingSources.form.replaceConfiguration"),

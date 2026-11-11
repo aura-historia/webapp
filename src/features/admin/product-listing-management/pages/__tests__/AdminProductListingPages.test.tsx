@@ -7,6 +7,7 @@ import type { AdminProductListingDetails } from "@/client";
 import testI18n from "@/i18n/i18nForTests";
 import { AdminProductListingDetailPage } from "../AdminProductListingDetailPage.tsx";
 import { AdminProductListingsPage } from "../AdminProductListingsPage.tsx";
+import { chooseSelectOption } from "@/test/utils.tsx";
 
 const api = vi.hoisted(() => ({
     searchAdminProductListings: vi.fn(),
@@ -21,7 +22,8 @@ const toasts = vi.hoisted(() => ({ success: vi.fn(), error: vi.fn() }));
 
 vi.mock("@/client", () => api);
 vi.mock("sonner", () => ({ toast: toasts }));
-vi.mock("@tanstack/react-router", () => ({
+vi.mock("@tanstack/react-router", async (importOriginal) => ({
+    ...(await importOriginal<typeof import("@tanstack/react-router")>()),
     Link: ({
         children,
         to,
@@ -231,9 +233,11 @@ describe("AdminProductListingsPage", () => {
         fireEvent.change(screen.getByLabelText(t("adminProductListings.fields.sourceListingId")), {
             target: { value: " SKU 0042 " },
         });
-        fireEvent.change(screen.getByLabelText(t("adminProductListings.filters.pageSize")), {
-            target: { value: "100" },
-        });
+        await chooseSelectOption(
+            user,
+            screen.getByRole("combobox", { name: t("adminProductListings.filters.pageSize") }),
+            "100",
+        );
         await user.click(screen.getByRole("button", { name: t("adminCommon.filters.apply") }));
 
         expect(onFiltersChange).toHaveBeenLastCalledWith({
@@ -271,6 +275,7 @@ describe("AdminProductListingsPage", () => {
 
     it("sorts and shows active filters as chips", async () => {
         api.searchAdminProductListings.mockResolvedValue(ok({ items: [detailDto], size: 1 }));
+        const user = userEvent.setup();
         const onFiltersChange = vi.fn();
         renderWithClient(
             <AdminProductListingsPage
@@ -281,9 +286,11 @@ describe("AdminProductListingsPage", () => {
         );
         await screen.findByText("Walnut cabinet");
 
-        fireEvent.change(screen.getByRole("combobox", { name: t("adminCommon.sort") }), {
-            target: { value: "created:desc" },
-        });
+        await chooseSelectOption(
+            user,
+            screen.getByRole("combobox", { name: t("adminCommon.sort") }),
+            t("adminProductListings.sort.created_desc"),
+        );
         expect(onFiltersChange).toHaveBeenLastCalledWith({
             availability: "SOLD_OUT",
             auctionId: "auc_01",
@@ -537,6 +544,7 @@ describe("AdminProductListingDetailPage", () => {
             },
             response: { status: 400 },
         });
+        const user = userEvent.setup();
         renderWithClient(<AdminProductListingDetailPage productListingId="pl_01" language="en" />);
 
         const title = await screen.findByLabelText(t("adminProductListings.fields.originalTitle"));
@@ -551,9 +559,11 @@ describe("AdminProductListingDetailPage", () => {
 
         fireEvent.change(title, { target: { value: "✨" } });
         expect(screen.queryByText(t("adminProductListings.edit.titleTooLong"))).toBeNull();
-        fireEvent.change(screen.getByLabelText(t("adminProductListings.fields.titleLanguage")), {
-            target: { value: "de" },
-        });
+        await chooseSelectOption(
+            user,
+            screen.getByRole("combobox", { name: t("adminProductListings.fields.titleLanguage") }),
+            new Intl.DisplayNames([testI18n.language], { type: "language" }).of("de") ?? "DE",
+        );
         fireEvent.click(save());
 
         expect(

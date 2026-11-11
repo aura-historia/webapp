@@ -49,13 +49,16 @@ export function AdminUserRoleForm({ account }: { readonly account: AdminUserAcco
             error={updateRole.error?.message}
             onSubmit={form.handleSubmit(submit)}
         >
-            <AdminUserSelect id="admin-user-role" register={form.register("role")} raised>
-                {USER_ROLES.map((role) => (
-                    <option key={role} value={role}>
-                        {t(`adminUsers.options.roles.${role}`)}
-                    </option>
-                ))}
-            </AdminUserSelect>
+            <AdminUserSelect
+                id="admin-user-role"
+                control={form.control}
+                name="role"
+                raised
+                options={USER_ROLES.map((role) => ({
+                    value: role,
+                    label: t(`adminUsers.options.roles.${role}`),
+                }))}
+            />
         </AdminUserAccessCard>
     );
 }

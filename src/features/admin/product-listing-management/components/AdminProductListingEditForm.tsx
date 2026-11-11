@@ -560,26 +560,19 @@ function MoneyField({
                     )}
                     {...form.register(amountName)}
                 />
-                <select
+                <AdminSelect
                     id={currencyId}
-                    value={currency.value}
-                    onChange={(event) => currency.onChange(event.target.value)}
-                    onBlur={currency.onBlur}
-                    aria-label={t("adminProductListings.edit.currencyOf", { field: label })}
-                    aria-invalid={currencyError ? true : undefined}
-                    aria-describedby={currencyError ? `${currencyId}-error` : undefined}
-                    className={cn(
-                        "h-11 min-w-0 cursor-pointer rounded-r-md border-0 bg-transparent px-2 font-mono text-xs text-ink shadow-[inset_1px_0_0_var(--line)] disabled:cursor-not-allowed",
-                        FOCUS_CLASS,
-                    )}
-                >
-                    <option value="">{t("adminCommon.none")}</option>
-                    {CURRENCIES.map((code) => (
-                        <option key={code} value={code}>
-                            {code}
-                        </option>
-                    ))}
-                </select>
+                    value={currency.value ?? ""}
+                    onChange={currency.onChange}
+                    ariaLabel={t("adminProductListings.edit.currencyOf", { field: label })}
+                    invalid={Boolean(currencyError)}
+                    describedBy={currencyError ? `${currencyId}-error` : undefined}
+                    className="rounded-l-none rounded-r-md bg-transparent px-2 font-mono text-xs shadow-[inset_1px_0_0_var(--line)] dark:bg-transparent"
+                    options={[
+                        { value: "", label: t("adminCommon.none") },
+                        ...CURRENCIES.map((code) => ({ value: code, label: code })),
+                    ]}
+                />
             </div>
             <FormFieldError id={`${amountId}-error`} message={amountError} />
             <FormFieldError id={`${currencyId}-error`} message={currencyError} />

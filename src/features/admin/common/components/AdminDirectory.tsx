@@ -12,6 +12,13 @@ import type { ButtonHTMLAttributes, CSSProperties, FormEvent, ReactNode } from "
 import { createContext, useCallback, useContext, useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select.tsx";
+import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
     DropdownMenuContent,
@@ -24,7 +31,6 @@ import {
     type AdminMarkTone,
 } from "@/features/admin/common/components/AdminStatusMark.tsx";
 import {
-    ADMIN_SELECT_CLASS,
     ADMIN_SKELETON_CLASS,
     FIELD_CLASS,
     FIELD_ERROR_CLASS,
@@ -448,7 +454,18 @@ export function AdminSelectField({
     );
 }
 
-/** The bare select with its chevron, for custom labels. */
+/** Radix Select needs non-empty item values; "" (Not set, All) maps to this sentinel. */
+const EMPTY_VALUE = "__admin-empty__";
+const toItemValue = (value: string) => (value === "" ? EMPTY_VALUE : value);
+const fromItemValue = (value: string) => (value === EMPTY_VALUE ? "" : value);
+
+/** Styled menu shared by every admin select (design-system popover: raised, menu shadow). */
+export const ADMIN_SELECT_CONTENT_CLASS =
+    "z-[70] max-h-80 min-w-48 rounded-panel border-0 bg-surface-raised p-1 text-ink shadow-menu";
+export const ADMIN_SELECT_ITEM_CLASS =
+    "min-h-11 cursor-pointer rounded-md px-2.5 pr-9 text-sm text-ink focus:bg-surface-sunken focus:text-ink data-[state=checked]:font-medium [&_svg:not([class*='text-'])]:text-oxblood";
+
+/** The bare styled select (field look), for custom labels. Options may use "" for "none". */
 export function AdminSelect({
     id,
     value,
@@ -473,29 +490,42 @@ export function AdminSelect({
     readonly className?: string;
 }) {
     return (
-        <div className={cn("relative", className)}>
-            <select
+        <Select
+            value={toItemValue(value)}
+            onValueChange={(next) => onChange(fromItemValue(next))}
+            disabled={disabled}
+        >
+            <SelectTrigger
                 id={id}
-                value={value}
-                disabled={disabled}
                 aria-label={ariaLabel}
                 aria-invalid={invalid ? true : undefined}
                 aria-describedby={describedBy}
-                onChange={(event) => onChange(event.target.value)}
-                className={cn(ADMIN_SELECT_CLASS, raised && "bg-surface-raised")}
+                className={cn(
+                    "h-11 w-full min-w-0 cursor-pointer rounded-md border-0 bg-surface px-3 text-[15px] text-ink shadow-field focus-visible:ring-0 aria-invalid:shadow-[inset_0_0_0_1.5px_var(--oxblood)] data-[size=default]:h-11 dark:bg-surface [&_svg:not([class*='text-'])]:text-ink-muted",
+                    FOCUS_CLASS,
+                    raised && "bg-surface-raised dark:bg-surface-raised",
+                    className,
+                )}
+            >
+                <SelectValue />
+            </SelectTrigger>
+            <SelectContent
+                data-theme="light"
+                position="popper"
+                sideOffset={6}
+                className={ADMIN_SELECT_CONTENT_CLASS}
             >
                 {options.map((option) => (
-                    <option key={option.value} value={option.value}>
+                    <SelectItem
+                        key={option.value}
+                        value={toItemValue(option.value)}
+                        className={ADMIN_SELECT_ITEM_CLASS}
+                    >
                         {option.label}
-                    </option>
+                    </SelectItem>
                 ))}
-            </select>
-            <ChevronDown
-                aria-hidden="true"
-                className="pointer-events-none absolute top-[14px] right-3 size-[15px] text-ink-muted"
-                strokeWidth={1.8}
-            />
-        </div>
+            </SelectContent>
+        </Select>
     );
 }
 
@@ -672,7 +702,7 @@ export function AdminResultLine({
     );
 }
 
-/** The sort control: a borderless native select prefixed by "Sort". */
+/** The sort control: a borderless styled select prefixed by "Sort", as on the search page. */
 export function AdminSortSelect({
     value,
     options,
@@ -683,35 +713,36 @@ export function AdminSortSelect({
     readonly onChange: (value: string) => void;
 }) {
     const { t } = useTranslation();
-    const id = useId();
     return (
-        <div className="flex items-center gap-1.5 text-meta">
-            <label htmlFor={id} className="text-ink-secondary">
-                {t("adminCommon.sort")}
-            </label>
-            <div className="relative">
-                <select
-                    id={id}
-                    value={value}
-                    onChange={(event) => onChange(event.target.value)}
-                    className={cn(
-                        "min-h-9 cursor-pointer appearance-none rounded-sm border-0 bg-transparent py-0 pr-6 pl-1 font-medium text-ink",
-                        FOCUS_CLASS,
-                    )}
-                >
-                    {options.map((option) => (
-                        <option key={option.value} value={option.value}>
-                            {option.label}
-                        </option>
-                    ))}
-                </select>
-                <ChevronDown
-                    aria-hidden="true"
-                    className="pointer-events-none absolute top-[11px] right-1 size-3.5 text-ink-muted"
-                    strokeWidth={1.8}
-                />
-            </div>
-        </div>
+        <Select value={toItemValue(value)} onValueChange={(next) => onChange(fromItemValue(next))}>
+            <SelectTrigger
+                aria-label={t("adminCommon.sort")}
+                className={cn(
+                    "h-9 cursor-pointer gap-1.5 rounded-sm border-0 bg-transparent px-1 text-meta font-medium text-ink shadow-none focus-visible:ring-0 data-[size=default]:h-9 dark:bg-transparent dark:hover:bg-transparent [&_svg:not([class*='text-'])]:text-ink-muted",
+                    FOCUS_CLASS,
+                )}
+            >
+                <span className="font-normal text-ink-secondary">{t("adminCommon.sort")}</span>
+                <SelectValue />
+            </SelectTrigger>
+            <SelectContent
+                data-theme="light"
+                align="end"
+                position="popper"
+                sideOffset={6}
+                className={ADMIN_SELECT_CONTENT_CLASS}
+            >
+                {options.map((option) => (
+                    <SelectItem
+                        key={option.value}
+                        value={toItemValue(option.value)}
+                        className={ADMIN_SELECT_ITEM_CLASS}
+                    >
+                        {option.label}
+                    </SelectItem>
+                ))}
+            </SelectContent>
+        </Select>
     );
 }
 

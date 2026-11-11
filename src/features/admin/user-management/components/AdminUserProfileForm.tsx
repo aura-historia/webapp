@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useIsMutating } from "@tanstack/react-query";
-import { ChevronDown } from "lucide-react";
 import type { ReactNode } from "react";
-import { useForm, type UseFormRegisterReturn } from "react-hook-form";
+import { type Control, type FieldValues, type Path, useController, useForm } from "react-hook-form";
+import { AdminSelect } from "@/features/admin/common/components/AdminDirectory.tsx";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -15,14 +15,12 @@ import { CURRENCIES } from "@/data/internal/common/Currency.ts";
 import { LANGUAGES } from "@/data/internal/common/Language.ts";
 import { UNIT_SYSTEMS } from "@/data/internal/common/UnitSystem.ts";
 import {
-    ADMIN_SELECT_CLASS,
     FIELD_CLASS,
     FIELD_ERROR_CLASS,
     FIELD_LABEL_CLASS,
     INLINE_ALERT_CLASS,
     PRIMARY_PILL_CLASS,
 } from "@/features/admin/common/lib/adminStyles.ts";
-import { cn } from "@/lib/utils.ts";
 import { ADMIN_USER_PATCH_MUTATION_KEY, useUpdateAdminUserProfile } from "../api/useAdminUsers.ts";
 
 const profileSchema = z.object({
@@ -99,38 +97,32 @@ export function AdminUserProfileForm({ account }: { readonly account: AdminUserA
                     id="admin-user-language"
                     label={t("adminUsers.fields.language")}
                     emptyLabel={t("adminUsers.options.notSet")}
-                    register={form.register("language")}
-                >
-                    {LANGUAGES.map((language) => (
-                        <option key={language} value={language}>
-                            {t(`adminUsers.options.languages.${language}`)}
-                        </option>
-                    ))}
-                </SelectField>
+                    control={form.control}
+                    name="language"
+                    options={LANGUAGES.map((language) => ({
+                        value: language,
+                        label: t(`adminUsers.options.languages.${language}`),
+                    }))}
+                />
                 <SelectField
                     id="admin-user-currency"
                     label={t("adminUsers.fields.currency")}
                     emptyLabel={t("adminUsers.options.notSet")}
-                    register={form.register("currency")}
-                >
-                    {CURRENCIES.map((currency) => (
-                        <option key={currency} value={currency}>
-                            {currency}
-                        </option>
-                    ))}
-                </SelectField>
+                    control={form.control}
+                    name="currency"
+                    options={CURRENCIES.map((currency) => ({ value: currency, label: currency }))}
+                />
                 <SelectField
                     id="admin-user-measurement-unit"
                     label={t("adminUsers.fields.measurementUnit")}
                     emptyLabel={t("adminUsers.options.notSet")}
-                    register={form.register("measurementUnit")}
-                >
-                    {UNIT_SYSTEMS.map((system) => (
-                        <option key={system} value={system}>
-                            {t(`adminUsers.options.measurementUnits.${system}`)}
-                        </option>
-                    ))}
-                </SelectField>
+                    control={form.control}
+                    name="measurementUnit"
+                    options={UNIT_SYSTEMS.map((system) => ({
+                        value: system,
+                        label: t(`adminUsers.options.measurementUnits.${system}`),
+                    }))}
+                />
             </div>
             <label className="flex cursor-pointer items-start gap-3 rounded-md bg-surface px-4 py-3.5 shadow-ring has-focus-visible:outline-2 has-focus-visible:outline-offset-3 has-focus-visible:outline-brass">
                 <input
@@ -192,33 +184,29 @@ function Field({
     );
 }
 
-/** A native select bound to the form, styled as a field with the design's chevron. */
-export function AdminUserSelect({
+/** A styled select bound to a form field (the shared admin select). "" stands for "not set". */
+export function AdminUserSelect<T extends FieldValues>({
     id,
-    register,
+    control,
+    name,
+    options,
     raised = false,
-    children,
 }: {
     readonly id: string;
-    readonly register: UseFormRegisterReturn;
+    readonly control: Control<T>;
+    readonly name: Path<T>;
+    readonly options: readonly { readonly value: string; readonly label: string }[];
     readonly raised?: boolean;
-    readonly children: ReactNode;
 }) {
+    const { field } = useController({ control, name });
     return (
-        <div className="relative">
-            <select
-                id={id}
-                className={cn(ADMIN_SELECT_CLASS, raised && "bg-surface-raised")}
-                {...register}
-            >
-                {children}
-            </select>
-            <ChevronDown
-                aria-hidden="true"
-                className="pointer-events-none absolute top-[14px] right-3 size-[15px] text-ink-muted"
-                strokeWidth={1.8}
-            />
-        </div>
+        <AdminSelect
+            id={id}
+            value={(field.value as string | undefined) ?? ""}
+            onChange={field.onChange}
+            options={options}
+            raised={raised}
+        />
     );
 }
 
@@ -226,21 +214,25 @@ function SelectField({
     id,
     label,
     emptyLabel,
-    register,
-    children,
+    control,
+    name,
+    options,
 }: {
     readonly id: string;
     readonly label: string;
     readonly emptyLabel: string;
-    readonly register: UseFormRegisterReturn;
-    readonly children: ReactNode;
+    readonly control: Control<ProfileValues>;
+    readonly name: Path<ProfileValues>;
+    readonly options: readonly { readonly value: string; readonly label: string }[];
 }) {
     return (
         <Field id={id} label={label}>
-            <AdminUserSelect id={id} register={register}>
-                <option value="">{emptyLabel}</option>
-                {children}
-            </AdminUserSelect>
+            <AdminUserSelect
+                id={id}
+                control={control}
+                name={name}
+                options={[{ value: "", label: emptyLabel }, ...options]}
+            />
         </Field>
     );
 }

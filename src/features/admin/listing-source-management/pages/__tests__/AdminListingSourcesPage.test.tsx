@@ -10,6 +10,7 @@ import type {
 } from "@/data/internal/listing-source/AdminListingSource.ts";
 import testI18n from "@/i18n/i18nForTests";
 import { AdminListingSourcesPage } from "../AdminListingSourcesPage.tsx";
+import { chooseSelectOption } from "@/test/utils.tsx";
 
 const api = vi.hoisted(() => ({
     useAdminListingSources: vi.fn(),
@@ -35,7 +36,8 @@ vi.mock("../../components/AdminListingSourceFormDialog.tsx", () => ({
         return props.open ? <p>form</p> : null;
     },
 }));
-vi.mock("@tanstack/react-router", () => ({
+vi.mock("@tanstack/react-router", async (importOriginal) => ({
+    ...(await importOriginal<typeof import("@tanstack/react-router")>()),
     Link: ({
         children,
         params,
@@ -280,9 +282,11 @@ describe("AdminListingSourcesPage", () => {
             }),
         );
 
-        fireEvent.change(screen.getByLabelText(t("adminCommon.sort")), {
-            target: { value: "updated:desc" },
-        });
+        await chooseSelectOption(
+            user,
+            screen.getByRole("combobox", { name: t("adminCommon.sort") }),
+            t("adminListingSources.sortOptions.updated_desc"),
+        );
         expect(route.filters).toHaveBeenLastCalledWith(
             expect.objectContaining({ sort: "updated", order: "desc" }),
         );

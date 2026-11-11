@@ -175,3 +175,13 @@ export function renderWithQueryClient(ui: React.ReactElement) {
 export function expandFilterCard(title: string) {
     fireEvent.click(screen.getByText(title));
 }
+
+/** Opens a styled (Radix) select and picks the option with this accessible name. */
+export async function chooseSelectOption(
+    user: { click: (element: Element) => Promise<void> },
+    trigger: HTMLElement,
+    optionName: string | RegExp,
+) {
+    await user.click(trigger);
+    await user.click(await screen.findByRole("option", { name: optionName }));
+}

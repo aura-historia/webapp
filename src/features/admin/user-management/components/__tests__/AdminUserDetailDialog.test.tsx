@@ -85,8 +85,12 @@ describe("AdminUserDetailDialog", () => {
         expect(screen.getByText("ada@example.test")).toBeInTheDocument();
         expect(screen.queryByDisplayValue("ada@example.test")).not.toBeInTheDocument();
         expect(screen.getByText("opaque/user+01")).toBeInTheDocument();
-        expect(screen.getByLabelText(testI18n.t("adminUsers.fields.language"))).toHaveValue("en");
-        expect(screen.getByLabelText(testI18n.t("adminUsers.fields.currency"))).toHaveValue("EUR");
+        expect(
+            screen.getByRole("combobox", { name: testI18n.t("adminUsers.fields.language") }),
+        ).toHaveTextContent(testI18n.t("adminUsers.options.languages.en"));
+        expect(
+            screen.getByRole("combobox", { name: testI18n.t("adminUsers.fields.currency") }),
+        ).toHaveTextContent("EUR");
         expect(screen.queryByText(testI18n.t("adminUsers.sort.created"))).not.toBeInTheDocument();
         expect(screen.queryByText(testI18n.t("adminUsers.sort.updated"))).not.toBeInTheDocument();
         expect(screen.queryByText(/address/i)).not.toBeInTheDocument();
@@ -117,10 +121,14 @@ describe("AdminUserDetailDialog", () => {
         });
         renderDialog();
 
-        const currency = await screen.findByLabelText(testI18n.t("adminUsers.fields.currency"));
+        const currency = await screen.findByRole("combobox", {
+            name: testI18n.t("adminUsers.fields.currency"),
+        });
+        await user.click(currency);
         // 30 currencies plus the "not set" option.
-        expect(currency.querySelectorAll("option")).toHaveLength(31);
-        await user.selectOptions(currency, "SEK");
+        expect(await screen.findAllByRole("option")).toHaveLength(31);
+        await user.click(screen.getByRole("option", { name: "SEK" }));
+        expect(currency).toHaveTextContent("SEK");
         await user.click(
             screen.getByRole("button", {
                 name: testI18n.t("adminUsers.actions.saveAccountProfile"),

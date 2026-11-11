@@ -3,6 +3,7 @@ import { type ReactNode, useMemo, useState } from "react";
 import { type UseFormReturn, useController, useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
+import { AdminSelect } from "@/features/admin/common/components/AdminDirectory.tsx";
 import { AdminRecordDialog } from "@/features/admin/common/components/AdminRecordDialog.tsx";
 import {
     ADMIN_LEGEND_CLASS,
@@ -53,7 +54,6 @@ export type PartyLocationEditorIntent =
     | { readonly kind: "create" }
     | { readonly kind: "correct" | "relocate"; readonly location: PartyLocation };
 
-const SELECT_CLASS = cn(FIELD_CLASS, "cursor-pointer");
 const HINT_CLASS = "text-xs leading-normal text-ink-muted";
 const NOTE_CLASS = "rounded-md bg-surface-sunken px-3.5 py-3 text-meta leading-normal";
 const ALERT_BOX_CLASS =
@@ -387,6 +387,11 @@ function PartyLocationFields({
 
     const { field: roles } = useController({ control: form.control, name: "roles" });
     const { field: country } = useController({ control: form.control, name: "country" });
+    const { field: precision } = useController({ control: form.control, name: "precision" });
+    const { field: evidenceScope } = useController({
+        control: form.control,
+        name: "evidenceScope",
+    });
     const subdivision = useWatch({ control: form.control, name: "subdivision" });
     const parsedSubdivision = parseSubdivisionCode(subdivision);
     const subdivisionCountry =
@@ -472,15 +477,10 @@ function PartyLocationFields({
                         id="party-location-country"
                         label={t("partyLocations.fields.country")}
                     >
-                        <select
-                            {...fieldProps("country", "party-location-country")}
-                            className={SELECT_CLASS}
-                            name={country.name}
-                            ref={country.ref}
-                            value={country.value}
-                            onBlur={country.onBlur}
-                            onChange={(event) => {
-                                const next = event.target.value;
+                        <AdminSelect
+                            id="party-location-country"
+                            value={country.value ?? ""}
+                            onChange={(next) => {
                                 country.onChange(next);
                                 if (
                                     parsedSubdivision &&
@@ -490,37 +490,49 @@ function PartyLocationFields({
                                     form.setValue("subdivision", "", { shouldDirty: true });
                                 }
                             }}
-                        >
-                            <option value="">{t("partyLocations.fields.notAsserted")}</option>
-                            {countryOptions.map(({ code, name }) => (
-                                <option key={code} value={code}>
-                                    {name}
-                                </option>
-                            ))}
-                        </select>
+                            disabled={disabled}
+                            invalid={Boolean(errors.country)}
+                            describedBy={
+                                errors.country ? "party-location-country-error" : undefined
+                            }
+                            options={[
+                                { value: "", label: t("partyLocations.fields.notAsserted") },
+                                ...countryOptions.map(({ code, name }) => ({
+                                    value: code,
+                                    label: name,
+                                })),
+                            ]}
+                        />
                         <FieldError id="party-location-country" text={errorText("country")} />
                     </FormField>
                     <FormField
                         id="party-location-subdivision"
                         label={t("partyLocations.fields.subdivision")}
                     >
-                        <select
-                            {...fieldProps("subdivision", "party-location-subdivision")}
+                        <AdminSelect
+                            id="party-location-subdivision"
+                            value={subdivision ?? ""}
+                            onChange={(next) =>
+                                form.setValue("subdivision", next, {
+                                    shouldDirty: true,
+                                    shouldValidate: true,
+                                })
+                            }
                             disabled={disabled || subdivisionOptions.length === 0}
-                            className={SELECT_CLASS}
-                            {...form.register("subdivision")}
-                        >
-                            <option value="">
-                                {subdivisionCountry
-                                    ? t("partyLocations.fields.notAsserted")
-                                    : t("partyLocations.hints.chooseCountry")}
-                            </option>
-                            {subdivisionOptions.map((code) => (
-                                <option key={code} value={code}>
-                                    {code}
-                                </option>
-                            ))}
-                        </select>
+                            invalid={Boolean(errors.subdivision)}
+                            describedBy={
+                                errors.subdivision ? "party-location-subdivision-error" : undefined
+                            }
+                            options={[
+                                {
+                                    value: "",
+                                    label: subdivisionCountry
+                                        ? t("partyLocations.fields.notAsserted")
+                                        : t("partyLocations.hints.chooseCountry"),
+                                },
+                                ...subdivisionOptions.map((code) => ({ value: code, label: code })),
+                            ]}
+                        />
                         <FieldError
                             id="party-location-subdivision"
                             text={errorText("subdivision")}
@@ -580,18 +592,23 @@ function PartyLocationFields({
                         id="party-location-precision"
                         label={t("partyLocations.fields.precision")}
                     >
-                        <select
-                            {...fieldProps("precision", "party-location-precision")}
-                            className={SELECT_CLASS}
-                            {...form.register("precision")}
-                        >
-                            <option value="">{t("partyLocations.fields.notAsserted")}</option>
-                            {GEOGRAPHIC_PRECISIONS.map((precision) => (
-                                <option key={precision} value={precision}>
-                                    {t(`partyLocations.precisions.${precision}`)}
-                                </option>
-                            ))}
-                        </select>
+                        <AdminSelect
+                            id="party-location-precision"
+                            value={precision.value ?? ""}
+                            onChange={precision.onChange}
+                            disabled={disabled}
+                            invalid={Boolean(errors.precision)}
+                            describedBy={
+                                errors.precision ? "party-location-precision-error" : undefined
+                            }
+                            options={[
+                                { value: "", label: t("partyLocations.fields.notAsserted") },
+                                ...GEOGRAPHIC_PRECISIONS.map((value) => ({
+                                    value,
+                                    label: t(`partyLocations.precisions.${value}`),
+                                })),
+                            ]}
+                        />
                         <FieldError id="party-location-precision" text={errorText("precision")} />
                     </FormField>
                     <FormField
@@ -642,17 +659,22 @@ function PartyLocationFields({
                         id="party-location-evidence-scope"
                         label={t("partyLocations.fields.evidenceScope")}
                     >
-                        <select
-                            {...fieldProps("evidenceScope", "party-location-evidence-scope")}
-                            className={SELECT_CLASS}
-                            {...form.register("evidenceScope")}
-                        >
-                            {PARTY_LOCATION_EVIDENCE_SCOPES.map((scope) => (
-                                <option key={scope} value={scope}>
-                                    {t(`partyLocations.evidenceScopes.${scope}`)}
-                                </option>
-                            ))}
-                        </select>
+                        <AdminSelect
+                            id="party-location-evidence-scope"
+                            value={evidenceScope.value ?? ""}
+                            onChange={evidenceScope.onChange}
+                            disabled={disabled}
+                            invalid={Boolean(errors.evidenceScope)}
+                            describedBy={
+                                errors.evidenceScope
+                                    ? "party-location-evidence-scope-error"
+                                    : undefined
+                            }
+                            options={PARTY_LOCATION_EVIDENCE_SCOPES.map((scope) => ({
+                                value: scope,
+                                label: t(`partyLocations.evidenceScopes.${scope}`),
+                            }))}
+                        />
                     </FormField>
                     <FormField
                         id="party-location-observed"
