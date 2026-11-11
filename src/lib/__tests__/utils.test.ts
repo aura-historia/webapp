@@ -11,6 +11,14 @@ describe("utils", () => {
             expect(cn("foo", false && "bar", "baz")).toBe("foo baz");
         });
 
+        it("lets design-system radii and shadows override the defaults", () => {
+            expect(cn("rounded-none shadow-lg", "rounded-card shadow-menu")).toBe(
+                "rounded-card shadow-menu",
+            );
+            expect(cn("rounded-md", "rounded-panel")).toBe("rounded-panel");
+            expect(cn("shadow-field", "shadow-ring")).toBe("shadow-ring");
+        });
+
         it("should merge tailwind classes correctly", () => {
             expect(cn("px-2 py-1", "px-3")).toBe("py-1 px-3");
         });
