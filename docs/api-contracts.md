@@ -372,6 +372,12 @@ To adopt a backend revision:
   and it is the same for production and stage (backend `docs/mcp.md`, "Tool snapshot"). The sync
   keeps `name`, `description`, `inputSchema`, `annotations` and `_meta` and drops the output
   schemas, which make up most of the 710 KB. Never hand-edit the result.
+- **Pending re-sync:** the file is currently synced from backend branch commit
+  `5f87eb30c26dea3d9bbbacab492e9b7dfecdd949`
+  ([backend#2901](https://github.com/aura-historia/backend/pull/2901)), which only adds a
+  statement that `viewUrl`, not `url`, is the provider link meant to be shared, to every tool whose
+  result has a `viewUrl`. Same 37 tools, names and arguments. Git blob `8147716558c42f4d666164791ef81a9147d5a681`; file SHA-256
+  `d7d8f4258561994746abfc0f5e2f9a51572a21c9c2a23e46e49e599b7c8bc2db`. Re-sync from `develop` once that PR merges. The capture below is the previous one.
 - The synced capture is backend `develop` `b7477308184e8c1eed7b5dd855bfb020d7af20df` (2026-11-10,
   [backend#2857](https://github.com/aura-historia/backend/pull/2857)), the same commit as the
   pinned `openapi/swagger.yaml`. Git blob `ca07e302bfd3dff9d6a3e99017631518bfd64063`; file SHA-256

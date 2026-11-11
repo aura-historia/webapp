@@ -956,7 +956,7 @@
   },
   {
     "name": "getAuction",
-    "description": "Get one auction by its auctionId: name, provider, format, schedule, reported status, reported and visible lot counts, and the link to its catalogue at the provider.",
+    "description": "Get one auction by its auctionId: name, provider, format, schedule, reported status, reported and visible lot counts, and the link to its catalogue at the provider. Each result's `viewUrl` is the provider link meant to be shared with people: it carries Aura Historia's referral tagging, which is lost when its query parameters are changed. `url` is the provider's untagged address.",
     "inputSchema": {
       "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
@@ -987,7 +987,7 @@
   },
   {
     "name": "getAuctionCatalogue",
-    "description": "List the lots of one auction by its auctionId in catalogue order, as listings in the requested language and currency with shipping details. Pass the returned searchAfter object as a JSON string to get the next page. For a signed-in user, each result also carries userState sections for which the token has the read scope: watchlist:read, search-filters:read, notifications:read or users:read. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
+    "description": "List the lots of one auction by its auctionId in catalogue order, as listings in the requested language and currency with shipping details. Pass the returned searchAfter object as a JSON string to get the next page. For a signed-in user, each result also carries userState sections for which the token has the read scope: watchlist:read, search-filters:read, notifications:read or users:read. Each result's `viewUrl` is the provider link meant to be shared with people: it carries Aura Historia's referral tagging, which is lost when its query parameters are changed. `url` is the provider's untagged address. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
     "inputSchema": {
       "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
@@ -1168,7 +1168,7 @@
   },
   {
     "name": "getProductListing",
-    "description": "Get the full details of one listing by its productListingId: text, prices, images, provider, availability, auction and shipping, in the requested language and currency. Use it when the user wants more than a search result shows. For a signed-in user, each result also carries userState sections for which the token has the read scope: watchlist:read, search-filters:read, notifications:read or users:read. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
+    "description": "Get the full details of one listing by its productListingId: text, prices, images, provider, availability, auction and shipping, in the requested language and currency. Use it when the user wants more than a search result shows. For a signed-in user, each result also carries userState sections for which the token has the read scope: watchlist:read, search-filters:read, notifications:read or users:read. Each result's `viewUrl` is the provider link meant to be shared with people: it carries Aura Historia's referral tagging, which is lost when its query parameters are changed. `url` is the provider's untagged address. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
     "inputSchema": {
       "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
@@ -1310,7 +1310,7 @@
   },
   {
     "name": "getProductListingByTitleSlug",
-    "description": "Get the full details of one listing by its productListingTitleSlugId, the last segment of an Aura Historia listing page URL (/products/{slug}). Returns the same details as the lookup by productListingId. For a signed-in user, each result also carries userState sections for which the token has the read scope: watchlist:read, search-filters:read, notifications:read or users:read. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
+    "description": "Get the full details of one listing by its productListingTitleSlugId, the last segment of an Aura Historia listing page URL (/products/{slug}). Returns the same details as the lookup by productListingId. For a signed-in user, each result also carries userState sections for which the token has the read scope: watchlist:read, search-filters:read, notifications:read or users:read. Each result's `viewUrl` is the provider link meant to be shared with people: it carries Aura Historia's referral tagging, which is lost when its query parameters are changed. `url` is the provider's untagged address. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
     "inputSchema": {
       "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
@@ -1529,7 +1529,7 @@
   },
   {
     "name": "getPublicListingSourceBySlug",
-    "description": "Get the public profile of one provider (a dealer, auction house, marketplace or auction platform) by its listingSourceSlugId, the last segment of an Aura Historia provider page URL (/shops/{slug}): name, operator, website and image.",
+    "description": "Get the public profile of one provider (a dealer, auction house, marketplace or auction platform) by its listingSourceSlugId, the last segment of an Aura Historia provider page URL (/shops/{slug}): name, operator, website and image. Each result's `viewUrl` is the provider link meant to be shared with people: it carries Aura Historia's referral tagging, which is lost when its query parameters are changed. `url` is the provider's untagged address.",
     "inputSchema": {
       "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
@@ -1580,7 +1580,7 @@
   },
   {
     "name": "getSimilarProductListings",
-    "description": "Find listings similar to one listing, identified by its productListingId. Returns up to `size` neighbours (default 20; values outside 1 to 50 are clamped) in the requested language and currency. EMBEDDING_PENDING means the listing is not yet prepared for comparison and a later call can succeed; READY with an empty list means nothing similar was found. For a signed-in user, each result also carries userState sections for which the token has the read scope: watchlist:read, search-filters:read, notifications:read or users:read. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
+    "description": "Find listings similar to one listing, identified by its productListingId. Returns up to `size` neighbours (default 20; values outside 1 to 50 are clamped) in the requested language and currency. EMBEDDING_PENDING means the listing is not yet prepared for comparison and a later call can succeed; READY with an empty list means nothing similar was found. For a signed-in user, each result also carries userState sections for which the token has the read scope: watchlist:read, search-filters:read, notifications:read or users:read. Each result's `viewUrl` is the provider link meant to be shared with people: it carries Aura Historia's referral tagging, which is lost when its query parameters are changed. `url` is the provider's untagged address. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
     "inputSchema": {
       "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
@@ -1844,7 +1844,7 @@
   },
   {
     "name": "getWatchlistProductListings",
-    "description": "List the listings on the signed-in user's watchlist with their full details and notification settings, in the requested language and currency. Pass the returned searchAfter array as a JSON string to get the next page. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
+    "description": "List the listings on the signed-in user's watchlist with their full details and notification settings, in the requested language and currency. Pass the returned searchAfter array as a JSON string to get the next page. Each result's `viewUrl` is the provider link meant to be shared with people: it carries Aura Historia's referral tagging, which is lost when its query parameters are changed. `url` is the provider's untagged address. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
     "inputSchema": {
       "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
@@ -2160,7 +2160,7 @@
   },
   {
     "name": "listNotifications",
-    "description": "List the signed-in user's notifications, such as watchlist changes and new saved-search matches, with each listing as it was when notified, in the requested language. Returns up to size notifications (default 21, 1 to 100); pass the returned searchAfter array as a JSON string to get the next page. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
+    "description": "List the signed-in user's notifications, such as watchlist changes and new saved-search matches, with each listing as it was when notified, in the requested language. Returns up to size notifications (default 21, 1 to 100); pass the returned searchAfter array as a JSON string to get the next page. Each result's `viewUrl` is the provider link meant to be shared with people: it carries Aura Historia's referral tagging, which is lost when its query parameters are changed. `url` is the provider's untagged address. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
     "inputSchema": {
       "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
@@ -2275,7 +2275,7 @@
   },
   {
     "name": "listSearchFilterMatches",
-    "description": "List the listings that matched one of the signed-in user's saved searches, oldest match first, in the requested language and currency. Matching runs in the background, so an empty first page means there are no matches yet. Returns up to size matches (default 21, 1 to 100); pass the returned searchAfter array unchanged to get the next page. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
+    "description": "List the listings that matched one of the signed-in user's saved searches, oldest match first, in the requested language and currency. Matching runs in the background, so an empty first page means there are no matches yet. Returns up to size matches (default 21, 1 to 100); pass the returned searchAfter array unchanged to get the next page. Each result's `viewUrl` is the provider link meant to be shared with people: it carries Aura Historia's referral tagging, which is lost when its query parameters are changed. `url` is the provider's untagged address. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
     "inputSchema": {
       "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
@@ -2502,7 +2502,7 @@
   },
   {
     "name": "patchWatchlistProduct",
-    "description": "Turn notifications for a watched listing on or off, or pause (INACTIVE_BY_USER) or resume (ACTIVE) the entry. Omitted fields stay unchanged and null is invalid; resuming is subject to subscription tier limits. Returns the listing with its full details in the requested language and currency. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
+    "description": "Turn notifications for a watched listing on or off, or pause (INACTIVE_BY_USER) or resume (ACTIVE) the entry. Omitted fields stay unchanged and null is invalid; resuming is subject to subscription tier limits. Returns the listing with its full details in the requested language and currency. Each result's `viewUrl` is the provider link meant to be shared with people: it carries Aura Historia's referral tagging, which is lost when its query parameters are changed. `url` is the provider's untagged address. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
     "inputSchema": {
       "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
@@ -2658,7 +2658,7 @@
   },
   {
     "name": "searchPublicListingSources",
-    "description": "Search the providers whose listings Aura Historia indexes (dealers, auction houses, marketplaces and auction platforms) by name. Without a query it browses all providers; a query too short to match returns no results. Returns 1 to 50 providers per page (default 21); pass the returned searchAfter unchanged, with the same query and size, to get the next page.",
+    "description": "Search the providers whose listings Aura Historia indexes (dealers, auction houses, marketplaces and auction platforms) by name. Without a query it browses all providers; a query too short to match returns no results. Returns 1 to 50 providers per page (default 21); pass the returned searchAfter unchanged, with the same query and size, to get the next page. Each result's `viewUrl` is the provider link meant to be shared with people: it carries Aura Historia's referral tagging, which is lost when its query parameters are changed. `url` is the provider's untagged address.",
     "inputSchema": {
       "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
@@ -2815,7 +2815,7 @@
   },
   {
     "name": "simpleSearchProductListings",
-    "description": "Search Aura Historia's index of art, antiques and design objects listed by dealers, auction houses, marketplaces and auction platforms. Use it to find listings by text and by filters such as price, dates, availability, provider, auction, location and shipping. Returns listing summaries in the requested language and currency, with the total when known; pass the returned searchAfter object unchanged to get the next page. For a signed-in user, each result also carries userState sections for which the token has the read scope: watchlist:read, search-filters:read, notifications:read or users:read. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
+    "description": "Search Aura Historia's index of art, antiques and design objects listed by dealers, auction houses, marketplaces and auction platforms. Use it to find listings by text and by filters such as price, dates, availability, provider, auction, location and shipping. Returns listing summaries in the requested language and currency, with the total when known; pass the returned searchAfter object unchanged to get the next page. For a signed-in user, each result also carries userState sections for which the token has the read scope: watchlist:read, search-filters:read, notifications:read or users:read. Each result's `viewUrl` is the provider link meant to be shared with people: it carries Aura Historia's referral tagging, which is lost when its query parameters are changed. `url` is the provider's untagged address. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
     "inputSchema": {
       "$defs": {
         "AmountData": {
