@@ -60,6 +60,27 @@ describe("ConfirmSignUpForm", () => {
         expect(mockSubscribe).not.toHaveBeenCalled();
     });
 
+    it("focuses the code field on arrival so the code can be typed or pasted straight away", async () => {
+        const user = userEvent.setup();
+
+        await act(async () => {
+            renderWithRouter(
+                <ConfirmSignUpForm
+                    email="user@example.com"
+                    password="Password1!"
+                    onSuccess={vi.fn()}
+                    onSignInRequired={vi.fn()}
+                />,
+            );
+        });
+
+        expect(screen.getByRole("textbox")).toHaveFocus();
+
+        // No click first: the keyboard lands in the field.
+        await user.keyboard("123456");
+        expect(screen.getByRole("textbox")).toHaveValue("123456");
+    });
+
     it("resends the code with only the Cognito username", async () => {
         const user = userEvent.setup();
 
