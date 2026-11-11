@@ -1,3 +1,5 @@
+import { Spinner } from "@/components/ui/spinner.tsx";
+import { useConsentDecision } from "@/features/oauth/hooks/useConsentDecision.ts";
 import { OAUTH_AUTHORIZE_APPROVE_ACTION } from "@/features/oauth/lib/oauthAuthorizeUrls.ts";
 import {
     CONSENT_BRAND_BUTTON_CLASS,
@@ -11,7 +13,8 @@ interface OAuthAuthorizeActionsProps {
     readonly approveAriaLabel: string;
     readonly denyAriaLabel: string;
     readonly isApproveDisabled: boolean;
-    readonly onDeny: () => void;
+    /** Undefined when there is no validated callback to return the denial to. */
+    readonly onDeny: (() => void) | undefined;
     readonly listingSourceId: string | undefined;
     readonly searchParams: OAuthAuthorizeSearchParams;
 }
@@ -26,6 +29,16 @@ export function OAuthAuthorizeActions({
 }: OAuthAuthorizeActionsProps) {
     const { t } = useTranslation();
     const { lng } = useParams({ from: "/$lng" });
+    const { pendingDecision, startDecision } = useConsentDecision();
+    const isApproving = pendingDecision === "approve";
+    const isDenying = pendingDecision === "deny";
+
+    const deny = () => {
+        if (onDeny) {
+            startDecision("deny");
+            onDeny();
+        }
+    };
 
     return (
         <>
@@ -33,6 +46,7 @@ export function OAuthAuthorizeActions({
                 action={OAUTH_AUTHORIZE_APPROVE_ACTION}
                 method="post"
                 className="w-full sm:w-auto"
+                onSubmit={() => startDecision("approve")}
             >
                 <input type="hidden" name="lng" value={lng} />
                 <input type="hidden" name="response_type" value={searchParams.response_type} />
@@ -62,19 +76,24 @@ export function OAuthAuthorizeActions({
                 <button
                     type="submit"
                     className={CONSENT_BRAND_BUTTON_CLASS}
-                    disabled={isApproveDisabled}
-                    aria-label={approveAriaLabel}
+                    disabled={isApproveDisabled || pendingDecision !== null}
+                    aria-busy={isApproving}
+                    aria-label={isApproving ? t("oauth.authorize.approving") : approveAriaLabel}
                 >
-                    {t("oauth.authorize.approve")}
+                    {isApproving && <Spinner aria-hidden="true" className="size-4" />}
+                    {t(isApproving ? "oauth.authorize.approving" : "oauth.authorize.approve")}
                 </button>
             </form>
             <button
                 type="button"
-                onClick={onDeny}
+                onClick={deny}
                 className={CONSENT_OUTLINE_BUTTON_CLASS}
-                aria-label={denyAriaLabel}
+                disabled={pendingDecision !== null}
+                aria-busy={isDenying}
+                aria-label={isDenying ? t("oauth.authorize.denying") : denyAriaLabel}
             >
-                {t("oauth.authorize.deny")}
+                {isDenying && <Spinner aria-hidden="true" className="size-4" />}
+                {t(isDenying ? "oauth.authorize.denying" : "oauth.authorize.deny")}
             </button>
         </>
     );
