@@ -2771,6 +2771,8 @@
       "termsLink": "Termini di servizio",
       "approve": "Autorizza",
       "deny": "Rifiuta",
+      "approving": "Autorizzazione in corso…",
+      "denying": "Rifiuto in corso…",
       "approveAriaLabel": "Autorizza {{appName}} ad accedere al tuo account",
       "denyAriaLabel": "Rifiuta l'autorizzazione per {{appName}}",
       "securityNote": "Puoi revocare questo accesso in qualsiasi momento dalle impostazioni del tuo account. Autorizza solo applicazioni di cui ti fidi.",

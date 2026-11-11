@@ -247,7 +247,7 @@ export function OAuthAuthorizePage({ searchParams: requestSearchParams }: OAuthA
                             requiresListingSourceSelection && !effectiveListingSourceId
                         }
                         listingSourceId={listingSourceId}
-                        onDeny={handleDeny}
+                        onDeny={denialUrl ? handleDeny : undefined}
                         searchParams={searchParams}
                     />
                 </div>

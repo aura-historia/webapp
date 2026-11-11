@@ -2771,6 +2771,8 @@
       "termsLink": "Conditions d'utilisation",
       "approve": "Autoriser",
       "deny": "Refuser",
+      "approving": "Autorisation en cours…",
+      "denying": "Refus en cours…",
       "approveAriaLabel": "Autoriser {{appName}} à accéder à votre compte",
       "denyAriaLabel": "Refuser l'autorisation pour {{appName}}",
       "securityNote": "Vous pouvez révoquer cet accès à tout moment depuis les paramètres de votre compte. N'autorisez que les applications de confiance.",

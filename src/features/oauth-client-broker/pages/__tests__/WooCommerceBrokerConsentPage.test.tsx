@@ -1,4 +1,4 @@
-import { act, screen } from "@testing-library/react";
+import { act, fireEvent, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { renderWithRouter } from "@/test/utils.tsx";
@@ -150,6 +150,29 @@ describe("WooCommerceBrokerConsentPage", () => {
         );
         expect(deny.action).toBe("/api/oauth/broker/woocommerce/deny");
         expect(deny.fields).toEqual(approve.fields);
+    });
+
+    it("shows the approval in progress and sends the decision once", async () => {
+        await renderPage({ transaction_id: TRANSACTION_ID });
+        const form = screen
+            .getByRole("button", {
+                name: "Aura Historia for WooCommerce den Zugriff auf Ihr Konto erlauben",
+            })
+            .closest("form");
+        if (!form) {
+            throw new Error("Approve form not found");
+        }
+
+        fireEvent.submit(form);
+
+        const approving = screen.getByRole("button", { name: "Wird autorisiert…" });
+        expect(approving).toBeDisabled();
+        expect(approving).toHaveAttribute("aria-busy", "true");
+        expect(
+            screen.getByRole("button", {
+                name: "Autorisierung für Aura Historia for WooCommerce ablehnen",
+            }),
+        ).toBeDisabled();
     });
 
     it("requires a choice among several sources before approval", async () => {

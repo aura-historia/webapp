@@ -1,5 +1,6 @@
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Spinner } from "@/components/ui/spinner.tsx";
+import { useConsentDecision } from "@/features/oauth/hooks/useConsentDecision.ts";
 import {
     WOOCOMMERCE_BROKER_APPROVE_PATH,
     WOOCOMMERCE_BROKER_DENY_PATH,
@@ -33,8 +34,10 @@ export function BrokerConsentActions({
     canApprove = true,
 }: BrokerConsentActionsProps) {
     const { t } = useTranslation();
-    const [isSubmitted, setIsSubmitted] = useState(false);
-    const markSubmitted = () => setIsSubmitted(true);
+    const { pendingDecision, startDecision } = useConsentDecision();
+    const isSubmitted = pendingDecision !== null;
+    const isApproving = pendingDecision === "approve";
+    const isDenying = pendingDecision === "deny";
     const fields = (
         <>
             <input type="hidden" name="lng" value={lng} />
@@ -52,16 +55,18 @@ export function BrokerConsentActions({
                     action={WOOCOMMERCE_BROKER_APPROVE_PATH}
                     method="post"
                     className="w-full sm:w-auto"
-                    onSubmit={markSubmitted}
+                    onSubmit={() => startDecision("approve")}
                 >
                     {fields}
                     <button
                         type="submit"
                         className={CONSENT_BRAND_BUTTON_CLASS}
                         disabled={listingSourceId === undefined || isSubmitted}
-                        aria-label={approveAriaLabel}
+                        aria-busy={isApproving}
+                        aria-label={isApproving ? t("oauth.authorize.approving") : approveAriaLabel}
                     >
-                        {t("oauth.authorize.approve")}
+                        {isApproving && <Spinner aria-hidden="true" className="size-4" />}
+                        {t(isApproving ? "oauth.authorize.approving" : "oauth.authorize.approve")}
                     </button>
                 </form>
             )}
@@ -69,16 +74,18 @@ export function BrokerConsentActions({
                 action={WOOCOMMERCE_BROKER_DENY_PATH}
                 method="post"
                 className="w-full sm:w-auto"
-                onSubmit={markSubmitted}
+                onSubmit={() => startDecision("deny")}
             >
                 {fields}
                 <button
                     type="submit"
                     className={CONSENT_OUTLINE_BUTTON_CLASS}
                     disabled={isSubmitted}
-                    aria-label={denyAriaLabel}
+                    aria-busy={isDenying}
+                    aria-label={isDenying ? t("oauth.authorize.denying") : denyAriaLabel}
                 >
-                    {t("oauth.authorize.deny")}
+                    {isDenying && <Spinner aria-hidden="true" className="size-4" />}
+                    {t(isDenying ? "oauth.authorize.denying" : "oauth.authorize.deny")}
                 </button>
             </form>
         </>

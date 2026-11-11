@@ -1,4 +1,4 @@
-import { act, screen, waitFor, within } from "@testing-library/react";
+import { act, fireEvent, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useState } from "react";
 import { afterEach, describe, expect, it, vi, beforeEach } from "vitest";
@@ -263,6 +263,58 @@ describe("OAuthAuthorizePage", () => {
             code_challenge: "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM",
             code_challenge_method: "S256",
         });
+    });
+
+    it("shows the approval in progress and locks both actions until the page is restored", async () => {
+        await act(async () =>
+            renderWithRouter(<OAuthAuthorizePage searchParams={defaultSearchParams} />),
+        );
+        const form = screen
+            .getByRole("button", { name: "Test Partner App den Zugriff auf Ihr Konto erlauben" })
+            .closest("form");
+        if (!form) {
+            throw new Error("Approve form not found");
+        }
+
+        fireEvent.submit(form);
+
+        const approving = screen.getByRole("button", { name: "Wird autorisiert…" });
+        expect(approving).toBeDisabled();
+        expect(approving).toHaveAttribute("aria-busy", "true");
+        expect(
+            screen.getByRole("button", { name: "Autorisierung für Test Partner App ablehnen" }),
+        ).toBeDisabled();
+
+        act(() => {
+            window.dispatchEvent(new PageTransitionEvent("pageshow", { persisted: true }));
+        });
+
+        expect(
+            screen.getByRole("button", {
+                name: "Test Partner App den Zugriff auf Ihr Konto erlauben",
+            }),
+        ).toBeEnabled();
+    });
+
+    it("shows the denial in progress and locks both actions", async () => {
+        await act(async () =>
+            renderWithRouter(<OAuthAuthorizePage searchParams={defaultSearchParams} />),
+        );
+
+        await userEvent
+            .setup()
+            .click(
+                screen.getByRole("button", { name: "Autorisierung für Test Partner App ablehnen" }),
+            );
+
+        const declining = screen.getByRole("button", { name: "Wird abgelehnt…" });
+        expect(declining).toBeDisabled();
+        expect(declining).toHaveAttribute("aria-busy", "true");
+        expect(
+            screen.getByRole("button", {
+                name: "Test Partner App den Zugriff auf Ihr Konto erlauben",
+            }),
+        ).toBeDisabled();
     });
 
     it.each(["merchant-state", undefined])(

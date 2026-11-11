@@ -3443,6 +3443,8 @@
       "termsLink": "Nutzungsbedingungen",
       "approve": "Autorisieren",
       "deny": "Ablehnen",
+      "approving": "Wird autorisiert…",
+      "denying": "Wird abgelehnt…",
       "approveAriaLabel": "{{appName}} den Zugriff auf Ihr Konto erlauben",
       "denyAriaLabel": "Autorisierung für {{appName}} ablehnen",
       "securityNote": "Sie können diesen Zugriff jederzeit in Ihren Kontoeinstellungen widerrufen. Autorisieren Sie nur Anwendungen, denen Sie vertrauen.",

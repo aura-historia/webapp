@@ -3443,6 +3443,8 @@
       "termsLink": "Terms",
       "approve": "Authorize",
       "deny": "Decline",
+      "approving": "Authorizing…",
+      "denying": "Declining…",
       "approveAriaLabel": "Authorize {{appName}} to access your account",
       "denyAriaLabel": "Decline authorization for {{appName}}",
       "securityNote": "You can revoke this access at any time from your account settings. Only authorize applications you trust.",
