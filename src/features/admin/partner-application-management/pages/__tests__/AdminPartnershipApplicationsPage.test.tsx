@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { AdminPartnershipApplicationSummary } from "@/data/internal/partner-application/AdminPartnershipApplication.ts";
@@ -83,6 +83,36 @@ describe("AdminPartnershipApplicationsPage", () => {
         expect(screen.getByText(t("adminApplications.state.IN_REVIEW"))).toBeInTheDocument();
         expect(screen.getByText("user_1")).toBeInTheDocument();
         expect(mocks.list).toHaveBeenCalledWith({});
+    });
+
+    it("lists undecided applications above decided ones", () => {
+        const approved: AdminPartnershipApplicationSummary = {
+            ...existing,
+            id: "pa_3",
+            state: "APPROVED",
+            proposal: { type: "EXISTING_LISTING_SOURCE", listingSourceId: "ls_APPROVED" },
+        };
+        mocks.list.mockReturnValue(
+            listResult({ data: { pages: [{ items: [approved, proposed, existing], total: 3 }] } }),
+        );
+        render(<AdminPartnershipApplicationsPage search={{}} onSearchChange={vi.fn()} />);
+
+        const [open, decided] = screen.getAllByRole("list");
+        expect(open).toHaveAccessibleName(t("adminApplications.groups.open"));
+        expect(decided).toHaveAccessibleName(t("adminApplications.groups.decided"));
+        expect(within(open).getAllByRole("button")).toHaveLength(2);
+        expect(within(open).getByText("ls_01J9X4")).toBeInTheDocument();
+        expect(within(decided).getByText("ls_APPROVED")).toBeInTheDocument();
+    });
+
+    it("leaves out a group with no applications", () => {
+        render(<AdminPartnershipApplicationsPage search={{}} onSearchChange={vi.fn()} />);
+        expect(
+            screen.getByRole("list", { name: t("adminApplications.groups.open") }),
+        ).toBeInTheDocument();
+        expect(
+            screen.queryByRole("list", { name: t("adminApplications.groups.decided") }),
+        ).toBeNull();
     });
 
     it("opens an application through the URL without changing the list filters", async () => {

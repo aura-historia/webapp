@@ -2726,7 +2726,6 @@
       "WITHDRAWN": "Withdrawn"
     },
     "list": {
-      "label": "Partnership applications",
       "open": "Open application for {{name}}",
       "existing": "Existing provider",
       "proposed": "Proposed · {{type}}",
@@ -2799,6 +2798,10 @@
     },
     "decision": {
       "label": "Decision"
+    },
+    "groups": {
+      "open": "Undecided",
+      "decided": "Decided"
     }
   },
   "adminParties": {

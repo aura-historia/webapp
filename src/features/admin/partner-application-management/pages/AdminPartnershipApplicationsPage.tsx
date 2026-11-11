@@ -31,7 +31,7 @@ import {
 } from "@/features/admin/common/components/AdminDirectory.tsx";
 import { AdminPageHeader } from "@/features/admin/common/components/AdminPageHeader.tsx";
 import { AdminStatePanel } from "@/features/admin/common/components/AdminStatePanel.tsx";
-import { AdminStatusMark } from "@/features/admin/common/components/AdminStatusMark.tsx";
+import { AdminMark, AdminStatusMark } from "@/features/admin/common/components/AdminStatusMark.tsx";
 import { SECONDARY_PILL_CLASS } from "@/features/admin/common/lib/adminStyles.ts";
 import { formatAdminDay } from "@/features/admin/party-management/lib/adminDates.ts";
 import { useAdminPartnershipApplications } from "../api/useAdminPartnershipApplications.ts";
@@ -152,26 +152,49 @@ export function AdminPartnershipApplicationsPage({
     } else {
         content = (
             <>
-                <AdminLedger
-                    label={t("adminApplications.list.label")}
-                    columns={COLUMNS}
-                    headings={[
-                        t("adminApplications.columns.provider"),
-                        t("adminApplications.columns.status"),
-                        t("adminApplications.columns.applicant"),
-                        t("adminApplications.columns.created"),
-                        t("adminApplications.columns.updated"),
-                    ]}
-                >
-                    {applications.map((application) => (
-                        <ApplicationRow
-                            key={application.id}
-                            application={application}
-                            selected={application.id === search.application}
-                            onOpen={() => openApplication(application.id)}
-                        />
+                {/* Undecided applications come first; the split covers the loaded pages. */}
+                <div className="flex flex-col gap-10">
+                    {applicationGroups(applications).map((group) => (
+                        <section
+                            key={group.key}
+                            aria-labelledby={`admin-applications-${group.key}`}
+                            className="flex flex-col gap-3"
+                        >
+                            <h2
+                                id={`admin-applications-${group.key}`}
+                                className="flex items-center gap-2.5 font-serif text-2xl leading-[1.2] font-normal"
+                            >
+                                {group.key === "open" && <AdminMark tone="brass" />}
+                                {t(`adminApplications.groups.${group.key}`)}
+                                <span className="font-mono text-[11px] tracking-[0.12em] text-ink-muted">
+                                    {new Intl.NumberFormat(i18n.language).format(
+                                        group.items.length,
+                                    )}
+                                </span>
+                            </h2>
+                            <AdminLedger
+                                label={t(`adminApplications.groups.${group.key}`)}
+                                columns={COLUMNS}
+                                headings={[
+                                    t("adminApplications.columns.provider"),
+                                    t("adminApplications.columns.status"),
+                                    t("adminApplications.columns.applicant"),
+                                    t("adminApplications.columns.created"),
+                                    t("adminApplications.columns.updated"),
+                                ]}
+                            >
+                                {group.items.map((application) => (
+                                    <ApplicationRow
+                                        key={application.id}
+                                        application={application}
+                                        selected={application.id === search.application}
+                                        onOpen={() => openApplication(application.id)}
+                                    />
+                                ))}
+                            </AdminLedger>
+                        </section>
                     ))}
-                </AdminLedger>
+                </div>
                 <AdminLoadMore
                     hasNextPage={hasNextPage}
                     isFetchingNextPage={isFetchingNextPage}
@@ -450,4 +473,18 @@ function applicationPanelCount(filters: AdminApplicationFilters): number {
         filters.createdFrom || filters.createdTo,
         filters.updatedFrom || filters.updatedTo,
     ].filter(Boolean).length;
+}
+
+const UNDECIDED_STATES = new Set(["SUBMITTED", "IN_REVIEW"]);
+
+/** Splits the loaded applications into undecided (submitted, in review) and decided; empty groups drop. */
+function applicationGroups<T extends { readonly state: string }>(
+    applications: readonly T[],
+): { readonly key: "open" | "decided"; readonly items: T[] }[] {
+    const open = applications.filter((application) => UNDECIDED_STATES.has(application.state));
+    const decided = applications.filter((application) => !UNDECIDED_STATES.has(application.state));
+    return [
+        { key: "open" as const, items: open },
+        { key: "decided" as const, items: decided },
+    ].filter((group) => group.items.length > 0);
 }

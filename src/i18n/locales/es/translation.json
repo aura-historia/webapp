@@ -3155,7 +3155,6 @@
       "WITHDRAWN": "Retirada"
     },
     "list": {
-      "label": "Solicitudes de colaboración",
       "open": "Abrir la solicitud de {{name}}",
       "existing": "Proveedor existente",
       "proposed": "Propuesto · {{type}}",
@@ -3228,6 +3227,10 @@
     },
     "decision": {
       "label": "Decisión"
+    },
+    "groups": {
+      "open": "Pendientes",
+      "decided": "Resueltas"
     }
   },
   "adminParties": {

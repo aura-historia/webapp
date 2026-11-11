@@ -3155,7 +3155,6 @@
       "WITHDRAWN": "Ritirata"
     },
     "list": {
-      "label": "Richieste di partnership",
       "open": "Apri la richiesta di {{name}}",
       "existing": "Fornitore esistente",
       "proposed": "Proposto · {{type}}",
@@ -3228,6 +3227,10 @@
     },
     "decision": {
       "label": "Decisione"
+    },
+    "groups": {
+      "open": "In sospeso",
+      "decided": "Decise"
     }
   },
   "adminParties": {

@@ -2726,7 +2726,6 @@
       "WITHDRAWN": "Zurückgezogen"
     },
     "list": {
-      "label": "Partnerschaftsanträge",
       "open": "Antrag für {{name}} öffnen",
       "existing": "Bestehender Anbieter",
       "proposed": "Vorgeschlagen · {{type}}",
@@ -2799,6 +2798,10 @@
     },
     "decision": {
       "label": "Entscheidung"
+    },
+    "groups": {
+      "open": "Offen",
+      "decided": "Entschieden"
     }
   },
   "adminParties": {
