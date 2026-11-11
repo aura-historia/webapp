@@ -77,6 +77,20 @@ describe("ResetPasswordForm", () => {
         expect(codeInput).toHaveValue("123456");
     });
 
+    it("focuses the reset code field once the code has been requested", async () => {
+        const user = userEvent.setup();
+        await act(async () =>
+            renderWithRouter(<ResetPasswordForm onSwitchToSignIn={vi.fn()} onSuccess={vi.fn()} />),
+        );
+
+        await user.type(screen.getByLabelText("E-Mail"), "user@example.com");
+        await user.click(screen.getByRole("button", { name: "Reset-Code senden" }));
+
+        await waitFor(() => {
+            expect(screen.getByLabelText("Zurücksetzungscode")).toHaveFocus();
+        });
+    });
+
     it("keeps the sign-up confirmation code field idle until six digits are entered", async () => {
         const user = userEvent.setup();
 

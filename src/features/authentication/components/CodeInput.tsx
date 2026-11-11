@@ -9,10 +9,16 @@ type CodeInputProps = Omit<
     "maxLength" | "children" | "render" | "pattern"
 >;
 
-/** Six-digit verification or reset code: one raised box per digit, serif lining figures. */
+/**
+ * Six-digit verification or reset code: one raised box per digit, serif lining figures.
+ *
+ * Takes focus when it mounts: it is the first field of the step the visitor was just sent to, so
+ * the code can be typed or pasted straight away. Pass `autoFocus={false}` to opt out.
+ */
 export function CodeInput(props: CodeInputProps) {
     return (
         <InputOTP
+            autoFocus
             {...props}
             maxLength={CODE_LENGTH}
             pattern="^\d+$"
