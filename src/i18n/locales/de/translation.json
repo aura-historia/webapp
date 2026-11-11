@@ -3330,15 +3330,10 @@
     "users": {
       "title": "Benutzer",
       "byTier": "Nach Tarif",
-      "byRole": "Nach Rolle",
       "tiers": {
         "free": "Free",
         "pro": "Pro",
         "ultimate": "Ultimate"
-      },
-      "roles": {
-        "user": "Benutzer",
-        "admin": "Administrator"
       }
     },
     "applications": {

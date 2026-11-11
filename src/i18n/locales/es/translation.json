@@ -2474,15 +2474,10 @@
     "users": {
       "title": "Usuarios",
       "byTier": "Por plan",
-      "byRole": "Por rol",
       "tiers": {
         "free": "Free",
         "pro": "Pro",
         "ultimate": "Ultimate"
-      },
-      "roles": {
-        "user": "Usuario",
-        "admin": "Administrador"
       }
     },
     "applications": {

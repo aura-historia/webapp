@@ -7,7 +7,6 @@ import {
     ADMIN_INGESTION_METHOD_KEYS,
     ADMIN_LISTING_AVAILABILITY_KEYS,
     ADMIN_LISTING_LIFECYCLE_KEYS,
-    ADMIN_USER_ROLE_KEYS,
     ADMIN_USER_TIER_KEYS,
     type AdminApplicationStateKey,
     type AdminOverview,
@@ -105,9 +104,8 @@ function TotalTile({
                 to={total.to}
                 params={{ lng: language }}
                 className={cn(
-                    "group flex h-full flex-col gap-2.5 py-[18px] hover:bg-surface-raised md:py-6",
-                    firstOnPhone ? "pr-4" : "pl-4",
-                    firstOnDesktop ? "md:pr-7 md:pl-0" : "md:px-7",
+                    // Every tile keeps padding on both sides, so its content never meets the edge.
+                    "group flex h-full flex-col gap-2.5 px-4 py-[18px] hover:bg-surface-raised md:px-7 md:py-6",
                     FOCUS_CLASS,
                 )}
             >
@@ -326,14 +324,6 @@ function OverviewContent({
                             title={t("adminOverview.users.byTier")}
                             rows={rowsFor(users.byTier, ADMIN_USER_TIER_KEYS, (key) =>
                                 t(`adminOverview.users.tiers.${key}`),
-                            )}
-                            base={users.total}
-                            format={format}
-                        />
-                        <CountGroup
-                            title={t("adminOverview.users.byRole")}
-                            rows={rowsFor(users.byRole, ADMIN_USER_ROLE_KEYS, (key) =>
-                                t(`adminOverview.users.roles.${key}`),
                             )}
                             base={users.total}
                             format={format}

@@ -84,7 +84,8 @@ describe("AdminOverviewPage", () => {
 
         const users = card("adminOverview.users.title");
         expect(countFor(users, "adminOverview.users.tiers.free")).toBe("9");
-        expect(countFor(users, "adminOverview.users.roles.admin")).toBe("1");
+        // The role split is not shown; administrators appear only on the Users tile.
+        expect(within(users).queryByText("Administrator")).toBeNull();
 
         const applications = card("adminOverview.applications.label");
         expect(countFor(applications, "adminOverview.applications.states.inReview")).toBe("1");
