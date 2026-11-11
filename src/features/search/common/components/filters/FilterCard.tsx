@@ -122,7 +122,7 @@ export function FilterCard({
                         </Tooltip>
                     )}
                 </div>
-                <CollapsibleContent className="-mx-1.5 -mt-1.5 overflow-hidden px-1.5 pt-1.5 data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
+                <CollapsibleContent className="-mx-1.5 -mt-1.5 px-1.5 pt-1.5 data-[state=closed]:animate-reveal-up data-[state=open]:animate-reveal-down">
                     <div
                         inert={disabled}
                         aria-disabled={disabled || undefined}

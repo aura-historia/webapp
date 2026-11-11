@@ -110,7 +110,7 @@ export function MultiSelect({
                 </div>
                 {showList && (
                     <div className="absolute top-full right-0 left-0 z-20 mt-2.5 rounded-panel bg-surface-raised p-1.5 shadow-menu">
-                        <CommandPrimitive.List>
+                        <CommandPrimitive.List className="max-h-72 overflow-y-auto overscroll-contain">
                             {isLoading && options.length === 0 ? (
                                 <div className="flex justify-center py-4 text-ink-muted">
                                     <Loader2 aria-hidden="true" className="size-4 animate-spin" />
