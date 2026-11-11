@@ -12,9 +12,8 @@ type CodeInputProps = Omit<
 /**
  * Six-digit verification or reset code: one raised box per digit, serif lining figures.
  *
- * Takes focus when it mounts. The code is the only thing the visitor can do on the step they
- * were just sent to (or the first field of it), so they can type or paste it straight away.
- * Pass `autoFocus={false}` where the field should not claim focus.
+ * Takes focus when it mounts: it is the first field of the step the visitor was just sent to, so
+ * the code can be typed or pasted straight away. Pass `autoFocus={false}` to opt out.
  */
 export function CodeInput(props: CodeInputProps) {
     return (
