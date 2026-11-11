@@ -20,10 +20,7 @@ export default function LandingPage() {
             <OpportunitySection />
             <PlatformSection />
             <HowItWorksSection />
-            {/* Pricing stays hidden until paid plans launch. */}
-            <div hidden>
-                <PricingSection />
-            </div>
+            <PricingSection />
             <DealersSection />
             <FAQSection />
             <NewsletterSection />
