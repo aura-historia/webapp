@@ -319,16 +319,45 @@ function OverviewContent({
                     {t("adminOverview.breakdown")}
                 </h2>
                 <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-2">
-                    <Panel id="users" title={t("adminOverview.users.title")}>
-                        <CountGroup
-                            title={t("adminOverview.users.byTier")}
-                            rows={rowsFor(users.byTier, ADMIN_USER_TIER_KEYS, (key) =>
-                                t(`adminOverview.users.tiers.${key}`),
-                            )}
-                            base={users.total}
-                            format={format}
-                        />
-                    </Panel>
+                    {/* Users and listing sources share a column beside the taller applications panel. */}
+                    <div className="flex min-w-0 flex-col gap-5">
+                        <Panel id="users" title={t("adminOverview.users.title")}>
+                            <CountGroup
+                                title={t("adminOverview.users.byTier")}
+                                rows={rowsFor(users.byTier, ADMIN_USER_TIER_KEYS, (key) =>
+                                    t(`adminOverview.users.tiers.${key}`),
+                                )}
+                                base={users.total}
+                                format={format}
+                            />
+                        </Panel>
+
+                        <Panel id="listing-sources" title={t("adminOverview.listingSources.title")}>
+                            <CountGroup
+                                title={t("adminOverview.listingSources.methodAssignments")}
+                                rows={[
+                                    ...rowsFor(
+                                        listingSources.methodAssignments,
+                                        ADMIN_INGESTION_METHOD_KEYS,
+                                        (key) => t(`adminOverview.listingSources.methods.${key}`),
+                                    ),
+                                    {
+                                        id: "withoutIngestionMethod",
+                                        label: t(
+                                            "adminOverview.listingSources.withoutIngestionMethod",
+                                        ),
+                                        value: listingSources.withoutIngestionMethod,
+                                        remainder: true,
+                                    },
+                                ]}
+                                base={listingSources.total}
+                                format={format}
+                            />
+                            <p className="text-xs leading-normal text-ink-muted">
+                                {t("adminOverview.listingSources.overlapNote")}
+                            </p>
+                        </Panel>
+                    </div>
 
                     <Panel id="applications" title={t("adminOverview.applications.label")}>
                         {awaitingReview > 0 && (
@@ -368,30 +397,6 @@ function OverviewContent({
                             base={partnershipApplications.total}
                             format={format}
                         />
-                    </Panel>
-
-                    <Panel id="listing-sources" title={t("adminOverview.listingSources.title")}>
-                        <CountGroup
-                            title={t("adminOverview.listingSources.methodAssignments")}
-                            rows={[
-                                ...rowsFor(
-                                    listingSources.methodAssignments,
-                                    ADMIN_INGESTION_METHOD_KEYS,
-                                    (key) => t(`adminOverview.listingSources.methods.${key}`),
-                                ),
-                                {
-                                    id: "withoutIngestionMethod",
-                                    label: t("adminOverview.listingSources.withoutIngestionMethod"),
-                                    value: listingSources.withoutIngestionMethod,
-                                    remainder: true,
-                                },
-                            ]}
-                            base={listingSources.total}
-                            format={format}
-                        />
-                        <p className="text-xs leading-normal text-ink-muted">
-                            {t("adminOverview.listingSources.overlapNote")}
-                        </p>
                     </Panel>
 
                     <Panel
