@@ -14,11 +14,10 @@ export const Route = createFileRoute("/$lng/_auth/admin")({
 });
 
 function AdminRouteComponent() {
-    const { lng } = Route.useParams();
     // The shell renders only after the guard confirms the ADMIN role.
     return (
         <AdminGuard>
-            <AdminLayout language={lng}>
+            <AdminLayout>
                 <Outlet />
             </AdminLayout>
         </AdminGuard>

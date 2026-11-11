@@ -1,6 +1,6 @@
 import { createElement } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import testI18n from "@/i18n/i18nForTests";
@@ -80,17 +80,30 @@ describe("AdminUserDetailDialog", () => {
 
         // The canonical account email is read-only for administrators.
         await waitFor(() =>
-            expect(screen.getByRole("heading", { name: "ada@example.test" })).toBeInTheDocument(),
+            expect(screen.getByRole("heading", { name: "Ada" })).toBeInTheDocument(),
         );
+        expect(screen.getByText("ada@example.test")).toBeInTheDocument();
         expect(screen.queryByDisplayValue("ada@example.test")).not.toBeInTheDocument();
         expect(screen.getByText("opaque/user+01")).toBeInTheDocument();
-        expect(screen.getByLabelText(testI18n.t("adminUsers.fields.language"))).toHaveValue("en");
-        expect(screen.getByLabelText(testI18n.t("adminUsers.fields.currency"))).toHaveValue("EUR");
+        expect(
+            screen.getByRole("combobox", { name: testI18n.t("adminUsers.fields.language") }),
+        ).toHaveTextContent(testI18n.t("adminUsers.options.languages.en"));
+        expect(
+            screen.getByRole("combobox", { name: testI18n.t("adminUsers.fields.currency") }),
+        ).toHaveTextContent("EUR");
         expect(screen.queryByText(testI18n.t("adminUsers.sort.created"))).not.toBeInTheDocument();
         expect(screen.queryByText(testI18n.t("adminUsers.sort.updated"))).not.toBeInTheDocument();
         expect(screen.queryByText(/address/i)).not.toBeInTheDocument();
         expect(
-            screen.getByRole("button", { name: testI18n.t("adminUsers.detail.close") }),
+            screen.getByRole("button", { name: testI18n.t("adminCommon.close") }),
+        ).toBeInTheDocument();
+        // Eyebrow, then role and tier tags beside the user ID.
+        expect(screen.getByText(testI18n.t("adminUsers.detail.title"))).toBeInTheDocument();
+        expect(
+            screen.getAllByText(testI18n.t("adminUsers.options.tiers.PRO")).length,
+        ).toBeGreaterThan(0);
+        expect(
+            screen.getByRole("navigation", { name: testI18n.t("adminUsers.tabs.label") }),
         ).toBeInTheDocument();
         expect(api.get).toHaveBeenCalledWith({
             path: { userId: "opaque/user+01" },
@@ -108,12 +121,18 @@ describe("AdminUserDetailDialog", () => {
         });
         renderDialog();
 
-        const currency = await screen.findByLabelText(testI18n.t("adminUsers.fields.currency"));
+        const currency = await screen.findByRole("combobox", {
+            name: testI18n.t("adminUsers.fields.currency"),
+        });
+        await user.click(currency);
         // 30 currencies plus the "not set" option.
-        expect(currency.querySelectorAll("option")).toHaveLength(31);
-        await user.selectOptions(currency, "SEK");
+        expect(await screen.findAllByRole("option")).toHaveLength(31);
+        await user.click(screen.getByRole("option", { name: "SEK" }));
+        expect(currency).toHaveTextContent("SEK");
         await user.click(
-            screen.getByRole("button", { name: testI18n.t("adminUsers.actions.saveProfile") }),
+            screen.getByRole("button", {
+                name: testI18n.t("adminUsers.actions.saveAccountProfile"),
+            }),
         );
 
         await waitFor(() =>
@@ -123,6 +142,18 @@ describe("AdminUserDetailDialog", () => {
                 cache: "no-store",
             }),
         );
+    });
+
+    it("titles the dialog with the name and shows the email under it", async () => {
+        api.get.mockResolvedValue({ data: account, response: { status: 200, ok: true } });
+        renderDialog();
+
+        expect(await screen.findByRole("heading", { name: "Ada Lovelace" })).toBeInTheDocument();
+        expect(screen.getByText("ada@example.test")).toBeInTheDocument();
+        expect(screen.getByText("usr_01")).toBeInTheDocument();
+        expect(
+            screen.getByRole("button", { name: testI18n.t("adminUsers.detail.copyId") }),
+        ).toBeInTheDocument();
     });
 
     it("renders the security controls for the displayed user", async () => {
@@ -144,8 +175,16 @@ describe("AdminUserDetailDialog", () => {
         await user.click(
             await screen.findByRole("button", { name: testI18n.t("adminUsers.actions.delete") }),
         );
+        const confirmation = screen.getByRole("group", {
+            name: testI18n.t("adminUsers.delete.question"),
+        });
+        expect(
+            within(confirmation).getByRole("button", { name: testI18n.t("adminCommon.cancel") }),
+        ).toHaveFocus();
         await user.click(
-            screen.getByRole("button", { name: testI18n.t("adminUsers.actions.confirmDelete") }),
+            within(confirmation).getByRole("button", {
+                name: testI18n.t("adminUsers.actions.deleteForGood"),
+            }),
         );
 
         await waitFor(() => expect(onOpenChange).toHaveBeenCalledWith(false));
@@ -162,7 +201,7 @@ describe("AdminUserDetailDialog", () => {
             await screen.findByRole("button", { name: testI18n.t("adminUsers.actions.delete") }),
         );
         await user.click(
-            screen.getByRole("button", { name: testI18n.t("adminUsers.actions.confirmDelete") }),
+            screen.getByRole("button", { name: testI18n.t("adminUsers.actions.deleteForGood") }),
         );
 
         await waitFor(() => expect(api.remove).toHaveBeenCalledTimes(1));

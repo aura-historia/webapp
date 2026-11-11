@@ -1,15 +1,26 @@
+import { AppWindow, Bot, KeyRound, Plug } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { Button } from "@/components/ui/button.tsx";
 import { ACCESS_TOKEN_SCOPE_METADATA } from "@/data/internal/access-tokens/AccessTokenScope.ts";
 import type {
     AccessTokenOrigin,
     ConnectedApp,
 } from "@/data/internal/access-tokens/OwnCredentials.ts";
 import type { AdminUserCredentials } from "@/data/internal/admin/AdminAccessToken.ts";
-import { getConnectedAppKind } from "@/features/partner/access-token-management/lib/connectedApps.ts";
-import { formatDateTime } from "@/lib/utils.ts";
-import { AdminConfirmation } from "./AdminConfirmation.tsx";
+import { AdminInlineConfirm } from "@/features/admin/common/components/AdminInlineConfirm.tsx";
+import { AdminMark } from "@/features/admin/common/components/AdminStatusMark.tsx";
+import {
+    ADMIN_ROW_ACTION_CLASS,
+    ADMIN_TAG_CLASS,
+    MONO_LABEL_CLASS,
+} from "@/features/admin/common/lib/adminStyles.ts";
+import { getExpiryState } from "@/features/partner/access-token-management/lib/accessTokenExpiry.ts";
+import {
+    type ConnectedAppKind,
+    getConnectedAppKind,
+} from "@/features/partner/access-token-management/lib/connectedApps.ts";
+import { cn } from "@/lib/utils.ts";
 
 const KNOWN_ORIGINS: ReadonlySet<string> = new Set<AccessTokenOrigin>([
     "User",
@@ -17,8 +28,14 @@ const KNOWN_ORIGINS: ReadonlySet<string> = new Set<AccessTokenOrigin>([
     "OAuthMetadataDocument",
 ]);
 
+const KIND_ICON: Record<ConnectedAppKind, LucideIcon> = {
+    agent: Bot,
+    browser: AppWindow,
+    integration: Plug,
+};
+
 /** The translated origin; the raw value is never shown. */
-export function useOriginLabel() {
+function useOriginLabel() {
     const { t } = useTranslation();
     return (origin: string) =>
         KNOWN_ORIGINS.has(origin)
@@ -29,15 +46,17 @@ export function useOriginLabel() {
 type RevokeKey = `revoke:${string}`;
 
 /**
- * A user's credentials grouped like their own dashboard (board "Admin · User security"): connected
- * apps first, read-only for an agent's connection, then personal access tokens. Single tokens,
- * including a registered client's, can be revoked; a connection ends only with "revoke all".
+ * A user's credentials grouped like their own dashboard (board "Admin · User account"): connected
+ * apps first, read-only for an agent's connection, then personal access tokens, each as a ruled row
+ * with its kind tile, a mono meta line and scope tags. Single tokens, including a registered
+ * client's, can be revoked; a connection ends only with "Revoke all".
  */
 export function AdminUserCredentialList({
     credentials,
     confirmation,
     pending,
     disabled,
+    now,
     onAsk,
     onCancel,
     onRevoke,
@@ -46,42 +65,52 @@ export function AdminUserCredentialList({
     readonly confirmation: string | null;
     readonly pending: string | null;
     readonly disabled: boolean;
+    /** The clock read after mount; null keeps dated tokens shown as valid. */
+    readonly now: number | null;
     readonly onAsk: (key: RevokeKey) => void;
     readonly onCancel: () => void;
     readonly onRevoke: (accessTokenId: string) => void;
 }) {
     const { t, i18n } = useTranslation();
     const originLabel = useOriginLabel();
-    const formatDate = (value: Date | string) =>
-        formatDateTime(typeof value === "string" ? new Date(value) : value, i18n.language);
+    const dateFormat = new Intl.DateTimeFormat(i18n.language, { dateStyle: "medium" });
+    const formatDate = (value: Date) => dateFormat.format(value);
 
-    const revokeControl = (accessTokenId: string, prompt: string) => {
+    const expiryLabel = (expiresAt: Date | null) => {
+        if (expiresAt === null) return t("partnerAccessTokens.noExpiration");
+        const date = formatDate(expiresAt);
+        return getExpiryState(expiresAt, now) === "expired"
+            ? t("adminUsers.security.tokens.expiredOn", { date })
+            : t("adminUsers.security.tokens.expiresOn", { date });
+    };
+
+    const revokeTrigger = (accessTokenId: string) => {
         const key: RevokeKey = `revoke:${accessTokenId}`;
-        return confirmation === key ? (
-            <AdminConfirmation
-                prompt={prompt}
-                confirmLabel={t("adminUsers.security.actions.confirmTokenRevocation")}
+        // The inline confirmation replaces its trigger.
+        if (confirmation === key) return null;
+        return (
+            <button
+                type="button"
                 disabled={disabled}
+                data-confirmation-trigger={key}
+                onClick={() => onAsk(key)}
+                className={ADMIN_ROW_ACTION_CLASS}
+            >
+                {t("adminUsers.security.actions.revokeToken")}
+            </button>
+        );
+    };
+
+    const revokeConfirm = (accessTokenId: string, message: string) =>
+        confirmation === `revoke:${accessTokenId}` ? (
+            <AdminInlineConfirm
+                message={message}
+                confirmLabel={t("adminUsers.security.actions.confirmTokenRevocation")}
+                pending={pending === `revoke:${accessTokenId}`}
                 onConfirm={() => onRevoke(accessTokenId)}
                 onCancel={onCancel}
             />
-        ) : (
-            <div>
-                <Button
-                    type="button"
-                    size="sm"
-                    variant="outline"
-                    disabled={disabled}
-                    data-confirmation-trigger={key}
-                    onClick={() => onAsk(key)}
-                >
-                    {pending === key
-                        ? t("adminUsers.security.actions.revoking")
-                        : t("adminUsers.security.actions.revokeToken")}
-                </Button>
-            </div>
-        );
-    };
+        ) : null;
 
     const appName = (app: ConnectedApp) =>
         getConnectedAppKind(app) === "browser"
@@ -89,82 +118,108 @@ export function AdminUserCredentialList({
             : app.client.name;
 
     return (
-        <div className="grid gap-5">
+        <div className="flex flex-col gap-4">
             {credentials.connectedApps.length > 0 && (
                 <CredentialGroup
                     title={t("adminUsers.security.tokens.groups.connectedApps")}
                     count={credentials.connectedApps.length}
                 >
-                    {credentials.connectedApps.map((app) => (
-                        <li key={app.client.clientId} className="grid gap-2 border p-4">
-                            <div className="flex flex-wrap items-start justify-between gap-2">
-                                <h4 className="font-medium break-words">{appName(app)}</h4>
-                                {app.connection && (
-                                    <span className="border px-2 py-1 font-mono text-[10px] tracking-[0.12em] uppercase">
-                                        {t("adminUsers.security.tokens.readOnly")}
-                                    </span>
-                                )}
-                            </div>
-                            <p className="text-sm text-muted-foreground">
-                                {t("adminUsers.security.tokens.origin", {
-                                    origin: originLabel(app.origin),
-                                })}
-                            </p>
-                            <p className="text-sm break-all text-muted-foreground">
-                                {t("adminUsers.security.tokens.client", {
-                                    host: app.client.host,
-                                })}{" "}
-                                <code className="text-xs">{app.client.clientId}</code>
-                            </p>
-                            {app.connection?.connectedAt && (
-                                <p className="text-sm text-muted-foreground">
-                                    {t("adminUsers.security.tokens.connectedAt", {
+                    {credentials.connectedApps.map((app) => {
+                        const name = appName(app);
+                        const meta: ReactNode[] = [originLabel(app.origin), app.client.host];
+                        if (app.connection) {
+                            if (app.connection.connectedAt) {
+                                meta.push(
+                                    t("adminUsers.security.tokens.connectedAt", {
                                         date: formatDate(app.connection.connectedAt),
-                                    })}
-                                    {app.connection.lastUsedAt &&
-                                        ` · ${t("adminUsers.security.tokens.lastUsedAt", {
-                                            date: formatDate(app.connection.lastUsedAt),
-                                        })}`}
-                                </p>
-                            )}
-                            <ScopeTags scopes={app.scopes} />
-                            {app.tokens.length > 0 && (
-                                <ul
-                                    aria-label={t("adminUsers.security.tokens.clientTokens", {
-                                        name: appName(app),
-                                    })}
-                                    className="grid border-t"
-                                >
-                                    {app.tokens.map((token) => (
-                                        <li key={token.id} className="grid gap-2 border-b py-3">
-                                            <p className="text-sm">
-                                                {token.expiresAt
-                                                    ? t("adminUsers.security.tokens.expires", {
-                                                          expires: formatDate(token.expiresAt),
-                                                      })
-                                                    : t("partnerAccessTokens.noExpiration")}
-                                            </p>
-                                            <code className="text-xs break-all text-muted-foreground">
-                                                {token.id}
-                                            </code>
-                                            {revokeControl(
-                                                token.id,
-                                                t("adminUsers.security.tokens.confirmClientToken", {
-                                                    name: appName(app),
-                                                }),
-                                            )}
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
-                            {app.connection && (
-                                <p className="text-xs text-muted-foreground">
-                                    {t("adminUsers.security.tokens.readOnlyNote")}{" "}
-                                    <code className="break-all">{app.connection.id}</code>
-                                </p>
-                            )}
-                        </li>
-                    ))}
+                                    }),
+                                );
+                            }
+                            if (app.connection.lastUsedAt) {
+                                meta.push(
+                                    t("adminUsers.security.tokens.lastUsedAt", {
+                                        date: formatDate(app.connection.lastUsedAt),
+                                    }),
+                                );
+                            }
+                        } else {
+                            meta.push(
+                                <span key="id" className="normal-case">
+                                    {app.client.clientId}
+                                </span>,
+                                t("adminUsers.security.tokens.tokenCount", {
+                                    count: app.tokens.length,
+                                }),
+                            );
+                        }
+                        return (
+                            <CredentialRow
+                                key={app.client.clientId}
+                                icon={KIND_ICON[getConnectedAppKind(app)]}
+                                title={name}
+                                meta={meta}
+                                scopes={app.scopes}
+                                aside={
+                                    app.connection ? (
+                                        <span className="rounded-sm bg-surface-sunken px-2 py-[3px] font-mono text-[10px] tracking-[0.12em] text-ink-secondary uppercase">
+                                            {t("adminUsers.security.tokens.readOnly")}
+                                        </span>
+                                    ) : undefined
+                                }
+                            >
+                                {app.connection && (
+                                    <p className="text-xs leading-normal text-ink-muted">
+                                        {t("adminUsers.security.tokens.connectionNote")}
+                                    </p>
+                                )}
+                                {app.tokens.length > 0 && (
+                                    <ul
+                                        aria-label={t("adminUsers.security.tokens.clientTokens", {
+                                            name,
+                                        })}
+                                        className="mt-1 border-t border-line-subtle"
+                                    >
+                                        {app.tokens.map((token) => (
+                                            <li
+                                                key={token.id}
+                                                className="flex flex-col gap-2.5 border-b border-line-subtle py-2"
+                                            >
+                                                <div className="flex items-center justify-between gap-3">
+                                                    <span className="flex min-w-0 flex-col gap-0.5">
+                                                        <span className="inline-flex items-center gap-2 text-meta">
+                                                            <AdminMark
+                                                                tone={
+                                                                    getExpiryState(
+                                                                        token.expiresAt,
+                                                                        now,
+                                                                    ) === "expired"
+                                                                        ? "hollow"
+                                                                        : "ink"
+                                                                }
+                                                                className="size-2"
+                                                            />
+                                                            {expiryLabel(token.expiresAt)}
+                                                        </span>
+                                                        <code className="font-mono text-[11px] [overflow-wrap:anywhere] text-ink-muted">
+                                                            {token.id}
+                                                        </code>
+                                                    </span>
+                                                    {revokeTrigger(token.id)}
+                                                </div>
+                                                {revokeConfirm(
+                                                    token.id,
+                                                    t(
+                                                        "adminUsers.security.tokens.confirmClientToken",
+                                                        { name },
+                                                    ),
+                                                )}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                            </CredentialRow>
+                        );
+                    })}
                 </CredentialGroup>
             )}
             {credentials.personalTokens.length > 0 && (
@@ -172,36 +227,31 @@ export function AdminUserCredentialList({
                     title={t("adminUsers.security.tokens.groups.personal")}
                     count={credentials.personalTokens.length}
                 >
-                    {credentials.personalTokens.map((token) => (
-                        <li
-                            key={token.accessTokenId}
-                            className="grid gap-3 border p-4 sm:flex sm:items-start sm:justify-between"
-                        >
-                            <div className="grid min-w-0 gap-2">
-                                <h4 className="font-medium break-words">{token.name}</h4>
-                                <p className="text-sm text-muted-foreground">
-                                    {t("adminUsers.security.tokens.origin", {
-                                        origin: originLabel(token.origin),
-                                    })}
-                                </p>
-                                <p className="text-sm text-muted-foreground">
-                                    {token.expires
-                                        ? t("adminUsers.security.tokens.expires", {
-                                              expires: formatDate(token.expires),
-                                          })
-                                        : t("partnerAccessTokens.noExpiration")}
-                                </p>
-                                <ScopeTags scopes={token.scopes} />
-                                <code className="text-xs break-all text-muted-foreground">
-                                    {token.accessTokenId}
-                                </code>
-                            </div>
-                            {revokeControl(
-                                token.accessTokenId,
-                                t("adminUsers.security.tokens.confirmSingle", { name: token.name }),
-                            )}
-                        </li>
-                    ))}
+                    {credentials.personalTokens.map((token) => {
+                        const meta: ReactNode[] = [
+                            expiryLabel(token.expires ? new Date(token.expires) : null),
+                            <span key="id" className="normal-case">
+                                {token.accessTokenId}
+                            </span>,
+                        ];
+                        if (token.origin !== "User") meta.unshift(originLabel(token.origin));
+                        return (
+                            <CredentialRow
+                                key={token.accessTokenId}
+                                icon={KeyRound}
+                                title={token.name}
+                                meta={meta}
+                                scopes={token.scopes}
+                                aside={revokeTrigger(token.accessTokenId)}
+                                after={revokeConfirm(
+                                    token.accessTokenId,
+                                    t("adminUsers.security.tokens.confirmSingle", {
+                                        name: token.name,
+                                    }),
+                                )}
+                            />
+                        );
+                    })}
                 </CredentialGroup>
             )}
         </div>
@@ -218,34 +268,66 @@ function CredentialGroup({
     readonly children: ReactNode;
 }) {
     return (
-        <div className="grid gap-2.5">
-            <h4 className="text-sm font-semibold">
-                {title} <span className="font-normal text-muted-foreground">· {count}</span>
-            </h4>
-            <ul className="grid gap-2.5">{children}</ul>
+        <div className="flex flex-col gap-2">
+            <h5 className={cn(MONO_LABEL_CLASS, "font-normal")}>
+                {title} · {count}
+            </h5>
+            <ul className="border-t border-line">{children}</ul>
         </div>
     );
 }
 
-function ScopeTags({
+/** One ruled credential row: kind tile, title, mono meta line, scopes, and an action or tag. */
+function CredentialRow({
+    icon: Icon,
+    title,
+    meta,
     scopes,
+    aside,
+    after,
+    children,
 }: {
+    readonly icon: LucideIcon;
+    readonly title: string;
+    readonly meta: readonly ReactNode[];
     readonly scopes: readonly (keyof typeof ACCESS_TOKEN_SCOPE_METADATA)[];
+    readonly aside?: ReactNode;
+    readonly after?: ReactNode;
+    readonly children?: ReactNode;
 }) {
     const { t } = useTranslation();
     return (
-        <div className="flex flex-wrap gap-2">
-            {scopes.length > 0 ? (
-                scopes.map((scope) => (
-                    <span key={scope} className="border px-2 py-1 text-xs">
-                        {t(ACCESS_TOKEN_SCOPE_METADATA[scope].label)}
-                    </span>
-                ))
-            ) : (
-                <span className="border px-2 py-1 text-xs">
-                    {t("partnerAccessTokens.noScopes")}
-                </span>
-            )}
-        </div>
+        <li className="grid grid-cols-[36px_minmax(0,1fr)_auto] items-start gap-3.5 border-b border-line-subtle py-3.5">
+            <span
+                aria-hidden="true"
+                className="inline-flex size-9 items-center justify-center rounded-md bg-surface-sunken text-ink-secondary"
+            >
+                <Icon className="size-[17px]" strokeWidth={1.7} />
+            </span>
+            <div className="flex min-w-0 flex-col gap-1.5">
+                <p className="text-[15px] font-medium break-words">{title}</p>
+                <p className="font-mono text-[10px] tracking-[0.1em] [overflow-wrap:anywhere] text-ink-secondary uppercase">
+                    {/* Strings need no key; the only element (the mono ID) carries its own. */}
+                    {meta.flatMap((part, index) => (index === 0 ? [part] : [" · ", part]))}
+                </p>
+                <ul
+                    aria-label={t("adminUsers.security.tokens.scopes")}
+                    className="flex flex-wrap gap-1"
+                >
+                    {scopes.length > 0 ? (
+                        scopes.map((scope) => (
+                            <li key={scope} className={ADMIN_TAG_CLASS}>
+                                {t(ACCESS_TOKEN_SCOPE_METADATA[scope].label)}
+                            </li>
+                        ))
+                    ) : (
+                        <li className={ADMIN_TAG_CLASS}>{t("partnerAccessTokens.noScopes")}</li>
+                    )}
+                </ul>
+                {children}
+            </div>
+            {aside ? <div className="justify-self-end">{aside}</div> : <span />}
+            {after && <div className="col-span-3">{after}</div>}
+        </li>
     );
 }

@@ -3,19 +3,18 @@ import { type ReactNode, useMemo, useState } from "react";
 import { type UseFormReturn, useController, useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button.tsx";
-import { Checkbox } from "@/components/ui/checkbox.tsx";
+import { AdminSelect } from "@/features/admin/common/components/AdminDirectory.tsx";
+import { AdminRecordDialog } from "@/features/admin/common/components/AdminRecordDialog.tsx";
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-} from "@/components/ui/dialog.tsx";
-import { Input } from "@/components/ui/input.tsx";
-import { Label } from "@/components/ui/label.tsx";
-import { Textarea } from "@/components/ui/textarea.tsx";
+    ADMIN_LEGEND_CLASS,
+    ADMIN_SMALL_DANGER_CLASS,
+    FIELD_CLASS,
+    FIELD_ERROR_CLASS,
+    FIELD_LABEL_CLASS,
+    PRIMARY_PILL_CLASS,
+    SECONDARY_PILL_CLASS,
+    SMALL_SECONDARY_PILL_CLASS,
+} from "@/features/admin/common/lib/adminStyles.ts";
 import {
     getSubdivisionCountry,
     listCountryCodes,
@@ -32,7 +31,7 @@ import {
 } from "@/data/internal/geography/PartyLocation.ts";
 import { GeographyDisclosure } from "@/features/geography/components/GeographyDisclosure.tsx";
 import { formatCountryName } from "@/features/geography/lib/formatGeography.ts";
-import { handleCheckedChange } from "@/lib/utils.ts";
+import { cn, handleCheckedChange } from "@/lib/utils.ts";
 import {
     type PartyLocationReconciliation,
     PartyLocationRequestError,
@@ -55,8 +54,10 @@ export type PartyLocationEditorIntent =
     | { readonly kind: "create" }
     | { readonly kind: "correct" | "relocate"; readonly location: PartyLocation };
 
-const SELECT_CLASS =
-    "h-9 w-full border bg-background px-3 text-sm disabled:cursor-not-allowed disabled:opacity-50";
+const HINT_CLASS = "text-xs leading-normal text-ink-muted";
+const NOTE_CLASS = "rounded-md bg-surface-sunken px-3.5 py-3 text-meta leading-normal";
+const ALERT_BOX_CLASS =
+    "flex flex-col gap-3 rounded-md bg-surface p-4 shadow-[inset_0_0_0_1.5px_var(--oxblood)]";
 const DISCLOSURE_ID = "party-location-public-disclosure";
 
 /**
@@ -190,112 +191,111 @@ export function PartyLocationEditorDialog({
     };
 
     return (
-        <Dialog open={open} onOpenChange={(next) => (next ? onOpenChange(true) : close())}>
-            <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
-                <DialogHeader>
-                    <DialogTitle>{t(`partyLocations.editor.${intent.kind}.title`)}</DialogTitle>
-                    <DialogDescription>
-                        {t(`partyLocations.editor.${intent.kind}.description`)}
-                    </DialogDescription>
-                </DialogHeader>
-                <form
-                    noValidate
-                    onSubmit={form.handleSubmit(submit)}
-                    className="grid gap-5"
-                    aria-describedby={DISCLOSURE_ID}
-                >
-                    <GeographyDisclosure
-                        kind="publicPartyLocation"
-                        id={DISCLOSURE_ID}
-                        className="border bg-surface-container-low p-3"
-                    />
-                    {intent.kind !== "create" && <PartyLocationConsequence action={intent.kind} />}
-                    {intent.kind === "correct" && original?.hasUnsupportedValues && (
-                        <p className="border border-border bg-surface-container p-3 text-sm">
-                            {t("partyLocations.editor.unsupportedValues")}
-                        </p>
-                    )}
-                    <PartyLocationFields form={form} disabled={pending} />
-                    {stale && (
-                        <div
-                            role="alert"
-                            className="grid gap-3 border border-destructive/40 bg-destructive/5 p-4"
-                        >
-                            <p className="text-sm">
-                                {t(
-                                    inactive
-                                        ? "partyLocations.editor.staleInactive"
-                                        : `partyLocations.editor.stale.${intent.kind}`,
-                                )}
-                            </p>
-                            {!inactive && (
-                                <div className="flex flex-wrap gap-2">
-                                    <Button type="button" variant="outline" onClick={keepDraft}>
-                                        {t("partyLocations.editor.keepDraft")}
-                                    </Button>
-                                    <Button type="button" variant="outline" onClick={discardDraft}>
-                                        {t("partyLocations.editor.discardDraft")}
-                                    </Button>
-                                </div>
+        <AdminRecordDialog
+            open={open}
+            onOpenChange={(next) => (next ? onOpenChange(true) : close())}
+            title={t(`partyLocations.editor.${intent.kind}.title`)}
+            subtitle={t(`partyLocations.editor.${intent.kind}.description`)}
+        >
+            <form
+                noValidate
+                onSubmit={form.handleSubmit(submit)}
+                className="flex flex-col gap-6"
+                aria-describedby={DISCLOSURE_ID}
+            >
+                <GeographyDisclosure
+                    kind="publicPartyLocation"
+                    id={DISCLOSURE_ID}
+                    className={NOTE_CLASS}
+                />
+                {intent.kind !== "create" && <PartyLocationConsequence action={intent.kind} />}
+                {intent.kind === "correct" && original?.hasUnsupportedValues && (
+                    <p className={NOTE_CLASS}>{t("partyLocations.editor.unsupportedValues")}</p>
+                )}
+                <PartyLocationFields form={form} disabled={pending} />
+                {stale && (
+                    <div role="alert" className={ALERT_BOX_CLASS}>
+                        <p className="text-sm">
+                            {t(
+                                inactive
+                                    ? "partyLocations.editor.staleInactive"
+                                    : `partyLocations.editor.stale.${intent.kind}`,
                             )}
-                        </div>
-                    )}
-                    {requestError && !stale && (
-                        <p role="alert" className="text-sm text-destructive">
-                            {requestError.message}
                         </p>
-                    )}
-                    {indefinite && (
-                        <ReconciliationStatus
-                            reconciliation={create.reconciliation}
-                            onRefresh={() => void create.refresh()}
-                        />
-                    )}
-                    {notice && <output className="text-sm text-muted-foreground">{notice}</output>}
-                    {pendingRelocation ? (
-                        <div className="grid gap-3 border border-destructive/40 bg-destructive/5 p-4">
-                            <p className="text-sm">
-                                {t("partyLocations.editor.confirmRelocation")}
-                            </p>
+                        {!inactive && (
                             <div className="flex flex-wrap gap-2">
-                                <Button
+                                <button
                                     type="button"
-                                    variant="destructive"
-                                    disabled={pending || stale || inactive || unreconciled}
-                                    onClick={() => saveCreated(pendingRelocation)}
+                                    onClick={keepDraft}
+                                    className={SMALL_SECONDARY_PILL_CLASS}
                                 >
-                                    {pending
-                                        ? t("partyLocations.actions.saving")
-                                        : t("partyLocations.actions.confirmRelocate")}
-                                </Button>
-                                <Button
+                                    {t("partyLocations.editor.keepDraft")}
+                                </button>
+                                <button
                                     type="button"
-                                    variant="outline"
-                                    disabled={pending}
-                                    onClick={() => setPendingRelocation(undefined)}
+                                    onClick={discardDraft}
+                                    className={SMALL_SECONDARY_PILL_CLASS}
                                 >
-                                    {t("partyLocations.actions.back")}
-                                </Button>
+                                    {t("partyLocations.editor.discardDraft")}
+                                </button>
                             </div>
-                        </div>
-                    ) : (
-                        <DialogFooter>
-                            <Button type="button" variant="outline" onClick={close}>
-                                {t("partyLocations.actions.cancel")}
-                            </Button>
-                            <Button
-                                type="submit"
+                        )}
+                    </div>
+                )}
+                {requestError && !stale && (
+                    <p role="alert" className="text-meta text-oxblood">
+                        {requestError.message}
+                    </p>
+                )}
+                {indefinite && (
+                    <ReconciliationStatus
+                        reconciliation={create.reconciliation}
+                        onRefresh={() => void create.refresh()}
+                    />
+                )}
+                {notice && <output className="text-meta text-ink-secondary">{notice}</output>}
+                {pendingRelocation ? (
+                    <div className={ALERT_BOX_CLASS}>
+                        <p className="text-sm">{t("partyLocations.editor.confirmRelocation")}</p>
+                        <div className="flex flex-wrap justify-end gap-2">
+                            <button
+                                type="button"
+                                disabled={pending}
+                                onClick={() => setPendingRelocation(undefined)}
+                                className={SMALL_SECONDARY_PILL_CLASS}
+                            >
+                                {t("partyLocations.actions.back")}
+                            </button>
+                            <button
+                                type="button"
                                 disabled={pending || stale || inactive || unreconciled}
+                                onClick={() => saveCreated(pendingRelocation)}
+                                className={ADMIN_SMALL_DANGER_CLASS}
                             >
                                 {pending
                                     ? t("partyLocations.actions.saving")
-                                    : t(`partyLocations.editor.${intent.kind}.submit`)}
-                            </Button>
-                        </DialogFooter>
-                    )}
-                </form>
-            </DialogContent>
-        </Dialog>
+                                    : t("partyLocations.actions.confirmRelocate")}
+                            </button>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="flex flex-col-reverse gap-2.5 border-t border-line-subtle pt-5 sm:flex-row sm:justify-end">
+                        <button type="button" onClick={close} className={SECONDARY_PILL_CLASS}>
+                            {t("partyLocations.actions.cancel")}
+                        </button>
+                        <button
+                            type="submit"
+                            disabled={pending || stale || inactive || unreconciled}
+                            className={PRIMARY_PILL_CLASS}
+                        >
+                            {pending
+                                ? t("partyLocations.actions.saving")
+                                : t(`partyLocations.editor.${intent.kind}.submit`)}
+                        </button>
+                    </div>
+                )}
+            </form>
+        </AdminRecordDialog>
     );
 }
 
@@ -314,7 +314,7 @@ function ReconciliationStatus({
     const { t, i18n } = useTranslation();
     if (reconciliation.status === "refreshing") {
         return (
-            <output className="text-sm text-muted-foreground">
+            <output className="text-meta text-ink-secondary">
                 {t("partyLocations.editor.reconciliation.refreshing")}
             </output>
         );
@@ -324,7 +324,7 @@ function ReconciliationStatus({
             (location) => location.lifecycle === "ACTIVE",
         );
         return (
-            <div className="grid gap-2 border border-border bg-surface-container p-3 text-sm">
+            <div className={cn(NOTE_CLASS, "flex flex-col gap-2")}>
                 <output>{t("partyLocations.editor.reconciliation.refreshed")}</output>
                 {active.length > 0 ? (
                     <ul
@@ -334,14 +334,14 @@ function ReconciliationStatus({
                         {active.map((location) => (
                             <li key={location.id}>
                                 <span className="font-medium">{location.label}</span>{" "}
-                                <span className="text-muted-foreground">
+                                <span className="text-ink-secondary">
                                     {formatPartyLocationRegion(location, i18n.language, t)}
                                 </span>
                             </li>
                         ))}
                     </ul>
                 ) : (
-                    <p className="text-muted-foreground">
+                    <p className="text-ink-secondary">
                         {t("partyLocations.editor.reconciliation.noActiveLocations")}
                     </p>
                 )}
@@ -350,11 +350,15 @@ function ReconciliationStatus({
     }
     if (reconciliation.status === "failed") {
         return (
-            <div role="alert" className="grid justify-items-start gap-2 text-sm">
-                <p>{t("partyLocations.editor.reconciliation.failed")}</p>
-                <Button type="button" variant="outline" onClick={onRefresh}>
+            <div role="alert" className={ALERT_BOX_CLASS}>
+                <p className="text-meta">{t("partyLocations.editor.reconciliation.failed")}</p>
+                <button
+                    type="button"
+                    onClick={onRefresh}
+                    className={cn(SMALL_SECONDARY_PILL_CLASS, "self-start")}
+                >
                     {t("partyLocations.actions.refresh")}
-                </Button>
+                </button>
             </div>
         );
     }
@@ -383,6 +387,11 @@ function PartyLocationFields({
 
     const { field: roles } = useController({ control: form.control, name: "roles" });
     const { field: country } = useController({ control: form.control, name: "country" });
+    const { field: precision } = useController({ control: form.control, name: "precision" });
+    const { field: evidenceScope } = useController({
+        control: form.control,
+        name: "evidenceScope",
+    });
     const subdivision = useWatch({ control: form.control, name: "subdivision" });
     const parsedSubdivision = parseSubdivisionCode(subdivision);
     const subdivisionCountry =
@@ -401,7 +410,8 @@ function PartyLocationFields({
     return (
         <>
             <FormField id="party-location-label" label={t("partyLocations.fields.label")}>
-                <Input
+                <input
+                    className={FIELD_CLASS}
                     {...fieldProps("label", "party-location-label")}
                     {...form.register("label")}
                 />
@@ -413,24 +423,28 @@ function PartyLocationFields({
                 disabled={disabled}
                 aria-describedby="party-location-roles-hint"
             >
-                <legend className="text-sm font-medium">{t("partyLocations.fields.roles")}</legend>
-                <p id="party-location-roles-hint" className="text-xs text-muted-foreground">
+                <legend className={ADMIN_LEGEND_CLASS}>{t("partyLocations.fields.roles")}</legend>
+                <p id="party-location-roles-hint" className={HINT_CLASS}>
                     {t("partyLocations.hints.roles")}
                 </p>
                 <div className="grid gap-2 sm:grid-cols-2">
                     {PARTY_LOCATION_ROLES.map((role) => (
-                        <div key={role} className="flex items-center gap-2">
-                            <Checkbox
+                        <label
+                            key={role}
+                            htmlFor={`party-location-role-${role}`}
+                            className="flex min-h-10 cursor-pointer items-center gap-2.5 rounded-md bg-surface px-3 text-sm shadow-[inset_0_0_0_1px_var(--line)] has-checked:shadow-[inset_0_0_0_1.5px_var(--oxblood)] has-focus-visible:outline-2 has-focus-visible:outline-offset-3 has-focus-visible:outline-brass"
+                        >
+                            <input
                                 id={`party-location-role-${role}`}
+                                type="checkbox"
                                 checked={roles.value.includes(role)}
-                                onCheckedChange={(checked) =>
-                                    handleCheckedChange(roles, role, checked)
+                                onChange={(event) =>
+                                    handleCheckedChange(roles, role, event.target.checked)
                                 }
+                                className="size-[15px] accent-oxblood"
                             />
-                            <Label htmlFor={`party-location-role-${role}`} className="font-normal">
-                                {t(`partyLocations.roles.${role}`)}
-                            </Label>
-                        </div>
+                            {t(`partyLocations.roles.${role}`)}
+                        </label>
                     ))}
                 </div>
             </fieldset>
@@ -440,17 +454,18 @@ function PartyLocationFields({
                 disabled={disabled}
                 aria-describedby="party-location-geography-hint"
             >
-                <legend className="text-sm font-medium">
+                <legend className={ADMIN_LEGEND_CLASS}>
                     {t("partyLocations.sections.geography")}
                 </legend>
-                <p id="party-location-geography-hint" className="text-xs text-muted-foreground">
+                <p id="party-location-geography-hint" className={HINT_CLASS}>
                     {t("partyLocations.hints.geography")}
                 </p>
                 <FormField
                     id="party-location-address"
                     label={t("partyLocations.fields.addressText")}
                 >
-                    <Textarea
+                    <textarea
+                        className={cn(FIELD_CLASS, "h-auto py-2.5 leading-normal")}
                         {...fieldProps("addressText", "party-location-address")}
                         rows={3}
                         {...form.register("addressText")}
@@ -462,15 +477,10 @@ function PartyLocationFields({
                         id="party-location-country"
                         label={t("partyLocations.fields.country")}
                     >
-                        <select
-                            {...fieldProps("country", "party-location-country")}
-                            className={SELECT_CLASS}
-                            name={country.name}
-                            ref={country.ref}
-                            value={country.value}
-                            onBlur={country.onBlur}
-                            onChange={(event) => {
-                                const next = event.target.value;
+                        <AdminSelect
+                            id="party-location-country"
+                            value={country.value ?? ""}
+                            onChange={(next) => {
                                 country.onChange(next);
                                 if (
                                     parsedSubdivision &&
@@ -480,37 +490,49 @@ function PartyLocationFields({
                                     form.setValue("subdivision", "", { shouldDirty: true });
                                 }
                             }}
-                        >
-                            <option value="">{t("partyLocations.fields.notAsserted")}</option>
-                            {countryOptions.map(({ code, name }) => (
-                                <option key={code} value={code}>
-                                    {name}
-                                </option>
-                            ))}
-                        </select>
+                            disabled={disabled}
+                            invalid={Boolean(errors.country)}
+                            describedBy={
+                                errors.country ? "party-location-country-error" : undefined
+                            }
+                            options={[
+                                { value: "", label: t("partyLocations.fields.notAsserted") },
+                                ...countryOptions.map(({ code, name }) => ({
+                                    value: code,
+                                    label: name,
+                                })),
+                            ]}
+                        />
                         <FieldError id="party-location-country" text={errorText("country")} />
                     </FormField>
                     <FormField
                         id="party-location-subdivision"
                         label={t("partyLocations.fields.subdivision")}
                     >
-                        <select
-                            {...fieldProps("subdivision", "party-location-subdivision")}
+                        <AdminSelect
+                            id="party-location-subdivision"
+                            value={subdivision ?? ""}
+                            onChange={(next) =>
+                                form.setValue("subdivision", next, {
+                                    shouldDirty: true,
+                                    shouldValidate: true,
+                                })
+                            }
                             disabled={disabled || subdivisionOptions.length === 0}
-                            className={SELECT_CLASS}
-                            {...form.register("subdivision")}
-                        >
-                            <option value="">
-                                {subdivisionCountry
-                                    ? t("partyLocations.fields.notAsserted")
-                                    : t("partyLocations.hints.chooseCountry")}
-                            </option>
-                            {subdivisionOptions.map((code) => (
-                                <option key={code} value={code}>
-                                    {code}
-                                </option>
-                            ))}
-                        </select>
+                            invalid={Boolean(errors.subdivision)}
+                            describedBy={
+                                errors.subdivision ? "party-location-subdivision-error" : undefined
+                            }
+                            options={[
+                                {
+                                    value: "",
+                                    label: subdivisionCountry
+                                        ? t("partyLocations.fields.notAsserted")
+                                        : t("partyLocations.hints.chooseCountry"),
+                                },
+                                ...subdivisionOptions.map((code) => ({ value: code, label: code })),
+                            ]}
+                        />
                         <FieldError
                             id="party-location-subdivision"
                             text={errorText("subdivision")}
@@ -520,7 +542,8 @@ function PartyLocationFields({
                         id="party-location-postal"
                         label={t("partyLocations.fields.postalCode")}
                     >
-                        <Input
+                        <input
+                            className={FIELD_CLASS}
                             {...fieldProps("postalCode", "party-location-postal")}
                             {...form.register("postalCode")}
                         />
@@ -534,10 +557,10 @@ function PartyLocationFields({
                 disabled={disabled}
                 aria-describedby="party-location-position-hint"
             >
-                <legend className="text-sm font-medium">
+                <legend className={ADMIN_LEGEND_CLASS}>
                     {t("partyLocations.sections.position")}
                 </legend>
-                <p id="party-location-position-hint" className="text-xs text-muted-foreground">
+                <p id="party-location-position-hint" className={HINT_CLASS}>
                     {t("partyLocations.hints.position")}
                 </p>
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -545,7 +568,8 @@ function PartyLocationFields({
                         id="party-location-latitude"
                         label={t("partyLocations.fields.latitude")}
                     >
-                        <Input
+                        <input
+                            className={FIELD_CLASS}
                             {...fieldProps("latitude", "party-location-latitude")}
                             inputMode="decimal"
                             {...form.register("latitude")}
@@ -556,7 +580,8 @@ function PartyLocationFields({
                         id="party-location-longitude"
                         label={t("partyLocations.fields.longitude")}
                     >
-                        <Input
+                        <input
+                            className={FIELD_CLASS}
                             {...fieldProps("longitude", "party-location-longitude")}
                             inputMode="decimal"
                             {...form.register("longitude")}
@@ -567,25 +592,31 @@ function PartyLocationFields({
                         id="party-location-precision"
                         label={t("partyLocations.fields.precision")}
                     >
-                        <select
-                            {...fieldProps("precision", "party-location-precision")}
-                            className={SELECT_CLASS}
-                            {...form.register("precision")}
-                        >
-                            <option value="">{t("partyLocations.fields.notAsserted")}</option>
-                            {GEOGRAPHIC_PRECISIONS.map((precision) => (
-                                <option key={precision} value={precision}>
-                                    {t(`partyLocations.precisions.${precision}`)}
-                                </option>
-                            ))}
-                        </select>
+                        <AdminSelect
+                            id="party-location-precision"
+                            value={precision.value ?? ""}
+                            onChange={precision.onChange}
+                            disabled={disabled}
+                            invalid={Boolean(errors.precision)}
+                            describedBy={
+                                errors.precision ? "party-location-precision-error" : undefined
+                            }
+                            options={[
+                                { value: "", label: t("partyLocations.fields.notAsserted") },
+                                ...GEOGRAPHIC_PRECISIONS.map((value) => ({
+                                    value,
+                                    label: t(`partyLocations.precisions.${value}`),
+                                })),
+                            ]}
+                        />
                         <FieldError id="party-location-precision" text={errorText("precision")} />
                     </FormField>
                     <FormField
                         id="party-location-accuracy"
                         label={t("partyLocations.fields.accuracyMetres")}
                     >
-                        <Input
+                        <input
+                            className={FIELD_CLASS}
                             {...fieldProps("accuracyMetres", "party-location-accuracy")}
                             inputMode="decimal"
                             {...form.register("accuracyMetres")}
@@ -603,17 +634,18 @@ function PartyLocationFields({
                 disabled={disabled}
                 aria-describedby="party-location-evidence-hint"
             >
-                <legend className="text-sm font-medium">
+                <legend className={ADMIN_LEGEND_CLASS}>
                     {t("partyLocations.sections.evidence")}
                 </legend>
-                <p id="party-location-evidence-hint" className="text-xs text-muted-foreground">
+                <p id="party-location-evidence-hint" className={HINT_CLASS}>
                     {t("partyLocations.hints.evidence")}
                 </p>
                 <FormField
                     id="party-location-evidence"
                     label={t("partyLocations.fields.evidenceReference")}
                 >
-                    <Input
+                    <input
+                        className={FIELD_CLASS}
                         {...fieldProps("evidenceReference", "party-location-evidence")}
                         {...form.register("evidenceReference")}
                     />
@@ -627,23 +659,29 @@ function PartyLocationFields({
                         id="party-location-evidence-scope"
                         label={t("partyLocations.fields.evidenceScope")}
                     >
-                        <select
-                            {...fieldProps("evidenceScope", "party-location-evidence-scope")}
-                            className={SELECT_CLASS}
-                            {...form.register("evidenceScope")}
-                        >
-                            {PARTY_LOCATION_EVIDENCE_SCOPES.map((scope) => (
-                                <option key={scope} value={scope}>
-                                    {t(`partyLocations.evidenceScopes.${scope}`)}
-                                </option>
-                            ))}
-                        </select>
+                        <AdminSelect
+                            id="party-location-evidence-scope"
+                            value={evidenceScope.value ?? ""}
+                            onChange={evidenceScope.onChange}
+                            disabled={disabled}
+                            invalid={Boolean(errors.evidenceScope)}
+                            describedBy={
+                                errors.evidenceScope
+                                    ? "party-location-evidence-scope-error"
+                                    : undefined
+                            }
+                            options={PARTY_LOCATION_EVIDENCE_SCOPES.map((scope) => ({
+                                value: scope,
+                                label: t(`partyLocations.evidenceScopes.${scope}`),
+                            }))}
+                        />
                     </FormField>
                     <FormField
                         id="party-location-observed"
                         label={t("partyLocations.fields.evidenceObservedOn")}
                     >
-                        <Input
+                        <input
+                            className={FIELD_CLASS}
                             {...fieldProps("evidenceObservedOn", "party-location-observed")}
                             type="date"
                             {...form.register("evidenceObservedOn")}
@@ -669,8 +707,10 @@ function FormField({
     readonly children: ReactNode;
 }) {
     return (
-        <div className="grid content-start gap-2">
-            <Label htmlFor={id}>{label}</Label>
+        <div className="flex min-w-0 flex-col gap-2">
+            <label htmlFor={id} className={FIELD_LABEL_CLASS}>
+                {label}
+            </label>
             {children}
         </div>
     );
@@ -679,7 +719,7 @@ function FormField({
 function FieldError({ id, text }: { readonly id: string; readonly text?: string }) {
     if (!text) return null;
     return (
-        <p id={`${id}-error`} className="text-sm text-destructive">
+        <p id={`${id}-error`} className={FIELD_ERROR_CLASS}>
             {text}
         </p>
     );

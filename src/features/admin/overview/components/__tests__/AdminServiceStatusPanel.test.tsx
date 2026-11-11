@@ -62,8 +62,14 @@ describe("AdminServiceStatusPanel", () => {
         expect(readiness).toHaveTextContent(
             t("adminOverview.serviceStatus.probeStates.unavailable"),
         );
-        expect(readiness).toHaveTextContent(
-            `${t("adminOverview.serviceStatus.noResponse")} · 10.000 ms`,
+        expect(readiness).toHaveTextContent(t("adminOverview.serviceStatus.noResponse"));
+        expect(readiness).not.toHaveTextContent("10.000 ms");
+        expect(panel).toHaveTextContent(
+            t("adminOverview.serviceStatus.lastChecked", {
+                time: new Intl.DateTimeFormat("de", { timeStyle: "medium" }).format(
+                    Date.UTC(2026, 9, 9, 12, 30, 5),
+                ),
+            }),
         );
     });
 
@@ -87,13 +93,18 @@ describe("AdminServiceStatusPanel", () => {
         );
     });
 
+    it("places the card on the ink ground", () => {
+        const panel = renderWith({});
+        expect(panel).toHaveAttribute("data-theme", "dark");
+    });
+
     it("shows a loading state before the first check settles", () => {
         const panel = renderWith({ isChecking: true });
 
         expect(within(panel).getByText(t("adminOverview.serviceStatus.loading"))).toBeTruthy();
         expect(within(panel).queryByText(/HTTP/)).toBeNull();
         expect(
-            within(panel).getByRole("button", { name: t("adminOverview.serviceStatus.check") }),
+            within(panel).getByRole("button", { name: t("adminOverview.serviceStatus.checking") }),
         ).toBeDisabled();
     });
 

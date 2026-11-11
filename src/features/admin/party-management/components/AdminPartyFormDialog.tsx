@@ -5,17 +5,16 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button.tsx";
+import { Loader2 } from "lucide-react";
+import { AdminRecordDialog } from "@/features/admin/common/components/AdminRecordDialog.tsx";
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-} from "@/components/ui/dialog.tsx";
-import { Input } from "@/components/ui/input.tsx";
-import { Label } from "@/components/ui/label.tsx";
+    FIELD_CLASS,
+    FIELD_ERROR_CLASS,
+    FIELD_LABEL_CLASS,
+    INLINE_ALERT_CLASS,
+    PRIMARY_PILL_CLASS,
+    SECONDARY_PILL_CLASS,
+} from "@/features/admin/common/lib/adminStyles.ts";
 import {
     buildUpdatePartyData,
     type Party,
@@ -110,122 +109,122 @@ export function AdminPartyFormDialog({
         });
     };
 
+    const fieldError = (name: keyof FormValues) => {
+        const message = form.formState.errors[name]?.message;
+        return message ? t(message) : undefined;
+    };
+
     return (
-        <Dialog open={open} onOpenChange={handleOpenChange}>
-            <DialogContent>
-                <DialogHeader>
-                    <DialogTitle>
-                        {t(party ? "adminParties.form.editTitle" : "adminParties.form.createTitle")}
-                    </DialogTitle>
-                    <DialogDescription>{t("adminParties.form.description")}</DialogDescription>
-                </DialogHeader>
-                <form noValidate onSubmit={form.handleSubmit(submit)} className="grid gap-4">
-                    <FormField
+        <AdminRecordDialog
+            open={open}
+            onOpenChange={handleOpenChange}
+            width="sm"
+            eyebrow={t("adminParties.detail.eyebrow")}
+            title={t(party ? "adminParties.form.editTitle" : "adminParties.form.createTitle")}
+        >
+            <form noValidate onSubmit={form.handleSubmit(submit)} className="flex flex-col gap-5">
+                <FormField
+                    id="admin-party-name"
+                    label={t("adminParties.fields.name")}
+                    error={fieldError("name")}
+                >
+                    <input
                         id="admin-party-name"
-                        label={t("adminParties.fields.name")}
-                        errorText={
-                            form.formState.errors.name?.message
-                                ? t(form.formState.errors.name.message)
-                                : undefined
+                        autoComplete="organization"
+                        aria-invalid={Boolean(form.formState.errors.name)}
+                        aria-describedby={
+                            form.formState.errors.name ? "admin-party-name-error" : undefined
                         }
-                    >
-                        <Input
-                            id="admin-party-name"
-                            autoComplete="organization"
-                            aria-invalid={Boolean(form.formState.errors.name)}
-                            aria-describedby={
-                                form.formState.errors.name ? "admin-party-name-error" : undefined
-                            }
-                            {...form.register("name")}
-                        />
-                    </FormField>
-                    <FormField
+                        className={FIELD_CLASS}
+                        {...form.register("name")}
+                    />
+                </FormField>
+                <FormField
+                    id="admin-party-phone"
+                    label={t("adminParties.fields.phone")}
+                    error={fieldError("phone")}
+                >
+                    <input
                         id="admin-party-phone"
-                        label={t("adminParties.fields.phone")}
-                        errorText={
-                            form.formState.errors.phone?.message
-                                ? t(form.formState.errors.phone.message)
-                                : undefined
+                        type="tel"
+                        autoComplete="tel"
+                        aria-invalid={Boolean(form.formState.errors.phone)}
+                        aria-describedby={
+                            form.formState.errors.phone ? "admin-party-phone-error" : undefined
                         }
-                    >
-                        <Input
-                            id="admin-party-phone"
-                            type="tel"
-                            autoComplete="tel"
-                            aria-invalid={Boolean(form.formState.errors.phone)}
-                            aria-describedby={
-                                form.formState.errors.phone ? "admin-party-phone-error" : undefined
-                            }
-                            {...form.register("phone")}
-                        />
-                    </FormField>
-                    <FormField
+                        className={FIELD_CLASS}
+                        {...form.register("phone")}
+                    />
+                </FormField>
+                <FormField
+                    id="admin-party-email"
+                    label={t("adminParties.fields.email")}
+                    error={fieldError("email")}
+                >
+                    <input
                         id="admin-party-email"
-                        label={t("adminParties.fields.email")}
-                        errorText={
-                            form.formState.errors.email?.message
-                                ? t(form.formState.errors.email.message)
-                                : undefined
+                        type="email"
+                        autoComplete="email"
+                        aria-invalid={Boolean(form.formState.errors.email)}
+                        aria-describedby={
+                            form.formState.errors.email ? "admin-party-email-error" : undefined
                         }
+                        className={FIELD_CLASS}
+                        {...form.register("email")}
+                    />
+                </FormField>
+                {requestError && showRequestError && open && (
+                    <p role="alert" className={INLINE_ALERT_CLASS}>
+                        {requestError.message}
+                    </p>
+                )}
+                <div className="flex flex-col-reverse gap-2.5 border-t border-line-subtle pt-5 sm:flex-row sm:justify-end">
+                    <button
+                        type="button"
+                        onClick={() => handleOpenChange(false)}
+                        className={SECONDARY_PILL_CLASS}
                     >
-                        <Input
-                            id="admin-party-email"
-                            type="email"
-                            autoComplete="email"
-                            aria-invalid={Boolean(form.formState.errors.email)}
-                            aria-describedby={
-                                form.formState.errors.email ? "admin-party-email-error" : undefined
-                            }
-                            {...form.register("email")}
-                        />
-                    </FormField>
-                    {requestError && showRequestError && open && (
-                        <p role="alert" className="text-sm text-destructive">
-                            {requestError.message}
-                        </p>
-                    )}
-                    <DialogFooter>
-                        <Button
-                            type="button"
-                            variant="outline"
-                            onClick={() => handleOpenChange(false)}
-                        >
-                            {t("adminParties.actions.cancel")}
-                        </Button>
-                        <Button type="submit" disabled={pending}>
-                            {pending
-                                ? t("adminParties.actions.saving")
-                                : t(
-                                      party
-                                          ? "adminParties.actions.save"
-                                          : "adminParties.actions.create",
-                                  )}
-                        </Button>
-                    </DialogFooter>
-                </form>
-            </DialogContent>
-        </Dialog>
+                        {t("adminCommon.cancel")}
+                    </button>
+                    <button type="submit" disabled={pending} className={PRIMARY_PILL_CLASS}>
+                        {pending && (
+                            <Loader2
+                                aria-hidden="true"
+                                className="size-[15px] animate-spin motion-reduce:animate-none"
+                            />
+                        )}
+                        {t(party ? "adminCommon.save" : "adminParties.actions.create")}
+                    </button>
+                </div>
+            </form>
+        </AdminRecordDialog>
     );
 }
 
 function FormField({
     id,
     label,
-    errorText,
+    error,
     children,
 }: {
     readonly id: string;
     readonly label: string;
-    readonly errorText?: string;
+    readonly error?: string;
     readonly children: ReactNode;
 }) {
     return (
-        <div className="grid gap-2">
-            <Label htmlFor={id}>{label}</Label>
+        <div className="flex flex-col gap-2">
+            <label
+                htmlFor={id}
+                className={FIELD_LABEL_CLASS}
+                data-error={error ? "true" : undefined}
+            >
+                {label}
+            </label>
             {children}
-            {errorText && (
-                <p id={`${id}-error`} role="alert" className="text-sm text-destructive">
-                    {errorText}
+            {error && (
+                <p id={`${id}-error`} role="alert" className={FIELD_ERROR_CLASS}>
+                    {error}
                 </p>
             )}
         </div>

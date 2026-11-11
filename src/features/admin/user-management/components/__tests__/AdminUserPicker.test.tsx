@@ -44,7 +44,9 @@ describe("AdminUserPicker", () => {
             expect.objectContaining({ query: "" }),
             false,
         );
-        expect(screen.getByText(testI18n.t("adminUsers.picker.searchPrompt"))).toBeInTheDocument();
+        expect(screen.getByRole("status")).toHaveTextContent(
+            testI18n.t("adminUsers.filters.query"),
+        );
 
         search(" ada ");
         expect(api.useAdminUsers).toHaveBeenLastCalledWith(
@@ -59,11 +61,14 @@ describe("AdminUserPicker", () => {
             firstName: "Ada",
             lastName: "Lovelace",
         });
-        expect(screen.getByText(testI18n.t("adminUsers.picker.selected"))).toBeInTheDocument();
-        expect(screen.getByText("usr_canonical_1")).toBeInTheDocument();
+        const selected = screen.getByRole("region", {
+            name: testI18n.t("adminUsers.picker.selected"),
+        });
+        expect(selected).toHaveTextContent("Ada Lovelace");
+        expect(selected).toHaveTextContent("usr_canonical_1");
 
         fireEvent.click(
-            screen.getByRole("button", { name: testI18n.t("adminUsers.picker.clear") }),
+            screen.getByRole("button", { name: testI18n.t("adminUsers.picker.change") }),
         );
         expect(onSelect).toHaveBeenLastCalledWith(undefined);
         expect(screen.getByLabelText("User account")).toHaveFocus();
@@ -98,7 +103,25 @@ describe("AdminUserPicker", () => {
 
         search("usr_typed");
 
-        expect(screen.getByText(testI18n.t("adminUsers.picker.noMatch"))).toBeInTheDocument();
+        expect(screen.getByRole("status")).toHaveTextContent(testI18n.t("adminUsers.picker.none"));
         expect(onSelect).not.toHaveBeenCalled();
+    });
+
+    it("offers a retry when the search fails", () => {
+        const refetch = vi.fn();
+        api.useAdminUsers.mockReturnValue({
+            data: undefined,
+            isPending: false,
+            error: new Error("failed"),
+            hasNextPage: false,
+            refetch,
+        });
+        render(<AdminUserPicker id="picker" label="User account" onSelect={vi.fn()} />);
+
+        search("ada");
+
+        expect(screen.getByRole("alert")).toHaveTextContent(testI18n.t("adminUsers.picker.failed"));
+        fireEvent.click(screen.getByRole("button", { name: testI18n.t("adminCommon.retry") }));
+        expect(refetch).toHaveBeenCalledOnce();
     });
 });

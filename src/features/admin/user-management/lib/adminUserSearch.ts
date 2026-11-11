@@ -152,3 +152,69 @@ export function withoutAdminUserSelection(search: AdminUserRouteSearch): AdminUs
     const { userId: _userId, ...filters } = search;
     return filters;
 }
+
+/** Whether any filter beyond the sort order is set. */
+export function hasActiveAdminUserFilters(filters: AdminUserFilters): boolean {
+    return Boolean(
+        filters.query ||
+            filters.email ||
+            filters.firstName ||
+            filters.lastName ||
+            filters.tier?.length ||
+            filters.role?.length ||
+            filters.createdFrom ||
+            filters.createdTo ||
+            filters.updatedFrom ||
+            filters.updatedTo,
+    );
+}
+
+/** The filters with everything but the sort order cleared. */
+export function clearAdminUserFilters(filters: AdminUserFilters): AdminUserFilters {
+    return { sort: filters.sort, order: filters.order };
+}
+
+/** How a direction reads for a field: alphabetical, by date, or plain ascending/descending. */
+export type AdminUserSortDirectionKey =
+    | "alphaAsc"
+    | "alphaDesc"
+    | "oldest"
+    | "newest"
+    | "asc"
+    | "desc";
+
+export type AdminUserSortOption = {
+    /** `field:order`, the value of the combined sort select. */
+    readonly value: `${AdminUserSortField}:${AdminUserSortOrder}`;
+    readonly sort: AdminUserSortField;
+    readonly order: AdminUserSortOrder;
+    readonly direction: AdminUserSortDirectionKey;
+};
+
+function sortOption(
+    sort: AdminUserSortField,
+    order: AdminUserSortOrder,
+    direction: AdminUserSortDirectionKey,
+): AdminUserSortOption {
+    return { value: `${sort}:${order}`, sort, order, direction };
+}
+
+/** Every sort field and direction the API accepts, as one list of "Name · A–Z" style choices. */
+export const ADMIN_USER_SORT_OPTIONS: readonly AdminUserSortOption[] = [
+    ...(["name", "email", "firstName", "lastName"] as const).flatMap((field) => [
+        sortOption(field, "asc", "alphaAsc"),
+        sortOption(field, "desc", "alphaDesc"),
+    ]),
+    ...(["created", "updated"] as const).flatMap((field) => [
+        sortOption(field, "desc", "newest"),
+        sortOption(field, "asc", "oldest"),
+    ]),
+    ...(["tier", "role"] as const).flatMap((field) => [
+        sortOption(field, "asc", "asc"),
+        sortOption(field, "desc", "desc"),
+    ]),
+];
+
+export function findAdminUserSortOption(value: string): AdminUserSortOption | undefined {
+    return ADMIN_USER_SORT_OPTIONS.find((option) => option.value === value);
+}

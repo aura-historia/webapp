@@ -85,6 +85,12 @@ const adminOverviewRoute = createRoute({
     component: () => <>{injectedChildren}</>,
 });
 
+const adminUsersRoute = createRoute({
+    getParentRoute: () => languageRoute,
+    path: "admin/users",
+    component: () => <>{injectedChildren}</>,
+});
+
 const routeTree = rootRoute.addChildren([
     languageRoute.addChildren([
         indexRoute,
@@ -97,6 +103,7 @@ const routeTree = rootRoute.addChildren([
         partnerOverviewRoute,
         partnerApplicationsRoute,
         adminOverviewRoute,
+        adminUsersRoute,
     ]),
 ]);
 
@@ -167,4 +174,14 @@ export function renderWithQueryClient(ui: React.ReactElement) {
 
 export function expandFilterCard(title: string) {
     fireEvent.click(screen.getByText(title));
+}
+
+/** Opens a styled (Radix) select and picks the option with this accessible name. */
+export async function chooseSelectOption(
+    user: { click: (element: Element) => Promise<void> },
+    trigger: HTMLElement,
+    optionName: string | RegExp,
+) {
+    await user.click(trigger);
+    await user.click(await screen.findByRole("option", { name: optionName }));
 }

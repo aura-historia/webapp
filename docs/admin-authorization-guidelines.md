@@ -2,7 +2,7 @@
 
 Apply this guide to admin routes, handlers, and features.
 
-The admin route renders `AdminLayout` (section sidebar plus the active workflow) only
+The admin route renders `AdminLayout` (section navigation plus the active workflow) only
 after `AdminGuard` confirms the ADMIN role. Navigation visibility is not authorization:
 authenticated, noindex workflow routes retain `AdminGuard`. Add admin workflows only
 with current DTO mapping, tests and the authorization checks below.
@@ -45,8 +45,8 @@ must include the selected user ID, and token revocation requests must include th
 ID. Suspension reasons are required operational-log input: validate the UTF-8 byte limit and do not
 retain or log the reason in the client. All OAuth client requests use `Cache-Control: no-store`; list, detail and
 update use secret-free DTOs. Creation alone returns a plaintext client secret, shown once
-and cleared when the dialog closes. Every workflow route stays protected by `AdminGuard` and
-backend authorization; the shared sidebar only links to them.
+(with Copy; only Done closes the panel) and cleared when the dialog closes. Every workflow route stays protected by `AdminGuard` and
+backend authorization; the shared section navigation only links to them.
 
 ## Requirement
 

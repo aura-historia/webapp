@@ -79,7 +79,7 @@ describe("PartyLocationWorkspace", () => {
             .mockImplementationOnce(respond({ lifecycle: "RETIRED", revision: 4 }))
             .mockImplementationOnce(respond({ lifecycle: "ACTIVE", revision: 5 }));
         await renderLoaded();
-        expect(screen.getByText(t("partyLocations.eligibility.ACTIVE"))).toBeInTheDocument();
+        expect(screen.getByText(t("partyLocations.card.public.ACTIVE"))).toBeInTheDocument();
 
         fireEvent.click(screen.getByRole("button", { name: t("partyLocations.actions.retire") }));
         expect(screen.getByText(t("partyLocations.consequences.retire"))).toBeInTheDocument();
@@ -88,7 +88,7 @@ describe("PartyLocationWorkspace", () => {
             screen.getByRole("button", { name: t("partyLocations.actions.confirmRetire") }),
         );
 
-        await screen.findByText(t("partyLocations.eligibility.RETIRED"));
+        await screen.findByText(t("partyLocations.card.public.RETIRED"));
         expect(api.lifecycle.mock.calls[0][0]).toMatchObject({
             path: { party_id: "pty_1", location_id: "ploc_1" },
             body: { expectedRevision: 3, lifecycle: "RETIRED" },
@@ -107,7 +107,7 @@ describe("PartyLocationWorkspace", () => {
         fireEvent.click(
             screen.getByRole("button", { name: t("partyLocations.actions.confirmRestore") }),
         );
-        await screen.findByText(t("partyLocations.eligibility.ACTIVE"));
+        await screen.findByText(t("partyLocations.card.public.ACTIVE"));
         expect(api.lifecycle.mock.calls[1][0].body).toEqual({
             expectedRevision: 4,
             lifecycle: "ACTIVE",
@@ -156,7 +156,7 @@ describe("PartyLocationWorkspace", () => {
         expect(await screen.findByRole("heading", { name: "New showroom" })).toBeInTheDocument();
         // The previous location stays listed, retired, next to the new one.
         expect(
-            await screen.findByText(t("partyLocations.eligibility.RETIRED")),
+            await screen.findByText(t("partyLocations.card.public.RETIRED")),
         ).toBeInTheDocument();
     });
 
@@ -374,7 +374,7 @@ describe("PartyLocationWorkspace", () => {
         expect(await screen.findByText(t("partyLocations.errors.conflict"))).toBeInTheDocument();
         expect(await screen.findByRole("heading", { name: "Gallery" })).toBeInTheDocument();
         expect(api.lifecycle).toHaveBeenCalledTimes(1);
-        expect(screen.getByText(t("partyLocations.eligibility.ACTIVE"))).toBeInTheDocument();
+        expect(screen.getByText(t("partyLocations.card.public.ACTIVE"))).toBeInTheDocument();
     });
 
     it("does not send a correction without changes", async () => {

@@ -37,7 +37,7 @@ function mockResults(items: readonly AdminListingSourceSummary[]) {
 }
 
 function searchFor(text: string) {
-    fireEvent.change(screen.getByLabelText(t("adminAuctions.fields.searchListingSources")), {
+    fireEvent.change(screen.getByLabelText(t("adminAuctions.sourceSearch.label")), {
         target: { value: text },
     });
 }
@@ -48,12 +48,16 @@ describe("AuctionListingSourcePicker", () => {
         mockResults([source]);
     });
 
-    it("keeps the section title separate from the search label", () => {
+    it("names the field and searches only after typing", () => {
         render(<AuctionListingSourcePicker value={undefined} onChange={vi.fn()} />);
 
-        const legend = screen.getByText(t("adminAuctions.fields.listingSource"));
-        expect(legend.tagName).toBe("LEGEND");
-        expect(legend).toHaveClass("mb-3");
+        expect(screen.getByText(t("adminAuctions.fields.source"))).toBeInTheDocument();
+        expect(screen.getByLabelText(t("adminAuctions.sourceSearch.label"))).toHaveAttribute(
+            "placeholder",
+            t("adminAuctions.sourceSearch.placeholder"),
+        );
+        expect(screen.queryByRole("status")).not.toBeInTheDocument();
+        expect(mocks.useAdminAuctionListingSources).not.toHaveBeenCalled();
     });
 
     it("shows the operator so operator-name matches are recognisable", async () => {
@@ -62,7 +66,7 @@ describe("AuctionListingSourcePicker", () => {
 
         searchFor("Dorotheum");
         expect(screen.getByRole("status")).toHaveTextContent(
-            t("adminAuctions.sourceSearch.loading"),
+            t("adminAuctions.sourceSearch.searching"),
         );
 
         const result = await screen.findByRole("button", { name: /Spring Sales/ });
@@ -93,7 +97,7 @@ describe("AuctionListingSourcePicker", () => {
         );
 
         expect(
-            screen.queryByLabelText(t("adminAuctions.fields.searchListingSources")),
+            screen.queryByLabelText(t("adminAuctions.sourceSearch.label")),
         ).not.toBeInTheDocument();
         fireEvent.click(
             screen.getByRole("button", { name: t("adminAuctions.actions.clearSource") }),
@@ -102,9 +106,7 @@ describe("AuctionListingSourcePicker", () => {
 
         rerender(<AuctionListingSourcePicker value={undefined} onChange={onChange} />);
         await waitFor(() =>
-            expect(
-                screen.getByLabelText(t("adminAuctions.fields.searchListingSources")),
-            ).toHaveFocus(),
+            expect(screen.getByLabelText(t("adminAuctions.sourceSearch.label"))).toHaveFocus(),
         );
     });
 
@@ -119,11 +121,14 @@ describe("AuctionListingSourcePicker", () => {
         );
 
         searchFor("unknown");
-        expect(
-            await screen.findByText(t("adminAuctions.sourceSearch.noResults")),
-        ).toBeInTheDocument();
-        expect(screen.getByRole("alert")).toHaveTextContent(
-            t("adminAuctions.validation.sourceRequired"),
+        expect(await screen.findByText(t("adminAuctions.sourceSearch.none"))).toBeInTheDocument();
+        expect(screen.getByText(t("adminAuctions.validation.sourceRequired"))).toHaveAttribute(
+            "id",
+            "auction-source-error",
+        );
+        expect(screen.getByLabelText(t("adminAuctions.sourceSearch.label"))).toHaveAttribute(
+            "aria-invalid",
+            "true",
         );
     });
 });

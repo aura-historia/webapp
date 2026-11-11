@@ -11,6 +11,14 @@ const mocks = vi.hoisted(() => ({
     workspace: vi.fn(),
 }));
 vi.mock("../../api/useAdminParties.ts", () => ({
+    AdminPartyRequestError: class extends Error {
+        constructor(
+            message: string,
+            readonly status: number,
+        ) {
+            super(message);
+        }
+    },
     useAdminParty: mocks.useAdminParty,
     useDeleteAdminParty: () => ({
         mutate: mocks.deleteParty,
@@ -64,6 +72,10 @@ describe("AdminPartyDetailPage", () => {
         expect(screen.getByRole("heading", { level: 1, name: "Atelier Bleu" })).toBeInTheDocument();
         expect(screen.getByText("info@example.test")).toBeInTheDocument();
         expect(screen.getByText("atelier-bleu")).toBeInTheDocument();
+        expect(screen.getByText(t("adminParties.detail.eyebrow"))).toBeInTheDocument();
+        expect(
+            screen.getByRole("link", { name: t("adminParties.page.allOrganizations") }),
+        ).toBeInTheDocument();
         expect(screen.getByText("locations")).toBeInTheDocument();
         expect(screen.getByText("location access for Atelier Bleu")).toBeInTheDocument();
         expect(mocks.workspace).toHaveBeenCalledWith({
@@ -96,7 +108,7 @@ describe("AdminPartyDetailPage", () => {
         );
         render(<AdminPartyDetailPage partyId="pty_1" language="en" />);
 
-        fireEvent.click(screen.getByRole("button", { name: t("adminParties.actions.delete") }));
+        fireEvent.click(screen.getByRole("button", { name: t("adminParties.actions.remove") }));
         expect(
             screen.getByText(t("adminParties.page.deleteTitle", { name: "Atelier Bleu" })),
         ).toBeInTheDocument();
@@ -124,5 +136,32 @@ describe("AdminPartyDetailPage", () => {
         expect(screen.getByText(t("adminParties.errors.missing"))).toBeInTheDocument();
         expect(mocks.workspace).not.toHaveBeenCalled();
         expect(screen.queryByText(/location access for/)).toBeNull();
+    });
+
+    it("shows Organization not found with a way back and no retry after access loss", async () => {
+        const { AdminPartyRequestError } = await import("../../api/useAdminParties.ts");
+        mocks.useAdminParty.mockReturnValue({
+            data: undefined,
+            isPending: false,
+            error: new AdminPartyRequestError(t("adminParties.errors.missing"), 404),
+            refetch: vi.fn(),
+        });
+        const view = render(<AdminPartyDetailPage partyId="pty_1" language="en" />);
+        expect(
+            screen.getByRole("heading", { name: t("adminParties.detail.notFound") }),
+        ).toBeInTheDocument();
+        expect(
+            screen.getAllByRole("link", { name: t("adminParties.page.allOrganizations") }),
+        ).toHaveLength(2);
+        expect(screen.getByRole("button", { name: t("adminCommon.retry") })).toBeInTheDocument();
+
+        mocks.useAdminParty.mockReturnValue({
+            data: undefined,
+            isPending: false,
+            error: new AdminPartyRequestError(t("adminParties.errors.forbidden"), 403),
+            refetch: vi.fn(),
+        });
+        view.rerender(<AdminPartyDetailPage partyId="pty_1" language="en" />);
+        expect(screen.queryByRole("button", { name: t("adminCommon.retry") })).toBeNull();
     });
 });

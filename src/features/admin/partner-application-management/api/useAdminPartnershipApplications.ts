@@ -47,7 +47,7 @@ function useAdminApplicationError() {
         const problem = mapToInternalApiError(error, status);
         let message: string;
         if (problem.status === 409) {
-            message = t("adminApplications.errors.conflict");
+            message = t("adminApplications.errors.conflictReloaded");
         } else if (problem.status === 404) {
             message = t("adminApplications.errors.missing");
         } else {

@@ -2701,26 +2701,16 @@
     }
   },
   "adminApplications": {
-    "title": "Partnerschaftsanträge",
-    "description": "Eingereichte Vorschläge prüfen, in die Prüfung übernehmen und eine Entscheidung festhalten.",
     "loading": "Partnerschaftsanträge werden geladen.",
     "loadingDetail": "Antrag wird geladen.",
-    "loadError": "Partnerschaftsanträge konnten nicht geladen werden.",
-    "empty": "Keine Anträge entsprechen diesen Filtern.",
-    "retry": "Erneut versuchen",
     "filters": {
       "title": "Anträge filtern",
       "states": "Status",
-      "proposalTypes": "Vorschlagsart",
       "applicantUserId": "Nutzer-ID der antragstellenden Person",
       "listingSourceId": "Listing-Quellen-ID",
-      "createdFrom": "Erstellt ab",
-      "createdTo": "Erstellt bis",
-      "updatedFrom": "Aktualisiert ab",
-      "updatedTo": "Aktualisiert bis",
-      "sort": "Sortieren nach",
-      "apply": "Filter anwenden",
-      "reset": "Zurücksetzen"
+      "proposal": "Vorschlag",
+      "created": "Erstellt",
+      "updated": "Aktualisiert"
     },
     "sort": {
       "created_desc": "Neueste zuerst",
@@ -2735,18 +2725,11 @@
       "REJECTED": "Abgelehnt",
       "WITHDRAWN": "Zurückgezogen"
     },
-    "proposalType": {
-      "EXISTING_LISTING_SOURCE": "Bestehender Anbieter",
-      "PROPOSED_LISTING_SOURCE": "Vorgeschlagener Anbieter"
-    },
     "list": {
-      "applicant": "Antragsteller:in {{id}}",
-      "created": "Erstellt am {{date}}",
-      "updated": "Aktualisiert am {{date}}",
-      "total_one": "{{count}} Antrag",
-      "total_other": "{{count}} Anträge",
-      "loadMore": "Mehr laden",
-      "loadingMore": "Wird geladen…"
+      "open": "Antrag für {{name}} öffnen",
+      "existing": "Bestehender Anbieter",
+      "proposed": "Vorgeschlagen · {{type}}",
+      "loadMoreApplications": "Weitere Anträge laden"
     },
     "fields": {
       "id": "Antrags-ID",
@@ -2757,23 +2740,27 @@
       "approvedListingSourceId": "ID der genehmigten Listing-Quelle"
     },
     "links": {
-      "listingSources": "Verwaltung der Listing-Quellen öffnen"
+      "partnership": "Partnerschaft öffnen",
+      "listingSource": "Listing-Quelle öffnen"
     },
     "proposal": {
       "title": "Vorschlag",
       "listingSourceId": "Listing-Quellen-ID",
-      "partyName": "Name der Partei",
       "partyPhone": "Telefon",
       "partyEmail": "E-Mail",
-      "sourceName": "Name des Anbieters",
-      "listingSourceType": "Art des Anbieters",
-      "sourceUrl": "URL des Anbieters",
-      "sourceImage": "Bild-URL",
-      "methods": "Angefragte Importmethoden"
+      "provider": "Anbieter",
+      "type": "Art",
+      "website": "Website",
+      "image": "Bild",
+      "organization": "Organisation",
+      "ingestion": "Import"
     },
     "detail": {
-      "title": "Antragsdetails",
-      "description": "Vorschläge können nicht bearbeitet werden. Übernehmen Sie eingereichte Anträge in die Prüfung, bevor Sie sie annehmen oder ablehnen."
+      "eyebrow": {
+        "EXISTING_LISTING_SOURCE": "Antrag · Bestehender Anbieter",
+        "PROPOSED_LISTING_SOURCE": "Antrag · Vorgeschlagener Anbieter"
+      },
+      "fallbackTitle": "Antrag"
     },
     "actions": {
       "details": "Details ansehen",
@@ -2782,10 +2769,8 @@
       "APPROVE": "Annehmen",
       "REJECT": "Ablehnen",
       "cancel": "Abbrechen",
-      "confirm": {
-        "APPROVE": "Diesen Antrag annehmen? Die Annahme erstellt oder verknüpft die Partnerschaft und gewährt Zugriff auf die Listing-Quelle.",
-        "REJECT": "Diesen Antrag ablehnen? Die antragstellende Person wird benachrichtigt."
-      }
+      "confirmApprove": "Annehmen? Das erstellt oder verknüpft die Partnerschaft und gewährt Zugriff auf die Listing-Quelle.",
+      "confirmReject": "Ablehnen? Die antragstellende Person wird benachrichtigt."
     },
     "success": {
       "IN_REVIEW": "Antrag in die Prüfung übernommen.",
@@ -2793,29 +2778,44 @@
       "REJECT": "Antrag abgelehnt."
     },
     "errors": {
-      "conflict": "Dieser Antrag wurde zwischenzeitlich geändert oder lässt diese Aktion nicht mehr zu, oder jeder für den vorgeschlagenen Organisations- oder Quellennamen erzeugte Slug ist bereits vergeben. Der aktuelle Status wurde geladen.",
-      "missing": "Antrag nicht gefunden oder nicht verfügbar."
+      "missing": "Antrag nicht gefunden oder nicht verfügbar.",
+      "conflictReloaded": "Anderswo geändert oder ein erzeugter Name ist bereits vergeben. Neu geladen."
+    },
+    "pageTitle": "Anträge",
+    "emptyTitle": "Keine Anträge",
+    "noMatches": "Keine Treffer",
+    "loadFailed": "Anträge konnten nicht geladen werden",
+    "proposalOption": {
+      "EXISTING_LISTING_SOURCE": "Bestehend",
+      "PROPOSED_LISTING_SOURCE": "Vorgeschlagen"
+    },
+    "columns": {
+      "provider": "Anbieter",
+      "status": "Status",
+      "applicant": "Antragsteller",
+      "created": "Erstellt",
+      "updated": "Aktualisiert"
+    },
+    "decision": {
+      "label": "Entscheidung"
+    },
+    "groups": {
+      "open": "Offen",
+      "decided": "Entschieden"
     }
   },
   "adminParties": {
-    "title": "Organisationsverwaltung",
-    "description": "Verwalten Sie Organisationsidentitäten und betriebliche Kontaktdaten für Quellenbetreiber und Partnerschaften.",
     "loading": "Organisationen werden geladen.",
     "loadingDetail": "Organisation wird geladen.",
-    "empty": "Keine Organisationen entsprechen diesen Filtern.",
     "filters": {
       "title": "Organisationen filtern",
       "query": "Name oder Kontakt",
       "name": "Organisationsname",
       "phone": "Telefon",
       "email": "E-Mail",
-      "createdFrom": "Erstellt ab",
-      "createdTo": "Erstellt bis",
-      "updatedFrom": "Geändert ab",
-      "updatedTo": "Geändert bis",
-      "sort": "Sortieren nach",
-      "apply": "Filter anwenden",
-      "reset": "Zurücksetzen"
+      "search": "Suche",
+      "created": "Erstellt",
+      "updated": "Aktualisiert"
     },
     "sort": {
       "name_asc": "Name, A bis Z",
@@ -2830,12 +2830,10 @@
       "updated_desc": "Zuletzt geändert"
     },
     "list": {
-      "created": "Erstellt {{date}}",
-      "updated": "Geändert {{date}}",
-      "total_one": "{{count}} Organisation",
-      "total_other": "{{count}} Organisationen",
       "loadMore": "Mehr laden",
-      "loadingMore": "Wird geladen…"
+      "label": "Organisationen",
+      "open": "{{name}} öffnen",
+      "loadMoreOrganizations": "Weitere Organisationen laden"
     },
     "fields": {
       "partyId": "Organisations-ID",
@@ -2848,27 +2846,19 @@
       "notProvided": "Nicht angegeben"
     },
     "detail": {
-      "title": "Organisationsdetails",
-      "description": "Prüfen Sie die kanonische Identität, Kontaktdaten und Erstellungsdaten."
+      "eyebrow": "Organisation",
+      "notFound": "Organisation nicht gefunden"
     },
     "form": {
       "createTitle": "Organisation erstellen",
-      "editTitle": "Organisation bearbeiten",
-      "description": "Verwalten Sie den Organisationsnamen und optionale betriebliche Kontaktdaten."
+      "editTitle": "Organisation bearbeiten"
     },
     "actions": {
       "create": "Organisation erstellen",
-      "details": "Details ansehen",
       "edit": "Organisation bearbeiten",
-      "delete": "Organisation löschen",
-      "retry": "Erneut versuchen",
-      "cancel": "Abbrechen",
-      "save": "Änderungen speichern",
-      "saving": "Wird gespeichert…",
       "confirmDelete": "Diese Organisation löschen? Eine verknüpfte Listing-Quelle oder bestehende Partnerschaft kann die Löschung verhindern. Zugehörige Datensätze werden durch diese Aktion nicht gelöscht.",
       "confirmDeleteButton": "Löschen",
-      "deleting": "Wird gelöscht…",
-      "detailsFor": "Details ansehen: {{name}}"
+      "remove": "Löschen"
     },
     "success": {
       "created": "Organisation erstellt.",
@@ -2887,44 +2877,32 @@
     "validation": {
       "nameRequired": "Geben Sie einen Organisationsnamen ein.",
       "nameTooLong": "Der Name darf höchstens 255 UTF-8-Bytes umfassen.",
-      "invalidEmail": "Geben Sie eine gültige E-Mail-Adresse ein.",
-      "invalidDate": "Geben Sie ein gültiges Kalenderdatum ein."
+      "invalidEmail": "Geben Sie eine gültige E-Mail-Adresse ein."
     },
     "picker": {
       "label": "Organisation des Quellenbetreibers",
-      "selected": "Ausgewählte Organisation",
-      "clear": "Auswahl aufheben",
       "loading": "Organisationen werden gesucht…",
-      "noMatch": "Keine vorhandene Organisation entspricht der Suche. Erstellen Sie sie in der Organisationsverwaltung und kehren Sie dann zur Auswahl zurück.",
-      "searchPrompt": "Suchen Sie vorhandene Organisationen nach Name oder Kontaktdaten.",
-      "manageLink": "Organisationsverwaltung öffnen"
+      "change": "Ändern",
+      "select": "Auswählen",
+      "noMatches": "Keine Treffer.",
+      "failed": "Organisationen konnten nicht durchsucht werden.",
+      "openOrganizations": "Organisationen öffnen"
     },
     "page": {
-      "back": "Zurück zu den Organisationen",
-      "deleteTitle": "{{name}} löschen?"
+      "deleteTitle": "{{name}} löschen?",
+      "allOrganizations": "Alle Organisationen"
     },
     "locationAccess": {
-      "title": "Zugriff auf die Standortverwaltung",
-      "description": "Erteilen Sie einem Konto die ausdrückliche Befugnis, alle Geschäftsstandorte von {{name}} einschließlich privater Angaben einzusehen und zu verwalten. Diese Freigabe ist unabhängig von einer aktiven Partnerschaftsmitgliedschaft und von Freigaben für Angebotsquellen; sie fügt keine davon hinzu und entfernt keine.",
-      "managersTitle": "Aktuelle Standortverwaltung",
-      "managersDescription": "Konten, die diese Standorte derzeit einsehen und verwalten können, jeweils mit dem Grund für ihren Zugriff. Gesperrte Konten werden nicht aufgeführt, und die Administratorrolle allein führt nicht zu einem Eintrag.",
       "empty": "Derzeit hat kein Konto eine ausdrückliche Freigabe oder eine aktive Partnerschaftsmitgliedschaft für diese Organisation.",
       "access": {
         "explicit": "Ausdrückliche Freigabe",
-        "partnership": "Partnerschaftsmitgliedschaft",
-        "partnerships": "Partnerschaften:"
+        "member": "Partnerschaftsmitglied"
       },
       "revokeFor": "Ausdrückliche Freigabe für {{user}} entziehen",
       "state": {
-        "checking": "Aktueller Zugriff wird geprüft…",
-        "none": "{{user}} hat weder eine ausdrückliche Freigabe noch eine aktive Partnerschaftsmitgliedschaft für diese Organisation.",
-        "explicit": "{{user}} hat eine ausdrückliche Freigabe für die Standorte dieser Organisation.",
-        "partnership": "{{user}} kann diese Standorte bereits über eine aktive Partnerschaftsmitgliedschaft verwalten. Eine ausdrückliche Freigabe würde diesen Zugriff erhalten, wenn die Mitgliedschaft endet.",
-        "both": "{{user}} hat eine ausdrückliche Freigabe und eine aktive Partnerschaftsmitgliedschaft. Wird die Freigabe entzogen, bleibt der Zugriff über die Mitgliedschaft bestehen."
+        "checking": "Aktueller Zugriff wird geprüft…"
       },
       "userLabel": "Benutzerkonto",
-      "grant": "Standortzugriff erteilen",
-      "revoke": "Standortzugriff entziehen",
       "confirmGrantTitle": "Standortzugriff erteilen?",
       "confirmGrant": "{{user}} kann alle Standorte von {{name}} einschließlich privater Angaben einsehen und verwalten, bis die Freigabe entzogen wird. Partnerschaftsmitgliedschaften und Freigaben für Angebotsquellen bleiben unverändert.",
       "confirmGrantButton": "Zugriff erteilen",
@@ -2944,77 +2922,69 @@
         "readMissing": "Diese Organisation ist nicht mehr verfügbar.",
         "readFailed": "Die Standortverwaltung konnte nicht geladen werden. Bitte versuchen Sie es erneut."
       },
-      "changeTitle": "Ausdrückliche Freigabe eines Kontos ändern"
+      "heading": "Standortverwaltung",
+      "cardTitle": "Zugriff vergeben",
+      "status": {
+        "none": "Keine Freigabe und keine Mitgliedschaft.",
+        "explicit": "Ausdrückliche Freigabe.",
+        "partnership": "Partnerschaftsmitglied. Eine Freigabe erhält den Zugriff, wenn die Mitgliedschaft endet.",
+        "both": "Ausdrückliche Freigabe und Partnerschaftsmitglied. Wird die Freigabe entzogen, bleibt die Mitgliedschaft bestehen."
+      }
+    },
+    "pageTitle": "Organisationen",
+    "emptyTitle": "Keine Organisationen",
+    "noMatches": "Keine Treffer",
+    "loadFailed": "Organisationen konnten nicht geladen werden",
+    "columns": {
+      "organization": "Organisation",
+      "contact": "Kontakt",
+      "created": "Erstellt",
+      "updated": "Aktualisiert"
     }
   },
   "adminListingSources": {
-    "title": "Verwaltung der Listing-Quellen",
-    "description": "Verwalten Sie Listing-Quellen, ihre Betreiber, Präsentationsdaten und Importeinstellungen.",
     "loading": "Listing-Quellen werden geladen.",
     "loadingDetail": "Listing-Quelle wird geladen.",
-    "empty": "Keine Listing-Quelle entspricht diesen Filtern.",
     "filters": {
       "title": "Listing-Quellen filtern",
       "query": "Name oder Betreiber",
       "name": "Quellenname",
       "listingSourceId": "Listing-Quellen-ID",
-      "listingSourceSlugId": "Unveränderlicher Slug",
-      "operatorPartyId": "ID der Betreiberorganisation",
-      "allTypes": "Alle Typen",
-      "ingestionMethod": "Importmethode",
-      "allMethods": "Alle Methoden",
-      "sort": "Sortieren nach",
-      "apply": "Filter anwenden",
-      "reset": "Zurücksetzen"
-    },
-    "sort": {
-      "name_asc": "Name, A bis Z",
-      "name_desc": "Name, Z bis A",
-      "slug_asc": "Slug, A bis Z",
-      "slug_desc": "Slug, Z bis A",
-      "created_asc": "Älteste zuerst",
-      "created_desc": "Neueste zuerst",
-      "updated_asc": "Am längsten nicht aktualisiert",
-      "updated_desc": "Zuletzt aktualisiert"
+      "type": "Typ",
+      "ingestion": "Import",
+      "slug": "Slug",
+      "operatorId": "Betreiber-ID"
     },
     "list": {
-      "operator": "Betreiber: {{name}}",
-      "noMethods": "Keine Importmethode",
-      "platform": "Plattformtechnologie: {{code}}",
-      "updated": "Aktualisiert {{date}}",
-      "total_one": "{{count}} Listing-Quelle",
-      "total_other": "{{count}} Listing-Quellen",
-      "loadMore": "Mehr laden",
-      "loadingMore": "Wird geladen…"
+      "heads": {
+        "source": "Quelle",
+        "type": "Typ",
+        "ingestion": "Import",
+        "platform": "Plattform",
+        "updated": "Aktualisiert"
+      },
+      "operatedBy": "Betrieben von {{name}}",
+      "none": "Keine",
+      "loadMoreSources": "Weitere Quellen laden"
     },
     "fields": {
-      "listingSourceId": "Listing-Quellen-ID",
-      "immutableSlug": "Unveränderlicher Slug",
       "name": "Quellenname",
       "listingSourceType": "Quellentyp",
       "operator": "Betreiberorganisation",
-      "operatorPartyId": "ID der Betreiberorganisation",
       "operatorName": "Name der neuen Betreiberorganisation",
       "phone": "Telefon",
       "email": "E-Mail",
-      "ingestionMethods": "Importmethoden",
       "platformTechnology": "Plattformtechnologie",
-      "platformTechnologyNotRecorded": "Nicht erfasst",
-      "ingestionConfiguration": "Importkonfiguration",
-      "configurationType": "Konfigurationstyp",
       "fallbackCurrency": "Ersatzwährung (ISO 4217)",
       "domain": "Shopify-Domain",
       "currency": "Währung",
       "language": "Sprache",
-      "webhookSecret": "WooCommerce-Webhook-Secret",
-      "url": "Präsentations-URL",
-      "image": "URL des Präsentationsbildes",
-      "partnerizeCamref": "Partnerize-Kampagnenreferenz (camref)",
-      "referralConfiguration": "Empfehlungskonfiguration",
-      "created": "Erstellt",
-      "updated": "Zuletzt aktualisiert",
-      "notProvided": "Nicht angegeben",
-      "referralUnavailable": "Derzeit nicht verfügbar"
+      "referralUnavailable": "Derzeit nicht verfügbar",
+      "website": "Website",
+      "imageUrl": "Bild-URL",
+      "camref": "Partnerize-camref",
+      "referral": "Empfehlung",
+      "secret": "Webhook-Secret"
     },
     "methods": {
       "WEB_CRAWL": "Web-Crawl",
@@ -3022,55 +2992,46 @@
       "WOOCOMMERCE": "WooCommerce",
       "PARTNER_API": "Partner-API"
     },
-    "configurationTypes": {
-      "WEB_CRAWL": "Web-Crawl",
-      "SHOPIFY": "Shopify",
-      "WOOCOMMERCE": "WooCommerce",
-      "PARTNER_API": "Partner-API"
-    },
     "operator": {
-      "existing": "Bestehende Organisation auswählen",
-      "new": "Neue Organisation erstellen"
+      "existingShort": "Bestehende Organisation",
+      "newShort": "Neue Organisation"
     },
     "referral": {
-      "keep": "Aktuelle Einstellung beibehalten",
       "set": "Partnerize-Referenz festlegen",
       "clear": "Empfehlungseinstellung löschen",
-      "partnerizeValue": "Partnerize · {{camref}}"
+      "partnerizeValue": "Partnerize · {{camref}}",
+      "keepCurrent": "Beibehalten"
     },
     "detail": {
-      "title": "Details der Listing-Quelle",
-      "description": "Prüfen Sie Quellidentität, Betreiber und sichere Konfigurationsangaben. Anbieterschlüssel werden nie angezeigt."
+      "eyebrow": "Listing-Quelle · {{type}}",
+      "eyebrowBare": "Listing-Quelle",
+      "operatedBy": "Betrieben von <party>{{name}}</party>",
+      "confirmDelete": "Diese Quelle löschen? Nicht möglich, solange sie Listings hat."
     },
     "form": {
-      "createTitle": "Listing-Quelle erstellen",
-      "createDescription": "Erstellen Sie eine Quelle und wählen Sie ihren Betreiber. Importmethoden können später konfiguriert werden.",
-      "editTitle": "Listing-Quelle bearbeiten",
-      "editDescription": "Ändern Sie Quelldaten. Betreiber und Quellen-Slug sind unveränderlich.",
-      "configurationDescription": "Optional: Fügen Sie jetzt konfigurierte Importmethoden hinzu oder lassen Sie die Liste leer, um sie später einzurichten.",
-      "referralDescription": "Optionale Partnerize-Empfehlungsdaten. Hier werden keine Anbieterzugangsdaten gespeichert.",
-      "chooseListingSourceType": "Quellentyp auswählen",
-      "listingSourceTypeDescription": "Das hauptsächliche Verkaufsmodell der Quelle. Der eigene Shop eines Verkäufers auf einem Marktplatz wird nach diesem Verkäufer eingeordnet, meist als Händler. Der Typ beschreibt die Quelle nur: Import, Angebote und Auktionen bleiben unberührt.",
-      "platformTechnologyDescription": "Optionaler Code aus Großbuchstaben, Ziffern und Unterstrichen, z. B. SHOPIFY oder BIGCOMMERCE. Er beschreibt nur die Shop-Software: Er aktiviert keinen Import und setzt weder eine installierte App noch eine Partnerschaft voraus. Lassen Sie das Feld leer, um keine Plattform zu erfassen.",
       "replaceConfiguration": "Importkonfiguration ersetzen",
-      "incompleteConfigurationNotice": "Die Lese-API gibt Konfigurationswerte nicht zurück. Lassen Sie diese Option aus, um aktuelle Einstellungen beizubehalten. Beim Aktivieren werden die Einstellungen aller aktiven Importmethoden ersetzt.",
-      "secretPreservationNotice": "Dieses Secret ist schreibgeschützt und wird nie zurückgegeben. Lassen Sie das Feld leer, um ein vorhandenes Secret beizubehalten; geben Sie einen Wert ein, um es zu setzen oder zu erneuern.",
-      "partnerApiConfiguration": "Die Partner-API-Konfiguration wird über den Partner-Integrationsablauf verwaltet."
+      "partnerApiConfiguration": "Die Partner-API-Konfiguration wird über den Partner-Integrationsablauf verwaltet.",
+      "newTitle": "Neue Listing-Quelle",
+      "editNamed": "{{name}} bearbeiten",
+      "legends": {
+        "source": "Quelle",
+        "operator": "Betreiber",
+        "presentation": "Darstellung und Empfehlung",
+        "ingestion": "Import"
+      },
+      "fixed": "Fest",
+      "replaceWarning": "Überschreibt jede aktive Methode.",
+      "secretPlaceholder": "Leer lassen zum Beibehalten",
+      "removeMethod": "{{method}} entfernen",
+      "slug": "Slug · {{slug}}"
     },
     "actions": {
       "create": "Quelle erstellen",
-      "details": "Details anzeigen",
       "edit": "Quelle bearbeiten",
       "delete": "Quelle löschen",
-      "retry": "Erneut versuchen",
-      "cancel": "Abbrechen",
       "save": "Änderungen speichern",
-      "saving": "Wird gespeichert…",
       "addMethod": "Importmethode hinzufügen",
-      "removeMethod": "Entfernen",
-      "confirmDelete": "Diese Listing-Quelle löschen? Quellen mit Listings oder bestehenden Beziehungen können nicht gelöscht werden. Zugehörige Partnerschaften und Anträge werden nicht entfernt.",
-      "confirmDeleteButton": "Quelle löschen",
-      "deleting": "Wird gelöscht…"
+      "removeMethod": "Entfernen"
     },
     "success": {
       "created": "Listing-Quelle erstellt.",
@@ -3081,10 +3042,10 @@
       "forbidden": "Sie dürfen Listing-Quellen nicht verwalten.",
       "missing": "Listing-Quelle nicht gefunden oder nicht mehr verfügbar.",
       "createConflict": "Die Quelle steht im Konflikt mit einer bestehenden Anbieterkonfiguration, oder jeder aus ihrem Namen oder dem Namen des neuen Betreibers erzeugte Slug ist bereits vergeben. Prüfen Sie die aktuellen Quellen oder wählen Sie einen eindeutigeren Namen, bevor Sie es erneut versuchen.",
-      "updateConflict": "Diese Listing-Quelle wurde während der Bearbeitung geändert. Laden Sie die Details neu und versuchen Sie es erneut.",
       "deleteConflict": "Diese Listing-Quelle hat Listings oder bestehende Beziehungen und konnte nicht gelöscht werden. Zugehörige Datensätze wurden nicht entfernt.",
       "invalid": "Prüfen Sie Quelldaten und Importeinstellungen und versuchen Sie es erneut.",
-      "requestFailed": "Die Anfrage zur Listing-Quelle konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut."
+      "requestFailed": "Die Anfrage zur Listing-Quelle konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut.",
+      "changedElsewhere": "Listing-Quelle wurde anderweitig geändert. Neu geladen."
     },
     "validation": {
       "nameRequired": "Geben Sie einen Quellnamen ein.",
@@ -3103,19 +3064,14 @@
     },
     "locationDefault": {
       "title": "Standardstandort",
-      "description": "Der eine Standort, der den Angeboten dieser Quelle ihre quellenabgeleitete Geografie liefert. Wählbar sind nur aktive Standorte der Betreiberorganisation.",
       "loading": "Standardstandort wird geladen.",
-      "propagation": "Änderungen am Standard werden sofort gespeichert. Suchergebnisse und Angebotsgeografie werden asynchron aktualisiert; das kann kurze Zeit dauern. Wird ein Standort stillgelegt oder verlegt, wird dieser Standard nie automatisch auf einen anderen Standort umgestellt.",
       "unsupportedValues": "Einige gespeicherte Nachweise haben ein Format, das diese App nicht anzeigen kann; sie werden hier nicht gezeigt.",
       "fields": {
-        "location": "Standort",
         "noDefault": "Kein Standardstandort",
-        "locationDetailsUnavailable": "Die Standortdetails sind hier nicht geladen. Öffnen Sie die Standorte des Betreibers, um sie zu prüfen.",
-        "notAsserted": "Nicht angegeben",
-        "asserted": "Angegeben",
-        "evidence": "Nachweis: {{reference}}",
-        "evidenceReference": "Nachweisreferenz",
-        "revision": "Revision"
+        "yes": "Ja",
+        "no": "Nein",
+        "evidenceLabel": "Nachweis",
+        "locationUnavailable": "Standortdetails nicht geladen."
       },
       "effect": {
         "none": "Es ist kein Standardstandort festgelegt. Angebote dieser Quelle haben keine quellenabgeleitete Geografie.",
@@ -3126,45 +3082,35 @@
       },
       "applicability": {
         "legend": "Geltung",
-        "hint": "Jede Aussage ist unabhängig und benötigt eine eigene Nachweisreferenz. Nur angebotener Bestand verortet die Angebote dieser Quelle an dem Standort.",
-        "evidenceHint": "Erforderlich. Eine Referenz auf die Quelle dieser Aussage, etwa eine Dokumentnummer oder Webadresse. Sie wird als Text gespeichert und nie aufgerufen.",
         "advertisedInventory": {
-          "label": "Angebotener Bestand",
-          "description": "Die von dieser Quelle angebotenen Objekte befinden sich an diesem Standort. Ihre Angebote übernehmen dann die Geografie des Standorts."
+          "label": "Angebotener Bestand"
         },
         "businessAssociation": {
-          "label": "Verbundenes Geschäft",
-          "description": "Das Geschäft hinter dieser Quelle wird von diesem Standort aus betrieben. Für sich genommen verortet das keine einzelnen Angebote an diesem Standort."
+          "label": "Verbundenes Geschäft"
         }
       },
       "assign": {
         "title": "Standardstandort zuweisen",
         "replaceTitle": "Standardstandort ersetzen",
-        "description": "Wählen Sie einen aktiven Standort der Betreiberorganisation und geben Sie an, welche Geltung zutrifft.",
-        "replaceDescription": "Beim Ersetzen werden der Standort und beide Geltungsaussagen gemeinsam festgelegt. Die bisherigen Aussagen werden nicht übernommen; geben Sie sie erneut an, wenn sie für den neuen Standort zutreffen.",
         "unsupportedValues": "Der aktuelle Standard enthält gespeicherte Nachweise, die diese App nicht anzeigen kann. Beim Ersetzen werden sie entfernt.",
         "locationLegend": "Standort"
       },
       "applicabilityForm": {
         "title": "Geltung bearbeiten",
-        "description": "Ändern Sie die Aussagen zum aktuellen Standort, ohne den Standort selbst zu ändern.",
         "unsupportedValues": "Einige gespeicherte Nachweise können nicht angezeigt werden. Unveränderte Aussagen behalten sie; eine geänderte Aussage ersetzt sie.",
         "noChanges": "Es gibt keine Änderungen zum Speichern."
       },
       "clear": {
-        "confirm": "Standardstandort entfernen? Angebote dieser Quelle verlieren die davon übernommene Geografie, sobald die Suche aktualisiert ist. Es wird kein anderer Standort gewählt.",
-        "confirmRetired": "Stillgelegten Verweis entfernen? Er liefert derzeit keine Angebotsgeografie; durch das Entfernen wird er von dieser Quelle gelöst. Es wird kein anderer Standort gewählt."
+        "confirmShort": "Standard entfernen? Listings verlieren seine Geografie.",
+        "confirmRetiredShort": "Stillgelegten Verweis entfernen? Er liefert keine Geografie."
       },
       "stale": {
-        "assign": "Der Standard wurde während Ihrer Bearbeitung geändert; oben sehen Sie die neueste Version. Behalten Sie Ihren Entwurf, um ihn auf die neueste Version anzuwenden, oder verwerfen Sie ihn.",
-        "applicability": "Der Standard wurde während Ihrer Bearbeitung geändert; oben sehen Sie die neueste Version. Behalten Sie Ihren Entwurf, um nur Ihre Änderungen auf die neueste Version anzuwenden, oder verwerfen Sie ihn.",
         "applicabilityUnavailable": "Der Standard verweist nicht mehr auf denselben aktiven Standort, daher kann seine Geltung hier nicht geändert werden. Verwerfen Sie Ihren Entwurf und prüfen Sie oben die neueste Version.",
-        "clear": "Der Standard wurde nach Ihrem Start geändert; oben sehen Sie die neueste Version. Prüfen Sie sie und bestätigen Sie erneut, oder brechen Sie ab.",
-        "alreadyCleared": "Der Standard wurde bereits entfernt. Es gibt nichts mehr zu entfernen."
+        "alreadyCleared": "Der Standard wurde bereits entfernt. Es gibt nichts mehr zu entfernen.",
+        "changed": "Anderweitig geändert (jetzt Revision {{revision}})."
       },
       "links": {
-        "operatorLocations": "Standorte von {{name}} verwalten",
-        "operatorLocationsHint": "Standorte auf der Seite der Betreiberorganisation hinzufügen, korrigieren, verlegen, stilllegen oder wiederherstellen."
+        "operator": "Standorte des Betreibers"
       },
       "actions": {
         "assign": "Standort zuweisen",
@@ -3175,7 +3121,6 @@
         "confirmReplace": "Standort ersetzen",
         "saveApplicability": "Geltung speichern",
         "confirmClear": "Standard entfernen",
-        "clearing": "Wird entfernt…",
         "keepDraft": "Entwurf behalten",
         "discardDraft": "Entwurf verwerfen",
         "reviewLatest": "Neueste Version verwenden"
@@ -3200,7 +3145,42 @@
         "invalid": "Prüfen Sie den Standort und die Nachweisreferenzen und versuchen Sie es erneut.",
         "unavailable": "Standardstandorte sind vorübergehend nicht verfügbar. Bitte versuchen Sie es in Kürze erneut.",
         "requestFailed": "Die Anfrage konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut."
+      },
+      "status": {
+        "none": "Kein Standard",
+        "ACTIVE": "Aktiv",
+        "RETIRED": "Stillgelegt",
+        "UNKNOWN": "Unbekannter Status",
+        "revision": "Revision {{revision}}"
       }
+    },
+    "heading": "Listing-Quellen",
+    "states": {
+      "empty": "Keine Listing-Quellen",
+      "noMatches": "Keine Treffer",
+      "error": "Listing-Quellen konnten nicht geladen werden"
+    },
+    "sortOptions": {
+      "name_asc": "Name · A–Z",
+      "name_desc": "Name · Z–A",
+      "slug_asc": "Slug · A–Z",
+      "slug_desc": "Slug · Z–A",
+      "created_desc": "Erstellt · Neueste zuerst",
+      "created_asc": "Erstellt · Älteste zuerst",
+      "updated_desc": "Aktualisiert · Neueste zuerst",
+      "updated_asc": "Aktualisiert · Älteste zuerst"
+    },
+    "facts": {
+      "id": "ID",
+      "slug": "Slug",
+      "ingestion": "Import",
+      "platform": "Plattform",
+      "website": "Website",
+      "image": "Bild",
+      "referral": "Empfehlung",
+      "operatorId": "Betreiber-ID",
+      "created": "Erstellt",
+      "updated": "Aktualisiert"
     }
   },
   "listingSourceTypes": {
@@ -3216,82 +3196,61 @@
     }
   },
   "adminPartnerships": {
-    "title": "Partnerschaftsverwaltung",
-    "description": "Verwalten Sie Partnerschaftsmitgliedschaften und den Zugriff auf Anbieter.",
     "loading": "Partnerschaften werden geladen.",
     "loadingDetail": "Partnerschaft wird geladen.",
-    "empty": "Keine aktiven Partnerschaften entsprechen diesen Filtern.",
     "filters": {
       "title": "Partnerschaften filtern",
-      "partyId": "Organisations-ID",
       "memberUserId": "Mitglieds-User-ID",
       "listingSourceId": "Anbieter-ID",
-      "apply": "Filter anwenden",
-      "reset": "Zurücksetzen"
+      "byId": "Nach ID filtern",
+      "organizationId": "Organisations-ID"
     },
     "validation": {
       "idTooLong": "Die Kennung darf höchstens 128 Zeichen enthalten.",
       "requiredId": "Geben Sie eine Kennung ein."
     },
     "list": {
-      "members_one": "{{count}} Mitglied",
-      "members_other": "{{count}} Mitglieder",
-      "listingSources_one": "{{count}} Anbieterzugriff",
-      "listingSources_other": "{{count}} Anbieterzugriffe",
-      "loaded_one": "{{count}} Partnerschaft geladen",
-      "loaded_other": "{{count}} Partnerschaften geladen",
-      "loadMore": "Weitere laden",
-      "loadingMore": "Wird geladen…"
+      "label": "Partnerschaften",
+      "open": "Partnerschaft mit {{name}} öffnen",
+      "loadMorePartnerships": "Weitere Partnerschaften laden"
     },
     "fields": {
-      "created": "Erstellt",
-      "updated": "Zuletzt aktualisiert",
-      "party": "Organisation",
-      "partyId": "Organisations-ID",
-      "partySlugId": "Unveränderliche Organisationskennung",
       "partnershipId": "Partnerschafts-ID",
-      "memberCount": "Mitglieder (vollständige Anzahl)",
-      "listingSourceGrantCount": "Anbieterzugriffe (vollständige Anzahl)"
+      "organizationId": "Organisations-ID",
+      "organizationSlug": "Organisations-Slug",
+      "members": "Mitglieder",
+      "sourceGrants": "Quellenzugriffe",
+      "createdUpdated": "Erstellt · Aktualisiert"
     },
     "actions": {
-      "details": "Details anzeigen",
-      "retry": "Erneut versuchen",
-      "saving": "Wird gespeichert…",
       "grantMembership": "Mitgliedschaft vergeben",
-      "revokeMembership": "Mitgliedschaft entziehen",
       "revoke": "Entziehen",
       "revokeMemberFor": "Mitgliedschaft für User-ID {{id}} entziehen",
       "revokeSourceFor": "Zugriff auf Anbieter-ID {{id}} entziehen",
       "grantSource": "Zugriff vergeben",
       "revokeSource": "Zugriff entziehen",
-      "cancel": "Abbrechen",
       "dissolve": "Partnerschaft auflösen",
-      "dissolving": "Wird aufgelöst…",
       "confirmDissolve": "Partnerschaft auflösen"
     },
     "detail": {
-      "title": "Partnerschaftsdetails",
-      "description": "Mitgliedschaften und Anbieterzugriffe werden separat verwaltet. Die vollständigen Zahlen können über den angezeigten Kennungen liegen.",
-      "members_one": "{{count}} Mitglied",
-      "members_other": "{{count}} Mitglieder",
-      "listingSources_one": "{{count}} Anbieterzugriff",
-      "listingSources_other": "{{count}} Anbieterzugriffe",
-      "referencesShown": "Angezeigte Kennungen: {{shown}}. Vollständige Anzahl: {{count}}.",
       "noReferences": "Keine Kennungen geladen.",
-      "close": "Schließen"
+      "eyebrow": "Partnerschaft",
+      "organizationLink": "Organisation",
+      "shown": "{{shown}} von {{count}} angezeigt"
     },
     "members": {
-      "title": "Mitgliedschaften verwalten",
-      "description": "Mitgliedschaften werden ausdrücklich vergeben oder entzogen. Eine Antragsgenehmigung allein gewährt keinen Zugriff.",
-      "userId": "User-ID"
+      "userId": "User-ID",
+      "heading": "Mitglieder",
+      "confirmRevoke": "Diese Mitgliedschaft entziehen?"
     },
     "sources": {
-      "title": "Anbieterzugriffe verwalten",
-      "description": "Ein Anbieter muss derselben Organisation wie diese Partnerschaft angehören. Der Server prüft dies beim Speichern erneut.",
       "listingSourceId": "Anbieter-ID",
       "checking": "Anbieter wird geprüft…",
       "check": "Anbieter prüfen",
-      "sameParty": "{{name}} ({{listingSourceId}}) gehört zur selben Organisation wie diese Partnerschaft."
+      "heading": "Quellenzugriff",
+      "confirmRevoke": "Zugriff auf diese Quelle entziehen?",
+      "sameOrganization": "{{name}} · gleiche Organisation",
+      "otherOrganization": "Gehört zu einer anderen Organisation."
     },
     "success": {
       "memberGranted": "Mitgliedschaft vergeben.",
@@ -3305,46 +3264,50 @@
       "invalid": "Prüfen Sie die angegebenen Kennungen.",
       "missing": "Diese Partnerschaft ist nicht mehr verfügbar.",
       "partyConflict": "Der Anbieter gehört zu einer anderen Organisation als diese Partnerschaft. Zugriff kann nur für Anbieter derselben Organisation vergeben werden.",
-      "conflict": "Die Partnerschaft wurde parallel geändert. Aktualisieren Sie die Details und versuchen Sie es erneut.",
-      "dissolveConflict": "Die Partnerschaft wurde parallel geändert. Aktualisieren Sie die Details, bevor Sie es erneut versuchen.",
       "dissolveFailed": "Die Partnerschaft konnte nicht aufgelöst werden. Prüfen Sie den aktuellen Status und versuchen Sie es erneut.",
       "requestFailed": "Die Anfrage konnte nicht abgeschlossen werden. Aktualisieren Sie die Details und versuchen Sie es erneut.",
-      "referenceMissing": "Die Partnerschaft oder die angegebene Kennung wurde nicht gefunden."
+      "referenceMissing": "Die Partnerschaft oder die angegebene Kennung wurde nicht gefunden.",
+      "changedElsewhere": "Anderswo geändert. Neu geladen."
     },
     "dissolution": {
       "title": "Partnerschaft auflösen",
-      "description": "Beim Auflösen werden aktuelle Mitgliedschaften und Anbieterzugriffe entfernt. Organisation, Anbieter, Benutzer, Angebote und Anträge bleiben erhalten.",
-      "confirmTitle": "Auflösung bestätigen",
-      "confirmDescription": "Möchten Sie die Partnerschaft mit {{name}} auflösen? Die aktuellen Mitgliedschaften und Anbieterzugriffe werden entfernt."
+      "confirmQuestion": "Diese Partnerschaft auflösen?",
+      "removes": "Entfernt {{memberships}} und {{grants}}.",
+      "memberships_one": "{{count}} Mitgliedschaft",
+      "memberships_other": "{{count}} Mitgliedschaften",
+      "grants_one": "{{count}} Quellenzugriff",
+      "grants_other": "{{count}} Quellenzugriffe"
+    },
+    "pageTitle": "Partnerschaften",
+    "emptyTitle": "Keine Partnerschaften",
+    "noMatches": "Keine Treffer",
+    "loadFailed": "Partnerschaften konnten nicht geladen werden",
+    "columns": {
+      "organization": "Organisation",
+      "members": "Mitglieder",
+      "sourceGrants": "Quellenzugriffe",
+      "created": "Erstellt",
+      "updated": "Aktualisiert"
     }
   },
   "adminDashboard": {
     "loading": "Wird geladen…",
-    "forbidden": {
-      "title": "Zugriff verweigert",
-      "description": "Sie haben keine Berechtigung, das Admin-Dashboard anzuzeigen. Bitte melden Sie sich mit einem Administratorkonto an."
-    }
+    "accessDenied": "Nur für Administratoren",
+    "goHome": "Zur Startseite"
   },
   "adminOverview": {
-    "title": "Admin-Übersicht",
-    "description": "Aktuelle Plattformzahlen aus der maßgeblichen Datenbank. Die Werte sind eine Momentaufnahme zum Zeitpunkt des Seitenaufrufs.",
     "loading": "Admin-Übersicht wird geladen.",
-    "actions": {
-      "retry": "Erneut versuchen"
-    },
     "errors": {
       "forbidden": "Sie sind nicht berechtigt, die Admin-Übersicht anzuzeigen.",
       "unavailable": "Die Admin-Übersicht ist vorübergehend nicht verfügbar. Bitte versuchen Sie es in Kürze erneut.",
       "requestFailed": "Die Admin-Übersicht konnte nicht geladen werden.",
-      "stale": "Die aktuellen Zahlen konnten nicht aktualisiert werden. Die angezeigten Werte sind möglicherweise veraltet."
+      "outOfDate": "Aktualisierung fehlgeschlagen. Die Zahlen sind möglicherweise veraltet."
     },
     "serviceStatus": {
       "title": "Systemstatus",
-      "description": "Von diesem Browser aus über die öffentlichen Health-Endpunkte der API geprüft. Dasselbe Ergebnis bestimmt, welchen Hinweis Besucher sehen.",
       "check": "Jetzt prüfen",
       "loading": "Systemstatus wird geprüft.",
       "noResponse": "Keine Antwort",
-      "checkedAt": "Zuletzt geprüft um {{time}}.",
       "availability": {
         "operational": "Betriebsbereit",
         "maintenance": "Wartung",
@@ -3363,26 +3326,20 @@
         "available": "Verfügbar",
         "maintenance": "Wartung",
         "unavailable": "Nicht verfügbar"
-      }
+      },
+      "checking": "Wird geprüft…",
+      "lastChecked": "Zuletzt geprüft {{time}}"
     },
     "users": {
       "title": "Benutzer",
-      "link": "Benutzer verwalten",
       "byTier": "Nach Tarif",
-      "byRole": "Nach Rolle",
       "tiers": {
         "free": "Free",
         "pro": "Pro",
         "ultimate": "Ultimate"
-      },
-      "roles": {
-        "user": "Benutzer",
-        "admin": "Administrator"
       }
     },
     "applications": {
-      "title": "Partnerschaftsanträge",
-      "link": "Anträge prüfen",
       "byState": "Nach Status",
       "states": {
         "submitted": "Eingereicht",
@@ -3390,20 +3347,23 @@
         "approved": "Angenommen",
         "rejected": "Abgelehnt",
         "withdrawn": "Zurückgezogen"
-      }
+      },
+      "label": "Anträge",
+      "awaitingReview_one": "<strong>{{value}}</strong> zur Prüfung offen",
+      "awaitingReview_other": "<strong>{{value}}</strong> zur Prüfung offen",
+      "review": "Prüfen"
     },
     "listingSources": {
       "title": "Listing-Quellen",
-      "link": "Listing-Quellen verwalten",
       "withoutIngestionMethod": "Ohne Erfassungsmethode",
       "methodAssignments": "Zuordnungen von Erfassungsmethoden",
-      "methodAssignmentsNote": "Eine Quelle kann mehrere Methoden nutzen; die Zuordnungen können daher die Anzahl der Quellen übersteigen.",
       "methods": {
         "webCrawl": "Web-Crawl",
         "shopify": "Shopify",
         "woocommerce": "WooCommerce",
         "partnerApi": "Partner-API"
-      }
+      },
+      "overlapNote": "Methoden überschneiden sich; nicht addieren."
     },
     "parties": {
       "title": "Organisationen"
@@ -3419,7 +3379,6 @@
         "withdrawn": "Zurückgezogen"
       },
       "activeAvailability": "Verfügbarkeit aktiver Einträge",
-      "activeAvailabilityNote": "Berücksichtigt nur aktive Einträge.",
       "activeWithoutAvailability": "Keine Verfügbarkeit angegeben",
       "availability": {
         "available": "Verfügbar",
@@ -3436,8 +3395,20 @@
       }
     },
     "summary": {
-      "label": "Gesamtzahlen",
-      "awaitingReview": "Zur Prüfung offen"
+      "label": "Gesamtzahlen"
+    },
+    "pageTitle": "Übersicht",
+    "breakdown": "Aufschlüsselung",
+    "unavailable": "Zahlen nicht verfügbar",
+    "totals": {
+      "administrators_one": "{{value}} Administrator",
+      "administrators_other": "{{value}} Administratoren",
+      "awaitingReview_one": "{{value}} zur Prüfung offen",
+      "awaitingReview_other": "{{value}} zur Prüfung offen",
+      "withoutIngestionMethod_one": "{{value}} ohne Erfassungsmethode",
+      "withoutIngestionMethod_other": "{{value}} ohne Erfassungsmethode",
+      "active_one": "{{value}} aktiv",
+      "active_other": "{{value}} aktiv"
     }
   },
   "adminNavigation": {
@@ -3458,7 +3429,8 @@
       "auctions": "Auktionen",
       "productListings": "Produktangebote",
       "oauthClients": "OAuth-Clients"
-    }
+    },
+    "title": "Admin"
   },
   "oauth": {
     "authorize": {
@@ -5201,27 +5173,20 @@
     "positioning": "Preisdatenbanken, die festhalten, wofür Objekte verkauft wurden, im Vergleich zu einer Suche über Händler, Auktionshäuser und Marktplätze, die zeigt, was jetzt angeboten wird."
   },
   "adminUsers": {
-    "title": "Benutzerverwaltung",
-    "description": "Kontozusammenfassungen suchen, Kontodetails prüfen und Profil-, Rollen- und Tarifänderungen getrennt vornehmen.",
     "loading": "Benutzer werden geladen…",
     "loadingDetail": "Kontodetails werden geladen…",
-    "empty": "Keine Benutzer entsprechen diesen Filtern.",
     "filters": {
       "title": "Benutzer filtern",
       "query": "Name oder E-Mail",
       "email": "E-Mail enthält",
       "firstName": "Vorname enthält",
       "lastName": "Nachname enthält",
-      "tier": "Tarif",
       "role": "Rolle",
       "createdFrom": "Erstellt ab",
       "createdTo": "Erstellt bis",
       "updatedFrom": "Aktualisiert ab",
       "updatedTo": "Aktualisiert bis",
-      "sort": "Sortieren nach",
-      "order": "Reihenfolge",
-      "apply": "Filter anwenden",
-      "reset": "Zurücksetzen"
+      "tierShort": "Tarif"
     },
     "sort": {
       "name": "Name",
@@ -5235,17 +5200,16 @@
     },
     "order": {
       "asc": "Aufsteigend",
-      "desc": "Absteigend"
+      "desc": "Absteigend",
+      "alphaAsc": "A–Z",
+      "alphaDesc": "Z–A",
+      "newest": "Neueste zuerst",
+      "oldest": "Älteste zuerst"
     },
     "list": {
-      "title": "Benutzer",
-      "loaded_one": "{{count}} Benutzer geladen",
-      "loaded_other": "{{count}} Benutzer geladen",
-      "total_one": "Insgesamt {{count}} passender Benutzer",
-      "total_other": "Insgesamt {{count}} passende Benutzer",
-      "loadMore": "Weitere laden",
-      "loadingMore": "Wird geladen…",
-      "openUser": "Konto von {{email}} anzeigen"
+      "openUser": "Konto von {{email}} anzeigen",
+      "label": "Benutzerkonten",
+      "loadMoreUsers": "Weitere Benutzer laden"
     },
     "fields": {
       "userId": "Benutzer-ID",
@@ -5258,36 +5222,20 @@
       "role": "Rolle",
       "tier": "Tarif"
     },
-    "profile": {
-      "title": "Profil und Einstellungen",
-      "sensitiveContentHelp": "Diese Einstellung steuert nicht geprüfte und sensible Inhalte. Vom Dienst geschwärzte Inhalte bleiben nicht verfügbar."
-    },
-    "role": {
-      "title": "Rolle"
-    },
-    "tier": {
-      "title": "Tarif"
-    },
     "detail": {
       "title": "Benutzerkonto",
-      "description": "Prüfen Sie die vom Kontodienst bereitgestellten Felder und ändern Sie jede Kategorie separat.",
-      "close": "Schließen"
+      "copyId": "Benutzer-ID kopieren"
     },
     "delete": {
       "title": "Konto löschen",
-      "description": "Beim Löschen eines Kontos werden auch zugehörige Zugriffstoken, gespeicherte Suchen, Merkliste-Einträge, Benachrichtigungen sowie verbundene Mitgliedschaften und Anträge entfernt.",
-      "confirm": "Das Löschen ist endgültig. Möchten Sie dieses Benutzerkonto löschen?"
+      "question": "Endgültig löschen, mit Token, Suchaufträgen, Merkliste, Benachrichtigungen, Mitgliedschaften und Anträgen?"
     },
     "actions": {
-      "retry": "Erneut versuchen",
-      "saveProfile": "Profil und Einstellungen speichern",
       "saveRole": "Rolle speichern",
       "saveTier": "Tarif speichern",
-      "saving": "Wird gespeichert…",
       "delete": "Konto löschen",
-      "confirmDelete": "Löschen bestätigen",
-      "deleting": "Wird gelöscht…",
-      "cancel": "Abbrechen"
+      "deleteForGood": "Endgültig löschen",
+      "saveAccountProfile": "Profil speichern"
     },
     "success": {
       "profileUpdated": "Profil und Einstellungen aktualisiert.",
@@ -5305,39 +5253,32 @@
       "requestFailed": "Die Benutzerkontoanfrage konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut."
     },
     "security": {
-      "title": "Kontosicherheit",
       "suspension": {
-        "title": "Kontosperrung",
-        "description": "Eine Sperrung verhindert die Authentifizierung dieses Kontos. Aura-Zugriffstoken werden nicht widerrufen und Partnerschaften nicht aufgelöst. Die Kontodetails enthalten keinen Sperrstatus.",
-        "stateUnknown": "Der aktuelle Status ist in den Kontodetails nicht verfügbar. Hier wird ein Status nur nach einer bestätigten Sperraktion angezeigt.",
-        "confirmedSuspended": "Die letzte Aktionsantwort bestätigt, dass dieses Konto gesperrt ist.",
-        "confirmedActive": "Die letzte Aktionsantwort bestätigt, dass dieses Konto aktiv ist.",
         "reason": "Grund der Sperrung",
-        "reasonHelp": "Das Backend schreibt diesen Grund in Betriebsprotokolle. Geben Sie keine Passwörter, Token, Zugangsdaten oder sonstigen Geheimnisse an. Höchstens 1.000 UTF-8-Bytes.",
         "reasonRequired": "Geben Sie einen Grund für die Sperrung an.",
         "reasonTooLong": "Der Grund darf höchstens 1.000 UTF-8-Bytes umfassen.",
-        "unsuspendDescription": "Die Reaktivierung ermöglicht die Anmeldung mit gültigen Zugangsdaten. Sie stellt keine neuen Zugangsdaten aus.",
         "selfSuspended": "Ihre Sitzung wird beendet. Ein Administrator muss Ihr Konto reaktivieren, bevor Sie sich wieder anmelden können.",
         "suspended": "Die Antwort bestätigt, dass das Konto gesperrt ist.",
-        "unsuspended": "Die Antwort bestätigt, dass das Konto wieder aktiv ist."
+        "unsuspended": "Die Antwort bestätigt, dass das Konto wieder aktiv ist.",
+        "heading": "Sperrung",
+        "status": {
+          "unknown": "Status nicht gemeldet",
+          "active": "Aktiv",
+          "suspended": "Gesperrt"
+        },
+        "reasonHint": "Wird protokolliert. Keine Geheimnisse.",
+        "reasonBytes": "{{used}} / {{max}} Bytes",
+        "confirmQuestion": "Dieses Konto sperren?"
       },
       "sessions": {
-        "title": "Cognito-Sitzungen",
-        "description": "Widerruft die Cognito-Sitzungen dieses Benutzers und meldet ihn auf allen Geräten ab. Aura-Zugriffstoken werden nicht widerrufen und Partnerschaften nicht aufgelöst.",
-        "confirm": "Alle Cognito-Sitzungen dieses Benutzers widerrufen? Er muss sich erneut anmelden.",
         "selfRevoked": "Ihre Sitzungen wurden widerrufen. Melden Sie sich erneut an, um fortzufahren.",
-        "revoked": "Cognito-Sitzungen wurden widerrufen. Aura-Zugriffstoken und Partnerschaften blieben unverändert."
+        "heading": "Anmeldesitzungen",
+        "confirmQuestion": "Alle Anmeldesitzungen widerrufen?",
+        "revokedToast": "Anmeldesitzungen widerrufen. Zugriffstoken und Partnerschaften blieben unverändert."
       },
       "tokens": {
-        "title": "Zugriffstoken und verbundene Apps",
-        "description": "Prüfen Sie die Zugriffstoken und verbundenen Apps dieses Benutzers. Alles zu widerrufen beendet auch jede Verbindung und zieht noch nicht genutzte Freigaben zurück. Dadurch werden weder Cognito-Sitzungen widerrufen noch Partnerschaften aufgelöst.",
         "loading": "Zugriffstoken-Metadaten werden geladen…",
-        "loadingMore": "Wird geladen…",
         "loadMore": "Weitere Token laden",
-        "empty": "Für diesen Benutzer sind keine Zugriffstoken-Metadaten vorhanden.",
-        "origin": "Herkunft: {{origin}}",
-        "expires": "Läuft ab: {{expires}}",
-        "confirmAll": "Alle Zugriffstoken dieses Benutzers widerrufen und alle verbundenen Apps trennen? Noch nicht genutzte Freigaben werden ebenfalls zurückgezogen.",
         "confirmSingle": "„{{name}}“ für diesen Benutzer widerrufen?",
         "revoked": "Das ausgewählte Aura-Historia-Token ist für diesen Benutzer nicht mehr vorhanden.",
         "allRevoked": "Alle Zugriffstoken sind widerrufen und alle Verbindungen beendet, oder es waren keine vorhanden.",
@@ -5351,26 +5292,30 @@
           "OAuthMetadataDocument": "KI-Agent (Client-Metadatendokument)",
           "unknown": "Unbekannte Herkunft"
         },
-        "client": "Client: {{host}}",
         "connectedAt": "Verbunden {{date}}",
         "lastUsedAt": "Zuletzt genutzt {{date}}",
         "clientTokens": "An {{name}} ausgegebene Token",
         "confirmClientToken": "Dieses Token von „{{name}}“ für diesen Benutzer widerrufen?",
         "readOnly": "Nur lesen",
-        "readOnlyNote": "Nur der Benutzer kann diese App einzeln trennen. „Alle widerrufen“ beendet sie zusammen mit allem anderen."
+        "heading": "Token und verbundene Apps",
+        "confirmAllQuestion": "Alle Token widerrufen, alle Apps trennen und offene Freigaben zurückziehen?",
+        "connectionNote": "Endet nur mit „Alle widerrufen“.",
+        "tokenCount_one": "{{count}} Token",
+        "tokenCount_other": "{{count}} Token",
+        "expiresOn": "Läuft ab am {{date}}",
+        "expiredOn": "Abgelaufen am {{date}}",
+        "none": "Keine Token oder verbundenen Apps.",
+        "scopes": "Berechtigungen"
       },
       "actions": {
         "suspend": "Konto sperren",
-        "suspending": "Wird gesperrt…",
         "unsuspend": "Konto reaktivieren",
         "unsuspending": "Wird reaktiviert…",
-        "revokeSessions": "Cognito-Sitzungen widerrufen",
         "confirmSessionRevocation": "Sitzungen widerrufen",
         "confirmTokenRevocation": "Token widerrufen",
         "confirmAllTokenRevocation": "Alle widerrufen und trennen",
         "revokeToken": "Widerrufen",
-        "revokeAllTokens": "Alle widerrufen",
-        "revoking": "Wird widerrufen…"
+        "revokeAllTokens": "Alle widerrufen"
       },
       "errors": {
         "conflict": "Der Sicherheitsstatus hat sich vor Abschluss der Aktion geändert. Laden Sie das Konto neu und versuchen Sie es erneut.",
@@ -5407,78 +5352,71 @@
     },
     "picker": {
       "selected": "Ausgewähltes Konto",
-      "clear": "Anderes Konto wählen",
       "loading": "Konten werden gesucht…",
-      "noMatch": "Kein Benutzerkonto entspricht dieser Suche.",
-      "searchPrompt": "Suchen Sie vorhandene Benutzerkonten nach E-Mail-Adresse oder Name.",
-      "results": "Gefundene Benutzerkonten"
+      "results": "Gefundene Benutzerkonten",
+      "select": "Auswählen",
+      "change": "Ändern",
+      "none": "Keine Treffer.",
+      "failed": "Benutzer konnten nicht gesucht werden."
+    },
+    "pageTitle": "Benutzer",
+    "noMatches": "Keine Treffer",
+    "noUsers": "Keine Benutzerkonten",
+    "loadFailed": "Benutzer konnten nicht geladen werden",
+    "columns": {
+      "account": "Konto"
+    },
+    "tabs": {
+      "label": "Kontobereiche",
+      "profile": "Profil",
+      "role": "Rolle",
+      "security": "Sicherheit",
+      "delete": "Löschen"
+    },
+    "sections": {
+      "access": "Rolle und Tarif"
     }
   },
   "adminOAuthClients": {
-    "title": "OAuth-Client-Verwaltung",
-    "description": "Prüfen Sie registrierte OAuth-Clients, ändern Sie Metadaten und erlaubte Berechtigungen oder legen Sie einen Client an.",
     "loading": "OAuth-Clients werden geladen…",
     "loadingDetail": "Clientdetails werden geladen…",
-    "empty": "Keine OAuth-Clients entsprechen diesen Filtern.",
     "filters": {
       "title": "OAuth-Clients filtern",
-      "clientId": "Exakte Client-ID",
-      "name": "Clientname enthält",
-      "apply": "Filter anwenden",
-      "reset": "Zurücksetzen"
+      "name": "Clientname enthält"
     },
     "list": {
-      "total_one": "{{count}} passender OAuth-Client",
-      "total_other": "{{count}} passende OAuth-Clients",
-      "issued": "Ausgestellt am {{date}}",
       "noScopes": "Keine Berechtigungen zugewiesen",
-      "loadMore": "Weitere laden",
-      "loadingMore": "Wird geladen…"
+      "heads": {
+        "client": "Client",
+        "issued": "Ausgestellt"
+      },
+      "loadMoreClients": "Weitere Clients laden"
     },
     "fields": {
       "name": "Clientname",
       "clientId": "Client-ID",
       "clientSecret": "Clientschlüssel",
-      "terms": "URL der Nutzungsbedingungen",
-      "privacy": "URL der Datenschutzerklärung",
-      "homepage": "Homepage-URL",
       "logo": "Logo-URL",
       "redirectUris": "Weiterleitungs-URIs",
-      "redirectUrisHelp": "Geben Sie pro Zeile eine HTTPS-Weiterleitungs-URI ein. Mindestens eine ist erforderlich; Fragmente sind nicht zulässig und jede URI muss eindeutig sein.",
       "scopes": "Erlaubte Berechtigungen",
-      "scopesHelp": "Wählen Sie die Berechtigungen aus, die dieser Client anfordern darf. Lese- und Schreibberechtigungen sind unabhängig voneinander. Wenn Sie keine auswählen, werden alle erlaubten Berechtigungen entfernt.",
-      "issuedAt": "Client-ID ausgestellt"
+      "homepageShort": "Homepage",
+      "termsShort": "Nutzungsbedingungen",
+      "privacyShort": "Datenschutzerklärung",
+      "redirectUrisHint": "Eine pro Zeile."
     },
     "detail": {
       "title": "OAuth-Client",
-      "description": "Prüfen Sie registrierte Metadaten und Berechtigungen. Clientschlüssel sind hier nicht verfügbar."
-    },
-    "create": {
-      "title": "OAuth-Client anlegen",
-      "description": "Der Clientschlüssel wird nach dem Anlegen einmal angezeigt. Kopieren Sie ihn, bevor Sie diesen Dialog schließen.",
-      "secretTitle": "Client angelegt",
-      "secretDescription": "Dieser Klartextschlüssel ist nach dem Schließen des Dialogs nicht mehr verfügbar. Bewahren Sie ihn sicher auf."
-    },
-    "edit": {
-      "title": "OAuth-Client bearbeiten",
-      "description": "Es werden nur geänderte Felder gesendet. Wenn Sie alle Berechtigungen abwählen, werden die erlaubten Berechtigungen des Clients entfernt."
+      "idIssued": "{{clientId}} · ausgestellt {{date}}"
     },
     "delete": {
-      "title": "OAuth-Client löschen",
-      "description": "Beim Löschen dieses Clients werden auch ausstehende Autorisierungscodes und darüber ausgestellte Zugangsdaten ungültig.",
-      "confirm": "Löschen bestätigen"
+      "titleNamed": "„{{name}}“ löschen?",
+      "consequence": "Seine ausstehenden Codes und ausgestellten Zugangsdaten funktionieren nicht mehr."
     },
     "actions": {
       "create": "Client anlegen",
-      "details": "Details anzeigen",
       "edit": "Client bearbeiten",
       "delete": "Client löschen",
-      "save": "Änderungen speichern",
-      "saving": "Wird gespeichert…",
-      "deleting": "Wird gelöscht…",
-      "cancel": "Abbrechen",
-      "close": "Schließen",
-      "retry": "Erneut versuchen"
+      "done": "Fertig"
     },
     "success": {
       "updated": "OAuth-Client aktualisiert.",
@@ -5498,52 +5436,57 @@
       "redirectRequired": "Geben Sie mindestens eine Weiterleitungs-URI ein.",
       "redirectInvalid": "Jede Weiterleitungs-URI muss eine gültige HTTPS-URL ohne Fragment sein.",
       "redirectDuplicate": "Weiterleitungs-URIs müssen eindeutig sein."
+    },
+    "heading": "OAuth-Clients",
+    "states": {
+      "empty": "Keine OAuth-Clients",
+      "noMatches": "Keine Treffer",
+      "error": "OAuth-Clients konnten nicht geladen werden"
+    },
+    "form": {
+      "newTitle": "Neuer OAuth-Client",
+      "editNamed": "{{name}} bearbeiten"
+    },
+    "secret": {
+      "eyebrow": "Client erstellt",
+      "title": "Kopieren Sie das Secret jetzt. Es wird nur einmal angezeigt.",
+      "copyNamed": "{{field}} kopieren",
+      "copyFailed": "Kopieren nicht möglich. Markieren Sie den Wert und kopieren Sie ihn manuell."
     }
   },
   "adminAuctions": {
-    "title": "Auktionsverwaltung",
-    "description": "Auktionsdatensätze finden, anlegen und aktualisieren. Listing-Source und Quell-Auktionskennung bleiben nach dem Anlegen unveränderlich.",
     "create": {
-      "title": "Auktion anlegen",
-      "description": "Ordnen Sie die Auktion einer autorisierten Listing-Source zu und geben Sie deren Quellkennung an.",
-      "blankFieldsHelp": "Lassen Sie optionale Felder leer, wenn die Quelle dazu keine Angaben gemacht hat."
+      "heading": "Neue Auktion"
     },
     "list": {
-      "title": "Auktionsverzeichnis",
-      "description": "Alle Auktionsdatensätze, auch ohne sichtbare Listings. Suchen Sie nach Name oder Quell-Auktionskennung oder nach einem exakten Quellschlüssel.",
       "loading": "Auktionen werden geladen…",
-      "empty": "Keine Auktionen entsprechen diesen Filtern.",
       "end": "Keine weiteren Auktionen.",
       "loadMore": "Weitere Auktionen laden",
       "noName": "Kein Name angegeben",
-      "openLabel": "Datensatz öffnen: {{label}}"
+      "openLabel": "Datensatz öffnen: {{label}}",
+      "loadFailed": "Auktionen konnten nicht geladen werden",
+      "noMatches": "Keine Treffer",
+      "none": "Keine Auktionen"
     },
     "filters": {
       "title": "Auktionsfilter",
       "query": "Name oder Quell-Auktionskennung",
-      "queryHelp": "Findet Teile des Namens oder der Quell-Auktionskennung, ohne Beachtung der Groß- und Kleinschreibung.",
-      "listingSourceIdHelp": "Exakte Listing-Source-ID.",
-      "sourceAuctionIdHelp": "Exakter Schlüssel. Zusammen mit der Listing-Source-ID finden Sie nach einem Konflikt den bestehenden Datensatz.",
-      "allFormats": "Alle Formate",
-      "allStatuses": "Alle Status",
-      "sort": "Sortieren nach",
       "pageSize": "Pro Seite",
-      "apply": "Filter anwenden",
-      "reset": "Zurücksetzen"
+      "chip": "{{label}}: {{value}}",
+      "search": "Suche"
     },
     "sourceSearch": {
-      "prompt": "Suchen Sie nach Name oder Slug der Listing-Source oder ihres Betreibers, oder fügen Sie eine Listing-Source-ID ein.",
-      "loading": "Listing-Sources werden gesucht…",
-      "noResults": "Keine Listing-Sources entsprechen dieser Suche.",
       "operatedBy": "Betrieben von {{name}}",
-      "results": "Gefundene Listing-Sources"
+      "label": "Listing-Quellen suchen",
+      "searching": "Listing-Quellen werden gesucht…",
+      "matches": "Gefundene Listing-Quellen",
+      "loadMore": "Weitere Quellen laden",
+      "none": "Keine Treffer.",
+      "placeholder": "Name, Slug oder ID",
+      "select": "Auswählen"
     },
     "fields": {
-      "listingSource": "Listing-Source",
-      "searchListingSources": "Listing-Sources suchen",
-      "listingSourceId": "Listing-Source-ID",
       "sourceAuctionId": "Quell-Auktionskennung",
-      "sourceAuctionIdHelp": "Verwenden Sie die Kennung, mit der die ausgewählte Listing-Source diese Auktion führt.",
       "auctionId": "Auktions-ID",
       "name": "Auktionsname",
       "nameLanguage": "Sprache des Namens",
@@ -5551,44 +5494,43 @@
       "format": "Format",
       "reportedStatus": "Gemeldeter Status",
       "reportedLotCount": "Gemeldete Losanzahl",
-      "schedule": "Zeitplan",
-      "scheduleHelp": "Geben Sie alle Datums- und Uhrzeitangaben in UTC ein.",
       "notSet": "Nicht angegeben",
       "created": "Angelegt",
-      "updated": "Aktualisiert"
+      "updated": "Aktualisiert",
+      "status": "Status",
+      "version": "Version",
+      "source": "Listing-Quelle",
+      "sourceId": "Listing-Quellen-ID"
     },
     "detail": {
-      "title": "Auktionsdatensatz",
-      "description": "Aktualisieren Sie gemeldete Auktionsangaben. Auktions- und Listing-Source-Identität können nicht geändert werden.",
-      "blankFieldsHelp": "Leere Werte löschen die entsprechenden Angaben, einschließlich einzelner Zeitplanwerte."
+      "eyebrow": "Auktion",
+      "fixed": "Fest",
+      "loadFailed": "Auktion konnte nicht geladen werden",
+      "loading": "Auktion wird geladen…",
+      "notFound": "Auktion nicht gefunden"
     },
     "actions": {
       "create": "Auktion anlegen",
       "creating": "Wird angelegt…",
-      "open": "Datensatz öffnen",
-      "loadMore": "Weitere Sources laden",
-      "loadingMore": "Wird geladen…",
-      "retry": "Erneut versuchen",
-      "cancel": "Abbrechen",
-      "save": "Änderungen speichern",
-      "saving": "Wird gespeichert…",
       "loadLatest": "Aktuellen Datensatz laden",
-      "backToOverview": "Zurück zur Auktionsverwaltung",
       "clearSource": "Auswahl aufheben",
-      "findExisting": "Bestehende Auktion finden"
+      "allAuctions": "Alle Auktionen",
+      "clearTime": "{{label}} leeren",
+      "openExisting": "Öffnen"
     },
     "errors": {
       "forbidden": "Sie dürfen Auktionen nicht verwalten.",
       "missing": "Dieser Auktionsdatensatz wurde nicht gefunden oder ist nicht mehr verfügbar.",
       "duplicateSourceKey": "Für diese Listing-Source und Quell-Auktionskennung besteht bereits eine Auktion.",
       "staleVersion": "Diese Auktion wurde während Ihrer Bearbeitung geändert.",
-      "staleVersionHelp": "Der aktuelle Datensatz wurde vom Server abgerufen. Ihr Entwurf bleibt erhalten. Laden Sie den aktuellen Datensatz, um ihn vor dem erneuten Speichern zu übernehmen.",
       "invalid": "Prüfen Sie die Auktionsangaben und versuchen Sie es erneut.",
       "requestFailed": "Die Auktionsanfrage konnte nicht abgeschlossen werden. Bitte versuchen Sie es erneut.",
       "sourceMissing": "Die ausgewählte Listing-Source wurde nicht gefunden.",
       "invalidId": "Diese Auktions-ID ist ungültig. Auktions-IDs beginnen mit „auc_“.",
       "invalidSearch": "Diese Filter konnten nicht angewendet werden. Prüfen Sie die IDs und versuchen Sie es erneut.",
-      "unavailable": "Auktionsdatensätze sind vorübergehend nicht verfügbar. Bitte versuchen Sie es in Kürze erneut."
+      "unavailable": "Auktionsdatensätze sind vorübergehend nicht verfügbar. Bitte versuchen Sie es in Kürze erneut.",
+      "changedElsewhere": "Anderswo geändert.",
+      "duplicateShort": "Für diese Quelle und Kennung bereits vorhanden."
     },
     "validation": {
       "sourceRequired": "Wählen Sie eine Listing-Source aus.",
@@ -5597,10 +5539,6 @@
       "invalidUrl": "Geben Sie eine gültige HTTP- oder HTTPS-URL ein.",
       "invalidLotCount": "Geben Sie eine ganze Zahl von 0 bis 4.294.967.295 ein.",
       "invalidDateTime": "Geben Sie ein gültiges Datum und eine Uhrzeit in UTC ein."
-    },
-    "formats": {
-      "LIVE": "Live-Auktion",
-      "TIMED": "Zeitauktion"
     },
     "reportedStatuses": {
       "SCHEDULED": "Geplant",
@@ -5622,46 +5560,51 @@
       "liveStarts": "Live-Start",
       "lotsBeginClosing": "Beginn des Losabschlusses",
       "scheduledEnd": "Geplantes Ende"
+    },
+    "columns": {
+      "auction": "Auktion"
+    },
+    "formatLabels": {
+      "LIVE": "Live",
+      "TIMED": "Zeitauktion"
+    },
+    "sections": {
+      "details": "Gemeldete Angaben",
+      "identity": "Identität",
+      "schedule": "Zeitplan (UTC)"
+    },
+    "toasts": {
+      "created": "Auktion angelegt.",
+      "saved": "Auktion gespeichert."
     }
   },
   "adminProductListings": {
-    "title": "Verwaltung der Produktangebote",
-    "description": "Produktangebote aller Listing-Sources finden, prüfen und korrigieren, einschließlich zurückgezogener Angebote, die erhalten bleiben.",
     "list": {
-      "title": "Angebotsverzeichnis",
-      "description": "Aktive und zurückgezogene Angebote aller Listing-Sources, zuletzt aktualisierte zuerst. Suchen Sie im Originaltitel und in der Quell-Angebotskennung oder grenzen Sie nach Source, Lebenszyklus, Verfügbarkeit oder Auktion ein.",
       "loading": "Produktangebote werden geladen…",
-      "empty": "Keine Produktangebote entsprechen diesen Filtern.",
       "end": "Keine weiteren Produktangebote.",
       "loadMore": "Weitere Angebote laden",
       "noTitle": "Kein Titel erfasst",
-      "openLabel": "Angebot öffnen: {{label}}"
+      "openLabel": "Angebot öffnen: {{label}}",
+      "loadFailed": "Produktangebote konnten nicht geladen werden",
+      "noMatches": "Keine Treffer",
+      "none": "Keine Produktangebote",
+      "sub": "{{lifecycle}} · {{source}}"
     },
     "filters": {
       "title": "Filter für Produktangebote",
       "query": "Titel oder Quell-Angebotskennung",
-      "queryHelp": "Findet Teile des Originaltitels oder der Quell-Angebotskennung, ohne Beachtung der Groß- und Kleinschreibung.",
-      "listingSourceIdHelp": "Exakte Listing-Source-ID.",
-      "sourceListingIdHelp": "Exakte Kennung der Source unter Beachtung der Groß- und Kleinschreibung. Sie ist nur innerhalb einer Listing-Source eindeutig; kombinieren Sie sie daher mit der Listing-Source-ID.",
-      "auctionIdHelp": "Exakte Auktions-ID.",
       "allLifecycles": "Aktiv und zurückgezogen",
-      "allAvailabilities": "Jede Verfügbarkeit",
-      "sort": "Sortieren nach",
       "pageSize": "Pro Seite",
-      "apply": "Filter anwenden",
-      "reset": "Zurücksetzen"
+      "chip": "{{label}}: {{value}}",
+      "search": "Suche"
     },
     "fields": {
-      "listingSource": "Listing-Source",
-      "listingSourceId": "Listing-Source-ID",
       "sourceListingId": "Quell-Angebotskennung",
       "productListingId": "Produktangebots-ID",
       "auctionId": "Auktions-ID",
       "lifecycle": "Lebenszyklus",
       "availability": "Verfügbarkeit",
       "price": "Preis",
-      "estimate": "Schätzung",
-      "estimateRange": "{{min}} – {{max}}",
       "created": "Angelegt",
       "updated": "Aktualisiert",
       "notAsserted": "Nicht angegeben",
@@ -5675,27 +5618,20 @@
       "text": "Originaltext",
       "titleLanguage": "Sprache des Titels",
       "descriptionLanguage": "Sprache der Beschreibung",
-      "images": "Bilder",
       "auction": "Auktion und Los",
       "lotNumber": "Losnummer",
       "cataloguePosition": "Katalogposition",
       "pricing": "Preis und Schätzungen",
-      "priceAmount": "Betrag",
       "estimateMin": "Mindestschätzung",
       "estimateMax": "Höchstschätzung",
-      "currency": "Währung",
-      "chooseCurrency": "Währung auswählen",
-      "chooseLanguage": "Sprache auswählen"
+      "chooseLanguage": "Sprache auswählen",
+      "source": "Listing-Quelle",
+      "sourceId": "Listing-Quellen-ID"
     },
     "lifecycles": {
       "ACTIVE": "Aktiv",
       "WITHDRAWN": "Zurückgezogen",
       "UNKNOWN": "Nicht erkannter Lebenszyklus"
-    },
-    "priceKinds": {
-      "NONE": "Nicht angegeben",
-      "MONETARY": "Betrag",
-      "ON_REQUEST": "Preis auf Anfrage"
     },
     "sort": {
       "updated_desc": "Zuletzt aktualisiert",
@@ -5703,54 +5639,41 @@
       "created_desc": "Neueste zuerst",
       "created_asc": "Älteste zuerst"
     },
-    "timing": {
-      "biddingOpens": "Gebotsbeginn (UTC)",
-      "scheduledCloses": "Geplantes Ende (UTC)",
-      "reportedClosedAt": "Gemeldetes Ende (UTC)"
-    },
     "detail": {
       "loading": "Produktangebot wird geladen…",
       "unavailableTitle": "Produktangebot nicht verfügbar",
       "errorTitle": "Das Produktangebot konnte nicht geladen werden",
-      "eyebrow": "Datensatz des Produktangebots",
-      "convergence": "Änderungen hier aktualisieren den maßgeblichen Angebotsdatensatz. Öffentliche Suche, Angebotsseiten und Caches folgen asynchron, und ein späterer Import aus der Listing-Source kann diese Änderungen überschreiben oder ein zurückgezogenes Angebot wiederherstellen. Es handelt sich um Korrekturen, nicht um dauerhafte Übersteuerungen.",
-      "factsTitle": "Erfasste Angaben",
-      "factsDescription": "Identität, Verkaufsbeobachtung und Zeitstempel sind schreibgeschützt. Originaltext und die übrigen Angaben bearbeiten Sie unten; den Lebenszyklus ändern Sie mit den Aktionen Zurückziehen und Wiederherstellen.",
-      "sourceListingIdScope": "Nur innerhalb dieser Listing-Source eindeutig.",
       "noSaleObservation": "Keine erfasst",
-      "noText": "Keine erfasst"
+      "correctionsNote": "Nur Korrekturen: Ein späterer Import aus der Quelle kann sie überschreiben.",
+      "eyebrowLifecycle": "Produktangebot · {{lifecycle}}",
+      "record": "Datensatz"
     },
     "edit": {
       "title": "Angebotsangaben bearbeiten",
-      "description": "Nur Originaltitel und -beschreibung, Preis, Schätzungen, Verfügbarkeit, URL, Bilder und Auktionsangaben lassen sich ändern. Beim Speichern werden nur die von Ihnen geänderten Werte gesendet.",
-      "withdrawnLocked": "Dieses Angebot ist zurückgezogen. Stellen Sie es wieder her, bevor Sie es bearbeiten; nicht gespeicherte Änderungen bleiben im Formular erhalten.",
-      "lifecycleUnknownLocked": "Der Lebenszyklus dieses Angebots wird nicht erkannt, daher kann es hier nicht bearbeitet werden.",
-      "stale": "Dieses Angebot wurde geändert, nachdem Sie mit der Bearbeitung begonnen haben, und hat jetzt Version {{version}}. Behalten Sie Ihre Änderungen, um nur die von Ihnen bearbeiteten Werte auf die neueste Version anzuwenden, oder verwerfen Sie sie, um die neuesten Werte zu laden.",
-      "staleLocked": "Dieses Angebot wurde geändert, nachdem Sie mit der Bearbeitung begonnen haben, und hat jetzt Version {{version}}. Stellen Sie es wieder her, um Ihre Änderungen zu behalten, oder verwerfen Sie sie, um die neuesten Werte zu laden.",
-      "noChanges": "Es gibt keine Änderungen zu speichern.",
-      "saved": "Änderungen gespeichert. Öffentliche Suche und Angebotsseiten werden asynchron aktualisiert.",
-      "unchanged": "Das Angebot hatte diese Werte bereits; es wurde nichts geändert.",
-      "textHelp": "Geben Sie den Originaltext der Quelle in der Sprache ein, in der er verfasst ist, keine Übersetzung. Lassen Sie ein Feld leer, um den Text zu entfernen. Übersetzungen, Inhaltsbewertung und Suche folgen asynchron.",
-      "titleHelp": "Titel werden normalisiert: Stilisierte Buchstaben und Ziffern werden zu gewöhnlichem Text, Emojis und Ziersymbole werden entfernt, der erste Buchstabe wird großgeschrieben und ein abschließender Punkt entfällt. Titel mit mehr als 128 Zeichen werden mit „...“ gekürzt. Ein Titel ohne verbleibenden Text wird abgelehnt.",
       "titleTooLong": "Dieser Titel hat mehr als 128 Zeichen und wird beim Speichern gekürzt.",
-      "pricingHelp": "Beträge sind in der Währung der Source angegeben. Verwenden Sie einen Dezimalpunkt oder ein Dezimalkomma und keine Tausendertrennzeichen. Wählen Sie „Nicht angegeben“, um den Preis zu entfernen.",
-      "estimateHelp": "Lassen Sie den Betrag einer Schätzung leer, um diese Schätzung zu entfernen.",
-      "availabilityHelp": "„Nicht angegeben“ entfernt die Verfügbarkeit; es bedeutet nicht „nicht verfügbar“.",
-      "imagesHelp": "Bild-URLs sind privilegierte Prüfdaten und in Anzeigereihenfolge aufgeführt. Sie haben hier keine Inhaltsbewertung und können sensible Inhalte zeigen, daher wird eine Vorschau nur auf Ihre Anforderung geladen. Werden alle Bilder entfernt, wird die Sammlung geleert.",
       "noImages": "Keine Bilder. Wird eine leere Liste gespeichert, werden alle Bilder entfernt.",
       "imageLabel": "URL von Bild {{position}}",
       "imagePreviewAlt": "Vorschau von Bild {{position}}",
-      "auctionHelp": "Nur Auktionen der Listing-Source dieses Angebots können zugeordnet werden. Beim Lösen bleiben Losnummer, Katalogposition und Zeiten erhalten, sofern Sie sie nicht entfernen.",
       "noAuction": "Keiner Auktion zugeordnet.",
-      "timingHelp": "Geben Sie exakte Zeitpunkte in UTC ein. Entfernen Sie jeden Zeitpunkt einzeln."
+      "addImage": "Bild hinzufügen",
+      "auction": "Auktion",
+      "availabilityAndLink": "Verfügbarkeit und Link",
+      "currencyOf": "Währung für {{field}}",
+      "hidePreview": "Vorschau von Bild {{position}} ausblenden",
+      "showPreview": "Vorschau von Bild {{position}} anzeigen",
+      "imagesInOrder": "Bilder · in Reihenfolge",
+      "lockedUnknown": "Lebenszyklus nicht erkannt. Bearbeiten ist gesperrt.",
+      "lockedWithdrawn": "Zurückgezogen. Zum Bearbeiten wiederherstellen.",
+      "noUnsaved": "Keine ungespeicherten Änderungen",
+      "savedToast": "Änderungen am Angebot gespeichert.",
+      "unchangedToast": "Nichts geändert; das Angebot hatte diese Werte bereits.",
+      "staleShort": "Anderswo geändert (jetzt Version {{version}}).",
+      "unsaved_one": "{{count}} ungespeicherte Änderung",
+      "unsaved_other": "{{count}} ungespeicherte Änderungen"
     },
     "lifecycle": {
-      "title": "Lebenszyklus",
       "withdrawAction": "Angebot zurückziehen",
       "restoreAction": "Angebot wiederherstellen",
-      "withdrawHelp": "Das Zurückziehen entfernt das Angebot aus der öffentlichen Suche, bewahrt es aber mit seiner Historie, Merklisteneinträgen und einer etwaigen Verkaufsbeobachtung auf. Die Verfügbarkeit wird entfernt.",
-      "restoreHelp": "Das Wiederherstellen macht das Angebot wieder aktiv, ohne Angabe zur Verfügbarkeit. Die frühere Verfügbarkeit wird nicht rekonstruiert.",
-      "unknownHelp": "Der Lebenszyklus dieses Angebots wird nicht erkannt, daher wird keine Lebenszyklusaktion angeboten.",
       "withdrawTitle": "Dieses Angebot zurückziehen?",
       "restoreTitle": "Dieses Angebot wiederherstellen?",
       "withdrawConsequence": "Das Angebot und seine Historie bleiben erhalten, es verschwindet jedoch aus der öffentlichen Suche und von den Angebotsseiten, und seine Verfügbarkeit wird entfernt. Sie können es später wiederherstellen.",
@@ -5759,44 +5682,35 @@
       "version": "Gilt für Version {{version}}",
       "withdrawConfirm": "Zurückziehen",
       "restoreConfirm": "Wiederherstellen",
-      "withdrawn": "Zurückziehen erfasst. Öffentliche Suche und Angebotsseiten werden asynchron aktualisiert.",
-      "restored": "Angebot wiederhergestellt. Öffentliche Suche und Angebotsseiten werden asynchron aktualisiert.",
-      "restoreUnchanged": "Das Angebot war bereits aktiv; es wurde nichts geändert."
+      "restoreUnchangedToast": "Bereits aktiv; nichts geändert.",
+      "restoredToast": "Angebot wiederhergestellt.",
+      "withdrawnToast": "Angebot zurückgezogen."
     },
     "auctionSearch": {
       "label": "Auktionen dieser Source durchsuchen",
-      "hint": "Findet Teile des Auktionsnamens oder der Quell-Auktionskennung. Es werden nur Auktionen dieser Listing-Source angezeigt.",
       "loading": "Auktionen werden gesucht…",
       "empty": "Keine Auktion dieser Listing-Source passt.",
       "results": "Passende Auktionen",
       "noName": "Kein Name angegeben",
-      "loadMore": "Weitere Auktionen laden"
+      "loadMore": "Weitere Auktionen laden",
+      "placeholder": "Name oder Quell-Auktionskennung",
+      "select": "Auswählen"
     },
     "actions": {
-      "retry": "Erneut versuchen",
-      "open": "Angebot öffnen",
-      "loadingMore": "Wird geladen…",
-      "backToDirectory": "Zurück zu den Produktangeboten",
-      "viewPublicListing": "Öffentliche Angebotsseite ansehen",
-      "save": "Änderungen speichern",
-      "saving": "Wird gespeichert…",
       "keepDraft": "Meine Änderungen behalten",
       "discardDraft": "Meine Änderungen verwerfen",
       "resetDraft": "Formular zurücksetzen",
-      "cancel": "Abbrechen",
-      "working": "Wird ausgeführt…",
-      "showPreview": "Vorschau anzeigen",
-      "hidePreview": "Vorschau ausblenden",
       "moveImageUp": "Bild {{position}} nach oben verschieben",
       "moveImageDown": "Bild {{position}} nach unten verschieben",
       "removeImage": "Bild {{position}} entfernen",
-      "addImage": "Bild-URL hinzufügen",
       "openAuction": "Auktionsdatensatz öffnen",
-      "detachAuction": "Von der Auktion lösen",
       "chooseAuction": "Auktion auswählen",
-      "closeAuctionSearch": "Auktionssuche schließen",
-      "clearTiming": "Entfernen",
-      "clearTimingLabel": "{{label}} entfernen"
+      "clearTimingLabel": "{{label}} entfernen",
+      "allListings": "Alle Produktangebote",
+      "changeAuction": "Ändern",
+      "detach": "Lösen",
+      "originalPage": "Originalseite",
+      "publicPage": "Öffentliche Seite"
     },
     "errors": {
       "forbidden": "Sie dürfen Produktangebote nicht verwalten.",
@@ -5828,6 +5742,19 @@
       "lotNumber": "Geben Sie eine Losnummer mit höchstens 128 UTF-8-Bytes ein.",
       "cataloguePosition": "Geben Sie eine ganze Zahl von 1 bis 4.294.967.295 ein.",
       "invalidDateTime": "Geben Sie ein gültiges Datum und eine Uhrzeit in UTC ein."
+    },
+    "columns": {
+      "listing": "Angebot"
+    },
+    "priceOptions": {
+      "NONE": "Nicht angegeben",
+      "MONETARY": "Betrag",
+      "ON_REQUEST": "Auf Anfrage"
+    },
+    "times": {
+      "biddingOpens": "Gebotsbeginn",
+      "scheduledCloses": "Geplantes Ende",
+      "reportedClosedAt": "Gemeldetes Ende"
     }
   },
   "geography": {
@@ -5844,7 +5771,6 @@
   },
   "partyLocations": {
     "title": "Standorte",
-    "description": "Jeder Standort hat eine eigene Identität. Korrigieren Sie die Angaben eines Standorts, verlegen Sie ihn bei einem Umzug des Geschäfts oder legen Sie ihn still, wenn er nicht mehr genutzt wird.",
     "list": {
       "loading": "Standorte werden geladen.",
       "empty": "Für diese Organisation sind noch keine Standorte erfasst.",
@@ -5853,11 +5779,6 @@
     },
     "detail": {
       "unsupportedValues": "Einige gespeicherte Werte verwenden einen Code oder ein Format, das diese Anwendung nicht anzeigen kann. Sie werden hier daher nicht angezeigt."
-    },
-    "eligibility": {
-      "ACTIVE": "Aktiv und öffentlich: Der genaue Punkt sowie Land und Region können in Suchergebnissen und Umkreissuchen erscheinen.",
-      "RETIRED": "Stillgelegt: erscheint nicht in öffentlichen Ergebnissen und liefert keine übernommene Angebotsgeografie.",
-      "UNKNOWN": "Dieser Standort hat einen Status, den diese Anwendung nicht kennt. Daher werden keine Aktionen angeboten."
     },
     "lifecycle": {
       "ACTIVE": "Aktiv",
@@ -6009,6 +5930,17 @@
     "confirm": {
       "retireTitle": "„{{label}}“ stilllegen?",
       "restoreTitle": "„{{label}}“ reaktivieren?"
+    },
+    "card": {
+      "countryRegion": "Land · Region",
+      "evidence": "Nachweis",
+      "observed": "erfasst am {{date}}",
+      "publicResults": "Öffentliche Ergebnisse",
+      "public": {
+        "ACTIVE": "Berechtigt",
+        "RETIRED": "Nicht berechtigt",
+        "UNKNOWN": "Nicht bestimmt"
+      }
     }
   },
   "comparison": {
@@ -6220,6 +6152,37 @@
         "skills": "Agent Skills",
         "llmsTxt": "llms.txt"
       }
+    }
+  },
+  "adminCommon": {
+    "cancel": "Abbrechen",
+    "close": "Schließen",
+    "retry": "Erneut versuchen",
+    "loading": "Wird geladen…",
+    "loadMoreFailed": "Weitere Einträge konnten nicht geladen werden.",
+    "sort": "Sortierung",
+    "copy": "Kopieren",
+    "copied": "Kopiert",
+    "save": "Änderungen speichern",
+    "saving": "Wird gespeichert…",
+    "none": "—",
+    "result": {
+      "loaded": "{{loaded}} geladen",
+      "loadedOfTotal": "{{loaded}} geladen · {{total}} Treffer"
+    },
+    "filters": {
+      "all": "Alle Filter",
+      "title": "Filter",
+      "any": "Alle",
+      "selected": "{{count}} ausgewählt",
+      "reset": "Zurücksetzen",
+      "apply": "Filter anwenden",
+      "from": "{{field}} ab",
+      "until": "{{field}} bis",
+      "active": "Aktiv",
+      "remove": "Filter {{filter}} entfernen",
+      "clearAll": "Alle entfernen",
+      "clearSearch": "Filter zurücksetzen"
     }
   }
 }

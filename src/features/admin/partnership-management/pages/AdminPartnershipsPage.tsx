@@ -1,153 +1,279 @@
-import { useState, type ReactNode } from "react";
+import { type ReactNode, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { H1 } from "@/components/typography/H1.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import { Skeleton } from "@/components/ui/skeleton.tsx";
 import type {
     AdminPartnershipFilters,
     AdminPartnershipSummary,
 } from "@/data/internal/partnership/AdminPartnership.ts";
-import { formatDateTime } from "@/lib/utils.ts";
+import {
+    type AdminChip,
+    AdminActiveChips,
+    AdminCell,
+    AdminFilterPanel,
+    AdminLedger,
+    AdminLedgerRow,
+    AdminLedgerSkeleton,
+    AdminLoadMore,
+    AdminPrimaryCell,
+    AdminResultLine,
+    AdminRowChevron,
+    AdminTextField,
+    AdminToolbar,
+} from "@/features/admin/common/components/AdminDirectory.tsx";
+import { AdminPageHeader } from "@/features/admin/common/components/AdminPageHeader.tsx";
+import { AdminStatePanel } from "@/features/admin/common/components/AdminStatePanel.tsx";
+import { SECONDARY_PILL_CLASS } from "@/features/admin/common/lib/adminStyles.ts";
+import { formatAdminDay } from "@/features/admin/party-management/lib/adminDates.ts";
 import { useAdminPartnerships } from "../api/useAdminPartnerships.ts";
-import { AdminPartnershipFiltersForm } from "../components/AdminPartnershipFiltersForm.tsx";
 import { AdminPartnershipDetailDialog } from "../components/AdminPartnershipDetailDialog.tsx";
+import {
+    type AdminPartnershipRouteSearch,
+    adminPartnershipFiltersOf,
+} from "../lib/adminPartnershipSearch.ts";
 
-function PartnershipRow({
-    partnership,
-    onOpen,
-}: {
-    readonly partnership: AdminPartnershipSummary;
-    readonly onOpen: () => void;
-}) {
-    const { t, i18n } = useTranslation();
+const COLUMNS =
+    "minmax(0, 2.4fr) minmax(0, 0.7fr) minmax(0, 0.8fr) minmax(0, 0.8fr) minmax(0, 0.8fr) 16px";
+const ID_FILTERS = ["partyId", "memberUserId", "listingSourceId"] as const;
+type IdFilter = (typeof ID_FILTERS)[number];
+const FILTER_LABEL_KEY: Record<IdFilter, string> = {
+    partyId: "adminPartnerships.filters.organizationId",
+    memberUserId: "adminPartnerships.filters.memberUserId",
+    listingSourceId: "adminPartnerships.filters.listingSourceId",
+};
 
-    return (
-        <li className="flex flex-wrap items-center justify-between gap-4 border bg-surface-container-low p-4">
-            <div className="grid min-w-0 gap-3">
-                <div className="grid gap-1">
-                    <p className="break-words font-medium">{partnership.party.name}</p>
-                    <p className="break-all font-mono text-xs text-muted-foreground">
-                        {partnership.party.partyId} · {partnership.party.partySlugId}
-                    </p>
-                    <p className="break-all font-mono text-xs text-muted-foreground">
-                        {partnership.partnershipId}
-                    </p>
-                </div>
-                <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground">
-                    <span>
-                        {t("adminPartnerships.list.members", { count: partnership.memberCount })}
-                    </span>
-                    <span>
-                        {t("adminPartnerships.list.listingSources", {
-                            count: partnership.listingSourceGrantCount,
-                        })}
-                    </span>
-                </div>
-                <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
-                    <span>
-                        {t("adminPartnerships.fields.created")}:{" "}
-                        {formatDateTime(partnership.created, i18n.language, "UTC")}
-                    </span>
-                    <span>
-                        {t("adminPartnerships.fields.updated")}:{" "}
-                        {formatDateTime(partnership.updated, i18n.language, "UTC")}
-                    </span>
-                </div>
-            </div>
-            <Button type="button" variant="outline" onClick={onOpen}>
-                {t("adminPartnerships.actions.details")}
-            </Button>
-        </li>
-    );
+function clean(search: AdminPartnershipRouteSearch): AdminPartnershipRouteSearch {
+    return Object.fromEntries(
+        Object.entries(search).filter(([, value]) => typeof value === "string" && value.trim()),
+    ) as AdminPartnershipRouteSearch;
 }
 
-export function AdminPartnershipsPage() {
-    const { t } = useTranslation();
-    const [filters, setFilters] = useState<AdminPartnershipFilters>({});
-    const [selectedPartnershipId, setSelectedPartnershipId] = useState<string>();
-    const partnershipsQuery = useAdminPartnerships(filters);
-    const partnerships = partnershipsQuery.data?.pages.flatMap((page) => page.items) ?? [];
+/** Partnerships by exact ID filters; rows open the partnership dialog (also by URL). */
+export function AdminPartnershipsPage({
+    search,
+    onSearchChange,
+}: {
+    readonly search: AdminPartnershipRouteSearch;
+    readonly onSearchChange: (search: AdminPartnershipRouteSearch) => void;
+}) {
+    const { t, i18n } = useTranslation();
+    const filters = adminPartnershipFiltersOf(search);
+    const query = useAdminPartnerships(filters);
+    const partnerships = query.data?.pages.flatMap((page) => page.items) ?? [];
+    const selected = partnerships.find(
+        (partnership) => partnership.partnershipId === search.partnership,
+    );
+    const setFilters = (next: AdminPartnershipFilters) =>
+        onSearchChange(clean({ ...next, partnership: search.partnership }));
+    const openPartnership = (partnershipId?: string) =>
+        onSearchChange(clean({ ...filters, partnership: partnershipId }));
+
+    const chips: AdminChip[] = ID_FILTERS.flatMap((key) => {
+        const value = filters[key];
+        return value
+            ? [
+                  {
+                      key,
+                      label: `${t(FILTER_LABEL_KEY[key])}: ${value}`,
+                      onRemove: () => setFilters({ ...filters, [key]: undefined }),
+                  },
+              ]
+            : [];
+    });
+    const hasFilters = chips.length > 0;
+    const number = new Intl.NumberFormat(i18n.language);
 
     let content: ReactNode;
-    if (partnershipsQuery.error && partnerships.length === 0) {
+    if (query.error && partnerships.length === 0) {
         content = (
-            <div role="alert" className="grid justify-items-start gap-3 py-6">
-                <p className="text-muted-foreground">{partnershipsQuery.error.message}</p>
-                <Button variant="outline" onClick={() => partnershipsQuery.refetch()}>
-                    {t("adminPartnerships.actions.retry")}
-                </Button>
-            </div>
+            <AdminStatePanel tone="error" title={t("adminPartnerships.loadFailed")}>
+                <button
+                    type="button"
+                    onClick={() => query.refetch()}
+                    className={SECONDARY_PILL_CLASS}
+                >
+                    {t("adminCommon.retry")}
+                </button>
+            </AdminStatePanel>
         );
-    } else if (partnershipsQuery.isPending) {
-        content = (
-            <div className="grid gap-2" aria-busy="true">
-                <output className="sr-only">{t("adminPartnerships.loading")}</output>
-                {[0, 1, 2].map((index) => (
-                    <Skeleton key={index} className="h-32 w-full" />
-                ))}
-            </div>
-        );
+    } else if (query.isPending) {
+        content = <AdminLedgerSkeleton label={t("adminPartnerships.loading")} />;
     } else if (partnerships.length === 0) {
-        content = <p className="py-6 text-muted-foreground">{t("adminPartnerships.empty")}</p>;
+        content = (
+            <AdminStatePanel
+                tone="empty"
+                title={t(
+                    hasFilters ? "adminPartnerships.noMatches" : "adminPartnerships.emptyTitle",
+                )}
+            >
+                {hasFilters && (
+                    <button
+                        type="button"
+                        onClick={() => setFilters({})}
+                        className={SECONDARY_PILL_CLASS}
+                    >
+                        {t("adminCommon.filters.clearSearch")}
+                    </button>
+                )}
+            </AdminStatePanel>
+        );
     } else {
         content = (
-            <div className="grid gap-3">
-                <p className="text-sm text-muted-foreground">
-                    {t("adminPartnerships.list.loaded", { count: partnerships.length })}
-                </p>
-                <ul className="grid gap-2">
+            <>
+                <AdminLedger
+                    label={t("adminPartnerships.list.label")}
+                    columns={COLUMNS}
+                    headings={[
+                        t("adminPartnerships.columns.organization"),
+                        t("adminPartnerships.columns.members"),
+                        t("adminPartnerships.columns.sourceGrants"),
+                        t("adminPartnerships.columns.created"),
+                        t("adminPartnerships.columns.updated"),
+                    ]}
+                >
                     {partnerships.map((partnership) => (
                         <PartnershipRow
                             key={partnership.partnershipId}
                             partnership={partnership}
-                            onOpen={() => setSelectedPartnershipId(partnership.partnershipId)}
+                            selected={partnership.partnershipId === search.partnership}
+                            onOpen={() => openPartnership(partnership.partnershipId)}
                         />
                     ))}
-                </ul>
-                {partnershipsQuery.error && (
-                    <p role="alert" className="text-sm text-destructive">
-                        {partnershipsQuery.error.message}
-                    </p>
-                )}
-                {partnershipsQuery.hasNextPage && (
-                    <Button
-                        type="button"
-                        variant="outline"
-                        className="justify-self-center"
-                        disabled={partnershipsQuery.isFetchingNextPage}
-                        onClick={() => partnershipsQuery.fetchNextPage()}
-                    >
-                        {partnershipsQuery.isFetchingNextPage
-                            ? t("adminPartnerships.list.loadingMore")
-                            : t("adminPartnerships.list.loadMore")}
-                    </Button>
-                )}
-            </div>
+                </AdminLedger>
+                <AdminLoadMore
+                    hasNextPage={query.hasNextPage}
+                    isFetchingNextPage={query.isFetchingNextPage}
+                    isError={Boolean(query.error)}
+                    onLoadMore={() => query.fetchNextPage()}
+                    label={t("adminPartnerships.list.loadMorePartnerships")}
+                />
+            </>
         );
     }
 
     return (
-        <div className="mx-auto grid w-full max-w-6xl gap-6 px-4 py-8 sm:px-6">
-            <section className="grid gap-6" aria-labelledby="admin-partnerships-title">
-                <header className="grid gap-1">
-                    <H1 id="admin-partnerships-title">{t("adminPartnerships.title")}</H1>
-                    <p className="text-muted-foreground">{t("adminPartnerships.description")}</p>
-                </header>
-                <AdminPartnershipFiltersForm
-                    key={JSON.stringify(filters)}
-                    filters={filters}
-                    onApply={setFilters}
-                />
-                {content}
-            </section>
-            <AdminPartnershipDetailDialog
-                partnershipId={selectedPartnershipId}
-                open={Boolean(selectedPartnershipId)}
-                onOpenChange={(open) => {
-                    if (!open) setSelectedPartnershipId(undefined);
-                }}
-                onDissolved={() => setSelectedPartnershipId(undefined)}
+        <>
+            <AdminPageHeader title={t("adminPartnerships.pageTitle")} />
+            <AdminToolbar
+                label={t("adminPartnerships.filters.title")}
+                panelLabel={t("adminPartnerships.filters.byId")}
+                panelCount={chips.length}
+                panel={
+                    <PartnershipFilterPanel
+                        filters={filters}
+                        onApply={(next) => {
+                            setFilters(next);
+                        }}
+                        onReset={() => {
+                            setFilters({});
+                        }}
+                    />
+                }
+                chips={<AdminActiveChips chips={chips} onClearAll={() => setFilters({})} />}
             />
-        </div>
+            <AdminResultLine
+                summary={t("adminCommon.result.loaded", {
+                    loaded: number.format(partnerships.length),
+                })}
+            />
+            {content}
+            <AdminPartnershipDetailDialog
+                partnershipId={search.partnership}
+                summary={selected}
+                onClose={() => openPartnership()}
+            />
+        </>
+    );
+}
+
+function PartnershipRow({
+    partnership,
+    selected,
+    onOpen,
+}: {
+    readonly partnership: AdminPartnershipSummary;
+    readonly selected: boolean;
+    readonly onOpen: () => void;
+}) {
+    const { t, i18n } = useTranslation();
+    const number = new Intl.NumberFormat(i18n.language);
+    return (
+        <AdminLedgerRow
+            selected={selected}
+            onClick={onOpen}
+            aria-label={t("adminPartnerships.list.open", { name: partnership.party.name })}
+        >
+            <AdminPrimaryCell
+                title={partnership.party.name}
+                sub={`${partnership.party.partyId} · ${partnership.party.partySlugId}`}
+                subMono
+            />
+            <AdminCell head={t("adminPartnerships.columns.members")}>
+                <Count value={number.format(partnership.memberCount)} />
+            </AdminCell>
+            <AdminCell head={t("adminPartnerships.columns.sourceGrants")}>
+                <Count value={number.format(partnership.listingSourceGrantCount)} />
+            </AdminCell>
+            <AdminCell head={t("adminPartnerships.columns.created")}>
+                <span className="tabular-nums">
+                    {formatAdminDay(partnership.created, i18n.language)}
+                </span>
+            </AdminCell>
+            <AdminCell head={t("adminPartnerships.columns.updated")}>
+                <span className="tabular-nums">
+                    {formatAdminDay(partnership.updated, i18n.language)}
+                </span>
+            </AdminCell>
+            <AdminRowChevron />
+        </AdminLedgerRow>
+    );
+}
+
+function Count({ value }: { readonly value: string }) {
+    return (
+        <span className="font-serif text-lg [font-variant-numeric:lining-nums_tabular-nums]">
+            {value}
+        </span>
+    );
+}
+
+function PartnershipFilterPanel({
+    filters,
+    onApply,
+    onReset,
+}: {
+    readonly filters: AdminPartnershipFilters;
+    readonly onApply: (filters: AdminPartnershipFilters) => void;
+    readonly onReset: () => void;
+}) {
+    const { t } = useTranslation();
+    const [draft, setDraft] = useState<Record<IdFilter, string>>({
+        partyId: filters.partyId ?? "",
+        memberUserId: filters.memberUserId ?? "",
+        listingSourceId: filters.listingSourceId ?? "",
+    });
+    const tooLong = (key: IdFilter) => draft[key].trim().length > 128;
+    const invalid = ID_FILTERS.some(tooLong);
+    return (
+        <AdminFilterPanel
+            onApply={() => {
+                if (invalid) return false;
+                onApply(
+                    Object.fromEntries(
+                        ID_FILTERS.map((key) => [key, draft[key].trim() || undefined]),
+                    ),
+                );
+            }}
+            onReset={onReset}
+        >
+            {ID_FILTERS.map((key) => (
+                <AdminTextField
+                    key={key}
+                    label={t(FILTER_LABEL_KEY[key])}
+                    value={draft[key]}
+                    onChange={(value) => setDraft((current) => ({ ...current, [key]: value }))}
+                    error={tooLong(key) ? t("adminPartnerships.validation.idTooLong") : undefined}
+                    mono
+                />
+            ))}
+        </AdminFilterPanel>
     );
 }

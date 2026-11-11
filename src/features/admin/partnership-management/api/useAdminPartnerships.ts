@@ -70,10 +70,8 @@ export function createAdminPartnershipErrorFactory(t: TFunction): PartnershipErr
             key = "adminPartnerships.errors.referenceMissing";
         } else if (safeStatus === 409 && operation === "grantSource") {
             key = "adminPartnerships.errors.partyConflict";
-        } else if (safeStatus === 409 && operation === "dissolve") {
-            key = "adminPartnerships.errors.dissolveConflict";
         } else if (safeStatus === 409) {
-            key = "adminPartnerships.errors.conflict";
+            key = "adminPartnerships.errors.changedElsewhere";
         } else if (safeStatus === 500 && operation === "dissolve") {
             key = "adminPartnerships.errors.dissolveFailed";
         } else {

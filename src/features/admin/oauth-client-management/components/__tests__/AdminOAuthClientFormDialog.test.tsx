@@ -16,6 +16,8 @@ const api = vi.hoisted(() => ({
     createReset: vi.fn(),
     updateReset: vi.fn(),
 }));
+const toast = vi.hoisted(() => ({ success: vi.fn(), error: vi.fn() }));
+vi.mock("sonner", () => ({ toast }));
 vi.mock("../../api/useAdminOAuthClients.ts", () => ({
     AdminOAuthClientRequestError: class extends Error {},
     useCreateAdminOAuthClient: () => ({
@@ -90,6 +92,25 @@ function ReopenEditHarness() {
     );
 }
 
+async function createClient() {
+    const values: Record<string, string> = {
+        [testI18n.t("adminOAuthClients.fields.name")]: "Cabinet integration",
+        [testI18n.t("adminOAuthClients.fields.termsShort")]: "https://cabinet.example/terms",
+        [testI18n.t("adminOAuthClients.fields.privacyShort")]: "https://cabinet.example/privacy",
+        [testI18n.t("adminOAuthClients.fields.homepageShort")]: "https://cabinet.example",
+        [testI18n.t("adminOAuthClients.fields.logo")]: "https://cabinet.example/logo.svg",
+        [testI18n.t("adminOAuthClients.fields.redirectUris")]:
+            "https://cabinet.example/oauth/callback",
+    };
+    for (const [label, value] of Object.entries(values)) {
+        fireEvent.change(screen.getByLabelText(label), { target: { value } });
+    }
+    fireEvent.click(
+        screen.getByRole("button", { name: testI18n.t("adminOAuthClients.actions.create") }),
+    );
+    await screen.findByDisplayValue("plaintext-once");
+}
+
 describe("AdminOAuthClientFormDialog", () => {
     beforeEach(() => {
         vi.clearAllMocks();
@@ -104,9 +125,10 @@ describe("AdminOAuthClientFormDialog", () => {
 
         const values: Record<string, string> = {
             [testI18n.t("adminOAuthClients.fields.name")]: "Cabinet integration",
-            [testI18n.t("adminOAuthClients.fields.terms")]: "https://cabinet.example/terms",
-            [testI18n.t("adminOAuthClients.fields.privacy")]: "https://cabinet.example/privacy",
-            [testI18n.t("adminOAuthClients.fields.homepage")]: "https://cabinet.example",
+            [testI18n.t("adminOAuthClients.fields.termsShort")]: "https://cabinet.example/terms",
+            [testI18n.t("adminOAuthClients.fields.privacyShort")]:
+                "https://cabinet.example/privacy",
+            [testI18n.t("adminOAuthClients.fields.homepageShort")]: "https://cabinet.example",
             [testI18n.t("adminOAuthClients.fields.logo")]: "https://cabinet.example/logo.svg",
             [testI18n.t("adminOAuthClients.fields.redirectUris")]:
                 "https://cabinet.example/oauth/callback",
@@ -119,26 +141,30 @@ describe("AdminOAuthClientFormDialog", () => {
             screen.getByRole("button", { name: testI18n.t("adminOAuthClients.actions.create") }),
         );
 
-        expect(await screen.findByText("plaintext-once")).toBeTruthy();
-        expect(screen.getByText("oc_test123")).toBeTruthy();
+        expect(await screen.findByDisplayValue("plaintext-once")).toBeTruthy();
+        expect(screen.getByDisplayValue("oc_test123")).toBeTruthy();
         expect(api.create).toHaveBeenCalledTimes(1);
-        const closeButtons = screen.getAllByRole("button", {
-            name: testI18n.t("adminOAuthClients.actions.close"),
-        });
-        const closeButton = closeButtons.at(-1);
-        if (!closeButton) throw new Error("Expected the dialog close action");
-        fireEvent.click(closeButton);
+        expect(
+            screen.getByRole("heading", { name: testI18n.t("adminOAuthClients.secret.title") }),
+        ).toBeTruthy();
+        // The secret panel has no close button; only Done dismisses it.
+        expect(screen.queryByRole("button", { name: testI18n.t("adminCommon.close") })).toBeNull();
+        fireEvent.keyDown(document.activeElement ?? document.body, { key: "Escape" });
+        expect(screen.getByDisplayValue("plaintext-once")).toBeTruthy();
+        fireEvent.click(
+            screen.getByRole("button", { name: testI18n.t("adminOAuthClients.actions.done") }),
+        );
 
-        expect(screen.queryByText("plaintext-once")).toBeNull();
+        expect(screen.queryByDisplayValue("plaintext-once")).toBeNull();
         expect(api.createReset).toHaveBeenCalled();
 
         fireEvent.click(screen.getByRole("button", { name: "Reopen" }));
         expect(
             await screen.findByRole("heading", {
-                name: testI18n.t("adminOAuthClients.create.title"),
+                name: testI18n.t("adminOAuthClients.form.newTitle"),
             }),
         ).toBeTruthy();
-        expect(screen.queryByText("plaintext-once")).toBeNull();
+        expect(screen.queryByDisplayValue("plaintext-once")).toBeNull();
     });
 
     it("offers every supported scope grouped, labelled and unselected by default", () => {
@@ -163,9 +189,10 @@ describe("AdminOAuthClientFormDialog", () => {
 
         const values: Record<string, string> = {
             [testI18n.t("adminOAuthClients.fields.name")]: "Cabinet integration",
-            [testI18n.t("adminOAuthClients.fields.terms")]: "https://cabinet.example/terms",
-            [testI18n.t("adminOAuthClients.fields.privacy")]: "https://cabinet.example/privacy",
-            [testI18n.t("adminOAuthClients.fields.homepage")]: "https://cabinet.example",
+            [testI18n.t("adminOAuthClients.fields.termsShort")]: "https://cabinet.example/terms",
+            [testI18n.t("adminOAuthClients.fields.privacyShort")]:
+                "https://cabinet.example/privacy",
+            [testI18n.t("adminOAuthClients.fields.homepageShort")]: "https://cabinet.example",
             [testI18n.t("adminOAuthClients.fields.logo")]: "https://cabinet.example/logo.svg",
             [testI18n.t("adminOAuthClients.fields.redirectUris")]:
                 "https://cabinet.example/oauth/callback",
@@ -195,9 +222,7 @@ describe("AdminOAuthClientFormDialog", () => {
 
         fireEvent.click(screen.getByDisplayValue("notifications:read"));
         fireEvent.click(screen.getByDisplayValue("partnerships:write"));
-        fireEvent.click(
-            screen.getByRole("button", { name: testI18n.t("adminOAuthClients.actions.save") }),
-        );
+        fireEvent.click(screen.getByRole("button", { name: testI18n.t("adminCommon.save") }));
 
         await waitFor(() => expect(api.update).toHaveBeenCalledTimes(1));
         const { clientId, patch } = api.update.mock.calls[0][0];
@@ -213,9 +238,7 @@ describe("AdminOAuthClientFormDialog", () => {
             target: { value: "Updated cabinet integration" },
         });
         fireEvent.click(screen.getByDisplayValue("access-tokens:read"));
-        fireEvent.click(
-            screen.getByRole("button", { name: testI18n.t("adminOAuthClients.actions.save") }),
-        );
+        fireEvent.click(screen.getByRole("button", { name: testI18n.t("adminCommon.save") }));
 
         await waitFor(() =>
             expect(api.update).toHaveBeenCalledWith({
@@ -230,9 +253,7 @@ describe("AdminOAuthClientFormDialog", () => {
         const nameLabel = testI18n.t("adminOAuthClients.fields.name");
         expect(screen.getByLabelText(nameLabel)).toHaveProperty("value", "Cabinet integration");
 
-        fireEvent.click(
-            screen.getByRole("button", { name: testI18n.t("adminOAuthClients.actions.cancel") }),
-        );
+        fireEvent.click(screen.getByRole("button", { name: testI18n.t("adminCommon.cancel") }));
         fireEvent.click(screen.getByRole("button", { name: "Reopen latest" }));
 
         await waitFor(() =>
@@ -246,7 +267,9 @@ describe("AdminOAuthClientFormDialog", () => {
     it("describes redirect URI requirements before and after validation fails", async () => {
         render(<Harness />);
         const textarea = screen.getByLabelText(testI18n.t("adminOAuthClients.fields.redirectUris"));
-        expect(textarea.getAttribute("aria-describedby")).toBe("admin-oauth-redirect-uris-help");
+        expect(textarea).toHaveAccessibleDescription(
+            testI18n.t("adminOAuthClients.fields.redirectUrisHint"),
+        );
 
         fireEvent.change(textarea, { target: { value: "http://insecure.example#fragment" } });
         fireEvent.click(
@@ -256,8 +279,8 @@ describe("AdminOAuthClientFormDialog", () => {
         expect(
             await screen.findByText(testI18n.t("adminOAuthClients.validation.redirectInvalid")),
         ).toBeTruthy();
-        expect(textarea.getAttribute("aria-describedby")).toBe(
-            "admin-oauth-redirect-uris-help admin-oauth-redirect-uris-error",
+        expect(textarea).toHaveAccessibleDescription(
+            `${testI18n.t("adminOAuthClients.fields.redirectUrisHint")} ${testI18n.t("adminOAuthClients.validation.redirectInvalid")}`,
         );
         expect(api.create).not.toHaveBeenCalled();
     });
@@ -269,13 +292,46 @@ describe("AdminOAuthClientFormDialog", () => {
         fireEvent.change(screen.getByLabelText(testI18n.t("adminOAuthClients.fields.name")), {
             target: { value: "Updated cabinet integration" },
         });
-        fireEvent.click(
-            screen.getByRole("button", { name: testI18n.t("adminOAuthClients.actions.save") }),
-        );
+        fireEvent.click(screen.getByRole("button", { name: testI18n.t("adminCommon.save") }));
 
         expect(
             await screen.findByText(testI18n.t("adminOAuthClients.errors.requestFailed")),
         ).toBeTruthy();
         expect(screen.queryByText("raw backend detail")).toBeNull();
+    });
+
+    it("copies the client secret and reports a clipboard failure", async () => {
+        const writeText = vi.fn().mockResolvedValue(undefined);
+        Object.defineProperty(navigator, "clipboard", {
+            configurable: true,
+            value: { writeText },
+        });
+        render(<Harness />);
+        await createClient();
+
+        const secretLabel = testI18n.t("adminOAuthClients.fields.clientSecret");
+        fireEvent.click(
+            screen.getByRole("button", {
+                name: testI18n.t("adminOAuthClients.secret.copyNamed", { field: secretLabel }),
+            }),
+        );
+        await waitFor(() => expect(writeText).toHaveBeenCalledWith("plaintext-once"));
+        expect(
+            await screen.findByRole("button", { name: testI18n.t("adminCommon.copied") }),
+        ).toBeTruthy();
+
+        writeText.mockRejectedValue(new Error("denied"));
+        fireEvent.click(
+            screen.getByRole("button", {
+                name: testI18n.t("adminOAuthClients.secret.copyNamed", {
+                    field: testI18n.t("adminOAuthClients.fields.clientId"),
+                }),
+            }),
+        );
+        await waitFor(() =>
+            expect(toast.error).toHaveBeenCalledWith(
+                testI18n.t("adminOAuthClients.secret.copyFailed"),
+            ),
+        );
     });
 });

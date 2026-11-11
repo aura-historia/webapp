@@ -2701,26 +2701,16 @@
     }
   },
   "adminApplications": {
-    "title": "Partnership applications",
-    "description": "Review submitted proposals, move them into review, and record a decision.",
     "loading": "Loading partnership applications.",
     "loadingDetail": "Loading application.",
-    "loadError": "Could not load partnership applications.",
-    "empty": "No applications match these filters.",
-    "retry": "Retry",
     "filters": {
       "title": "Filter applications",
       "states": "Status",
-      "proposalTypes": "Proposal type",
       "applicantUserId": "Applicant user ID",
       "listingSourceId": "Listing source ID",
-      "createdFrom": "Created from",
-      "createdTo": "Created until",
-      "updatedFrom": "Updated from",
-      "updatedTo": "Updated until",
-      "sort": "Sort by",
-      "apply": "Apply filters",
-      "reset": "Reset"
+      "proposal": "Proposal",
+      "created": "Created",
+      "updated": "Updated"
     },
     "sort": {
       "created_desc": "Newest first",
@@ -2735,18 +2725,11 @@
       "REJECTED": "Rejected",
       "WITHDRAWN": "Withdrawn"
     },
-    "proposalType": {
-      "EXISTING_LISTING_SOURCE": "Existing provider",
-      "PROPOSED_LISTING_SOURCE": "Proposed provider"
-    },
     "list": {
-      "applicant": "Applicant {{id}}",
-      "created": "Created {{date}}",
-      "updated": "Updated {{date}}",
-      "total_one": "{{count}} application",
-      "total_other": "{{count}} applications",
-      "loadMore": "Load more",
-      "loadingMore": "Loading…"
+      "open": "Open application for {{name}}",
+      "existing": "Existing provider",
+      "proposed": "Proposed · {{type}}",
+      "loadMoreApplications": "Load more applications"
     },
     "fields": {
       "id": "Application ID",
@@ -2757,23 +2740,27 @@
       "approvedListingSourceId": "Approved listing source ID"
     },
     "links": {
-      "listingSources": "Open listing source administration"
+      "partnership": "Open the partnership",
+      "listingSource": "Open the listing source"
     },
     "proposal": {
       "title": "Proposal",
       "listingSourceId": "Listing source ID",
-      "partyName": "Party name",
       "partyPhone": "Phone",
       "partyEmail": "Email",
-      "sourceName": "Provider name",
-      "listingSourceType": "Provider type",
-      "sourceUrl": "Provider URL",
-      "sourceImage": "Image URL",
-      "methods": "Requested ingestion methods"
+      "provider": "Provider",
+      "type": "Type",
+      "website": "Website",
+      "image": "Image",
+      "organization": "Organization",
+      "ingestion": "Ingestion"
     },
     "detail": {
-      "title": "Application details",
-      "description": "Proposals cannot be edited. Move submitted applications into review before approving or rejecting them."
+      "eyebrow": {
+        "EXISTING_LISTING_SOURCE": "Application · Existing provider",
+        "PROPOSED_LISTING_SOURCE": "Application · Proposed provider"
+      },
+      "fallbackTitle": "Application"
     },
     "actions": {
       "details": "View details",
@@ -2782,10 +2769,8 @@
       "APPROVE": "Approve",
       "REJECT": "Reject",
       "cancel": "Cancel",
-      "confirm": {
-        "APPROVE": "Approve this application? Approval creates or links the partnership and grants access to the listing source.",
-        "REJECT": "Reject this application? The applicant will be notified."
-      }
+      "confirmApprove": "Approve? This creates or links the partnership and grants source access.",
+      "confirmReject": "Reject? The applicant is notified."
     },
     "success": {
       "IN_REVIEW": "Application moved into review.",
@@ -2793,29 +2778,44 @@
       "REJECT": "Application rejected."
     },
     "errors": {
-      "conflict": "This application was changed in the meantime or no longer allows this action, or every slug generated for the proposed organization or source name is already taken. The latest status has been loaded.",
-      "missing": "Application not found or unavailable."
+      "missing": "Application not found or unavailable.",
+      "conflictReloaded": "Changed elsewhere, or a generated name is already taken. Reloaded."
+    },
+    "pageTitle": "Applications",
+    "emptyTitle": "No applications",
+    "noMatches": "No matches",
+    "loadFailed": "Could not load applications",
+    "proposalOption": {
+      "EXISTING_LISTING_SOURCE": "Existing",
+      "PROPOSED_LISTING_SOURCE": "Proposed"
+    },
+    "columns": {
+      "provider": "Provider",
+      "status": "Status",
+      "applicant": "Applicant",
+      "created": "Created",
+      "updated": "Updated"
+    },
+    "decision": {
+      "label": "Decision"
+    },
+    "groups": {
+      "open": "Undecided",
+      "decided": "Decided"
     }
   },
   "adminParties": {
-    "title": "Organization management",
-    "description": "Manage organization identities and operational contacts for source operators and partnerships.",
     "loading": "Loading organizations.",
     "loadingDetail": "Loading organization.",
-    "empty": "No organizations match these filters.",
     "filters": {
       "title": "Filter organizations",
       "query": "Name or contact",
       "name": "Organization name",
       "phone": "Phone",
       "email": "Email",
-      "createdFrom": "Created from",
-      "createdTo": "Created until",
-      "updatedFrom": "Updated from",
-      "updatedTo": "Updated until",
-      "sort": "Sort by",
-      "apply": "Apply filters",
-      "reset": "Reset"
+      "search": "Search",
+      "created": "Created",
+      "updated": "Updated"
     },
     "sort": {
       "name_asc": "Name, A to Z",
@@ -2830,12 +2830,10 @@
       "updated_desc": "Most recently updated"
     },
     "list": {
-      "created": "Created {{date}}",
-      "updated": "Updated {{date}}",
-      "total_one": "{{count}} organization",
-      "total_other": "{{count}} organizations",
       "loadMore": "Load more",
-      "loadingMore": "Loading…"
+      "label": "Organizations",
+      "open": "Open {{name}}",
+      "loadMoreOrganizations": "Load more organizations"
     },
     "fields": {
       "partyId": "Organization ID",
@@ -2848,27 +2846,19 @@
       "notProvided": "Not provided"
     },
     "detail": {
-      "title": "Organization details",
-      "description": "Review its canonical identity, contact details, and record dates."
+      "eyebrow": "Organization",
+      "notFound": "Organization not found"
     },
     "form": {
       "createTitle": "Create organization",
-      "editTitle": "Edit organization",
-      "description": "Manage the organization name and its optional operational contact details."
+      "editTitle": "Edit organization"
     },
     "actions": {
       "create": "Create organization",
-      "details": "View details",
       "edit": "Edit organization",
-      "delete": "Delete organization",
-      "retry": "Retry",
-      "cancel": "Cancel",
-      "save": "Save changes",
-      "saving": "Saving…",
       "confirmDelete": "Delete this organization? A linked listing source or retained partnership can prevent deletion. Related records are not removed by this action.",
       "confirmDeleteButton": "Delete",
-      "deleting": "Deleting…",
-      "detailsFor": "View details for {{name}}"
+      "remove": "Delete"
     },
     "success": {
       "created": "Organization created.",
@@ -2887,44 +2877,32 @@
     "validation": {
       "nameRequired": "Enter an organization name.",
       "nameTooLong": "The name must be 255 UTF-8 bytes or fewer.",
-      "invalidEmail": "Enter a valid email address.",
-      "invalidDate": "Enter a valid calendar date."
+      "invalidEmail": "Enter a valid email address."
     },
     "picker": {
       "label": "Source operator organization",
-      "selected": "Selected organization",
-      "clear": "Clear selection",
       "loading": "Searching organizations…",
-      "noMatch": "No existing organization matches this search. Create one in organization management, then return to select it.",
-      "searchPrompt": "Search existing organizations by name or contact details.",
-      "manageLink": "Open organization management"
+      "change": "Change",
+      "select": "Select",
+      "noMatches": "No matches.",
+      "failed": "Organizations could not be searched.",
+      "openOrganizations": "Open organizations"
     },
     "page": {
-      "back": "Back to organizations",
-      "deleteTitle": "Delete {{name}}?"
+      "deleteTitle": "Delete {{name}}?",
+      "allOrganizations": "All organizations"
     },
     "locationAccess": {
-      "title": "Location management access",
-      "description": "Grant a user explicit authority to view and manage every business location of {{name}}, including private details. This grant is independent from active partnership membership and listing-source grants; it neither adds nor removes either.",
-      "managersTitle": "Current location managers",
-      "managersDescription": "Users who can currently view and manage these locations, with each reason for their access. Suspended accounts are not listed, and the administrator role alone does not add a user here.",
       "empty": "No user currently has an explicit grant or active partnership membership for this organization.",
       "access": {
         "explicit": "Explicit grant",
-        "partnership": "Partnership membership",
-        "partnerships": "Partnerships:"
+        "member": "Partnership member"
       },
       "revokeFor": "Revoke the explicit grant for {{user}}",
       "state": {
-        "checking": "Checking current access…",
-        "none": "{{user}} has no explicit grant and no active partnership membership for this organization.",
-        "explicit": "{{user}} has an explicit grant for this organization’s locations.",
-        "partnership": "{{user}} can already manage these locations through active partnership membership. An explicit grant would keep that access if the membership ends.",
-        "both": "{{user}} has an explicit grant and active partnership membership. Revoking the grant leaves access through the membership in place."
+        "checking": "Checking current access…"
       },
       "userLabel": "User account",
-      "grant": "Grant location access",
-      "revoke": "Revoke location access",
       "confirmGrantTitle": "Grant location access?",
       "confirmGrant": "{{user}} will be able to view and manage every location of {{name}}, including private details, until the grant is revoked. Partnership membership and listing-source grants are not changed.",
       "confirmGrantButton": "Grant access",
@@ -2944,77 +2922,69 @@
         "readMissing": "This organization is no longer available.",
         "readFailed": "Location managers could not be loaded. Please try again."
       },
-      "changeTitle": "Change a user’s explicit grant"
+      "heading": "Location managers",
+      "cardTitle": "Grant access",
+      "status": {
+        "none": "No grant or membership.",
+        "explicit": "Explicit grant.",
+        "partnership": "Partnership member. A grant keeps access if the membership ends.",
+        "both": "Explicit grant and partnership member. Revoking the grant keeps the membership."
+      }
+    },
+    "pageTitle": "Organizations",
+    "emptyTitle": "No organizations",
+    "noMatches": "No matches",
+    "loadFailed": "Could not load organizations",
+    "columns": {
+      "organization": "Organization",
+      "contact": "Contact",
+      "created": "Created",
+      "updated": "Updated"
     }
   },
   "adminListingSources": {
-    "title": "Listing source management",
-    "description": "Manage listing sources, their operators, presentation details and ingestion settings.",
     "loading": "Loading listing sources.",
     "loadingDetail": "Loading listing source.",
-    "empty": "No listing sources match these filters.",
     "filters": {
       "title": "Filter listing sources",
       "query": "Name or operator",
       "name": "Source name",
       "listingSourceId": "Listing source ID",
-      "listingSourceSlugId": "Immutable slug",
-      "operatorPartyId": "Operator organization ID",
-      "allTypes": "All types",
-      "ingestionMethod": "Ingestion method",
-      "allMethods": "All methods",
-      "sort": "Sort by",
-      "apply": "Apply filters",
-      "reset": "Reset"
-    },
-    "sort": {
-      "name_asc": "Name, A to Z",
-      "name_desc": "Name, Z to A",
-      "slug_asc": "Slug, A to Z",
-      "slug_desc": "Slug, Z to A",
-      "created_asc": "Oldest created first",
-      "created_desc": "Newest created first",
-      "updated_asc": "Least recently updated",
-      "updated_desc": "Most recently updated"
+      "type": "Type",
+      "ingestion": "Ingestion",
+      "slug": "Slug",
+      "operatorId": "Operator ID"
     },
     "list": {
-      "operator": "Operator: {{name}}",
-      "noMethods": "No ingestion method",
-      "platform": "Platform technology: {{code}}",
-      "updated": "Updated {{date}}",
-      "total_one": "{{count}} listing source",
-      "total_other": "{{count}} listing sources",
-      "loadMore": "Load more",
-      "loadingMore": "Loading…"
+      "heads": {
+        "source": "Source",
+        "type": "Type",
+        "ingestion": "Ingestion",
+        "platform": "Platform",
+        "updated": "Updated"
+      },
+      "operatedBy": "Operated by {{name}}",
+      "none": "None",
+      "loadMoreSources": "Load more sources"
     },
     "fields": {
-      "listingSourceId": "Listing source ID",
-      "immutableSlug": "Immutable slug",
       "name": "Source name",
       "listingSourceType": "Source type",
       "operator": "Operator organization",
-      "operatorPartyId": "Operator organization ID",
       "operatorName": "New operator name",
       "phone": "Phone",
       "email": "Email",
-      "ingestionMethods": "Ingestion methods",
       "platformTechnology": "Platform technology",
-      "platformTechnologyNotRecorded": "Not recorded",
-      "ingestionConfiguration": "Ingestion configuration",
-      "configurationType": "Configuration type",
       "fallbackCurrency": "Fallback currency (ISO 4217)",
       "domain": "Shopify domain",
       "currency": "Currency",
       "language": "Language",
-      "webhookSecret": "WooCommerce webhook secret",
-      "url": "Presentation URL",
-      "image": "Presentation image URL",
-      "partnerizeCamref": "Partnerize campaign reference (camref)",
-      "referralConfiguration": "Referral configuration",
-      "created": "Created",
-      "updated": "Last updated",
-      "notProvided": "Not provided",
-      "referralUnavailable": "Currently unavailable"
+      "referralUnavailable": "Currently unavailable",
+      "website": "Website",
+      "imageUrl": "Image URL",
+      "camref": "Partnerize camref",
+      "referral": "Referral",
+      "secret": "Webhook secret"
     },
     "methods": {
       "WEB_CRAWL": "Web crawl",
@@ -3022,55 +2992,46 @@
       "WOOCOMMERCE": "WooCommerce",
       "PARTNER_API": "Partner API"
     },
-    "configurationTypes": {
-      "WEB_CRAWL": "Web crawl",
-      "SHOPIFY": "Shopify",
-      "WOOCOMMERCE": "WooCommerce",
-      "PARTNER_API": "Partner API"
-    },
     "operator": {
-      "existing": "Select an existing organization",
-      "new": "Create a new organization"
+      "existingShort": "Existing organization",
+      "newShort": "New organization"
     },
     "referral": {
-      "keep": "Keep current setting",
       "set": "Set Partnerize reference",
       "clear": "Clear referral setting",
-      "partnerizeValue": "Partnerize · {{camref}}"
+      "partnerizeValue": "Partnerize · {{camref}}",
+      "keepCurrent": "Keep current"
     },
     "detail": {
-      "title": "Listing source details",
-      "description": "Review the source identity, operator and safe configuration summary. Provider secrets are never shown."
+      "eyebrow": "Listing source · {{type}}",
+      "eyebrowBare": "Listing source",
+      "operatedBy": "Operated by <party>{{name}}</party>",
+      "confirmDelete": "Delete this source? Not possible while it has listings."
     },
     "form": {
-      "createTitle": "Create listing source",
-      "createDescription": "Create a source and choose its operator. Ingestion methods can be configured later.",
-      "editTitle": "Edit listing source",
-      "editDescription": "Change source details. The operator and source slug are immutable.",
-      "configurationDescription": "Optional: add configured ingestion methods now, or leave this empty and configure them later.",
-      "referralDescription": "Optional Partnerize referral information. No provider credentials are stored here.",
-      "chooseListingSourceType": "Choose a source type",
-      "listingSourceTypeDescription": "The source’s primary sales model. A seller’s own storefront on a marketplace is classified by that seller, usually as a dealer. It only describes the source: ingestion, listings and auctions are unaffected.",
-      "platformTechnologyDescription": "Optional code in capital letters, digits and underscores, such as SHOPIFY or BIGCOMMERCE. It only describes the shop software: it does not enable ingestion or imply an installed app or partnership. Leave it empty to record no platform.",
       "replaceConfiguration": "Replace ingestion configuration",
-      "incompleteConfigurationNotice": "The read API does not return configuration values. Leave this off to preserve the current settings. Turning it on replaces settings for every active ingestion method.",
-      "secretPreservationNotice": "This secret is write-only and is never read back. Leave it blank to preserve an existing secret; enter a value to set or rotate it.",
-      "partnerApiConfiguration": "Partner API configuration is managed through the partner integration workflow."
+      "partnerApiConfiguration": "Partner API configuration is managed through the partner integration workflow.",
+      "newTitle": "New listing source",
+      "editNamed": "Edit {{name}}",
+      "legends": {
+        "source": "Source",
+        "operator": "Operator",
+        "presentation": "Presentation and referral",
+        "ingestion": "Ingestion"
+      },
+      "fixed": "Fixed",
+      "replaceWarning": "Overwrites every active method.",
+      "secretPlaceholder": "Leave blank to keep",
+      "removeMethod": "Remove {{method}}",
+      "slug": "Slug · {{slug}}"
     },
     "actions": {
       "create": "Create source",
-      "details": "View details",
       "edit": "Edit source",
       "delete": "Delete source",
-      "retry": "Retry",
-      "cancel": "Cancel",
       "save": "Save changes",
-      "saving": "Saving…",
       "addMethod": "Add ingestion method",
-      "removeMethod": "Remove",
-      "confirmDelete": "Delete this listing source? Sources with listings or retained relationships cannot be deleted. Related partnerships and applications will not be removed.",
-      "confirmDeleteButton": "Delete source",
-      "deleting": "Deleting…"
+      "removeMethod": "Remove"
     },
     "success": {
       "created": "Listing source created.",
@@ -3081,10 +3042,10 @@
       "forbidden": "You do not have permission to manage listing sources.",
       "missing": "Listing source not found or no longer available.",
       "createConflict": "The source conflicts with existing provider configuration, or every slug generated from its name or the new operator’s name is already taken. Review the current sources or choose a more distinctive name before trying again.",
-      "updateConflict": "This listing source changed while you were editing it. Reload its details before trying again.",
       "deleteConflict": "This listing source has listings or retained relationships and could not be deleted. No related records were removed.",
       "invalid": "Check the listing source details and ingestion settings, then try again.",
-      "requestFailed": "The listing source request could not be completed. Please try again."
+      "requestFailed": "The listing source request could not be completed. Please try again.",
+      "changedElsewhere": "Listing source changed elsewhere. Reloaded."
     },
     "validation": {
       "nameRequired": "Enter a source name.",
@@ -3103,19 +3064,14 @@
     },
     "locationDefault": {
       "title": "Default location",
-      "description": "The one location that supplies source-derived geography to this source's listings. Only active locations of the operator organization can be chosen.",
       "loading": "Loading the default location.",
-      "propagation": "Changes to the default are saved at once. Search results and listing geography update asynchronously and can take a short time. Retiring or relocating a location never moves this default to another location automatically.",
       "unsupportedValues": "Some stored evidence uses a format this app cannot display, so it is not shown here.",
       "fields": {
-        "location": "Location",
         "noDefault": "No default location",
-        "locationDetailsUnavailable": "Location details are not loaded here. Open the operator's locations to review them.",
-        "notAsserted": "Not asserted",
-        "asserted": "Asserted",
-        "evidence": "Evidence: {{reference}}",
-        "evidenceReference": "Evidence reference",
-        "revision": "Revision"
+        "yes": "Yes",
+        "no": "No",
+        "evidenceLabel": "Evidence",
+        "locationUnavailable": "Location details not loaded."
       },
       "effect": {
         "none": "No default location is set. Listings from this source have no source-derived geography.",
@@ -3126,45 +3082,35 @@
       },
       "applicability": {
         "legend": "Applicability",
-        "hint": "Each statement is independent and needs its own evidence reference. Only advertised inventory places this source's listings at the location.",
-        "evidenceHint": "Required. A reference to the source of this statement, such as a document number or web address. It is stored as text and never opened.",
         "advertisedInventory": {
-          "label": "Advertised inventory",
-          "description": "The objects this source advertises are held at this location. Its listings then inherit the location's geography."
+          "label": "Advertised inventory"
         },
         "businessAssociation": {
-          "label": "Associated business",
-          "description": "The business behind this source operates from this location. On its own, this does not place individual listings at the site."
+          "label": "Associated business"
         }
       },
       "assign": {
         "title": "Assign default location",
         "replaceTitle": "Replace default location",
-        "description": "Choose an active location of the operator organization and state which applicability applies.",
-        "replaceDescription": "Replacing sets the location and both applicability statements together. The current statements are not carried over; assert them again if they apply to the new location.",
         "unsupportedValues": "The current default has stored evidence this app cannot display. Replacing removes it.",
         "locationLegend": "Location"
       },
       "applicabilityForm": {
         "title": "Edit applicability",
-        "description": "Change the statements for the current location without changing the location itself.",
         "unsupportedValues": "Some stored evidence cannot be displayed. Statements you leave unchanged keep it; changing a statement replaces it.",
         "noChanges": "There are no changes to save."
       },
       "clear": {
-        "confirm": "Clear the default location? Listings from this source lose the geography inherited from it once search has updated. No other location is selected.",
-        "confirmRetired": "Clear the retired reference? It currently supplies no listing geography; clearing removes it from this source. No other location is selected."
+        "confirmShort": "Clear the default? Listings lose its geography.",
+        "confirmRetiredShort": "Clear the retired reference? It supplies no geography."
       },
       "stale": {
-        "assign": "The default changed while you were editing; the latest version is shown above. Keep your draft to apply it to the latest version, or discard it.",
-        "applicability": "The default changed while you were editing; the latest version is shown above. Keep your draft to apply only your changes to the latest version, or discard it.",
         "applicabilityUnavailable": "The default no longer references the same active location, so its applicability cannot be changed here. Discard your draft and review the latest version above.",
-        "clear": "The default changed after you started; the latest version is shown above. Review it and confirm again, or cancel.",
-        "alreadyCleared": "The default has already been cleared. There is nothing left to clear."
+        "alreadyCleared": "The default has already been cleared. There is nothing left to clear.",
+        "changed": "Changed elsewhere (now revision {{revision}})."
       },
       "links": {
-        "operatorLocations": "Manage locations of {{name}}",
-        "operatorLocationsHint": "Add, correct, relocate, retire or restore locations on the operator organization's page."
+        "operator": "Operator locations"
       },
       "actions": {
         "assign": "Assign location",
@@ -3175,7 +3121,6 @@
         "confirmReplace": "Replace location",
         "saveApplicability": "Save applicability",
         "confirmClear": "Clear default",
-        "clearing": "Clearing…",
         "keepDraft": "Keep my draft",
         "discardDraft": "Discard my draft",
         "reviewLatest": "Use the latest version"
@@ -3200,7 +3145,42 @@
         "invalid": "Check the location and evidence references, then try again.",
         "unavailable": "Default locations are temporarily unavailable. Please try again shortly.",
         "requestFailed": "The request could not be completed. Please try again."
+      },
+      "status": {
+        "none": "No default",
+        "ACTIVE": "Active",
+        "RETIRED": "Retired",
+        "UNKNOWN": "Unknown status",
+        "revision": "Revision {{revision}}"
       }
+    },
+    "heading": "Listing sources",
+    "states": {
+      "empty": "No listing sources",
+      "noMatches": "No matches",
+      "error": "Could not load listing sources"
+    },
+    "sortOptions": {
+      "name_asc": "Name · A–Z",
+      "name_desc": "Name · Z–A",
+      "slug_asc": "Slug · A–Z",
+      "slug_desc": "Slug · Z–A",
+      "created_desc": "Created · Newest first",
+      "created_asc": "Created · Oldest first",
+      "updated_desc": "Updated · Newest first",
+      "updated_asc": "Updated · Oldest first"
+    },
+    "facts": {
+      "id": "ID",
+      "slug": "Slug",
+      "ingestion": "Ingestion",
+      "platform": "Platform",
+      "website": "Website",
+      "image": "Image",
+      "referral": "Referral",
+      "operatorId": "Operator ID",
+      "created": "Created",
+      "updated": "Updated"
     }
   },
   "listingSourceTypes": {
@@ -3216,82 +3196,61 @@
     }
   },
   "adminPartnerships": {
-    "title": "Partnership management",
-    "description": "Manage partnership memberships and access to listing sources.",
     "loading": "Loading partnerships.",
     "loadingDetail": "Loading partnership.",
-    "empty": "No active partnerships match these filters.",
     "filters": {
       "title": "Filter partnerships",
-      "partyId": "Party ID",
       "memberUserId": "Member user ID",
       "listingSourceId": "Listing source ID",
-      "apply": "Apply filters",
-      "reset": "Reset"
+      "byId": "Filter by ID",
+      "organizationId": "Organization ID"
     },
     "validation": {
       "idTooLong": "An identifier must be 128 characters or fewer.",
       "requiredId": "Enter an identifier."
     },
     "list": {
-      "members_one": "{{count}} member",
-      "members_other": "{{count}} members",
-      "listingSources_one": "{{count}} source grant",
-      "listingSources_other": "{{count}} source grants",
-      "loaded_one": "{{count}} partnership loaded",
-      "loaded_other": "{{count}} partnerships loaded",
-      "loadMore": "Load more",
-      "loadingMore": "Loading…"
+      "label": "Partnerships",
+      "open": "Open partnership with {{name}}",
+      "loadMorePartnerships": "Load more partnerships"
     },
     "fields": {
-      "created": "Created",
-      "updated": "Last updated",
-      "party": "Party",
-      "partyId": "Party ID",
-      "partySlugId": "Immutable party slug",
       "partnershipId": "Partnership ID",
-      "memberCount": "Members (complete count)",
-      "listingSourceGrantCount": "Listing source grants (complete count)"
+      "organizationId": "Organization ID",
+      "organizationSlug": "Organization slug",
+      "members": "Members",
+      "sourceGrants": "Source grants",
+      "createdUpdated": "Created · Updated"
     },
     "actions": {
-      "details": "View details",
-      "retry": "Retry",
-      "saving": "Saving…",
       "grantMembership": "Grant membership",
-      "revokeMembership": "Revoke membership",
       "revoke": "Revoke",
       "revokeMemberFor": "Revoke membership for user {{id}}",
       "revokeSourceFor": "Revoke access to listing source {{id}}",
       "grantSource": "Grant access",
       "revokeSource": "Revoke access",
-      "cancel": "Cancel",
       "dissolve": "Dissolve partnership",
-      "dissolving": "Dissolving…",
       "confirmDissolve": "Dissolve partnership"
     },
     "detail": {
-      "title": "Partnership details",
-      "description": "Memberships and listing source grants are managed separately. Complete counts may exceed the identifiers shown.",
-      "members_one": "{{count}} member",
-      "members_other": "{{count}} members",
-      "listingSources_one": "{{count}} source grant",
-      "listingSources_other": "{{count}} source grants",
-      "referencesShown": "Identifiers shown: {{shown}}. Complete count: {{count}}.",
       "noReferences": "No identifiers were returned.",
-      "close": "Close"
+      "eyebrow": "Partnership",
+      "organizationLink": "Organization",
+      "shown": "{{shown}} of {{count}} shown"
     },
     "members": {
-      "title": "Manage memberships",
-      "description": "Grant or revoke membership explicitly. Approval of an application alone does not grant access.",
-      "userId": "User ID"
+      "userId": "User ID",
+      "heading": "Members",
+      "confirmRevoke": "Revoke this membership?"
     },
     "sources": {
-      "title": "Manage listing source access",
-      "description": "A listing source must belong to the same party as this partnership. The server checks this again when the grant is saved.",
       "listingSourceId": "Listing source ID",
       "checking": "Checking listing source…",
       "check": "Check source",
-      "sameParty": "{{name}} ({{listingSourceId}}) belongs to the same party as this partnership."
+      "heading": "Source access",
+      "confirmRevoke": "Revoke access to this source?",
+      "sameOrganization": "{{name}} · same organization",
+      "otherOrganization": "Belongs to another organization."
     },
     "success": {
       "memberGranted": "Membership granted.",
@@ -3305,46 +3264,50 @@
       "invalid": "Check the identifiers you entered.",
       "missing": "This partnership is no longer available.",
       "partyConflict": "This listing source belongs to a different party. Access can only be granted to a source that belongs to the partnership's party.",
-      "conflict": "The partnership changed during this request. Refresh the details and try again.",
-      "dissolveConflict": "The partnership changed during this request. Refresh the details before trying again.",
       "dissolveFailed": "The partnership could not be dissolved. Review its current state and try again.",
       "requestFailed": "The request could not be completed. Refresh the details and try again.",
-      "referenceMissing": "The partnership or referenced identifier could not be found."
+      "referenceMissing": "The partnership or referenced identifier could not be found.",
+      "changedElsewhere": "Changed elsewhere. Reloaded."
     },
     "dissolution": {
       "title": "Dissolve partnership",
-      "description": "Dissolving removes current memberships and listing source grants. The party, listing sources, users, listings, and applications remain.",
-      "confirmTitle": "Confirm dissolution",
-      "confirmDescription": "Dissolve the partnership with {{name}}? Its current memberships and listing source grants will be removed."
+      "confirmQuestion": "Dissolve this partnership?",
+      "removes": "Removes {{memberships}} and {{grants}}.",
+      "memberships_one": "{{count}} membership",
+      "memberships_other": "{{count}} memberships",
+      "grants_one": "{{count}} source grant",
+      "grants_other": "{{count}} source grants"
+    },
+    "pageTitle": "Partnerships",
+    "emptyTitle": "No partnerships",
+    "noMatches": "No matches",
+    "loadFailed": "Could not load partnerships",
+    "columns": {
+      "organization": "Organization",
+      "members": "Members",
+      "sourceGrants": "Source grants",
+      "created": "Created",
+      "updated": "Updated"
     }
   },
   "adminDashboard": {
     "loading": "Loading…",
-    "forbidden": {
-      "title": "Access denied",
-      "description": "You do not have permission to view the admin dashboard. Please sign in with an administrator account."
-    }
+    "accessDenied": "Administrators only",
+    "goHome": "Go to homepage"
   },
   "adminOverview": {
-    "title": "Admin overview",
-    "description": "Current platform counts from the authoritative database. Figures are a snapshot taken when the page loads.",
     "loading": "Loading admin overview.",
-    "actions": {
-      "retry": "Try again"
-    },
     "errors": {
       "forbidden": "You do not have permission to view the admin overview.",
       "unavailable": "The admin overview is temporarily unavailable. Please try again shortly.",
       "requestFailed": "The admin overview could not be loaded.",
-      "stale": "The latest counts could not be refreshed. The figures shown may be out of date."
+      "outOfDate": "Could not refresh. Counts may be out of date."
     },
     "serviceStatus": {
       "title": "Service status",
-      "description": "Checked from this browser against the public API health endpoints. The same result determines which notice visitors see.",
       "check": "Check now",
       "loading": "Checking service status.",
       "noResponse": "No response",
-      "checkedAt": "Last checked at {{time}}.",
       "availability": {
         "operational": "Operational",
         "maintenance": "Maintenance",
@@ -3363,26 +3326,20 @@
         "available": "Available",
         "maintenance": "Maintenance",
         "unavailable": "Unavailable"
-      }
+      },
+      "checking": "Checking…",
+      "lastChecked": "Last checked {{time}}"
     },
     "users": {
       "title": "Users",
-      "link": "Manage users",
       "byTier": "By tier",
-      "byRole": "By role",
       "tiers": {
         "free": "Free",
         "pro": "Pro",
         "ultimate": "Ultimate"
-      },
-      "roles": {
-        "user": "User",
-        "admin": "Administrator"
       }
     },
     "applications": {
-      "title": "Partnership applications",
-      "link": "Review applications",
       "byState": "By state",
       "states": {
         "submitted": "Submitted",
@@ -3390,20 +3347,23 @@
         "approved": "Approved",
         "rejected": "Rejected",
         "withdrawn": "Withdrawn"
-      }
+      },
+      "label": "Applications",
+      "awaitingReview_one": "<strong>{{value}}</strong> awaiting review",
+      "awaitingReview_other": "<strong>{{value}}</strong> awaiting review",
+      "review": "Review"
     },
     "listingSources": {
       "title": "Listing sources",
-      "link": "Manage listing sources",
       "withoutIngestionMethod": "Without ingestion method",
       "methodAssignments": "Ingestion method assignments",
-      "methodAssignmentsNote": "A source can use several methods, so assignments may exceed the number of sources.",
       "methods": {
         "webCrawl": "Web crawl",
         "shopify": "Shopify",
         "woocommerce": "WooCommerce",
         "partnerApi": "Partner API"
-      }
+      },
+      "overlapNote": "Methods overlap; do not add them up."
     },
     "parties": {
       "title": "Organizations"
@@ -3419,7 +3379,6 @@
         "withdrawn": "Withdrawn"
       },
       "activeAvailability": "Availability of active listings",
-      "activeAvailabilityNote": "Counts include active listings only.",
       "activeWithoutAvailability": "No availability reported",
       "availability": {
         "available": "Available",
@@ -3436,8 +3395,20 @@
       }
     },
     "summary": {
-      "label": "Totals",
-      "awaitingReview": "Awaiting review"
+      "label": "Totals"
+    },
+    "pageTitle": "Overview",
+    "breakdown": "Breakdown",
+    "unavailable": "Counts unavailable",
+    "totals": {
+      "administrators_one": "{{value}} administrator",
+      "administrators_other": "{{value}} administrators",
+      "awaitingReview_one": "{{value}} awaiting review",
+      "awaitingReview_other": "{{value}} awaiting review",
+      "withoutIngestionMethod_one": "{{value}} without an ingestion method",
+      "withoutIngestionMethod_other": "{{value}} without an ingestion method",
+      "active_one": "{{value}} active",
+      "active_other": "{{value}} active"
     }
   },
   "adminNavigation": {
@@ -3458,7 +3429,8 @@
       "auctions": "Auctions",
       "productListings": "Product listings",
       "oauthClients": "OAuth clients"
-    }
+    },
+    "title": "Admin"
   },
   "oauth": {
     "authorize": {
@@ -5201,27 +5173,20 @@
     "positioning": "Price databases that record what objects sold for, compared with a search across dealers, auction houses and marketplaces that shows what is offered now."
   },
   "adminUsers": {
-    "title": "User management",
-    "description": "Search account summaries, review account details, and make profile, role, and tier changes independently.",
     "loading": "Loading users…",
     "loadingDetail": "Loading account details…",
-    "empty": "No users match these filters.",
     "filters": {
       "title": "Filter users",
       "query": "Name or email",
       "email": "Email contains",
       "firstName": "First name contains",
       "lastName": "Last name contains",
-      "tier": "Subscription tier",
       "role": "Role",
       "createdFrom": "Created from",
       "createdTo": "Created until",
       "updatedFrom": "Updated from",
       "updatedTo": "Updated until",
-      "sort": "Sort by",
-      "order": "Direction",
-      "apply": "Apply filters",
-      "reset": "Reset"
+      "tierShort": "Tier"
     },
     "sort": {
       "name": "Name",
@@ -5235,17 +5200,16 @@
     },
     "order": {
       "asc": "Ascending",
-      "desc": "Descending"
+      "desc": "Descending",
+      "alphaAsc": "A–Z",
+      "alphaDesc": "Z–A",
+      "newest": "Newest first",
+      "oldest": "Oldest first"
     },
     "list": {
-      "title": "Users",
-      "loaded_one": "{{count}} user loaded",
-      "loaded_other": "{{count}} users loaded",
-      "total_one": "{{count}} matching user in total",
-      "total_other": "{{count}} matching users in total",
-      "loadMore": "Load more",
-      "loadingMore": "Loading…",
-      "openUser": "View account for {{email}}"
+      "openUser": "View account for {{email}}",
+      "label": "User accounts",
+      "loadMoreUsers": "Load more users"
     },
     "fields": {
       "userId": "User ID",
@@ -5258,36 +5222,20 @@
       "role": "Role",
       "tier": "Subscription tier"
     },
-    "profile": {
-      "title": "Profile and preferences",
-      "sensitiveContentHelp": "This preference controls unassessed and sensitive content. Content redacted by the service remains unavailable."
-    },
-    "role": {
-      "title": "Role"
-    },
-    "tier": {
-      "title": "Subscription tier"
-    },
     "detail": {
       "title": "User account",
-      "description": "Review the fields provided by the account service and update each change category separately.",
-      "close": "Close"
+      "copyId": "Copy user ID"
     },
     "delete": {
       "title": "Delete account",
-      "description": "Deleting an account also removes its access tokens, saved searches, watchlist entries, notifications, and related memberships and applications.",
-      "confirm": "This deletion is permanent. Delete this user account?"
+      "question": "Delete permanently, with its tokens, filters, watchlist, notifications, memberships and applications?"
     },
     "actions": {
-      "retry": "Try again",
-      "saveProfile": "Save profile and preferences",
       "saveRole": "Save role",
       "saveTier": "Save tier",
-      "saving": "Saving…",
       "delete": "Delete account",
-      "confirmDelete": "Confirm deletion",
-      "deleting": "Deleting…",
-      "cancel": "Cancel"
+      "deleteForGood": "Delete for good",
+      "saveAccountProfile": "Save profile"
     },
     "success": {
       "profileUpdated": "Profile and preferences updated.",
@@ -5305,39 +5253,32 @@
       "requestFailed": "The user account request could not be completed. Please try again."
     },
     "security": {
-      "title": "Account security",
       "suspension": {
-        "title": "Account suspension",
-        "description": "Suspension blocks this account from authenticating. It does not revoke Aura access tokens or dissolve partnerships. The account detail does not include suspension status.",
-        "stateUnknown": "The current status is not available from account details. A status appears here only after a confirmed suspension action.",
-        "confirmedSuspended": "The latest action response confirms that this account is suspended.",
-        "confirmedActive": "The latest action response confirms that this account is active.",
         "reason": "Reason for suspension",
-        "reasonHelp": "The backend records this reason in operational logs. Do not include passwords, tokens, credentials, or other secrets. Maximum 1,000 UTF-8 bytes.",
         "reasonRequired": "Enter a reason for suspension.",
         "reasonTooLong": "The reason must be 1,000 UTF-8 bytes or fewer.",
-        "unsuspendDescription": "Reactivation restores authentication for valid credentials. It does not issue new credentials.",
         "selfSuspended": "Your session is ending. An administrator must reactivate your account before you can sign in again.",
         "suspended": "The suspension response confirmed that the account is suspended.",
-        "unsuspended": "The reactivation response confirmed that the account is active."
+        "unsuspended": "The reactivation response confirmed that the account is active.",
+        "heading": "Suspension",
+        "status": {
+          "unknown": "Status not reported",
+          "active": "Active",
+          "suspended": "Suspended"
+        },
+        "reasonHint": "Logged. No secrets.",
+        "reasonBytes": "{{used}} / {{max}} bytes",
+        "confirmQuestion": "Suspend this account?"
       },
       "sessions": {
-        "title": "Cognito sessions",
-        "description": "Revoke this user's Cognito sessions. This signs them out across devices but does not revoke Aura access tokens or dissolve partnerships.",
-        "confirm": "Revoke all Cognito sessions for this user? They will need to sign in again.",
         "selfRevoked": "Your sessions were revoked. Sign in again to continue.",
-        "revoked": "Cognito sessions were revoked. Aura access tokens and partnerships were not changed."
+        "heading": "Sign-in sessions",
+        "confirmQuestion": "Revoke all sign-in sessions?",
+        "revokedToast": "Sign-in sessions revoked. Access tokens and partnerships were not changed."
       },
       "tokens": {
-        "title": "Access tokens and connected apps",
-        "description": "Review this user's access tokens and connected apps. Revoking everything also ends every connection and withdraws approvals not yet used. These actions do not revoke Cognito sessions or dissolve partnerships.",
         "loading": "Loading access-token metadata…",
-        "loadingMore": "Loading…",
         "loadMore": "Load more tokens",
-        "empty": "This user has no access-token metadata to show.",
-        "origin": "Origin: {{origin}}",
-        "expires": "Expires: {{expires}}",
-        "confirmAll": "Revoke every access token of this user and end every connected app? Approvals not yet used are withdrawn too.",
         "confirmSingle": "Revoke “{{name}}” for this user?",
         "revoked": "The selected Aura Historia token is no longer present for this user.",
         "allRevoked": "All access tokens are revoked and all connections ended, or none were present.",
@@ -5351,26 +5292,30 @@
           "OAuthMetadataDocument": "AI agent (client metadata document)",
           "unknown": "Unknown origin"
         },
-        "client": "Client: {{host}}",
         "connectedAt": "Connected {{date}}",
         "lastUsedAt": "Last used {{date}}",
         "clientTokens": "Tokens issued to {{name}}",
         "confirmClientToken": "Revoke this token of “{{name}}” for this user?",
         "readOnly": "Read-only",
-        "readOnlyNote": "Only the user can disconnect this app on its own. “Revoke all” ends it with everything else."
+        "heading": "Tokens and connected apps",
+        "confirmAllQuestion": "Revoke all tokens, disconnect all apps and withdraw pending approvals?",
+        "connectionNote": "Ends only with Revoke all.",
+        "tokenCount_one": "{{count}} token",
+        "tokenCount_other": "{{count}} tokens",
+        "expiresOn": "Expires {{date}}",
+        "expiredOn": "Expired {{date}}",
+        "none": "No tokens or connected apps.",
+        "scopes": "Permissions"
       },
       "actions": {
         "suspend": "Suspend account",
-        "suspending": "Suspending…",
         "unsuspend": "Reactivate account",
         "unsuspending": "Reactivating…",
-        "revokeSessions": "Revoke Cognito sessions",
         "confirmSessionRevocation": "Revoke sessions",
         "confirmTokenRevocation": "Revoke token",
         "confirmAllTokenRevocation": "Revoke all and disconnect",
         "revokeToken": "Revoke",
-        "revokeAllTokens": "Revoke all",
-        "revoking": "Revoking…"
+        "revokeAllTokens": "Revoke all"
       },
       "errors": {
         "conflict": "The security state changed before the action completed. Reload the account and try again.",
@@ -5407,78 +5352,71 @@
     },
     "picker": {
       "selected": "Selected user",
-      "clear": "Choose a different user",
       "loading": "Searching users…",
-      "noMatch": "No user account matches this search.",
-      "searchPrompt": "Search existing user accounts by email or name.",
-      "results": "Matching user accounts"
+      "results": "Matching user accounts",
+      "select": "Select",
+      "change": "Change",
+      "none": "No matches.",
+      "failed": "Users could not be searched."
+    },
+    "pageTitle": "Users",
+    "noMatches": "No matches",
+    "noUsers": "No user accounts",
+    "loadFailed": "Could not load users",
+    "columns": {
+      "account": "Account"
+    },
+    "tabs": {
+      "label": "Account sections",
+      "profile": "Profile",
+      "role": "Role",
+      "security": "Security",
+      "delete": "Delete"
+    },
+    "sections": {
+      "access": "Role and tier"
     }
   },
   "adminOAuthClients": {
-    "title": "OAuth client management",
-    "description": "Review registered OAuth clients, update metadata and allowed scopes, or create a client.",
     "loading": "Loading OAuth clients…",
     "loadingDetail": "Loading client details…",
-    "empty": "No OAuth clients match these filters.",
     "filters": {
       "title": "Filter OAuth clients",
-      "clientId": "Exact client ID",
-      "name": "Client name contains",
-      "apply": "Apply filters",
-      "reset": "Reset"
+      "name": "Client name contains"
     },
     "list": {
-      "total_one": "{{count}} matching OAuth client",
-      "total_other": "{{count}} matching OAuth clients",
-      "issued": "Issued {{date}}",
       "noScopes": "No scopes assigned",
-      "loadMore": "Load more",
-      "loadingMore": "Loading…"
+      "heads": {
+        "client": "Client",
+        "issued": "Issued"
+      },
+      "loadMoreClients": "Load more clients"
     },
     "fields": {
       "name": "Client name",
       "clientId": "Client ID",
       "clientSecret": "Client secret",
-      "terms": "Terms of service URL",
-      "privacy": "Privacy policy URL",
-      "homepage": "Homepage URL",
       "logo": "Logo URL",
       "redirectUris": "Redirect URIs",
-      "redirectUrisHelp": "Enter one HTTPS redirect URI per line. At least one is required; fragments are not allowed and each URI must be unique.",
       "scopes": "Allowed scopes",
-      "scopesHelp": "Select the capabilities this client may request. Read and write scopes are independent. Leave all unchecked to clear its allowed scopes.",
-      "issuedAt": "Client ID issued"
+      "homepageShort": "Homepage",
+      "termsShort": "Terms of service",
+      "privacyShort": "Privacy policy",
+      "redirectUrisHint": "One per line."
     },
     "detail": {
       "title": "OAuth client",
-      "description": "Review registered metadata and permissions. Client secrets are never available here."
-    },
-    "create": {
-      "title": "Create OAuth client",
-      "description": "The client secret is shown once after creation. Copy it before closing this dialog.",
-      "secretTitle": "Client created",
-      "secretDescription": "This plaintext secret will not be available after this dialog closes. Store it securely before proceeding."
-    },
-    "edit": {
-      "title": "Edit OAuth client",
-      "description": "Only changed fields will be sent. Clearing all scopes removes the client's allowed scopes."
+      "idIssued": "{{clientId}} · issued {{date}}"
     },
     "delete": {
-      "title": "Delete OAuth client",
-      "description": "Deleting this client also invalidates its pending authorization codes and credentials issued through it.",
-      "confirm": "Confirm deletion"
+      "titleNamed": "Delete “{{name}}”?",
+      "consequence": "Its pending codes and issued credentials stop working."
     },
     "actions": {
       "create": "Create client",
-      "details": "View details",
       "edit": "Edit client",
       "delete": "Delete client",
-      "save": "Save changes",
-      "saving": "Saving…",
-      "deleting": "Deleting…",
-      "cancel": "Cancel",
-      "close": "Close",
-      "retry": "Try again"
+      "done": "Done"
     },
     "success": {
       "updated": "OAuth client updated.",
@@ -5498,52 +5436,57 @@
       "redirectRequired": "Enter at least one redirect URI.",
       "redirectInvalid": "Each redirect URI must be a valid HTTPS URL without a fragment.",
       "redirectDuplicate": "Redirect URIs must be unique."
+    },
+    "heading": "OAuth clients",
+    "states": {
+      "empty": "No OAuth clients",
+      "noMatches": "No matches",
+      "error": "Could not load OAuth clients"
+    },
+    "form": {
+      "newTitle": "New OAuth client",
+      "editNamed": "Edit {{name}}"
+    },
+    "secret": {
+      "eyebrow": "Client created",
+      "title": "Copy the secret now. It is shown once.",
+      "copyNamed": "Copy {{field}}",
+      "copyFailed": "Could not copy. Select the value and copy it manually."
     }
   },
   "adminAuctions": {
-    "title": "Auction management",
-    "description": "Find, create and update auction records. The listing source and source auction identity remain fixed after creation.",
     "create": {
-      "title": "Create an auction",
-      "description": "Associate the auction with an authorized listing source and enter its source identity.",
-      "blankFieldsHelp": "Leave optional fields empty when the source has not provided those values."
+      "heading": "New auction"
     },
     "list": {
-      "title": "Auction directory",
-      "description": "All auction records, including those without visible listings. Search by name or source auction ID, or look up an exact source key.",
       "loading": "Loading auctions…",
-      "empty": "No auctions match these filters.",
       "end": "No further auctions.",
       "loadMore": "Load more auctions",
       "noName": "No name reported",
-      "openLabel": "Open record: {{label}}"
+      "openLabel": "Open record: {{label}}",
+      "loadFailed": "Could not load auctions",
+      "noMatches": "No matches",
+      "none": "No auctions"
     },
     "filters": {
       "title": "Auction filters",
       "query": "Name or source auction ID",
-      "queryHelp": "Matches part of the name or source auction ID, ignoring case.",
-      "listingSourceIdHelp": "Exact listing source ID.",
-      "sourceAuctionIdHelp": "Exact key. Combine with the listing source ID to find an existing record after a conflict.",
-      "allFormats": "All formats",
-      "allStatuses": "All statuses",
-      "sort": "Sort by",
       "pageSize": "Per page",
-      "apply": "Apply filters",
-      "reset": "Reset"
+      "chip": "{{label}}: {{value}}",
+      "search": "Search"
     },
     "sourceSearch": {
-      "prompt": "Search by listing source or operator name or slug, or paste a listing source ID.",
-      "loading": "Searching listing sources…",
-      "noResults": "No listing sources match this search.",
       "operatedBy": "Operated by {{name}}",
-      "results": "Matching listing sources"
+      "label": "Search listing sources",
+      "searching": "Searching listing sources…",
+      "matches": "Matching listing sources",
+      "loadMore": "Load more sources",
+      "none": "No matches.",
+      "placeholder": "Name, slug or ID",
+      "select": "Select"
     },
     "fields": {
-      "listingSource": "Listing source",
-      "searchListingSources": "Search listing sources",
-      "listingSourceId": "Listing source ID",
       "sourceAuctionId": "Source auction ID",
-      "sourceAuctionIdHelp": "Use the identifier assigned to this auction by the selected listing source.",
       "auctionId": "Auction ID",
       "name": "Auction name",
       "nameLanguage": "Name language",
@@ -5551,44 +5494,43 @@
       "format": "Format",
       "reportedStatus": "Reported status",
       "reportedLotCount": "Reported lot count",
-      "schedule": "Schedule",
-      "scheduleHelp": "Enter all date and time values in UTC.",
       "notSet": "Not specified",
       "created": "Created",
-      "updated": "Updated"
+      "updated": "Updated",
+      "status": "Status",
+      "version": "Version",
+      "source": "Listing source",
+      "sourceId": "Listing source ID"
     },
     "detail": {
-      "title": "Auction record",
-      "description": "Update reported auction metadata. Auction and listing source identity cannot be changed.",
-      "blankFieldsHelp": "Empty values clear the corresponding metadata, including each schedule time."
+      "eyebrow": "Auction",
+      "fixed": "Fixed",
+      "loadFailed": "Could not load auction",
+      "loading": "Loading auction…",
+      "notFound": "Auction not found"
     },
     "actions": {
       "create": "Create auction",
       "creating": "Creating…",
-      "open": "Open record",
-      "loadMore": "Load more sources",
-      "loadingMore": "Loading…",
-      "retry": "Try again",
-      "cancel": "Cancel",
-      "save": "Save changes",
-      "saving": "Saving…",
       "loadLatest": "Load latest record",
-      "backToOverview": "Back to auction management",
       "clearSource": "Clear selection",
-      "findExisting": "Find the existing auction"
+      "allAuctions": "All auctions",
+      "clearTime": "Clear {{label}}",
+      "openExisting": "Open it"
     },
     "errors": {
       "forbidden": "You do not have permission to manage auctions.",
       "missing": "This auction record was not found or is no longer available.",
       "duplicateSourceKey": "An auction already exists for this listing source and source auction ID.",
       "staleVersion": "This auction changed while you were editing it.",
-      "staleVersionHelp": "The current server record has been fetched. Your draft remains above; load the latest record to replace it before saving again.",
       "invalid": "Check the auction details and try again.",
       "requestFailed": "The auction request could not be completed. Please try again.",
       "sourceMissing": "The selected listing source was not found.",
       "invalidId": "This auction ID is not valid. Auction IDs start with “auc_”.",
       "invalidSearch": "These filters could not be applied. Check the IDs and try again.",
-      "unavailable": "Auction records are temporarily unavailable. Please try again shortly."
+      "unavailable": "Auction records are temporarily unavailable. Please try again shortly.",
+      "changedElsewhere": "Changed elsewhere.",
+      "duplicateShort": "Already exists for this source and ID."
     },
     "validation": {
       "sourceRequired": "Select a listing source.",
@@ -5597,10 +5539,6 @@
       "invalidUrl": "Enter a valid HTTP or HTTPS URL.",
       "invalidLotCount": "Enter a whole number from 0 to 4,294,967,295.",
       "invalidDateTime": "Enter a valid date and time in UTC."
-    },
-    "formats": {
-      "LIVE": "Live auction",
-      "TIMED": "Timed auction"
     },
     "reportedStatuses": {
       "SCHEDULED": "Scheduled",
@@ -5622,46 +5560,51 @@
       "liveStarts": "Live start",
       "lotsBeginClosing": "Lots begin closing",
       "scheduledEnd": "Scheduled end"
+    },
+    "columns": {
+      "auction": "Auction"
+    },
+    "formatLabels": {
+      "LIVE": "Live",
+      "TIMED": "Timed"
+    },
+    "sections": {
+      "details": "Reported details",
+      "identity": "Identity",
+      "schedule": "Schedule (UTC)"
+    },
+    "toasts": {
+      "created": "Auction created.",
+      "saved": "Auction saved."
     }
   },
   "adminProductListings": {
-    "title": "Product listing management",
-    "description": "Find, inspect and correct product listings from every listing source, including withdrawn listings that are retained.",
     "list": {
-      "title": "Listing directory",
-      "description": "Active and withdrawn listings across all listing sources, most recently updated first. Search original titles and source listing IDs, or narrow by source, lifecycle, availability or auction.",
       "loading": "Loading product listings…",
-      "empty": "No product listings match these filters.",
       "end": "No further product listings.",
       "loadMore": "Load more listings",
       "noTitle": "No title recorded",
-      "openLabel": "Open listing: {{label}}"
+      "openLabel": "Open listing: {{label}}",
+      "loadFailed": "Could not load product listings",
+      "noMatches": "No matches",
+      "none": "No product listings",
+      "sub": "{{lifecycle}} · {{source}}"
     },
     "filters": {
       "title": "Product listing filters",
       "query": "Title or source listing ID",
-      "queryHelp": "Matches part of the original title or source listing ID, ignoring case.",
-      "listingSourceIdHelp": "Exact listing source ID.",
-      "sourceListingIdHelp": "Exact, case-sensitive ID assigned by the source. It is unique only within one listing source, so combine it with the listing source ID.",
-      "auctionIdHelp": "Exact auction ID.",
       "allLifecycles": "Active and withdrawn",
-      "allAvailabilities": "Any availability",
-      "sort": "Sort by",
       "pageSize": "Per page",
-      "apply": "Apply filters",
-      "reset": "Reset"
+      "chip": "{{label}}: {{value}}",
+      "search": "Search"
     },
     "fields": {
-      "listingSource": "Listing source",
-      "listingSourceId": "Listing source ID",
       "sourceListingId": "Source listing ID",
       "productListingId": "Product listing ID",
       "auctionId": "Auction ID",
       "lifecycle": "Lifecycle",
       "availability": "Availability",
       "price": "Price",
-      "estimate": "Estimate",
-      "estimateRange": "{{min}} – {{max}}",
       "created": "Created",
       "updated": "Updated",
       "notAsserted": "Not specified",
@@ -5675,27 +5618,20 @@
       "text": "Original text",
       "titleLanguage": "Title language",
       "descriptionLanguage": "Description language",
-      "images": "Images",
       "auction": "Auction and lot",
       "lotNumber": "Lot number",
       "cataloguePosition": "Catalogue position",
       "pricing": "Price and estimates",
-      "priceAmount": "Amount",
       "estimateMin": "Lower estimate",
       "estimateMax": "Upper estimate",
-      "currency": "Currency",
-      "chooseCurrency": "Choose a currency",
-      "chooseLanguage": "Choose a language"
+      "chooseLanguage": "Choose a language",
+      "source": "Listing source",
+      "sourceId": "Listing source ID"
     },
     "lifecycles": {
       "ACTIVE": "Active",
       "WITHDRAWN": "Withdrawn",
       "UNKNOWN": "Unrecognized lifecycle"
-    },
-    "priceKinds": {
-      "NONE": "Not specified",
-      "MONETARY": "Amount",
-      "ON_REQUEST": "Price on request"
     },
     "sort": {
       "updated_desc": "Recently updated",
@@ -5703,54 +5639,41 @@
       "created_desc": "Newest first",
       "created_asc": "Oldest first"
     },
-    "timing": {
-      "biddingOpens": "Bidding opens (UTC)",
-      "scheduledCloses": "Scheduled close (UTC)",
-      "reportedClosedAt": "Reported close (UTC)"
-    },
     "detail": {
       "loading": "Loading product listing…",
       "unavailableTitle": "Product listing unavailable",
       "errorTitle": "The product listing could not be loaded",
-      "eyebrow": "Product listing record",
-      "convergence": "Changes here update the authoritative listing record. Public search, listing pages and caches follow asynchronously, and a later import from the listing source can overwrite these edits or restore a withdrawn listing. They are corrections, not permanent overrides.",
-      "factsTitle": "Recorded facts",
-      "factsDescription": "Identity, sale observation and timestamps are read-only. Edit the original text and the other listing facts below; lifecycle changes use the withdraw and restore actions.",
-      "sourceListingIdScope": "Unique only within this listing source.",
       "noSaleObservation": "None recorded",
-      "noText": "None recorded"
+      "correctionsNote": "Corrections only: a later import from the source can overwrite them.",
+      "eyebrowLifecycle": "Product listing · {{lifecycle}}",
+      "record": "Record"
     },
     "edit": {
       "title": "Edit listing facts",
-      "description": "Only the original title and description, price, estimates, availability, URL, images and auction details can be changed. Saving sends only the values you changed.",
-      "withdrawnLocked": "This listing is withdrawn. Restore it before editing; unsaved changes stay in the form.",
-      "lifecycleUnknownLocked": "The lifecycle of this listing is not recognized, so it cannot be edited here.",
-      "stale": "This listing changed after you started editing and is now at version {{version}}. Keep your changes to reapply only the values you edited to the latest version, or discard them to load the latest values.",
-      "staleLocked": "This listing changed after you started editing and is now at version {{version}}. Restore it to keep your changes, or discard them to load the latest values.",
-      "noChanges": "There are no changes to save.",
-      "saved": "Changes saved. Public search and listing pages update asynchronously.",
-      "unchanged": "The listing already had these values; nothing was changed.",
-      "textHelp": "Enter the source’s original text in the language it is written in, not a translation. Leave a field empty to clear it. Translations, content assessment and search follow asynchronously.",
-      "titleHelp": "Titles are normalized: styled letters and digits become ordinary text, emoji and ornamental symbols are removed, the first letter is capitalized and a closing period is dropped. Titles longer than 128 characters are shortened with “...”. A title with no remaining text is rejected.",
       "titleTooLong": "This title has more than 128 characters and will be shortened when saved.",
-      "pricingHelp": "Amounts are in the source currency. Use a decimal point or comma and no thousands separators. Choose “Not specified” to clear the price.",
-      "estimateHelp": "Leave an estimate amount empty to clear that estimate.",
-      "availabilityHelp": "“Not specified” clears the availability; it does not mean unavailable.",
-      "imagesHelp": "Image URLs are privileged inspection data, listed in display order. They have no content assessment here and may show sensitive material, so a preview loads only when you request it. Removing every image empties the collection.",
       "noImages": "No images. Saving an empty list removes all images.",
       "imageLabel": "Image {{position}} URL",
       "imagePreviewAlt": "Preview of image {{position}}",
-      "auctionHelp": "Only auctions from this listing’s source can be assigned. Detaching keeps the lot number, catalogue position and times unless you clear them.",
       "noAuction": "Not assigned to an auction.",
-      "timingHelp": "Enter exact times in UTC. Clear each time individually."
+      "addImage": "Add image",
+      "auction": "Auction",
+      "availabilityAndLink": "Availability and link",
+      "currencyOf": "{{field}} currency",
+      "hidePreview": "Hide preview of image {{position}}",
+      "showPreview": "Show preview of image {{position}}",
+      "imagesInOrder": "Images · in order",
+      "lockedUnknown": "Lifecycle not recognized. Editing is locked.",
+      "lockedWithdrawn": "Withdrawn. Restore to edit.",
+      "noUnsaved": "No unsaved changes",
+      "savedToast": "Listing changes saved.",
+      "unchangedToast": "Nothing changed; the listing already had these values.",
+      "staleShort": "Changed elsewhere (now version {{version}}).",
+      "unsaved_one": "{{count}} unsaved change",
+      "unsaved_other": "{{count}} unsaved changes"
     },
     "lifecycle": {
-      "title": "Lifecycle",
       "withdrawAction": "Withdraw listing",
       "restoreAction": "Restore listing",
-      "withdrawHelp": "Withdrawal removes the listing from public discovery but retains it with its history, watchlist entries and any sale observation. Its availability is cleared.",
-      "restoreHelp": "Restoration makes the listing active again with unspecified availability. Its former availability is not reconstructed.",
-      "unknownHelp": "The lifecycle of this listing is not recognized, so no lifecycle action is offered.",
       "withdrawTitle": "Withdraw this listing?",
       "restoreTitle": "Restore this listing?",
       "withdrawConsequence": "The listing and its history are retained, but it leaves public search and listing pages and its availability is cleared. You can restore it later.",
@@ -5759,44 +5682,35 @@
       "version": "Applies to version {{version}}",
       "withdrawConfirm": "Withdraw",
       "restoreConfirm": "Restore",
-      "withdrawn": "Withdrawal recorded. Public search and listing pages update asynchronously.",
-      "restored": "Listing restored. Public search and listing pages update asynchronously.",
-      "restoreUnchanged": "The listing was already active; nothing was changed."
+      "restoreUnchangedToast": "Already active; nothing changed.",
+      "restoredToast": "Listing restored.",
+      "withdrawnToast": "Listing withdrawn."
     },
     "auctionSearch": {
       "label": "Search this source’s auctions",
-      "hint": "Matches part of the auction name or source auction ID. Only auctions from this listing source are shown.",
       "loading": "Searching auctions…",
       "empty": "No auctions from this listing source match.",
       "results": "Matching auctions",
       "noName": "No name reported",
-      "loadMore": "Load more auctions"
+      "loadMore": "Load more auctions",
+      "placeholder": "Name or source auction ID",
+      "select": "Select"
     },
     "actions": {
-      "retry": "Try again",
-      "open": "Open listing",
-      "loadingMore": "Loading…",
-      "backToDirectory": "Back to product listings",
-      "viewPublicListing": "View the public listing page",
-      "save": "Save changes",
-      "saving": "Saving…",
       "keepDraft": "Keep my changes",
       "discardDraft": "Discard my changes",
       "resetDraft": "Reset form",
-      "cancel": "Cancel",
-      "working": "Working…",
-      "showPreview": "Show preview",
-      "hidePreview": "Hide preview",
       "moveImageUp": "Move image {{position}} up",
       "moveImageDown": "Move image {{position}} down",
       "removeImage": "Remove image {{position}}",
-      "addImage": "Add image URL",
       "openAuction": "Open auction record",
-      "detachAuction": "Detach from auction",
       "chooseAuction": "Choose an auction",
-      "closeAuctionSearch": "Close auction search",
-      "clearTiming": "Clear",
-      "clearTimingLabel": "Clear {{label}}"
+      "clearTimingLabel": "Clear {{label}}",
+      "allListings": "All product listings",
+      "changeAuction": "Change",
+      "detach": "Detach",
+      "originalPage": "Original page",
+      "publicPage": "Public page"
     },
     "errors": {
       "forbidden": "You do not have permission to manage product listings.",
@@ -5828,6 +5742,19 @@
       "lotNumber": "Enter a lot number of no more than 128 UTF-8 bytes.",
       "cataloguePosition": "Enter a whole number from 1 to 4,294,967,295.",
       "invalidDateTime": "Enter a valid date and time in UTC."
+    },
+    "columns": {
+      "listing": "Listing"
+    },
+    "priceOptions": {
+      "NONE": "Not specified",
+      "MONETARY": "Amount",
+      "ON_REQUEST": "On request"
+    },
+    "times": {
+      "biddingOpens": "Bidding opens",
+      "scheduledCloses": "Scheduled close",
+      "reportedClosedAt": "Reported close"
     }
   },
   "geography": {
@@ -5844,7 +5771,6 @@
   },
   "partyLocations": {
     "title": "Locations",
-    "description": "Each location has its own identity. Correct a location's details, relocate it when the business moves, or retire it when the location is no longer used.",
     "list": {
       "loading": "Loading locations.",
       "empty": "No locations have been recorded for this organization yet.",
@@ -5853,11 +5779,6 @@
     },
     "detail": {
       "unsupportedValues": "Some stored values use a code or format this app cannot display, so they are not shown here."
-    },
-    "eligibility": {
-      "ACTIVE": "Active and public: its exact point, country and region can appear in search results and radius searches.",
-      "RETIRED": "Retired: not shown in public results and supplies no inherited listing geography.",
-      "UNKNOWN": "This location has a status this app does not recognize, so no actions are offered."
     },
     "lifecycle": {
       "ACTIVE": "Active",
@@ -6009,6 +5930,17 @@
     "confirm": {
       "retireTitle": "Retire “{{label}}”?",
       "restoreTitle": "Restore “{{label}}”?"
+    },
+    "card": {
+      "countryRegion": "Country · region",
+      "evidence": "Evidence",
+      "observed": "observed {{date}}",
+      "publicResults": "Public results",
+      "public": {
+        "ACTIVE": "Eligible",
+        "RETIRED": "Not eligible",
+        "UNKNOWN": "Not determined"
+      }
     }
   },
   "comparison": {
@@ -6220,6 +6152,37 @@
         "skills": "Agent skills",
         "llmsTxt": "llms.txt"
       }
+    }
+  },
+  "adminCommon": {
+    "cancel": "Cancel",
+    "close": "Close",
+    "retry": "Try again",
+    "loading": "Loading…",
+    "loadMoreFailed": "More could not be loaded.",
+    "sort": "Sort",
+    "copy": "Copy",
+    "copied": "Copied",
+    "save": "Save changes",
+    "saving": "Saving…",
+    "none": "—",
+    "result": {
+      "loaded": "{{loaded}} loaded",
+      "loadedOfTotal": "{{loaded}} loaded · {{total}} matching"
+    },
+    "filters": {
+      "all": "All filters",
+      "title": "Filters",
+      "any": "All",
+      "selected": "{{count}} selected",
+      "reset": "Reset",
+      "apply": "Apply filters",
+      "from": "{{field}} from",
+      "until": "{{field}} until",
+      "active": "Active",
+      "remove": "Remove filter {{filter}}",
+      "clearAll": "Clear all",
+      "clearSearch": "Reset filters"
     }
   }
 }

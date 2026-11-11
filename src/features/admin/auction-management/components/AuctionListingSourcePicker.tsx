@@ -1,15 +1,27 @@
-import { X } from "lucide-react";
+import { Loader2, Search, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDebounce } from "use-debounce";
-import { Button } from "@/components/ui/button.tsx";
-import { Input } from "@/components/ui/input.tsx";
-import { Label } from "@/components/ui/label.tsx";
+import {
+    ADMIN_PANEL_CLASS,
+    ADMIN_ROW_ACTION_CLASS,
+    FIELD_CLASS,
+    FIELD_ERROR_CLASS,
+    FIELD_LABEL_CLASS,
+    FOCUS_CLASS,
+    SMALL_SECONDARY_PILL_CLASS,
+} from "@/features/admin/common/lib/adminStyles.ts";
+import { PickerState } from "@/features/admin/product-listing-management/components/AdminPickerState.tsx";
 import type { AdminListingSourceSummary } from "@/data/internal/listing-source/AdminListingSource.ts";
+import { cn } from "@/lib/utils.ts";
 import { useAdminAuctionListingSources } from "../api/useAdminAuctions.ts";
 
 const SEARCH_DEBOUNCE_MS = 350;
 
+/**
+ * Chooses the auction's listing source (board "Admin · States", pickers): a search over names,
+ * slugs and IDs with selectable results; the choice shows as a ringed card with Clear selection.
+ */
 export function AuctionListingSourcePicker({
     value,
     onChange,
@@ -17,6 +29,7 @@ export function AuctionListingSourcePicker({
 }: {
     readonly value: AdminListingSourceSummary | undefined;
     readonly onChange: (source: AdminListingSourceSummary | undefined) => void;
+    /** A translation key. */
     readonly error?: string;
 }) {
     const { t } = useTranslation();
@@ -33,47 +46,54 @@ export function AuctionListingSourcePicker({
     }, [focusSearch, value]);
 
     return (
-        <fieldset className="grid gap-3">
-            <legend className="mb-3 font-medium">{t("adminAuctions.fields.listingSource")}</legend>
+        <div className="flex flex-col gap-2">
+            <span
+                id="auction-source-label"
+                className={FIELD_LABEL_CLASS}
+                data-error={error ? "true" : undefined}
+            >
+                {t("adminAuctions.fields.source")}
+            </span>
             {value ? (
-                <div className="flex items-start justify-between gap-4 border bg-surface-container-low p-4">
+                <div className="flex flex-wrap items-center justify-between gap-3 rounded-md bg-surface-raised px-3.5 py-3 shadow-[inset_0_0_0_1.5px_var(--ink)]">
                     <ListingSourceDescription source={value} />
-                    <Button
+                    <button
                         type="button"
-                        variant="ghost"
-                        size="sm"
-                        className="shrink-0"
                         onClick={() => {
                             onChange(undefined);
                             setFocusSearch(true);
                         }}
+                        className={cn(
+                            "inline-flex h-9 cursor-pointer items-center gap-1.5 rounded-pill px-3 text-meta font-medium hover:bg-surface-sunken",
+                            FOCUS_CLASS,
+                        )}
                     >
-                        <X aria-hidden="true" />
+                        <X aria-hidden="true" className="size-[13px]" strokeWidth={1.9} />
                         {t("adminAuctions.actions.clearSource")}
-                    </Button>
+                    </button>
                 </div>
             ) : (
-                <>
-                    <div className="grid gap-2">
-                        <Label htmlFor="auction-source-search">
-                            {t("adminAuctions.fields.searchListingSources")}
-                        </Label>
-                        <Input
+                <div className={cn(ADMIN_PANEL_CLASS, "flex flex-col gap-4 p-5 sm:p-6")}>
+                    <div className="relative">
+                        <Search
+                            aria-hidden="true"
+                            className="pointer-events-none absolute top-[13px] left-3.5 size-[17px] text-ink-muted"
+                            strokeWidth={1.8}
+                        />
+                        <input
                             ref={searchInput}
                             id="auction-source-search"
                             type="search"
                             autoComplete="off"
                             spellCheck={false}
-                            aria-describedby="auction-source-search-hint"
+                            aria-label={t("adminAuctions.sourceSearch.label")}
+                            aria-invalid={error ? true : undefined}
+                            aria-describedby={error ? "auction-source-error" : undefined}
+                            placeholder={t("adminAuctions.sourceSearch.placeholder")}
                             value={search}
                             onChange={(event) => setSearch(event.currentTarget.value)}
+                            className={cn(FIELD_CLASS, "pl-[42px]")}
                         />
-                        <p
-                            id="auction-source-search-hint"
-                            className="text-sm text-muted-foreground"
-                        >
-                            {t("adminAuctions.sourceSearch.prompt")}
-                        </p>
                     </div>
                     {search.trim() !== "" && (
                         <ListingSourceResults
@@ -82,14 +102,14 @@ export function AuctionListingSourcePicker({
                             onSelect={onChange}
                         />
                     )}
-                </>
+                </div>
             )}
             {error && (
-                <p role="alert" className="text-sm text-destructive">
+                <p id="auction-source-error" className={FIELD_ERROR_CLASS}>
                     {t(error)}
                 </p>
             )}
-        </fieldset>
+        </div>
     );
 }
 
@@ -109,55 +129,74 @@ function ListingSourceResults({
     // Results for an older search term must never be offered for the current one.
     if (sourceSearch.isPending || debouncedSearch !== search) {
         return (
-            <p role="status" className="text-sm text-muted-foreground">
-                {t("adminAuctions.sourceSearch.loading")}
-            </p>
+            <PickerState>
+                <Loader2
+                    aria-hidden="true"
+                    className="size-[15px] animate-spin motion-reduce:animate-none"
+                />
+                {t("adminAuctions.sourceSearch.searching")}
+            </PickerState>
         );
     }
     if (sourceSearch.error) {
         return (
-            <div className="grid justify-items-start gap-2" role="alert">
-                <p className="text-sm text-destructive">{sourceSearch.error.message}</p>
-                <Button type="button" variant="outline" onClick={() => sourceSearch.refetch()}>
-                    {t("adminAuctions.actions.retry")}
-                </Button>
-            </div>
+            <PickerState
+                error
+                action={
+                    <button
+                        type="button"
+                        onClick={() => sourceSearch.refetch()}
+                        className={ADMIN_ROW_ACTION_CLASS}
+                    >
+                        {t("adminCommon.retry")}
+                    </button>
+                }
+            >
+                {sourceSearch.error.message}
+            </PickerState>
         );
     }
     if (sources.length === 0) {
-        return (
-            <p className="text-sm text-muted-foreground">
-                {t("adminAuctions.sourceSearch.noResults")}
-            </p>
-        );
+        return <PickerState>{t("adminAuctions.sourceSearch.none")}</PickerState>;
     }
     return (
         <>
-            <ul className="grid gap-2" aria-label={t("adminAuctions.sourceSearch.results")}>
+            <ul
+                aria-label={t("adminAuctions.sourceSearch.matches")}
+                className="border-t border-line"
+            >
                 {sources.map((source) => (
                     <li key={source.listingSourceId}>
                         <button
                             type="button"
-                            className="w-full border bg-surface-container-low p-3 text-left outline-none transition-colors hover:bg-surface-container focus-visible:ring-2 focus-visible:ring-ring"
                             onClick={() => onSelect(source)}
+                            className={cn(
+                                "flex min-h-[60px] w-full cursor-pointer items-center justify-between gap-3 border-b border-line-subtle px-2 py-2.5 text-left hover:bg-surface-sunken",
+                                FOCUS_CLASS,
+                            )}
                         >
                             <ListingSourceDescription source={source} />
+                            <span
+                                aria-hidden="true"
+                                className="font-mono text-[10px] tracking-[0.12em] text-ink-muted uppercase"
+                            >
+                                {t("adminAuctions.sourceSearch.select")}
+                            </span>
                         </button>
                     </li>
                 ))}
             </ul>
             {sourceSearch.hasNextPage && (
-                <Button
+                <button
                     type="button"
-                    variant="outline"
-                    className="justify-self-center"
                     disabled={sourceSearch.isFetchingNextPage}
                     onClick={() => sourceSearch.fetchNextPage()}
+                    className={cn(SMALL_SECONDARY_PILL_CLASS, "self-center")}
                 >
                     {sourceSearch.isFetchingNextPage
-                        ? t("adminAuctions.actions.loadingMore")
-                        : t("adminAuctions.actions.loadMore")}
-                </Button>
+                        ? t("adminCommon.loading")
+                        : t("adminAuctions.sourceSearch.loadMore")}
+                </button>
             )}
         </>
     );
@@ -167,13 +206,13 @@ function ListingSourceResults({
 function ListingSourceDescription({ source }: { readonly source: AdminListingSourceSummary }) {
     const { t } = useTranslation();
     return (
-        <span className="grid min-w-0 gap-1">
-            <span className="font-medium">{source.name}</span>
-            <span className="text-sm text-muted-foreground">
-                {t("adminAuctions.sourceSearch.operatedBy", { name: source.operator.name })}
-            </span>
-            <span className="break-all font-mono text-xs text-muted-foreground">
-                {source.listingSourceId} · {source.listingSourceSlugId}
+        <span className="flex min-w-0 flex-col gap-0.5">
+            <span className="text-sm font-medium break-words">{source.name}</span>
+            <span className="text-xs text-ink-secondary">
+                {t("adminAuctions.sourceSearch.operatedBy", { name: source.operator.name })} ·{" "}
+                <code className="font-mono text-[11px] break-all">
+                    {source.listingSourceId} · {source.listingSourceSlugId}
+                </code>
             </span>
         </span>
     );

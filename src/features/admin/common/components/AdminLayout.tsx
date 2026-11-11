@@ -1,21 +1,26 @@
 import type { ReactNode } from "react";
-import { AdminSidebar } from "./AdminSidebar.tsx";
+import { AdminNavMenu, AdminNavRail } from "@/features/admin/common/components/AdminNav.tsx";
+import { PAGE_COLUMN_CLASS } from "@/features/admin/common/lib/adminStyles.ts";
+import { cn } from "@/lib/utils.ts";
 
-/** Shared admin shell: section navigation beside the active workflow page. */
-export function AdminLayout({
-    language,
-    children,
-}: {
-    readonly language: string;
-    readonly children: ReactNode;
-}) {
+/** The admin frame: a grouped section rail beside the page from 1024px, a section menu above it below. */
+export function AdminLayout({ children }: { readonly children: ReactNode }) {
     return (
-        <div className="mx-auto grid w-full max-w-screen-2xl grid-cols-[minmax(0,1fr)] lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-2 lg:px-6 lg:pt-8 xl:px-8">
-            <aside className="min-w-0 lg:border-r lg:border-border lg:pr-4 lg:pb-8">
-                <AdminSidebar language={language} />
-            </aside>
-            {/* Workflow pages keep their own width and vertical rhythm. */}
-            <div className="min-w-0 lg:[&>*]:pt-0">{children}</div>
+        <div className="bg-surface text-ink">
+            <div className="sticky top-15 z-40 sm:top-16 lg:hidden">
+                <AdminNavMenu />
+            </div>
+            <div
+                className={cn(
+                    PAGE_COLUMN_CLASS,
+                    "grid items-start gap-16 pt-7 pb-24 sm:pt-14 sm:pb-36 lg:grid-cols-[240px_minmax(0,1fr)]",
+                )}
+            >
+                <div className="sticky top-28 hidden lg:block">
+                    <AdminNavRail />
+                </div>
+                <main className="flex min-w-0 flex-col">{children}</main>
+            </div>
         </div>
     );
 }

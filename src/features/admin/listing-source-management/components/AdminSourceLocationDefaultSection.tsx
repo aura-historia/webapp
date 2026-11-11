@@ -1,22 +1,33 @@
 import { Link } from "@tanstack/react-router";
-import { type FormEvent, type ReactNode, useState } from "react";
+import { TriangleAlert } from "lucide-react";
+import { type FormEvent, type ReactNode, useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button.tsx";
-import { Checkbox } from "@/components/ui/checkbox.tsx";
-import { Input } from "@/components/ui/input.tsx";
-import { Label } from "@/components/ui/label.tsx";
-import { Skeleton } from "@/components/ui/skeleton.tsx";
 import type { SourceLocationDefault } from "@/data/internal/geography/SourceLocationDefault.ts";
 import type { AdminListingSourceDetail } from "@/data/internal/listing-source/AdminListingSource.ts";
+import { AdminInlineConfirm } from "@/features/admin/common/components/AdminInlineConfirm.tsx";
+import {
+    AdminMark,
+    type AdminMarkTone,
+} from "@/features/admin/common/components/AdminStatusMark.tsx";
+import {
+    ADMIN_SECTION_TITLE_CLASS,
+    ADMIN_SKELETON_CLASS,
+    ADMIN_SMALL_PRIMARY_CLASS,
+    FIELD_CLASS,
+    FIELD_ERROR_CLASS,
+    FIELD_LABEL_CLASS,
+    SMALL_SECONDARY_PILL_CLASS,
+    TEXT_LINK_CLASS,
+} from "@/features/admin/common/lib/adminStyles.ts";
 import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth.ts";
 import {
     type PartyLocationScope,
     usePartyLocationList,
 } from "@/features/party-locations/api/usePartyLocations.ts";
-import { PartyLocationLifecycleBadge } from "@/features/party-locations/components/PartyLocationLifecycleBadge.tsx";
 import { PartyLocationSelector } from "@/features/party-locations/components/PartyLocationSelector.tsx";
 import { formatPartyLocationRegion } from "@/features/party-locations/lib/partyLocationSummary.ts";
+import { cn } from "@/lib/utils.ts";
 import {
     type AdminSourceLocationDefaultScope,
     AdminSourceLocationDefaultRequestError,
@@ -52,10 +63,25 @@ function geographyEffect(current: SourceLocationDefault): GeographyEffect {
     return current.assignment.advertisedInventory === undefined ? "noInventory" : "inherits";
 }
 
+function statusOf(current: SourceLocationDefault): {
+    readonly tone: AdminMarkTone;
+    readonly key: "none" | "ACTIVE" | "RETIRED" | "UNKNOWN";
+} {
+    if (!current.assignment) return { tone: "dashed", key: "none" };
+    if (current.eligibility === "ACTIVE") return { tone: "ink", key: "ACTIVE" };
+    if (current.eligibility === "RETIRED") return { tone: "muted", key: "RETIRED" };
+    return { tone: "hollow", key: "UNKNOWN" };
+}
+
+const PANEL_CLASS = "flex flex-col gap-3.5 rounded-md bg-surface p-[18px] shadow-ring";
+const FORM_PANEL_CLASS =
+    "flex flex-col gap-4 rounded-md bg-surface p-[18px] shadow-[inset_0_0_0_1.5px_var(--ink)]";
+
 /**
- * The listing source's explicit default location: its state and revision, assignment from the
- * operator's active locations, independent applicability and clearing. Location details come
- * from the operator's Party locations; the default read itself carries only the reference.
+ * The listing source's explicit default location (board "Admin · Listing source", section Default
+ * location): its state and revision, assignment from the operator's active locations,
+ * independent applicability and clearing, all in one panel. Location details come from the
+ * operator's Party locations; the default read itself carries only the reference.
  */
 export function AdminSourceLocationDefaultSection({
     source,
@@ -64,18 +90,16 @@ export function AdminSourceLocationDefaultSection({
 }) {
     const { t } = useTranslation();
     const { user } = useResolvedAuth();
-    const titleId = `admin-source-location-default-${source.listingSourceId}`;
+    const titleId = useId();
 
     return (
-        <section className="grid gap-4 border-t pt-5" aria-labelledby={titleId}>
-            <header className="grid gap-1">
-                <h3 id={titleId} className="font-medium">
-                    {t("adminListingSources.locationDefault.title")}
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                    {t("adminListingSources.locationDefault.description")}
-                </p>
-            </header>
+        <section
+            aria-labelledby={titleId}
+            className="flex flex-col gap-3.5 border-t border-line pt-6"
+        >
+            <h3 id={titleId} className={ADMIN_SECTION_TITLE_CLASS}>
+                {t("adminListingSources.locationDefault.title")}
+            </h3>
             {user ? (
                 <SourceLocationDefaultWorkflow
                     // A changed operator owns other locations; never keep a draft across it.
@@ -85,21 +109,61 @@ export function AdminSourceLocationDefaultSection({
                         listingSourceId: source.listingSourceId,
                         operatorPartyId: source.operator.partyId,
                     }}
-                    operatorName={source.operator.name}
                 />
             ) : (
-                <Skeleton className="h-32 w-full" />
+                <PanelSkeleton />
             )}
         </section>
     );
 }
 
+function PanelSkeleton() {
+    const { t } = useTranslation();
+    return (
+        <div aria-busy="true" className={PANEL_CLASS}>
+            <span className={cn(ADMIN_SKELETON_CLASS, "h-2.5 w-1/4")} />
+            <span className={cn(ADMIN_SKELETON_CLASS, "h-5 w-1/2 rounded-sm")} />
+            <span className={cn(ADMIN_SKELETON_CLASS, "h-3 w-1/3")} />
+            <span className={cn(ADMIN_SKELETON_CLASS, "h-10 w-full rounded-sm")} />
+            <output className="sr-only">{t("adminListingSources.locationDefault.loading")}</output>
+        </div>
+    );
+}
+
+function ErrorRow({
+    message,
+    onRetry,
+}: {
+    readonly message: string;
+    readonly onRetry?: () => void;
+}) {
+    const { t } = useTranslation();
+    return (
+        <div
+            role="alert"
+            className="flex flex-wrap items-center justify-between gap-3.5 rounded-md bg-surface p-4 shadow-ring"
+        >
+            <span className="flex gap-2.5 text-sm text-oxblood">
+                <TriangleAlert
+                    aria-hidden="true"
+                    className="mt-0.5 size-4 shrink-0"
+                    strokeWidth={2}
+                />
+                {message}
+            </span>
+            {onRetry && (
+                <button type="button" onClick={onRetry} className={SMALL_SECONDARY_PILL_CLASS}>
+                    {t("adminCommon.retry")}
+                </button>
+            )}
+        </div>
+    );
+}
+
 function SourceLocationDefaultWorkflow({
     scope,
-    operatorName,
 }: {
     readonly scope: AdminSourceLocationDefaultScope;
-    readonly operatorName: string;
 }) {
     const { t } = useTranslation();
     const query = useAdminSourceLocationDefault(scope.listingSourceId);
@@ -115,27 +179,12 @@ function SourceLocationDefaultWorkflow({
 
     if (!current) {
         if (query.error) {
-            return (
-                <div role="alert" className="grid justify-items-start gap-3">
-                    <p className="text-sm text-muted-foreground">{query.error.message}</p>
-                    <Button type="button" variant="outline" onClick={() => query.refetch()}>
-                        {t("adminListingSources.actions.retry")}
-                    </Button>
-                </div>
-            );
+            return <ErrorRow message={query.error.message} onRetry={() => void query.refetch()} />;
         }
-        return (
-            <div className="grid gap-2" aria-busy="true">
-                <output className="sr-only">
-                    {t("adminListingSources.locationDefault.loading")}
-                </output>
-                <Skeleton className="h-32 w-full" />
-            </div>
-        );
+        return <PanelSkeleton />;
     }
 
     const view = () => setMode({ kind: "view" });
-    const assignment = current.assignment;
 
     let workflow: ReactNode;
     if (mode.kind === "assign") {
@@ -168,139 +217,132 @@ function SourceLocationDefaultWorkflow({
         );
     } else {
         workflow = (
-            <div className="flex flex-wrap gap-2">
-                <Button
-                    type="button"
-                    size="sm"
-                    onClick={() => setMode({ kind: "assign", base: current })}
-                >
-                    {t(
-                        assignment
-                            ? "adminListingSources.locationDefault.actions.replace"
-                            : "adminListingSources.locationDefault.actions.assign",
-                    )}
-                </Button>
-                {assignment && current.eligibility === "ACTIVE" && (
-                    <Button
-                        type="button"
-                        size="sm"
-                        variant="outline"
-                        onClick={() => setMode({ kind: "applicability", base: current })}
-                    >
-                        {t("adminListingSources.locationDefault.actions.editApplicability")}
-                    </Button>
-                )}
-                {assignment && (
-                    <Button
-                        type="button"
-                        size="sm"
-                        variant="outline"
-                        onClick={() => setMode({ kind: "clear", base: current })}
-                    >
-                        {t("adminListingSources.locationDefault.actions.clear")}
-                    </Button>
-                )}
-            </div>
+            <CurrentDefault
+                current={current}
+                locationScope={locationScope}
+                onAssign={() => setMode({ kind: "assign", base: current })}
+                onEditApplicability={() => setMode({ kind: "applicability", base: current })}
+                onClear={() => setMode({ kind: "clear", base: current })}
+            />
         );
     }
 
     return (
-        <div className="grid gap-4">
-            <CurrentDefault current={current} locationScope={locationScope} />
-            {query.error && (
-                <p role="alert" className="text-sm text-destructive">
-                    {query.error.message}
-                </p>
-            )}
+        <>
+            {query.error && <ErrorRow message={query.error.message} />}
             {workflow}
-            <div className="grid gap-1 text-sm">
-                <Link
-                    to="/$lng/admin/parties/$partyId"
-                    from="/$lng"
-                    params={(previous) => ({ ...previous, partyId: scope.operatorPartyId })}
-                    className="w-fit text-primary underline-offset-4 hover:underline"
-                >
-                    {t("adminListingSources.locationDefault.links.operatorLocations", {
-                        name: operatorName,
-                    })}
-                </Link>
-                <p className="text-muted-foreground">
-                    {t("adminListingSources.locationDefault.links.operatorLocationsHint")}
-                </p>
-            </div>
-            <p className="text-sm text-muted-foreground">
-                {t("adminListingSources.locationDefault.propagation")}
-            </p>
-        </div>
+            <Link
+                to="/$lng/admin/parties/$partyId"
+                from="/$lng"
+                params={(previous) => ({ ...previous, partyId: scope.operatorPartyId })}
+                className={cn(TEXT_LINK_CLASS, "self-start")}
+            >
+                {t("adminListingSources.locationDefault.links.operator")}
+            </Link>
+        </>
     );
 }
 
 function CurrentDefault({
     current,
     locationScope,
+    onAssign,
+    onEditApplicability,
+    onClear,
 }: {
     readonly current: SourceLocationDefault;
     readonly locationScope: PartyLocationScope;
+    readonly onAssign: () => void;
+    readonly onEditApplicability: () => void;
+    readonly onClear: () => void;
 }) {
     const { t } = useTranslation();
     const assignment = current.assignment;
-    const notAsserted = t("adminListingSources.locationDefault.fields.notAsserted");
+    const status = statusOf(current);
 
     return (
-        <div className="grid gap-3">
-            <dl className="grid gap-3 sm:grid-cols-2">
-                <DetailRow label={t("adminListingSources.locationDefault.fields.location")} wide>
-                    {assignment ? (
-                        <ReferencedLocation
-                            locationId={assignment.partyLocationId}
-                            locationScope={locationScope}
-                        />
-                    ) : (
-                        t("adminListingSources.locationDefault.fields.noDefault")
-                    )}
-                </DetailRow>
-                {assignment &&
-                    SOURCE_LOCATION_APPLICABILITIES.map((key) => {
+        <div className={PANEL_CLASS}>
+            <div className="flex flex-col gap-1.5">
+                <span className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.14em] text-ink-secondary uppercase">
+                    <AdminMark tone={status.tone} className="size-2" />
+                    {t(`adminListingSources.locationDefault.status.${status.key}`)} ·{" "}
+                    {t("adminListingSources.locationDefault.status.revision", {
+                        revision: current.revision,
+                    })}
+                </span>
+                {assignment ? (
+                    <ReferencedLocation
+                        locationId={assignment.partyLocationId}
+                        locationScope={locationScope}
+                    />
+                ) : (
+                    <p className="font-serif text-xl">
+                        {t("adminListingSources.locationDefault.fields.noDefault")}
+                    </p>
+                )}
+            </div>
+            {assignment && (
+                <dl className="border-t border-line">
+                    {SOURCE_LOCATION_APPLICABILITIES.map((key) => {
                         const reference = assignment[key];
                         return (
-                            <DetailRow
+                            <div
                                 key={key}
-                                label={t(
-                                    `adminListingSources.locationDefault.applicability.${key}.label`,
-                                )}
+                                className="grid grid-cols-1 gap-1 border-b border-line-subtle py-2.5 last:border-b-0 sm:grid-cols-[170px_minmax(0,1fr)] sm:gap-3"
                             >
-                                {reference === undefined ? (
-                                    notAsserted
-                                ) : (
-                                    <span className="grid gap-0.5">
-                                        <span>
-                                            {t(
-                                                "adminListingSources.locationDefault.fields.asserted",
-                                            )}
+                                <dt className="text-meta text-ink-secondary">
+                                    {t(
+                                        `adminListingSources.locationDefault.applicability.${key}.label`,
+                                    )}
+                                </dt>
+                                <dd className="text-meta break-words">
+                                    {reference === undefined ? (
+                                        <span className="text-ink-muted">
+                                            {t("adminListingSources.locationDefault.fields.no")}
                                         </span>
-                                        <span className="break-all text-sm text-muted-foreground">
-                                            {t(
-                                                "adminListingSources.locationDefault.fields.evidence",
-                                                { reference },
-                                            )}
-                                        </span>
-                                    </span>
-                                )}
-                            </DetailRow>
+                                    ) : (
+                                        <>
+                                            {t("adminListingSources.locationDefault.fields.yes")} ·{" "}
+                                            <span className="text-ink-secondary">{reference}</span>
+                                        </>
+                                    )}
+                                </dd>
+                            </div>
                         );
                     })}
-                <DetailRow label={t("adminListingSources.locationDefault.fields.revision")}>
-                    <span className="font-mono text-sm">{current.revision}</span>
-                </DetailRow>
-            </dl>
-            <p className="border border-border bg-surface-container p-3 text-sm">
+                </dl>
+            )}
+            <p className="rounded-sm bg-surface-sunken px-3.5 py-3 text-meta leading-normal">
                 {t(`adminListingSources.locationDefault.effect.${geographyEffect(current)}`)}
             </p>
             {current.hasUnsupportedValues && (
-                <p className="text-sm text-muted-foreground">
+                <p className="text-meta text-ink-secondary">
                     {t("adminListingSources.locationDefault.unsupportedValues")}
                 </p>
             )}
+            <div className="flex flex-wrap gap-2">
+                <button type="button" onClick={onAssign} className={ADMIN_SMALL_PRIMARY_CLASS}>
+                    {t(
+                        assignment
+                            ? "adminListingSources.locationDefault.actions.replace"
+                            : "adminListingSources.locationDefault.actions.assign",
+                    )}
+                </button>
+                {assignment && current.eligibility === "ACTIVE" && (
+                    <button
+                        type="button"
+                        onClick={onEditApplicability}
+                        className={SMALL_SECONDARY_PILL_CLASS}
+                    >
+                        {t("adminListingSources.locationDefault.actions.editApplicability")}
+                    </button>
+                )}
+                {assignment && (
+                    <button type="button" onClick={onClear} className={SMALL_SECONDARY_PILL_CLASS}>
+                        {t("adminListingSources.locationDefault.actions.clear")}
+                    </button>
+                )}
+            </div>
         </div>
     );
 }
@@ -325,54 +367,104 @@ function ReferencedLocation({
               .find((item) => item.id === locationId);
 
     return (
-        <span className="grid gap-1">
+        <>
             {location ? (
                 <>
-                    <span className="flex flex-wrap items-center gap-2">
-                        <span className="break-words font-medium">{location.label}</span>
-                        <PartyLocationLifecycleBadge lifecycle={location.lifecycle} />
-                    </span>
-                    <span className="text-sm text-muted-foreground">
+                    <p className="font-serif text-xl break-words">{location.label}</p>
+                    <p className="text-meta text-ink-secondary">
                         {formatPartyLocationRegion(location, i18n.language, t)}
-                    </span>
+                    </p>
                 </>
             ) : (
-                <span className="text-sm text-muted-foreground">
-                    {t("adminListingSources.locationDefault.fields.locationDetailsUnavailable")}
-                </span>
+                <p className="text-meta text-ink-secondary">
+                    {t("adminListingSources.locationDefault.fields.locationUnavailable")}
+                </p>
             )}
-            <span className="break-all font-mono text-xs text-muted-foreground">{locationId}</span>
-        </span>
+            <code className="font-mono text-[11px] break-all text-ink-muted">{locationId}</code>
+        </>
     );
 }
 
-/** Explains a changed default and lets the administrator adopt it or abandon the action. */
-function StaleNotice({
+/** A newer revision loaded while a form or confirmation was open: the administrator chooses. */
+function StaleBlock({
     message,
-    keepLabel,
-    onKeep,
+    error,
     onDiscard,
     discardLabel,
+    onUseLatest,
+    onKeep,
 }: {
     readonly message: string;
-    readonly keepLabel?: string;
-    readonly onKeep?: () => void;
-    readonly discardLabel: string;
+    readonly error?: string;
     readonly onDiscard: () => void;
+    readonly discardLabel: string;
+    readonly onUseLatest?: () => void;
+    readonly onKeep?: () => void;
 }) {
+    const { t } = useTranslation();
     return (
-        <div role="alert" className="grid gap-3 border border-border bg-surface-container p-3">
-            <p className="text-sm">{message}</p>
-            <div className="flex flex-wrap gap-2">
-                {onKeep && keepLabel && (
-                    <Button type="button" size="sm" onClick={onKeep}>
-                        {keepLabel}
-                    </Button>
-                )}
-                <Button type="button" size="sm" variant="outline" onClick={onDiscard}>
+        <div
+            role="alert"
+            className="flex flex-col gap-3 rounded-md bg-surface p-4 shadow-[inset_0_0_0_1.5px_var(--brass)]"
+        >
+            <p className="flex gap-2.5 text-sm leading-normal">
+                <AdminMark tone="brass" className="mt-1.5" />
+                {message}
+            </p>
+            {error && <p className={FIELD_ERROR_CLASS}>{error}</p>}
+            <div className="flex flex-wrap justify-end gap-2">
+                <button type="button" onClick={onDiscard} className={SMALL_SECONDARY_PILL_CLASS}>
                     {discardLabel}
-                </Button>
+                </button>
+                {onUseLatest && (
+                    <button
+                        type="button"
+                        onClick={onUseLatest}
+                        className={SMALL_SECONDARY_PILL_CLASS}
+                    >
+                        {t("adminListingSources.locationDefault.actions.reviewLatest")}
+                    </button>
+                )}
+                {onKeep && (
+                    <button type="button" onClick={onKeep} className={ADMIN_SMALL_PRIMARY_CLASS}>
+                        {t("adminListingSources.locationDefault.actions.keepDraft")}
+                    </button>
+                )}
             </div>
+        </div>
+    );
+}
+
+function FormFooter({
+    submitLabel,
+    disabled,
+    pending,
+    onCancel,
+}: {
+    readonly submitLabel: string;
+    readonly disabled: boolean;
+    readonly pending: boolean;
+    readonly onCancel: () => void;
+}) {
+    const { t } = useTranslation();
+    return (
+        <div className="flex flex-wrap justify-end gap-2">
+            <button
+                type="button"
+                disabled={pending}
+                onClick={onCancel}
+                className={SMALL_SECONDARY_PILL_CLASS}
+            >
+                {t("adminCommon.cancel")}
+            </button>
+            <button
+                type="submit"
+                disabled={disabled}
+                aria-busy={pending}
+                className={ADMIN_SMALL_PRIMARY_CLASS}
+            >
+                {pending ? t("adminCommon.saving") : submitLabel}
+            </button>
         </div>
     );
 }
@@ -447,7 +539,7 @@ function AssignForm({
 
     return (
         <form
-            className="grid gap-4 border bg-card p-4"
+            className={FORM_PANEL_CLASS}
             aria-label={t(
                 replacing
                     ? "adminListingSources.locationDefault.assign.replaceTitle"
@@ -456,19 +548,32 @@ function AssignForm({
             onSubmit={submit}
             noValidate
         >
-            <p className="text-sm text-muted-foreground">
-                {t(
-                    replacing
-                        ? "adminListingSources.locationDefault.assign.replaceDescription"
-                        : "adminListingSources.locationDefault.assign.description",
-                )}
-            </p>
+            {stale && (
+                <StaleBlock
+                    message={t("adminListingSources.locationDefault.stale.changed", {
+                        revision: latest.revision,
+                    })}
+                    discardLabel={t("adminListingSources.locationDefault.actions.discardDraft")}
+                    onDiscard={onDone}
+                    onUseLatest={() => {
+                        assign.reset();
+                        setBase(latest);
+                        setLocationId(undefined);
+                        setDraft(EMPTY_APPLICABILITY_DRAFT);
+                        setSubmitted(false);
+                    }}
+                    onKeep={() => {
+                        assign.reset();
+                        setBase(latest);
+                    }}
+                />
+            )}
             {replacing && base.hasUnsupportedValues && (
-                <p className="text-sm text-muted-foreground">
+                <p className="text-meta text-ink-secondary">
                     {t("adminListingSources.locationDefault.assign.unsupportedValues")}
                 </p>
             )}
-            <div className="grid gap-2">
+            <div className="flex flex-col gap-2">
                 <PartyLocationSelector
                     scope={locationScope}
                     name={`source-location-default-${scope.listingSourceId}`}
@@ -478,13 +583,12 @@ function AssignForm({
                     disabled={assign.isPending}
                 />
                 {selectionError && (
-                    <p role="alert" className="text-sm text-destructive">
+                    <p role="alert" className={FIELD_ERROR_CLASS}>
                         {selectionError}
                     </p>
                 )}
             </div>
             <ApplicabilityFields
-                idPrefix={`source-location-default-assign-${scope.listingSourceId}`}
                 draft={draft}
                 errors={errors}
                 disabled={assign.isPending}
@@ -492,42 +596,21 @@ function AssignForm({
                     setDraft((previous) => ({ ...previous, [key]: assertion }))
                 }
             />
-            {stale && (
-                <StaleNotice
-                    message={t("adminListingSources.locationDefault.stale.assign")}
-                    keepLabel={t("adminListingSources.locationDefault.actions.keepDraft")}
-                    onKeep={() => {
-                        assign.reset();
-                        setBase(latest);
-                    }}
-                    discardLabel={t("adminListingSources.locationDefault.actions.discardDraft")}
-                    onDiscard={onDone}
-                />
-            )}
             {assign.error && (
-                <p role="alert" className="text-sm text-destructive">
+                <p role="alert" className={FIELD_ERROR_CLASS}>
                     {assign.error.message}
                 </p>
             )}
-            <div className="flex flex-wrap gap-2">
-                <Button type="submit" disabled={stale || assign.isPending}>
-                    {assign.isPending
-                        ? t("adminListingSources.actions.saving")
-                        : t(
-                              replacing
-                                  ? "adminListingSources.locationDefault.actions.confirmReplace"
-                                  : "adminListingSources.locationDefault.actions.confirmAssign",
-                          )}
-                </Button>
-                <Button
-                    type="button"
-                    variant="outline"
-                    disabled={assign.isPending}
-                    onClick={onDone}
-                >
-                    {t("adminListingSources.actions.cancel")}
-                </Button>
-            </div>
+            <FormFooter
+                submitLabel={t(
+                    replacing
+                        ? "adminListingSources.locationDefault.actions.confirmReplace"
+                        : "adminListingSources.locationDefault.actions.confirmAssign",
+                )}
+                disabled={stale || assign.isPending}
+                pending={assign.isPending}
+                onCancel={onDone}
+            />
         </form>
     );
 }
@@ -579,34 +662,26 @@ function ApplicabilityForm({
 
     return (
         <form
-            className="grid gap-4 border bg-card p-4"
+            className={FORM_PANEL_CLASS}
             aria-label={t("adminListingSources.locationDefault.applicabilityForm.title")}
             onSubmit={submit}
             noValidate
         >
-            <p className="text-sm text-muted-foreground">
-                {t("adminListingSources.locationDefault.applicabilityForm.description")}
-            </p>
-            {base.hasUnsupportedValues && (
-                <p className="text-sm text-muted-foreground">
-                    {t("adminListingSources.locationDefault.applicabilityForm.unsupportedValues")}
-                </p>
-            )}
-            <ApplicabilityFields
-                idPrefix={`source-location-default-applicability-${scope.listingSourceId}`}
-                draft={draft}
-                errors={errors}
-                disabled={change.isPending}
-                onChange={(key, assertion) => {
-                    setNoChanges(false);
-                    setDraft((previous) => ({ ...previous, [key]: assertion }));
-                }}
-            />
             {stale &&
                 (latestCompatible ? (
-                    <StaleNotice
-                        message={t("adminListingSources.locationDefault.stale.applicability")}
-                        keepLabel={t("adminListingSources.locationDefault.actions.keepDraft")}
+                    <StaleBlock
+                        message={t("adminListingSources.locationDefault.stale.changed", {
+                            revision: latest.revision,
+                        })}
+                        discardLabel={t("adminListingSources.locationDefault.actions.discardDraft")}
+                        onDiscard={onDone}
+                        onUseLatest={() => {
+                            change.reset();
+                            setDraft(toApplicabilityDraft(latest));
+                            setBase(latest);
+                            setSubmitted(false);
+                            setNoChanges(false);
+                        }}
                         onKeep={() => {
                             change.reset();
                             setDraft(
@@ -618,11 +693,9 @@ function ApplicabilityForm({
                             );
                             setBase(latest);
                         }}
-                        discardLabel={t("adminListingSources.locationDefault.actions.discardDraft")}
-                        onDiscard={onDone}
                     />
                 ) : (
-                    <StaleNotice
+                    <StaleBlock
                         message={t(
                             "adminListingSources.locationDefault.stale.applicabilityUnavailable",
                         )}
@@ -630,31 +703,36 @@ function ApplicabilityForm({
                         onDiscard={onDone}
                     />
                 ))}
-            {noChanges && (
-                <p role="status" className="text-sm text-muted-foreground">
-                    {t("adminListingSources.locationDefault.applicabilityForm.noChanges")}
+            {base.hasUnsupportedValues && (
+                <p className="text-meta text-ink-secondary">
+                    {t("adminListingSources.locationDefault.applicabilityForm.unsupportedValues")}
                 </p>
             )}
+            <ApplicabilityFields
+                draft={draft}
+                errors={errors}
+                disabled={change.isPending}
+                onChange={(key, assertion) => {
+                    setNoChanges(false);
+                    setDraft((previous) => ({ ...previous, [key]: assertion }));
+                }}
+            />
+            {noChanges && (
+                <output className="block text-meta text-ink-secondary">
+                    {t("adminListingSources.locationDefault.applicabilityForm.noChanges")}
+                </output>
+            )}
             {change.error && (
-                <p role="alert" className="text-sm text-destructive">
+                <p role="alert" className={FIELD_ERROR_CLASS}>
                     {change.error.message}
                 </p>
             )}
-            <div className="flex flex-wrap gap-2">
-                <Button type="submit" disabled={stale || change.isPending}>
-                    {change.isPending
-                        ? t("adminListingSources.actions.saving")
-                        : t("adminListingSources.locationDefault.actions.saveApplicability")}
-                </Button>
-                <Button
-                    type="button"
-                    variant="outline"
-                    disabled={change.isPending}
-                    onClick={onDone}
-                >
-                    {t("adminListingSources.actions.cancel")}
-                </Button>
-            </div>
+            <FormFooter
+                submitLabel={t("adminListingSources.locationDefault.actions.saveApplicability")}
+                disabled={stale || change.isPending}
+                pending={change.isPending}
+                onCancel={onDone}
+            />
         </form>
     );
 }
@@ -675,75 +753,59 @@ function ClearConfirmation({
     const [base, setBase] = useState(initialBase);
     const stale = latest.revision !== base.revision;
 
+    if (stale) {
+        return latest.assignment ? (
+            <StaleBlock
+                message={t("adminListingSources.locationDefault.stale.changed", {
+                    revision: latest.revision,
+                })}
+                error={clear.error?.message}
+                discardLabel={t("adminCommon.cancel")}
+                onDiscard={onDone}
+                onUseLatest={() => {
+                    clear.reset();
+                    setBase(latest);
+                }}
+            />
+        ) : (
+            <StaleBlock
+                message={t("adminListingSources.locationDefault.stale.alreadyCleared")}
+                error={clear.error?.message}
+                discardLabel={t("adminCommon.cancel")}
+                onDiscard={onDone}
+            />
+        );
+    }
+
     return (
-        <div className="grid gap-3 border border-destructive/40 bg-destructive/5 p-4">
-            <p className="text-sm">
-                {t(
-                    base.eligibility === "RETIRED"
-                        ? "adminListingSources.locationDefault.clear.confirmRetired"
-                        : "adminListingSources.locationDefault.clear.confirm",
-                )}
-            </p>
-            {stale &&
-                (latest.assignment ? (
-                    <StaleNotice
-                        message={t("adminListingSources.locationDefault.stale.clear")}
-                        keepLabel={t("adminListingSources.locationDefault.actions.reviewLatest")}
-                        onKeep={() => {
-                            clear.reset();
-                            setBase(latest);
-                        }}
-                        discardLabel={t("adminListingSources.actions.cancel")}
-                        onDiscard={onDone}
-                    />
-                ) : (
-                    <StaleNotice
-                        message={t("adminListingSources.locationDefault.stale.alreadyCleared")}
-                        discardLabel={t("adminListingSources.actions.cancel")}
-                        onDiscard={onDone}
-                    />
-                ))}
-            {clear.error && (
-                <p role="alert" className="text-sm text-destructive">
-                    {clear.error.message}
-                </p>
+        <AdminInlineConfirm
+            message={t(
+                base.eligibility === "RETIRED"
+                    ? "adminListingSources.locationDefault.clear.confirmRetiredShort"
+                    : "adminListingSources.locationDefault.clear.confirmShort",
             )}
-            <div className="flex flex-wrap gap-2">
-                <Button
-                    type="button"
-                    variant="destructive"
-                    disabled={stale || clear.isPending}
-                    onClick={() =>
-                        clear.mutate(base.revision, {
-                            onSuccess: () => {
-                                toast.success(
-                                    t("adminListingSources.locationDefault.success.cleared"),
-                                );
-                                onDone();
-                            },
-                        })
-                    }
-                >
-                    {clear.isPending
-                        ? t("adminListingSources.locationDefault.actions.clearing")
-                        : t("adminListingSources.locationDefault.actions.confirmClear")}
-                </Button>
-                <Button type="button" variant="outline" disabled={clear.isPending} onClick={onDone}>
-                    {t("adminListingSources.actions.cancel")}
-                </Button>
-            </div>
-        </div>
+            confirmLabel={t("adminListingSources.locationDefault.actions.confirmClear")}
+            pending={clear.isPending}
+            error={clear.error?.message}
+            onCancel={onDone}
+            onConfirm={() =>
+                clear.mutate(base.revision, {
+                    onSuccess: () => {
+                        toast.success(t("adminListingSources.locationDefault.success.cleared"));
+                        onDone();
+                    },
+                })
+            }
+        />
     );
 }
 
 function ApplicabilityFields({
-    idPrefix,
     draft,
     errors,
     disabled,
     onChange,
 }: {
-    readonly idPrefix: string;
     readonly draft: ApplicabilityDraft;
     readonly errors: ApplicabilityDraftErrors;
     readonly disabled: boolean;
@@ -753,86 +815,64 @@ function ApplicabilityFields({
     ) => void;
 }) {
     const { t } = useTranslation();
-    const hintId = `${idPrefix}-hint`;
+    const idPrefix = useId();
 
     return (
-        <fieldset className="grid gap-3" disabled={disabled} aria-describedby={hintId}>
-            <legend className="text-sm font-medium">
+        <fieldset className="flex flex-col gap-2.5" disabled={disabled}>
+            <legend className={cn(FIELD_LABEL_CLASS, "mb-2")}>
                 {t("adminListingSources.locationDefault.applicability.legend")}
             </legend>
-            <p id={hintId} className="text-xs text-muted-foreground">
-                {t("adminListingSources.locationDefault.applicability.hint")}
-            </p>
             {SOURCE_LOCATION_APPLICABILITIES.map((key) => {
                 const id = `${idPrefix}-${key}`;
                 const assertion = draft[key];
                 const error = errors[key];
                 return (
-                    <div key={key} className="grid gap-3 border bg-surface-container-low p-3">
-                        <div className="flex items-start gap-3">
-                            <Checkbox
+                    <div key={key} className="flex flex-col gap-2.5">
+                        <label
+                            htmlFor={id}
+                            className="flex cursor-pointer items-start gap-2.5 text-sm"
+                        >
+                            <input
                                 id={id}
+                                type="checkbox"
                                 checked={assertion.asserted}
-                                disabled={disabled}
-                                aria-describedby={`${id}-description`}
-                                className="mt-0.5"
-                                onCheckedChange={(checked) =>
-                                    onChange(key, { ...assertion, asserted: checked === true })
+                                onChange={(event) =>
+                                    onChange(key, { ...assertion, asserted: event.target.checked })
                                 }
+                                className="mt-0.5 size-[17px] shrink-0 accent-oxblood"
                             />
-                            <div className="grid gap-1">
-                                <Label htmlFor={id}>
-                                    {t(
-                                        `adminListingSources.locationDefault.applicability.${key}.label`,
-                                    )}
-                                </Label>
-                                <p
-                                    id={`${id}-description`}
-                                    className="text-xs text-muted-foreground"
-                                >
-                                    {t(
-                                        `adminListingSources.locationDefault.applicability.${key}.description`,
-                                    )}
-                                </p>
-                            </div>
-                        </div>
+                            <span className="font-medium">
+                                {t(
+                                    `adminListingSources.locationDefault.applicability.${key}.label`,
+                                )}
+                            </span>
+                        </label>
                         {assertion.asserted && (
-                            <div className="grid gap-2 sm:pl-7">
-                                <Label htmlFor={`${id}-evidence`}>
-                                    {t(
-                                        "adminListingSources.locationDefault.fields.evidenceReference",
-                                    )}
-                                </Label>
-                                <Input
+                            <div className="ml-[27px] flex flex-col gap-1.5">
+                                <label
+                                    htmlFor={`${id}-evidence`}
+                                    className={FIELD_LABEL_CLASS}
+                                    data-error={error ? "true" : undefined}
+                                >
+                                    {t("adminListingSources.locationDefault.fields.evidenceLabel")}
+                                </label>
+                                <input
                                     id={`${id}-evidence`}
                                     value={assertion.reference}
-                                    aria-invalid={Boolean(error)}
-                                    aria-describedby={
-                                        error ? `${id}-evidence-error` : `${id}-evidence-hint`
-                                    }
+                                    aria-invalid={error ? true : undefined}
+                                    aria-describedby={error ? `${id}-evidence-error` : undefined}
                                     onChange={(event) =>
                                         onChange(key, {
                                             ...assertion,
                                             reference: event.target.value,
                                         })
                                     }
+                                    className={cn(FIELD_CLASS, "bg-surface-raised text-sm")}
                                 />
-                                {error ? (
-                                    <p
-                                        id={`${id}-evidence-error`}
-                                        className="text-sm text-destructive"
-                                    >
+                                {error && (
+                                    <p id={`${id}-evidence-error`} className={FIELD_ERROR_CLASS}>
                                         {t(
                                             `adminListingSources.locationDefault.validation.${error}`,
-                                        )}
-                                    </p>
-                                ) : (
-                                    <p
-                                        id={`${id}-evidence-hint`}
-                                        className="text-xs text-muted-foreground"
-                                    >
-                                        {t(
-                                            "adminListingSources.locationDefault.applicability.evidenceHint",
                                         )}
                                     </p>
                                 )}
@@ -842,22 +882,5 @@ function ApplicabilityFields({
                 );
             })}
         </fieldset>
-    );
-}
-
-function DetailRow({
-    label,
-    wide = false,
-    children,
-}: {
-    readonly label: string;
-    readonly wide?: boolean;
-    readonly children: ReactNode;
-}) {
-    return (
-        <div className={wide ? "grid min-w-0 gap-1 sm:col-span-2" : "grid min-w-0 gap-1"}>
-            <dt className="text-xs text-muted-foreground">{label}</dt>
-            <dd className="break-words">{children}</dd>
-        </div>
     );
 }

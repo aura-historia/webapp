@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
+    ADMIN_USER_SORT_FIELDS,
+    ADMIN_USER_SORT_OPTIONS,
+    clearAdminUserFilters,
     DEFAULT_ADMIN_USER_FILTERS,
+    findAdminUserSortOption,
+    hasActiveAdminUserFilters,
     mapToAdminUserSearchQuery,
     validateAdminUserSearch,
 } from "../adminUserSearch.ts";
@@ -62,5 +67,31 @@ describe("admin user search", () => {
             sort: "name",
             order: "asc",
         });
+    });
+
+    it("offers every sort field in both directions as one combined choice", () => {
+        for (const field of ADMIN_USER_SORT_FIELDS) {
+            expect(findAdminUserSortOption(`${field}:asc`)).toMatchObject({
+                sort: field,
+                order: "asc",
+            });
+            expect(findAdminUserSortOption(`${field}:desc`)).toMatchObject({
+                sort: field,
+                order: "desc",
+            });
+        }
+        expect(ADMIN_USER_SORT_OPTIONS).toHaveLength(ADMIN_USER_SORT_FIELDS.length * 2);
+        expect(findAdminUserSortOption("score:asc")).toBeUndefined();
+    });
+
+    it("treats only filters beyond the sort order as active and clears them keeping the order", () => {
+        expect(hasActiveAdminUserFilters(DEFAULT_ADMIN_USER_FILTERS)).toBe(false);
+        const filtered = {
+            ...DEFAULT_ADMIN_USER_FILTERS,
+            order: "desc" as const,
+            tier: ["PRO" as const],
+        };
+        expect(hasActiveAdminUserFilters(filtered)).toBe(true);
+        expect(clearAdminUserFilters(filtered)).toEqual({ sort: "name", order: "desc" });
     });
 });

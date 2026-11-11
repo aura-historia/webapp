@@ -29,15 +29,20 @@ function pickDay(value: unknown): string | undefined {
     return typeof value === "string" && isCalendarDay(value) ? value : undefined;
 }
 
+/** The route's search: the list filters plus the application whose dialog is open. */
+export type AdminApplicationRouteSearch = AdminApplicationFilters & {
+    readonly application?: string;
+};
+
 /** Route search validation: returns URL-safe strings and arrays only, dropping unknown values. */
 export function validateAdminApplicationSearch(
     search: Record<string, unknown>,
-): AdminApplicationFilters {
+): AdminApplicationRouteSearch {
     const sort = pickOne(search.sort, ADMIN_APPLICATION_SORT_FIELDS);
     const order = pickOne(search.order, ADMIN_APPLICATION_SORT_ORDERS);
     // The API ignores an incomplete pair, so keep sort and order only together.
     const sortPair = sort && order ? { sort, order } : {};
-    const entries: AdminApplicationFilters = {
+    const entries: AdminApplicationRouteSearch = {
         states: pickList(search.states, PARTNER_APPLICATION_STATES),
         proposalTypes: pickList(search.proposalTypes, PARTNERSHIP_PROPOSAL_TYPES),
         applicantUserId: pickId(search.applicantUserId),
@@ -47,8 +52,17 @@ export function validateAdminApplicationSearch(
         updatedFrom: pickDay(search.updatedFrom),
         updatedTo: pickDay(search.updatedTo),
         ...sortPair,
+        application: pickId(search.application),
     };
     return Object.fromEntries(
         Object.entries(entries).filter(([, value]) => value !== undefined),
-    ) as AdminApplicationFilters;
+    ) as AdminApplicationRouteSearch;
+}
+
+/** The list filters alone: the open dialog must not change the list query. */
+export function adminApplicationFiltersOf({
+    application: _application,
+    ...filters
+}: AdminApplicationRouteSearch): AdminApplicationFilters {
+    return filters;
 }
