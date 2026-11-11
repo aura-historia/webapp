@@ -473,6 +473,34 @@ code {
     --animate-check-draw: check-draw 0.32s ease-out 0.14s both;
     /* "Watching now" dot: a soft signal-live ring that spreads and fades. */
     --animate-live-pulse: live-pulse 2.4s ease-out infinite;
+    /*
+     * Collapsible reveal that clips only while it plays, so an open panel lets dropdowns
+     * (e.g. the provider search) overflow its bottom edge.
+     */
+    --animate-reveal-down: reveal-down 0.2s ease-out;
+    --animate-reveal-up: reveal-up 0.2s ease-out;
+
+    @keyframes reveal-down {
+        from {
+            height: 0;
+            overflow: hidden;
+        }
+        to {
+            height: var(--radix-collapsible-content-height);
+            overflow: hidden;
+        }
+    }
+
+    @keyframes reveal-up {
+        from {
+            height: var(--radix-collapsible-content-height);
+            overflow: hidden;
+        }
+        to {
+            height: 0;
+            overflow: hidden;
+        }
+    }
 
     @keyframes live-pulse {
         0% {

@@ -1,3 +1,4 @@
+import * as PopoverPrimitive from "@radix-ui/react-popover";
 import { Command as CommandPrimitive } from "cmdk";
 import { Check, Loader2, Search, X } from "lucide-react";
 import * as React from "react";
@@ -90,8 +91,8 @@ export function MultiSelect({
             shouldFilter={false}
             className="flex flex-col gap-2 overflow-visible"
         >
-            <div className="relative">
-                <div className="flex h-12 items-center gap-2 rounded-md bg-surface-raised px-3 shadow-field focus-within:outline-2 focus-within:outline-offset-3 focus-within:outline-brass lg:h-10">
+            <PopoverPrimitive.Root open={showList}>
+                <PopoverPrimitive.Anchor className="flex h-12 items-center gap-2 rounded-md bg-surface-raised px-3 shadow-field focus-within:outline-2 focus-within:outline-offset-3 focus-within:outline-brass lg:h-10">
                     <Search
                         aria-hidden="true"
                         className="size-[15px] shrink-0 text-ink-muted"
@@ -107,10 +108,20 @@ export function MultiSelect({
                         placeholder={placeholder}
                         className="min-w-0 flex-1 bg-transparent text-base text-ink outline-none placeholder:text-ink-placeholder lg:text-sm"
                     />
-                </div>
-                {showList && (
-                    <div className="absolute top-full right-0 left-0 z-20 mt-2.5 rounded-panel bg-surface-raised p-1.5 shadow-menu">
-                        <CommandPrimitive.List>
+                </PopoverPrimitive.Anchor>
+                {/* Portalled so scroll areas (the wizard step, the filter sidebar) cannot clip it
+                    or hide it behind their footers; it flips above the field when room runs out. */}
+                <PopoverPrimitive.Portal>
+                    <PopoverPrimitive.Content
+                        side="bottom"
+                        align="start"
+                        sideOffset={10}
+                        collisionPadding={12}
+                        onOpenAutoFocus={(e) => e.preventDefault()}
+                        onCloseAutoFocus={(e) => e.preventDefault()}
+                        className="z-50 flex max-h-72 w-(--radix-popover-trigger-width) flex-col rounded-panel bg-surface-raised p-1.5 shadow-menu outline-none"
+                    >
+                        <CommandPrimitive.List className="min-h-0 overflow-y-auto overscroll-contain">
                             {isLoading && options.length === 0 ? (
                                 <div className="flex justify-center py-4 text-ink-muted">
                                     <Loader2 aria-hidden="true" className="size-4 animate-spin" />
@@ -151,9 +162,9 @@ export function MultiSelect({
                                 </>
                             )}
                         </CommandPrimitive.List>
-                    </div>
-                )}
-            </div>
+                    </PopoverPrimitive.Content>
+                </PopoverPrimitive.Portal>
+            </PopoverPrimitive.Root>
             {value.length > 0 && (
                 <ul aria-label={selectedLabel} className="flex flex-wrap gap-1.5">
                     {value.map((option) => (
