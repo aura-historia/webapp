@@ -30,8 +30,21 @@ const TYPE_STYLES = [
     "tag",
 ];
 
+/**
+ * Design-system radii and shadows from `src/styles.css`. Without them `cn("rounded-none",
+ * "rounded-card")` keeps both classes and the stylesheet order decides, so overrides can lose.
+ */
+const RADII = ["thumb", "field", "panel", "figure", "card", "pill"];
+const SHADOWS = ["search", "menu", "selected", "ring", "field"];
+
 const twMerge = extendTailwindMerge({
-    extend: { classGroups: { "font-size": [{ text: TYPE_STYLES }] } },
+    extend: {
+        classGroups: {
+            "font-size": [{ text: TYPE_STYLES }],
+            rounded: [{ rounded: RADII }],
+            shadow: [{ shadow: SHADOWS }],
+        },
+    },
 });
 
 export function cn(...inputs: ClassValue[]) {

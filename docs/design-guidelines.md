@@ -9,6 +9,7 @@ Core signals:
 - Two grounds: parchment (light) for catalogue sections; ink (dark) for the hero, dealer section and footer. `oxblood` is the brand, `brass` the accent.
 - Typography: `Newsreader` (`font-serif`) for headlines, object titles, numbers and the wordmark; `Geist` (`font-sans`) for running copy and UI; `Geist Mono` (`font-mono`) for uppercase labels, eyebrows and tags.
 - Hairlines, not shadows: cards carry `shadow-ring`; drop shadows only for floating elements (`shadow-search`, `shadow-menu`).
+- Floating surfaces share one frame: the dialog, alert dialog, popover, select, dropdown menu, command and tooltip primitives in `src/components/ui` default to `surface-raised`, `radius-panel` (tooltips `radius-md`), `shadow-menu`, ink text and no border, with a serif dialog title. Override only what a board changes. `cn` knows the design-system radius and shadow names (`rounded-card`, `shadow-menu`, …), so an override always replaces the default instead of depending on stylesheet order.
 - Calm layouts with generous whitespace, strong hierarchy, and restrained motion.
 - Professional UI behavior: predictable, accessible, responsive, and fast.
 
