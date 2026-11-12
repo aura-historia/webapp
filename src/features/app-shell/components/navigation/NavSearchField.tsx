@@ -67,6 +67,13 @@ export function NavSearchField({ variant, onSubmitted, className }: NavSearchFie
     };
 
     const isMenu = variant === "menu";
+    const placeholder = isMenu
+        ? t("header.searchLabel")
+        : isOnShopSearch
+          ? t("header.searchProvidersPlaceholder")
+          : variant === "bar"
+            ? t("header.searchPlaceholderShort")
+            : t("header.searchPlaceholder");
 
     return (
         <form
@@ -99,7 +106,7 @@ export function NavSearchField({ variant, onSubmitted, className }: NavSearchFie
                 aria-keyshortcuts={variant === "compact" ? "Control+K Meta+K" : undefined}
                 value={value}
                 onChange={(event) => setValue(event.target.value)}
-                placeholder={isMenu ? t("header.searchLabel") : t("header.searchPlaceholder")}
+                placeholder={placeholder}
                 className={cn(
                     "h-10 min-w-0 flex-1 border-0 bg-transparent text-ink outline-none placeholder:text-ink-placeholder [&::-webkit-search-cancel-button]:hidden",
                     variant === "compact" ? "text-sm" : "text-base",

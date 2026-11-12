@@ -188,11 +188,13 @@
     "closeMenu": "Close menu",
     "menu": "Menu",
     "searchLabel": "Search the global market",
-    "searchPlaceholder": "Search objects — era, maker, style…",
+    "searchPlaceholder": "Search objects or providers — era, maker, style…",
     "searchSubmit": "Search",
     "language": "Language",
     "currency": "Currency",
-    "preferences": "Language, currency and units"
+    "preferences": "Language, currency and units",
+    "searchPlaceholderShort": "Search objects or providers",
+    "searchProvidersPlaceholder": "Search providers by name"
   },
   "footer": {
     "about": "About Us",
@@ -554,13 +556,11 @@
     },
     "messages": {
       "error": {
-        "title": "Error loading results",
         "description": "The search results could not be loaded. Please try again later.",
         "headline": "Error loading <em>results.</em>",
         "retry": "Try again"
       },
       "noResults": {
-        "title": "No results found",
         "description": "Try adjusting your search term or filters.",
         "headline": "No results <em>found.</em>",
         "saveHint": "Save the search and we will email you when a match appears."
@@ -584,8 +584,6 @@
       },
       "lastUpdated": "Last updated"
     },
-    "shopResultsFor": "Results for",
-    "publicSourcesBrowseTitle": "Providers",
     "eyebrow": "Search results",
     "resultsForQuery": "Results for <em>“{{query}}”</em>",
     "resultsAll": "All <em>objects</em>",
@@ -617,6 +615,27 @@
       "label": "Hidden match",
       "title": "This match is over your monthly quota",
       "description": "Upgrade your account to see every result."
+    },
+    "providers": {
+      "resultsAll": "All <em>providers</em>",
+      "hint": "Dealers, galleries and auction houses, matched by name",
+      "filterNote": "Providers are found by name. Filters for era, price, condition or provider apply to objects.",
+      "searchObjectsFor": "Search objects for “{{query}}”",
+      "browseObjects": "Browse all objects",
+      "showAll": "Show all providers",
+      "viewProvider": "View provider",
+      "website": "Website",
+      "websiteOf": "Visit the website of {{shop}} (opens in a new tab)",
+      "loading": "Loading providers",
+      "loadingMore": "Loading more providers…",
+      "allLoaded": "You have seen every provider.",
+      "allLoadedForQuery": "You have seen every provider matching “{{query}}”.",
+      "loadMoreError": "More providers could not be loaded.",
+      "noResults": {
+        "headline": "No providers <em>found.</em>",
+        "description": "No provider name contains “{{query}}”. Check the spelling, or search the objects themselves.",
+        "descriptionAll": "There are no providers to show right now."
+      }
     }
   },
   "product": {
@@ -2030,10 +2049,8 @@
   },
   "shop": {
     "header": {
-      "imageAlt": "Image for {{shop}}",
       "operator": "Operated by {{operator}}",
       "visitWebsite": "Visit website",
-      "noImage": "No image available",
       "eyebrow": "Provider",
       "note": "Aura Historia indexes the public listings of this provider. You buy directly from the provider.",
       "newTab": "(opens in a new tab)"

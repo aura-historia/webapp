@@ -188,11 +188,13 @@
     "closeMenu": "Fermer le menu",
     "menu": "Menu",
     "searchLabel": "Rechercher sur le marché mondial",
-    "searchPlaceholder": "Rechercher des objets — époque, créateur, style…",
+    "searchPlaceholder": "Rechercher des objets ou des fournisseurs — époque, créateur, style…",
     "searchSubmit": "Rechercher",
     "language": "Langue",
     "currency": "Devise",
-    "preferences": "Langue, devise et unités"
+    "preferences": "Langue, devise et unités",
+    "searchPlaceholderShort": "Rechercher objets ou fournisseurs",
+    "searchProvidersPlaceholder": "Rechercher un fournisseur par nom"
   },
   "footer": {
     "about": "À propos",
@@ -554,13 +556,11 @@
     },
     "messages": {
       "error": {
-        "title": "Erreur de chargement",
         "description": "Les résultats de recherche n'ont pas pu être chargés. Veuillez réessayer plus tard.",
         "headline": "Erreur de chargement des <em>résultats.</em>",
         "retry": "Réessayer"
       },
       "noResults": {
-        "title": "Aucun résultat trouvé",
         "description": "Essayez d'ajuster votre terme de recherche ou vos filtres.",
         "headline": "Aucun résultat <em>trouvé.</em>",
         "saveHint": "Enregistrez la recherche et nous vous écrirons dès qu’un résultat apparaît."
@@ -584,8 +584,6 @@
       },
       "lastUpdated": "Dernière mise à jour"
     },
-    "shopResultsFor": "Résultats pour",
-    "publicSourcesBrowseTitle": "Fournisseurs",
     "eyebrow": "Résultats de recherche",
     "resultsForQuery": "Résultats pour <em>« {{query}} »</em>",
     "resultsAll": "Tous les <em>objets</em>",
@@ -617,6 +615,27 @@
       "label": "Résultat masqué",
       "title": "Ce résultat dépasse votre quota mensuel",
       "description": "Passez à une offre supérieure pour voir tous les résultats."
+    },
+    "providers": {
+      "resultsAll": "Tous les <em>fournisseurs</em>",
+      "hint": "Marchands, galeries et maisons de ventes, trouvés par leur nom",
+      "filterNote": "Les fournisseurs sont recherchés par leur nom. Les filtres d’époque, de prix, d’état ou de fournisseur s’appliquent aux objets.",
+      "searchObjectsFor": "Rechercher des objets pour « {{query}} »",
+      "browseObjects": "Parcourir tous les objets",
+      "showAll": "Afficher tous les fournisseurs",
+      "viewProvider": "Voir le fournisseur",
+      "website": "Site web",
+      "websiteOf": "Visiter le site web de {{shop}} (s’ouvre dans un nouvel onglet)",
+      "loading": "Chargement des fournisseurs",
+      "loadingMore": "Chargement d’autres fournisseurs…",
+      "allLoaded": "Vous avez vu tous les fournisseurs.",
+      "allLoadedForQuery": "Vous avez vu tous les fournisseurs correspondant à « {{query}} ».",
+      "loadMoreError": "Impossible de charger d’autres fournisseurs.",
+      "noResults": {
+        "headline": "Aucun fournisseur <em>trouvé.</em>",
+        "description": "Aucun nom de fournisseur ne contient « {{query}} ». Vérifiez l’orthographe ou recherchez directement les objets.",
+        "descriptionAll": "Aucun fournisseur à afficher pour le moment."
+      }
     }
   },
   "product": {
@@ -1956,10 +1975,8 @@
   },
   "shop": {
     "header": {
-      "imageAlt": "Image de {{shop}}",
       "operator": "Géré par {{operator}}",
       "visitWebsite": "Visiter le site web",
-      "noImage": "Aucune image disponible",
       "eyebrow": "Fournisseur",
       "note": "Aura Historia indexe les annonces publiques de ce fournisseur. Vous achetez directement auprès du fournisseur.",
       "newTab": "(s’ouvre dans un nouvel onglet)"

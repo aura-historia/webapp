@@ -188,11 +188,13 @@
     "closeMenu": "Cerrar menú",
     "menu": "Menú",
     "searchLabel": "Buscar en el mercado global",
-    "searchPlaceholder": "Buscar objetos: época, autor, estilo…",
+    "searchPlaceholder": "Buscar objetos o proveedores: época, autor, estilo…",
     "searchSubmit": "Buscar",
     "language": "Idioma",
     "currency": "Moneda",
-    "preferences": "Idioma, moneda y unidades"
+    "preferences": "Idioma, moneda y unidades",
+    "searchPlaceholderShort": "Buscar objetos o proveedores",
+    "searchProvidersPlaceholder": "Buscar proveedores por nombre"
   },
   "footer": {
     "about": "Sobre nosotros",
@@ -554,13 +556,11 @@
     },
     "messages": {
       "error": {
-        "title": "Error de carga",
         "description": "Los resultados de búsqueda no se pudieron cargar. Por favor, inténtelo de nuevo más tarde.",
         "headline": "Error al cargar los <em>resultados.</em>",
         "retry": "Intentar de nuevo"
       },
       "noResults": {
-        "title": "No se encontraron resultados",
         "description": "Intente ajustar su término de búsqueda o filtros.",
         "headline": "No se encontraron <em>resultados.</em>",
         "saveHint": "Guarde la búsqueda y le avisaremos por correo cuando aparezca una coincidencia."
@@ -584,8 +584,6 @@
       },
       "lastUpdated": "Última actualización"
     },
-    "shopResultsFor": "Resultados para",
-    "publicSourcesBrowseTitle": "Proveedores",
     "eyebrow": "Resultados de búsqueda",
     "resultsForQuery": "Resultados para <em>«{{query}}»</em>",
     "resultsAll": "Todos los <em>objetos</em>",
@@ -617,6 +615,27 @@
       "label": "Coincidencia oculta",
       "title": "Esta coincidencia supera su cuota mensual",
       "description": "Actualice su cuenta para ver todos los resultados."
+    },
+    "providers": {
+      "resultsAll": "Todos los <em>proveedores</em>",
+      "hint": "Anticuarios, galerías y casas de subastas, buscados por nombre",
+      "filterNote": "Los proveedores se buscan por nombre. Los filtros de época, precio, estado o proveedor se aplican a los objetos.",
+      "searchObjectsFor": "Buscar objetos para «{{query}}»",
+      "browseObjects": "Ver todos los objetos",
+      "showAll": "Mostrar todos los proveedores",
+      "viewProvider": "Ver proveedor",
+      "website": "Sitio web",
+      "websiteOf": "Visitar el sitio web de {{shop}} (se abre en una pestaña nueva)",
+      "loading": "Cargando proveedores",
+      "loadingMore": "Cargando más proveedores…",
+      "allLoaded": "Ha visto todos los proveedores.",
+      "allLoadedForQuery": "Ha visto todos los proveedores que coinciden con «{{query}}».",
+      "loadMoreError": "No se pudieron cargar más proveedores.",
+      "noResults": {
+        "headline": "No se encontraron <em>proveedores.</em>",
+        "description": "Ningún nombre de proveedor contiene «{{query}}». Revise la ortografía o busque directamente los objetos.",
+        "descriptionAll": "Ahora mismo no hay proveedores que mostrar."
+      }
     }
   },
   "product": {
@@ -1956,10 +1975,8 @@
   },
   "shop": {
     "header": {
-      "imageAlt": "Imagen de {{shop}}",
       "operator": "Gestionado por {{operator}}",
       "visitWebsite": "Visitar el sitio web",
-      "noImage": "No hay imagen disponible",
       "eyebrow": "Proveedor",
       "note": "Aura Historia indexa los anuncios públicos de este proveedor. Usted compra directamente al proveedor.",
       "newTab": "(se abre en una pestaña nueva)"

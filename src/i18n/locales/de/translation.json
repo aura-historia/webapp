@@ -188,11 +188,13 @@
     "closeMenu": "Menü schließen",
     "menu": "Menü",
     "searchLabel": "Den globalen Markt durchsuchen",
-    "searchPlaceholder": "Objekte suchen – Epoche, Hersteller, Stil…",
+    "searchPlaceholder": "Objekte oder Anbieter suchen – Epoche, Hersteller, Stil…",
     "searchSubmit": "Suchen",
     "language": "Sprache",
     "currency": "Währung",
-    "preferences": "Sprache, Währung und Einheiten"
+    "preferences": "Sprache, Währung und Einheiten",
+    "searchPlaceholderShort": "Objekte oder Anbieter suchen",
+    "searchProvidersPlaceholder": "Anbieter nach Namen suchen"
   },
   "footer": {
     "about": "Über uns",
@@ -554,13 +556,11 @@
     },
     "messages": {
       "error": {
-        "title": "Fehler beim Laden",
         "description": "Die Suchergebnisse konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
         "headline": "Fehler beim Laden der <em>Ergebnisse.</em>",
         "retry": "Erneut versuchen"
       },
       "noResults": {
-        "title": "Keine Ergebnisse gefunden",
         "description": "Versuchen Sie, Ihren Suchbegriff oder Ihre Filter anzupassen.",
         "headline": "Keine Ergebnisse <em>gefunden.</em>",
         "saveHint": "Speichern Sie die Suche, und wir benachrichtigen Sie per E-Mail, sobald ein Treffer erscheint."
@@ -584,8 +584,6 @@
       },
       "lastUpdated": "Zuletzt aktualisiert"
     },
-    "shopResultsFor": "Ergebnisse für",
-    "publicSourcesBrowseTitle": "Anbieter",
     "eyebrow": "Suchergebnisse",
     "resultsForQuery": "Ergebnisse für <em>„{{query}}“</em>",
     "resultsAll": "Alle <em>Objekte</em>",
@@ -617,6 +615,27 @@
       "label": "Verborgener Treffer",
       "title": "Dieser Treffer liegt über Ihrem Monatskontingent",
       "description": "Upgraden Sie Ihr Konto, um alle Ergebnisse zu sehen."
+    },
+    "providers": {
+      "resultsAll": "Alle <em>Anbieter</em>",
+      "hint": "Händler, Galerien und Auktionshäuser, gefunden über ihren Namen",
+      "filterNote": "Anbieter werden über ihren Namen gefunden. Filter wie Epoche, Preis, Zustand oder Anbieter gelten für Objekte.",
+      "searchObjectsFor": "Objekte zu „{{query}}“ suchen",
+      "browseObjects": "Alle Objekte ansehen",
+      "showAll": "Alle Anbieter anzeigen",
+      "viewProvider": "Zum Anbieter",
+      "website": "Website",
+      "websiteOf": "Website von {{shop}} besuchen (öffnet in einem neuen Tab)",
+      "loading": "Anbieter werden geladen",
+      "loadingMore": "Weitere Anbieter werden geladen…",
+      "allLoaded": "Sie haben alle Anbieter gesehen.",
+      "allLoadedForQuery": "Sie haben alle Anbieter zu „{{query}}“ gesehen.",
+      "loadMoreError": "Weitere Anbieter konnten nicht geladen werden.",
+      "noResults": {
+        "headline": "Keine Anbieter <em>gefunden.</em>",
+        "description": "Kein Anbietername enthält „{{query}}“. Prüfen Sie die Schreibweise oder suchen Sie direkt nach Objekten.",
+        "descriptionAll": "Derzeit gibt es keine Anbieter anzuzeigen."
+      }
     }
   },
   "product": {
@@ -2030,10 +2049,8 @@
   },
   "shop": {
     "header": {
-      "imageAlt": "Bild für {{shop}}",
       "operator": "Betreiber: {{operator}}",
       "visitWebsite": "Website besuchen",
-      "noImage": "Kein Bild verfügbar",
       "eyebrow": "Anbieter",
       "note": "Aura Historia erfasst die öffentlichen Angebote dieses Anbieters. Sie kaufen direkt beim Anbieter.",
       "newTab": "(öffnet in neuem Tab)"
