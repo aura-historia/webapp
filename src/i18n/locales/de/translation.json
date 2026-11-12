@@ -2036,7 +2036,11 @@
       "noImage": "Kein Bild verfügbar",
       "eyebrow": "Anbieter",
       "note": "Aura Historia erfasst die öffentlichen Angebote dieses Anbieters. Sie kaufen direkt beim Anbieter.",
-      "newTab": "(öffnet in neuem Tab)"
+      "newTab": "(öffnet in neuem Tab)",
+      "partner": {
+        "question": "Ist das Ihr Shop?",
+        "apply": "Als Partner bewerben"
+      }
     },
     "card": {
       "viewSource": "Anbieterprofil ansehen"

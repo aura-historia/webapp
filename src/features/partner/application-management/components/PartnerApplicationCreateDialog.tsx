@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CircleAlert } from "lucide-react";
-import { type ReactNode, useState } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 import { type Control, type UseFormReturn, useController, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -234,9 +234,12 @@ export function PartnerApplicationCreateDialog({
     open,
     onOpenChange,
     context,
+    initialSource,
 }: {
     readonly open: boolean;
     readonly onOpenChange: (open: boolean) => void;
+    /** A listed provider to choose when the dialog opens, e.g. from its provider page. */
+    readonly initialSource?: ApplicationListingSource;
     /** A note above the form on where the application was started, e.g. a shop connection. */
     readonly context?: ReactNode;
 }) {
@@ -257,6 +260,15 @@ export function PartnerApplicationCreateDialog({
         defaultValue: "",
     }).field;
     const type = form.watch("type");
+    // Choose the given provider once it is known; it may resolve after the dialog has opened.
+    useEffect(() => {
+        if (!open || !initialSource) return;
+        form.reset({
+            type: "EXISTING_LISTING_SOURCE",
+            listingSourceId: initialSource.listingSourceId,
+        });
+        setSelected(initialSource);
+    }, [open, initialSource, form]);
     const reset = () => {
         form.reset(PARTNER_APPLICATION_CREATE_DEFAULT_VALUES);
         setSelected(null);

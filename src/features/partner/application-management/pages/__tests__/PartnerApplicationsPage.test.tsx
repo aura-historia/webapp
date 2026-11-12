@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { PartnerApplicationsPage } from "@/features/partner/application-management/pages/PartnerApplicationsPage.tsx";
 
-const mockSearch = vi.hoisted(() => ({ value: {} as { create?: true } }));
+const mockSearch = vi.hoisted(() => ({ value: {} as { create?: true; provider?: string } }));
 const mockNavigate = vi.hoisted(() => vi.fn());
 
 vi.mock("@tanstack/react-router", () => ({
@@ -16,13 +16,16 @@ vi.mock(
     () => ({
         PartnerApplicationsSection: ({
             createOpen,
+            createProviderSlug,
             onCreateOpenChange,
         }: {
             createOpen?: boolean;
+            createProviderSlug?: string;
             onCreateOpenChange?: (open: boolean) => void;
         }) => (
             <section>
                 <p>{`createOpen: ${String(createOpen)}`}</p>
+                <p>{`provider: ${String(createProviderSlug)}`}</p>
                 <button type="button" onClick={() => onCreateOpenChange?.(false)}>
                     close
                 </button>
@@ -60,5 +63,13 @@ describe("PartnerApplicationsPage", () => {
 
         await user.click(screen.getByRole("button", { name: "close" }));
         expect(mockNavigate).toHaveBeenCalledWith({ search: {}, replace: true });
+    });
+
+    it("passes the provider slug from ?provider to the create dialog", () => {
+        mockSearch.value = { create: true, provider: "hartley-finch" };
+        render(<PartnerApplicationsPage />);
+
+        expect(screen.getByText("createOpen: true")).toBeInTheDocument();
+        expect(screen.getByText("provider: hartley-finch")).toBeInTheDocument();
     });
 });

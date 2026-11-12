@@ -19,6 +19,7 @@ import {
     PRIMARY_PILL_CLASS,
     SECONDARY_PILL_CLASS,
 } from "@/features/partner/common/lib/partnerDashboardStyles.ts";
+import { useApplicationListingSourceBySlug } from "../api/useApplicationListingSourceBySlug.ts";
 import { usePartnerApplications } from "../api/usePartnerApplications.ts";
 import { PartnerApplicationCreateDialog } from "./PartnerApplicationCreateDialog.tsx";
 import { PartnerApplicationDetailDialog } from "./PartnerApplicationDetailDialog.tsx";
@@ -29,9 +30,12 @@ const SKELETON_IDS = ["first", "second", "third"] as const;
 export function PartnerApplicationsSection({
     createOpen: createOpenProp,
     onCreateOpenChange,
+    createProviderSlug,
 }: {
     /** Opens the new application dialog, e.g. from a link on the overview. */
     readonly createOpen?: boolean;
+    /** A listed provider's public slug to choose in the dialog, e.g. from its provider page. */
+    readonly createProviderSlug?: string;
     readonly onCreateOpenChange?: (open: boolean) => void;
 } = {}) {
     const { t } = useTranslation();
@@ -42,6 +46,7 @@ export function PartnerApplicationsSection({
         onCreateOpenChange?.(open);
     };
     const [selectedId, setSelectedId] = useState<string>();
+    const { data: createProvider } = useApplicationListingSourceBySlug(createProviderSlug);
     const { data: applications = [], isPending, isError, refetch } = usePartnerApplications();
     const { isAuthenticated } = useResolvedAuth();
     const { sources } = useOwnListingSources(isAuthenticated);
@@ -135,7 +140,11 @@ export function PartnerApplicationsSection({
                 action={newApplicationButton}
             />
             {content}
-            <PartnerApplicationCreateDialog open={createOpen} onOpenChange={setCreateOpen} />
+            <PartnerApplicationCreateDialog
+                open={createOpen}
+                onOpenChange={setCreateOpen}
+                initialSource={createProvider ?? undefined}
+            />
             <PartnerApplicationDetailDialog
                 applicationId={selectedId}
                 providerNames={providerNames}

@@ -4,6 +4,10 @@ import type { PublicListingSource } from "@/data/internal/shop/PublicListingSour
 import { makePublicListingSource } from "@/test/fixtures.ts";
 import { ShopProfilePage } from "../ShopProfilePage.tsx";
 
+vi.mock("@tanstack/react-router", () => ({
+    Link: ({ children }: { children: React.ReactNode }) => <a href="/">{children}</a>,
+}));
+
 vi.mock("@/features/shop/profile/components/ShopListings.tsx", () => ({
     ShopListings: ({
         source,
