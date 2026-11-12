@@ -3,14 +3,14 @@ import testI18n from "@/i18n/i18nForTests";
 import {
     buildApplicationProposal,
     createPartnerApplicationFormSchema,
-    PARTNER_APPLICATION_CREATE_DEFAULT_VALUES,
+    PROPOSED_APPLICATION_DEFAULT_VALUES,
 } from "../PartnerApplicationCreateForm.ts";
 describe("proposal form validation", () => {
     const schema = createPartnerApplicationFormSchema(testI18n.t);
     it("ignores hidden proposed fields for an existing-source proposal", () => {
         expect(
             schema.parse({
-                ...PARTNER_APPLICATION_CREATE_DEFAULT_VALUES,
+                ...PROPOSED_APPLICATION_DEFAULT_VALUES,
                 type: "EXISTING_LISTING_SOURCE",
                 listingSourceId: "ls_1",
                 partyEmail: "invalid",
@@ -21,11 +21,11 @@ describe("proposal form validation", () => {
         expect(
             schema.safeParse({ type: "EXISTING_LISTING_SOURCE", listingSourceId: "" }).success,
         ).toBe(false);
-        expect(schema.safeParse(PARTNER_APPLICATION_CREATE_DEFAULT_VALUES).success).toBe(false);
+        expect(schema.safeParse(PROPOSED_APPLICATION_DEFAULT_VALUES).success).toBe(false);
     });
     it("requires the applicant to classify the proposed source", () => {
         const values = {
-            ...PARTNER_APPLICATION_CREATE_DEFAULT_VALUES,
+            ...PROPOSED_APPLICATION_DEFAULT_VALUES,
             partyName: "Operator",
             sourceName: "Source",
         };
@@ -40,7 +40,7 @@ describe("proposal form validation", () => {
     });
     it("rejects invalid email, non-HTTP URLs and oversized UTF-8 names", () => {
         const values = {
-            ...PARTNER_APPLICATION_CREATE_DEFAULT_VALUES,
+            ...PROPOSED_APPLICATION_DEFAULT_VALUES,
             partyName: "Operator",
             sourceName: "Source",
         };
@@ -52,7 +52,7 @@ describe("proposal form validation", () => {
     });
     it("trims values and omits empty optional fields without inventing metadata", () => {
         const values = schema.parse({
-            ...PARTNER_APPLICATION_CREATE_DEFAULT_VALUES,
+            ...PROPOSED_APPLICATION_DEFAULT_VALUES,
             partyName: " Operator ",
             sourceName: " Source ",
             listingSourceType: "AUCTION_HOUSE",
