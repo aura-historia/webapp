@@ -51,12 +51,12 @@ export function ShopSearchResults({ searchFilters }: ShopSearchResultsProps) {
 
     if (isPending) {
         return (
-            <div className={RESULT_GRID_CLASS} role="status" aria-busy="true">
+            <output className={RESULT_GRID_CLASS} aria-busy="true">
                 <span className="sr-only">{t("search.providers.loading")}</span>
                 {SKELETON_IDS.map((id) => (
                     <ShopResultCardSkeleton key={id} />
                 ))}
-            </div>
+            </output>
         );
     }
 

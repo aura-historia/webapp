@@ -17,6 +17,13 @@ interface NavSearchFieldProps {
     readonly className?: string;
 }
 
+/** The menu field shows its label; on provider search the others ask for a provider name. */
+function placeholderKey(variant: NavSearchFieldProps["variant"], isOnShopSearch: boolean) {
+    if (variant === "menu") return "header.searchLabel";
+    if (isOnShopSearch) return "header.searchProvidersPlaceholder";
+    return variant === "bar" ? "header.searchPlaceholderShort" : "header.searchPlaceholder";
+}
+
 export function NavSearchField({ variant, onSubmitted, className }: NavSearchFieldProps) {
     const { t } = useTranslation();
     const inputId = useId();
@@ -67,13 +74,7 @@ export function NavSearchField({ variant, onSubmitted, className }: NavSearchFie
     };
 
     const isMenu = variant === "menu";
-    const placeholder = isMenu
-        ? t("header.searchLabel")
-        : isOnShopSearch
-          ? t("header.searchProvidersPlaceholder")
-          : variant === "bar"
-            ? t("header.searchPlaceholderShort")
-            : t("header.searchPlaceholder");
+    const placeholder = t(placeholderKey(variant, isOnShopSearch));
 
     return (
         <form

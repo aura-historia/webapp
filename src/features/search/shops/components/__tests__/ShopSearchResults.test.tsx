@@ -98,7 +98,10 @@ describe("ShopSearchResults", () => {
         setShopSearchMock({ isPending: true });
         renderWithQueryClient(<ShopSearchResults searchFilters={{ q: "galerie" }} />);
         expect(screen.getAllByTestId("shop-result-skeleton")).toHaveLength(6);
-        expect(screen.getByText("Anbieter werden geladen")).toBeInTheDocument();
+        const status = screen.getByRole("status");
+        expect(status.tagName).toBe("OUTPUT");
+        expect(status).toHaveAttribute("aria-busy", "true");
+        expect(status).toHaveTextContent("Anbieter werden geladen");
     });
 
     it("shows the error panel with a retry that refetches", () => {
