@@ -17,6 +17,13 @@ interface NavSearchFieldProps {
     readonly className?: string;
 }
 
+/** The menu field shows its label; on provider search the others ask for a provider name. */
+function placeholderKey(variant: NavSearchFieldProps["variant"], isOnShopSearch: boolean) {
+    if (variant === "menu") return "header.searchLabel";
+    if (isOnShopSearch) return "header.searchProvidersPlaceholder";
+    return variant === "bar" ? "header.searchPlaceholderShort" : "header.searchPlaceholder";
+}
+
 export function NavSearchField({ variant, onSubmitted, className }: NavSearchFieldProps) {
     const { t } = useTranslation();
     const inputId = useId();
@@ -67,6 +74,7 @@ export function NavSearchField({ variant, onSubmitted, className }: NavSearchFie
     };
 
     const isMenu = variant === "menu";
+    const placeholder = t(placeholderKey(variant, isOnShopSearch));
 
     return (
         <form
@@ -99,7 +107,7 @@ export function NavSearchField({ variant, onSubmitted, className }: NavSearchFie
                 aria-keyshortcuts={variant === "compact" ? "Control+K Meta+K" : undefined}
                 value={value}
                 onChange={(event) => setValue(event.target.value)}
-                placeholder={isMenu ? t("header.searchLabel") : t("header.searchPlaceholder")}
+                placeholder={placeholder}
                 className={cn(
                     "h-10 min-w-0 flex-1 border-0 bg-transparent text-ink outline-none placeholder:text-ink-placeholder [&::-webkit-search-cancel-button]:hidden",
                     variant === "compact" ? "text-sm" : "text-base",

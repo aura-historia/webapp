@@ -131,7 +131,7 @@ describe("Header", () => {
             expect(within(desktopNavigation()).getByRole("search")).toBeInTheDocument();
             expect(
                 within(desktopNavigation()).getByPlaceholderText(
-                    "Objekte suchen – Epoche, Hersteller, Stil…",
+                    "Objekte oder Anbieter suchen – Epoche, Hersteller, Stil…",
                 ),
             ).toBeInTheDocument();
         });

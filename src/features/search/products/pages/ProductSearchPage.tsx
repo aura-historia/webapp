@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import { SlidersHorizontal } from "lucide-react";
 import { useCallback, useId, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
@@ -7,6 +7,7 @@ import type { SortMode } from "@/data/internal/search/SortMode.ts";
 import { MobileAppBar } from "@/features/app-shell/components/navigation/MobileAppBar.tsx";
 import { HEADLINE_COMPONENTS } from "@/features/landing/components/common/SectionHeading.tsx";
 import { SaveSearchButton } from "@/features/saved-searches/components/SaveSearchButton.tsx";
+import { SearchTypeTabs } from "@/features/search/common/components/SearchTypeTabs.tsx";
 import { ScrollToTopButton } from "@/features/search/common/components/ScrollToTopButton.tsx";
 import { ActiveFilterChips } from "@/features/search/products/components/ActiveFilterChips.tsx";
 import { SearchFilterDrawer } from "@/features/search/products/components/SearchFilterDrawer.tsx";
@@ -83,45 +84,12 @@ export function ProductSearchPage({ searchArgs }: ProductSearchPageProps) {
                 </aside>
 
                 <div className="min-w-0 flex-1 pt-0 pb-28 sm:pt-8 sm:pb-30">
-                    <nav
-                        aria-label={t("search.type.label")}
-                        className="mb-6 flex gap-6 shadow-[inset_0_-1px_0_var(--line-subtle)] sm:mb-9 sm:gap-7"
-                    >
-                        <Link
-                            to="/$lng/search"
-                            params={true}
-                            from="/$lng"
-                            search={serializeSearchParams(searchArgs)}
-                            aria-current="page"
-                            className={cn(
-                                "relative inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-ink",
-                                FOCUS_CLASS,
-                            )}
-                        >
-                            {t("search.type.objects")}
-                            {formattedTotal && (
-                                <span className="font-mono text-tag font-normal text-ink-muted">
-                                    {formattedTotal}
-                                </span>
-                            )}
-                            <span
-                                aria-hidden="true"
-                                className="absolute inset-x-0 bottom-0 h-0.5 rounded-xs bg-oxblood"
-                            />
-                        </Link>
-                        <Link
-                            to="/$lng/search/shops"
-                            params={true}
-                            from="/$lng"
-                            search={{ q: searchArgs.q }}
-                            className={cn(
-                                "inline-flex min-h-11 items-center text-sm text-ink-muted hover:text-brass-ink",
-                                FOCUS_CLASS,
-                            )}
-                        >
-                            {t("search.type.providers")}
-                        </Link>
-                    </nav>
+                    <SearchTypeTabs
+                        active="objects"
+                        query={searchArgs.q}
+                        objectSearch={serializeSearchParams(searchArgs)}
+                        objectCount={formattedTotal}
+                    />
 
                     <header className="mb-5 flex flex-wrap items-end justify-between gap-x-6 gap-y-4 sm:mb-6">
                         <div className="flex min-w-0 flex-col gap-2.5 sm:gap-3">
