@@ -30,7 +30,9 @@ import { ListingSourceTypeField } from "./ListingSourceTypeField.tsx";
 import {
     buildApplicationProposal,
     createPartnerApplicationFormSchema,
+    EXISTING_APPLICATION_DEFAULT_VALUES,
     PARTNER_APPLICATION_CREATE_DEFAULT_VALUES,
+    PROPOSED_APPLICATION_DEFAULT_VALUES,
     type PartnerApplicationCreateFormData,
     type PartnerApplicationCreateFormValues,
 } from "./PartnerApplicationCreateForm.ts";
@@ -269,8 +271,8 @@ export function PartnerApplicationCreateDialog({
         if (next === type) return;
         form.reset(
             next === "EXISTING_LISTING_SOURCE"
-                ? { type: "EXISTING_LISTING_SOURCE", listingSourceId: "" }
-                : PARTNER_APPLICATION_CREATE_DEFAULT_VALUES,
+                ? EXISTING_APPLICATION_DEFAULT_VALUES
+                : PROPOSED_APPLICATION_DEFAULT_VALUES,
         );
         setSelected(null);
         mutation.reset();

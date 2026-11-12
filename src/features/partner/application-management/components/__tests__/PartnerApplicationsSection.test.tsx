@@ -88,6 +88,12 @@ async function openCreateDialog() {
     return screen.getByRole("dialog", { name: "Neuer Antrag" });
 }
 
+async function openProposalDialog() {
+    const dialog = await openCreateDialog();
+    await userEvent.click(within(dialog).getByRole("radio", { name: PROPOSED_KIND }));
+    return dialog;
+}
+
 async function fillRequiredProposal() {
     await userEvent.type(screen.getByLabelText("Name des Anbieters"), "New Source");
     await userEvent.type(screen.getByLabelText(/^Betreiber/), "Operator");
@@ -383,15 +389,23 @@ describe("immutable application workflow", () => {
             expect(onCreateOpenChange).toHaveBeenCalledWith(false);
         });
 
-        it("offers both kinds of application and proposes a new provider by default", async () => {
+        it("offers both kinds of application and applies for an existing provider by default", async () => {
             await renderSection();
             const dialog = await openCreateDialog();
 
             const kinds = within(dialog).getByRole("group", {
                 name: "Was trifft auf Ihren Shop zu?",
             });
-            expect(within(kinds).getByRole("radio", { name: EXISTING_KIND })).not.toBeChecked();
-            expect(within(kinds).getByRole("radio", { name: PROPOSED_KIND })).toBeChecked();
+            expect(within(kinds).getByRole("radio", { name: EXISTING_KIND })).toBeChecked();
+            expect(within(kinds).getByRole("radio", { name: PROPOSED_KIND })).not.toBeChecked();
+            expect(within(dialog).getByRole("searchbox", { name: "Anbieter" })).toBeInTheDocument();
+            expect(within(dialog).queryByLabelText("Name des Anbieters")).not.toBeInTheDocument();
+            expect(within(dialog).getByRole("button", { name: SEND })).toBeDisabled();
+        });
+
+        it("lays out the proposal fields for a new provider", async () => {
+            await renderSection();
+            const dialog = await openProposalDialog();
 
             const fieldOrder = [
                 "Name des Anbieters",
@@ -421,7 +435,7 @@ describe("immutable application workflow", () => {
             ["Bild-URL (optional)", "invalid-url", "urlInvalid"],
         ])("shows localized schema errors for invalid %s", async (label, value, validationKey) => {
             await renderSection();
-            await openCreateDialog();
+            await openProposalDialog();
             await fillRequiredProposal();
             const input = screen.getByLabelText(label) as HTMLInputElement;
             expect(input.form?.noValidate).toBe(true);
@@ -442,7 +456,7 @@ describe("immutable application workflow", () => {
             );
             const onCreateOpenChange = vi.fn();
             await renderSection({ onCreateOpenChange });
-            await openCreateDialog();
+            await openProposalDialog();
             await fillRequiredProposal();
             await userEvent.click(screen.getByRole("radio", { name: "Auktionshaus" }));
             await userEvent.click(
@@ -474,7 +488,7 @@ describe("immutable application workflow", () => {
 
         it("focuses the provider type and announces the error when none is chosen", async () => {
             await renderSection();
-            await openCreateDialog();
+            await openProposalDialog();
             await fillRequiredProposal();
             await userEvent.click(screen.getByRole("button", { name: SEND }));
             expect(await screen.findByRole("alert")).toHaveTextContent(
@@ -489,7 +503,7 @@ describe("immutable application workflow", () => {
 
         it("focuses the first invalid field in page order when nothing is filled", async () => {
             await renderSection();
-            await openCreateDialog();
+            await openProposalDialog();
             await userEvent.click(screen.getByRole("button", { name: SEND }));
             await waitFor(() => expect(screen.getByLabelText("Name des Anbieters")).toHaveFocus());
             expect(screen.getAllByText("Dieses Feld ist erforderlich.")).toHaveLength(2);
@@ -501,7 +515,7 @@ describe("immutable application workflow", () => {
 
         it("focuses the operator after the provider fields when only it is missing", async () => {
             await renderSection();
-            await openCreateDialog();
+            await openProposalDialog();
             await userEvent.type(screen.getByLabelText("Name des Anbieters"), "New Source");
             await userEvent.click(screen.getByRole("radio", { name: "Händler" }));
             await userEvent.click(screen.getByRole("button", { name: SEND }));
@@ -511,7 +525,7 @@ describe("immutable application workflow", () => {
 
         it("clears the provider-type error once a type is chosen", async () => {
             await renderSection();
-            await openCreateDialog();
+            await openProposalDialog();
             await fillRequiredProposal();
             await userEvent.click(screen.getByRole("button", { name: SEND }));
             const legend = (await screen.findByRole("alert"))
@@ -528,7 +542,7 @@ describe("immutable application workflow", () => {
 
         it("resets the provider type when the application kind changes", async () => {
             await renderSection();
-            await openCreateDialog();
+            await openProposalDialog();
             await userEvent.click(screen.getByRole("radio", { name: "Auktionshaus" }));
             await userEvent.click(screen.getByRole("radio", { name: EXISTING_KIND }));
             expect(screen.queryByRole("radio", { name: "Auktionshaus" })).not.toBeInTheDocument();

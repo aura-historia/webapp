@@ -59,7 +59,13 @@ export type PartnerApplicationCreateFormValues = z.input<
 export type PartnerApplicationCreateFormData = z.output<
     ReturnType<typeof createPartnerApplicationFormSchema>
 >;
-export const PARTNER_APPLICATION_CREATE_DEFAULT_VALUES: PartnerApplicationCreateFormValues = {
+/** An application for a provider already on Aura Historia; nothing is chosen yet. */
+export const EXISTING_APPLICATION_DEFAULT_VALUES: PartnerApplicationCreateFormValues = {
+    type: "EXISTING_LISTING_SOURCE",
+    listingSourceId: "",
+};
+/** A proposal for a new provider, with every field empty and the source type unchosen. */
+export const PROPOSED_APPLICATION_DEFAULT_VALUES: PartnerApplicationCreateFormValues = {
     type: "PROPOSED_LISTING_SOURCE",
     partyName: "",
     partyPhone: "",
@@ -70,6 +76,8 @@ export const PARTNER_APPLICATION_CREATE_DEFAULT_VALUES: PartnerApplicationCreate
     sourceImage: "",
     requestedIngestionMethods: [],
 };
+/** Applicants most often apply for a provider that is already listed, so the form starts there. */
+export const PARTNER_APPLICATION_CREATE_DEFAULT_VALUES = EXISTING_APPLICATION_DEFAULT_VALUES;
 export function buildApplicationProposal(
     values: PartnerApplicationCreateFormData,
 ): PartnershipProposal {
