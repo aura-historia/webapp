@@ -1962,7 +1962,11 @@
       "noImage": "Aucune image disponible",
       "eyebrow": "Fournisseur",
       "note": "Aura Historia indexe les annonces publiques de ce fournisseur. Vous achetez directement auprès du fournisseur.",
-      "newTab": "(s’ouvre dans un nouvel onglet)"
+      "newTab": "(s’ouvre dans un nouvel onglet)",
+      "partner": {
+        "question": "C’est votre boutique ?",
+        "apply": "Postuler comme partenaire"
+      }
     },
     "card": {
       "viewSource": "Voir le profil du fournisseur"

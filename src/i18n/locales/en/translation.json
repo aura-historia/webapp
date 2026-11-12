@@ -2036,7 +2036,11 @@
       "noImage": "No image available",
       "eyebrow": "Provider",
       "note": "Aura Historia indexes the public listings of this provider. You buy directly from the provider.",
-      "newTab": "(opens in a new tab)"
+      "newTab": "(opens in a new tab)",
+      "partner": {
+        "question": "Is this your shop?",
+        "apply": "Apply as a partner"
+      }
     },
     "card": {
       "viewSource": "View provider profile"

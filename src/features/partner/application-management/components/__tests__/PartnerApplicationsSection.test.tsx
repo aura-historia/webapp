@@ -13,6 +13,7 @@ const mocks = vi.hoisted(() => ({
     create: vi.fn(),
     withdraw: vi.fn(),
     search: vi.fn(),
+    bySlug: vi.fn(),
     getMyListingSources: vi.fn(),
 }));
 vi.mock("../../api/usePartnerApplications.ts", () => ({
@@ -27,6 +28,9 @@ vi.mock("../../api/usePartnerApplications.ts", () => ({
 }));
 vi.mock("../../api/useApplicationListingSourceSearch.ts", () => ({
     useApplicationListingSourceSearch: mocks.search,
+}));
+vi.mock("../../api/useApplicationListingSourceBySlug.ts", () => ({
+    useApplicationListingSourceBySlug: mocks.bySlug,
 }));
 vi.mock("@/client", () => ({ getMyListingSources: mocks.getMyListingSources }));
 vi.mock("@/features/authentication/hooks/useResolvedAuth.ts", () => ({
@@ -115,6 +119,7 @@ describe("immutable application workflow", () => {
                 ],
             },
         });
+        mocks.bySlug.mockReturnValue({ data: undefined });
         mocks.search.mockReturnValue({
             data: [
                 {
@@ -387,6 +392,39 @@ describe("immutable application workflow", () => {
             const dialog = screen.getByRole("dialog", { name: "Neuer Antrag" });
             await userEvent.click(within(dialog).getByRole("button", { name: "Abbrechen" }));
             expect(onCreateOpenChange).toHaveBeenCalledWith(false);
+        });
+
+        it("chooses the provider named by its slug, e.g. from a provider page", async () => {
+            mocks.bySlug.mockReturnValue({
+                data: {
+                    listingSourceId: "ls_linked",
+                    name: "Linked Source",
+                    operatorName: "Linked Operator",
+                },
+            });
+            await renderSection({ createOpen: true, createProviderSlug: "linked-source" });
+
+            expect(mocks.bySlug).toHaveBeenCalledWith("linked-source");
+            const dialog = screen.getByRole("dialog", { name: "Neuer Antrag" });
+            expect(within(dialog).getByRole("radio", { name: EXISTING_KIND })).toBeChecked();
+            expect(within(dialog).queryByRole("searchbox")).not.toBeInTheDocument();
+            expect(dialog).toHaveTextContent("Linked SourceBetrieben von Linked Operator");
+            await userEvent.click(within(dialog).getByRole("button", { name: SEND }));
+            await waitFor(() =>
+                expect(mocks.create).toHaveBeenCalledWith(
+                    { type: "EXISTING_LISTING_SOURCE", listingSourceId: "ls_linked" },
+                    expect.any(Object),
+                ),
+            );
+        });
+
+        it("starts with an empty provider search when the slug names no provider", async () => {
+            mocks.bySlug.mockReturnValue({ data: null });
+            await renderSection({ createOpen: true, createProviderSlug: "missing" });
+
+            const dialog = screen.getByRole("dialog", { name: "Neuer Antrag" });
+            expect(within(dialog).getByRole("searchbox", { name: "Anbieter" })).toHaveValue("");
+            expect(within(dialog).getByRole("button", { name: SEND })).toBeDisabled();
         });
 
         it("offers both kinds of application and applies for an existing provider by default", async () => {

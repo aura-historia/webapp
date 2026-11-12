@@ -1,4 +1,5 @@
-import { ArrowUpRight } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import type { PublicListingSource } from "@/data/internal/shop/PublicListingSource.ts";
 import { SHOP_FOCUS_CLASS } from "@/features/shop/profile/lib/shopStyles.ts";
@@ -14,10 +15,11 @@ function initialOf(name: string): string {
 }
 
 /**
- * Provider header: image tile, eyebrow, name, operator, buying note and the website link.
+ * Provider header: image tile, eyebrow, name, operator, buying note, the website link and a quiet
+ * "Apply as a partner" link that opens the new application dialog with this provider chosen.
  *
  * All parts are grid items of one grid. On phones the tile and eyebrow share the first row and the
- * rest stacks below; from 768px the tile and the website button span the text rows, and the first
+ * rest stacks below; from 768px the tile and the actions column span the text rows, and the first
  * row takes any spare height so the text stays aligned with the bottom of the tile.
  */
 export function ShopHeader({ shop }: ShopHeaderProps) {
@@ -62,22 +64,50 @@ export function ShopHeader({ shop }: ShopHeaderProps) {
                 {t("shop.header.note")}
             </p>
 
-            {websiteUrl && (
-                <a
-                    href={websiteUrl}
-                    target="_blank"
-                    rel="nofollow noopener noreferrer"
+            <div
+                className={cn(
+                    "col-span-2 mt-1 flex flex-col gap-3",
+                    "md:col-span-1 md:col-start-3 md:row-span-4 md:row-start-1 md:mt-0 md:items-end md:self-end",
+                )}
+            >
+                {websiteUrl && (
+                    <a
+                        href={websiteUrl}
+                        target="_blank"
+                        rel="nofollow noopener noreferrer"
+                        className={cn(
+                            "inline-flex h-12 items-center justify-center gap-2.5 rounded-pill bg-ink px-6 text-button text-surface transition-colors hover:bg-oxblood hover:text-on-oxblood",
+                            "md:h-13 md:whitespace-nowrap",
+                            SHOP_FOCUS_CLASS,
+                        )}
+                    >
+                        {t("shop.header.visitWebsite")}
+                        <span className="sr-only"> {t("shop.header.newTab")}</span>
+                        <ArrowUpRight aria-hidden="true" className="size-4" strokeWidth={1.8} />
+                    </a>
+                )}
+                <p
                     className={cn(
-                        "col-span-2 mt-1 inline-flex h-12 items-center justify-center gap-2.5 rounded-pill bg-ink px-6 text-button text-surface transition-colors hover:bg-oxblood hover:text-on-oxblood",
-                        "md:col-span-1 md:col-start-3 md:row-span-4 md:row-start-1 md:mt-0 md:h-13 md:self-end md:whitespace-nowrap",
-                        SHOP_FOCUS_CLASS,
+                        "text-meta leading-normal text-ink-muted md:text-right",
+                        websiteUrl && "text-center",
                     )}
                 >
-                    {t("shop.header.visitWebsite")}
-                    <span className="sr-only"> {t("shop.header.newTab")}</span>
-                    <ArrowUpRight aria-hidden="true" className="size-4" strokeWidth={1.8} />
-                </a>
-            )}
+                    {t("shop.header.partner.question")}{" "}
+                    <Link
+                        to="/$lng/partners/applications"
+                        params={true}
+                        from="/$lng"
+                        search={{ create: true, provider: shop.slugId }}
+                        className={cn(
+                            "inline-flex min-h-6 items-center gap-1 text-ink underline decoration-line-strong underline-offset-3 transition-colors hover:text-oxblood hover:decoration-oxblood",
+                            SHOP_FOCUS_CLASS,
+                        )}
+                    >
+                        {t("shop.header.partner.apply")}
+                        <ArrowRight aria-hidden="true" className="size-3.5" strokeWidth={1.8} />
+                    </Link>
+                </p>
+            </div>
         </header>
     );
 }
