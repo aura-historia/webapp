@@ -12,6 +12,7 @@ import { ScrollToTopButton } from "@/features/search/common/components/ScrollToT
 import { ActiveFilterChips } from "@/features/search/products/components/ActiveFilterChips.tsx";
 import { SearchFilterDrawer } from "@/features/search/products/components/SearchFilterDrawer.tsx";
 import { SearchFilters } from "@/features/search/products/components/SearchFilters.tsx";
+import { SearchRankingInfo } from "@/features/search/products/components/SearchRankingInfo.tsx";
 import { SearchResults } from "@/features/search/products/components/SearchResults.tsx";
 import { SearchSortControls } from "@/features/search/products/components/SearchSortControls.tsx";
 import { getActiveFilters } from "@/features/search/products/lib/activeFilters.ts";
@@ -60,6 +61,8 @@ export function ProductSearchPage({ searchArgs }: ProductSearchPageProps) {
     const resetFilters = useCallback(() => {
         navigate({ search: { q: searchArgs.q } });
     }, [navigate, searchArgs.q]);
+
+    const hasQuery = searchArgs.q.trim() !== "";
 
     const countLabel = totalResults
         ? t("search.totalObjects", { count: totalResults, formattedCount: formattedTotal })
@@ -120,7 +123,7 @@ export function ProductSearchPage({ searchArgs }: ProductSearchPageProps) {
                             )}
                         </div>
 
-                        <div className="hidden flex-wrap items-center gap-2 sm:flex">
+                        <div className="hidden flex-wrap items-start gap-2 sm:flex">
                             <button
                                 type="button"
                                 onClick={() => setFiltersOpen(true)}
@@ -143,19 +146,35 @@ export function ProductSearchPage({ searchArgs }: ProductSearchPageProps) {
                                     </span>
                                 )}
                             </button>
-                            <SearchSortControls
-                                sortMode={sortMode}
-                                onChange={updateSortMode}
-                                layout="toolbar"
-                            />
+                            <div className="flex flex-col items-start gap-1">
+                                <div className="flex items-center gap-2">
+                                    <SearchSortControls
+                                        sortMode={sortMode}
+                                        onChange={updateSortMode}
+                                        layout="toolbar"
+                                    />
+                                </div>
+                                <SearchRankingInfo
+                                    sortField={sortMode.field}
+                                    hasQuery={hasQuery}
+                                    layout="toolbar"
+                                />
+                            </div>
                             <SaveSearchButton searchArgs={searchArgs} />
                         </div>
                     </header>
 
-                    <div className="mb-3 flex gap-2 sm:hidden">
-                        <SearchSortControls
-                            sortMode={sortMode}
-                            onChange={updateSortMode}
+                    <div className="mb-3 flex flex-col sm:hidden">
+                        <div className="flex gap-2">
+                            <SearchSortControls
+                                sortMode={sortMode}
+                                onChange={updateSortMode}
+                                layout="compact"
+                            />
+                        </div>
+                        <SearchRankingInfo
+                            sortField={sortMode.field}
+                            hasQuery={hasQuery}
                             layout="compact"
                         />
                     </div>
