@@ -609,6 +609,47 @@ describe("AdminProductListingDetailPage", () => {
         expect(description).toHaveValue("");
     });
 
+    it("adopts the newer record after a save, leaving the write-only fields empty", async () => {
+        api.getAdminProductListing
+            .mockResolvedValueOnce(ok(detailDto))
+            .mockResolvedValue(ok({ ...detailDto, expectedVersion: 8 }));
+        api.updateAdminProductListing.mockResolvedValue(
+            ok({ productListingId: "pl_01", expectedVersion: 8, outcome: "CHANGED" }),
+        );
+        renderWithClient(<AdminProductListingDetailPage productListingId="pl_01" language="en" />);
+
+        const description = await screen.findByLabelText(
+            t("adminProductListings.fields.originalDescription"),
+        );
+        const clear = screen.getByRole("checkbox", {
+            name: t("adminProductListings.edit.clearDescription"),
+        });
+        fireEvent.click(clear);
+        fireEvent.click(save());
+
+        await waitFor(() =>
+            expect(toasts.success).toHaveBeenCalledWith(t("adminProductListings.edit.savedToast")),
+        );
+        await waitFor(() => expect(clear).not.toBeChecked());
+        expect(description).toBeEnabled();
+        expect(description).toHaveValue("");
+        expect(save()).toBeDisabled();
+
+        // The next save is built against version 8 and never repeats the clear.
+        fireEvent.change(screen.getByLabelText(t("adminProductListings.fields.lotNumber")), {
+            target: { value: "13" },
+        });
+        api.updateAdminProductListing.mockClear();
+        fireEvent.click(save());
+
+        await waitFor(() => expect(api.updateAdminProductListing).toHaveBeenCalledTimes(1));
+        expect(api.updateAdminProductListing).toHaveBeenCalledWith(
+            expect.objectContaining({
+                body: { expectedVersion: 8, auction: { lotNumber: "13" } },
+            }),
+        );
+    });
+
     it("sends nothing for the description after the clear box is ticked and unticked again", async () => {
         api.getAdminProductListing.mockResolvedValue(ok(detailDto));
         renderWithClient(<AdminProductListingDetailPage productListingId="pl_01" language="en" />);
@@ -620,8 +661,8 @@ describe("AdminProductListingDetailPage", () => {
         expect(save()).toBeEnabled();
         fireEvent.click(clear);
 
+        // Nothing is left to save, so no request can carry a clear.
         expect(save()).toBeDisabled();
-        expect(api.updateAdminProductListing).not.toHaveBeenCalled();
     });
 
     it("requires a language for new text, notes long titles and names a rejected title", async () => {

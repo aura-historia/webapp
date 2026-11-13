@@ -139,7 +139,9 @@ Routes: `/$lng/admin/product-listings` (directory) and `/$lng/admin/product-list
   nothing is resubmitted automatically. While a newer version is loaded and the draft has changes,
   saving waits for an explicit "keep my changes" (reapply only the edited groups to the latest
   version) or "discard"; a form without changes adopts the newer record. After a lost response,
-  keeping a draft that already committed produces no changes. Success uses the returned version
+  keeping a draft that already committed produces no changes, except for the write-only
+  description: its text or clear request cannot be compared with the stored value, so it stays in
+  the draft and a repeated save resends it. Success uses the returned version
   and outcome (`CHANGED`/`UNCHANGED`), confirms with a toast and invalidates the directory and
   `["admin", "overview"]`. Save stays disabled until the draft differs from the record.
 - Withdraw (`DELETE` with `expectedVersion` in the query, `204`) and restore (`POST` with
