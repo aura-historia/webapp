@@ -645,14 +645,15 @@
       "selected": "Ausgewählt",
       "relevanceLead": "Zwei Rangfolgen zählen gleich viel:",
       "wordLabel": "Wortübereinstimmung",
-      "wordText": "Ihre Suchbegriffe im Titel des Angebots, in Ihrer Sprache und im Original. Eine ganze Wortgruppe zählt am meisten, ähnliche Schreibweisen weniger.",
+      "wordText": "Alle Suchbegriffe müssen im Titel des Angebots vorkommen, in Ihrer Sprache oder im Original. Ihre Sprache zählt mehr als das Original, die exakte Wortfolge am meisten.",
       "meaningLabel": "Ähnliche Bedeutung",
       "meaningText": "Wie nah Ihre Suche inhaltlich an Titel, Beschreibung und erstem Foto des Angebots liegt, bewertet von einem KI-Modell.",
-      "noQuery": "Ohne Suchbegriff erscheinen Angebote in der Reihenfolge, in der wir sie erstmals erfasst haben.",
+      "noQuery": "Ohne Suchbegriff erscheinen Angebote in der Reihenfolge, in der wir sie erstmals erfasst haben, die ältesten zuerst.",
       "addedText": "Nach dem Datum, an dem wir das Angebot erstmals erfasst haben.",
       "updatedText": "Nach dem Datum, an dem wir zuletzt eine Änderung am Angebot erfasst haben.",
       "noPayment": "Partnerstatus, Provisionen und Zahlungen beeinflussen die Reihenfolge nicht.",
-      "personal": "Ihr Konto und Ihr Suchverlauf ebenfalls nicht. Nur Ihre Sprache zählt, denn sie bestimmt, welche Titelübersetzung wir vergleichen."
+      "personal": "Ihr Konto und Ihr Suchverlauf ebenfalls nicht. Nur Ihre Sprache zählt, denn sie bestimmt, welche Titelübersetzung wir vergleichen.",
+      "fallback": "Ist das KI-Modell nicht verfügbar, zählt nur die Wortübereinstimmung."
     }
   },
   "product": {

@@ -645,14 +645,15 @@
       "selected": "Sélectionné",
       "relevanceLead": "Deux classements comptent à parts égales :",
       "wordLabel": "Correspondance des mots",
-      "wordText": "Vos mots de recherche dans le titre de l’annonce, dans votre langue et dans l’original. Une expression entière compte le plus, les orthographes proches comptent moins.",
+      "wordText": "Tous les mots de votre recherche doivent figurer dans le titre de l’annonce, dans votre langue ou dans l’original. Votre langue compte plus que l’original, et l’expression exacte compte le plus.",
       "meaningLabel": "Sens proche",
       "meaningText": "La proximité de sens entre votre recherche et le titre, la description et la première photo de l’annonce, évaluée par un modèle d’IA.",
-      "noQuery": "Sans terme de recherche, les annonces apparaissent dans l’ordre où nous les avons enregistrées pour la première fois.",
+      "noQuery": "Sans terme de recherche, les annonces apparaissent dans l’ordre où nous les avons enregistrées pour la première fois, les plus anciennes d’abord.",
       "addedText": "Selon la date à laquelle nous avons enregistré l’annonce pour la première fois.",
       "updatedText": "Selon la date à laquelle nous avons enregistré la dernière modification de l’annonce.",
       "noPayment": "Le statut de partenaire, les commissions et les paiements n’influencent pas l’ordre.",
-      "personal": "Votre compte et votre historique de recherche non plus. Seule votre langue compte, car elle détermine quelle traduction du titre nous comparons."
+      "personal": "Votre compte et votre historique de recherche non plus. Seule votre langue compte, car elle détermine quelle traduction du titre nous comparons.",
+      "fallback": "Si le modèle d’IA n’est pas disponible, seule la correspondance des mots compte."
     }
   },
   "product": {

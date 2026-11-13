@@ -645,14 +645,15 @@
       "selected": "Selected",
       "relevanceLead": "Two rankings count equally:",
       "wordLabel": "Word match",
-      "wordText": "Your search words in the listing title, in your language and in the original. A whole phrase counts most, close spellings count less.",
+      "wordText": "All your search words must appear in the listing title, in your language or in the original. Your language counts more than the original, and the exact phrase counts most.",
       "meaningLabel": "Similar meaning",
       "meaningText": "How close your search is in meaning to the listing’s title, description and first photo, judged by an AI model.",
-      "noQuery": "Without a search term, listings appear in the order we first recorded them.",
+      "noQuery": "Without a search term, listings appear in the order we first recorded them, oldest first.",
       "addedText": "By the date we first recorded the listing.",
       "updatedText": "By the date we last recorded a change to the listing.",
       "noPayment": "Partner status, commissions and payments do not affect the order.",
-      "personal": "Neither do your account or search history. Only your language counts, because it decides which title translation we compare."
+      "personal": "Neither do your account or search history. Only your language counts, because it decides which title translation we compare.",
+      "fallback": "If the AI model is unavailable, only word match counts."
     }
   },
   "product": {

@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { SearchRankingInfo } from "../SearchRankingInfo.tsx";
@@ -73,6 +73,17 @@ describe("SearchRankingInfo", () => {
         await userEvent.click(screen.getByRole("button", { name: "Wie wir sortieren" }));
         const sheet = await screen.findByRole("dialog", { name: "Wie wir sortieren." });
         expect(within(sheet).getAllByRole("term")[1]).toHaveTextContent("Hinzugefügt amAusgewählt");
-        expect(within(sheet).getByRole("button", { name: "Schließen" })).toBeInTheDocument();
+        expect(
+            within(sheet).getByText(
+                "Ist das KI-Modell nicht verfügbar, zählt nur die Wortübereinstimmung.",
+            ),
+        ).toBeInTheDocument();
+
+        await userEvent.click(within(sheet).getByRole("button", { name: "Schließen" }));
+        // The sheet is driven by its Radix trigger, which returns focus to the link once the
+        // sheet unmounts. vaul's exit animation never finishes in jsdom, so focus return itself
+        // is checked in the browser.
+        const trigger = screen.getByRole("button", { name: "Wie wir sortieren", hidden: true });
+        await waitFor(() => expect(trigger).toHaveAttribute("aria-expanded", "false"));
     });
 });

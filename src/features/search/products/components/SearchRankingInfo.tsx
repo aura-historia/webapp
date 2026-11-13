@@ -1,7 +1,13 @@
 import { Info, ShieldCheck, X } from "lucide-react";
 import { useId, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
-import { Drawer, DrawerContent, DrawerDescription, DrawerTitle } from "@/components/ui/drawer.tsx";
+import {
+    Drawer,
+    DrawerContent,
+    DrawerDescription,
+    DrawerTitle,
+    DrawerTrigger,
+} from "@/components/ui/drawer.tsx";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover.tsx";
 import type { SortMode } from "@/data/internal/search/SortMode.ts";
 import { HEADLINE_COMPONENTS } from "@/features/landing/components/common/SectionHeading.tsx";
@@ -110,6 +116,9 @@ function SearchRankingSections({ sortField, hasQuery, mobile }: Omit<PanelProps,
                         >
                             {t("search.ranking.noQuery")}
                         </p>
+                        <p className="text-meta leading-normal text-ink-muted">
+                            {t("search.ranking.fallback")}
+                        </p>
                     </dd>
                 </div>
                 <div className="flex flex-col gap-1 border-b border-line-subtle py-3.5">
@@ -186,8 +195,6 @@ export function SearchRankingInfo({ sortField, hasQuery, layout }: SearchRanking
             type="button"
             aria-haspopup="dialog"
             aria-expanded={open}
-            data-testid="search-ranking-trigger"
-            onClick={mobile ? () => setOpen(true) : undefined}
             className={cn(
                 "-ml-2 inline-flex cursor-pointer items-center gap-1.5 self-start rounded-sm px-2 font-medium underline decoration-line-strong underline-offset-3 transition-colors hover:text-brass-ink hover:decoration-current motion-reduce:transition-none",
                 open ? "text-brass-ink" : "text-ink",
@@ -242,25 +249,24 @@ export function SearchRankingInfo({ sortField, hasQuery, layout }: SearchRanking
     }
 
     return (
-        <>
-            {trigger}
-            <Drawer open={open} onOpenChange={setOpen}>
-                <DrawerContent
-                    data-theme="light"
-                    className="rounded-t-[20px] border-0 bg-surface-raised shadow-menu"
-                >
-                    <div className="flex flex-col gap-5 overflow-y-auto px-5 pt-2.5 pb-7">
-                        <div className="flex items-start justify-between gap-3 pt-1.5">
-                            <PanelHeading titleId={titleId} mobile />
-                            {closeButton}
-                        </div>
-                        <DrawerDescription className="sr-only">
-                            {t("search.ranking.noPayment")}
-                        </DrawerDescription>
-                        <SearchRankingSections sortField={sortField} hasQuery={hasQuery} mobile />
+        // The Radix trigger lets the sheet return focus to the link when it closes.
+        <Drawer open={open} onOpenChange={setOpen}>
+            <DrawerTrigger asChild>{trigger}</DrawerTrigger>
+            <DrawerContent
+                data-theme="light"
+                className="rounded-t-[20px] border-0 bg-surface-raised shadow-menu"
+            >
+                <div className="flex flex-col gap-5 overflow-y-auto px-5 pt-2.5 pb-7">
+                    <div className="flex items-start justify-between gap-3 pt-1.5">
+                        <PanelHeading titleId={titleId} mobile />
+                        {closeButton}
                     </div>
-                </DrawerContent>
-            </Drawer>
-        </>
+                    <DrawerDescription className="sr-only">
+                        {t("search.ranking.noPayment")}
+                    </DrawerDescription>
+                    <SearchRankingSections sortField={sortField} hasQuery={hasQuery} mobile />
+                </div>
+            </DrawerContent>
+        </Drawer>
     );
 }

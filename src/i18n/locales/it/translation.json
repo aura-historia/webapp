@@ -645,14 +645,15 @@
       "selected": "Selezionato",
       "relevanceLead": "Due classifiche contano allo stesso modo:",
       "wordLabel": "Corrispondenza delle parole",
-      "wordText": "I tuoi termini di ricerca nel titolo dell’annuncio, nella tua lingua e nell’originale. Una frase intera conta di più, le grafie simili contano meno.",
+      "wordText": "Tutti i termini di ricerca devono comparire nel titolo dell’annuncio, nella tua lingua o nell’originale. La tua lingua conta più dell’originale, e la frase esatta conta più di tutto.",
       "meaningLabel": "Significato simile",
       "meaningText": "Quanto il significato della tua ricerca è vicino al titolo, alla descrizione e alla prima foto dell’annuncio, secondo un modello di IA.",
-      "noQuery": "Senza un termine di ricerca, gli annunci compaiono nell’ordine in cui li abbiamo registrati per la prima volta.",
+      "noQuery": "Senza un termine di ricerca, gli annunci compaiono nell’ordine in cui li abbiamo registrati per la prima volta, dai più vecchi.",
       "addedText": "In base alla data in cui abbiamo registrato l’annuncio per la prima volta.",
       "updatedText": "In base alla data in cui abbiamo registrato l’ultima modifica all’annuncio.",
       "noPayment": "Lo stato di partner, le commissioni e i pagamenti non influiscono sull’ordine.",
-      "personal": "Nemmeno il tuo account o la cronologia delle ricerche. Conta solo la tua lingua, perché decide quale traduzione del titolo confrontiamo."
+      "personal": "Nemmeno il tuo account o la cronologia delle ricerche. Conta solo la tua lingua, perché decide quale traduzione del titolo confrontiamo.",
+      "fallback": "Se il modello di IA non è disponibile, conta solo la corrispondenza delle parole."
     }
   },
   "product": {
