@@ -7,7 +7,7 @@ Aura Historia is a refined global discovery platform for art, antiques, design o
 The app currently emphasizes:
 
 - Global art and antiques discovery across public providers.
-- Recently added objects and provider discovery. Provider pages show the public provider summary and currently indexed listings, which visitors can search within; they do not provide provider classifications, addresses, partner status, or total listing counts.
+- Recently added objects and provider discovery. Provider pages show the public provider summary and currently indexed listings, which visitors can search within; they do not provide provider classifications, addresses, or total listing counts. Partners carry a "Partner" badge wherever a listing or provider appears; non-partner listing and provider pages say plainly that the provider is not a partner (see `docs/design-guidelines.md`, Provider status). Never call partners "verified": admission reviews the business, not its objects.
 - Multilingual search/discovery and localized SEO.
 - Watchlists, saved search filters, notifications, and matching.
 - Partner/shop onboarding, product ingestion APIs, access tokens, OAuth flows, and admin review tools.

@@ -81,6 +81,32 @@ describe("ProductInfo", () => {
             "/de/shops/antique-store",
         );
     });
+    it("shows the non-partner notice under the title and no partner badge", () => {
+        renderWithQueryClient(<ProductInfo product={product} />);
+        const notice = screen.getByRole("complementary", { name: "Anbieterstatus" });
+        expect(notice).toHaveTextContent(
+            "Kein Partner von Aura Historia. Angebot automatisch auf der Website von Antique Store gefunden. Rechte an Texten und Bildern liegen beim Anbieter oder den jeweiligen Rechteinhabern.",
+        );
+        expect(screen.getByRole("link", { name: "Entfernung beantragen" })).toHaveAttribute(
+            "href",
+            expect.stringMatching(/^mailto:contact@aura-historia\.com\?subject=/),
+        );
+        expect(screen.getByRole("button", { name: "Über dieses Angebot" })).toBeInTheDocument();
+        expect(screen.queryByTestId("partner-badge")).not.toBeInTheDocument();
+    });
+    it("says the listing is machine-translated when its shown text is a translation", () => {
+        renderWithQueryClient(<ProductInfo product={{ ...product, translated: true }} />);
+        expect(screen.getByRole("complementary", { name: "Anbieterstatus" })).toHaveTextContent(
+            "Angebot automatisch auf der Website von Antique Store gefunden, maschinell übersetzt.",
+        );
+    });
+    it("shows the partner badge after the provider name and no notice for a partner", () => {
+        renderWithQueryClient(
+            <ProductInfo product={{ ...product, source: { ...product.source, partner: true } }} />,
+        );
+        expect(screen.getByTestId("partner-badge")).toHaveTextContent("Partner von Aura Historia");
+        expect(screen.queryByTestId("non-partner-notice")).not.toBeInTheDocument();
+    });
     it("uses the referral URL with a nofollow relationship", () => {
         renderWithQueryClient(<ProductInfo product={product} />);
         const link = screen.getByRole("link", { name: /Zur Seite des Anbieters/ });

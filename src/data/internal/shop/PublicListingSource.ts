@@ -6,6 +6,8 @@ export type PublicListingSource = {
     readonly slugId: string;
     readonly name: string;
     readonly operatorName: string;
+    /** Whether the operator has an active Aura Historia partnership. */
+    readonly partner: boolean;
     readonly image?: string;
     /** The source's own address. Use it where the canonical address is meant, never as an outbound link. */
     readonly url?: string;
@@ -22,6 +24,7 @@ export function mapPublicListingSource(data: PublicListingSourceData): PublicLis
         slugId: data.listingSourceSlugId,
         name: data.name,
         operatorName: data.operator.name,
+        partner: data.operator.partner,
         image: data.image,
         url: data.url,
         viewUrl: data.viewUrl,

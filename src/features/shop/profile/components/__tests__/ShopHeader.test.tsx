@@ -30,19 +30,43 @@ vi.mock("@tanstack/react-router", () => ({
 const WEBSITE_LINK = /^Website besuchen/;
 
 describe("ShopHeader", () => {
-    it("renders the eyebrow, provider name, operator and buying note", () => {
-        render(<ShopHeader shop={makePublicListingSource()} />);
+    it("renders the eyebrow, provider name, operator, partner badge and buying note for a partner", () => {
+        render(<ShopHeader shop={makePublicListingSource({ partner: true })} />);
 
         expect(screen.getByText("Anbieter")).toBeInTheDocument();
         expect(
             screen.getByRole("heading", { level: 1, name: "Antique Store" }),
         ).toBeInTheDocument();
         expect(screen.getByText("Betreiber: Antique Operator")).toBeInTheDocument();
+        expect(screen.getByTestId("partner-badge")).toHaveTextContent("Partner von Aura Historia");
         expect(
             screen.getByText(
                 "Aura Historia erfasst die öffentlichen Angebote dieses Anbieters. Sie kaufen direkt beim Anbieter.",
             ),
         ).toBeInTheDocument();
+        expect(screen.queryByTestId("non-partner-notice")).not.toBeInTheDocument();
+    });
+
+    it("replaces the buying note with the non-partner notice and shows no badge", () => {
+        render(<ShopHeader shop={makePublicListingSource()} />);
+
+        const notice = screen.getByRole("complementary", { name: "Anbieterstatus" });
+        expect(notice).toHaveTextContent(
+            "Kein Partner von Aura Historia. Angebote automatisch auf der Website des Anbieters gefunden. Rechte an Texten und Bildern liegen beim Anbieter oder den jeweiligen Rechteinhabern.",
+        );
+        expect(screen.queryByTestId("partner-badge")).not.toBeInTheDocument();
+        expect(
+            screen.queryByText(/^Aura Historia erfasst die öffentlichen Angebote/),
+        ).not.toBeInTheDocument();
+
+        const removal = screen.getByRole("link", { name: "Entfernung beantragen" });
+        const href = removal.getAttribute("href") ?? "";
+        expect(href).toMatch(/^mailto:contact@aura-historia\.com\?subject=/);
+        const params = new URLSearchParams(href.split("?")[1]);
+        expect(params.get("subject")).toBe(
+            "Entfernung beantragen: alle Angebote von Antique Store",
+        );
+        expect(params.get("body")).toContain("/de/shops/antique-store");
     });
 
     it("no longer renders a separate profile heading", () => {

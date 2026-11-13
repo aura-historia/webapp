@@ -26,7 +26,7 @@ vi.mock("@/features/saved-searches/components/MatchFeedbackButtons.tsx", () => (
 
 const baseProduct: ProductListing = {
     productListingId: "listing-1",
-    source: { listingSourceId: "source-1", name: "Antik AG", slugId: "antik-ag" },
+    source: { listingSourceId: "source-1", name: "Antik AG", slugId: "antik-ag", partner: false },
     sourceListingId: "source-listing-1",
     title: "Barocktisch",
     priceValuation: "CURRENT",

@@ -8,6 +8,8 @@ export function useMediaQuery(query: string): boolean {
     const [matches, setMatches] = useState(false);
 
     useEffect(() => {
+        // Environments without matchMedia (some embedded views, jsdom) keep the `false` default.
+        if (typeof window.matchMedia !== "function") return;
         const media = window.matchMedia(query);
         const update = () => setMatches(media.matches);
         update();

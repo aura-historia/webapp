@@ -10,6 +10,7 @@ import { getListingStatusLabelKey } from "@/features/product/catalog/components/
 import { ProductListingLink } from "@/features/product/catalog/components/ProductListingLink.tsx";
 import { SearchResultMedia } from "@/features/search/products/components/results/SearchResultMedia.tsx";
 import { useListingWatchlistState } from "@/features/watchlist/api/watchlistMutationState.ts";
+import { PartnerBadge } from "@/features/provider-status/components/PartnerBadge.tsx";
 import { useWatchlistMutation } from "@/features/watchlist/api/useWatchlistMutation.ts";
 import { useWatchlistNotificationMutation } from "@/features/watchlist/api/useWatchlistNotificationMutation.ts";
 import { cn } from "@/lib/utils.ts";
@@ -155,18 +156,21 @@ function SearchResultCardComponent({ product }: { readonly product: ProductListi
             </div>
 
             <div className="flex min-w-0 flex-col gap-1.5">
-                <Link
-                    to="/$lng/shops/$shopSlugId"
-                    params={(current) => ({ ...current, shopSlugId: product.source.slugId })}
-                    from="/$lng"
-                    title={provider}
-                    className={cn(
-                        "inline-flex min-h-5 min-w-0 max-w-full self-start font-mono text-tag tracking-[0.14em] text-ink-muted uppercase hover:text-brass-ink",
-                        FOCUS_CLASS,
-                    )}
-                >
-                    <span className="truncate">{provider}</span>
-                </Link>
+                <div className="flex min-w-0 items-center gap-2">
+                    <Link
+                        to="/$lng/shops/$shopSlugId"
+                        params={(current) => ({ ...current, shopSlugId: product.source.slugId })}
+                        from="/$lng"
+                        title={provider}
+                        className={cn(
+                            "inline-flex min-h-5 min-w-0 max-w-full font-mono text-tag tracking-[0.14em] text-ink-muted uppercase hover:text-brass-ink",
+                            FOCUS_CLASS,
+                        )}
+                    >
+                        <span className="truncate">{provider}</span>
+                    </Link>
+                    {product.source.partner && <PartnerBadge size="sm" />}
+                </div>
                 <ProductListingLink
                     productListingTitleSlugId={product.productListingTitleSlugId}
                     onClick={handleProductClick}

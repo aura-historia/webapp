@@ -36,7 +36,7 @@ vi.mock("@tanstack/react-router", async (importOriginal) => {
 
 const buildProduct = (overrides: Partial<ProductListing> = {}): ProductListing => ({
     productListingId: "p1",
-    source: { listingSourceId: "s1", name: "Test Shop", slugId: "shop-1" },
+    source: { listingSourceId: "s1", name: "Test Shop", slugId: "shop-1", partner: false },
     sourceListingId: "si1",
     title: "Antike Vase",
     priceValuation: "CURRENT",

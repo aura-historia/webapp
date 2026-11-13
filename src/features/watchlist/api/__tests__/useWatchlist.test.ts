@@ -91,6 +91,7 @@ describe("useWatchlist", () => {
                                     listingSourceId: "source-1",
                                     name: "Shop",
                                     slugId: "shop",
+                                    operator: { name: "Shop Operator", partner: false },
                                 },
                                 sourceListingId: "item-1",
                                 title: { localized: { text: "Vase", language: "en" } },

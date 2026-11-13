@@ -13,6 +13,9 @@ import {
     usePriceDisplay,
     useWatchToggle,
 } from "@/features/product/detail/components/ProductListingActions.tsx";
+import { NonPartnerNotice } from "@/features/provider-status/components/NonPartnerNotice.tsx";
+import { PartnerBadge } from "@/features/provider-status/components/PartnerBadge.tsx";
+import { providerStatusPageUrl } from "@/features/provider-status/lib/providerStatusLinks.ts";
 import { useWatchlistNotificationMutation } from "@/features/watchlist/api/useWatchlistNotificationMutation.ts";
 import { cn } from "@/lib/utils.ts";
 import { ToggleBellIcon } from "@/components/common/ToggleBellIcon.tsx";
@@ -24,7 +27,7 @@ const PILL_BUTTON_CLASS = cn(
 const MONO_LABEL_CLASS = "font-mono text-label tracking-[0.14em] text-ink-muted uppercase";
 
 export function ProductInfo({ product }: { readonly product: ProductListingDetail }) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const {
         watching,
         notifications,
@@ -100,22 +103,41 @@ export function ProductInfo({ product }: { readonly product: ProductListingDetai
                 </div>
 
                 <div className="flex flex-col gap-3.5">
-                    <Link
-                        to="/$lng/shops/$shopSlugId"
-                        params={(current) => ({
-                            ...current,
-                            shopSlugId: product.source.slugId,
-                        })}
-                        from="/$lng"
-                        className={cn(
-                            "inline-flex min-h-6 self-start font-mono text-kicker text-ink-muted uppercase hover:text-brass-ink",
-                            FOCUS_CLASS,
-                        )}
-                    >
-                        {product.source.name}
-                    </Link>
+                    <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5">
+                        <Link
+                            to="/$lng/shops/$shopSlugId"
+                            params={(current) => ({
+                                ...current,
+                                shopSlugId: product.source.slugId,
+                            })}
+                            from="/$lng"
+                            className={cn(
+                                "inline-flex min-h-6 font-mono text-kicker text-ink-muted uppercase hover:text-brass-ink",
+                                FOCUS_CLASS,
+                            )}
+                        >
+                            {product.source.name}
+                        </Link>
+                        {product.source.partner && <PartnerBadge size="md" />}
+                    </div>
                     <ProductTitle title={title} />
                 </div>
+
+                {!product.source.partner && (
+                    <NonPartnerNotice
+                        scope="listing"
+                        providerName={product.source.name}
+                        sourceUrl={product.url}
+                        pageUrl={providerStatusPageUrl(
+                            {
+                                scope: "listing",
+                                productListingTitleSlugId: product.productListingTitleSlugId,
+                            },
+                            i18n.language,
+                        )}
+                        translated={product.translated}
+                    />
+                )}
 
                 {matchedFilterId && (
                     <Link

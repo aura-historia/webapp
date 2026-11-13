@@ -6207,5 +6207,47 @@
       "clearAll": "Alle entfernen",
       "clearSearch": "Filter zurücksetzen"
     }
+  },
+  "providerStatus": {
+    "badge": {
+      "label": "Partner",
+      "srLabel": "Partner von Aura Historia"
+    },
+    "notice": {
+      "label": "Anbieterstatus",
+      "lead": "Kein Partner von Aura Historia.",
+      "listing": "Angebot automatisch auf der Website von {{provider}} gefunden. Rechte an Texten und Bildern liegen beim Anbieter oder den jeweiligen Rechteinhabern.",
+      "listingTranslated": "Angebot automatisch auf der Website von {{provider}} gefunden, maschinell übersetzt. Rechte an Texten und Bildern liegen beim Anbieter oder den jeweiligen Rechteinhabern.",
+      "provider": "Angebote automatisch auf der Website des Anbieters gefunden. Rechte an Texten und Bildern liegen beim Anbieter oder den jeweiligen Rechteinhabern.",
+      "removal": "Entfernung beantragen"
+    },
+    "info": {
+      "eyebrow": "Unabhängiger Anbieter",
+      "headingListing": "Über dieses Angebot",
+      "headingProvider": "Über diesen Anbieter",
+      "close": "Schließen",
+      "providerQuestion": "Sie sind der Anbieter?",
+      "removeListing": "Entfernung dieses Angebots beantragen",
+      "removeAll": "Entfernung aller Angebote beantragen",
+      "becomePartner": "Partner werden",
+      "facts": {
+        "independent": "{{provider}} ist ein unabhängiger Anbieter und kein Partner von Aura Historia.",
+        "foundListing": "Automatisch gefunden auf <site>{{host}}</site>.",
+        "foundProvider": "Angebote automatisch gefunden auf <site>{{host}}</site>.",
+        "rights": "Titel, Beschreibung und Bilder gehören dem Anbieter oder den jeweiligen Rechteinhabern. Aura Historia beansprucht daran keine Rechte.",
+        "translation": "Titel und Beschreibung sind bei Bedarf maschinell übersetzt. Maßgeblich ist der Originaltext auf der Seite des Anbieters.",
+        "images": "Bilder werden direkt von der Website des Anbieters geladen; Aura Historia stellt keine eigenen Kopien bereit.",
+        "price": "Preis, Verfügbarkeit und Zustand können sich jederzeit ändern; Versandkosten, Steuern oder Zölle können hinzukommen. Maßgeblich sind die Angaben auf der Seite des Anbieters.",
+        "contract": "Ihr Vertragspartner ist allein der Anbieter; er wickelt Kauf, Bezahlung, Versand und Rückgabe ab.",
+        "noChecks": "Aura Historia prüft bei keinem Angebot Richtigkeit, Echtheit oder Provenienz."
+      }
+    },
+    "removal": {
+      "mail": {
+        "subjectListing": "Entfernung beantragen: Angebot von {{provider}}",
+        "subjectProvider": "Entfernung beantragen: alle Angebote von {{provider}}",
+        "body": "Anbieter: {{provider}}\nSeite auf Aura Historia: {{url}}\n\nIch bin: (der Anbieter / Rechteinhaber, z. B. Fotograf oder Urheber / eine andere Person)\n\nBegründung (warum soll der Inhalt entfernt werden?):\n\n\nName:\n\nIch versichere in gutem Glauben, dass meine Angaben richtig und vollständig sind."
+      }
+    }
   }
 }

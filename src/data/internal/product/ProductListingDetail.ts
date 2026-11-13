@@ -1,6 +1,7 @@
 import type { PersonalizedProductListingDetailsData } from "@/client";
 import type { Language } from "@/data/internal/common/Language.ts";
 import {
+    isListingTextTranslated,
     mapListingDisplayText,
     mapListingTextInLanguage,
 } from "@/data/internal/product/ListingText.ts";
@@ -40,6 +41,8 @@ export type ProductListingDetail = {
     readonly title?: string;
     /** Present only when the backend has the description in the requested language. */
     readonly description?: string;
+    /** Whether the shown title or description is a machine translation of the source's text. */
+    readonly translated: boolean;
     readonly source: ProductListingSource;
     readonly sourceListingId: string;
     readonly pricing: ListingPricing;
@@ -81,6 +84,10 @@ export function mapToProductListingDetail(
         title: mapListingDisplayText(item.title),
         // Only a description in the requested language is shown or put into meta (#1232).
         description: mapListingTextInLanguage(item.description, language),
+        translated:
+            isListingTextTranslated(item.title) ||
+            (item.description?.localized.language === language &&
+                isListingTextTranslated(item.description)),
         source: mapProductListingSource(item.source),
         sourceListingId: item.sourceListingId,
         pricing,

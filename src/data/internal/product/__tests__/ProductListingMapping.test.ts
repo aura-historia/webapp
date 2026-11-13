@@ -90,6 +90,7 @@ describe("ProductListing mappers", () => {
             listingSourceId: "ls_opaque:01",
             name: "Atelier",
             slugId: "source-slug",
+            partner: false,
         });
         expect(result.price).toEqual(baseSummary.displayPrice);
         expect(result.priceValuation).toBe("CURRENT");
