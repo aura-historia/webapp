@@ -42,8 +42,12 @@ admin workflows in [admin workflows](admin-workflows.md).
     with or after the backend: the old mapper read `images`, which the new backend no longer sends.
   - **Saved search filters return `listingSources`**
     ([backend#2907](https://github.com/aura-historia/backend/pull/2907)): `UserSearchFilterData`
-    gains a required, read-only array of public listing-source cards for the IDs in `search`. Not
-    adopted yet: `mapToInternalUserSearchFilter` leaves it unmapped. The search-filter operations also document `503
+    gains a required, read-only array of public listing-source cards for the IDs in `search`.
+    Adopted with webapp [#1330](https://github.com/aura-historia/webapp/issues/1330):
+    `mapToInternalUserSearchFilter` names each included and excluded ID from those cards into
+    `listingSourceLabels` / `excludeListingSourceLabels`, so editing a saved filter, its card and
+    its detail page show source names instead of IDs. An ID whose source no longer exists has no
+    card and keeps its ID as the label. The search-filter operations also document `503
     SEARCH_FILTER_TEMPORARILY_UNAVAILABLE` and the patch a `409 CONFLICT`; both reach the generic
     error handling.
   - **Partner flags on parties and operators**

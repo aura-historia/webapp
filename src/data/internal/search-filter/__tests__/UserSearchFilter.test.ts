@@ -82,10 +82,48 @@ describe("mapToInternalUserSearchFilter", () => {
         expect(result.search.listingSourceId).toEqual(["source-1"]);
     });
 
+    it("names included and excluded sources from the listingSources cards", () => {
+        const operator = {
+            partner: false,
+            name: "Operator",
+        } as UserSearchFilterData["listingSources"][number]["operator"];
+        const card = (listingSourceId: string, name: string) => ({
+            listingSourceId,
+            listingSourceSlugId: `${listingSourceId}-slug`,
+            name,
+            operator,
+        });
+        const result = mapToInternalUserSearchFilter({
+            ...baseFilterData,
+            search: {
+                ...baseFilterData.search,
+                listingSourceId: ["source-2", "source-1"],
+                excludeListingSourceId: ["source-3"],
+            },
+            listingSources: [card("source-1", "Kunsthandel A"), card("source-2", "Galerie B")],
+        });
+        expect(result.search.listingSourceId).toEqual(["source-2", "source-1"]);
+        expect(result.search.listingSourceLabels).toEqual(["Galerie B", "Kunsthandel A"]);
+        // A source that no longer exists has no card and keeps its ID as the label.
+        expect(result.search.excludeListingSourceLabels).toEqual(["source-3"]);
+    });
+
+    it("leaves source labels unset when the filter references no sources", () => {
+        const result = mapToInternalUserSearchFilter({
+            ...baseFilterData,
+            search: { ...baseFilterData.search, listingSourceId: undefined },
+        });
+        expect(result.search.listingSourceLabels).toBeUndefined();
+        expect(result.search.excludeListingSourceLabels).toBeUndefined();
+    });
+
     it("maps optional enhancedSearchDescription", () => {
         const data = {
             ...baseFilterData,
-            search: { ...baseFilterData.search, enhancedSearchDescription: "Barocke Möbel" },
+            search: {
+                ...baseFilterData.search,
+                enhancedSearchDescription: "Barocke Möbel",
+            },
         };
         const result = mapToInternalUserSearchFilter(data);
         expect(result.enhancedSearchDescription).toBe("Barocke Möbel");
@@ -97,7 +135,10 @@ describe("mapToInternalUserSearchFilter", () => {
     });
 
     it("maps state ACTIVE", () => {
-        const result = mapToInternalUserSearchFilter({ ...baseFilterData, state: "ACTIVE" });
+        const result = mapToInternalUserSearchFilter({
+            ...baseFilterData,
+            state: "ACTIVE",
+        });
         expect(result.state).toBe("ACTIVE");
     });
 
@@ -134,14 +175,19 @@ describe("mapProductSearchDataToSearchFilterArguments", () => {
 
     it("maps date strings to Date objects", () => {
         const result = mapProductSearchDataToSearchFilterArguments({
-            created: { min: "2024-01-01T00:00:00Z", max: "2024-12-31T00:00:00Z" },
+            created: {
+                min: "2024-01-01T00:00:00Z",
+                max: "2024-12-31T00:00:00Z",
+            },
         });
         expect(result.creationDateFrom).toBeInstanceOf(Date);
         expect(result.creationDateTo).toBeInstanceOf(Date);
     });
 
     it("leaves price undefined when not provided", () => {
-        const result = mapProductSearchDataToSearchFilterArguments({ productQuery: ["Tisch"] });
+        const result = mapProductSearchDataToSearchFilterArguments({
+            productQuery: ["Tisch"],
+        });
         expect(result.priceFrom).toBeUndefined();
         expect(result.priceTo).toBeUndefined();
     });
@@ -167,7 +213,9 @@ describe("mapSearchFilterArgumentsToProductSearchData", () => {
     });
 
     it("converts non-empty q to productQuery", () => {
-        const result = mapSearchFilterArgumentsToProductSearchData({ q: "Tisch" });
+        const result = mapSearchFilterArgumentsToProductSearchData({
+            q: "Tisch",
+        });
         expect(result.productQuery).toEqual(["Tisch"]);
     });
 
@@ -199,7 +247,10 @@ describe("mapSearchFilterArgumentsToProductSearchData", () => {
     });
 
     it("sets only min when only priceFrom is provided", () => {
-        const result = mapSearchFilterArgumentsToProductSearchData({ q: "", priceFrom: 50 });
+        const result = mapSearchFilterArgumentsToProductSearchData({
+            q: "",
+            priceFrom: 50,
+        });
         expect(result.price?.min).toBe(5000);
         expect(result.price?.max).toBeUndefined();
     });
@@ -221,7 +272,9 @@ describe("mapSearchFilterArgumentsToProductSearchData", () => {
     });
 
     it("falls back to q when queryTerms is undefined", () => {
-        const result = mapSearchFilterArgumentsToProductSearchData({ q: "Sofa" });
+        const result = mapSearchFilterArgumentsToProductSearchData({
+            q: "Sofa",
+        });
         expect(result.productQuery).toEqual(["Sofa"]);
     });
 });
@@ -248,7 +301,10 @@ describe("mapToBackendCreateUserSearchFilter", () => {
 
 describe("mapToBackendPreviewUserSearchFilter", () => {
     it("maps search with the same mapping mapToBackendCreateUserSearchFilter uses, without name", () => {
-        const search = { q: "Sofa", enhancedSearchDescription: "KI-Beschreibung" };
+        const search = {
+            q: "Sofa",
+            enhancedSearchDescription: "KI-Beschreibung",
+        };
         const preview = mapToBackendPreviewUserSearchFilter(search);
         const created = mapToBackendCreateUserSearchFilter({
             name: "Test",
@@ -263,12 +319,16 @@ describe("mapToBackendPreviewUserSearchFilter", () => {
 
 describe("mapToBackendPatchUserSearchFilter", () => {
     it("maps name", () => {
-        const result = mapToBackendPatchUserSearchFilter({ name: "Neuer Name" });
+        const result = mapToBackendPatchUserSearchFilter({
+            name: "Neuer Name",
+        });
         expect(result.name).toBe("Neuer Name");
     });
 
     it("maps notifications", () => {
-        const result = mapToBackendPatchUserSearchFilter({ notifications: false });
+        const result = mapToBackendPatchUserSearchFilter({
+            notifications: false,
+        });
         expect(result.notifications).toBe(false);
     });
 
@@ -278,7 +338,9 @@ describe("mapToBackendPatchUserSearchFilter", () => {
     });
 
     it("maps search when provided", () => {
-        const result = mapToBackendPatchUserSearchFilter({ search: { q: "Lampe" } });
+        const result = mapToBackendPatchUserSearchFilter({
+            search: { q: "Lampe" },
+        });
         expect(result.search?.productQuery).toEqual(["Lampe"]);
         expect(result.search).toMatchObject({
             availability: null,
@@ -328,7 +390,9 @@ describe("mapToBackendPatchUserSearchFilter", () => {
     });
 
     it("maps state when provided", () => {
-        const result = mapToBackendPatchUserSearchFilter({ state: "INACTIVE_BY_USER" });
+        const result = mapToBackendPatchUserSearchFilter({
+            state: "INACTIVE_BY_USER",
+        });
         expect(result.state).toBe("INACTIVE_BY_USER");
     });
 
@@ -381,11 +445,19 @@ describe("search filter currency round trips", () => {
                 search: filter.search,
             });
             expect(created.search.currency).toBe(currency);
-            expect(created.search.price).toEqual({ min: minor, max: minor * 2 });
+            expect(created.search.price).toEqual({
+                min: minor,
+                max: minor * 2,
+            });
 
-            const patched = mapToBackendPatchUserSearchFilter({ search: filter.search });
+            const patched = mapToBackendPatchUserSearchFilter({
+                search: filter.search,
+            });
             expect(patched.search?.currency).toBe(currency);
-            expect(patched.search?.price).toEqual({ min: minor, max: minor * 2 });
+            expect(patched.search?.price).toEqual({
+                min: minor,
+                max: minor * 2,
+            });
         },
     );
 });
@@ -420,7 +492,10 @@ describe("saved-search geography", () => {
     it("marks a snapshot with unrecognized values as unsupported instead of narrowing it", () => {
         const result = mapToInternalUserSearchFilter({
             ...baseFilterData,
-            search: { ...baseFilterData.search, geography: { countries: ["DE", "XX"] } },
+            search: {
+                ...baseFilterData.search,
+                geography: { countries: ["DE", "XX"] },
+            },
         });
         expect(result.geography).toBe("UNSUPPORTED");
     });
@@ -439,7 +514,9 @@ describe("saved-search geography", () => {
     });
 
     it("omits geography from patches that do not change it, so the snapshot stays unchanged", () => {
-        const result = mapToBackendPatchUserSearchFilter({ search: { q: "Lampe" } });
+        const result = mapToBackendPatchUserSearchFilter({
+            search: { q: "Lampe" },
+        });
         expect(result.search).not.toHaveProperty("geography");
     });
 
