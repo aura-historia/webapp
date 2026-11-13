@@ -1,19 +1,25 @@
 import type {
     PersonalizedProductListingDetailsData,
     PersonalizedProductListingSummaryData,
+    ProductListingCollectionDetailsData,
     ProductListingDetailsData,
     ProductListingSummaryData,
 } from "@/client";
 import { describe, expect, it } from "vitest";
 import { SENSITIVE_CONTENT_CATEGORIES } from "@/test/fixtures.ts";
-import { isRestrictedImage } from "../ProductImageData.ts";
+import { isRestrictedImage, type ProductImage } from "../ProductImageData.ts";
 import {
     mapPersonalizedProductListingDetails,
     mapPersonalizedProductListingSummary,
 } from "../ProductListing.ts";
 import { mapToProductListingDetail } from "../ProductListingDetail.ts";
 
-const source = { listingSourceId: "ls_opaque:01", name: "Atelier", slugId: "source-slug" };
+const source = {
+    listingSourceId: "ls_opaque:01",
+    name: "Atelier",
+    slugId: "source-slug",
+    operator: { name: "Atelier Operator", partner: false },
+};
 const baseSummary: ProductListingSummaryData = {
     productListingId: "plist_opaque:01",
     eventId: "evt_opaque:01",
@@ -26,7 +32,7 @@ const baseSummary: ProductListingSummaryData = {
     lifecycle: "ACTIVE",
     url: "https://example.com/item",
     viewUrl: "https://example.com/view",
-    images: [{ url: "https://example.com/image.jpg" }],
+    image: { url: "https://example.com/image.jpg" },
     updated: "2026-09-01T00:00:00Z",
 };
 
@@ -58,6 +64,11 @@ const baseDetails: ProductListingDetailsData = {
     updated: "2026-09-01T00:00:00Z",
 };
 
+function imageOf(listing: { readonly image?: ProductImage }): ProductImage {
+    if (!listing.image) throw new Error("expected the listing to carry an image");
+    return listing.image;
+}
+
 const personalized = <TItem>(item: TItem) => ({
     item,
     userState: {
@@ -75,7 +86,11 @@ describe("ProductListing mappers", () => {
 
         expect(result.productListingId).toBe("plist_opaque:01");
         expect(result.sourceListingId).toBe("vendor/item/01");
-        expect(result.source).toEqual(source);
+        expect(result.source).toEqual({
+            listingSourceId: "ls_opaque:01",
+            name: "Atelier",
+            slugId: "source-slug",
+        });
         expect(result.price).toEqual(baseSummary.displayPrice);
         expect(result.priceValuation).toBe("CURRENT");
         expect(result.valuation).toEqual({
@@ -97,7 +112,7 @@ describe("ProductListing mappers", () => {
             title: undefined,
             displayPrice: undefined,
             availability: undefined,
-            images: [{}],
+            image: {},
         };
         const result = mapPersonalizedProductListingSummary({ item: summary }, "en");
 
@@ -106,7 +121,7 @@ describe("ProductListing mappers", () => {
         expect(result.price).toBeUndefined();
         expect(result.availability).toBeNull();
         expect(result.contentPolicy).toBeUndefined();
-        expect(result.images).toEqual([{ url: undefined, prohibitedContentType: "UNKNOWN" }]);
+        expect(result.image).toEqual({ url: undefined, prohibitedContentType: "UNKNOWN" });
     });
 
     it.each(SENSITIVE_CONTENT_CATEGORIES)(
@@ -123,10 +138,9 @@ describe("ProductListing mappers", () => {
             );
 
             expect(result.contentPolicy).toEqual({ decision: "REQUIRES_CONSENT", category });
-            expect(result.images).toHaveLength(1);
-            expect(result.images[0].prohibitedContentType).toBe(category);
-            expect(isRestrictedImage(result.images[0], false)).toBe(true);
-            expect(isRestrictedImage(result.images[0], true)).toBe(false);
+            expect(result.image?.prohibitedContentType).toBe(category);
+            expect(isRestrictedImage(imageOf(result), false)).toBe(true);
+            expect(isRestrictedImage(imageOf(result), true)).toBe(false);
         },
     );
 
@@ -160,8 +174,8 @@ describe("ProductListing mappers", () => {
         );
 
         expect(result.contentPolicy).toEqual(contentPolicy);
-        expect(isRestrictedImage(result.images[0], false)).toBe(true);
-        expect(isRestrictedImage(result.images[0], true)).toBe(false);
+        expect(isRestrictedImage(imageOf(result), false)).toBe(true);
+        expect(isRestrictedImage(imageOf(result), true)).toBe(false);
     });
 
     it("shows images of an allowed listing without the preference", () => {
@@ -171,7 +185,33 @@ describe("ProductListing mappers", () => {
         );
 
         expect(result.contentPolicy).toEqual({ decision: "ALLOWED" });
-        expect(isRestrictedImage(result.images[0], false)).toBe(false);
+        expect(isRestrictedImage(imageOf(result), false)).toBe(false);
+    });
+
+    it("leaves the image absent when a summary omits it for a listing without images", () => {
+        const { image: _image, ...withoutImage } = baseSummary;
+        const result = mapPersonalizedProductListingSummary({ item: withoutImage }, "en");
+
+        expect(result.image).toBeUndefined();
+    });
+
+    it("maps the single image of a collection detail and leaves it absent when omitted", () => {
+        const { images: _images, shipping: _shipping, ...rest } = baseDetails;
+        const collectionItem: ProductListingCollectionDetailsData = {
+            ...rest,
+            image: { url: "https://example.com/first.jpg" },
+            contentPolicy: { decision: "ALLOWED" },
+        };
+
+        expect(mapPersonalizedProductListingDetails({ item: collectionItem }, "en").image).toEqual({
+            url: new URL("https://example.com/first.jpg"),
+            prohibitedContentType: "NONE",
+        });
+
+        const { image: _image, ...withoutImage } = collectionItem;
+        expect(
+            mapPersonalizedProductListingDetails({ item: withoutImage }, "en").image,
+        ).toBeUndefined();
     });
 
     it("keeps ON_REQUEST distinct from missing price", () => {

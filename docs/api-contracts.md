@@ -10,13 +10,13 @@ admin workflows in [admin workflows](admin-workflows.md).
   (`public/partner-products.openapi.json`) from the same pinned contract, `openapi/swagger.yaml`.
   Generation never fetches a moving contract. Never hand-edit either output.
 - The pinned capture is the complete backend `docs/swagger.yaml` at `develop`
-  `b7477308184e8c1eed7b5dd855bfb020d7af20df` (2026-11-10); its last contract change is
-  `b747730` ([backend#2857](https://github.com/aura-historia/backend/pull/2857)). Git blob
-  `6b3c27f556c44b40203e9130a287e32bf6c6a9af`; file SHA-256
-  `ffcf97f01fdf5903a215d540b0db357961e2cd323c4dc08a372ed4d90286d0a8`; canonical parsed-JSON
+  `04ed6d06c9988ce4c153db3597bb4be041a39618` (2026-11-13); its last contract change is
+  `04ed6d0` ([backend#2921](https://github.com/aura-historia/backend/pull/2921)). Git blob
+  `f8b05bcbe64b7f7387826b4e100fb4999ad5a8c0`; file SHA-256
+  `296821083fc99630ec7d12992e13986a57e2fcf2672e8628606b9a5421e9c769`; canonical parsed-JSON
   SHA-256 (recorded as `x-source-contract-sha256` in the partner reference):
-  `b1d1e8f037f81008fa9ab09b9d5e4735b0bcff532760680abdc43c9fdaa2ffe3`. It replaces the
-  `960e0ac82d` capture (2026-11-10, last contract change `960e0ac82d`).
+  `b9a50ecaebe11a543ebea9d82ca72c83192e63568e1f32cec0fdca00a0431bd5`. It replaces the
+  `b7477308` capture (2026-11-10, last contract change `b747730`).
 - Every REST operation lives under `/v1/...` on `https://api.aura-historia.com` (production) and
   `https://api.stage.aura-historia.com`; `/api/v1/...` is gone without aliases
   ([backend#2216](https://github.com/aura-historia/backend/issues/2216)). The generated client and
@@ -26,7 +26,39 @@ admin workflows in [admin workflows](admin-workflows.md).
   keep their paths. Release this webapp only with or after a backend that serves `/v1`.
 - Without `VITE_API_URL` the app calls the production API (`getApiBaseUrl`); each deployment
   sets its environment's API URL explicitly.
-- Changes against the previous pin (`960e0ac82d`, 2026-11-10), with their decisions:
+- Changes against the previous pin (`b7477308`, 2026-11-10), with their decisions:
+  - **Collection reads return one optional `image`**
+    ([backend#2919](https://github.com/aura-historia/backend/pull/2919), webapp
+    [#1324](https://github.com/aura-historia/webapp/issues/1324), breaking):
+    `ProductListingSummaryData` (listing search, `/similar`, the search-filter preview) and
+    `ProductListingCollectionDetailsData` (watchlist, search-filter matches, auction catalogue) drop
+    the `images` array for an optional `image`, the listing's first image. Redaction is unchanged
+    (`{}` without `url` when hidden); the field is omitted when the listing has no images. The card
+    model `ProductListing` now carries `image?: ProductImage` (`mapListingImage`), and
+    `SearchResultCard` shows that one photo: the result-card image carousel, its "n / N" count and
+    the rail-only `firstImageOnly` prop are gone, and the full gallery stays on the detail page. The
+    single-listing reads (`GET /v1/product-listings/{id}`, `/by-slug/{slug}`, `PATCH
+    /v1/me/watchlist/{id}`) still return `images`, so `ProductListingDetail` is unchanged. Release
+    with or after the backend: the old mapper read `images`, which the new backend no longer sends.
+  - **Saved search filters return `listingSources`**
+    ([backend#2907](https://github.com/aura-historia/backend/pull/2907)): `UserSearchFilterData`
+    gains a required, read-only array of public listing-source cards for the IDs in `search`. Not
+    adopted yet: `mapToInternalUserSearchFilter` leaves it unmapped. The search-filter operations also document `503
+    SEARCH_FILTER_TEMPORARILY_UNAVAILABLE` and the patch a `409 CONFLICT`; both reach the generic
+    error handling.
+  - **Partner flags on parties and operators**
+    ([backend#2921](https://github.com/aura-historia/backend/pull/2921)): `PartyData`,
+    `PartySummaryData` and the admin `OperatorPartyData` gain a required `partner` and an optional
+    `partnershipId`; `PublicListingSourceOperatorData` gains `partner`, and the listing `source`
+    (`ProductListingSourceData`, `PublicAuctionSourceData`) now carries that `operator`;
+    `PublicPartyLocationData` gains `partyPartner`. Not adopted: the mappers leave the flags
+    unmapped, so no screen shows a partner badge yet.
+  - Description-only changes: an English translation of saved-search text for matching
+    ([backend#2905](https://github.com/aura-historia/backend/pull/2905)), `viewUrl` descriptions
+    ([backend#2901](https://github.com/aura-historia/backend/pull/2901)) and the OAuth
+    `expires_in` rounding ([backend#2873](https://github.com/aura-historia/backend/pull/2873)).
+- Changes adopted with the `b7477308` capture (against `960e0ac82d`, 2026-11-10), with their
+  decisions:
   - **The own account no longer carries `stripeCustomerId`**
     ([backend#2857](https://github.com/aura-historia/backend/pull/2857)): `OwnUserAccountData`
     (`GET`/`PATCH /v1/me/account`) drops the optional Stripe customer identifier, so the account
@@ -378,9 +410,8 @@ To adopt a backend revision:
   `d7d8f4258561994746abfc0f5e2f9a51572a21c9c2a23e46e49e599b7c8bc2db`. Same 37 tools, 11 of them
   public, with the same names and arguments as the previous capture. The only change: the 12
   tools whose result has a `viewUrl` end their description with a statement that `viewUrl`, not
-  `url`, is the referral-tagged provider link meant to be shared. The pinned `openapi/swagger.yaml`
-  stays at `b7477308`; backend#2901 only added `viewUrl` descriptions there, so the generated
-  client is unaffected.
+  `url`, is the referral-tagged provider link meant to be shared. Backend#2901 only added `viewUrl`
+  descriptions to the swagger, which the pinned `openapi/swagger.yaml` (`04ed6d06`) includes.
 - The previous capture was backend `develop` `b7477308184e8c1eed7b5dd855bfb020d7af20df` (2026-11-10,
   [backend#2857](https://github.com/aura-historia/backend/pull/2857)), the same commit as the
   pinned `openapi/swagger.yaml`. Git blob `ca07e302bfd3dff9d6a3e99017631518bfd64063`; file SHA-256
@@ -520,6 +551,10 @@ DTO types belong only in mapper inputs, and timestamp strings become `Date` valu
   `auctionId`, and canonical image URLs kept as privileged plain strings. Edits go through
   `AdminProductListingPatch` and `mapToBackendAdminProductListingPatch`, which copies only present
   members (omitted preserves, `null` clears); the detail DTO is never round-tripped.
+- Collection reads (search, similar listings, search-filter preview and matches, watchlist,
+  auction catalogue) return only a listing's first image as an optional `image`, so
+  `ProductListing.image` is that one image or absent, and cards never page through photos.
+  Only `ProductListingDetail.images` holds the full gallery.
 - `ProductListingDetail` is a distinct detail contract. `pricing` keeps source and display prices
   and the valuation snapshot; `auction` and `lot` are independently nullable, and a lot never
   creates or supplies a parent auction.

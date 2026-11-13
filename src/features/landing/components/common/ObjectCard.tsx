@@ -43,7 +43,7 @@ interface ObjectCardProps {
 export function ObjectCard({ product, className }: ObjectCardProps) {
     const { t } = useTranslation();
     const [imageFailed, setImageFailed] = useState(false);
-    const image = product.images[0];
+    const image = product.image;
     const showSensitiveContent =
         product.userState?.contentVisibility?.showUnassessedOrSensitiveContent ?? false;
     const isRestricted = image !== undefined && isRestrictedImage(image, showSensitiveContent);

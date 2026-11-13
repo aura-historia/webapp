@@ -14,6 +14,7 @@ const partyDto = {
     partySlugId: "atelier-bleu",
     name: "Atelier Bleu",
     contact: { email: "info@example.test", phone: "+33 1 23 45 67 89" },
+    partner: false,
     created: "2026-09-01T10:00:00.000Z",
     updated: "2026-09-02T11:00:00.000Z",
 };

@@ -101,7 +101,7 @@ export function ProductSimilar({ productListingId }: ProductSimilarProps) {
                             {product.userState?.searchFilter?.hidden === true ? (
                                 <SearchHiddenMatchCard />
                             ) : (
-                                <SearchResultCard product={product} firstImageOnly />
+                                <SearchResultCard product={product} />
                             )}
                         </CarouselItem>
                     ))}

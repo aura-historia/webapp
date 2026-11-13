@@ -4422,6 +4422,17 @@ paths:
                 status: 500
                 title: Internal Server Error
                 error: INTERNAL_SERVER_ERROR
+        "503":
+          description: Search filters or the ListingSources they reference are temporarily unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 503
+                title: Service Unavailable
+                error: SEARCH_FILTER_TEMPORARILY_UNAVAILABLE
+                detail: Search filters are temporarily unavailable.
     post:
       summary: Create a new search filter
       description: "Creates a new search filter for the authenticated user.
@@ -4443,6 +4454,13 @@ paths:
         except `enhancedSearchDescription`.
 
         - `ULTIMATE`: Unlimited search filters. All search fields are allowed.
+
+
+        Scheduled matching classifies candidates against an English translation of `productQuery` and
+        `enhancedSearchDescription`, made when the filter is saved. The source language is detected from the text;
+        `language` does not decide it. The translation is internal: the filter keeps, returns and edits the text
+        exactly as written. Until a translation is available, for example when the translator fails while saving,
+        matching uses the text as written.
 
         "
       operationId: createUserSearchFilter
@@ -4611,6 +4629,17 @@ paths:
                 status: 500
                 title: Internal Server Error
                 error: INTERNAL_SERVER_ERROR
+        "503":
+          description: The search filter could not be saved right now, for example because the ListingSources it references could not be read
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 503
+                title: Service Unavailable
+                error: SEARCH_FILTER_TEMPORARILY_UNAVAILABLE
+                detail: Search filter could not be created right now.
   /v1/me/search-filters/preview:
     post:
       summary: Preview the listings search filter criteria match now
@@ -4624,6 +4653,9 @@ paths:
         `productQuery` or `enhancedSearchDescription` match on retrieval alone. Unlike scheduled matching, which only
         considers listings that changed since the last run, the preview considers the whole catalogue. A listing image
         that cannot be fetched within a short interactive budget is left out of the evidence, as a failed fetch is.
+        The classifier receives an English translation of `productQuery` and `enhancedSearchDescription`, as
+        scheduled matching does, translated for the preview because the criteria are unsaved; when translation
+        is unavailable it receives the text as written.
 
 
         The preview classifies at most sixteen of the most relevant candidates and stops as soon as four match.
@@ -4884,6 +4916,17 @@ paths:
                 status: 500
                 title: Internal Server Error
                 error: INTERNAL_SERVER_ERROR
+        "503":
+          description: The search filter or the ListingSources it references are temporarily unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 503
+                title: Service Unavailable
+                error: SEARCH_FILTER_TEMPORARILY_UNAVAILABLE
+                detail: Search filter is temporarily unavailable.
     delete:
       summary: Delete a search filter
       description:
@@ -4983,6 +5026,17 @@ paths:
                 status: 500
                 title: Internal Server Error
                 error: INTERNAL_SERVER_ERROR
+        "503":
+          description: The search filter could not be deleted right now
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 503
+                title: Service Unavailable
+                error: SEARCH_FILTER_TEMPORARILY_UNAVAILABLE
+                detail: Search filter could not be deleted right now.
     patch:
       summary: Update a search filter
       description:
@@ -5215,6 +5269,19 @@ paths:
                     title: Unprocessable Content
                     error: SEARCH_FILTER_QUOTA_EXCEEDED
                     detail: Exceeded the maximum amount of search filters. There are already 1/1 search filters occupied.
+        "409":
+          description: >-
+            Conflict - the search filter changed concurrently while this patch was applied, including a concurrent
+            change of its referenced ListingSources. Re-read the filter and retry.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 409
+                title: Conflict
+                error: CONFLICT
+                detail: Search filter was changed concurrently.
         "500":
           description: Internal server error
           content:
@@ -5225,6 +5292,17 @@ paths:
                 status: 500
                 title: Internal Server Error
                 error: INTERNAL_SERVER_ERROR
+        "503":
+          description: The search filter could not be updated right now, for example because the ListingSources it references could not be read
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 503
+                title: Service Unavailable
+                error: SEARCH_FILTER_TEMPORARILY_UNAVAILABLE
+                detail: Search filter could not be updated right now.
   /v1/me/search-filters/{userSearchFilterId}/matches:
     get:
       summary: List persisted matches for a saved search filter
@@ -5614,6 +5692,17 @@ paths:
                 status: 500
                 title: Internal Server Error
                 error: INTERNAL_SERVER_ERROR
+        "503":
+          description: The match feedback could not be updated right now
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 503
+                title: Service Unavailable
+                error: SEARCH_FILTER_TEMPORARILY_UNAVAILABLE
+                detail: Search filter match could not be updated right now.
   /v1/me/watchlist:
     get:
       summary: List user's watchlist product-listings
@@ -5716,8 +5805,8 @@ paths:
                       lifecycle: ACTIVE
                       url: https://tech-store.com/smartphone-case
                       viewUrl: https://tech-store.com/smartphone-case?utm_source=aura_historia&utm_medium=referral
-                      images:
-                        - url: https://tech-store.com/images/case-1.jpg
+                      image:
+                        url: https://tech-store.com/images/case-1.jpg
                       contentPolicy:
                         decision: ALLOWED
                       created: "2024-01-01T10:00:00Z"
@@ -6162,6 +6251,8 @@ paths:
                       partyId: pty_11bczr8va9ek4abckdkrqda538
                       partySlugId: antiques-operator
                       name: Antiques Operator
+                      partner: true
+                      partnershipId: psh_3q65ndcw7wfxqswjtrv1kfhwd1
                     ingestionMethods:
                       - PARTNER_API
                     presentation:
@@ -6316,6 +6407,7 @@ paths:
                 contact:
                   phone: "+49 30 123456"
                   email: contact@example.com
+                partner: false
                 created: "2026-01-01T10:00:00Z"
                 updated: "2026-01-01T10:00:00Z"
         "400":
@@ -6537,6 +6629,8 @@ paths:
                     contact:
                       phone: "+49 30 123456"
                       email: contact@example.com
+                    partner: true
+                    partnershipId: psh_3q65ndcw7wfxqswjtrv1kfhwd1
                     created: "2026-01-01T10:00:00Z"
                     updated: "2026-01-02T10:00:00Z"
                 size: 21
@@ -6783,6 +6877,8 @@ paths:
                 contact:
                   phone: "+49 30 123456"
                   email: contact@example.com
+                partner: true
+                partnershipId: psh_3q65ndcw7wfxqswjtrv1kfhwd1
                 created: "2026-01-01T10:00:00Z"
                 updated: "2026-01-02T10:00:00Z"
         "400":
@@ -6928,6 +7024,8 @@ paths:
                 contact:
                   phone: "+49 30 123456"
                   email: contact@example.com
+                partner: true
+                partnershipId: psh_3q65ndcw7wfxqswjtrv1kfhwd1
                 created: "2026-01-01T10:00:00Z"
                 updated: "2026-01-02T10:00:00Z"
         "400":
@@ -21367,7 +21465,6 @@ components:
         - lifecycle
         - url
         - viewUrl
-        - images
         - updated
       properties:
         shipping:
@@ -21410,10 +21507,11 @@ components:
         viewUrl:
           type: string
           format: uri
-        images:
-          type: array
-          items:
-            $ref: "#/components/schemas/ProductListingImageData"
+          description: Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
+        image:
+          allOf:
+            - $ref: "#/components/schemas/ProductListingImageData"
+          description: The listing's first image. Omitted when the listing has no images.
         contentPolicy:
           $ref: '#/components/schemas/ContentPolicyData'
         updated:
@@ -21519,6 +21617,7 @@ components:
         viewUrl:
           type: string
           format: uri
+          description: Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
         images:
           type: array
           items:
@@ -21542,7 +21641,8 @@ components:
     ProductListingCollectionDetailsData:
       type: object
       description: Canonical ProductListing detail inside a collection (watchlist, saved-search matches and auction
-        catalogue). Identical to ProductListingDetailsData except that shipping is the bounded collection summary.
+        catalogue). Identical to ProductListingDetailsData except that shipping is the bounded collection summary and
+        only the first image is returned as `image`.
       required:
         - productListingId
         - eventId
@@ -21552,7 +21652,6 @@ components:
         - lifecycle
         - url
         - viewUrl
-        - images
         - created
         - updated
       properties:
@@ -21604,10 +21703,11 @@ components:
         viewUrl:
           type: string
           format: uri
-        images:
-          type: array
-          items:
-            $ref: "#/components/schemas/ProductListingImageData"
+          description: Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
+        image:
+          allOf:
+            - $ref: "#/components/schemas/ProductListingImageData"
+          description: The listing's first image. Omitted when the listing has no images.
         contentPolicy:
           $ref: '#/components/schemas/ContentPolicyData'
         auction:
@@ -23075,6 +23175,7 @@ components:
         - search
         - created
         - updated
+        - listingSources
       properties:
         userId:
           type: string
@@ -23115,6 +23216,16 @@ components:
           format: date-time
           description: When the search filter was last updated (RFC3339 format)
           example: "2024-01-01T12:00:00Z"
+        listingSources:
+          type: array
+          readOnly: true
+          description: >-
+            Public cards of the ListingSources that `search.listingSourceId` and `search.excludeListingSourceId` reference, one
+            per ID, ordered by `listingSourceId`. A source referenced by both lists appears once. An ID whose source no longer
+            exists stays in `search` but has no card. Empty when the filter references no sources. Response only: create and
+            patch bodies do not set it.
+          items:
+            $ref: "#/components/schemas/PublicListingSourceData"
     ResourceStateData:
       type: string
       description:
@@ -24031,7 +24142,7 @@ components:
           type: integer
           format: int64
           minimum: 0
-          description: Seconds until expiry; omitted when the token does not expire.
+          description: Whole seconds until expiry, rounded up so that a token with a one-hour lifetime reports `3600`; omitted when the token does not expire.
           example: 3600
         scope:
           type: string
@@ -24232,6 +24343,7 @@ components:
         - partySlugId
         - name
         - contact
+        - partner
         - created
         - updated
       properties:
@@ -24247,6 +24359,12 @@ components:
           description: Party name.
         contact:
           $ref: "#/components/schemas/PartyContactData"
+        partner:
+          type: boolean
+          description: "`true` while the Party has an active Aura Historia Partnership, otherwise `false`, including after a Partnership is dissolved."
+        partnershipId:
+          type: string
+          description: The Party's active Partnership (`psh_` TypeID). Present exactly when `partner` is `true`; see `/v1/admin/partnerships/{partnershipId}`.
         created:
           type: string
           format: date-time
@@ -24290,6 +24408,7 @@ components:
         - partySlugId
         - name
         - contact
+        - partner
         - created
         - updated
       properties:
@@ -24305,6 +24424,12 @@ components:
           description: Party name.
         contact:
           $ref: "#/components/schemas/PartyContactData"
+        partner:
+          type: boolean
+          description: "`true` while the Party has an active Aura Historia Partnership, otherwise `false`, including after a Partnership is dissolved."
+        partnershipId:
+          type: string
+          description: The Party's active Partnership (`psh_` TypeID). Present exactly when `partner` is `true`; see `/v1/admin/partnerships/{partnershipId}`.
         created:
           type: string
           format: date-time
@@ -24844,6 +24969,7 @@ components:
         viewUrl:
           type: string
           format: uri
+          description: Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
         change:
           $ref: "#/components/schemas/WatchlistNotificationChangeData"
     WatchlistNotificationChangeData:
@@ -24925,6 +25051,7 @@ components:
         viewUrl:
           type: string
           format: uri
+          description: Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
     PartnershipApplicationNotificationPayloadData:
       type: object
       required:
@@ -25907,15 +26034,20 @@ components:
           example: ada-antiques
     PublicListingSourceOperatorData:
       type: object
+      description: The Party that operates a ListingSource, wherever a ListingSource is presented.
       required:
         - name
+        - partner
       properties:
         name:
           type: string
           description: Original display name of the ListingSource operator Party. The operator is not a seller resource.
+        partner:
+          type: boolean
+          description: "`true` while the operator Party has an active Aura Historia Partnership, otherwise `false`, including after a Partnership is dissolved. Derived from current Partnership state when the response is built, so it can lag a Partnership change by up to the source and response cache lifetimes. Unrelated to ingestion methods (`PARTNER_API`) and referral configuration."
     PublicListingSourceData:
       type: object
-      description: Allowlisted public ListingSource card used by both public collection search and exact slug lookup. It omits Party identifiers/contact, ingestion/provider/referral configuration, timestamps, versions, and search metadata. The only trace of the referral configuration is `viewUrl`.
+      description: Allowlisted public ListingSource card used by public collection search, exact slug lookup and the `listingSources` of a saved search filter. It omits Party identifiers/contact, ingestion/provider/referral configuration, timestamps, versions, and search metadata. The only trace of the referral configuration is `viewUrl`.
       required:
         - listingSourceId
         - listingSourceSlugId
@@ -26258,6 +26390,7 @@ components:
         - partyId
         - partySlugId
         - name
+        - partner
       properties:
         partyId:
           type: string
@@ -26265,6 +26398,12 @@ components:
           type: string
         name:
           type: string
+        partner:
+          type: boolean
+          description: "`true` while the operator Party has an active Aura Historia Partnership, otherwise `false`, including after a Partnership is dissolved. Derived from current Partnership state when the response is built, so it can lag a Partnership change by up to the source and response cache lifetimes. Unrelated to ingestion methods (`PARTNER_API`) and referral configuration."
+        partnershipId:
+          type: string
+          description: The operator Party's active Partnership (`psh_` TypeID). Present exactly when `partner` is `true`; see `/v1/admin/partnerships/{partnershipId}`.
     ListingSourceOperatorInputData:
       oneOf:
         - type: object
@@ -26629,6 +26768,7 @@ components:
         viewUrl:
           type: string
           format: uri
+          description: Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
         format:
           allOf:
             - $ref: "#/components/schemas/AuctionFormatData"
@@ -26648,7 +26788,7 @@ components:
     PublicAuctionSourceData:
       type: object
       additionalProperties: false
-      required: [listingSourceId, name, slugId]
+      required: [listingSourceId, name, slugId, operator]
       properties:
         listingSourceId:
           type: string
@@ -26656,6 +26796,8 @@ components:
           type: string
         slugId:
           type: string
+        operator:
+          $ref: "#/components/schemas/PublicListingSourceOperatorData"
     AdminAuctionSearchCollectionData:
       type: object
       additionalProperties: false
@@ -26832,6 +26974,7 @@ components:
         - listingSourceId
         - name
         - slugId
+        - operator
       properties:
         listingSourceId:
           type: string
@@ -26839,6 +26982,8 @@ components:
           type: string
         slugId:
           type: string
+        operator:
+          $ref: "#/components/schemas/PublicListingSourceOperatorData"
     UserAddressId:
       type: string
       pattern: ^uaddr_[0-7][0-9a-hjkmnp-tv-z]{25}$
@@ -27908,10 +28053,13 @@ components:
         distanceKm: {type: number, minimum: 0}
     PublicPartyLocationData:
       type: object
-      required: [partyId, partyName, locationId, label, basis]
+      required: [partyId, partyName, partyPartner, locationId, label, basis]
       properties:
         partyId: {type: string}
         partyName: {type: string}
+        partyPartner:
+          type: boolean
+          description: "`true` while the Party has an active Aura Historia Partnership, otherwise `false`, including after a Partnership is dissolved."
         locationId: {type: string}
         label: {type: string}
         basis: {type: string, enum: [CALLER_ASSERTED, ACCEPTED_DERIVED, MIXED_ASSERTED_AND_DERIVED]}

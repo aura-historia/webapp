@@ -112,7 +112,6 @@ describe("useWatchlist", () => {
                                 availability: "AVAILABLE",
                                 lifecycle: "ACTIVE",
                                 url: "https://example.com/vase",
-                                images: [],
                                 created: "2026-09-01T00:00:00Z",
                                 updated: "2026-09-29T10:00:00Z",
                             },

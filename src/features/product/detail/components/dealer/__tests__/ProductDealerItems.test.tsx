@@ -159,13 +159,13 @@ describe("ProductDealerItems", () => {
 
         expect(mockUseDealerProducts).toHaveBeenCalledWith("ls_01TESTSOURCE", "current-product");
     });
-    it("shows only the first image on cards inside the rail", () => {
-        const images = [1, 2, 3].map((n) => ({
-            url: new URL(`https://example.com/image${n}.jpg`),
+    it("shows the listing's single image on cards inside the rail, without a carousel", () => {
+        const image = {
+            url: new URL("https://example.com/image1.jpg"),
             prohibitedContentType: "NONE" as const,
-        }));
+        };
         mockUseDealerProducts.mockReturnValue({
-            data: [{ ...baseProduct, productListingId: "p1", title: "Ancient Vase", images }],
+            data: [{ ...baseProduct, productListingId: "p1", title: "Ancient Vase", image }],
             isLoading: false,
             isError: false,
             error: null,
@@ -173,7 +173,6 @@ describe("ProductDealerItems", () => {
 
         const { container } = renderWithQueryClient(<ProductDealerItems {...defaultProps} />);
 
-        expect(screen.queryByText("1 / 3")).not.toBeInTheDocument();
         expect(screen.queryByRole("button", { name: "Nächstes Bild" })).not.toBeInTheDocument();
         const photos = [...container.querySelectorAll("img")].map((img) => img.getAttribute("src"));
         expect(photos).toEqual(["https://example.com/image1.jpg"]);

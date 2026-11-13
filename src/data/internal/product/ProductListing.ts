@@ -16,7 +16,7 @@ import {
     mapListingAvailability,
     mapListingContentPolicy,
     formatListingPrice,
-    mapListingImages,
+    mapListingImage,
     mapListingLifecycle,
     mapListingPrice,
     mapListingUrl,
@@ -51,7 +51,8 @@ export type ProductListing = {
     readonly lifecycle: ListingLifecycle;
     readonly url?: URL;
     readonly viewUrl?: URL;
-    readonly images: readonly ProductImage[];
+    /** The listing's first image; collection reads return no other. Absent when it has none. */
+    readonly image?: ProductImage;
     readonly contentPolicy: ListingContentPolicy | null | undefined;
     readonly updated: Date;
     readonly userState?: ProductListingUserState | null;
@@ -82,7 +83,7 @@ function mapSummaryFields(
         lifecycle: mapListingLifecycle(item.lifecycle),
         url: mapListingUrl(item.url),
         viewUrl: mapListingUrl(item.viewUrl),
-        images: mapListingImages(item.images, item.contentPolicy),
+        image: mapListingImage(item.image, item.contentPolicy),
         contentPolicy: mapListingContentPolicy(item.contentPolicy),
         updated: new Date(item.updated),
         userState: mapProductListingUserState(userState),
@@ -119,7 +120,7 @@ export function mapPersonalizedProductListingDetails(
         lifecycle: mapListingLifecycle(item.lifecycle),
         url: mapListingUrl(item.url),
         viewUrl: mapListingUrl(item.viewUrl),
-        images: mapListingImages(item.images, item.contentPolicy),
+        image: mapListingImage(item.image, item.contentPolicy),
         contentPolicy: mapListingContentPolicy(item.contentPolicy),
         updated: new Date(item.updated),
         userState: mapProductListingUserState(apiData.userState),

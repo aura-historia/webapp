@@ -6,7 +6,7 @@ const base: PublicListingSourceData = {
     listingSourceId: "ls_01TESTSOURCE",
     listingSourceSlugId: "antique-store",
     name: "Antique Store",
-    operator: { name: "Antique Operator" },
+    operator: { name: "Antique Operator", partner: false },
 };
 
 describe("mapPublicListingSource", () => {
