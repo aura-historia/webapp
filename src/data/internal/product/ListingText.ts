@@ -12,6 +12,16 @@ export function mapListingDisplayText(
 }
 
 /**
+ * Whether the shown text is a translation: the backend's `localized` choice is in another
+ * language than the source's original. Unknown (no original on the response) counts as not
+ * translated, so no translation is claimed without evidence.
+ */
+export function isListingTextTranslated(data: ListingTextData | null | undefined): boolean {
+    const original = data?.original;
+    return original != null && data?.localized.language !== original.language;
+}
+
+/**
  * The localized text only when the backend found it in `language`. A fallback into another
  * language stays absent, for texts that should not appear in a language other than the page's.
  */

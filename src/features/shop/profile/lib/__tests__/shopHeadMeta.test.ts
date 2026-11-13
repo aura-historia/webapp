@@ -57,7 +57,26 @@ describe("generateShopHeadMeta", () => {
         // The canonical address stays untagged; only outbound clicks use the viewUrl.
         expect(source.viewUrl).toContain("utm_source=aura_historia");
         expect(JSON.stringify(jsonLd)).not.toContain("utm_source");
+        // A non-partner's own image is not named as the link-preview image.
+        expect(JSON.stringify(head.meta)).not.toContain("https://example.com/logo.png");
+    });
+
+    it("names a partner's own image as the link-preview image", () => {
+        const source = makePublicListingSource({
+            image: "https://example.com/logo.png",
+            partner: true,
+        });
+        const head = generateShopHeadMeta(source, { shopSlugId: "antique-store" });
+
+        expect(head.meta).toContainEqual({
+            property: "og:image",
+            content: "https://example.com/logo.png",
+        });
         expect(head.meta).toContainEqual({ property: "og:image:alt", content: "Antique Store" });
+        expect(head.meta).toContainEqual({
+            name: "twitter:image",
+            content: "https://example.com/logo.png",
+        });
     });
 
     it("leaves the banner's image tags to the root when the source has no image", () => {

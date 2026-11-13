@@ -67,7 +67,12 @@ const mockUseDealerProducts = vi.mocked(useDealerProducts);
 
 const baseProduct = makeProductListing({ title: "Ancient Vase" });
 const defaultProps = {
-    source: { listingSourceId: "ls_01TESTSOURCE", slugId: "shop-1", name: "Test Shop" },
+    source: {
+        listingSourceId: "ls_01TESTSOURCE",
+        slugId: "shop-1",
+        name: "Test Shop",
+        partner: false,
+    },
     excludeProductListingId: "current-product",
 };
 

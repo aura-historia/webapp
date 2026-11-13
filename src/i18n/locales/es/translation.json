@@ -6207,5 +6207,47 @@
       "clearAll": "Quitar todos",
       "clearSearch": "Restablecer filtros"
     }
+  },
+  "providerStatus": {
+    "badge": {
+      "label": "Socio",
+      "srLabel": "Socio de Aura Historia"
+    },
+    "notice": {
+      "label": "Estado del proveedor",
+      "lead": "No es socio de Aura Historia.",
+      "listing": "Anuncio encontrado automáticamente en el sitio web de {{provider}}. Los derechos sobre los textos y las imágenes pertenecen al proveedor o a sus respectivos titulares.",
+      "listingTranslated": "Anuncio encontrado automáticamente en el sitio web de {{provider}}, traducido automáticamente. Los derechos sobre los textos y las imágenes pertenecen al proveedor o a sus respectivos titulares.",
+      "provider": "Anuncios encontrados automáticamente en el sitio web del proveedor. Los derechos sobre los textos y las imágenes pertenecen al proveedor o a sus respectivos titulares.",
+      "removal": "Solicitar la retirada"
+    },
+    "info": {
+      "eyebrow": "Proveedor independiente",
+      "headingListing": "Sobre este anuncio",
+      "headingProvider": "Sobre este proveedor",
+      "close": "Cerrar",
+      "providerQuestion": "¿Es usted el proveedor?",
+      "removeListing": "Solicitar la retirada de este anuncio",
+      "removeAll": "Solicitar la retirada de todos los anuncios",
+      "becomePartner": "Hacerse socio",
+      "facts": {
+        "independent": "{{provider}} es un proveedor independiente y no es socio de Aura Historia.",
+        "foundListing": "Encontrado automáticamente en <site>{{host}}</site>.",
+        "foundProvider": "Anuncios encontrados automáticamente en <site>{{host}}</site>.",
+        "rights": "El título, la descripción y las imágenes pertenecen al proveedor o a sus respectivos titulares. Aura Historia no reclama ningún derecho propio sobre ellos.",
+        "translation": "El título y la descripción pueden estar traducidos automáticamente. Prevalece el texto original en la página del proveedor.",
+        "images": "Las imágenes se cargan directamente desde el sitio web del proveedor; Aura Historia no ofrece copias propias.",
+        "price": "El precio, la disponibilidad y el estado pueden cambiar en cualquier momento; pueden añadirse gastos de envío, impuestos o aranceles. Prevalecen los datos de la página del proveedor.",
+        "contract": "Su única parte contratante es el proveedor, que gestiona la compra, el pago, el envío y las devoluciones.",
+        "noChecks": "Aura Historia no comprueba la exactitud, la autenticidad ni la procedencia de ningún anuncio."
+      }
+    },
+    "removal": {
+      "mail": {
+        "subjectListing": "Solicitud de retirada: anuncio de {{provider}}",
+        "subjectProvider": "Solicitud de retirada: todos los anuncios de {{provider}}",
+        "body": "Proveedor: {{provider}}\nPágina en Aura Historia: {{url}}\n\nSoy: (el proveedor / titular de derechos, p. ej. fotógrafo o autor / otra persona)\n\nMotivo (¿por qué debe retirarse el contenido?):\n\n\nNombre:\n\nDeclaro de buena fe que la información facilitada es exacta y completa."
+      }
+    }
   }
 }

@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { mapListingDisplayText, mapListingTextInLanguage } from "../ListingText.ts";
+import {
+    isListingTextTranslated,
+    mapListingDisplayText,
+    mapListingTextInLanguage,
+} from "../ListingText.ts";
 
 const translated = {
     original: { text: "Antique Imari charger", language: "en" as const },
@@ -38,5 +42,20 @@ describe("mapListingTextInLanguage", () => {
 
     it("keeps missing text absent", () => {
         expect(mapListingTextInLanguage(undefined, "de")).toBeUndefined();
+    });
+});
+
+describe("isListingTextTranslated", () => {
+    it("is true when the shown text is in another language than the original", () => {
+        expect(isListingTextTranslated(translated)).toBe(true);
+    });
+
+    it("is false when the original itself is shown", () => {
+        expect(isListingTextTranslated(fallback)).toBe(false);
+    });
+
+    it("claims no translation without an original to compare with", () => {
+        expect(isListingTextTranslated({ localized: translated.localized })).toBe(false);
+        expect(isListingTextTranslated(undefined)).toBe(false);
     });
 });

@@ -3,6 +3,7 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import type { PublicListingSource } from "@/data/internal/shop/PublicListingSource.ts";
+import { PartnerBadge } from "@/features/provider-status/components/PartnerBadge.tsx";
 import { cn } from "@/lib/utils.ts";
 
 const FOCUS_CLASS =
@@ -61,6 +62,7 @@ function ShopResultCardComponent({ shop }: { readonly shop: PublicListingSource 
                 <p title={operator} className="truncate text-meta text-ink-secondary">
                     {operator}
                 </p>
+                {shop.partner && <PartnerBadge size="sm" className="self-start" />}
             </div>
 
             <div className="mt-auto flex items-center border-t border-line-subtle">

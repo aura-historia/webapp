@@ -157,6 +157,7 @@ describe("admin ListingSource mapping and request builders", () => {
             slugId: "public-source",
             name: "Public Source",
             operatorName: "Public Operator",
+            partner: false,
             image: "https://public.example/image.jpg",
             url: "https://public.example",
         });

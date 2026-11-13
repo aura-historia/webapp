@@ -36,6 +36,7 @@ export function makeProductListing(overrides: Partial<ProductListing> = {}): Pro
             listingSourceId: "ls_01TESTSOURCE",
             slugId: "antique-store",
             name: "Antique Store",
+            partner: false,
         },
         sourceListingId: "chair-1",
         title: "Antique Chair",
@@ -64,6 +65,7 @@ export function makeProductListingDetail(
     return {
         ...listing,
         images: [],
+        translated: false,
         displayPrice: listing.formattedPrice,
         pricing: {
             source: { price: listing.price },
@@ -85,6 +87,7 @@ export function makePublicListingSource(
         slugId: "antique-store",
         name: "Antique Store",
         operatorName: "Antique Operator",
+        partner: false,
         url: "https://example.com",
         viewUrl: "https://example.com/?utm_source=aura_historia&utm_medium=referral",
         ...overrides,

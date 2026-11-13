@@ -6207,5 +6207,47 @@
       "clearAll": "Clear all",
       "clearSearch": "Reset filters"
     }
+  },
+  "providerStatus": {
+    "badge": {
+      "label": "Partner",
+      "srLabel": "Aura Historia partner"
+    },
+    "notice": {
+      "label": "Provider status",
+      "lead": "Not an Aura Historia partner.",
+      "listing": "Listing found automatically on {{provider}}’s website. Rights to the texts and images belong to the provider or the respective rights holders.",
+      "listingTranslated": "Listing found automatically on {{provider}}’s website, machine-translated. Rights to the texts and images belong to the provider or the respective rights holders.",
+      "provider": "Listings found automatically on the provider’s website. Rights to the texts and images belong to the provider or the respective rights holders.",
+      "removal": "Request removal"
+    },
+    "info": {
+      "eyebrow": "Independent provider",
+      "headingListing": "About this listing",
+      "headingProvider": "About this provider",
+      "close": "Close",
+      "providerQuestion": "Are you the provider?",
+      "removeListing": "Request removal of this listing",
+      "removeAll": "Request removal of all listings",
+      "becomePartner": "Become a partner",
+      "facts": {
+        "independent": "{{provider}} is an independent provider and not an Aura Historia partner.",
+        "foundListing": "Found automatically on <site>{{host}}</site>.",
+        "foundProvider": "Listings found automatically on <site>{{host}}</site>.",
+        "rights": "Title, description and images belong to the provider or the respective rights holders. Aura Historia claims no rights of its own to them.",
+        "translation": "Title and description may be machine-translated. The original text on the provider’s page is authoritative.",
+        "images": "Images load directly from the provider’s website; Aura Historia does not serve copies of its own.",
+        "price": "Price, availability and condition can change at any time; shipping, taxes or duties may apply. The provider’s own page is authoritative.",
+        "contract": "Your contract is solely with the provider, who handles purchase, payment, shipping and returns.",
+        "noChecks": "Aura Historia does not check any listing for accuracy, authenticity or provenance."
+      }
+    },
+    "removal": {
+      "mail": {
+        "subjectListing": "Removal request: listing from {{provider}}",
+        "subjectProvider": "Removal request: all listings from {{provider}}",
+        "body": "Provider: {{provider}}\nPage on Aura Historia: {{url}}\n\nI am: (the provider / a rights holder, e.g. photographer or author / another person)\n\nReason (why should the content be removed?):\n\n\nName:\n\nI confirm in good faith that the information I have given is accurate and complete."
+      }
+    }
   }
 }

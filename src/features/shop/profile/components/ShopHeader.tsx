@@ -2,6 +2,9 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import type { PublicListingSource } from "@/data/internal/shop/PublicListingSource.ts";
+import { NonPartnerNotice } from "@/features/provider-status/components/NonPartnerNotice.tsx";
+import { PartnerBadge } from "@/features/provider-status/components/PartnerBadge.tsx";
+import { providerStatusPageUrl } from "@/features/provider-status/lib/providerStatusLinks.ts";
 import { SHOP_FOCUS_CLASS } from "@/features/shop/profile/lib/shopStyles.ts";
 import { cn } from "@/lib/utils.ts";
 
@@ -23,7 +26,7 @@ function initialOf(name: string): string {
  * row takes any spare height so the text stays aligned with the bottom of the tile.
  */
 export function ShopHeader({ shop }: ShopHeaderProps) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     // `viewUrl` carries the referral or UTM tagging; `url` is only the fallback for a response without it.
     const websiteUrl = shop.viewUrl ?? shop.url;
 
@@ -48,9 +51,12 @@ export function ShopHeader({ shop }: ShopHeaderProps) {
                 )}
             </div>
 
-            <span className="col-start-2 row-start-1 self-center font-mono text-[11px] leading-[1.4] tracking-[0.2em] text-brass-ink uppercase md:self-end md:text-xs">
-                {t("shop.header.eyebrow")}
-            </span>
+            <div className="col-start-2 row-start-1 flex flex-wrap items-center gap-x-3 gap-y-2 self-center md:self-end">
+                <span className="font-mono text-[11px] leading-[1.4] tracking-[0.2em] text-brass-ink uppercase md:text-xs">
+                    {t("shop.header.eyebrow")}
+                </span>
+                {shop.partner && <PartnerBadge size="lg" />}
+            </div>
 
             <h1 className="col-span-2 font-serif text-[40px] leading-[1.04] font-normal tracking-[-0.02em] wrap-anywhere md:col-span-1 md:col-start-2 md:row-start-2 md:max-w-[820px] md:text-display-section md:text-balance">
                 {shop.name}
@@ -60,9 +66,23 @@ export function ShopHeader({ shop }: ShopHeaderProps) {
                 {t("shop.header.operator", { operator: shop.operatorName })}
             </p>
 
-            <p className="col-span-2 text-meta leading-[1.6] text-ink-muted md:col-span-1 md:col-start-2 md:row-start-4 md:max-w-[560px] md:text-body-sm">
-                {t("shop.header.note")}
-            </p>
+            {shop.partner ? (
+                <p className="col-span-2 text-meta leading-[1.6] text-ink-muted md:col-span-1 md:col-start-2 md:row-start-4 md:max-w-[560px] md:text-body-sm">
+                    {t("shop.header.note")}
+                </p>
+            ) : (
+                // Non-partners: the notice replaces the buying note (Redesign, "Provider status").
+                <NonPartnerNotice
+                    scope="provider"
+                    providerName={shop.name}
+                    sourceUrl={shop.url}
+                    pageUrl={providerStatusPageUrl(
+                        { scope: "provider", shopSlugId: shop.slugId },
+                        i18n.language,
+                    )}
+                    className="col-span-2 md:col-span-1 md:col-start-2 md:row-start-4 md:max-w-[560px]"
+                />
+            )}
 
             <div
                 className={cn(

@@ -16,6 +16,7 @@ describe("mapPublicListingSource", () => {
             slugId: "antique-store",
             name: "Antique Store",
             operatorName: "Antique Operator",
+            partner: false,
             image: "https://example.com/logo.png",
             url: undefined,
             viewUrl: undefined,

@@ -48,6 +48,27 @@ describe("LatestAcquisitionsSection", () => {
         expect(screen.getAllByText("Auktion")).toHaveLength(1);
     });
 
+    it("shows the partner badge for partners only", async () => {
+        const base = makeProductListing();
+        mockUseRecentlyAddedProducts.mockReturnValue({
+            data: [
+                ...products,
+                makeProductListing({
+                    productListingId: "3",
+                    title: "Biedermeier secretary",
+                    source: { ...base.source, partner: true },
+                }),
+            ],
+            isPending: false,
+        });
+        await renderSection();
+
+        const badges = screen.getAllByTestId("partner-badge");
+        expect(badges).toHaveLength(1);
+        expect(badges[0].closest("article")).toHaveTextContent("Biedermeier secretary");
+        expect(badges[0]).toHaveTextContent("Partner von Aura Historia");
+    });
+
     it("links to all recently added objects, newest first", async () => {
         mockUseRecentlyAddedProducts.mockReturnValue({ data: products, isPending: false });
         await renderSection();

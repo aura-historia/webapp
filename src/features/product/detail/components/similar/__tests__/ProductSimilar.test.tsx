@@ -47,20 +47,20 @@ describe("ProductSimilar", () => {
             productListingId: "1",
             title: "Similar Product 1",
             formattedPrice: "50€",
-            source: { listingSourceId: "s1", slugId: "shop-1", name: "Shop 1" },
+            source: { listingSourceId: "s1", slugId: "shop-1", name: "Shop 1", partner: false },
         }),
         makeProductListing({
             productListingId: "2",
             title: "Similar Product 2",
             formattedPrice: "75€",
-            source: { listingSourceId: "s2", slugId: "shop-2", name: "Shop 2" },
+            source: { listingSourceId: "s2", slugId: "shop-2", name: "Shop 2", partner: false },
         }),
         makeProductListing({
             productListingId: "3",
             title: "Similar Product 3",
             price: undefined,
             formattedPrice: undefined,
-            source: { listingSourceId: "s3", slugId: "shop-3", name: "Shop 3" },
+            source: { listingSourceId: "s3", slugId: "shop-3", name: "Shop 3", partner: false },
         }),
     ];
     const defaultProps = { productListingId: "test-listing" };

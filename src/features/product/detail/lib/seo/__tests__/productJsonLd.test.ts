@@ -25,7 +25,13 @@ function makeProduct(overrides: Partial<ProductListingDetail> = {}): ProductList
     return {
         productListingId: "listing-123",
         title: "Antique Chair",
-        source: { listingSourceId: "source-1", name: "Antique Store", slugId: "antique-store" },
+        translated: false,
+        source: {
+            listingSourceId: "source-1",
+            name: "Antique Store",
+            slugId: "antique-store",
+            partner: false,
+        },
         sourceListingId: "source-listing-456",
         pricing,
         price,

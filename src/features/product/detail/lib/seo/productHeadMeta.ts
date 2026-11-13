@@ -33,9 +33,14 @@ export function generateProductHeadMeta(
 ) {
     const t = i18n.getFixedT(params.lng);
     const productTitle = product?.title ?? t("product.untitled");
-    const productImage =
-        product?.images.find((image) => image.prohibitedContentType === "NONE" && image.url)?.url
-            ?.href ?? BANNER_IMAGE_URL;
+    // Link previews copy the image they name, so only partner listings use the seller's image;
+    // non-partner listings use Aura Historia's own banner (copyright review of #1323).
+    const sellerImage = product?.source.partner
+        ? product.images.find((image) => image.prohibitedContentType === "NONE" && image.url)?.url
+              ?.href
+        : undefined;
+    const productImage = sellerImage ?? BANNER_IMAGE_URL;
+    const productImageAlt = sellerImage ? productTitle : t("meta.siteName");
     // The detail mapping keeps only a description in the page's language (#1232). Without one, a
     // sentence naming the object and its source stands in, so listings do not share one generic
     // description.
@@ -67,13 +72,13 @@ export function generateProductHeadMeta(
             { property: "og:type", content: "product" },
             { property: "og:url", content: productUrl },
             { property: "og:image", content: productImage },
-            { property: "og:image:alt", content: productTitle },
+            { property: "og:image:alt", content: productImageAlt },
             { name: "twitter:card", content: "summary_large_image" },
             { name: "twitter:url", content: productUrl },
             { name: "twitter:title", content: productTitle },
             ...(description ? [{ name: "twitter:description", content: description }] : []),
             { name: "twitter:image", content: productImage },
-            { name: "twitter:image:alt", content: productTitle },
+            { name: "twitter:image:alt", content: productImageAlt },
         ],
         links: [{ rel: "canonical", href: productUrl }, ...generateHreflangLinks(listingPath)],
         scripts: product
