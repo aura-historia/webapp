@@ -11,6 +11,7 @@ const baseItem = {
     search: { productQuery: ["Tisch"] },
     created: "2024-01-01T00:00:00Z",
     updated: "2024-03-01T00:00:00Z",
+    listingSources: [],
 };
 
 const baseCollection: UserSearchFilterCollectionData = {

@@ -33,7 +33,6 @@ const baseProduct: ProductListing = {
     valuation: { type: "CURRENT", fxRateId: "fx-1", capturedAt: new Date("2024-01-01") },
     availability: "AVAILABLE",
     lifecycle: "ACTIVE",
-    images: [],
     contentPolicy: null,
     updated: new Date("2024-01-01"),
 };

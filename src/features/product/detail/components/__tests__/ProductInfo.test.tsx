@@ -138,6 +138,7 @@ describe("ProductInfo", () => {
                         listingSourceId: "source-1",
                         name: "Antique Store",
                         slugId: "antique-store",
+                        operator: { name: "Antique Operator", partner: false },
                     },
                     sourceListingId: "item-1",
                     title: { localized: { text: "Sold Chair", language: "de" } },

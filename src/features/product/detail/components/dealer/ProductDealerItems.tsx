@@ -125,7 +125,7 @@ export function ProductDealerItems({ source, excludeProductListingId }: ProductD
                             key={product.productListingId}
                             className="basis-[72%] pl-3 sm:basis-1/2 sm:pl-6 lg:basis-1/3 xl:basis-1/4"
                         >
-                            <SearchResultCard product={product} firstImageOnly />
+                            <SearchResultCard product={product} />
                         </CarouselItem>
                     ))}
                 </CarouselContent>

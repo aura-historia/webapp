@@ -40,17 +40,7 @@ function statusTone(product: ProductListing): "available" | "reserved" | "gone" 
     return "available";
 }
 
-function SearchResultCardComponent({
-    product,
-    firstImageOnly = false,
-}: {
-    readonly product: ProductListing;
-    /**
-     * Shows only the first photo, without its own image carousel. For cards inside a rail, where
-     * an inner swipe would fight the rail's own swipe.
-     */
-    readonly firstImageOnly?: boolean;
-}) {
+function SearchResultCardComponent({ product }: { readonly product: ProductListing }) {
     const { t } = useTranslation();
     const unseenNotificationIds = product.userState?.notification?.unseenNotificationIds ?? [];
     const hasUnseenNotification = unseenNotificationIds.length > 0;
@@ -92,7 +82,7 @@ function SearchResultCardComponent({
                 )}
             >
                 <SearchResultMedia
-                    images={firstImageOnly ? product.images.slice(0, 1) : product.images}
+                    image={product.image}
                     productListingTitleSlugId={product.productListingTitleSlugId}
                     showSensitiveContent={showSensitiveContent}
                     onProductClick={handleProductClick}

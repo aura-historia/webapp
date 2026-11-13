@@ -271,6 +271,7 @@ describe("Party locations", () => {
         const item: PublicPartyLocationData = {
             partyId: "pty_1",
             partyName: "Atelier",
+            partyPartner: false,
             locationId: "ploc_1",
             label: "Gallery",
             basis: "MIXED_ASSERTED_AND_DERIVED",

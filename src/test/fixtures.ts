@@ -50,7 +50,6 @@ export function makeProductListing(overrides: Partial<ProductListing> = {}): Pro
         availability: "IN_STOCK",
         lifecycle: "ACTIVE",
         url: new URL("https://example.com/chair"),
-        images: [],
         contentPolicy: { decision: "ALLOWED" },
         updated: new Date("2024-01-01T00:00:00Z"),
         userState: makeProductListingUserState(),
@@ -61,9 +60,10 @@ export function makeProductListing(overrides: Partial<ProductListing> = {}): Pro
 export function makeProductListingDetail(
     overrides: Partial<ProductListingDetail> = {},
 ): ProductListingDetail {
-    const listing = makeProductListing();
+    const { image: _image, ...listing } = makeProductListing();
     return {
         ...listing,
+        images: [],
         displayPrice: listing.formattedPrice,
         pricing: {
             source: { price: listing.price },

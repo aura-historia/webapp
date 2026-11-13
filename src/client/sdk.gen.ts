@@ -1152,6 +1152,8 @@ export const getUserSearchFilters = <ThrowOnError extends boolean = false>(optio
  * - `PRO`: Up to 5 active search filters. All search fields, including `geography` and `shipping`, are allowed except `enhancedSearchDescription`.
  * - `ULTIMATE`: Unlimited search filters. All search fields are allowed.
  *
+ * Scheduled matching classifies candidates against an English translation of `productQuery` and `enhancedSearchDescription`, made when the filter is saved. The source language is detected from the text; `language` does not decide it. The translation is internal: the filter keeps, returns and edits the text exactly as written. Until a translation is available, for example when the translator fails while saving, matching uses the text as written.
+ *
  */
 export const createUserSearchFilter = <ThrowOnError extends boolean = false>(options: Options<CreateUserSearchFilterData, ThrowOnError>): RequestResult<CreateUserSearchFilterResponses, CreateUserSearchFilterErrors, ThrowOnError> => (options.client ?? client).post<CreateUserSearchFilterResponses, CreateUserSearchFilterErrors, ThrowOnError>({
   security: [{
@@ -1176,7 +1178,7 @@ export const createUserSearchFilter = <ThrowOnError extends boolean = false>(opt
  *
  * Shows up to four listings that the supplied criteria match now, before they are saved as a search filter. Nothing is stored.
  *
- * Matches are decided exactly as scheduled search-filter matching decides them: the same retrieval, the same classifier with the same acceptance threshold, and the evidence the user's tier allows (`FREE` text only, `PRO` text and one image, `ULTIMATE` the enhanced description and up to four images). Criteria without `productQuery` or `enhancedSearchDescription` match on retrieval alone. Unlike scheduled matching, which only considers listings that changed since the last run, the preview considers the whole catalogue. A listing image that cannot be fetched within a short interactive budget is left out of the evidence, as a failed fetch is.
+ * Matches are decided exactly as scheduled search-filter matching decides them: the same retrieval, the same classifier with the same acceptance threshold, and the evidence the user's tier allows (`FREE` text only, `PRO` text and one image, `ULTIMATE` the enhanced description and up to four images). Criteria without `productQuery` or `enhancedSearchDescription` match on retrieval alone. Unlike scheduled matching, which only considers listings that changed since the last run, the preview considers the whole catalogue. A listing image that cannot be fetched within a short interactive budget is left out of the evidence, as a failed fetch is. The classifier receives an English translation of `productQuery` and `enhancedSearchDescription`, as scheduled matching does, translated for the preview because the criteria are unsaved; when translation is unavailable it receives the text as written.
  *
  * The preview classifies at most sixteen of the most relevant candidates and stops as soon as four match. `candidateLimitReached` is `true` when it stopped before finding four, so more listings may match than it shows. Items have the same shape as `GET /v1/product-listings` items, most relevant first. There is no paging.
  *

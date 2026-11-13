@@ -124,23 +124,31 @@ export function mapListingUrl(value: string): URL | undefined {
     return URL.parse(value) ?? undefined;
 }
 
+function mapImageContentType(
+    contentPolicy: ContentPolicyData | null | undefined,
+): ProductImage["prohibitedContentType"] {
+    if (contentPolicy?.decision === "REQUIRES_CONSENT") return contentPolicy.category;
+    if (contentPolicy?.decision === "ALLOWED") return "NONE";
+    return "UNKNOWN";
+}
+
 export function mapListingImages(
     images: readonly ProductListingImageData[],
     contentPolicy: ContentPolicyData | null | undefined,
 ): readonly ProductImage[] {
-    let prohibitedContentType: ProductImage["prohibitedContentType"];
-    if (contentPolicy?.decision === "REQUIRES_CONSENT") {
-        prohibitedContentType = contentPolicy.category;
-    } else if (contentPolicy?.decision === "ALLOWED") {
-        prohibitedContentType = "NONE";
-    } else {
-        prohibitedContentType = "UNKNOWN";
-    }
-
+    const prohibitedContentType = mapImageContentType(contentPolicy);
     return images.map((image) => ({
         url: image.url ? mapListingUrl(image.url) : undefined,
         prohibitedContentType,
     }));
+}
+
+/** Maps a collection read's single `image`, which the API omits when the listing has none. */
+export function mapListingImage(
+    image: ProductListingImageData | undefined,
+    contentPolicy: ContentPolicyData | null | undefined,
+): ProductImage | undefined {
+    return image ? mapListingImages([image], contentPolicy)[0] : undefined;
 }
 
 function mapDate(value: string): Date {

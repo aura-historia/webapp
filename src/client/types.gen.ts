@@ -1168,8 +1168,14 @@ export type ProductListingSummaryData = {
   availability?: ListingAvailabilityData;
   lifecycle: ListingLifecycleData;
   url: string;
+  /**
+   * Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
+   */
   viewUrl: string;
-  images: Array<ProductListingImageData>;
+  /**
+   * The listing's first image. Omitted when the listing has no images.
+   */
+  image?: ProductListingImageData;
   contentPolicy?: ContentPolicyData;
   /**
    * Time of the last committed change to listing-owned state, including enrichment (translations, embedding, geography, shipping summary, content assessment and delivery evidence). Strictly increasing per listing, with each new value at millisecond precision; FX changes and response-time composition do not advance it.
@@ -1220,6 +1226,9 @@ export type ProductListingDetailsData = {
   availability?: ListingAvailabilityData;
   lifecycle: ListingLifecycleData;
   url: string;
+  /**
+   * Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
+   */
   viewUrl: string;
   images: Array<ProductListingImageData>;
   contentPolicy?: ContentPolicyData;
@@ -1233,7 +1242,7 @@ export type ProductListingDetailsData = {
 };
 
 /**
- * Canonical ProductListing detail inside a collection (watchlist, saved-search matches and auction catalogue). Identical to ProductListingDetailsData except that shipping is the bounded collection summary.
+ * Canonical ProductListing detail inside a collection (watchlist, saved-search matches and auction catalogue). Identical to ProductListingDetailsData except that shipping is the bounded collection summary and only the first image is returned as `image`.
  */
 export type ProductListingCollectionDetailsData = {
   shipping?: ListingShippingSummaryData;
@@ -1261,8 +1270,14 @@ export type ProductListingCollectionDetailsData = {
   availability?: ListingAvailabilityData;
   lifecycle: ListingLifecycleData;
   url: string;
+  /**
+   * Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
+   */
   viewUrl: string;
-  images: Array<ProductListingImageData>;
+  /**
+   * The listing's first image. Omitted when the listing has no images.
+   */
+  image?: ProductListingImageData;
   contentPolicy?: ContentPolicyData;
   auction?: AuctionSummaryData;
   lot?: ProductListingLotData;
@@ -2126,6 +2141,10 @@ export type UserSearchFilterData = {
    * When the search filter was last updated (RFC3339 format)
    */
   updated: string;
+  /**
+   * Public cards of the ListingSources that `search.listingSourceId` and `search.excludeListingSourceId` reference, one per ID, ordered by `listingSourceId`. A source referenced by both lists appears once. An ID whose source no longer exists stays in `search` but has no card. Empty when the filter references no sources. Response only: create and patch bodies do not set it.
+   */
+  readonly listingSources: Array<PublicListingSourceData>;
 };
 
 /**
@@ -2739,7 +2758,7 @@ export type OAuthTokenResponseData = {
   access_token: string;
   token_type: 'Bearer';
   /**
-   * Seconds until expiry; omitted when the token does not expire.
+   * Whole seconds until expiry, rounded up so that a token with a one-hour lifetime reports `3600`; omitted when the token does not expire.
    */
   expires_in?: number;
   /**
@@ -2919,6 +2938,14 @@ export type PartyData = {
   name: string;
   contact: PartyContactData;
   /**
+   * `true` while the Party has an active Aura Historia Partnership, otherwise `false`, including after a Partnership is dissolved.
+   */
+  partner: boolean;
+  /**
+   * The Party's active Partnership (`psh_` TypeID). Present exactly when `partner` is `true`; see `/v1/admin/partnerships/{partnershipId}`.
+   */
+  partnershipId?: string;
+  /**
    * When the Party was created.
    */
   created: string;
@@ -2967,6 +2994,14 @@ export type PartySummaryData = {
    */
   name: string;
   contact: PartyContactData;
+  /**
+   * `true` while the Party has an active Aura Historia Partnership, otherwise `false`, including after a Partnership is dissolved.
+   */
+  partner: boolean;
+  /**
+   * The Party's active Partnership (`psh_` TypeID). Present exactly when `partner` is `true`; see `/v1/admin/partnerships/{partnershipId}`.
+   */
+  partnershipId?: string;
   /**
    * When the Party was created.
    */
@@ -3336,6 +3371,9 @@ export type WatchlistNotificationPayloadData = {
   title?: ListingTextData;
   image?: ProductListingImageData;
   url: string;
+  /**
+   * Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
+   */
   viewUrl: string;
   change: WatchlistNotificationChangeData;
 };
@@ -3375,6 +3413,9 @@ export type SearchFilterNotificationPayloadData = {
   title?: ListingTextData;
   image?: ProductListingImageData;
   url: string;
+  /**
+   * Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
+   */
   viewUrl: string;
 };
 
@@ -4020,15 +4061,22 @@ export type ListingSourceReferenceData = {
   listingSourceSlugId: string;
 };
 
+/**
+ * The Party that operates a ListingSource, wherever a ListingSource is presented.
+ */
 export type PublicListingSourceOperatorData = {
   /**
    * Original display name of the ListingSource operator Party. The operator is not a seller resource.
    */
   name: string;
+  /**
+   * `true` while the operator Party has an active Aura Historia Partnership, otherwise `false`, including after a Partnership is dissolved. Derived from current Partnership state when the response is built, so it can lag a Partnership change by up to the source and response cache lifetimes. Unrelated to ingestion methods (`PARTNER_API`) and referral configuration.
+   */
+  partner: boolean;
 };
 
 /**
- * Allowlisted public ListingSource card used by both public collection search and exact slug lookup. It omits Party identifiers/contact, ingestion/provider/referral configuration, timestamps, versions, and search metadata. The only trace of the referral configuration is `viewUrl`.
+ * Allowlisted public ListingSource card used by public collection search, exact slug lookup and the `listingSources` of a saved search filter. It omits Party identifiers/contact, ingestion/provider/referral configuration, timestamps, versions, and search metadata. The only trace of the referral configuration is `viewUrl`.
  */
 export type PublicListingSourceData = {
   /**
@@ -4226,6 +4274,14 @@ export type OperatorPartyData = {
   partyId: string;
   partySlugId: string;
   name: string;
+  /**
+   * `true` while the operator Party has an active Aura Historia Partnership, otherwise `false`, including after a Partnership is dissolved. Derived from current Partnership state when the response is built, so it can lag a Partnership change by up to the source and response cache lifetimes. Unrelated to ingestion methods (`PARTNER_API`) and referral configuration.
+   */
+  partner: boolean;
+  /**
+   * The operator Party's active Partnership (`psh_` TypeID). Present exactly when `partner` is `true`; see `/v1/admin/partnerships/{partnershipId}`.
+   */
+  partnershipId?: string;
 };
 
 export type ListingSourceOperatorInputData = {
@@ -4396,6 +4452,9 @@ export type PublicAuctionData = {
   listingSource: PublicAuctionSourceData;
   name?: LocalizedTextData;
   catalogueUrl?: string;
+  /**
+   * Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
+   */
   viewUrl?: string;
   format?: AuctionFormatData;
   schedule: AuctionScheduleData;
@@ -4408,6 +4467,7 @@ export type PublicAuctionSourceData = {
   listingSourceId: string;
   name: string;
   slugId: string;
+  operator: PublicListingSourceOperatorData;
 };
 
 export type AdminAuctionSearchCollectionData = {
@@ -4537,6 +4597,7 @@ export type ProductListingSourceData = {
   listingSourceId: string;
   name: string;
   slugId: string;
+  operator: PublicListingSourceOperatorData;
 };
 
 /**
@@ -5077,6 +5138,10 @@ export type PartyLocationDiscoveryCursorData = {
 export type PublicPartyLocationData = {
   partyId: string;
   partyName: string;
+  /**
+   * `true` while the Party has an active Aura Historia Partnership, otherwise `false`, including after a Partnership is dissolved.
+   */
+  partyPartner: boolean;
   locationId: string;
   label: string;
   basis: 'CALLER_ASSERTED' | 'ACCEPTED_DERIVED' | 'MIXED_ASSERTED_AND_DERIVED';
@@ -5118,6 +5183,64 @@ export type AdminProductListingPageWritable = {
    * Omitted on the final page.
    */
   searchAfter?: string;
+};
+
+/**
+ * Complete user search filter with metadata
+ */
+export type UserSearchFilterDataWritable = {
+  /**
+   * Unique identifier of the user who owns this search filter
+   */
+  userId: string;
+  /**
+   * Unique identifier for this search filter
+   */
+  userSearchFilterId: string;
+  /**
+   * User-defined name for the search filter
+   */
+  name: string;
+  /**
+   * Whether notifications are enabled for this search filter.
+   * When `true`, the user will be notified when a new product matches this filter.
+   * When `false`, no notifications are sent for this filter.
+   * Defaults to `true` for newly created filters.
+   *
+   */
+  notifications: boolean;
+  state: ResourceStateData;
+  search: ProductListingSearchData;
+  /**
+   * When the search filter was created (RFC3339 format)
+   */
+  created: string;
+  /**
+   * When the search filter was last updated (RFC3339 format)
+   */
+  updated: string;
+};
+
+/**
+ * Paginated collection of user search filters with flattened pagination
+ */
+export type UserSearchFilterCollectionDataWritable = {
+  /**
+   * Array of search filters in the current page
+   */
+  items: Array<UserSearchFilterDataWritable>;
+  /**
+   * Number of product-listings skipped (offset)
+   */
+  from: number;
+  /**
+   * Number of search filters returned in the current page.
+   */
+  size: number;
+  /**
+   * Total number of product-listings matching the query
+   */
+  total?: number;
 };
 
 /**
@@ -7696,6 +7819,10 @@ export type GetUserSearchFiltersErrors = {
    * Internal server error
    */
   500: ApiError;
+  /**
+   * Search filters or the ListingSources they reference are temporarily unavailable
+   */
+  503: ApiError;
 };
 
 export type GetUserSearchFiltersError = GetUserSearchFiltersErrors[keyof GetUserSearchFiltersErrors];
@@ -7744,6 +7871,10 @@ export type CreateUserSearchFilterErrors = {
    * Internal server error
    */
   500: ApiError;
+  /**
+   * The search filter could not be saved right now, for example because the ListingSources it references could not be read
+   */
+  503: ApiError;
 };
 
 export type CreateUserSearchFilterError = CreateUserSearchFilterErrors[keyof CreateUserSearchFilterErrors];
@@ -7842,6 +7973,10 @@ export type DeleteUserSearchFilterErrors = {
    * Internal server error
    */
   500: ApiError;
+  /**
+   * The search filter could not be deleted right now
+   */
+  503: ApiError;
 };
 
 export type DeleteUserSearchFilterError = DeleteUserSearchFilterErrors[keyof DeleteUserSearchFilterErrors];
@@ -7888,6 +8023,10 @@ export type GetUserSearchFilterErrors = {
    * Internal server error
    */
   500: ApiError;
+  /**
+   * The search filter or the ListingSources it references are temporarily unavailable
+   */
+  503: ApiError;
 };
 
 export type GetUserSearchFilterError = GetUserSearchFilterErrors[keyof GetUserSearchFilterErrors];
@@ -7935,6 +8074,10 @@ export type UpdateUserSearchFilterErrors = {
    */
   404: ApiError;
   /**
+   * Conflict - the search filter changed concurrently while this patch was applied, including a concurrent change of its referenced ListingSources. Re-read the filter and retry.
+   */
+  409: ApiError;
+  /**
    * Unprocessable Entity - restricted feature used for the user's tier or quota exceeded during reactivation
    */
   422: ApiError;
@@ -7942,6 +8085,10 @@ export type UpdateUserSearchFilterErrors = {
    * Internal server error
    */
   500: ApiError;
+  /**
+   * The search filter could not be updated right now, for example because the ListingSources it references could not be read
+   */
+  503: ApiError;
 };
 
 export type UpdateUserSearchFilterError = UpdateUserSearchFilterErrors[keyof UpdateUserSearchFilterErrors];
@@ -8065,6 +8212,10 @@ export type UpdateSearchFilterMatchFeedbackErrors = {
    * Internal server error
    */
   500: ApiError;
+  /**
+   * The match feedback could not be updated right now
+   */
+  503: ApiError;
 };
 
 export type UpdateSearchFilterMatchFeedbackError = UpdateSearchFilterMatchFeedbackErrors[keyof UpdateSearchFilterMatchFeedbackErrors];

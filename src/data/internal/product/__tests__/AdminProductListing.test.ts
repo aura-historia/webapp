@@ -10,7 +10,12 @@ import {
 const adminProductListingDetailsDto: AdminProductListingDetails = {
     productListingId: "pl_01",
     productListingTitleSlugId: "walnut-cabinet-pl01",
-    source: { listingSourceId: "ls_01", name: "Galerie Nord", slugId: "galerie-nord" },
+    source: {
+        listingSourceId: "ls_01",
+        name: "Galerie Nord",
+        slugId: "galerie-nord",
+        operator: { name: "Galerie Nord GmbH", partner: false },
+    },
     sourceListingId: "SKU 0042",
     title: { text: "Walnut cabinet", language: "en" },
     price: { type: "MONETARY", amount: 125_050, currency: "EUR" },
