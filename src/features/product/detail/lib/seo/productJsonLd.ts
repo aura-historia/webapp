@@ -25,7 +25,6 @@ export type ProductJsonLd = {
     "@context": "https://schema.org/";
     "@type": "Product";
     name?: string;
-    description?: string;
     image?: string[];
     url?: string;
     productID: string;
@@ -128,9 +127,6 @@ export function generateProductJsonLd(
         productID: product.productListingId,
     };
     if (product.title) jsonLd.name = product.title;
-    // Only present in the page's language (#1232).
-    const description = product.description?.replace(/\s+/g, " ").trim();
-    if (description) jsonLd.description = description;
 
     const validImages = product.images.flatMap((image) =>
         image.prohibitedContentType === "NONE" && image.url ? [image.url.href] : [],

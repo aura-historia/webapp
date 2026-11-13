@@ -694,9 +694,7 @@
         "titleAdded": "Titre ajouté.",
         "titleChanged": "Titre mis à jour.",
         "titleRemoved": "Titre supprimé.",
-        "descriptionAdded": "Description ajoutée.",
         "descriptionChanged": "Description mise à jour.",
-        "descriptionRemoved": "Description supprimée.",
         "auctionChanged": "Les informations de vente ou de lot ont changé.",
         "withdrawn": "Annonce retirée ; sa disponibilité était {{previousAvailability}}.",
         "restored": "Annonce rétablie par sa source.",
@@ -777,11 +775,6 @@
       "range": "{{min}}–{{max}}",
       "from": "À partir de {{price}}",
       "upTo": "Jusqu’à {{price}}"
-    },
-    "description": {
-      "title": "Description",
-      "showMore": "Afficher plus",
-      "showLess": "Afficher moins"
     },
     "title": {
       "showFull": "Afficher le titre complet",
@@ -5692,7 +5685,9 @@
       "unchangedToast": "Rien n’a changé ; l’annonce avait déjà ces valeurs.",
       "staleShort": "Modifiée ailleurs (désormais version {{version}}).",
       "unsaved_one": "{{count}} modification non enregistrée",
-      "unsaved_other": "{{count}} modifications non enregistrées"
+      "unsaved_other": "{{count}} modifications non enregistrées",
+      "descriptionNotShown": "La description actuelle n’est pas affichée. Le texte saisi ici la remplace ; si le champ reste vide, la description actuelle est conservée.",
+      "clearDescription": "Supprimer la description actuelle"
     },
     "lifecycle": {
       "withdrawAction": "Retirer l’annonce",

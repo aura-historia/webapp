@@ -107,15 +107,21 @@ Routes: `/$lng/admin/product-listings` (directory) and `/$lng/admin/product-list
   verbatim. No total is shown.
 - Rows show the title (or "no title recorded"), lifecycle, source name and ID, source listing ID,
   listing ID, availability, source-currency price and estimates, and UTC timestamps, and link to
-  the record. The record adds the slug, version, original title and description with their
-  language, sale observation and original URL as facts; active listings link to their public
-  page.
+  the record. The record adds the slug, version, original title with its language, sale
+  observation and original URL as facts; active listings link to their public page. The details
+  carry no description (backend#2930), so the record shows none.
 - The edit form covers only the original title and description (each with its source language),
   price (amount, on request or cleared), estimates, availability, URL, ordered images and auction
   membership with lot facts. Text is the source's original, never a translation: new text needs a
-  language from `SOURCE_TEXT_LANGUAGES` (the listing's other text's language is preselected), a
-  language switch alone is a change, and an emptied field sends `null` to clear it. Text is
-  trimmed; the backend normalizes titles, treats
+  language from `SOURCE_TEXT_LANGUAGES` (the title's language is preselected), and for the title a
+  language switch alone is a change and an emptied field sends `null` to clear it. Text is
+  trimmed. The description is write-only, because the backend no longer returns the current one:
+  the field starts empty with a note that the current text is not shown, an empty field (or one
+  emptied again) keeps the stored description and sends nothing, text sets it in the chosen
+  language, and removing it takes the explicit "Remove the current description" box, which sends
+  `description: null`, wins over typed text and disables the field and its language. A language
+  switch alone changes nothing. After a save the field and the box start empty and unticked again,
+  so a saved description is never resent and never turns into a clear. The backend normalizes titles, treats
   whitespace-equivalent text as unchanged and shortens titles over 128 characters, which the form
   notes before saving. A title with no remaining text is rejected (`400` on `title.text`) with its
   own message. The text inputs carry the chosen language and `dir="auto"`. The PATCH contains only groups that differ

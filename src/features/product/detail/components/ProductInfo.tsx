@@ -3,7 +3,6 @@ import { Bookmark, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import type { ProductListingDetail } from "@/data/internal/product/ProductListingDetail.ts";
 import { ListingStatusPill } from "@/features/product/detail/components/ListingStatusPill.tsx";
-import { ProductDescription } from "@/features/product/detail/components/ProductDescription.tsx";
 import { ProductImageGallery } from "@/features/product/detail/components/ProductImageGallery.tsx";
 import { ProductSharer } from "@/features/product/detail/components/ProductSharer.tsx";
 import { ProductTitle } from "@/features/product/detail/components/ProductTitle.tsx";
@@ -231,14 +230,6 @@ export function ProductInfo({ product }: { readonly product: ProductListingDetai
                         <p className="text-meta text-ink-muted">{t("product.withdrawnHint")}</p>
                     )}
                 </div>
-
-                {product.description && (
-                    // Keyed by listing so a new listing starts clamped, not expanded.
-                    <ProductDescription
-                        key={product.productListingId}
-                        description={product.description}
-                    />
-                )}
             </div>
         </section>
     );

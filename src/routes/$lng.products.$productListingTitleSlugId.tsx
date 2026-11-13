@@ -31,9 +31,7 @@ export const Route = createFileRoute("/$lng/products/$productListingTitleSlugId"
     },
     head: ({ loaderData, params }) =>
         generateProductHeadMeta(
-            loaderData
-                ? mapToProductListingDetail(loaderData, params.lng, parseLanguage(params.lng))
-                : undefined,
+            loaderData ? mapToProductListingDetail(loaderData, params.lng) : undefined,
             params,
         ),
     pendingComponent: ProductDetailPageSkeleton,
@@ -53,7 +51,7 @@ function ProductDetailComponent() {
         }),
     );
 
-    const product = mapToProductListingDetail(apiData, i18n.language, language);
+    const product = mapToProductListingDetail(apiData, i18n.language);
 
     return <ProductDetailPage product={product} productListingId={product.productListingId} />;
 }

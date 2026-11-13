@@ -38,10 +38,7 @@ const changedEntry = {
                 previous: { text: "Baroque violin", language: "en" },
                 current: { text: "Barockgeige", language: "de" },
             },
-            {
-                type: "DESCRIPTION_CHANGED",
-                previous: { text: "Maple back.", language: "en" },
-            },
+            { type: "DESCRIPTION_CHANGED" },
             {
                 type: "MAIN_PRICE_CHANGED",
                 previous: { type: "MONETARY", amount: 120000, currency: "EUR" },
@@ -109,11 +106,7 @@ describe("mapProductListingHistory", () => {
             previous: { text: "Baroque violin", language: "en" },
             current: { text: "Barockgeige", language: "de" },
         });
-        expect(entry.payload.changes[1]).toEqual({
-            type: "DESCRIPTION_CHANGED",
-            previous: { text: "Maple back.", language: "en" },
-            current: null,
-        });
+        expect(entry.payload.changes[1]).toStrictEqual({ type: "DESCRIPTION_CHANGED" });
         expect(entry.payload.changes[2]).toEqual({
             type: "MAIN_PRICE_CHANGED",
             previous: { type: "MONETARY", amount: 120000, currency: "EUR" },
@@ -124,6 +117,45 @@ describe("mapProductListingHistory", () => {
             observation: { observedAt: new Date("2026-09-02T08:00:00Z"), fxRateId: "fxrate_42" },
         });
         expect(entry.payload.changes[12]?.type).toBe("SALE_OBSERVATION_RETRACTED");
+    });
+
+    it("maps a description change as a text-free marker, even if an older backend sends text", () => {
+        const olderBackendEntry = {
+            ...changedEntry,
+            payload: {
+                changes: [
+                    {
+                        type: "DESCRIPTION_CHANGED",
+                        previous: { text: "Maple back.", language: "en" },
+                        current: { text: "Maple back, spruce top.", language: "en" },
+                    },
+                ],
+            },
+        } as unknown as ProductListingHistoryEntryData;
+
+        const [entry] = mapProductListingHistory([olderBackendEntry]);
+
+        expect(entry?.payload).toStrictEqual({
+            kind: "CHANGED",
+            changes: [{ type: "DESCRIPTION_CHANGED" }],
+        });
+    });
+
+    it("keeps no description in a discovery snapshot, even if an older backend sends one", () => {
+        const olderBackendEntry = {
+            ...discoveredEntry,
+            payload: {
+                ...discoveredEntry.payload,
+                title: { text: "Baroque violin", language: "en" },
+                description: { text: "Maple back.", language: "en" },
+            },
+        } as unknown as ProductListingHistoryEntryData;
+
+        const [entry] = mapProductListingHistory([olderBackendEntry]);
+
+        if (entry?.payload.kind !== "DISCOVERED") throw new Error("Expected a discovery entry");
+        expect(entry.payload.discovery.title).toEqual({ text: "Baroque violin", language: "en" });
+        expect(entry.payload.discovery).not.toHaveProperty("description");
     });
 
     it("retains an unknown future change as a safe fallback", () => {

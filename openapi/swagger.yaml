@@ -713,7 +713,7 @@ paths:
       operationId: getAdminProductListing
       description: >-
         Administrator authority is required; delegated Aura tokens additionally require `product-listings:read`. Cognito administrators need no delegated scope or Partnership grant. Success and all errors use `private, no-store`. Original source values include retained withdrawn listings and do not depend on OpenSearch or enrichment readiness.
-        Original title/description are mutable; slug, sale observation and enrichment are read-only. Canonical image URLs are privileged inspection data; previews must respect sensitive/unassessed content rather than automatically rendering them. Public redaction is unchanged.
+        Original title/description are mutable; slug, sale observation and enrichment are read-only. The description is write-only: no response returns it. Canonical image URLs are privileged inspection data; previews must respect sensitive/unassessed content rather than automatically rendering them. Public redaction is unchanged.
       tags: [ProductListings]
       security:
         - BearerAuth: []
@@ -2030,7 +2030,7 @@ paths:
       operationId: getPartnerProductListing
       description: >-
         An authenticated partner with an active Partnership grant for the path ListingSource is required; delegated Aura tokens additionally require `product-listings:read`. Cognito partners need no delegated scope. Administrator role alone does not grant access. Source authorization precedes reads or mutations; a listing outside the authorized source returns the same not-found result as a missing listing. Success and all errors use `private, no-store`. Original source values include retained withdrawn listings and do not depend on OpenSearch or enrichment readiness.
-        Original title/description are mutable; slug, sale observation and enrichment are read-only. Canonical image URLs are privileged inspection data; previews must respect sensitive/unassessed content rather than automatically rendering them. Public redaction is unchanged.
+        Original title/description are mutable; slug, sale observation and enrichment are read-only. The description is write-only: no response returns it. Canonical image URLs are privileged inspection data; previews must respect sensitive/unassessed content rather than automatically rendering them. Public redaction is unchanged.
       tags: [ProductListings]
       security:
         - BearerAuth: []
@@ -3546,7 +3546,7 @@ paths:
           in: query
           required: false
           description:
-            Requested current title and description language. Defaults to `en`; unavailable translations fall back
+            Requested current title language. Defaults to `en`; unavailable translations fall back
             to stored content.
           schema:
             $ref: "#/components/schemas/LanguageData"
@@ -21416,9 +21416,6 @@ components:
         - type: object
           required: [url, images]
           properties:
-            description:
-              readOnly: true
-              allOf: [{ $ref: "#/components/schemas/LocalizedTextData" }]
             url: { type: string, format: uri }
             images:
               type: array
@@ -21589,11 +21586,7 @@ components:
         title:
           allOf:
             - $ref: "#/components/schemas/ListingTextData"
-          description: Listing title. Omitted when the listing has neither an original nor a translated title. Chosen separately from `description`, so their languages can differ.
-        description:
-          allOf:
-            - $ref: "#/components/schemas/ListingTextData"
-          description: Listing description. Omitted when the listing has neither an original nor a translated description.
+          description: Listing title. Omitted when the listing has neither an original nor a translated title.
         pricing:
           type: object
           required:
@@ -21675,11 +21668,7 @@ components:
         title:
           allOf:
             - $ref: "#/components/schemas/ListingTextData"
-          description: Listing title. Omitted when the listing has neither an original nor a translated title. Chosen separately from `description`, so their languages can differ.
-        description:
-          allOf:
-            - $ref: "#/components/schemas/ListingTextData"
-          description: Listing description. Omitted when the listing has neither an original nor a translated description.
+          description: Listing title. Omitted when the listing has neither an original nor a translated title.
         pricing:
           type: object
           required:
@@ -22620,8 +22609,6 @@ components:
           description: Normalized discovery title. Titles stored before a normalization change, including legacy trailing whitespace and decorative typography, are presented in current normalized form without rewriting the stored event; a title without remaining text is omitted.
           allOf:
             - $ref: "#/components/schemas/LocalizedTextData"
-        description:
-          $ref: "#/components/schemas/LocalizedTextData"
         pricing:
           $ref: "#/components/schemas/ProductListingHistoryPricingData"
         availability:
@@ -22677,12 +22664,9 @@ components:
       type: object
       additionalProperties: false
       required: [type]
+      description: The listing description changed. The description text is not returned.
       properties:
         type: { type: string, enum: [DESCRIPTION_CHANGED] }
-        previous:
-          allOf: [{ $ref: "#/components/schemas/LocalizedTextData" }]
-        current:
-          allOf: [{ $ref: "#/components/schemas/LocalizedTextData" }]
     ProductListingMainPriceHistoryChangeData:
       type: object
       required:

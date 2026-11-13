@@ -45,19 +45,8 @@ describe("generateProductHeadMeta", () => {
         expect(head.meta).toContainEqual({ property: "og:image", content: BANNER_IMAGE_URL });
         expect(head.meta).toContainEqual({ name: "twitter:image", content: BANNER_IMAGE_URL });
     });
-    it("puts a description in the page's language into the description tags", () => {
-        const head = generateProductHeadMeta(
-            makeProductListingDetail({ description: "Imari charger,\n\nunderglaze blue." }),
-            { lng: "de", productListingTitleSlugId: "chair-pl_01TEST" },
-        );
-        const content = "Imari charger, underglaze blue.";
-        expect(head.meta).toContainEqual({ name: "description", content });
-        expect(head.meta).toContainEqual({ property: "og:description", content });
-        expect(head.meta).toContainEqual({ name: "twitter:description", content });
-    });
-
-    it("names the object and its source when the listing has no description in the page's language", () => {
-        const product = makeProductListingDetail({ description: undefined });
+    it("describes the page by naming the object and its source, in every description tag", () => {
+        const product = makeProductListingDetail();
         const head = generateProductHeadMeta(product, {
             lng: "de",
             productListingTitleSlugId: "chair-pl_01TEST",
@@ -71,6 +60,7 @@ describe("generateProductHeadMeta", () => {
         expect(description).toContain(product.source.name);
         expect(description?.length).toBeLessThanOrEqual(160);
         expect(head.meta).toContainEqual({ property: "og:description", content: description });
+        expect(head.meta).toContainEqual({ name: "twitter:description", content: description });
     });
 
     it("shares a partner listing's image, described with the listing title", () => {

@@ -699,9 +699,7 @@
         "titleAdded": "Title added.",
         "titleChanged": "Title updated.",
         "titleRemoved": "Title removed.",
-        "descriptionAdded": "Description added.",
         "descriptionChanged": "Description updated.",
-        "descriptionRemoved": "Description removed.",
         "auctionChanged": "Auction or lot details changed.",
         "withdrawn": "Listing withdrawn after availability was {{previousAvailability}}.",
         "restored": "Listing restored by its source.",
@@ -777,11 +775,6 @@
       "range": "{{min}}–{{max}}",
       "from": "From {{price}}",
       "upTo": "Up to {{price}}"
-    },
-    "description": {
-      "title": "Description",
-      "showMore": "Show more",
-      "showLess": "Show less"
     },
     "title": {
       "showFull": "Show full title",
@@ -5692,7 +5685,9 @@
       "unchangedToast": "Nothing changed; the listing already had these values.",
       "staleShort": "Changed elsewhere (now version {{version}}).",
       "unsaved_one": "{{count}} unsaved change",
-      "unsaved_other": "{{count}} unsaved changes"
+      "unsaved_other": "{{count}} unsaved changes",
+      "descriptionNotShown": "The current description is not shown. Text entered here replaces it; if the field stays empty, the current description is kept.",
+      "clearDescription": "Remove the current description"
     },
     "lifecycle": {
       "withdrawAction": "Withdraw listing",

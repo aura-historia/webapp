@@ -1109,7 +1109,6 @@ export type AdminProductListingSummary = {
 };
 
 export type AdminProductListingDetails = AdminProductListingSummary & {
-  description?: LocalizedTextData;
   url: string;
   /**
    * Privileged canonical URLs. Preview respects sensitive/unassessed status; public visibility is unchanged.
@@ -1211,13 +1210,9 @@ export type ProductListingDetailsData = {
   source: ProductListingSourceData;
   sourceListingId: string;
   /**
-   * Listing title. Omitted when the listing has neither an original nor a translated title. Chosen separately from `description`, so their languages can differ.
+   * Listing title. Omitted when the listing has neither an original nor a translated title.
    */
   title?: ListingTextData;
-  /**
-   * Listing description. Omitted when the listing has neither an original nor a translated description.
-   */
-  description?: ListingTextData;
   pricing: {
     source: ProductListingPricingData;
     display: ProductListingPricingData;
@@ -1255,13 +1250,9 @@ export type ProductListingCollectionDetailsData = {
   source: ProductListingSourceData;
   sourceListingId: string;
   /**
-   * Listing title. Omitted when the listing has neither an original nor a translated title. Chosen separately from `description`, so their languages can differ.
+   * Listing title. Omitted when the listing has neither an original nor a translated title.
    */
   title?: ListingTextData;
-  /**
-   * Listing description. Omitted when the listing has neither an original nor a translated description.
-   */
-  description?: ListingTextData;
   pricing: {
     source: ProductListingPricingData;
     display: ProductListingPricingData;
@@ -1826,7 +1817,6 @@ export type ProductListingDiscoveryHistoryPayloadData = {
    * Normalized discovery title. Titles stored before a normalization change, including legacy trailing whitespace and decorative typography, are presented in current normalized form without rewriting the stored event; a title without remaining text is omitted.
    */
   title?: LocalizedTextData;
-  description?: LocalizedTextData;
   pricing: ProductListingHistoryPricingData;
   availability?: ListingAvailabilityData;
   url: string;
@@ -1852,10 +1842,11 @@ export type ProductListingTitleHistoryChangeData = {
   current?: LocalizedTextData;
 };
 
+/**
+ * The listing description changed. The description text is not returned.
+ */
 export type ProductListingDescriptionHistoryChangeData = {
   type: 'DESCRIPTION_CHANGED';
-  previous?: LocalizedTextData;
-  current?: LocalizedTextData;
 };
 
 export type ProductListingMainPriceHistoryChangeData = {
@@ -7446,7 +7437,7 @@ export type GetProductListingData = {
   };
   query?: {
     /**
-     * Requested current title and description language. Defaults to `en`; unavailable translations fall back to stored content.
+     * Requested current title language. Defaults to `en`; unavailable translations fall back to stored content.
      */
     language?: LanguageData;
     /**

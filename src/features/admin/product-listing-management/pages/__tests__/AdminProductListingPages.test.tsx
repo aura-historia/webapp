@@ -69,7 +69,6 @@ const detailDto: AdminProductListingDetails = {
     expectedVersion: 7,
     created: "2026-09-01T10:00:00Z",
     updated: "2026-10-01T12:30:00Z",
-    description: { text: "Two doors and the original key.", language: "en" },
     url: "https://galerie.example/items/42",
     images: ["https://galerie.example/b.jpg", "https://galerie.example/a.jpg"],
     auction: {
@@ -389,9 +388,14 @@ describe("AdminProductListingDetailPage", () => {
             record.getByRole("link", { name: t("adminProductListings.actions.originalPage") }),
         ).toHaveAttribute("href", "https://galerie.example/items/42");
 
+        // The backend returns no description: the field starts empty and says so.
         expect(
             screen.getByLabelText(t("adminProductListings.fields.originalDescription")),
-        ).toHaveValue("Two doors and the original key.");
+        ).toHaveValue("");
+        expect(screen.getByText(t("adminProductListings.edit.descriptionNotShown"))).toBeVisible();
+        expect(
+            screen.getByRole("checkbox", { name: t("adminProductListings.edit.clearDescription") }),
+        ).not.toBeChecked();
         expect(await screen.findByRole("link", { name: "Autumn Sale" })).toHaveAttribute(
             "href",
             "/en/admin/auctions/auc_01",
@@ -503,7 +507,7 @@ describe("AdminProductListingDetailPage", () => {
         );
     });
 
-    it("replaces the original title in its language and clears the description", async () => {
+    it("replaces the original title in its language and keeps the stored description", async () => {
         api.getAdminProductListing.mockResolvedValue(ok(detailDto));
         api.updateAdminProductListing.mockResolvedValue(
             ok({ productListingId: "pl_01", expectedVersion: 8, outcome: "UNCHANGED" }),
@@ -513,10 +517,12 @@ describe("AdminProductListingDetailPage", () => {
         const title = await screen.findByLabelText(t("adminProductListings.fields.originalTitle"));
         expect(title).toHaveValue("Walnut cabinet");
         fireEvent.change(title, { target: { value: "Walnut cabinet, 1890" } });
-        fireEvent.change(
-            screen.getByLabelText(t("adminProductListings.fields.originalDescription")),
-            { target: { value: "" } },
+        // Typing into the description and emptying it again is not a request to clear it.
+        const description = screen.getByLabelText(
+            t("adminProductListings.fields.originalDescription"),
         );
+        fireEvent.change(description, { target: { value: "Two doors." } });
+        fireEvent.change(description, { target: { value: "" } });
         fireEvent.click(save());
 
         await waitFor(() =>
@@ -529,16 +535,97 @@ describe("AdminProductListingDetailPage", () => {
             body: {
                 expectedVersion: 7,
                 title: { text: "Walnut cabinet, 1890", language: "en" },
-                description: null,
             },
             cache: "no-store",
         });
     });
 
-    it("requires a language for new text, notes long titles and names a rejected title", async () => {
-        api.getAdminProductListing.mockResolvedValue(
-            ok({ ...detailDto, title: undefined, description: undefined }),
+    it("sets a new description in the title's language, then starts empty again", async () => {
+        api.getAdminProductListing.mockResolvedValue(ok(detailDto));
+        api.updateAdminProductListing.mockResolvedValue(
+            ok({ productListingId: "pl_01", expectedVersion: 8, outcome: "CHANGED" }),
         );
+        renderWithClient(<AdminProductListingDetailPage productListingId="pl_01" language="en" />);
+
+        const description = await screen.findByLabelText(
+            t("adminProductListings.fields.originalDescription"),
+        );
+        fireEvent.change(description, { target: { value: " Two doors and the original key. " } });
+        fireEvent.click(save());
+
+        await waitFor(() =>
+            expect(toasts.success).toHaveBeenCalledWith(t("adminProductListings.edit.savedToast")),
+        );
+        expect(api.updateAdminProductListing).toHaveBeenCalledWith({
+            path: { productListingId: "pl_01" },
+            body: {
+                expectedVersion: 7,
+                description: { text: "Two doors and the original key.", language: "en" },
+            },
+            cache: "no-store",
+        });
+        // The saved text is not shown back: the field is empty and nothing is left to send.
+        await waitFor(() => expect(description).toHaveValue(""));
+        expect(save()).toBeDisabled();
+    });
+
+    it("clears the description only through the explicit checkbox", async () => {
+        api.getAdminProductListing.mockResolvedValue(ok(detailDto));
+        api.updateAdminProductListing.mockResolvedValue(
+            ok({ productListingId: "pl_01", expectedVersion: 8, outcome: "CHANGED" }),
+        );
+        renderWithClient(<AdminProductListingDetailPage productListingId="pl_01" language="en" />);
+
+        const description = await screen.findByLabelText(
+            t("adminProductListings.fields.originalDescription"),
+        );
+        const clear = screen.getByRole("checkbox", {
+            name: t("adminProductListings.edit.clearDescription"),
+        });
+        fireEvent.change(description, { target: { value: "Two doors." } });
+        fireEvent.click(clear);
+
+        // Clearing wins over typed text and disables the text and its language.
+        expect(clear).toBeChecked();
+        expect(description).toBeDisabled();
+        expect(
+            screen.getByRole("combobox", {
+                name: t("adminProductListings.fields.descriptionLanguage"),
+            }),
+        ).toBeDisabled();
+
+        fireEvent.click(save());
+
+        await waitFor(() =>
+            expect(toasts.success).toHaveBeenCalledWith(t("adminProductListings.edit.savedToast")),
+        );
+        expect(api.updateAdminProductListing).toHaveBeenCalledWith({
+            path: { productListingId: "pl_01" },
+            body: { expectedVersion: 7, description: null },
+            cache: "no-store",
+        });
+        await waitFor(() => expect(clear).not.toBeChecked());
+        expect(description).toBeEnabled();
+        expect(description).toHaveValue("");
+    });
+
+    it("sends nothing for the description after the clear box is ticked and unticked again", async () => {
+        api.getAdminProductListing.mockResolvedValue(ok(detailDto));
+        renderWithClient(<AdminProductListingDetailPage productListingId="pl_01" language="en" />);
+
+        const clear = await screen.findByRole("checkbox", {
+            name: t("adminProductListings.edit.clearDescription"),
+        });
+        fireEvent.click(clear);
+        expect(save()).toBeEnabled();
+        fireEvent.click(clear);
+
+        expect(save()).toBeDisabled();
+        expect(api.updateAdminProductListing).not.toHaveBeenCalled();
+    });
+
+    it("requires a language for new text, notes long titles and names a rejected title", async () => {
+        api.getAdminProductListing.mockResolvedValue(ok({ ...detailDto, title: undefined }));
         api.updateAdminProductListing.mockResolvedValue({
             data: undefined,
             error: {
@@ -597,6 +684,10 @@ describe("AdminProductListingDetailPage", () => {
 
         const url = await screen.findByLabelText(t("adminProductListings.fields.url"));
         fireEvent.change(url, { target: { value: "https://galerie.example/items/42b" } });
+        const description = screen.getByLabelText(
+            t("adminProductListings.fields.originalDescription"),
+        );
+        fireEvent.change(description, { target: { value: "Two doors." } });
         fireEvent.click(save());
 
         await waitFor(() =>
@@ -604,6 +695,8 @@ describe("AdminProductListingDetailPage", () => {
         );
         // The older cached record must not replace the committed values or their version.
         expect(url).toHaveValue("https://galerie.example/items/42b");
+        // The description was sent and is write-only, so its field starts empty again.
+        expect(description).toHaveValue("");
         expect(
             screen.queryByRole("button", { name: t("adminProductListings.actions.keepDraft") }),
         ).not.toBeInTheDocument();

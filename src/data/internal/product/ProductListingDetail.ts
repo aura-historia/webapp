@@ -1,9 +1,7 @@
 import type { PersonalizedProductListingDetailsData } from "@/client";
-import type { Language } from "@/data/internal/common/Language.ts";
 import {
     isListingTextTranslated,
     mapListingDisplayText,
-    mapListingTextInLanguage,
 } from "@/data/internal/product/ListingText.ts";
 import type { ProductImage } from "@/data/internal/product/ProductImageData.ts";
 import {
@@ -39,9 +37,7 @@ export type ProductListingDetail = {
     readonly productListingId: string;
     readonly productListingTitleSlugId?: string;
     readonly title?: string;
-    /** Present only when the backend has the description in the requested language. */
-    readonly description?: string;
-    /** Whether the shown title or description is a machine translation of the source's text. */
+    /** Whether the shown title is a machine translation of the source's text. */
     readonly translated: boolean;
     readonly source: ProductListingSource;
     readonly sourceListingId: string;
@@ -67,7 +63,6 @@ export type ProductListingDetail = {
 export function mapToProductListingDetail(
     apiData: PersonalizedProductListingDetailsData,
     locale: string,
-    language: Language,
 ): ProductListingDetail {
     const item = apiData.item;
     const displayPricing = mapListingPricingAmounts(item.pricing.display);
@@ -82,12 +77,7 @@ export function mapToProductListingDetail(
         productListingId: item.productListingId,
         productListingTitleSlugId: item.productListingTitleSlugId,
         title: mapListingDisplayText(item.title),
-        // Only a description in the requested language is shown or put into meta (#1232).
-        description: mapListingTextInLanguage(item.description, language),
-        translated:
-            isListingTextTranslated(item.title) ||
-            (item.description?.localized.language === language &&
-                isListingTextTranslated(item.description)),
+        translated: isListingTextTranslated(item.title),
         source: mapProductListingSource(item.source),
         sourceListingId: item.sourceListingId,
         pricing,
