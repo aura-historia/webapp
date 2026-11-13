@@ -473,6 +473,179 @@
       "currentPlanLabel": "Plan actual",
       "manageButton": "Gestionar suscripción",
       "description": "Cambie su plan, su método de pago o sus datos de facturación con nuestro proveedor de pagos."
+    },
+    "addresses": {
+      "title": "Direcciones guardadas",
+      "description": "Lugares privados que guarda con el nombre que elija. Solo usted puede verlos.",
+      "listLabel": "Direcciones guardadas",
+      "add": "Añadir dirección",
+      "yourDetails": "Sus datos",
+      "location": "Ubicación",
+      "edit": "Editar",
+      "editNamed": "Editar {{label}}",
+      "deleteNamed": "Eliminar {{label}}",
+      "showMore": "Mostrar más direcciones",
+      "loadMoreError": "No se pudieron cargar más direcciones.",
+      "retry": "Reintentar",
+      "loading": "Cargando direcciones guardadas",
+      "empty": {
+        "title": "Aún no hay <em>direcciones</em> guardadas.",
+        "description": "Guarde los lugares que le importan, como su domicilio o un trastero, con el nombre que elija."
+      },
+      "error": {
+        "title": "No se pudieron <em>cargar</em> las direcciones.",
+        "description": "Inténtelo de nuevo en un momento."
+      },
+      "accessLost": {
+        "title": "Sus direcciones no están <em>disponibles.</em>",
+        "description": "Su sesión ya no permite acceder a ellas. Vuelva a iniciar sesión para ver sus direcciones guardadas.",
+        "action": "Volver a iniciar sesión"
+      },
+      "status": {
+        "PENDING": {
+          "label": "Localizando",
+          "hint": "Estamos localizando esta dirección en segundo plano.",
+          "note": "Estamos localizando esta dirección en segundo plano. Mientras tanto, puede seguir usándola."
+        },
+        "ACCEPTED": {
+          "label": "Localizada",
+          "note": "Hemos encontrado un único lugar que coincide con esta dirección."
+        },
+        "AMBIGUOUS": {
+          "label": "Varias coincidencias",
+          "hint": "Añada un país o un código postal para acotarla.",
+          "note": "Varios lugares coinciden. Añada un país o un código postal para acotarla.",
+          "hintDetailed": "Complete la dirección, por ejemplo con la calle y el número.",
+          "noteDetailed": "Varios lugares coinciden, incluso con sus datos. Complete la dirección, por ejemplo con la calle y el número."
+        },
+        "NO_MATCH": {
+          "label": "Sin coincidencias",
+          "hint": "Revise la ortografía o añada un país.",
+          "note": "Ningún lugar coincide con esta dirección. Revise la ortografía o añada un país.",
+          "hintDetailed": "Revise la ortografía y sus datos.",
+          "noteDetailed": "Ningún lugar coincide con esta dirección y sus datos. Revise la ortografía y que los datos correspondan a esta dirección."
+        },
+        "FAILED": {
+          "label": "No se pudo localizar",
+          "hint": "La dirección sigue guardada y se puede usar sin un punto.",
+          "note": "No se pudo localizar esta dirección. Sigue guardada y se puede usar sin un punto preciso."
+        },
+        "BLOCKED": {
+          "label": "No localizable",
+          "hint": "La dirección sigue guardada y se puede usar sin un punto.",
+          "note": "Esta dirección no se puede localizar automáticamente. Sigue guardada y se puede usar sin un punto preciso."
+        },
+        "UNAVAILABLE": {
+          "label": "Localización no disponible",
+          "hint": "La dirección sigue guardada y se puede usar sin un punto.",
+          "note": "La localización no está disponible en este momento. La dirección sigue guardada y se puede usar sin un punto preciso."
+        },
+        "UNKNOWN": {
+          "label": "Estado desconocido",
+          "note": "No podemos mostrar el estado de localización de esta dirección."
+        }
+      },
+      "derived": {
+        "country": "País",
+        "region": "Región",
+        "postalCode": "Código postal"
+      },
+      "locationNote": "Determinado en segundo plano a partir de su dirección. No confirma la dirección ni que se puedan entregar objetos allí. Si cambia la dirección o sus datos, se vuelve a determinar.",
+      "editor": {
+        "eyebrow": "Dirección guardada",
+        "createTitle": "Añadir una dirección",
+        "editTitle": "Editar dirección",
+        "preferredNote": "Esta es su ubicación de búsqueda. Guardar los cambios no la modifica.",
+        "fields": {
+          "label": "Nombre",
+          "labelPlaceholder": "Por ejemplo Casa o Trastero",
+          "labelHint": "Solo usted ve este nombre.",
+          "address": "Dirección",
+          "addressPlaceholder": "Calle y número, código postal, localidad",
+          "addressHint": "Escríbala como en un sobre. La guardamos exactamente como la introduzca.",
+          "country": "País",
+          "region": "Región",
+          "postalCode": "Código postal"
+        },
+        "optional": "Datos opcionales",
+        "optionalHint": "Nos ayudan a localizar la dirección. No los comparamos con ella.",
+        "noCountry": "Ningún país",
+        "searchCountries": "Buscar países",
+        "searchCountriesPlaceholder": "Buscar países…",
+        "noCountries": "No se encontraron países.",
+        "noRegion": "Ninguna región",
+        "searchRegions": "Buscar regiones",
+        "searchRegionsPlaceholder": "Buscar regiones…",
+        "noRegions": "No se encontraron regiones.",
+        "chooseCountryFirst": "Elija primero un país.",
+        "save": "Guardar dirección",
+        "saveChanges": "Guardar cambios",
+        "saving": "Guardando…",
+        "saveMyVersion": "Guardar mi versión",
+        "saveAgain": "Guardar de nuevo",
+        "cancel": "Cancelar",
+        "delete": "Eliminar dirección",
+        "close": "Cerrar",
+        "conflict": {
+          "title": "Esta dirección se ha modificado en otro lugar.",
+          "body": "Sus cambios se conservan arriba. Compárelos con la versión guardada y vuelva a guardar para sustituirla.",
+          "saved": "Versión guardada"
+        },
+        "uncertain": {
+          "checkingTitle": "No pudimos confirmar si la dirección se guardó.",
+          "checkingBody": "Comprobando sus direcciones guardadas…",
+          "checkedTitle": "Sus direcciones están actualizadas.",
+          "checkedBody": "Si esta dirección no aparece en su lista, guárdela de nuevo. Si la guarda dos veces, se conservan dos copias.",
+          "failedTitle": "No pudimos comprobar si la dirección se guardó.",
+          "failedBody": "Vuelva a comprobarlo antes de guardar, para que la dirección no se guarde dos veces.",
+          "checkAgain": "Comprobar de nuevo"
+        },
+        "saveError": {
+          "title": "No se pudo guardar la dirección.",
+          "body": "Sus datos se conservan. Inténtelo de nuevo."
+        },
+        "missing": {
+          "title": "Esta dirección ya no existe.",
+          "body": "Puede que se haya eliminado en otro dispositivo. Su lista se ha actualizado."
+        },
+        "unsupported": {
+          "title": "Algunos datos de esta dirección no se pueden mostrar aquí.",
+          "body": "Para conservarlos, esta dirección no se puede editar aquí. Aún puede eliminarla."
+        }
+      },
+      "delete": {
+        "title": "¿Eliminar «{{label}}»?",
+        "body": "La dirección se elimina de su cuenta. Las búsquedas guardadas conservan su propia copia de una ubicación de búsqueda y no cambian.",
+        "preferred": "Esta es su ubicación de búsqueda. Después de eliminarla, ya no se utilizará.",
+        "conflict": "Esta dirección se ha modificado en otro lugar. Su lista muestra ahora la versión guardada. Revísela y vuelva a eliminarla.",
+        "cancel": "Cancelar",
+        "confirm": "Eliminar dirección"
+      },
+      "toasts": {
+        "saved": "Dirección guardada",
+        "updated": "Dirección actualizada",
+        "deleted": "Dirección eliminada",
+        "deleteFailed": "No se pudo eliminar la dirección. Inténtelo de nuevo.",
+        "missing": "Esta dirección ya no existe."
+      },
+      "validation": {
+        "labelRequired": "Introduzca un nombre para esta dirección.",
+        "labelInvalid": "Use un nombre más corto en una sola línea.",
+        "addressRequired": "Introduzca la dirección.",
+        "addressTooLong": "Esta dirección es demasiado larga.",
+        "countryInvalid": "Elija un país de la lista.",
+        "subdivisionMismatch": "Esta región no pertenece al país elegido.",
+        "postalCodeInvalid": "Use un código postal más corto en una sola línea."
+      },
+      "errors": {
+        "forbidden": "Ya no tiene acceso a sus direcciones guardadas.",
+        "missing": "Esta dirección ya no existe.",
+        "conflict": "Esta dirección se ha modificado en otro lugar.",
+        "createIndefinite": "No pudimos confirmar si la dirección se guardó.",
+        "invalid": "No se pudo guardar la dirección. Revise sus datos.",
+        "requestFailed": "La solicitud ha fallado. Inténtelo de nuevo."
+      },
+      "searchLocation": "Ubicación de búsqueda"
     }
   },
   "search": {
