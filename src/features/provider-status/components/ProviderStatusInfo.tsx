@@ -48,14 +48,16 @@ function ProviderStatusFacts({ scope, providerName, sourceUrl, sourceHost, mobil
                     }
                     values={{ host: sourceHost }}
                     components={{
+                        // The host is also the link's own content; Trans puts the same text in.
                         site: (
-                            // biome-ignore lint/a11y/useAnchorContent: Trans fills the link text.
                             <a
                                 href={sourceUrl}
                                 target="_blank"
                                 rel="nofollow noopener noreferrer"
                                 className={LINK_CLASS}
-                            />
+                            >
+                                {sourceHost}
+                            </a>
                         ),
                     }}
                 />

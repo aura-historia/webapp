@@ -34,12 +34,13 @@ export function NonPartnerNotice({
     className,
 }: NonPartnerNoticeProps) {
     const { t } = useTranslation();
+    const listingKey = translated
+        ? "providerStatus.notice.listingTranslated"
+        : "providerStatus.notice.listing";
     const body =
         scope === "provider"
             ? t("providerStatus.notice.provider")
-            : translated
-              ? t("providerStatus.notice.listingTranslated", { provider: providerName })
-              : t("providerStatus.notice.listing", { provider: providerName });
+            : t(listingKey, { provider: providerName });
     const removalHref = buildRemovalMailto(t, { scope, providerName, pageUrl: pageUrl ?? "" });
     const sourceHref = sourceUrl?.toString();
 
