@@ -34,7 +34,6 @@ const listing: AdminProductListingDetail = {
     expectedVersion: 7,
     created: new Date("2026-09-01T10:00:00Z"),
     updated: new Date("2026-10-01T12:30:00Z"),
-    description: null,
     url: "https://galerie.example/items/42",
     images: ["https://galerie.example/b.jpg", "https://galerie.example/a.jpg"],
     auction: {
@@ -96,6 +95,7 @@ describe("toAdminProductListingFormValues", () => {
             titleLanguage: "en",
             description: "",
             descriptionLanguage: "en",
+            clearDescription: false,
             priceKind: "MONETARY",
             priceAmount: "1250.50",
             priceCurrency: "EUR",
@@ -119,9 +119,12 @@ describe("toAdminProductListingFormValues", () => {
     });
 
     it("never defaults a language the listing does not use", () => {
-        expect(
-            toAdminProductListingFormValues({ ...listing, title: null, description: null }),
-        ).toMatchObject({ title: "", titleLanguage: "", description: "", descriptionLanguage: "" });
+        expect(toAdminProductListingFormValues({ ...listing, title: null })).toMatchObject({
+            title: "",
+            titleLanguage: "",
+            description: "",
+            descriptionLanguage: "",
+        });
     });
 
     it("never defaults a currency the listing does not use", () => {
@@ -266,6 +269,92 @@ describe("buildAdminProductListingPatch", () => {
     });
 });
 
+describe("write-only description", () => {
+    it("starts empty in the title's language, since the backend returns no description", () => {
+        expect(original).toMatchObject({
+            description: "",
+            descriptionLanguage: "en",
+            clearDescription: false,
+        });
+        expect(
+            toAdminProductListingFormValues({
+                ...listing,
+                title: { text: "Nussbaumschrank", language: "de" },
+            }),
+        ).toMatchObject({ description: "", descriptionLanguage: "de" });
+    });
+
+    it("keeps the stored description when the field is empty or only whitespace", () => {
+        for (const description of ["", "   ", "\n\t "]) {
+            const values = draft({ description });
+            expect(hasAdminProductListingChanges(values, original)).toBe(false);
+            expect(buildAdminProductListingPatch(values, original)).toEqual({});
+        }
+    });
+
+    it("never sends a clear after text was typed and deleted again", () => {
+        const typed = draft({ description: "Two doors." });
+        expect(hasAdminProductListingChanges(typed, original)).toBe(true);
+
+        // The administrator empties the field again: back to unchanged, not to a clear.
+        const emptied = { ...typed, description: "" };
+        expect(hasAdminProductListingChanges(emptied, original)).toBe(false);
+        expect(buildAdminProductListingPatch(emptied, original)).toEqual({});
+    });
+
+    it("sets the typed text in the chosen language, defaulting to the title's", () => {
+        expect(
+            buildAdminProductListingPatch(draft({ description: " Two doors. " }), original),
+        ).toEqual({ description: { text: "Two doors.", language: "en" } });
+        expect(
+            buildAdminProductListingPatch(
+                draft({ description: "Zwei Türen.", descriptionLanguage: "de" }),
+                original,
+            ),
+        ).toEqual({ description: { text: "Zwei Türen.", language: "de" } });
+    });
+
+    it("clears only on an explicit request, which wins over typed text and needs no language", () => {
+        expect(buildAdminProductListingPatch(draft({ clearDescription: true }), original)).toEqual({
+            description: null,
+        });
+        const typedAndCleared = draft({
+            clearDescription: true,
+            description: "Two doors.",
+            descriptionLanguage: "xx",
+        });
+        expect(buildAdminProductListingPatch(typedAndCleared, original)).toEqual({
+            description: null,
+        });
+        expect(validateAdminProductListingForm(typedAndCleared, original)).toEqual([]);
+    });
+
+    it("counts a set or a clear as one change and ignores a language switch alone", () => {
+        expect(
+            countAdminProductListingChanges(draft({ description: "Two doors." }), original),
+        ).toBe(1);
+        expect(countAdminProductListingChanges(draft({ clearDescription: true }), original)).toBe(
+            1,
+        );
+        expect(
+            countAdminProductListingChanges(draft({ descriptionLanguage: "fr" }), original),
+        ).toBe(0);
+    });
+
+    it("requires a supported language only while text is being set", () => {
+        const withoutLanguage = draft({ description: "Two doors.", descriptionLanguage: "" });
+        expect(validateAdminProductListingForm(withoutLanguage, original)).toEqual([
+            {
+                path: ["descriptionLanguage"],
+                message: "adminProductListings.validation.languageRequired",
+            },
+        ]);
+        expect(
+            validateAdminProductListingForm(draft({ descriptionLanguage: "" }), original),
+        ).toEqual([]);
+    });
+});
+
 describe("rebaseAdminProductListingDraft", () => {
     it("keeps only the administrator's changed groups on top of the latest values", () => {
         const latest = toAdminProductListingFormValues({
@@ -289,25 +378,48 @@ describe("rebaseAdminProductListingDraft", () => {
         });
     });
 
-    it("keeps an edited title over a newer description and drops untouched text", () => {
+    it("keeps an edited title and drops untouched text in favour of the newer title", () => {
         const latest = toAdminProductListingFormValues({
             ...listing,
-            description: { text: "Two doors.", language: "en" },
+            title: { text: "Walnut cabinet, restored", language: "en" },
+            url: "https://galerie.example/items/42-new",
             expectedVersion: 8,
         });
-        const edited = draft({ title: "Nussbaumschrank", titleLanguage: "de" });
+        const edited = draft({ url: "https://galerie.example/items/42-edited" });
 
         const rebased = rebaseAdminProductListingDraft(edited, original, latest);
 
         expect(rebased).toMatchObject({
-            title: "Nussbaumschrank",
-            titleLanguage: "de",
-            description: "Two doors.",
-            descriptionLanguage: "en",
+            title: "Walnut cabinet, restored",
+            url: "https://galerie.example/items/42-edited",
         });
         expect(buildAdminProductListingPatch(rebased, latest)).toEqual({
-            title: { text: "Nussbaumschrank", language: "de" },
+            url: "https://galerie.example/items/42-edited",
         });
+    });
+
+    it("keeps a pending description, or a pending clear, over the newer values", () => {
+        const latest = toAdminProductListingFormValues({
+            ...listing,
+            title: { text: "Nussbaumschrank", language: "de" },
+            expectedVersion: 8,
+        });
+
+        const typed = rebaseAdminProductListingDraft(
+            draft({ description: "Two doors.", descriptionLanguage: "en" }),
+            original,
+            latest,
+        );
+        expect(buildAdminProductListingPatch(typed, latest)).toEqual({
+            description: { text: "Two doors.", language: "en" },
+        });
+
+        const cleared = rebaseAdminProductListingDraft(
+            draft({ clearDescription: true }),
+            original,
+            latest,
+        );
+        expect(buildAdminProductListingPatch(cleared, latest)).toEqual({ description: null });
     });
 
     it("yields no patch when the latest version already contains the draft", () => {
@@ -392,11 +504,7 @@ describe("validateAdminProductListingForm", () => {
     });
 
     it("requires a supported language for new text only", () => {
-        const untitled = toAdminProductListingFormValues({
-            ...listing,
-            title: null,
-            description: null,
-        });
+        const untitled = toAdminProductListingFormValues({ ...listing, title: null });
 
         expect(
             validateAdminProductListingForm({ ...untitled, title: "Walnut cabinet" }, untitled),

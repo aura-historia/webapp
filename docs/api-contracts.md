@@ -10,13 +10,13 @@ admin workflows in [admin workflows](admin-workflows.md).
   (`public/partner-products.openapi.json`) from the same pinned contract, `openapi/swagger.yaml`.
   Generation never fetches a moving contract. Never hand-edit either output.
 - The pinned capture is the complete backend `docs/swagger.yaml` at `develop`
-  `04ed6d06c9988ce4c153db3597bb4be041a39618` (2026-11-13); its last contract change is
-  `04ed6d0` ([backend#2921](https://github.com/aura-historia/backend/pull/2921)). Git blob
-  `f8b05bcbe64b7f7387826b4e100fb4999ad5a8c0`; file SHA-256
-  `296821083fc99630ec7d12992e13986a57e2fcf2672e8628606b9a5421e9c769`; canonical parsed-JSON
+  `4711f1d823cfd948bb9d595ca7e068aafd162864` (2026-11-13); its last contract change is
+  `4711f1d` ([backend#2931](https://github.com/aura-historia/backend/pull/2931)). Git blob
+  `4c99ea6d3b8f59683c3ac26107b069f136186418`; file SHA-256
+  `615c268b9f390480708c3a32b1898549f9ffb462d61ef66021d8c6da11afcdec`; canonical parsed-JSON
   SHA-256 (recorded as `x-source-contract-sha256` in the partner reference):
-  `b9a50ecaebe11a543ebea9d82ca72c83192e63568e1f32cec0fdca00a0431bd5`. It replaces the
-  `b7477308` capture (2026-11-10, last contract change `b747730`).
+  `f4fca3997a9c7618389812587ad78354def023aa3ebfe114f3f617a5d7788fa8`. It replaces the
+  `04ed6d06` capture (2026-11-13, last contract change `04ed6d0`).
 - Every REST operation lives under `/v1/...` on `https://api.aura-historia.com` (production) and
   `https://api.stage.aura-historia.com`; `/api/v1/...` is gone without aliases
   ([backend#2216](https://github.com/aura-historia/backend/issues/2216)). The generated client and
@@ -26,7 +26,30 @@ admin workflows in [admin workflows](admin-workflows.md).
   keep their paths. Release this webapp only with or after a backend that serves `/v1`.
 - Without `VITE_API_URL` the app calls the production API (`getApiBaseUrl`); each deployment
   sets its environment's API URL explicitly.
-- Changes against the previous pin (`b7477308`, 2026-11-10), with their decisions:
+- Changes against the previous pin (`04ed6d06`, 2026-11-13), with their decisions:
+  - **Listing descriptions are no longer returned**
+    ([backend#2930](https://github.com/aura-historia/backend/issues/2930), webapp
+    [#1336](https://github.com/aura-historia/webapp/issues/1336), breaking): `description` is
+    removed from `ProductListingDetailsData` (`GET /v1/product-listings/{id}`, `/by-slug/{slug}`,
+    `PATCH /v1/me/watchlist/{id}`), `ProductListingCollectionDetailsData` (watchlist, search-filter
+    matches, auction catalogue) and `AdminProductListingDetails`. History drops `description` from
+    the `PRODUCT_LISTING_DISCOVERED` payload and `previous`/`current` from `DESCRIPTION_CHANGED`,
+    which stays as a marker, like `DELIVERY_CHANGED`. Requests are unchanged: the admin PATCH and
+    the partner writes still accept `description`, and `language` now selects only the title.
+    Decisions: no model carries a listing description. `ProductListingDetail` has none and its
+    `translated` flag looks at the title only, so `mapToProductListingDetail` no longer takes a
+    language and `mapListingTextInLanguage` is gone. The detail page has no description section,
+    the meta, Open Graph and Twitter descriptions are always the `meta.product.description`
+    sentence naming the object and its source, and the JSON-LD `Product` states no `description`.
+    History maps `DESCRIPTION_CHANGED` to `{ type }` alone, shown as one "Description updated"
+    line (see **Listing history**), and a discovery snapshot has no description. The admin edit form
+    makes the description write-only (see [admin workflows](admin-workflows.md#product-listing-administration)).
+    The mappers ignore a description or marker text an older backend still sends, so this webapp
+    also works against the previous backend; it only loses the description it used to show. The
+    MCP snapshot needs no sync for this: the change touches output schemas only, which the sync
+    drops.
+- Changes adopted with the `04ed6d06` capture (against `b7477308`, 2026-11-10), with their
+  decisions:
   - **Collection reads return one optional `image`**
     ([backend#2919](https://github.com/aura-historia/backend/pull/2919), webapp
     [#1324](https://github.com/aura-historia/webapp/issues/1324), breaking):
@@ -236,7 +259,8 @@ admin workflows in [admin workflows](admin-workflows.md).
     collection details carry both members; search and similar-listing summaries and notification
     payloads carry only `localized`. Every mapper reads `localized` through
     `src/data/internal/product/ListingText.ts` (see **Listings** below); `original` is not mapped.
-    Admin and partner listing text keeps `LocalizedTextData`. This breaking change shipped without
+    Since the `4711f1d` capture only the title remains. Admin and partner listing text keeps
+    `LocalizedTextData`. This breaking change shipped without
     a transition period: release this webapp only with or after a backend that serves this capture.
   - **Party-location geocoding review** ([backend#2770](https://github.com/aura-historia/backend/issues/2770)):
     `listPartyLocationResolutionReviews`, `getPartyLocationResolution`,
@@ -255,7 +279,8 @@ admin workflows in [admin workflows](admin-workflows.md).
     [admin workflows](admin-workflows.md#product-listing-administration)); the partner
     single-listing operations stay generated-only; the custom integration guide and the partner
     reference describe the batch semantics. History adds `TITLE_CHANGED` and
-    `DESCRIPTION_CHANGED` (see **Listing history**).
+    `DESCRIPTION_CHANGED` (see **Listing history**; since the `4711f1d` capture no read returns
+    the description text).
   - **ListingSource platform technology** ([backend#2567](https://github.com/aura-historia/backend/issues/2567)):
     optional `platformTechnology` on the admin detail and search summaries, create (omit or `null`
     records none) and update (omit preserves, `null` clears), plus an exact `platformTechnology`
@@ -562,15 +587,17 @@ DTO types belong only in mapper inputs, and timestamp strings become `Date` valu
 - `ProductListingDetail` is a distinct detail contract. `pricing` keeps source and display prices
   and the valuation snapshot; `auction` and `lot` are independently nullable, and a lot never
   creates or supplies a parent auction.
-- Listing titles and descriptions come from `ListingTextData.localized`
-  (`mapListingDisplayText`), which the backend already chose for the requested language with a
-  fallback to `en`, `de` and then any other language. Never show `original` in its place.
-  `ProductListingDetail.description` is the exception
-  ([#1232](https://github.com/aura-historia/webapp/issues/1232)): `mapListingTextInLanguage` keeps
-  it only when `localized.language` is the language the product page requested, so the page body,
-  the meta, Open Graph and Twitter descriptions and the JSON-LD `description` never show a
-  description in another language. Without one, the page shows no description section and keeps
-  the root's generic meta description. The title always shows the fallback.
+- Listing titles come from `ListingTextData.localized` (`mapListingDisplayText`), which the
+  backend already chose for the requested language with a fallback to `en`, `de` and then any
+  other language. Never show `original` in its place. `ProductListingDetail.translated` is true
+  when the shown title is in another language than the source's original.
+- No read returns a listing's description
+  ([backend#2930](https://github.com/aura-historia/backend/issues/2930), webapp
+  [#1336](https://github.com/aura-historia/webapp/issues/1336)), so no listing model has one, the
+  detail page has no description section, and the meta, Open Graph and Twitter descriptions are
+  always the `meta.product.description` sentence naming the object and its source. The JSON-LD
+  `Product` states no `description` rather than repeating that sentence. Descriptions stay
+  writable by administrators and partners, and still inform search and matching.
 - Redacted or missing text, slugs and image URLs stay absent; never invent titles, prices,
   sellers, auctions or sale facts.
 - Monetary and on-request prices are separate union members; a missing price stays `null`.
@@ -602,9 +629,13 @@ DTO types belong only in mapper inputs, and timestamp strings become `Date` valu
   projection (`amount`, `currency`, `fxRateId`, `capturedAt`) from the latest snapshot at or before
   the entry. The mapper keeps both on discovery prices/estimates and both sides of price and
   estimate changes, and drops a malformed or unsupported projection rather than coercing it.
-- `TITLE_CHANGED` and `DESCRIPTION_CHANGED` keep the full previous and current original text with
-  its language; `null` marks an absent side. The timeline names the change (added, updated or
-  removed) under the Details filter and never quotes the source text.
+- `TITLE_CHANGED` keeps the full previous and current original text with its language; `null`
+  marks an absent side. The timeline names the change (added, updated or removed) under the
+  Details filter and never quotes the source text.
+- `DESCRIPTION_CHANGED` is a marker without text, like `DELIVERY_CHANGED`: the mapper returns
+  `{ type }` alone, even when an older backend still sends `previous` and `current`, and the
+  timeline shows one "Description updated" line, never "added" or "removed". A discovery snapshot
+  carries no description.
 - A missing projection is normal (no snapshot or quote, including snapshots taken before a currency such as ARS was supported).
   The timeline then shows the labelled source amount; converted values show their source amount
   and snapshot capture time. The chart offers one requested-currency series built only from

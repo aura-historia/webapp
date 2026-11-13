@@ -699,9 +699,7 @@
         "titleAdded": "Titel hinzugefügt.",
         "titleChanged": "Titel aktualisiert.",
         "titleRemoved": "Titel entfernt.",
-        "descriptionAdded": "Beschreibung hinzugefügt.",
         "descriptionChanged": "Beschreibung aktualisiert.",
-        "descriptionRemoved": "Beschreibung entfernt.",
         "auctionChanged": "Auktions- oder Losdaten geändert.",
         "withdrawn": "Eintrag zurückgezogen; die Verfügbarkeit war {{previousAvailability}}.",
         "restored": "Eintrag von der Quelle wiederhergestellt.",
@@ -777,11 +775,6 @@
       "range": "{{min}}–{{max}}",
       "from": "Ab {{price}}",
       "upTo": "Bis {{price}}"
-    },
-    "description": {
-      "title": "Beschreibung",
-      "showMore": "Mehr anzeigen",
-      "showLess": "Weniger anzeigen"
     },
     "title": {
       "showFull": "Ganzen Titel anzeigen",
@@ -5692,7 +5685,9 @@
       "unchangedToast": "Nichts geändert; das Angebot hatte diese Werte bereits.",
       "staleShort": "Anderswo geändert (jetzt Version {{version}}).",
       "unsaved_one": "{{count}} ungespeicherte Änderung",
-      "unsaved_other": "{{count}} ungespeicherte Änderungen"
+      "unsaved_other": "{{count}} ungespeicherte Änderungen",
+      "descriptionNotShown": "Die aktuelle Beschreibung wird nicht angezeigt. Hier eingegebener Text ersetzt sie; bleibt das Feld leer, bleibt die aktuelle Beschreibung erhalten.",
+      "clearDescription": "Aktuelle Beschreibung entfernen"
     },
     "lifecycle": {
       "withdrawAction": "Angebot zurückziehen",

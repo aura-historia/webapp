@@ -33,13 +33,20 @@ const CATALOGUE_POSITION_MAX = 4_294_967_295;
  * Edit-form state. Text is the original source text; an empty language means none was chosen,
  * never a default. Amounts are decimal text in major units; an empty currency means none was
  * chosen, never a default. Timing values are UTC `YYYY-MM-DDTHH:mm[:ss]`.
+ *
+ * The description is write-only: the backend returns none, so `description` always starts empty
+ * and an empty field keeps the stored text. Only `clearDescription` removes it.
  */
 export type AdminProductListingFormValues = {
     title: string;
     /** A stored language outside `SOURCE_TEXT_LANGUAGES` is kept for display but never sent. */
     titleLanguage: string;
+    /** New description text. Empty keeps the stored description. */
     description: string;
+    /** Starts as the title's language. */
     descriptionLanguage: string;
+    /** Removes the stored description; takes precedence over `description`. */
+    clearDescription: boolean;
     priceKind: AdminProductListingPriceKind;
     priceAmount: string;
     priceCurrency: Currency | "";
@@ -129,8 +136,8 @@ function estimateValues(estimate: ListingPriceEstimate | null, fallback: Currenc
 export function toAdminProductListingFormValues(
     listing: AdminProductListingDetail,
 ): AdminProductListingFormValues {
-    // New text starts in the listing's other text's language; without one the admin chooses.
-    const fallbackLanguage = listing.title?.language ?? listing.description?.language ?? "";
+    // New text starts in the title's language; without one the admin chooses.
+    const fallbackLanguage = listing.title?.language ?? "";
     // A new amount starts in the listing's own currency; without one the admin chooses explicitly.
     const fallbackCurrency = knownCurrencies(listing)[0] ?? "";
     const price = listing.price;
@@ -139,8 +146,9 @@ export function toAdminProductListingFormValues(
     return {
         title: listing.title?.text ?? "",
         titleLanguage: listing.title?.language ?? fallbackLanguage,
-        description: listing.description?.text ?? "",
-        descriptionLanguage: listing.description?.language ?? fallbackLanguage,
+        description: "",
+        descriptionLanguage: fallbackLanguage,
+        clearDescription: false,
         priceKind: price?.type ?? "NONE",
         priceAmount:
             price?.type === "MONETARY" ? formatMinorUnits(price.amount, price.currency) : "",
@@ -217,10 +225,11 @@ const FORM_GROUPS = {
         same: (a: Values, b: Values) =>
             sameText(a.title, a.titleLanguage, b.title, b.titleLanguage),
     },
+    // Write-only: the listing's description is unknown, so the group differs only while the admin
+    // has entered text or asked to clear it. A language switch alone changes nothing.
     description: {
-        fields: ["description", "descriptionLanguage"],
-        same: (a: Values, b: Values) =>
-            sameText(a.description, a.descriptionLanguage, b.description, b.descriptionLanguage),
+        fields: ["description", "descriptionLanguage", "clearDescription"],
+        same: (draft: Values) => !draft.clearDescription && draft.description.trim() === "",
     },
     price: {
         fields: ["priceKind", "priceAmount", "priceCurrency"],
@@ -289,7 +298,10 @@ const FORM_GROUPS = {
     },
 } as const satisfies Record<
     string,
-    { readonly fields: readonly (keyof Values)[]; readonly same: (a: Values, b: Values) => boolean }
+    {
+        readonly fields: readonly (keyof Values)[];
+        readonly same: (draft: Values, original: Values) => boolean;
+    }
 >;
 
 type FormGroup = keyof typeof FORM_GROUPS;
@@ -386,7 +398,10 @@ export function buildAdminProductListingPatch(
     return {
         ...(changed.has("title") && { title: toTextPatch(values.title, values.titleLanguage) }),
         ...(changed.has("description") && {
-            description: toTextPatch(values.description, values.descriptionLanguage),
+            // Clearing is always explicit; an empty field never reaches the patch.
+            description: values.clearDescription
+                ? null
+                : toTextPatch(values.description, values.descriptionLanguage),
         }),
         ...(changed.has("price") && { price: toPrice(values) }),
         ...(changed.has("priceEstimateMin") && {
@@ -488,7 +503,7 @@ export function validateAdminProductListingForm(values: Values, original: Values
     if (changed.has("title")) {
         issues.push(...textIssues("titleLanguage", values.title, values.titleLanguage));
     }
-    if (changed.has("description")) {
+    if (changed.has("description") && !values.clearDescription) {
         issues.push(
             ...textIssues("descriptionLanguage", values.description, values.descriptionLanguage),
         );
@@ -583,6 +598,7 @@ export function createAdminProductListingFormSchema(original: Values) {
             titleLanguage: z.string(),
             description: z.string(),
             descriptionLanguage: z.string(),
+            clearDescription: z.boolean(),
             priceKind: z.enum(ADMIN_PRODUCT_LISTING_PRICE_KINDS),
             priceAmount: z.string(),
             priceCurrency: currencyValue,

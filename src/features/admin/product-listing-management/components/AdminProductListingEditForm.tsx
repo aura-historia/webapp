@@ -130,8 +130,15 @@ export function AdminProductListingEditForm({
                 adopt(latest);
             } else {
                 // The refetch failed; the submitted values are the state at the returned version.
-                setBase({ values, version: result.expectedVersion });
-                form.reset(values);
+                // The description was sent, so its field starts empty again, as on a fresh load.
+                const saved = {
+                    ...values,
+                    description: "",
+                    descriptionLanguage: values.titleLanguage,
+                    clearDescription: false,
+                };
+                setBase({ values: saved, version: result.expectedVersion });
+                form.reset(saved);
             }
             toast.success(
                 t(
@@ -333,10 +340,11 @@ function TextFields({
 }) {
     const { t } = useTranslation();
     const errors = form.formState.errors;
-    const [title, titleLanguage, descriptionLanguage] = form.watch([
+    const [title, titleLanguage, descriptionLanguage, clearDescription] = form.watch([
         "title",
         "titleLanguage",
         "descriptionLanguage",
+        "clearDescription",
     ]);
     // The backend shortens longer titles with "..." instead of rejecting them.
     const titleTooLong = [...title.trim()].length > LISTING_TITLE_MAX_CHARACTERS;
@@ -376,6 +384,7 @@ function TextFields({
                     error={errors.titleLanguage?.message}
                 />
             </div>
+            {/* The backend returns no description, so this field is write-only. */}
             <div className="grid gap-3.5 sm:grid-cols-[minmax(0,1fr)_180px]">
                 <FormField
                     id="admin-product-listing-description"
@@ -386,21 +395,40 @@ function TextFields({
                         rows={5}
                         dir="auto"
                         lang={textLanguage(descriptionLanguage)}
+                        disabled={disabled || clearDescription}
+                        aria-describedby="admin-product-listing-description-note"
                         className={cn(
                             ADMIN_RAISED_FIELD_CLASS,
                             "h-auto resize-y py-2.5 leading-[1.55]",
                         )}
                         {...form.register("description")}
                     />
+                    <p
+                        id="admin-product-listing-description-note"
+                        className="text-meta text-ink-secondary"
+                    >
+                        {t("adminProductListings.edit.descriptionNotShown")}
+                    </p>
                 </FormField>
                 <TextLanguageField
                     form={form}
                     name="descriptionLanguage"
                     label={t("adminProductListings.fields.descriptionLanguage")}
-                    disabled={disabled}
+                    disabled={disabled || clearDescription}
                     error={errors.descriptionLanguage?.message}
                 />
             </div>
+            <label className="flex cursor-pointer items-start gap-3 rounded-md bg-surface px-4 py-3.5 shadow-ring has-focus-visible:outline-2 has-focus-visible:outline-offset-3 has-focus-visible:outline-brass has-disabled:cursor-default has-disabled:opacity-55">
+                <input
+                    type="checkbox"
+                    disabled={disabled}
+                    className="mt-0.5 size-[18px] shrink-0 accent-oxblood"
+                    {...form.register("clearDescription")}
+                />
+                <span className="text-sm font-medium">
+                    {t("adminProductListings.edit.clearDescription")}
+                </span>
+            </label>
         </>
     );
 }

@@ -41,17 +41,15 @@ export function generateProductHeadMeta(
         : undefined;
     const productImage = sellerImage ?? BANNER_IMAGE_URL;
     const productImageAlt = sellerImage ? productTitle : t("meta.siteName");
-    // The detail mapping keeps only a description in the page's language (#1232). Without one, a
-    // sentence naming the object and its source stands in, so listings do not share one generic
-    // description.
+    // The backend returns no listing description, so a sentence naming the object and its source
+    // describes the page; listings do not share one generic description.
     const description = product
         ? toMetaDescription(
-              product.description ??
-                  t("meta.product.description", {
-                      title: productTitle,
-                      source: product.source.name,
-                      interpolation: { escapeValue: false },
-                  }),
+              t("meta.product.description", {
+                  title: productTitle,
+                  source: product.source.name,
+                  interpolation: { escapeValue: false },
+              }),
           )
         : undefined;
     const listingPath = getProductListingPath(params.productListingTitleSlugId);

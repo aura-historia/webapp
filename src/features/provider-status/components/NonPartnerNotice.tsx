@@ -14,7 +14,7 @@ type NonPartnerNoticeProps = {
     readonly sourceUrl?: URL | string;
     /** Absolute address of this Aura Historia page, for the removal request. */
     readonly pageUrl?: string;
-    /** Listing pages: whether the shown title or description is a machine translation. */
+    /** Listing pages: whether the shown title is a machine translation. */
     readonly translated?: boolean;
     readonly className?: string;
 };

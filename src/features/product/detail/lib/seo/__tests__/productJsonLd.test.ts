@@ -87,15 +87,8 @@ describe("productJsonLd", () => {
         ).toHaveProperty("sku");
     });
 
-    it("includes the description only when the detail model carries one", () => {
-        expect(
-            generateProductJsonLd(
-                makeProduct({ description: "Imari charger,\n\nunderglaze blue." }),
-            ).description,
-        ).toBe("Imari charger, underglaze blue.");
-        expect(generateProductJsonLd(makeProduct({ description: undefined }))).not.toHaveProperty(
-            "description",
-        );
+    it("states no description, since the backend returns none", () => {
+        expect(generateProductJsonLd(makeProduct())).not.toHaveProperty("description");
     });
 
     it("includes a current monetary offer sold by the listing's source", () => {
