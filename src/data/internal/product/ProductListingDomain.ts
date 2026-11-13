@@ -9,6 +9,7 @@ import type {
     ProductListingPricingData,
     ProductListingPricingValuationData,
     ProductListingSummaryPriceValuationData,
+    ViewLinkData,
 } from "@/client";
 import type { Currency } from "@/data/internal/common/Currency.ts";
 import type {
@@ -122,6 +123,19 @@ export type ListingLotFacts = {
 
 export function mapListingUrl(value: string): URL | undefined {
     return URL.parse(value) ?? undefined;
+}
+
+/** The provider link to send people to, and whether it is an affiliate link that must be disclosed. */
+export type ListingViewLink = {
+    readonly url: URL;
+    readonly affiliate: boolean;
+};
+
+/** Tolerates a response without `viewLink`, such as one from a backend that still sends `viewUrl`. */
+export function mapListingViewLink(value: ViewLinkData | undefined): ListingViewLink | undefined {
+    if (!value) return undefined;
+    const url = mapListingUrl(value.url);
+    return url ? { url, affiliate: value.affiliate } : undefined;
 }
 
 function mapImageContentType(

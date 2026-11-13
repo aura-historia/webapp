@@ -6,6 +6,7 @@ import { NonPartnerNotice } from "@/features/provider-status/components/NonPartn
 import { PartnerBadge } from "@/features/provider-status/components/PartnerBadge.tsx";
 import { providerStatusPageUrl } from "@/features/provider-status/lib/providerStatusLinks.ts";
 import { SHOP_FOCUS_CLASS } from "@/features/shop/profile/lib/shopStyles.ts";
+import { outboundLinkRel } from "@/lib/ui/outboundLinkRel.ts";
 import { cn } from "@/lib/utils.ts";
 
 type ShopHeaderProps = {
@@ -27,8 +28,8 @@ function initialOf(name: string): string {
  */
 export function ShopHeader({ shop }: ShopHeaderProps) {
     const { t, i18n } = useTranslation();
-    // `viewUrl` carries the referral or UTM tagging; `url` is only the fallback for a response without it.
-    const websiteUrl = shop.viewUrl ?? shop.url;
+    // `viewLink` carries the referral or UTM tagging; `url` is only the fallback for a response without it.
+    const websiteUrl = shop.viewLink?.url ?? shop.url;
 
     return (
         <header className="grid grid-cols-[88px_minmax(0,1fr)] gap-4 border-b border-line-subtle pb-6 md:grid-cols-[184px_minmax(0,1fr)_auto] md:grid-rows-[1fr_auto_auto_auto] md:gap-x-12 md:pb-9">
@@ -94,7 +95,7 @@ export function ShopHeader({ shop }: ShopHeaderProps) {
                     <a
                         href={websiteUrl}
                         target="_blank"
-                        rel="nofollow noopener noreferrer"
+                        rel={outboundLinkRel(shop.viewLink?.affiliate ?? false)}
                         className={cn(
                             "inline-flex h-12 items-center justify-center gap-2.5 rounded-pill bg-ink px-6 text-button text-surface transition-colors hover:bg-oxblood hover:text-on-oxblood",
                             "md:h-13 md:whitespace-nowrap",

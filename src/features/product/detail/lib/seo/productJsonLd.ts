@@ -101,8 +101,12 @@ function toOffer(
         "@type": "Offer",
         priceCurrency: listingPrice.currency,
         price: toMajorCurrencyAmount(listingPrice.amount, listingPrice.currency),
-        // The page that shows the offer; the dealer's own listing is one click further.
-        url: canonicalUrl ?? product.viewUrl?.href ?? product.url?.href,
+        // The page that shows the offer; the dealer's own listing is one click further. Structured
+        // data never names an affiliate link.
+        url:
+            canonicalUrl ??
+            (product.viewLink?.affiliate ? undefined : product.viewLink?.url.href) ??
+            product.url?.href,
         seller,
     };
     if (availability) offer.availability = availability;

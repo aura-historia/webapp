@@ -5,6 +5,7 @@ import type { ProductListingDetail } from "@/data/internal/product/ProductListin
 import { formatPriceEstimate } from "@/features/product/detail/lib/pricing/priceEstimate.ts";
 import { useListingWatchlistState } from "@/features/watchlist/api/watchlistMutationState.ts";
 import { useWatchlistMutation } from "@/features/watchlist/api/useWatchlistMutation.ts";
+import { outboundLinkRel } from "@/lib/ui/outboundLinkRel.ts";
 import { cn } from "@/lib/utils.ts";
 
 export const FOCUS_CLASS =
@@ -75,7 +76,7 @@ export function ProviderLink({
     readonly className: string;
 }) {
     const { t } = useTranslation();
-    const href = product.viewUrl?.href ?? product.url?.href;
+    const href = product.viewLink?.url.href ?? product.url?.href;
     const content: ReactNode = (
         <>
             {t("product.toMerchant")}
@@ -91,7 +92,12 @@ export function ProviderLink({
         );
     }
     return (
-        <a href={href} target="_blank" rel="nofollow noopener noreferrer" className={className}>
+        <a
+            href={href}
+            target="_blank"
+            rel={outboundLinkRel(product.viewLink?.affiliate ?? false)}
+            className={className}
+        >
             {content}
         </a>
     );

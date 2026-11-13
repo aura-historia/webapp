@@ -13,6 +13,7 @@ import { useListingWatchlistState } from "@/features/watchlist/api/watchlistMuta
 import { PartnerBadge } from "@/features/provider-status/components/PartnerBadge.tsx";
 import { useWatchlistMutation } from "@/features/watchlist/api/useWatchlistMutation.ts";
 import { useWatchlistNotificationMutation } from "@/features/watchlist/api/useWatchlistNotificationMutation.ts";
+import { outboundLinkRel } from "@/lib/ui/outboundLinkRel.ts";
 import { cn } from "@/lib/utils.ts";
 import { ToggleBellIcon } from "@/components/common/ToggleBellIcon.tsx";
 
@@ -52,7 +53,7 @@ function SearchResultCardComponent({ product }: { readonly product: ProductListi
             ? searchFilterData.userSearchFilterId
             : undefined;
     const isWithdrawn = product.lifecycle === "WITHDRAWN";
-    const merchantUrl = product.viewUrl?.href ?? product.url?.href;
+    const merchantUrl = product.viewLink?.url.href ?? product.url?.href;
     const showSensitiveContent =
         product.userState?.contentVisibility?.showUnassessedOrSensitiveContent ?? false;
     const { watching, notifications } = useListingWatchlistState(
@@ -226,7 +227,7 @@ function SearchResultCardComponent({ product }: { readonly product: ProductListi
                     <a
                         href={merchantUrl}
                         target="_blank"
-                        rel="nofollow noopener noreferrer"
+                        rel={outboundLinkRel(product.viewLink?.affiliate ?? false)}
                         className={cn(
                             "inline-flex min-h-11 flex-1 items-center gap-1.5 text-meta font-medium hover:text-brass-ink sm:flex-none sm:justify-end",
                             FOCUS_CLASS,

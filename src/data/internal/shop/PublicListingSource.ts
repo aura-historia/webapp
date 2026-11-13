@@ -13,9 +13,15 @@ export type PublicListingSource = {
     readonly url?: string;
     /**
      * The link to send visitors to: the source's affiliate link, or `url` with Aura's UTM
-     * parameters. The backend derives it and sends it exactly when `url` is present.
+     * parameters, and whether it is an affiliate link. The backend derives it and sends it exactly
+     * when `url` is present.
      */
-    readonly viewUrl?: string;
+    readonly viewLink?: PublicListingSourceViewLink;
+};
+
+export type PublicListingSourceViewLink = {
+    readonly url: string;
+    readonly affiliate: boolean;
 };
 
 export function mapPublicListingSource(data: PublicListingSourceData): PublicListingSource {
@@ -27,6 +33,6 @@ export function mapPublicListingSource(data: PublicListingSourceData): PublicLis
         partner: data.operator.partner,
         image: data.image,
         url: data.url,
-        viewUrl: data.viewUrl,
+        viewLink: data.viewLink && { url: data.viewLink.url, affiliate: data.viewLink.affiliate },
     };
 }

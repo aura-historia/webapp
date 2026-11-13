@@ -31,7 +31,7 @@ const baseSummary: ProductListingSummaryData = {
     availability: "AVAILABLE",
     lifecycle: "ACTIVE",
     url: "https://example.com/item",
-    viewUrl: "https://example.com/view",
+    viewLink: { url: "https://example.com/view", affiliate: false },
     image: { url: "https://example.com/image.jpg" },
     updated: "2026-09-01T00:00:00Z",
 };
@@ -58,7 +58,7 @@ const baseDetails: ProductListingDetailsData = {
     availability: "AVAILABLE",
     lifecycle: "ACTIVE",
     url: "https://example.com/item",
-    viewUrl: "https://example.com/view",
+    viewLink: { url: "https://example.com/view", affiliate: false },
     images: [{ url: "https://example.com/image.jpg" }],
     created: "2026-08-01T00:00:00Z",
     updated: "2026-09-01T00:00:00Z",
@@ -212,6 +212,29 @@ describe("ProductListing mappers", () => {
         expect(
             mapPersonalizedProductListingDetails({ item: withoutImage }, "en").image,
         ).toBeUndefined();
+    });
+
+    it("maps an affiliate view link with its disclosure flag on summaries and details", () => {
+        const viewLink = {
+            url: "https://prf.hn/click/camref:abc/destination:https%3A%2F%2Fexample.com",
+            affiliate: true,
+        };
+        const summary = mapPersonalizedProductListingSummary(
+            personalized({ ...baseSummary, viewLink }),
+            "en-US",
+        );
+
+        expect(summary.viewLink).toEqual({ url: new URL(viewLink.url), affiliate: true });
+        expect(summary.url).toEqual(new URL(baseSummary.url));
+    });
+
+    it("drops a view link whose URL cannot be parsed", () => {
+        const summary = mapPersonalizedProductListingSummary(
+            personalized({ ...baseSummary, viewLink: { url: "not a url", affiliate: true } }),
+            "en-US",
+        );
+
+        expect(summary.viewLink).toBeUndefined();
     });
 
     it("keeps ON_REQUEST distinct from missing price", () => {

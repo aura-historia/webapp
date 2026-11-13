@@ -19,34 +19,36 @@ describe("mapPublicListingSource", () => {
             partner: false,
             image: "https://example.com/logo.png",
             url: undefined,
-            viewUrl: undefined,
+            viewLink: undefined,
         });
     });
 
-    it("keeps the source's own url next to the viewUrl it passes through unchanged", () => {
-        const viewUrl =
-            "https://prf.hn/click/camref:1100lAbCd/destination:https%3A%2F%2Fexample.com";
+    it("keeps the source's own url next to the view link it passes through unchanged", () => {
+        const viewLink = {
+            url: "https://prf.hn/click/camref:1100lAbCd/destination:https%3A%2F%2Fexample.com",
+            affiliate: true,
+        };
         const source = mapPublicListingSource({
             ...base,
             url: "https://example.com",
-            viewUrl,
+            viewLink,
         });
 
         expect(source.url).toBe("https://example.com");
-        expect(source.viewUrl).toBe(viewUrl);
+        expect(source.viewLink).toEqual(viewLink);
     });
 
-    it("leaves viewUrl absent when the response carries only a url", () => {
+    it("leaves the view link absent when the response carries only a url", () => {
         const source = mapPublicListingSource({ ...base, url: "https://example.com" });
 
         expect(source.url).toBe("https://example.com");
-        expect(source.viewUrl).toBeUndefined();
+        expect(source.viewLink).toBeUndefined();
     });
 
     it("leaves both links absent for a source without a website", () => {
         const source = mapPublicListingSource(base);
 
         expect(source.url).toBeUndefined();
-        expect(source.viewUrl).toBeUndefined();
+        expect(source.viewLink).toBeUndefined();
     });
 });

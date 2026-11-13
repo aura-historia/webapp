@@ -67,7 +67,10 @@ describe("ProductInfo", () => {
     const product = makeProductListingDetail({
         title: "Test Product Title",
         displayPrice: "99,99 €",
-        viewUrl: new URL("https://affiliate.example.com/product"),
+        viewLink: {
+            url: new URL("https://example.com/product?utm_source=aura_historia"),
+            affiliate: false,
+        },
     });
 
     it("renders the title, public source and display price", () => {
@@ -108,11 +111,23 @@ describe("ProductInfo", () => {
     it("uses the referral URL with a nofollow relationship", () => {
         renderWithQueryClient(<ProductInfo product={product} />);
         const link = screen.getByRole("link", { name: /Zur Seite des Anbieters/ });
-        expect(link).toHaveAttribute("href", product.viewUrl?.href);
+        expect(link).toHaveAttribute("href", product.viewLink?.url.href);
         expect(link).toHaveAttribute("rel", "nofollow noopener noreferrer");
     });
+    it("marks an affiliate link as sponsored", () => {
+        const affiliateUrl = new URL("https://prf.hn/click/camref:abc/destination:x");
+        renderWithQueryClient(
+            <ProductInfo
+                product={{ ...product, viewLink: { url: affiliateUrl, affiliate: true } }}
+            />,
+        );
+        for (const link of screen.getAllByRole("link", { name: /Zur Seite des Anbieters/ })) {
+            expect(link).toHaveAttribute("href", affiliateUrl.href);
+            expect(link).toHaveAttribute("rel", "sponsored nofollow noopener noreferrer");
+        }
+    });
     it("falls back to the source URL", () => {
-        renderWithQueryClient(<ProductInfo product={{ ...product, viewUrl: undefined }} />);
+        renderWithQueryClient(<ProductInfo product={{ ...product, viewLink: undefined }} />);
         expect(screen.getAllByRole("link", { name: /Zur Seite des Anbieters/ })[0]).toHaveAttribute(
             "href",
             product.url?.href,
@@ -132,7 +147,7 @@ describe("ProductInfo", () => {
     });
     it("disables the merchant action for a redacted URL", () => {
         renderWithQueryClient(
-            <ProductInfo product={{ ...product, url: undefined, viewUrl: undefined }} />,
+            <ProductInfo product={{ ...product, url: undefined, viewLink: undefined }} />,
         );
         expect(
             screen.queryByRole("link", { name: /Zur Seite des Anbieters/ }),
@@ -179,7 +194,7 @@ describe("ProductInfo", () => {
                     availability: "SOLD_OUT",
                     lifecycle: "ACTIVE",
                     url: "https://example.com/chair",
-                    viewUrl: "https://example.com/chair",
+                    viewLink: { url: "https://example.com/chair", affiliate: false },
                     images: [],
                     created: "2026-08-01T00:00:00Z",
                     updated: "2026-09-01T00:00:00Z",
