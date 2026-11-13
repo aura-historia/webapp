@@ -1168,9 +1168,9 @@ export type ProductListingSummaryData = {
   lifecycle: ListingLifecycleData;
   url: string;
   /**
-   * Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
+   * The link to the provider's page that is meant to be shared with people, and whether it is an affiliate link.
    */
-  viewUrl: string;
+  viewLink: ViewLinkData;
   /**
    * The listing's first image. Omitted when the listing has no images.
    */
@@ -1222,9 +1222,9 @@ export type ProductListingDetailsData = {
   lifecycle: ListingLifecycleData;
   url: string;
   /**
-   * Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
+   * The link to the provider's page that is meant to be shared with people, and whether it is an affiliate link.
    */
-  viewUrl: string;
+  viewLink: ViewLinkData;
   images: Array<ProductListingImageData>;
   contentPolicy?: ContentPolicyData;
   auction?: AuctionSummaryData;
@@ -1262,9 +1262,9 @@ export type ProductListingCollectionDetailsData = {
   lifecycle: ListingLifecycleData;
   url: string;
   /**
-   * Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
+   * The link to the provider's page that is meant to be shared with people, and whether it is an affiliate link.
    */
-  viewUrl: string;
+  viewLink: ViewLinkData;
   /**
    * The listing's first image. Omitted when the listing has no images.
    */
@@ -3357,15 +3357,19 @@ export type WatchlistNotificationPayloadData = {
   productListingTitleSlugId: string;
   listingSourceName: string;
   /**
+   * `true` while the ListingSource's operator holds an active Aura Historia partnership, like `operator.partner` on listing sources. It is read with the notification, so it turns `false` once the partnership ends.
+   */
+  listingSourcePartner: boolean;
+  /**
    * Listing title for the recipient's language. Omitted when the listing had no title. Carries only `localized`.
    */
   title?: ListingTextData;
   image?: ProductListingImageData;
   url: string;
   /**
-   * Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
+   * The link to the provider's page that is meant to be shared with people, and whether it is an affiliate link.
    */
-  viewUrl: string;
+  viewLink: ViewLinkData;
   change: WatchlistNotificationChangeData;
 };
 
@@ -3399,15 +3403,19 @@ export type SearchFilterNotificationPayloadData = {
   productListingTitleSlugId: string;
   listingSourceName: string;
   /**
+   * `true` while the ListingSource's operator holds an active Aura Historia partnership, like `operator.partner` on listing sources. It is read with the notification, so it turns `false` once the partnership ends.
+   */
+  listingSourcePartner: boolean;
+  /**
    * Listing title for the recipient's language. Omitted when the listing had no title. Carries only `localized`.
    */
   title?: ListingTextData;
   image?: ProductListingImageData;
   url: string;
   /**
-   * Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
+   * The link to the provider's page that is meant to be shared with people, and whether it is an affiliate link.
    */
-  viewUrl: string;
+  viewLink: ViewLinkData;
 };
 
 export type PartnershipApplicationNotificationPayloadData = {
@@ -4053,6 +4061,20 @@ export type ListingSourceReferenceData = {
 };
 
 /**
+ * The link to the provider's page that is meant to be shared with people, and whether it is an affiliate link.
+ */
+export type ViewLinkData = {
+  /**
+   * Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
+   */
+  url: string;
+  /**
+   * `true` when `url` is an affiliate link, which can earn Aura Historia a commission when people follow it. `false` when it carries only Aura Historia's tracking parameters or leads to Aura Historia itself.
+   */
+  affiliate: boolean;
+};
+
+/**
  * The Party that operates a ListingSource, wherever a ListingSource is presented.
  */
 export type PublicListingSourceOperatorData = {
@@ -4067,7 +4089,7 @@ export type PublicListingSourceOperatorData = {
 };
 
 /**
- * Allowlisted public ListingSource card used by public collection search, exact slug lookup and the `listingSources` of a saved search filter. It omits Party identifiers/contact, ingestion/provider/referral configuration, timestamps, versions, and search metadata. The only trace of the referral configuration is `viewUrl`.
+ * Allowlisted public ListingSource card used by public collection search, exact slug lookup and the `listingSources` of a saved search filter. It omits Party identifiers/contact, ingestion/provider/referral configuration, timestamps, versions, and search metadata. The only trace of the referral configuration is `viewLink`.
  */
 export type PublicListingSourceData = {
   /**
@@ -4085,9 +4107,9 @@ export type PublicListingSourceData = {
    */
   url?: string;
   /**
-   * The link to send visitors to, derived from `url` the same way as a ProductListing's `viewUrl`. The source's affiliate link when it has a referral configuration, otherwise `url` with Aura's `utm_source` and `utm_medium` parameters, unless `url` already carries a `utm_source`. Present exactly when `url` is.
+   * The link to send visitors to, derived from `url` the same way as a ProductListing's `viewLink`. Present exactly when `url` is.
    */
-  viewUrl?: string;
+  viewLink?: ViewLinkData;
   /**
    * Optional http/https presentation image URL, omitted when absent.
    */
@@ -4444,9 +4466,9 @@ export type PublicAuctionData = {
   name?: LocalizedTextData;
   catalogueUrl?: string;
   /**
-   * Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
+   * The link to the provider's page that is meant to be shared with people, and whether it is an affiliate link.
    */
-  viewUrl?: string;
+  viewLink?: ViewLinkData;
   format?: AuctionFormatData;
   schedule: AuctionScheduleData;
   reportedStatus?: AuctionReportedStatusData;

@@ -20,6 +20,7 @@ import {
     mapListingLifecycle,
     mapListingPrice,
     mapListingUrl,
+    mapListingViewLink,
     mapListingDetailValuation,
     mapListingSummaryValuation,
     type ListingAvailability,
@@ -28,6 +29,7 @@ import {
     type ListingPrice,
     type ListingPriceValuation,
     type PriceValuationType,
+    type ListingViewLink,
 } from "@/data/internal/product/ProductListingDomain.ts";
 import {
     mapToListingGeography,
@@ -50,7 +52,7 @@ export type ProductListing = {
     readonly availability: ListingAvailability | null;
     readonly lifecycle: ListingLifecycle;
     readonly url?: URL;
-    readonly viewUrl?: URL;
+    readonly viewLink?: ListingViewLink;
     /** The listing's first image; collection reads return no other. Absent when it has none. */
     readonly image?: ProductImage;
     readonly contentPolicy: ListingContentPolicy | null | undefined;
@@ -82,7 +84,7 @@ function mapSummaryFields(
         availability: mapListingAvailability(item.availability),
         lifecycle: mapListingLifecycle(item.lifecycle),
         url: mapListingUrl(item.url),
-        viewUrl: mapListingUrl(item.viewUrl),
+        viewLink: mapListingViewLink(item.viewLink),
         image: mapListingImage(item.image, item.contentPolicy),
         contentPolicy: mapListingContentPolicy(item.contentPolicy),
         updated: new Date(item.updated),
@@ -119,7 +121,7 @@ export function mapPersonalizedProductListingDetails(
         availability: mapListingAvailability(item.availability),
         lifecycle: mapListingLifecycle(item.lifecycle),
         url: mapListingUrl(item.url),
-        viewUrl: mapListingUrl(item.viewUrl),
+        viewLink: mapListingViewLink(item.viewLink),
         image: mapListingImage(item.image, item.contentPolicy),
         contentPolicy: mapListingContentPolicy(item.contentPolicy),
         updated: new Date(item.updated),

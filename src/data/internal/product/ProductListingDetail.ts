@@ -23,6 +23,7 @@ import {
     mapListingLot,
     mapListingPricingAmounts,
     mapListingUrl,
+    mapListingViewLink,
     type ListingAvailability,
     type ListingAuctionSummary,
     type ListingContentPolicy,
@@ -31,6 +32,7 @@ import {
     type ListingPrice,
     type ListingPriceValuation,
     type ListingPricing,
+    type ListingViewLink,
 } from "@/data/internal/product/ProductListingDomain.ts";
 
 export type ProductListingDetail = {
@@ -49,7 +51,7 @@ export type ProductListingDetail = {
     readonly availability: ListingAvailability | null;
     readonly lifecycle: ListingLifecycle;
     readonly url?: URL;
-    readonly viewUrl?: URL;
+    readonly viewLink?: ListingViewLink;
     readonly images: readonly ProductImage[];
     readonly contentPolicy: ListingContentPolicy | null | undefined;
     readonly auction: ListingAuctionSummary | null;
@@ -88,7 +90,7 @@ export function mapToProductListingDetail(
         availability: mapListingAvailability(item.availability),
         lifecycle: mapListingLifecycle(item.lifecycle),
         url: mapListingUrl(item.url),
-        viewUrl: mapListingUrl(item.viewUrl),
+        viewLink: mapListingViewLink(item.viewLink),
         images: mapListingImages(item.images, item.contentPolicy),
         contentPolicy: mapListingContentPolicy(item.contentPolicy),
         auction: mapListingAuction(item.auction),

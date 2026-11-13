@@ -9,14 +9,17 @@ admin workflows in [admin workflows](admin-workflows.md).
 - `pnpm openapi-ts` generates `src/client/**` and the public partner reference
   (`public/partner-products.openapi.json`) from the same pinned contract, `openapi/swagger.yaml`.
   Generation never fetches a moving contract. Never hand-edit either output.
-- The pinned capture is the complete backend `docs/swagger.yaml` at `develop`
-  `4711f1d823cfd948bb9d595ca7e068aafd162864` (2026-11-13); its last contract change is
-  `4711f1d` ([backend#2931](https://github.com/aura-historia/backend/pull/2931)). Git blob
-  `4c99ea6d3b8f59683c3ac26107b069f136186418`; file SHA-256
-  `615c268b9f390480708c3a32b1898549f9ffb462d61ef66021d8c6da11afcdec`; canonical parsed-JSON
+- The pinned capture is the complete backend `docs/swagger.yaml` at
+  `338af42f64870999c515a33221ef96df8beb7ed7` (2026-11-13), the head of
+  [backend#2933](https://github.com/aura-historia/backend/pull/2933), which contains `develop`
+  up to `4b0deea` ([backend#2932](https://github.com/aura-historia/backend/pull/2932)). Git blob
+  `6bdf7a5b548705e23dea0d99676362aa0d900f49`; file SHA-256
+  `501d60c343faf349efac42eab52c17fc01a1ecbf320c71c80ab3749480a92de5`; canonical parsed-JSON
   SHA-256 (recorded as `x-source-contract-sha256` in the partner reference):
-  `f4fca3997a9c7618389812587ad78354def023aa3ebfe114f3f617a5d7788fa8`. It replaces the
-  `04ed6d06` capture (2026-11-13, last contract change `04ed6d0`).
+  `b248ab6fa307994e032b3f9a6f350744c822090bab16f0cc1ab4fa7e8a07ca8f`. It replaces the
+  `4711f1d8` capture (2026-11-13, last contract change `4711f1d`,
+  [backend#2931](https://github.com/aura-historia/backend/pull/2931)). Re-pin to the `develop`
+  merge commit of backend#2933 once it merges.
 - Every REST operation lives under `/v1/...` on `https://api.aura-historia.com` (production) and
   `https://api.stage.aura-historia.com`; `/api/v1/...` is gone without aliases
   ([backend#2216](https://github.com/aura-historia/backend/issues/2216)). The generated client and
@@ -26,7 +29,29 @@ admin workflows in [admin workflows](admin-workflows.md).
   keep their paths. Release this webapp only with or after a backend that serves `/v1`.
 - Without `VITE_API_URL` the app calls the production API (`getApiBaseUrl`); each deployment
   sets its environment's API URL explicitly.
-- Changes against the previous pin (`04ed6d06`, 2026-11-13), with their decisions:
+- Changes against the previous pin (`4711f1d8`, 2026-11-13), with their decisions:
+  - **Provider links are `viewLink { url, affiliate }`**
+    ([backend#2929](https://github.com/aura-historia/backend/issues/2929),
+    [backend#2933](https://github.com/aura-historia/backend/pull/2933), breaking): every `viewUrl`
+    becomes a `viewLink` (`ViewLinkData`) with the same link in `url` and `affiliate`, `true` for an
+    affiliate link that can earn Aura Historia a commission. It applies to the listing summary,
+    detail and collection DTOs, the watchlist and search-filter notification payloads,
+    `PublicListingSourceData` and `PublicAuctionData`; where `viewUrl` was optional, `viewLink` is
+    present exactly when it was. Decisions: `ProductListing` and `ProductListingDetail` carry
+    `viewLink?: ListingViewLink` (`mapListingViewLink`, a parsed `URL` plus the flag, absent when
+    the URL does not parse) and `PublicListingSource` carries `viewLink?: { url, affiliate }`.
+    Outbound links keep opening `viewLink.url ?? url`; `outboundLinkRel` adds `sponsored` to their
+    `rel` for affiliate links (listing detail and result cards, provider cards and the provider
+    page). The JSON-LD `Offer` falls back to the view link only when it is not an affiliate link,
+    else to the raw `url`. No visible affiliate marker yet: it needs a design (see
+    [design guidelines](design-guidelines.md)). The notification center never used `viewUrl`.
+    Release with or after backend#2933: the mapper tolerates a response without `viewLink` and
+    falls back to `url`, so an older backend loses only the referral tagging on outbound links.
+  - **Notification payloads carry `listingSourcePartner`**
+    ([backend#2932](https://github.com/aura-historia/backend/pull/2932)): the watchlist and
+    search-filter payloads gain a required boolean, the operator's partner status read with the
+    notification. Generated only: notification rows do not show the partner tag yet.
+- Changes adopted with the `4711f1d8` capture (against `04ed6d06`, 2026-11-13), with their decisions:
   - **Listing descriptions are no longer returned**
     ([backend#2930](https://github.com/aura-historia/backend/issues/2930), webapp
     [#1336](https://github.com/aura-historia/webapp/issues/1336), breaking): `description` is
@@ -433,7 +458,17 @@ To adopt a backend revision:
   and it is the same for production and stage (backend `docs/mcp.md`, "Tool snapshot"). The sync
   keeps `name`, `description`, `inputSchema`, `annotations` and `_meta` and drops the output
   schemas, which make up most of the 710 KB. Never hand-edit the result.
-- The synced capture is backend `develop` `e4b385bb76ca09ef25ea05e29e0e57048911b6d6` (2026-11-11,
+- The synced capture is backend `338af42f64870999c515a33221ef96df8beb7ed7` (2026-11-13, the head
+  of [backend#2933](https://github.com/aura-historia/backend/pull/2933), the same commit as the
+  pinned `openapi/swagger.yaml`). Git blob `6c7a8c771ce47706e20ca0b9d6602410cbb3b8a6`; file SHA-256
+  `a7ea5b229b546f515053a76af93a26b981c9c620b6fe0233d21736478d310a99`. Same 37 tools, 11 of them
+  public, with the same names and arguments. Only descriptions changed: the 16 tools whose result
+  has a provider link now end with the statement that `viewLink.url` is the referral-tagged link
+  meant to be shared and `viewLink.affiliate` says whether it is an affiliate link. That covers the
+  12 tools of the previous capture plus the four saved-search tools that return listing-source
+  cards ([backend#2902](https://github.com/aura-historia/backend/pull/2902)). Re-sync with the
+  swagger once backend#2933 merges.
+- The capture before was backend `develop` `e4b385bb76ca09ef25ea05e29e0e57048911b6d6` (2026-11-11,
   [backend#2901](https://github.com/aura-historia/backend/pull/2901)). Git blob
   `8147716558c42f4d666164791ef81a9147d5a681`; file SHA-256
   `d7d8f4258561994746abfc0f5e2f9a51572a21c9c2a23e46e49e599b7c8bc2db`. Same 37 tools, 11 of them
@@ -441,7 +476,7 @@ To adopt a backend revision:
   tools whose result has a `viewUrl` end their description with a statement that `viewUrl`, not
   `url`, is the referral-tagged provider link meant to be shared. Backend#2901 only added `viewUrl`
   descriptions to the swagger, which the pinned `openapi/swagger.yaml` (`04ed6d06`) includes.
-- The previous capture was backend `develop` `b7477308184e8c1eed7b5dd855bfb020d7af20df` (2026-11-10,
+- The capture before that was backend `develop` `b7477308184e8c1eed7b5dd855bfb020d7af20df` (2026-11-10,
   [backend#2857](https://github.com/aura-historia/backend/pull/2857)), the same commit as the
   pinned `openapi/swagger.yaml`. Git blob `ca07e302bfd3dff9d6a3e99017631518bfd64063`; file SHA-256
   `6747f9adb101a4c2470b7b58cabd47a82def7201776f751c2df503606283500d`. It has 37 tools, 11 of them

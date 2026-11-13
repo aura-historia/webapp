@@ -41,7 +41,10 @@ function makeProduct(overrides: Partial<ProductListingDetail> = {}): ProductList
         availability: "IN_STOCK",
         lifecycle: "ACTIVE",
         url: new URL("https://example.com/chair"),
-        viewUrl: new URL("https://affiliate.example.com/chair"),
+        viewLink: {
+            url: new URL("https://example.com/chair?utm_source=aura_historia"),
+            affiliate: false,
+        },
         images: [
             { url: new URL("https://example.com/images/chair.jpg"), prohibitedContentType: "NONE" },
         ],
@@ -122,8 +125,19 @@ describe("productJsonLd", () => {
 
     it("falls back to the source listing URL for the offer without a canonical URL", () => {
         expect(generateProductJsonLd(makeProduct()).offers?.url).toBe(
-            "https://affiliate.example.com/chair",
+            "https://example.com/chair?utm_source=aura_historia",
         );
+    });
+
+    it("never names an affiliate link as the offer URL", () => {
+        const product = makeProduct({
+            viewLink: {
+                url: new URL("https://prf.hn/click/camref:abc/destination:x"),
+                affiliate: true,
+            },
+        });
+
+        expect(generateProductJsonLd(product).offers?.url).toBe("https://example.com/chair");
     });
 
     it("keeps a listing without a price a Product, without an offer", () => {
