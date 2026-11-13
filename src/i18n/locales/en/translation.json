@@ -473,6 +473,179 @@
       "currentPlanLabel": "Current plan",
       "manageButton": "Manage subscription",
       "description": "Change your plan, payment method or billing details with our payment provider."
+    },
+    "addresses": {
+      "title": "Saved addresses",
+      "description": "Private places you keep under a name of your choice. Only you can see them.",
+      "listLabel": "Saved addresses",
+      "add": "Add address",
+      "yourDetails": "Your details",
+      "location": "Location",
+      "edit": "Edit",
+      "editNamed": "Edit {{label}}",
+      "deleteNamed": "Delete {{label}}",
+      "showMore": "Show more addresses",
+      "loadMoreError": "More addresses could not be loaded.",
+      "retry": "Try again",
+      "loading": "Loading saved addresses",
+      "empty": {
+        "title": "No saved <em>addresses</em> yet.",
+        "description": "Keep the places that matter to you, such as your home or a storage unit, under a name of your choice."
+      },
+      "error": {
+        "title": "Addresses could not be <em>loaded.</em>",
+        "description": "Please try again in a moment."
+      },
+      "accessLost": {
+        "title": "Your addresses aren’t <em>available.</em>",
+        "description": "Your session no longer allows access to them. Sign in again to see your saved addresses.",
+        "action": "Sign in again"
+      },
+      "status": {
+        "PENDING": {
+          "label": "Locating",
+          "hint": "We’re locating this address in the background.",
+          "note": "We’re locating this address in the background. You can keep using it in the meantime."
+        },
+        "ACCEPTED": {
+          "label": "Located",
+          "note": "We found one matching place for this address."
+        },
+        "AMBIGUOUS": {
+          "label": "Several matches",
+          "hint": "Add a country or postal code to narrow it down.",
+          "note": "More than one place matches. Add a country or postal code to narrow it down.",
+          "hintDetailed": "Add more detail to the address, such as the street and number.",
+          "noteDetailed": "More than one place matches, even with your details. Add more detail to the address, such as the street and number."
+        },
+        "NO_MATCH": {
+          "label": "No match",
+          "hint": "Check the spelling or add a country.",
+          "note": "No place matches this address. Check the spelling or add a country.",
+          "hintDetailed": "Check the spelling and your details.",
+          "noteDetailed": "No place matches this address and your details. Check the spelling and that the details belong to this address."
+        },
+        "FAILED": {
+          "label": "Locating failed",
+          "hint": "The address stays saved and usable without a point.",
+          "note": "Locating this address failed. It stays saved and usable without a precise point."
+        },
+        "BLOCKED": {
+          "label": "Can’t be located",
+          "hint": "The address stays saved and usable without a point.",
+          "note": "This address can’t be located automatically. It stays saved and usable without a precise point."
+        },
+        "UNAVAILABLE": {
+          "label": "Locating unavailable",
+          "hint": "The address stays saved and usable without a point.",
+          "note": "Locating isn’t available right now. The address stays saved and usable without a precise point."
+        },
+        "UNKNOWN": {
+          "label": "Status unknown",
+          "note": "We can’t show the location status of this address."
+        }
+      },
+      "derived": {
+        "country": "Country",
+        "region": "Region",
+        "postalCode": "Postal code"
+      },
+      "locationNote": "Determined from your address in the background. It doesn’t confirm the address or whether objects can be delivered there. Changing the address or its details starts this again.",
+      "editor": {
+        "eyebrow": "Saved address",
+        "createTitle": "Add an address",
+        "editTitle": "Edit address",
+        "preferredNote": "This is your search location. Saving changes doesn’t change that.",
+        "fields": {
+          "label": "Name",
+          "labelPlaceholder": "For example Home or Storage unit",
+          "labelHint": "Only you see this name.",
+          "address": "Address",
+          "addressPlaceholder": "Street and number, postal code, town",
+          "addressHint": "Write it as you would on an envelope. We keep it exactly as you enter it.",
+          "country": "Country",
+          "region": "Region",
+          "postalCode": "Postal code"
+        },
+        "optional": "Optional details",
+        "optionalHint": "These help us locate the address. We don’t check them against it.",
+        "noCountry": "No country",
+        "searchCountries": "Search countries",
+        "searchCountriesPlaceholder": "Search countries…",
+        "noCountries": "No countries found.",
+        "noRegion": "No region",
+        "searchRegions": "Search regions",
+        "searchRegionsPlaceholder": "Search regions…",
+        "noRegions": "No regions found.",
+        "chooseCountryFirst": "Choose a country first.",
+        "save": "Save address",
+        "saveChanges": "Save changes",
+        "saving": "Saving…",
+        "saveMyVersion": "Save my version",
+        "saveAgain": "Save again",
+        "cancel": "Cancel",
+        "delete": "Delete address",
+        "close": "Close",
+        "conflict": {
+          "title": "This address was changed elsewhere.",
+          "body": "Your edits are kept above. Compare them with the saved version, then save again to replace it.",
+          "saved": "Saved version"
+        },
+        "uncertain": {
+          "checkingTitle": "We couldn’t confirm whether the address was saved.",
+          "checkingBody": "Checking your saved addresses…",
+          "checkedTitle": "Your addresses are up to date.",
+          "checkedBody": "If this address isn’t in your list, save it again. Saving it twice keeps two copies.",
+          "failedTitle": "We couldn’t check whether the address was saved.",
+          "failedBody": "Check again before saving, so the address isn’t saved twice.",
+          "checkAgain": "Check again"
+        },
+        "saveError": {
+          "title": "The address could not be saved.",
+          "body": "Your entries are kept. Please try again."
+        },
+        "missing": {
+          "title": "This address no longer exists.",
+          "body": "It may have been deleted on another device. Your list has been updated."
+        },
+        "unsupported": {
+          "title": "Some details of this address can’t be shown here.",
+          "body": "To keep them, this address can’t be edited here. You can still delete it."
+        }
+      },
+      "delete": {
+        "title": "Delete “{{label}}”?",
+        "body": "The address is removed from your account. Saved searches keep their own copy of a search location and don’t change.",
+        "preferred": "This is your search location. After deleting it, it is no longer used.",
+        "conflict": "This address was changed elsewhere. Your list now shows the saved version. Check it, then delete again.",
+        "cancel": "Cancel",
+        "confirm": "Delete address"
+      },
+      "toasts": {
+        "saved": "Address saved",
+        "updated": "Address updated",
+        "deleted": "Address deleted",
+        "deleteFailed": "The address could not be deleted. Please try again.",
+        "missing": "This address no longer exists."
+      },
+      "validation": {
+        "labelRequired": "Enter a name for this address.",
+        "labelInvalid": "Use a shorter name on one line.",
+        "addressRequired": "Enter the address.",
+        "addressTooLong": "This address is too long.",
+        "countryInvalid": "Choose a country from the list.",
+        "subdivisionMismatch": "This region isn’t in the selected country.",
+        "postalCodeInvalid": "Use a shorter postal code on one line."
+      },
+      "errors": {
+        "forbidden": "You no longer have access to your saved addresses.",
+        "missing": "This address no longer exists.",
+        "conflict": "This address was changed elsewhere.",
+        "createIndefinite": "We couldn’t confirm whether the address was saved.",
+        "invalid": "The address could not be saved. Check your entries.",
+        "requestFailed": "The request failed. Please try again."
+      },
+      "searchLocation": "Search location"
     }
   },
   "search": {

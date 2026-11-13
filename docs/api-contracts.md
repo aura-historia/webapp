@@ -485,10 +485,12 @@ To sync a backend revision:
   operations (`adminGetSourceLocationDefault`, `adminAssignSourceLocationDefault`,
   `adminChangeSourceLocationDefaultApplicability`, `adminClearSourceLocationDefault`) are consumed
   by listing-source management ([#1088](https://github.com/aura-historia/webapp/issues/1088); see
-  [admin workflows](admin-workflows.md#listing-source-default-locations)). Every other geography
-  operation is generated-only until its feature slice consumes it: the user
-  address book (`listUserAddresses`, `createUserAddress`, `getUserAddress`, `updateUserAddress`,
-  `deleteUserAddress`), the browsing destination (`getBrowsingDestination`,
+  [admin workflows](admin-workflows.md#listing-source-default-locations)).
+  The account page's saved addresses consume the user address book (`listUserAddresses`,
+  `createUserAddress`, `getUserAddress`, `updateUserAddress`, `deleteUserAddress`;
+  [#1078](https://github.com/aura-historia/webapp/issues/1078)). Every other geography
+  operation is generated-only until its feature slice consumes it: the browsing destination
+  (`getBrowsingDestination`,
   `setBrowsingDestination`), public discovery (`discoverPartyLocations`) and the non-admin source
   defaults (`getSourceLocationDefault`, `assignSourceLocationDefault`,
   `changeSourceLocationDefaultApplicability`, `clearSourceLocationDefault`) and the admin
@@ -696,9 +698,12 @@ Shared models live in `src/data/internal/geography`; formatting helpers in
   failed refresh leaves the outcome unresolved and blocks resubmission until a refresh succeeds.
   Equal content cannot identify the original request. A relocation keeps the old location's
   expected revision; a repeated committed relocation returns `409`, which refreshes the locations
-  and keeps the draft, never substitutes a newer revision or resubmits. The upcoming address book
-  ([#1078](https://github.com/aura-historia/webapp/issues/1078)) follows the same policy and must
-  not change the browsing destination when an address is saved. Backend runtimes older than
+  and keeps the draft, never substitutes a newer revision or resubmits. The address book
+  (`useCreateUserAddress` in `features/account-management/hooks/useUserAddresses.ts`) follows the
+  same policy and never changes the browsing destination when an address is saved. An address
+  replace that returns `409` loads the current version with `getUserAddress` and keeps the draft;
+  saving again sends that version. A delete refreshes the addresses and the browsing destination.
+  Addresses with `hasUnsupportedValues` cannot be edited, only deleted. Backend runtimes older than
   backend#2081 still require the header, so release this webapp only with or after the keyless
   backend.
 - **Commands:** source-default evidence is opaque text whose scope follows the field; omitted

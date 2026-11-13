@@ -473,6 +473,179 @@
       "currentPlanLabel": "Piano attuale",
       "manageButton": "Gestisci abbonamento",
       "description": "Cambia piano, metodo di pagamento o dati di fatturazione presso il nostro fornitore di pagamenti."
+    },
+    "addresses": {
+      "title": "Indirizzi salvati",
+      "description": "Luoghi privati che salvate con un nome a vostra scelta. Solo voi potete vederli.",
+      "listLabel": "Indirizzi salvati",
+      "add": "Aggiungi indirizzo",
+      "yourDetails": "I vostri dati",
+      "location": "Posizione",
+      "edit": "Modifica",
+      "editNamed": "Modifica {{label}}",
+      "deleteNamed": "Elimina {{label}}",
+      "showMore": "Mostra altri indirizzi",
+      "loadMoreError": "Non è stato possibile caricare altri indirizzi.",
+      "retry": "Riprova",
+      "loading": "Caricamento degli indirizzi salvati",
+      "empty": {
+        "title": "Nessun <em>indirizzo</em> salvato.",
+        "description": "Salvate i luoghi che vi stanno a cuore, come la vostra casa o un magazzino, con un nome a vostra scelta."
+      },
+      "error": {
+        "title": "Non è stato possibile <em>caricare</em> gli indirizzi.",
+        "description": "Riprovate tra un momento."
+      },
+      "accessLost": {
+        "title": "I vostri indirizzi non sono <em>disponibili.</em>",
+        "description": "La vostra sessione non consente più di accedervi. Accedete di nuovo per vedere i vostri indirizzi salvati.",
+        "action": "Accedi di nuovo"
+      },
+      "status": {
+        "PENDING": {
+          "label": "Localizzazione in corso",
+          "hint": "Stiamo localizzando questo indirizzo in background.",
+          "note": "Stiamo localizzando questo indirizzo in background. Nel frattempo potete continuare a usarlo."
+        },
+        "ACCEPTED": {
+          "label": "Localizzato",
+          "note": "Abbiamo trovato un solo luogo corrispondente a questo indirizzo."
+        },
+        "AMBIGUOUS": {
+          "label": "Più corrispondenze",
+          "hint": "Aggiungete un paese o un codice postale per restringere la ricerca.",
+          "note": "Più luoghi corrispondono. Aggiungete un paese o un codice postale per restringere la ricerca.",
+          "hintDetailed": "Completate l’indirizzo, ad esempio con via e numero civico.",
+          "noteDetailed": "Più luoghi corrispondono, anche con i vostri dati. Completate l’indirizzo, ad esempio con via e numero civico."
+        },
+        "NO_MATCH": {
+          "label": "Nessuna corrispondenza",
+          "hint": "Controllate l’ortografia o aggiungete un paese.",
+          "note": "Nessun luogo corrisponde a questo indirizzo. Controllate l’ortografia o aggiungete un paese.",
+          "hintDetailed": "Controllate l’ortografia e i vostri dati.",
+          "noteDetailed": "Nessun luogo corrisponde a questo indirizzo e ai vostri dati. Controllate l’ortografia e che i dati appartengano a questo indirizzo."
+        },
+        "FAILED": {
+          "label": "Localizzazione non riuscita",
+          "hint": "L’indirizzo resta salvato e utilizzabile senza un punto.",
+          "note": "Non è stato possibile localizzare questo indirizzo. Resta salvato e utilizzabile senza un punto preciso."
+        },
+        "BLOCKED": {
+          "label": "Non localizzabile",
+          "hint": "L’indirizzo resta salvato e utilizzabile senza un punto.",
+          "note": "Questo indirizzo non può essere localizzato automaticamente. Resta salvato e utilizzabile senza un punto preciso."
+        },
+        "UNAVAILABLE": {
+          "label": "Localizzazione non disponibile",
+          "hint": "L’indirizzo resta salvato e utilizzabile senza un punto.",
+          "note": "La localizzazione non è disponibile al momento. L’indirizzo resta salvato e utilizzabile senza un punto preciso."
+        },
+        "UNKNOWN": {
+          "label": "Stato sconosciuto",
+          "note": "Non possiamo mostrare lo stato di localizzazione di questo indirizzo."
+        }
+      },
+      "derived": {
+        "country": "Paese",
+        "region": "Regione",
+        "postalCode": "Codice postale"
+      },
+      "locationNote": "Determinato in background a partire dal vostro indirizzo. Non conferma l’indirizzo né che vi si possano consegnare oggetti. Se modificate l’indirizzo o i suoi dati, viene determinato di nuovo.",
+      "editor": {
+        "eyebrow": "Indirizzo salvato",
+        "createTitle": "Aggiungi un indirizzo",
+        "editTitle": "Modifica indirizzo",
+        "preferredNote": "Questa è la vostra posizione di ricerca. Salvare le modifiche non la cambia.",
+        "fields": {
+          "label": "Nome",
+          "labelPlaceholder": "Ad esempio Casa o Magazzino",
+          "labelHint": "Solo voi vedete questo nome.",
+          "address": "Indirizzo",
+          "addressPlaceholder": "Via e numero civico, codice postale, località",
+          "addressHint": "Scrivetelo come su una busta. Lo conserviamo esattamente come lo inserite.",
+          "country": "Paese",
+          "region": "Regione",
+          "postalCode": "Codice postale"
+        },
+        "optional": "Dati facoltativi",
+        "optionalHint": "Ci aiutano a localizzare l’indirizzo. Non li confrontiamo con l’indirizzo.",
+        "noCountry": "Nessun paese",
+        "searchCountries": "Cerca paesi",
+        "searchCountriesPlaceholder": "Cerca paesi…",
+        "noCountries": "Nessun paese trovato.",
+        "noRegion": "Nessuna regione",
+        "searchRegions": "Cerca regioni",
+        "searchRegionsPlaceholder": "Cerca regioni…",
+        "noRegions": "Nessuna regione trovata.",
+        "chooseCountryFirst": "Scegliete prima un paese.",
+        "save": "Salva indirizzo",
+        "saveChanges": "Salva modifiche",
+        "saving": "Salvataggio…",
+        "saveMyVersion": "Salva la mia versione",
+        "saveAgain": "Salva di nuovo",
+        "cancel": "Annulla",
+        "delete": "Elimina indirizzo",
+        "close": "Chiudi",
+        "conflict": {
+          "title": "Questo indirizzo è stato modificato altrove.",
+          "body": "Le vostre modifiche restano qui sopra. Confrontatele con la versione salvata, poi salvate di nuovo per sostituirla.",
+          "saved": "Versione salvata"
+        },
+        "uncertain": {
+          "checkingTitle": "Non abbiamo potuto confermare se l’indirizzo è stato salvato.",
+          "checkingBody": "Verifica degli indirizzi salvati in corso…",
+          "checkedTitle": "I vostri indirizzi sono aggiornati.",
+          "checkedBody": "Se questo indirizzo non è nel vostro elenco, salvatelo di nuovo. Salvandolo due volte se ne conservano due copie.",
+          "failedTitle": "Non abbiamo potuto verificare se l’indirizzo è stato salvato.",
+          "failedBody": "Verificate di nuovo prima di salvare, così l’indirizzo non viene salvato due volte.",
+          "checkAgain": "Verifica di nuovo"
+        },
+        "saveError": {
+          "title": "Non è stato possibile salvare l’indirizzo.",
+          "body": "I dati inseriti restano. Riprovate."
+        },
+        "missing": {
+          "title": "Questo indirizzo non esiste più.",
+          "body": "Potrebbe essere stato eliminato su un altro dispositivo. Il vostro elenco è stato aggiornato."
+        },
+        "unsupported": {
+          "title": "Alcuni dati di questo indirizzo non possono essere mostrati qui.",
+          "body": "Per conservarli, questo indirizzo non può essere modificato qui. Potete comunque eliminarlo."
+        }
+      },
+      "delete": {
+        "title": "Eliminare «{{label}}»?",
+        "body": "L’indirizzo viene rimosso dal vostro account. Le ricerche salvate conservano una propria copia di un luogo di ricerca e non cambiano.",
+        "preferred": "Questa è la vostra posizione di ricerca. Dopo l’eliminazione non verrà più usata.",
+        "conflict": "Questo indirizzo è stato modificato altrove. Il vostro elenco ora mostra la versione salvata. Controllatela, poi eliminate di nuovo.",
+        "cancel": "Annulla",
+        "confirm": "Elimina indirizzo"
+      },
+      "toasts": {
+        "saved": "Indirizzo salvato",
+        "updated": "Indirizzo aggiornato",
+        "deleted": "Indirizzo eliminato",
+        "deleteFailed": "Non è stato possibile eliminare l’indirizzo. Riprovate.",
+        "missing": "Questo indirizzo non esiste più."
+      },
+      "validation": {
+        "labelRequired": "Inserite un nome per questo indirizzo.",
+        "labelInvalid": "Usate un nome più breve su una sola riga.",
+        "addressRequired": "Inserite l’indirizzo.",
+        "addressTooLong": "Questo indirizzo è troppo lungo.",
+        "countryInvalid": "Scegliete un paese dall’elenco.",
+        "subdivisionMismatch": "Questa regione non appartiene al paese scelto.",
+        "postalCodeInvalid": "Usate un codice postale più breve su una sola riga."
+      },
+      "errors": {
+        "forbidden": "Non avete più accesso ai vostri indirizzi salvati.",
+        "missing": "Questo indirizzo non esiste più.",
+        "conflict": "Questo indirizzo è stato modificato altrove.",
+        "createIndefinite": "Non abbiamo potuto confermare se l’indirizzo è stato salvato.",
+        "invalid": "Non è stato possibile salvare l’indirizzo. Controllate i dati inseriti.",
+        "requestFailed": "La richiesta non è riuscita. Riprovate."
+      },
+      "searchLocation": "Posizione di ricerca"
     }
   },
   "search": {

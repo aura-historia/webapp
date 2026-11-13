@@ -4,7 +4,11 @@ import { useTranslation } from "react-i18next";
 import { CURRENCIES, CURRENCY_SYMBOLS } from "@/data/internal/common/Currency.ts";
 import { LANGUAGES } from "@/data/internal/common/Language.ts";
 import { UNIT_SYSTEMS, type UnitSystem } from "@/data/internal/common/UnitSystem.ts";
-import { FOCUS_CLASS, LABEL_CLASS } from "@/features/account-management/lib/accountStyles.ts";
+import {
+    FIELD_MESSAGE_CLASS,
+    FOCUS_CLASS,
+    LABEL_CLASS,
+} from "@/features/account-management/lib/accountStyles.ts";
 import {
     type PreferenceOption,
     PreferencePicker,
@@ -69,6 +73,12 @@ interface PreferenceFieldProps {
     /** Trigger fill: `surface` inside a raised card (default), `surface-raised` on the page. */
     readonly ground?: "card" | "page";
     readonly className?: string;
+    readonly id?: string;
+    readonly disabled?: boolean;
+    /** Error message shown under the field; marks the trigger invalid. */
+    readonly error?: string;
+    /** Help line under the field while there is no error. */
+    readonly hint?: string;
 }
 
 /** A form field that opens the shared preference picker (language, currency, units). */
@@ -82,13 +92,18 @@ export function PreferenceField({
     menuClassName,
     ground = "card",
     className,
+    id,
+    disabled,
+    error,
+    hint,
 }: PreferenceFieldProps) {
     const selected = options.find((option) => option.value === value);
     const code = [selected?.code, selected?.detail].filter(Boolean).join(" ");
+    const messageId = id && (error || hint) ? `${id}-message` : undefined;
 
     return (
         <div className={cn("flex min-w-0 flex-col gap-2", className)}>
-            <span aria-hidden="true" className={LABEL_CLASS}>
+            <span aria-hidden="true" data-error={Boolean(error)} className={LABEL_CLASS}>
                 {label}
             </span>
             <PreferencePicker
@@ -98,9 +113,14 @@ export function PreferenceField({
                 options={options}
                 onChange={onChange}
                 search={search}
+                triggerId={id}
+                disabled={disabled}
+                invalid={Boolean(error)}
+                describedBy={messageId}
                 triggerClassName={cn(
                     PICKER_TRIGGER_CLASS,
                     ground === "card" ? "bg-surface" : "bg-surface-raised",
+                    "disabled:bg-surface-sunken disabled:text-ink-muted aria-invalid:shadow-[inset_0_0_0_1.5px_var(--oxblood)]",
                 )}
                 className={menuClassName}
                 triggerContent={
@@ -126,6 +146,17 @@ export function PreferenceField({
                     </>
                 }
             />
+            {error ? (
+                <p id={messageId} role="alert" className={FIELD_MESSAGE_CLASS}>
+                    {error}
+                </p>
+            ) : (
+                hint && (
+                    <p id={messageId} className="text-meta text-ink-muted">
+                        {hint}
+                    </p>
+                )
+            )}
         </div>
     );
 }
