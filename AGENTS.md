@@ -5,6 +5,11 @@ Refined global discovery for art, antiques, design objects, dealers, and auction
 ## Rules
 
 - Use `pnpm` only. Do not run E2E tests unless asked.
+- Name branches `<type>/<issue>-<short-slug>`, with `type` the conventional-commit type of the
+  change (`feat`, `fix`, `chore`, `docs`, `refactor`, `test`), e.g.
+  `fix/1330-search-filter-source-names`. Without an issue, use `<type>/<short-slug>`. This rule
+  replaces any generated default branch name (such as `claude/...`); create the branch from
+  `develop` and push to it.
 - Never hand-edit generated code: `src/routeTree.gen.ts`, `src/client/**`,
   `src/data/internal/geography/reference/isoCodes.gen.ts`, `mcp/mcp-tools.json`.
 - Add every user-facing string to all locales: `de`, `en`, `es`, `fr`, `it`.
