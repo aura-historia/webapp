@@ -636,6 +636,23 @@
         "description": "Ningún nombre de proveedor contiene «{{query}}». Revise la ortografía o busque directamente los objetos.",
         "descriptionAll": "Ahora mismo no hay proveedores que mostrar."
       }
+    },
+    "ranking": {
+      "trigger": "Cómo ordenamos los resultados",
+      "eyebrow": "Orden",
+      "title": "Cómo <em>ordenamos.</em>",
+      "close": "Cerrar",
+      "selected": "Seleccionado",
+      "relevanceLead": "Dos clasificaciones cuentan por igual:",
+      "wordLabel": "Coincidencia de palabras",
+      "wordText": "Tus términos de búsqueda en el título del anuncio, en tu idioma y en el original. Una frase completa cuenta más; las grafías parecidas, menos.",
+      "meaningLabel": "Significado similar",
+      "meaningText": "Lo cerca que está el significado de tu búsqueda del título, la descripción y la primera foto del anuncio, según un modelo de IA.",
+      "noQuery": "Sin término de búsqueda, los anuncios aparecen en el orden en que los registramos por primera vez.",
+      "addedText": "Por la fecha en que registramos el anuncio por primera vez.",
+      "updatedText": "Por la fecha en que registramos el último cambio en el anuncio.",
+      "noPayment": "El estado de socio, las comisiones y los pagos no influyen en el orden.",
+      "personal": "Tampoco tu cuenta ni tu historial de búsqueda. Solo cuenta tu idioma, porque decide qué traducción del título comparamos."
     }
   },
   "product": {
