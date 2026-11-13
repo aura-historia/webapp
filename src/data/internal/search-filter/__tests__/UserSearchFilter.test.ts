@@ -82,6 +82,41 @@ describe("mapToInternalUserSearchFilter", () => {
         expect(result.search.listingSourceId).toEqual(["source-1"]);
     });
 
+    it("names included and excluded sources from the listingSources cards", () => {
+        const operator = {
+            partner: false,
+            name: "Operator",
+        } as UserSearchFilterData["listingSources"][number]["operator"];
+        const card = (listingSourceId: string, name: string) => ({
+            listingSourceId,
+            listingSourceSlugId: `${listingSourceId}-slug`,
+            name,
+            operator,
+        });
+        const result = mapToInternalUserSearchFilter({
+            ...baseFilterData,
+            search: {
+                ...baseFilterData.search,
+                listingSourceId: ["source-2", "source-1"],
+                excludeListingSourceId: ["source-3"],
+            },
+            listingSources: [card("source-1", "Kunsthandel A"), card("source-2", "Galerie B")],
+        });
+        expect(result.search.listingSourceId).toEqual(["source-2", "source-1"]);
+        expect(result.search.listingSourceLabels).toEqual(["Galerie B", "Kunsthandel A"]);
+        // A source that no longer exists has no card and keeps its ID as the label.
+        expect(result.search.excludeListingSourceLabels).toEqual(["source-3"]);
+    });
+
+    it("leaves source labels unset when the filter references no sources", () => {
+        const result = mapToInternalUserSearchFilter({
+            ...baseFilterData,
+            search: { ...baseFilterData.search, listingSourceId: undefined },
+        });
+        expect(result.search.listingSourceLabels).toBeUndefined();
+        expect(result.search.excludeListingSourceLabels).toBeUndefined();
+    });
+
     it("maps optional enhancedSearchDescription", () => {
         const data = {
             ...baseFilterData,

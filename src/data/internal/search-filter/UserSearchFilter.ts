@@ -181,8 +181,28 @@ function mapSearchFilterArgumentsToPatchProductSearchData(
     };
 }
 
+/**
+ * Names each referenced listing source from the filter's `listingSources` cards, in ID order. An
+ * ID whose source no longer exists has no card and keeps its ID as the label, so the labels always
+ * line up with the IDs.
+ */
+function mapListingSourceLabels(
+    ids: readonly string[] | undefined,
+    sources: UserSearchFilterData["listingSources"] | undefined,
+): string[] | undefined {
+    if (!ids?.length) return undefined;
+    const names = new Map(sources?.map((source) => [source.listingSourceId, source.name]));
+    return ids.map((id) => names.get(id) ?? id);
+}
+
 export function mapToInternalUserSearchFilter(data: UserSearchFilterData): UserSearchFilter {
     const geography = mapToGeographicSearch(data.search.geography);
+    const search = mapProductSearchDataToSearchFilterArguments(data.search);
+    const listingSourceLabels = mapListingSourceLabels(search.listingSourceId, data.listingSources);
+    const excludeListingSourceLabels = mapListingSourceLabels(
+        search.excludeListingSourceId,
+        data.listingSources,
+    );
     return {
         userId: data.userId,
         id: data.userSearchFilterId,
@@ -190,7 +210,11 @@ export function mapToInternalUserSearchFilter(data: UserSearchFilterData): UserS
         enhancedSearchDescription: data.search.enhancedSearchDescription ?? undefined,
         notifications: data.notifications,
         state: parseResourceState(data.state),
-        search: mapProductSearchDataToSearchFilterArguments(data.search),
+        search: {
+            ...search,
+            ...(listingSourceLabels ? { listingSourceLabels } : {}),
+            ...(excludeListingSourceLabels ? { excludeListingSourceLabels } : {}),
+        },
         ...(geography ? { geography } : {}),
         created: new Date(data.created),
         updated: new Date(data.updated),
