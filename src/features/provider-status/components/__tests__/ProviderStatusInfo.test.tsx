@@ -55,7 +55,7 @@ describe("ProviderStatusInfo", () => {
         expect(facts).toEqual([
             "Hartley & Finch ist ein unabhängiger Anbieter und kein Partner von Aura Historia.",
             "Automatisch gefunden auf hartleyfinch.co.uk.",
-            "Titel, Beschreibung und Bilder gehören dem Anbieter oder den jeweiligen Rechteinhabern. Aura Historia beansprucht daran keine Rechte.",
+            "Titel, Beschreibung und Bilder gehören dem Anbieter oder den jeweiligen Rechteinhabern. Aura Historia beansprucht daran keine eigenen Rechte.",
             "Titel und Beschreibung sind bei Bedarf maschinell übersetzt. Maßgeblich ist der Originaltext auf der Seite des Anbieters.",
             "Bilder werden direkt von der Website des Anbieters geladen; Aura Historia stellt keine eigenen Kopien bereit.",
             "Preis, Verfügbarkeit und Zustand können sich jederzeit ändern; Versandkosten, Steuern oder Zölle können hinzukommen. Maßgeblich sind die Angaben auf der Seite des Anbieters.",

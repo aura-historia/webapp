@@ -79,6 +79,7 @@ export function generateShopHeadMeta(
     const shopUrl = localizeUrl(new URL(shopPath, env.VITE_APP_URL).toString(), language);
 
     const name = loaderData?.name ?? i18n.t("meta.shop.defaultName");
+    const previewImage = loaderData?.partner ? loaderData.image : undefined;
     const description = i18n.t("meta.shop.description", {
         shop: name,
         interpolation: { escapeValue: false },
@@ -93,10 +94,11 @@ export function generateShopHeadMeta(
             { property: "og:description", content: description },
             { property: "og:type", content: "website" },
             { property: "og:url", content: shopUrl },
-            // Without a source image the root's banner and its alt text stay.
-            ...(loaderData?.image
+            // Link previews copy the image they name, so only partners' own images are used; for
+            // non-partners and sources without an image the root's banner and its alt text stay.
+            ...(previewImage
                 ? [
-                      { property: "og:image", content: loaderData.image },
+                      { property: "og:image", content: previewImage },
                       { property: "og:image:alt", content: name },
                   ]
                 : []),
@@ -105,9 +107,9 @@ export function generateShopHeadMeta(
             { name: "twitter:title", content: name },
             { name: "twitter:description", content: description },
             { name: "twitter:url", content: shopUrl },
-            ...(loaderData?.image
+            ...(previewImage
                 ? [
-                      { name: "twitter:image", content: loaderData.image },
+                      { name: "twitter:image", content: previewImage },
                       { name: "twitter:image:alt", content: name },
                   ]
                 : []),

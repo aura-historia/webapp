@@ -73,15 +73,48 @@ describe("generateProductHeadMeta", () => {
         expect(head.meta).toContainEqual({ property: "og:description", content: description });
     });
 
-    it("describes the shared image with the listing title", () => {
-        const product = makeProductListingDetail();
+    it("shares a partner listing's image, described with the listing title", () => {
+        const base = makeProductListingDetail();
+        const product = makeProductListingDetail({
+            source: { ...base.source, partner: true },
+            images: [
+                {
+                    url: new URL("https://partner.example/chair.jpg"),
+                    prohibitedContentType: "NONE",
+                },
+            ],
+        });
         const head = generateProductHeadMeta(product, {
             lng: "en",
             productListingTitleSlugId: "chair-pl_01TEST",
         });
 
+        expect(head.meta).toContainEqual({
+            property: "og:image",
+            content: "https://partner.example/chair.jpg",
+        });
         expect(head.meta).toContainEqual({ property: "og:image:alt", content: product.title });
         expect(head.meta).toContainEqual({ name: "twitter:image:alt", content: product.title });
+    });
+
+    it("shares Aura Historia's banner instead of a non-partner seller's image", () => {
+        const product = makeProductListingDetail({
+            images: [
+                { url: new URL("https://seller.example/chair.jpg"), prohibitedContentType: "NONE" },
+            ],
+        });
+        const head = generateProductHeadMeta(product, {
+            lng: "en",
+            productListingTitleSlugId: "chair-pl_01TEST",
+        });
+
+        expect(head.meta).toContainEqual({ property: "og:image", content: BANNER_IMAGE_URL });
+        expect(head.meta).toContainEqual({ name: "twitter:image", content: BANNER_IMAGE_URL });
+        // The banner is described as the site, not as the object it does not show.
+        const alt = head.meta.find((tag) => "property" in tag && tag.property === "og:image:alt");
+        expect(alt && "content" in alt ? alt.content : undefined).toMatch(/^Aura Historia/);
+        expect(head.meta).not.toContainEqual({ property: "og:image:alt", content: product.title });
+        expect(JSON.stringify(head.meta)).not.toContain("seller.example");
     });
 
     it("links the offer to the source's profile in the page's language", () => {

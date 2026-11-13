@@ -6234,7 +6234,7 @@
         "independent": "{{provider}} is an independent provider and not an Aura Historia partner.",
         "foundListing": "Found automatically on <site>{{host}}</site>.",
         "foundProvider": "Listings found automatically on <site>{{host}}</site>.",
-        "rights": "Title, description and images belong to the provider or the respective rights holders. Aura Historia claims no rights to them.",
+        "rights": "Title, description and images belong to the provider or the respective rights holders. Aura Historia claims no rights of its own to them.",
         "translation": "Title and description may be machine-translated. The original text on the provider’s page is authoritative.",
         "images": "Images load directly from the provider’s website; Aura Historia does not serve copies of its own.",
         "price": "Price, availability and condition can change at any time; shipping, taxes or duties may apply. The provider’s own page is authoritative.",
