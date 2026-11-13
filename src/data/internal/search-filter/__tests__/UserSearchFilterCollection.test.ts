@@ -48,14 +48,7 @@ describe("mapToInternalUserSearchFilterCollection", () => {
     it("maps multiple items", () => {
         const data = {
             ...baseCollection,
-            items: [
-                baseItem,
-                {
-                    ...baseItem,
-                    userSearchFilterId: "filter-2",
-                    name: "Filter 2",
-                },
-            ],
+            items: [baseItem, { ...baseItem, userSearchFilterId: "filter-2", name: "Filter 2" }],
             size: 2,
         };
         const result = mapToInternalUserSearchFilterCollection(data);
