@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import type { ProductListing } from "@/data/internal/product/ProductListing.ts";
 import { isRestrictedImage } from "@/data/internal/product/ProductImageData.ts";
 import { ProductListingLink } from "@/features/product/catalog/components/ProductListingLink.tsx";
+import { PartnerBadge } from "@/features/provider-status/components/PartnerBadge.tsx";
 import { cn } from "@/lib/utils.ts";
 
 /** Hatched ground behind a missing or hidden object photo. */
@@ -38,7 +39,8 @@ interface ObjectCardProps {
 
 /**
  * One object as it appears in the index, in the `rail` layout: 4:5 photo with an auction
- * badge for auction lots, serif title, source · country and price.
+ * badge for auction lots, serif title, source · country (with the partner badge for partners) and
+ * price.
  */
 export function ObjectCard({ product, className }: ObjectCardProps) {
     const { t } = useTranslation();
@@ -92,7 +94,10 @@ export function ObjectCard({ product, className }: ObjectCardProps) {
                         {title}
                     </span>
                     <div className="flex items-baseline justify-between gap-3 text-xs text-ink-muted sm:text-meta">
-                        <span className="min-w-0 truncate">{seller}</span>
+                        <span className="flex min-w-0 items-center gap-2">
+                            <span className="min-w-0 truncate">{seller}</span>
+                            {product.source.partner && <PartnerBadge size="sm" />}
+                        </span>
                         <strong className="shrink-0 text-sm font-semibold whitespace-nowrap text-ink sm:text-price">
                             {price}
                         </strong>
