@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { ListingSourceData, ListingSourceSearchSummaryData } from "@/client";
+import type { CountryCode } from "@/data/internal/geography/GeographicCodes.ts";
 import { mapPublicListingSource } from "@/data/internal/shop/PublicListingSource.ts";
 import {
     buildCreateAdminListingSourceData,
@@ -66,6 +67,7 @@ describe("admin ListingSource mapping and request builders", () => {
                     listingSourceType: "AUCTION_HOUSE",
                     ingestionMethod: "SHOPIFY",
                     platformTechnology: " bigcommerce ",
+                    country: "DE" as CountryCode,
                     sort: "updated",
                     order: "desc",
                 },
@@ -81,6 +83,7 @@ describe("admin ListingSource mapping and request builders", () => {
             listingSourceType: "AUCTION_HOUSE",
             ingestionMethod: "SHOPIFY",
             platformTechnology: "BIGCOMMERCE",
+            country: "DE",
             sort: "updated",
             order: "desc",
             searchAfter: "opaque/cursor+1",

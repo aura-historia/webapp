@@ -14,6 +14,7 @@ import type {
     UpdateListingSourceDataWritable,
 } from "@/client";
 import { type Currency, toSupportedCurrency } from "@/data/internal/common/Currency.ts";
+import type { CountryCode } from "@/data/internal/geography/GeographicCodes.ts";
 import type { ListingSourceType } from "@/data/internal/listing-source/ListingSourceType.ts";
 
 export const ADMIN_LISTING_SOURCE_INGESTION_METHODS = [
@@ -100,6 +101,8 @@ export type AdminListingSourceFilters = {
     readonly listingSourceType?: ListingSourceType;
     readonly ingestionMethod?: ListingIngestionMethodData;
     readonly platformTechnology?: string;
+    /** Where the source is located: its default location's country (backend decides). */
+    readonly country?: CountryCode;
     readonly sort?: AdminListingSourceSortField;
     readonly order?: AdminListingSourceSortOrder;
 };
@@ -132,6 +135,7 @@ export function mapToAdminListingSourceSearchQuery(
     if (filters.ingestionMethod) query.ingestionMethod = filters.ingestionMethod;
     const platformTechnology = normalizePlatformTechnology(filters.platformTechnology ?? "");
     if (platformTechnology) query.platformTechnology = platformTechnology;
+    if (filters.country) query.country = filters.country;
     if (filters.sort && filters.order) {
         query.sort = filters.sort;
         query.order = filters.order;

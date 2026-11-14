@@ -3776,7 +3776,7 @@ export type PublicOverviewData = {
    */
   liveObjects: number;
   /**
-   * Distinct countries in the counted listings' effective advertised-inventory geography.
+   * Distinct countries where the counted listings' ListingSources are located, from the effective advertised-inventory geography or else the associated business.
    */
   countries: number;
   /**
@@ -4727,7 +4727,7 @@ export type SourceLocationDefaultAssignment = {
    */
   businessAssociation?: SourceLocationDefaultEvidence;
   /**
-   * Explicit inventory evidence; scope must be ADVERTISED_INVENTORY. Business, legal or correspondence evidence alone never establishes this meaning.
+   * Explicit inventory assertion; scope must be ADVERTISED_INVENTORY. The API never derives it from business, legal or correspondence evidence; operator policies that assert it are documented in the geography guide.
    */
   advertisedInventory?: SourceLocationDefaultEvidence;
 };
@@ -4759,7 +4759,7 @@ export type AssignSourceLocationDefaultData = {
    */
   businessAssociation?: SourceLocationDefaultEvidence | null;
   /**
-   * Explicit inventory evidence; scope must be ADVERTISED_INVENTORY. Business, legal or correspondence evidence alone never establishes this meaning.
+   * Explicit inventory assertion; scope must be ADVERTISED_INVENTORY. The API never derives it from business, legal or correspondence evidence; operator policies that assert it are documented in the geography guide.
    */
   advertisedInventory?: SourceLocationDefaultEvidence | null;
 };
@@ -8398,6 +8398,10 @@ export type AdminSearchListingSourcesData = {
      * Optional exact platform code filter, combinable with all other filters. Use reusable SCREAMING_SNAKE_CASE codes.
      */
     platformTechnology?: PlatformTechnology;
+    /**
+     * Optional exact filter for the country where the ListingSource is located, as an uppercase ISO 3166-1 alpha-2 code. Lowercase, alpha-3 and unknown codes return `400 BAD_QUERY_PARAMETER_VALUE`.
+     */
+    country?: string;
     /**
      * Sort field. Valid values are `name`, `slug`, `created`, and `updated`. The default is `name` ascending.
      */

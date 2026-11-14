@@ -2108,7 +2108,9 @@
       "type": "Type",
       "ingestion": "Import",
       "slug": "Slug",
-      "operatorId": "ID de l’opérateur"
+      "operatorId": "ID de l’opérateur",
+      "country": "Pays",
+      "anyCountry": "Tous les pays"
     },
     "list": {
       "heads": {

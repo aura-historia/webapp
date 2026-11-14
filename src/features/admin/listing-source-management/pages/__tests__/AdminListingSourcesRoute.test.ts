@@ -49,6 +49,7 @@ describe("$lng._auth.admin.listing-sources route", () => {
                 listingSourceType: "SHOP",
                 ingestionMethod: "WOOCOMMERCE",
                 platformTechnology: "shop ware",
+                country: "de",
                 sort: "price",
                 order: "desc",
                 source: "ls_1",
@@ -62,6 +63,7 @@ describe("$lng._auth.admin.listing-sources route", () => {
             listingSourceType: undefined,
             ingestionMethod: "WOOCOMMERCE",
             platformTechnology: undefined,
+            country: undefined,
             sort: "name",
             order: "desc",
             source: "ls_1",
@@ -69,5 +71,11 @@ describe("$lng._auth.admin.listing-sources route", () => {
         expect(validateAdminListingSourceSearch({ platformTechnology: "shopware" })).toMatchObject({
             platformTechnology: "SHOPWARE",
         });
+        expect(validateAdminListingSourceSearch({ country: "DE" })).toMatchObject({
+            country: "DE",
+        });
+        for (const country of ["DEU", "XX", ""]) {
+            expect(validateAdminListingSourceSearch({ country }).country).toBeUndefined();
+        }
     });
 });

@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
     type AdminChip,
     AdminActiveChips,
     AdminFilterPanel,
     AdminQuickSelect,
+    AdminSelectField,
     AdminTextField,
     AdminToolbar,
 } from "@/features/admin/common/components/AdminDirectory.tsx";
@@ -20,6 +21,12 @@ import {
     type ListingSourceType,
 } from "@/data/internal/listing-source/ListingSourceType.ts";
 import type { ListingIngestionMethodData } from "@/client";
+import {
+    type CountryCode,
+    formatCountryName,
+    listCountryCodes,
+    parseCountryCode,
+} from "@/data/internal/geography/GeographicCodes.ts";
 import { DEFAULT_ADMIN_LISTING_SOURCE_FILTERS } from "../lib/adminListingSourceSearch.ts";
 
 type PanelValues = {
@@ -28,14 +35,21 @@ type PanelValues = {
     readonly listingSourceSlugId: string;
     readonly operatorPartyId: string;
     readonly platformTechnology: string;
+    readonly country: string;
 };
 
-const PANEL_KEYS = [
+/** Panel filters shown as their raw value; the country chip shows its name instead. */
+const PANEL_TEXT_KEYS = [
     "name",
     "listingSourceId",
     "listingSourceSlugId",
     "operatorPartyId",
     "platformTechnology",
+] as const satisfies readonly (keyof PanelValues)[];
+
+const PANEL_KEYS = [
+    ...PANEL_TEXT_KEYS,
+    "country",
 ] as const satisfies readonly (keyof PanelValues)[];
 
 function optional(value: string): string | undefined {
@@ -51,7 +65,7 @@ export function AdminListingSourceToolbar({
     readonly filters: AdminListingSourceFilters;
     readonly onFiltersChange: (filters: AdminListingSourceFilters) => void;
 }) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [search, setSearch] = useState(filters.query ?? "");
 
     useEffect(() => {
@@ -67,6 +81,7 @@ export function AdminListingSourceToolbar({
         listingSourceSlugId: t("adminListingSources.filters.slug"),
         operatorPartyId: t("adminListingSources.filters.operatorId"),
         platformTechnology: t("adminListingSources.fields.platformTechnology"),
+        country: t("adminListingSources.filters.country"),
     };
     const typeLabel = t("adminListingSources.filters.type");
     const ingestionLabel = t("adminListingSources.filters.ingestion");
@@ -105,7 +120,7 @@ export function AdminListingSourceToolbar({
                   },
               ]
             : []),
-        ...PANEL_KEYS.flatMap((key) => {
+        ...PANEL_TEXT_KEYS.flatMap((key) => {
             const value = filters[key];
             return value
                 ? [
@@ -117,6 +132,15 @@ export function AdminListingSourceToolbar({
                   ]
                 : [];
         }),
+        ...(filters.country
+            ? [
+                  {
+                      key: "country",
+                      label: `${panelLabels.country}: ${formatCountryName(filters.country, i18n.language)}`,
+                      onRemove: () => apply({ country: undefined }),
+                  },
+              ]
+            : []),
     ];
 
     return (
@@ -197,13 +221,24 @@ function ListingSourceFilterPanel({
     readonly labels: Record<keyof PanelValues, string>;
     readonly onApply: (values: Partial<AdminListingSourceFilters>) => void;
 }) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const countryOptions = useMemo(
+        () =>
+            listCountryCodes()
+                .map((code: CountryCode) => ({
+                    value: code,
+                    label: formatCountryName(code, i18n.language),
+                }))
+                .sort((left, right) => left.label.localeCompare(right.label, i18n.language)),
+        [i18n.language],
+    );
     const [values, setValues] = useState<PanelValues>(() => ({
         name: filters.name ?? "",
         listingSourceId: filters.listingSourceId ?? "",
         listingSourceSlugId: filters.listingSourceSlugId ?? "",
         operatorPartyId: filters.operatorPartyId ?? "",
         platformTechnology: filters.platformTechnology ?? "",
+        country: filters.country ?? "",
     }));
     const [platformError, setPlatformError] = useState(false);
     const set = (key: keyof PanelValues) => (value: string) =>
@@ -223,11 +258,12 @@ function ListingSourceFilterPanel({
                     listingSourceSlugId: optional(values.listingSourceSlugId),
                     operatorPartyId: optional(values.operatorPartyId),
                     platformTechnology: platformTechnology || undefined,
+                    country: parseCountryCode(values.country),
                 });
             }}
             onReset={() => onApply(Object.fromEntries(PANEL_KEYS.map((key) => [key, undefined])))}
         >
-            {PANEL_KEYS.filter((key) => key !== "platformTechnology").map((key) => (
+            {PANEL_TEXT_KEYS.filter((key) => key !== "platformTechnology").map((key) => (
                 <AdminTextField
                     key={key}
                     label={labels[key]}
@@ -250,6 +286,15 @@ function ListingSourceFilterPanel({
                         ? t("adminListingSources.validation.platformTechnology")
                         : undefined
                 }
+            />
+            <AdminSelectField
+                label={labels.country}
+                value={values.country}
+                onChange={set("country")}
+                options={[
+                    { value: "", label: t("adminListingSources.filters.anyCountry") },
+                    ...countryOptions,
+                ]}
             />
         </AdminFilterPanel>
     );
