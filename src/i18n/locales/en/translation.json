@@ -2967,7 +2967,9 @@
       "type": "Type",
       "ingestion": "Ingestion",
       "slug": "Slug",
-      "operatorId": "Operator ID"
+      "operatorId": "Operator ID",
+      "country": "Country",
+      "anyCountry": "Any country"
     },
     "list": {
       "heads": {

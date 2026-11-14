@@ -2967,7 +2967,9 @@
       "type": "Typ",
       "ingestion": "Import",
       "slug": "Slug",
-      "operatorId": "Betreiber-ID"
+      "operatorId": "Betreiber-ID",
+      "country": "Land",
+      "anyCountry": "Alle Länder"
     },
     "list": {
       "heads": {
