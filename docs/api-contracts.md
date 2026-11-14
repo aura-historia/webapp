@@ -9,17 +9,15 @@ admin workflows in [admin workflows](admin-workflows.md).
 - `pnpm openapi-ts` generates `src/client/**` and the public partner reference
   (`public/partner-products.openapi.json`) from the same pinned contract, `openapi/swagger.yaml`.
   Generation never fetches a moving contract. Never hand-edit either output.
-- The pinned capture is the complete backend `docs/swagger.yaml` at
-  `338af42f64870999c515a33221ef96df8beb7ed7` (2026-11-13), the head of
-  [backend#2933](https://github.com/aura-historia/backend/pull/2933), which contains `develop`
-  up to `4b0deea` ([backend#2932](https://github.com/aura-historia/backend/pull/2932)). Git blob
-  `6bdf7a5b548705e23dea0d99676362aa0d900f49`; file SHA-256
-  `501d60c343faf349efac42eab52c17fc01a1ecbf320c71c80ab3749480a92de5`; canonical parsed-JSON
+- The pinned capture is the complete backend `docs/swagger.yaml` at `develop`
+  `1be95314a7d338975977446706c726ebf3bb85c1` (2026-11-14,
+  [backend#2962](https://github.com/aura-historia/backend/pull/2962)). Git blob
+  `757fbf75311e112d2cf66c38c784f511fe2ae1c2`; file SHA-256
+  `1048bcac55abac2970d6998aaedddfdd968a57d10687d7d0a0d471698dd5c54c`; canonical parsed-JSON
   SHA-256 (recorded as `x-source-contract-sha256` in the partner reference):
-  `b248ab6fa307994e032b3f9a6f350744c822090bab16f0cc1ab4fa7e8a07ca8f`. It replaces the
-  `4711f1d8` capture (2026-11-13, last contract change `4711f1d`,
-  [backend#2931](https://github.com/aura-historia/backend/pull/2931)). Re-pin to the `develop`
-  merge commit of backend#2933 once it merges.
+  `f743b075e32ddb7aa06edbe9f43b651dab4f56c161f38d41e3d94c398620fbe9`. It replaces the
+  `338af42f` capture (2026-11-13, the head of
+  [backend#2933](https://github.com/aura-historia/backend/pull/2933)).
 - Every REST operation lives under `/v1/...` on `https://api.aura-historia.com` (production) and
   `https://api.stage.aura-historia.com`; `/api/v1/...` is gone without aliases
   ([backend#2216](https://github.com/aura-historia/backend/issues/2216)). The generated client and
@@ -29,7 +27,25 @@ admin workflows in [admin workflows](admin-workflows.md).
   keep their paths. Release this webapp only with or after a backend that serves `/v1`.
 - Without `VITE_API_URL` the app calls the production API (`getApiBaseUrl`); each deployment
   sets its environment's API URL explicitly.
-- Changes against the previous pin (`4711f1d8`, 2026-11-13), with their decisions:
+- Changes against the previous pin (`338af42f`, 2026-11-13), with their decisions:
+  - **Admin listing-source search filters by country**
+    ([backend#2966](https://github.com/aura-historia/backend/pull/2966)): `GET
+    /v1/admin/listing-sources` accepts an optional `country`, an uppercase ISO 3166-1 alpha-2
+    code, and returns only sources located there (their active default location with business or
+    inventory evidence; the backend owns the derivation). Decision: `AdminListingSourceFilters`
+    carries `country?: CountryCode`, read from the `country` URL parameter through
+    `parseCountryCode` (anything else means no filter) and sent unchanged. The listing sources
+    "All filters" panel offers it as a Country select of every country by localized name, with
+    "Any country" for none; its chip shows the country name. Release with or after backend#2966:
+    an older backend ignores the parameter and lists every source.
+  - **Overview `countries` counts where sources are located**
+    ([backend#2961](https://github.com/aura-historia/backend/pull/2961)): the figure now also
+    counts business-only sources, so it is usually higher. Description only; the landing page's
+    "Countries" label needs no change.
+  - **Source location default inventory wording**
+    ([backend#2962](https://github.com/aura-historia/backend/pull/2962)): `advertisedInventory`
+    descriptions now say "assertion" and point to operator policies. Description only.
+- Changes adopted with the `338af42f` capture (against `4711f1d8`, 2026-11-13), with their decisions:
   - **Provider links are `viewLink { url, affiliate }`**
     ([backend#2929](https://github.com/aura-historia/backend/issues/2929),
     [backend#2933](https://github.com/aura-historia/backend/pull/2933), breaking): every `viewUrl`

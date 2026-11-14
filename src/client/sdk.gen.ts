@@ -165,8 +165,11 @@ export const getReadiness = <ThrowOnError extends boolean = false>(options?: Opt
  * marketplace counts by that seller's type, not as a marketplace; individual sellers on
  * marketplaces and auction platforms are not counted. A reclassified ListingSource moves with
  * the next calculation.
- * `countries` counts distinct countries in the counted listings' effective advertised-inventory
- * geography; business association and shipping destinations do not establish inventory location.
+ * `countries` counts the distinct countries where the counted listings' ListingSources are
+ * located: the country of a listing's effective advertised-inventory geography when it has one,
+ * otherwise the country of the source's associated business. It describes the sources, not where
+ * any object is held, and shipping destinations are not counted. Listings without effective
+ * geography contribute no country. Listing `geography` and geographic search are unaffected.
  * `languages` counts the union of original title and description languages; generated
  * translations and presentation fallbacks are excluded. `newObjectsLast7Days` counts listings
  * whose `created` timestamp lies in the 168 hours ending at `asOf` (start exclusive, end inclusive).
@@ -1394,7 +1397,11 @@ export const addWatchlistProduct = <ThrowOnError extends boolean = false>(option
  * match to the ListingSource name. `listingSourceId` and `listingSourceSlugId` are exact
  * identity filters. `operatorPartyId`, `listingSourceType`, `ingestionMethod`, and
  * `platformTechnology` are exact filters and can be combined. ListingSource type and platform
- * technology are descriptive metadata independent of ingestion.
+ * technology are descriptive metadata independent of ingestion. `country` keeps only sources
+ * located in that country: the source's selected location default is active, carries
+ * associated-business or advertised-inventory evidence, and its submitted country, otherwise
+ * its accepted geocoded country, is the requested ISO 3166-1 alpha-2 code. Sources without such
+ * a location never match.
  *
  * Results use deterministic keyset pagination. The default sort is `name` ascending;
  * override it by providing both `sort` and `order`. Valid sort fields are `name`, `slug`,
