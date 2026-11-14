@@ -6,7 +6,7 @@
     "description": "Listing-source batch writes in two modes, each with POST, PATCH, PUT and DELETE. Asynchronous submission (recommended, /async) answers HTTP 202 once entries are admitted; admitted entries are then processed for you. Synchronous batches answer HTTP 200 with completed writes and the entries that failed. Both use product-listings:write and a current grant for the target listing source."
   },
   "x-source-url": "https://raw.githubusercontent.com/aura-historia/backend/refs/heads/develop/docs/swagger.yaml",
-  "x-source-contract-sha256": "b248ab6fa307994e032b3f9a6f350744c822090bab16f0cc1ab4fa7e8a07ca8f",
+  "x-source-contract-sha256": "f743b075e32ddb7aa06edbe9f43b651dab4f56c161f38d41e3d94c398620fbe9",
   "servers": [
     {
       "url": "https://api.stage.aura-historia.com",
