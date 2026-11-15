@@ -44,6 +44,7 @@ const mockFilter: UserSearchFilter = {
 const defaultProps = {
     filter: mockFilter,
     canDuplicate: true,
+    duplicateBlockedHint: undefined as string | undefined,
     onEdit: vi.fn(),
     onDuplicate: vi.fn(),
 };
@@ -178,6 +179,21 @@ describe("SearchFilterCard", () => {
             expect(onDuplicate).not.toHaveBeenCalled();
         });
 
+        it("shows the given hint instead of the upgrade hint when duplicating is blocked", async () => {
+            const user = userEvent.setup();
+            await renderCard({
+                canDuplicate: false,
+                duplicateBlockedHint: "Pausieren Sie einen, um einen weiteren hinzuzufügen.",
+            });
+            await openMenu(user);
+            expect(
+                screen.getByText("Pausieren Sie einen, um einen weiteren hinzuzufügen."),
+            ).toBeInTheDocument();
+            expect(
+                screen.queryByText("Upgraden Sie Ihr Konto, um mehr Suchaufträge zu erstellen"),
+            ).not.toBeInTheDocument();
+        });
+
         it("opens the delete dialog and deletes the filter when confirmed", async () => {
             const user = userEvent.setup();
             await renderCard();
@@ -258,5 +274,21 @@ describe("SearchFilterRestingRow", () => {
         await openMenu(user);
         await user.click(screen.getByRole("menuitem", { name: "Suchauftrag bearbeiten" }));
         expect(onEdit).toHaveBeenCalledWith({ ...mockFilter, state: "INACTIVE_BY_USER" });
+    });
+
+    it("shows the given hint in the actions menu when duplicating is blocked", async () => {
+        const user = userEvent.setup();
+        await renderRow({
+            filter: { ...mockFilter, state: "INACTIVE_BY_USER" },
+            canDuplicate: false,
+            duplicateBlockedHint: "Pausieren Sie einen, um einen weiteren hinzuzufügen.",
+        });
+        await openMenu(user);
+        expect(
+            screen.getByText("Pausieren Sie einen, um einen weiteren hinzuzufügen."),
+        ).toBeInTheDocument();
+        expect(
+            screen.queryByText("Upgraden Sie Ihr Konto, um mehr Suchaufträge zu erstellen"),
+        ).not.toBeInTheDocument();
     });
 });

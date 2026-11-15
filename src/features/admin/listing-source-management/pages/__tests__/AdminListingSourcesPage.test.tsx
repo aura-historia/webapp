@@ -8,6 +8,7 @@ import type {
     AdminListingSourceFilters,
     AdminListingSourceSummary,
 } from "@/data/internal/listing-source/AdminListingSource.ts";
+import { formatCountryName, parseCountryCode } from "@/data/internal/geography/GeographicCodes.ts";
 import testI18n from "@/i18n/i18nForTests";
 import { AdminListingSourcesPage } from "../AdminListingSourcesPage.tsx";
 import { chooseSelectOption } from "@/test/utils.tsx";
@@ -273,14 +274,32 @@ describe("AdminListingSourcesPage", () => {
         fireEvent.change(screen.getByLabelText(t("adminListingSources.filters.operatorId")), {
             target: { value: " party_01 " },
         });
+        const germany = formatCountryName(
+            parseCountryCode("DE") ?? expect.fail("DE is a country"),
+            testI18n.language,
+        );
+        await chooseSelectOption(
+            user,
+            screen.getByRole("combobox", { name: t("adminListingSources.filters.country") }),
+            germany,
+        );
         fireEvent.click(screen.getByRole("button", { name: t("adminCommon.filters.apply") }));
         expect(route.filters).toHaveBeenLastCalledWith(
             expect.objectContaining({
                 platformTechnology: "SHOPWARE",
                 operatorPartyId: "party_01",
                 listingSourceType: "AUCTION_HOUSE",
+                country: "DE",
             }),
         );
+        fireEvent.click(
+            screen.getByRole("button", {
+                name: t("adminCommon.filters.remove", {
+                    filter: `${t("adminListingSources.filters.country")}: ${germany}`,
+                }),
+            }),
+        );
+        expect(route.filters.mock.lastCall?.[0]).not.toHaveProperty("country", "DE");
 
         await chooseSelectOption(
             user,

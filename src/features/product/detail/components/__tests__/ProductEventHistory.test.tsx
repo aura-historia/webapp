@@ -51,11 +51,7 @@ const changedEvent: ProductListingHistoryEntry = {
                 previous: { text: "Baroque violin", language: "en" },
                 current: { text: "Baroque violin, 1720", language: "en" },
             },
-            {
-                type: "DESCRIPTION_CHANGED",
-                previous: null,
-                current: { text: "Maple back.", language: "en" },
-            },
+            { type: "DESCRIPTION_CHANGED" },
             {
                 type: "MAIN_PRICE_CHANGED",
                 previous: { type: "MONETARY", amount: 10000, currency: "EUR" },
@@ -116,7 +112,7 @@ describe("ProductEventHistory", () => {
         expect(screen.getAllByTestId("timeline-item")).toHaveLength(1);
         expect(screen.getByText("product.history.events.listingChangedTitle")).toBeInTheDocument();
         expect(screen.getByText("product.history.events.titleChanged")).toBeInTheDocument();
-        expect(screen.getByText("product.history.events.descriptionAdded")).toBeInTheDocument();
+        expect(screen.getByText("product.history.events.descriptionChanged")).toBeInTheDocument();
         expect(screen.queryByText(/Baroque violin/)).not.toBeInTheDocument();
         expect(screen.getByText(/product.history.events.mainPriceChanged/)).toBeInTheDocument();
         expect(
@@ -140,7 +136,7 @@ describe("ProductEventHistory", () => {
         expect(screen.getAllByTestId("timeline-description")).toHaveLength(13);
     });
 
-    it("names removed text and groups text changes under details", () => {
+    it("names a removed title and a changed description, and groups both under details", () => {
         const removal: ProductListingHistoryEntry = {
             ...changedEvent,
             payload: {
@@ -151,11 +147,7 @@ describe("ProductEventHistory", () => {
                         previous: { text: "Baroque violin", language: "en" },
                         current: null,
                     },
-                    {
-                        type: "DESCRIPTION_CHANGED",
-                        previous: { text: "Maple back.", language: "en" },
-                        current: null,
-                    },
+                    { type: "DESCRIPTION_CHANGED" },
                 ],
             },
         };
@@ -163,7 +155,14 @@ describe("ProductEventHistory", () => {
         const { rerender } = render(<ProductEventHistory event={removal} filter="details" />);
 
         expect(screen.getByText("product.history.events.titleRemoved")).toBeInTheDocument();
-        expect(screen.getByText("product.history.events.descriptionRemoved")).toBeInTheDocument();
+        // The marker carries no text, so it is never labelled "added" or "removed".
+        expect(screen.getByText("product.history.events.descriptionChanged")).toBeInTheDocument();
+        expect(
+            screen.queryByText("product.history.events.descriptionAdded"),
+        ).not.toBeInTheDocument();
+        expect(
+            screen.queryByText("product.history.events.descriptionRemoved"),
+        ).not.toBeInTheDocument();
 
         rerender(<ProductEventHistory event={removal} filter="price" />);
         expect(screen.queryByTestId("timeline-item")).not.toBeInTheDocument();

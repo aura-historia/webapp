@@ -4,17 +4,8 @@ import { cn } from "@/lib/utils.ts";
 
 const BLOCK = "bg-surface-sunken";
 const THUMBNAIL_IDS = ["t1", "t2", "t3", "t4", "t5", "t6"];
-const DESCRIPTION_LINES = [
-    { id: "d1", width: "100%" },
-    { id: "d2", width: "94%" },
-    { id: "d3", width: "98%" },
-    { id: "d4", width: "66%" },
-    { id: "d5", width: "96%", gap: true },
-    { id: "d6", width: "90%" },
-    { id: "d7", width: "52%" },
-];
 
-/** Mirrors the detail page: gallery, summary column with description, price history, history and rail. */
+/** Mirrors the detail page: gallery, summary column, price history, history and rail. */
 export function ProductDetailPageSkeleton() {
     useLayoutEffect(() => {
         globalThis.scrollTo({ top: 0, left: 0 });
@@ -61,16 +52,6 @@ export function ProductDetailPageSkeleton() {
                             </div>
                             <div className={cn("h-13 rounded-pill", BLOCK)} />
                             <div className="h-13 rounded-pill shadow-[inset_0_0_0_1px_var(--color-line)]" />
-                        </div>
-                        <div className="flex flex-col gap-[13px] border-t border-line pt-7">
-                            <div className={cn("mb-1.5 h-6 w-[150px] rounded-sm", BLOCK)} />
-                            {DESCRIPTION_LINES.map((line) => (
-                                <div
-                                    key={line.id}
-                                    className={cn("h-3 rounded-xs", BLOCK, line.gap && "mt-2.5")}
-                                    style={{ width: line.width }}
-                                />
-                            ))}
                         </div>
                     </div>
                 </section>

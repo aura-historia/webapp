@@ -7,6 +7,7 @@ import {
     isOptionalPlatformTechnology,
     normalizePlatformTechnology,
 } from "@/data/internal/listing-source/AdminListingSource.ts";
+import { parseCountryCode } from "@/data/internal/geography/GeographicCodes.ts";
 import {
     LISTING_SOURCE_TYPES,
     type ListingSourceType,
@@ -55,6 +56,7 @@ export function validateAdminListingSourceSearch(
             platform && isOptionalPlatformTechnology(platform)
                 ? normalizePlatformTechnology(platform)
                 : undefined,
+        country: parseCountryCode(searchString(search, "country")),
         sort: sort && SORTS.has(sort) ? (sort as AdminListingSourceSortField) : "name",
         order: searchString(search, "order") === "desc" ? "desc" : "asc",
         source: searchString(search, "source"),
@@ -81,6 +83,7 @@ export const ADMIN_LISTING_SOURCE_FILTER_KEYS = [
     "listingSourceSlugId",
     "operatorPartyId",
     "platformTechnology",
+    "country",
 ] as const satisfies readonly (keyof AdminListingSourceFilters)[];
 
 export function hasAdminListingSourceFilters(filters: AdminListingSourceFilters): boolean {

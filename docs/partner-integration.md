@@ -91,6 +91,9 @@ valid store domain. Responses are bodyless 201 (enabled) or 204 (replaced or unc
 - Retry only failed entries after correcting them. A lost response needs reconciliation, not an
   assumption that nothing was committed. Search indexing and visibility are separate from
   completed writes; never promise immediate visibility.
+- Descriptions are write-only: no response returns a listing's description (it still informs
+  search and matching), so a description write cannot be reconciled by reading it back. Check the
+  entry's outcome, or repeat the write, which stores the same text again.
 - `sourceListingId` is the source-owned identity; seller and address fields do not exist. The
   create contract requires `sourceListingId`, `url` and `images`; localized `title` and
   `description` are optional and nullable (omitted or `null` records no text). Do not make the

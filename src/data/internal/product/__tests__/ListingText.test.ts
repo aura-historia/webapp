@@ -1,9 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-    isListingTextTranslated,
-    mapListingDisplayText,
-    mapListingTextInLanguage,
-} from "../ListingText.ts";
+import { isListingTextTranslated, mapListingDisplayText } from "../ListingText.ts";
 
 const translated = {
     original: { text: "Antique Imari charger", language: "en" as const },
@@ -26,22 +22,6 @@ describe("mapListingDisplayText", () => {
     it("keeps missing text absent", () => {
         expect(mapListingDisplayText(undefined)).toBeUndefined();
         expect(mapListingDisplayText(null)).toBeUndefined();
-    });
-});
-
-describe("mapListingTextInLanguage", () => {
-    it("returns the localized text when it is in the requested language", () => {
-        expect(mapListingTextInLanguage(translated, "de")).toBe("Antike Imari-Platte");
-        expect(mapListingTextInLanguage(fallback, "en")).toBe("Antique Imari charger");
-    });
-
-    it("keeps a text in a fallback language absent", () => {
-        expect(mapListingTextInLanguage(fallback, "de")).toBeUndefined();
-        expect(mapListingTextInLanguage(translated, "fr")).toBeUndefined();
-    });
-
-    it("keeps missing text absent", () => {
-        expect(mapListingTextInLanguage(undefined, "de")).toBeUndefined();
     });
 });
 

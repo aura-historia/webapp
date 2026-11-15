@@ -490,8 +490,11 @@ paths:
         marketplace counts by that seller's type, not as a marketplace; individual sellers on
         marketplaces and auction platforms are not counted. A reclassified ListingSource moves with
         the next calculation.
-        `countries` counts distinct countries in the counted listings' effective advertised-inventory
-        geography; business association and shipping destinations do not establish inventory location.
+        `countries` counts the distinct countries where the counted listings' ListingSources are
+        located: the country of a listing's effective advertised-inventory geography when it has one,
+        otherwise the country of the source's associated business. It describes the sources, not where
+        any object is held, and shipping destinations are not counted. Listings without effective
+        geography contribute no country. Listing `geography` and geographic search are unaffected.
         `languages` counts the union of original title and description languages; generated
         translations and presentation fallbacks are excluded. `newObjectsLast7Days` counts listings
         whose `created` timestamp lies in the 168 hours ending at `asOf` (start exclusive, end inclusive).
@@ -713,7 +716,7 @@ paths:
       operationId: getAdminProductListing
       description: >-
         Administrator authority is required; delegated Aura tokens additionally require `product-listings:read`. Cognito administrators need no delegated scope or Partnership grant. Success and all errors use `private, no-store`. Original source values include retained withdrawn listings and do not depend on OpenSearch or enrichment readiness.
-        Original title/description are mutable; slug, sale observation and enrichment are read-only. Canonical image URLs are privileged inspection data; previews must respect sensitive/unassessed content rather than automatically rendering them. Public redaction is unchanged.
+        Original title/description are mutable; slug, sale observation and enrichment are read-only. The description is write-only: no response returns it. Canonical image URLs are privileged inspection data; previews must respect sensitive/unassessed content rather than automatically rendering them. Public redaction is unchanged.
       tags: [ProductListings]
       security:
         - BearerAuth: []
@@ -2030,7 +2033,7 @@ paths:
       operationId: getPartnerProductListing
       description: >-
         An authenticated partner with an active Partnership grant for the path ListingSource is required; delegated Aura tokens additionally require `product-listings:read`. Cognito partners need no delegated scope. Administrator role alone does not grant access. Source authorization precedes reads or mutations; a listing outside the authorized source returns the same not-found result as a missing listing. Success and all errors use `private, no-store`. Original source values include retained withdrawn listings and do not depend on OpenSearch or enrichment readiness.
-        Original title/description are mutable; slug, sale observation and enrichment are read-only. Canonical image URLs are privileged inspection data; previews must respect sensitive/unassessed content rather than automatically rendering them. Public redaction is unchanged.
+        Original title/description are mutable; slug, sale observation and enrichment are read-only. The description is write-only: no response returns it. Canonical image URLs are privileged inspection data; previews must respect sensitive/unassessed content rather than automatically rendering them. Public redaction is unchanged.
       tags: [ProductListings]
       security:
         - BearerAuth: []
@@ -3546,7 +3549,7 @@ paths:
           in: query
           required: false
           description:
-            Requested current title and description language. Defaults to `en`; unavailable translations fall back
+            Requested current title language. Defaults to `en`; unavailable translations fall back
             to stored content.
           schema:
             $ref: "#/components/schemas/LanguageData"
@@ -5804,7 +5807,9 @@ paths:
                       availability: IN_STOCK
                       lifecycle: ACTIVE
                       url: https://tech-store.com/smartphone-case
-                      viewUrl: https://tech-store.com/smartphone-case?utm_source=aura_historia&utm_medium=referral
+                      viewLink:
+                        url: https://tech-store.com/smartphone-case?utm_source=aura_historia&utm_medium=referral
+                        affiliate: false
                       image:
                         url: https://tech-store.com/images/case-1.jpg
                       contentPolicy:
@@ -6112,7 +6117,11 @@ paths:
         match to the ListingSource name. `listingSourceId` and `listingSourceSlugId` are exact
         identity filters. `operatorPartyId`, `listingSourceType`, `ingestionMethod`, and
         `platformTechnology` are exact filters and can be combined. ListingSource type and platform
-        technology are descriptive metadata independent of ingestion.
+        technology are descriptive metadata independent of ingestion. `country` keeps only sources
+        located in that country: the source's selected location default is active, carries
+        associated-business or advertised-inventory evidence, and its submitted country, otherwise
+        its accepted geocoded country, is the requested ISO 3166-1 alpha-2 code. Sources without such
+        a location never match.
 
         Results use deterministic keyset pagination. The default sort is `name` ascending;
         override it by providing both `sort` and `order`. Valid sort fields are `name`, `slug`,
@@ -6190,6 +6199,14 @@ paths:
           schema:
             $ref: "#/components/schemas/PlatformTechnology"
           example: BIGCOMMERCE
+        - name: country
+          in: query
+          required: false
+          description: Optional exact filter for the country where the ListingSource is located, as an uppercase ISO 3166-1 alpha-2 code. Lowercase, alpha-3 and unknown codes return `400 BAD_QUERY_PARAMETER_VALUE`.
+          schema:
+            type: string
+            pattern: "^[A-Z]{2}$"
+          example: DE
         - name: sort
           in: query
           required: false
@@ -21416,9 +21433,6 @@ components:
         - type: object
           required: [url, images]
           properties:
-            description:
-              readOnly: true
-              allOf: [{ $ref: "#/components/schemas/LocalizedTextData" }]
             url: { type: string, format: uri }
             images:
               type: array
@@ -21464,7 +21478,7 @@ components:
         - priceValuation
         - lifecycle
         - url
-        - viewUrl
+        - viewLink
         - updated
       properties:
         shipping:
@@ -21504,10 +21518,10 @@ components:
         url:
           type: string
           format: uri
-        viewUrl:
-          type: string
-          format: uri
-          description: Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
+        viewLink:
+          allOf:
+            - $ref: "#/components/schemas/ViewLinkData"
+          description: The link to the provider's page that is meant to be shared with people, and whether it is an affiliate link.
         image:
           allOf:
             - $ref: "#/components/schemas/ProductListingImageData"
@@ -21564,7 +21578,7 @@ components:
         - pricing
         - lifecycle
         - url
-        - viewUrl
+        - viewLink
         - images
         - created
         - updated
@@ -21589,11 +21603,7 @@ components:
         title:
           allOf:
             - $ref: "#/components/schemas/ListingTextData"
-          description: Listing title. Omitted when the listing has neither an original nor a translated title. Chosen separately from `description`, so their languages can differ.
-        description:
-          allOf:
-            - $ref: "#/components/schemas/ListingTextData"
-          description: Listing description. Omitted when the listing has neither an original nor a translated description.
+          description: Listing title. Omitted when the listing has neither an original nor a translated title.
         pricing:
           type: object
           required:
@@ -21614,10 +21624,10 @@ components:
         url:
           type: string
           format: uri
-        viewUrl:
-          type: string
-          format: uri
-          description: Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
+        viewLink:
+          allOf:
+            - $ref: "#/components/schemas/ViewLinkData"
+          description: The link to the provider's page that is meant to be shared with people, and whether it is an affiliate link.
         images:
           type: array
           items:
@@ -21651,7 +21661,7 @@ components:
         - pricing
         - lifecycle
         - url
-        - viewUrl
+        - viewLink
         - created
         - updated
       properties:
@@ -21675,11 +21685,7 @@ components:
         title:
           allOf:
             - $ref: "#/components/schemas/ListingTextData"
-          description: Listing title. Omitted when the listing has neither an original nor a translated title. Chosen separately from `description`, so their languages can differ.
-        description:
-          allOf:
-            - $ref: "#/components/schemas/ListingTextData"
-          description: Listing description. Omitted when the listing has neither an original nor a translated description.
+          description: Listing title. Omitted when the listing has neither an original nor a translated title.
         pricing:
           type: object
           required:
@@ -21700,10 +21706,10 @@ components:
         url:
           type: string
           format: uri
-        viewUrl:
-          type: string
-          format: uri
-          description: Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
+        viewLink:
+          allOf:
+            - $ref: "#/components/schemas/ViewLinkData"
+          description: The link to the provider's page that is meant to be shared with people, and whether it is an affiliate link.
         image:
           allOf:
             - $ref: "#/components/schemas/ProductListingImageData"
@@ -22620,8 +22626,6 @@ components:
           description: Normalized discovery title. Titles stored before a normalization change, including legacy trailing whitespace and decorative typography, are presented in current normalized form without rewriting the stored event; a title without remaining text is omitted.
           allOf:
             - $ref: "#/components/schemas/LocalizedTextData"
-        description:
-          $ref: "#/components/schemas/LocalizedTextData"
         pricing:
           $ref: "#/components/schemas/ProductListingHistoryPricingData"
         availability:
@@ -22677,12 +22681,9 @@ components:
       type: object
       additionalProperties: false
       required: [type]
+      description: The listing description changed. The description text is not returned.
       properties:
         type: { type: string, enum: [DESCRIPTION_CHANGED] }
-        previous:
-          allOf: [{ $ref: "#/components/schemas/LocalizedTextData" }]
-        current:
-          allOf: [{ $ref: "#/components/schemas/LocalizedTextData" }]
     ProductListingMainPriceHistoryChangeData:
       type: object
       required:
@@ -24940,8 +24941,9 @@ components:
         - listingSourceSlugId
         - productListingTitleSlugId
         - listingSourceName
+        - listingSourcePartner
         - url
-        - viewUrl
+        - viewLink
         - change
       properties:
         productListingId:
@@ -24956,6 +24958,9 @@ components:
           type: string
         listingSourceName:
           type: string
+        listingSourcePartner:
+          type: boolean
+          description: "`true` while the ListingSource's operator holds an active Aura Historia partnership, like `operator.partner` on listing sources. It is read with the notification, so it turns `false` once the partnership ends."
         title:
           allOf:
             - $ref: "#/components/schemas/ListingTextData"
@@ -24966,10 +24971,10 @@ components:
         url:
           type: string
           format: uri
-        viewUrl:
-          type: string
-          format: uri
-          description: Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
+        viewLink:
+          allOf:
+            - $ref: "#/components/schemas/ViewLinkData"
+          description: The link to the provider's page that is meant to be shared with people, and whether it is an affiliate link.
         change:
           $ref: "#/components/schemas/WatchlistNotificationChangeData"
     WatchlistNotificationChangeData:
@@ -25019,8 +25024,9 @@ components:
         - listingSourceSlugId
         - productListingTitleSlugId
         - listingSourceName
+        - listingSourcePartner
         - url
-        - viewUrl
+        - viewLink
       properties:
         productListingId:
           type: string
@@ -25038,6 +25044,9 @@ components:
           type: string
         listingSourceName:
           type: string
+        listingSourcePartner:
+          type: boolean
+          description: "`true` while the ListingSource's operator holds an active Aura Historia partnership, like `operator.partner` on listing sources. It is read with the notification, so it turns `false` once the partnership ends."
         title:
           allOf:
             - $ref: "#/components/schemas/ListingTextData"
@@ -25048,10 +25057,10 @@ components:
         url:
           type: string
           format: uri
-        viewUrl:
-          type: string
-          format: uri
-          description: Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
+        viewLink:
+          allOf:
+            - $ref: "#/components/schemas/ViewLinkData"
+          description: The link to the provider's page that is meant to be shared with people, and whether it is an affiliate link.
     PartnershipApplicationNotificationPayloadData:
       type: object
       required:
@@ -25584,7 +25593,7 @@ components:
           type: integer
           format: int64
           minimum: 0
-          description: Distinct countries in the counted listings' effective advertised-inventory geography.
+          description: Distinct countries where the counted listings' ListingSources are located, from the effective advertised-inventory geography or else the associated business.
           example: 18
         languages:
           type: integer
@@ -26032,6 +26041,20 @@ components:
         listingSourceSlugId:
           type: string
           example: ada-antiques
+    ViewLinkData:
+      type: object
+      description: The link to the provider's page that is meant to be shared with people, and whether it is an affiliate link.
+      required:
+        - url
+        - affiliate
+      properties:
+        url:
+          type: string
+          format: uri
+          description: Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
+        affiliate:
+          type: boolean
+          description: "`true` when `url` is an affiliate link, which can earn Aura Historia a commission when people follow it. `false` when it carries only Aura Historia's tracking parameters or leads to Aura Historia itself."
     PublicListingSourceOperatorData:
       type: object
       description: The Party that operates a ListingSource, wherever a ListingSource is presented.
@@ -26047,7 +26070,7 @@ components:
           description: "`true` while the operator Party has an active Aura Historia Partnership, otherwise `false`, including after a Partnership is dissolved. Derived from current Partnership state when the response is built, so it can lag a Partnership change by up to the source and response cache lifetimes. Unrelated to ingestion methods (`PARTNER_API`) and referral configuration."
     PublicListingSourceData:
       type: object
-      description: Allowlisted public ListingSource card used by public collection search, exact slug lookup and the `listingSources` of a saved search filter. It omits Party identifiers/contact, ingestion/provider/referral configuration, timestamps, versions, and search metadata. The only trace of the referral configuration is `viewUrl`.
+      description: Allowlisted public ListingSource card used by public collection search, exact slug lookup and the `listingSources` of a saved search filter. It omits Party identifiers/contact, ingestion/provider/referral configuration, timestamps, versions, and search metadata. The only trace of the referral configuration is `viewLink`.
       required:
         - listingSourceId
         - listingSourceSlugId
@@ -26068,10 +26091,10 @@ components:
           type: string
           format: uri
           description: Optional http/https presentation URL, omitted when absent.
-        viewUrl:
-          type: string
-          format: uri
-          description: The link to send visitors to, derived from `url` the same way as a ProductListing's `viewUrl`. The source's affiliate link when it has a referral configuration, otherwise `url` with Aura's `utm_source` and `utm_medium` parameters, unless `url` already carries a `utm_source`. Present exactly when `url` is.
+        viewLink:
+          allOf:
+            - $ref: "#/components/schemas/ViewLinkData"
+          description: The link to send visitors to, derived from `url` the same way as a ProductListing's `viewLink`. Present exactly when `url` is.
         image:
           type: string
           format: uri
@@ -26765,10 +26788,10 @@ components:
         catalogueUrl:
           type: string
           format: uri
-        viewUrl:
-          type: string
-          format: uri
-          description: Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
+        viewLink:
+          allOf:
+            - $ref: "#/components/schemas/ViewLinkData"
+          description: The link to the provider's page that is meant to be shared with people, and whether it is an affiliate link.
         format:
           allOf:
             - $ref: "#/components/schemas/AuctionFormatData"
@@ -27246,8 +27269,9 @@ components:
         advertisedInventory:
           allOf:
           - $ref: '#/components/schemas/SourceLocationDefaultEvidence'
-          description: Explicit inventory evidence; scope must be ADVERTISED_INVENTORY.
-            Business, legal or correspondence evidence alone never establishes this meaning.
+          description: Explicit inventory assertion; scope must be ADVERTISED_INVENTORY.
+            The API never derives it from business, legal or correspondence evidence; operator
+            policies that assert it are documented in the geography guide.
     SourceLocationDefaultData:
       type: object
       additionalProperties: false
@@ -27300,8 +27324,9 @@ components:
           allOf:
           - $ref: '#/components/schemas/SourceLocationDefaultEvidence'
           nullable: true
-          description: Explicit inventory evidence; scope must be ADVERTISED_INVENTORY.
-            Business, legal or correspondence evidence alone never establishes this meaning.
+          description: Explicit inventory assertion; scope must be ADVERTISED_INVENTORY.
+            The API never derives it from business, legal or correspondence evidence; operator
+            policies that assert it are documented in the geography guide.
       description: Replaces the one reference and both applicability meanings atomically.
         Omitted/null evidence means absent, including on replacement. No automatic location
         selection.

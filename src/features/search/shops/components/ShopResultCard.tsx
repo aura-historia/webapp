@@ -4,6 +4,7 @@ import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import type { PublicListingSource } from "@/data/internal/shop/PublicListingSource.ts";
 import { PartnerBadge } from "@/features/provider-status/components/PartnerBadge.tsx";
+import { outboundLinkRel } from "@/lib/ui/outboundLinkRel.ts";
 import { cn } from "@/lib/utils.ts";
 
 const FOCUS_CLASS =
@@ -17,7 +18,7 @@ const ACTION_CLASS = cn(
 /**
  * A provider in the provider search grid: a square image tile (the serif initial when the source
  * has no image), the name, the operator, and links to the provider page and, when the source has
- * a website, its referral-tagged `viewUrl`. Phones show the website link as an icon.
+ * a website, its referral-tagged `viewLink`. Phones show the website link as an icon.
  */
 function ShopResultCardComponent({ shop }: { readonly shop: PublicListingSource }) {
     const { t } = useTranslation();
@@ -70,12 +71,12 @@ function ShopResultCardComponent({ shop }: { readonly shop: PublicListingSource 
                     {t("search.providers.viewProvider")}
                     <ArrowRight aria-hidden="true" className="size-3.5" strokeWidth={1.8} />
                 </Link>
-                {shop.viewUrl && (
+                {shop.viewLink && (
                     <>
                         <a
-                            href={shop.viewUrl}
+                            href={shop.viewLink.url}
                             target="_blank"
-                            rel="nofollow noopener noreferrer"
+                            rel={outboundLinkRel(shop.viewLink.affiliate)}
                             className={cn(ACTION_CLASS, "hidden text-ink-secondary sm:inline-flex")}
                         >
                             {t("search.providers.website")}
@@ -87,9 +88,9 @@ function ShopResultCardComponent({ shop }: { readonly shop: PublicListingSource 
                             />
                         </a>
                         <a
-                            href={shop.viewUrl}
+                            href={shop.viewLink.url}
                             target="_blank"
-                            rel="nofollow noopener noreferrer"
+                            rel={outboundLinkRel(shop.viewLink.affiliate)}
                             aria-label={t("search.providers.websiteOf", { shop: shop.name })}
                             className={cn(
                                 "-mr-3 inline-flex size-11 items-center justify-center text-ink-secondary hover:text-brass-ink sm:hidden",

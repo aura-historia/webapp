@@ -42,8 +42,6 @@ vi.mock("@tanstack/react-router", async () => {
 });
 
 import { screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ProductInfo } from "../ProductInfo.tsx";
 import { renderWithQueryClient } from "@/test/utils.tsx";
 import { mapToProductListingDetail } from "@/data/internal/product/ProductListingDetail.ts";
@@ -69,7 +67,10 @@ describe("ProductInfo", () => {
     const product = makeProductListingDetail({
         title: "Test Product Title",
         displayPrice: "99,99 €",
-        viewUrl: new URL("https://affiliate.example.com/product"),
+        viewLink: {
+            url: new URL("https://example.com/product?utm_source=aura_historia"),
+            affiliate: false,
+        },
     });
 
     it("renders the title, public source and display price", () => {
@@ -110,11 +111,23 @@ describe("ProductInfo", () => {
     it("uses the referral URL with a nofollow relationship", () => {
         renderWithQueryClient(<ProductInfo product={product} />);
         const link = screen.getByRole("link", { name: /Zur Seite des Anbieters/ });
-        expect(link).toHaveAttribute("href", product.viewUrl?.href);
+        expect(link).toHaveAttribute("href", product.viewLink?.url.href);
         expect(link).toHaveAttribute("rel", "nofollow noopener noreferrer");
     });
+    it("marks an affiliate link as sponsored", () => {
+        const affiliateUrl = new URL("https://prf.hn/click/camref:abc/destination:x");
+        renderWithQueryClient(
+            <ProductInfo
+                product={{ ...product, viewLink: { url: affiliateUrl, affiliate: true } }}
+            />,
+        );
+        for (const link of screen.getAllByRole("link", { name: /Zur Seite des Anbieters/ })) {
+            expect(link).toHaveAttribute("href", affiliateUrl.href);
+            expect(link).toHaveAttribute("rel", "sponsored nofollow noopener noreferrer");
+        }
+    });
     it("falls back to the source URL", () => {
-        renderWithQueryClient(<ProductInfo product={{ ...product, viewUrl: undefined }} />);
+        renderWithQueryClient(<ProductInfo product={{ ...product, viewLink: undefined }} />);
         expect(screen.getAllByRole("link", { name: /Zur Seite des Anbieters/ })[0]).toHaveAttribute(
             "href",
             product.url?.href,
@@ -134,7 +147,7 @@ describe("ProductInfo", () => {
     });
     it("disables the merchant action for a redacted URL", () => {
         renderWithQueryClient(
-            <ProductInfo product={{ ...product, url: undefined, viewUrl: undefined }} />,
+            <ProductInfo product={{ ...product, url: undefined, viewLink: undefined }} />,
         );
         expect(
             screen.queryByRole("link", { name: /Zur Seite des Anbieters/ }),
@@ -181,13 +194,12 @@ describe("ProductInfo", () => {
                     availability: "SOLD_OUT",
                     lifecycle: "ACTIVE",
                     url: "https://example.com/chair",
-                    viewUrl: "https://example.com/chair",
+                    viewLink: { url: "https://example.com/chair", affiliate: false },
                     images: [],
                     created: "2026-08-01T00:00:00Z",
                     updated: "2026-09-01T00:00:00Z",
                 },
             },
-            "de",
             "de",
         );
 
@@ -291,33 +303,9 @@ describe("ProductInfo", () => {
         expect(screen.getByTestId("product-price")).toHaveTextContent(/^Ab 4\.000/);
         expect(screen.getByText("Schätzung")).toBeInTheDocument();
     });
-    it("renders the description when present", () => {
-        renderWithQueryClient(
-            <ProductInfo product={{ ...product, description: "Walnut with a marble top." }} />,
-        );
-        expect(screen.getByRole("heading", { name: "Beschreibung" })).toBeInTheDocument();
-        expect(screen.getByText("Walnut with a marble top.")).toBeInTheDocument();
-        expect(screen.queryByRole("button", { name: /Mehr anzeigen/ })).not.toBeInTheDocument();
-    });
-    it("omits the description section when there is none", () => {
-        renderWithQueryClient(<ProductInfo product={{ ...product, description: undefined }} />);
+    it("shows no description section, since the backend returns none", () => {
+        renderWithQueryClient(<ProductInfo product={product} />);
         expect(screen.queryByRole("heading", { name: "Beschreibung" })).not.toBeInTheDocument();
-    });
-    it("starts a newly shown listing with its description clamped", async () => {
-        const long = "Walnut. ".repeat(80);
-        const { rerender } = renderWithQueryClient(
-            <ProductInfo product={{ ...product, description: long }} />,
-        );
-        await userEvent.click(screen.getByRole("button", { name: /Mehr anzeigen/ }));
-        expect(screen.getByRole("button", { name: /Weniger anzeigen/ })).toBeInTheDocument();
-
-        rerender(
-            <QueryClientProvider client={new QueryClient()}>
-                <ProductInfo
-                    product={{ ...product, productListingId: "other-listing", description: long }}
-                />
-            </QueryClientProvider>,
-        );
-        expect(screen.getByRole("button", { name: /Mehr anzeigen/ })).toBeInTheDocument();
+        expect(screen.queryByRole("button", { name: /Mehr anzeigen/ })).not.toBeInTheDocument();
     });
 });

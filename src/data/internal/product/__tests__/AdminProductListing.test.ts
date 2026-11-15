@@ -26,7 +26,6 @@ const adminProductListingDetailsDto: AdminProductListingDetails = {
     expectedVersion: 7,
     created: "2026-09-01T10:00:00Z",
     updated: "2026-10-01T12:30:00Z",
-    description: { text: "Two doors.\nOriginal key.", language: "en" },
     url: "https://galerie.example/items/42",
     images: ["https://galerie.example/b.jpg", "https://galerie.example/a.jpg"],
     auction: {
@@ -69,13 +68,14 @@ describe("mapAdminProductListingDetail", () => {
             saleObservation: { observedAt: new Date("2026-10-05T09:00:00Z"), fxRateId: "fx_01" },
         });
         expect(listing.created).toEqual(new Date("2026-09-01T10:00:00Z"));
+        // Write-only: the backend returns no description, so the model carries none.
+        expect(listing).not.toHaveProperty("description");
     });
 
     it("keeps absent text, auction facts and unknown enum values without inventing data", () => {
         const listing = mapAdminProductListingDetail({
             ...adminProductListingDetailsDto,
             title: undefined,
-            description: undefined,
             price: { type: "ON_REQUEST" },
             availability: "SOMETHING_NEW" as never,
             lifecycle: "ARCHIVED" as never,
@@ -85,7 +85,6 @@ describe("mapAdminProductListingDetail", () => {
 
         expect(listing).toMatchObject({
             title: null,
-            description: null,
             price: { type: "ON_REQUEST" },
             availability: "UNKNOWN",
             lifecycle: "UNKNOWN",

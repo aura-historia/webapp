@@ -31,7 +31,7 @@ const baseSummary: ProductListingSummaryData = {
     availability: "AVAILABLE",
     lifecycle: "ACTIVE",
     url: "https://example.com/item",
-    viewUrl: "https://example.com/view",
+    viewLink: { url: "https://example.com/view", affiliate: false },
     image: { url: "https://example.com/image.jpg" },
     updated: "2026-09-01T00:00:00Z",
 };
@@ -58,7 +58,7 @@ const baseDetails: ProductListingDetailsData = {
     availability: "AVAILABLE",
     lifecycle: "ACTIVE",
     url: "https://example.com/item",
-    viewUrl: "https://example.com/view",
+    viewLink: { url: "https://example.com/view", affiliate: false },
     images: [{ url: "https://example.com/image.jpg" }],
     created: "2026-08-01T00:00:00Z",
     updated: "2026-09-01T00:00:00Z",
@@ -154,7 +154,6 @@ describe("ProductListing mappers", () => {
                     contentPolicy: { decision: "REQUIRES_CONSENT", category },
                 }),
                 "en-US",
-                "en",
             );
 
             expect(result.contentPolicy).toEqual({ decision: "REQUIRES_CONSENT", category });
@@ -213,6 +212,29 @@ describe("ProductListing mappers", () => {
         expect(
             mapPersonalizedProductListingDetails({ item: withoutImage }, "en").image,
         ).toBeUndefined();
+    });
+
+    it("maps an affiliate view link with its disclosure flag on summaries and details", () => {
+        const viewLink = {
+            url: "https://prf.hn/click/camref:abc/destination:https%3A%2F%2Fexample.com",
+            affiliate: true,
+        };
+        const summary = mapPersonalizedProductListingSummary(
+            personalized({ ...baseSummary, viewLink }),
+            "en-US",
+        );
+
+        expect(summary.viewLink).toEqual({ url: new URL(viewLink.url), affiliate: true });
+        expect(summary.url).toEqual(new URL(baseSummary.url));
+    });
+
+    it("drops a view link whose URL cannot be parsed", () => {
+        const summary = mapPersonalizedProductListingSummary(
+            personalized({ ...baseSummary, viewLink: { url: "not a url", affiliate: true } }),
+            "en-US",
+        );
+
+        expect(summary.viewLink).toBeUndefined();
     });
 
     it("keeps ON_REQUEST distinct from missing price", () => {
@@ -302,7 +324,7 @@ describe("ProductListing mappers", () => {
             ...baseDetails,
             contentPolicy: { decision: "REQUIRES_CONSENT", category: "NAZI_GERMANY" },
         });
-        const result = mapToProductListingDetail(details, "en-US", "en");
+        const result = mapToProductListingDetail(details, "en-US");
 
         expect(result.pricing.source.price).toEqual({
             type: "MONETARY",
@@ -332,53 +354,53 @@ describe("ProductListing mappers", () => {
         expect(result.lot).toBeNull();
     });
 
-    it("shows the localized title and description, not the original text", () => {
+    it("shows the localized title, not the original text", () => {
         const details: PersonalizedProductListingDetailsData = personalized({
             ...baseDetails,
             title: {
                 original: { text: "Antique Imari charger", language: "en" },
                 localized: { text: "Antike Imari-Platte", language: "de" },
             },
-            description: {
-                original: { text: "Original description", language: "en" },
-                localized: { text: "Lokalisierte Beschreibung", language: "de" },
-            },
         });
 
-        const detail = mapToProductListingDetail(details, "de-DE", "de");
+        const detail = mapToProductListingDetail(details, "de-DE");
         expect(detail.title).toBe("Antike Imari-Platte");
-        expect(detail.description).toBe("Lokalisierte Beschreibung");
+        expect(detail.translated).toBe(true);
         expect(mapPersonalizedProductListingDetails(details, "de-DE").title).toBe(
             "Antike Imari-Platte",
         );
     });
 
-    it("keeps a description in a fallback language absent but still shows the fallback title", () => {
+    it("shows a fallback-language title without claiming a translation", () => {
         const details: PersonalizedProductListingDetailsData = personalized({
             ...baseDetails,
             title: {
                 original: { text: "Antique Imari charger", language: "en" },
                 localized: { text: "Antique Imari charger", language: "en" },
             },
-            description: {
-                original: { text: "Original description", language: "en" },
-                localized: { text: "Original description", language: "en" },
-            },
         });
 
-        const detail = mapToProductListingDetail(details, "de-DE", "de");
+        const detail = mapToProductListingDetail(details, "de-DE");
         expect(detail.title).toBe("Antique Imari charger");
-        expect(detail.description).toBeUndefined();
-        expect(mapToProductListingDetail(details, "en-US", "en").description).toBe(
-            "Original description",
-        );
+        expect(detail.translated).toBe(false);
+    });
+
+    it("carries no description, even from a backend that still returns one", () => {
+        const details = personalized({
+            ...baseDetails,
+            description: {
+                original: { text: "Original description", language: "en" },
+                localized: { text: "Lokalisierte Beschreibung", language: "de" },
+            },
+        } as unknown as ProductListingDetailsData);
+
+        expect(mapToProductListingDetail(details, "de-DE")).not.toHaveProperty("description");
     });
 
     it("preserves SALE_OBSERVATION metadata, ON_REQUEST, and lot facts without a parent auction", () => {
         const details: ProductListingDetailsData = {
             ...baseDetails,
             title: undefined,
-            description: undefined,
             pricing: {
                 source: { price: { type: "ON_REQUEST" } },
                 display: { price: { type: "ON_REQUEST" } },
@@ -394,10 +416,9 @@ describe("ProductListing mappers", () => {
                 cataloguePosition: 7,
             },
         };
-        const result = mapToProductListingDetail({ item: details }, "en", "en");
+        const result = mapToProductListingDetail({ item: details }, "en");
 
         expect(result.title).toBeUndefined();
-        expect(result.description).toBeUndefined();
         expect(result.price).toEqual({ type: "ON_REQUEST" });
         expect(result.displayPrice).toBeUndefined();
         expect(result.priceValuation).toBe("SALE_OBSERVATION");
@@ -427,7 +448,7 @@ describe("ProductListing mappers", () => {
                 },
             },
         };
-        const result = mapToProductListingDetail({ item: details }, "en", "en");
+        const result = mapToProductListingDetail({ item: details }, "en");
 
         expect(result.auction).toEqual({
             ...details.auction,
@@ -453,7 +474,7 @@ describe("ProductListing mappers", () => {
                 biddingOpens: "2026-09-02T10:00:00Z",
             },
         };
-        const result = mapToProductListingDetail({ item: details }, "en", "en");
+        const result = mapToProductListingDetail({ item: details }, "en");
 
         expect(result.auction?.auctionId).toBe("auc_opaque:01");
         expect(result.lot).toEqual({
@@ -478,7 +499,7 @@ describe("ProductListing mappers", () => {
                 },
             },
         };
-        const result = mapToProductListingDetail({ item: details }, "en", "en");
+        const result = mapToProductListingDetail({ item: details }, "en");
 
         expect(result.pricing.source.price).toBeUndefined();
         expect(result.pricing.display.price).toBeUndefined();
@@ -507,7 +528,6 @@ describe("ProductListing mappers", () => {
                 },
             }),
             "en-US",
-            "en",
         );
         expect(normalise(sek.displayPrice)).toBe("SEK 123.45");
     });
@@ -527,7 +547,7 @@ describe("ProductListing mappers", () => {
                 },
             },
         };
-        const result = mapToProductListingDetail({ item: details }, "de", "de");
+        const result = mapToProductListingDetail({ item: details }, "de");
 
         expect(result.pricing.source.price).toEqual({
             type: "MONETARY",

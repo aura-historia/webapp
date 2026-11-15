@@ -54,8 +54,8 @@ describe("generateShopHeadMeta", () => {
             },
         });
         expect(JSON.stringify(jsonLd)).not.toContain(source.operatorName);
-        // The canonical address stays untagged; only outbound clicks use the viewUrl.
-        expect(source.viewUrl).toContain("utm_source=aura_historia");
+        // The canonical address stays untagged; only outbound clicks use the view link.
+        expect(source.viewLink?.url).toContain("utm_source=aura_historia");
         expect(JSON.stringify(jsonLd)).not.toContain("utm_source");
         // A non-partner's own image is not named as the link-preview image.
         expect(JSON.stringify(head.meta)).not.toContain("https://example.com/logo.png");

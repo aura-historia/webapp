@@ -75,7 +75,7 @@ describe("ShopHeader", () => {
         expect(screen.getAllByRole("heading")).toHaveLength(1);
     });
 
-    it("links the source's viewUrl in a new tab using nofollow", () => {
+    it("links the source's view link in a new tab using nofollow", () => {
         render(<ShopHeader shop={makePublicListingSource()} />);
 
         // jsdom's name computation drops the leading space inside the sr-only span.
@@ -90,16 +90,19 @@ describe("ShopHeader", () => {
         expect(link).toHaveAttribute("rel", "nofollow noopener noreferrer");
     });
 
-    it("sends visitors to an affiliate viewUrl instead of the raw url", () => {
-        const viewUrl =
-            "https://prf.hn/click/camref:1100lAbCd/destination:https%3A%2F%2Fexample.com";
-        render(<ShopHeader shop={makePublicListingSource({ viewUrl })} />);
+    it("sends visitors to an affiliate view link instead of the raw url, marked sponsored", () => {
+        const url = "https://prf.hn/click/camref:1100lAbCd/destination:https%3A%2F%2Fexample.com";
+        render(
+            <ShopHeader shop={makePublicListingSource({ viewLink: { url, affiliate: true } })} />,
+        );
 
-        expect(screen.getByRole("link", { name: WEBSITE_LINK })).toHaveAttribute("href", viewUrl);
+        const link = screen.getByRole("link", { name: WEBSITE_LINK });
+        expect(link).toHaveAttribute("href", url);
+        expect(link).toHaveAttribute("rel", "sponsored nofollow noopener noreferrer");
     });
 
-    it("falls back to the raw url when the response has no viewUrl", () => {
-        render(<ShopHeader shop={makePublicListingSource({ viewUrl: undefined })} />);
+    it("falls back to the raw url when the response has no view link", () => {
+        render(<ShopHeader shop={makePublicListingSource({ viewLink: undefined })} />);
 
         expect(screen.getByRole("link", { name: WEBSITE_LINK })).toHaveAttribute(
             "href",
@@ -109,7 +112,7 @@ describe("ShopHeader", () => {
 
     it("omits the website action when no public URL exists", () => {
         render(
-            <ShopHeader shop={makePublicListingSource({ url: undefined, viewUrl: undefined })} />,
+            <ShopHeader shop={makePublicListingSource({ url: undefined, viewLink: undefined })} />,
         );
 
         expect(screen.queryByRole("link", { name: WEBSITE_LINK })).not.toBeInTheDocument();

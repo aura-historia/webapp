@@ -276,8 +276,10 @@ describe("WooCommerce broker backend calls", () => {
                           operator: { name: "Operator" },
                           url: "https://shop.example:8443/",
                           // The broker compares the registered address, never the tagged outbound link.
-                          viewUrl:
-                              "https://shop.example:8443/?utm_source=aura_historia&utm_medium=referral",
+                          viewLink: {
+                              url: "https://shop.example:8443/?utm_source=aura_historia&utm_medium=referral",
+                              affiliate: false,
+                          },
                       }),
             );
 

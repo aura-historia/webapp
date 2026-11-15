@@ -67,8 +67,8 @@ export type AdminProductListingSaleObservation = {
     readonly fxRateId: string;
 };
 
+/** The details carry no description: it is write-only (see `AdminProductListingPatch`). */
 export type AdminProductListingDetail = AdminProductListingSummary & {
-    readonly description: AdminProductListingText | null;
     readonly url: string;
     /** Privileged canonical image URLs in source order; never preview them automatically. */
     readonly images: readonly string[];
@@ -114,7 +114,8 @@ export type AdminProductListingTextPatch = {
 /**
  * Editable facts only. Omission preserves, `null` clears the title, description, price, an
  * estimate or availability. URL, images and the auction object are never null; `images: []`
- * empties the collection.
+ * empties the collection. The description is write-only: no read returns it, so a patch can set
+ * or clear it but never compares against it.
  */
 export type AdminProductListingPatch = {
     readonly title?: AdminProductListingTextPatch | null;
@@ -177,7 +178,6 @@ export function mapAdminProductListingDetail(
 ): AdminProductListingDetail {
     return {
         ...mapAdminProductListingSummary(data),
-        description: mapText(data.description),
         url: data.url,
         images: [...data.images],
         auction: mapAuction(data.auction),

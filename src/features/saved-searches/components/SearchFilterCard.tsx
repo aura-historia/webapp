@@ -22,6 +22,7 @@ import { cn } from "@/lib/utils.ts";
 type Props = {
     readonly filter: UserSearchFilter;
     readonly canDuplicate: boolean;
+    readonly duplicateBlockedHint?: string;
     readonly onEdit: (filter: UserSearchFilter) => void;
     readonly onDuplicate: (filter: UserSearchFilter) => void;
 };
@@ -61,7 +62,13 @@ function FilterNameLink({
  * An active search filter on the ink "Watching now" band: live label, name, search terms,
  * criteria, the email-alert toggle and the way to its matches.
  */
-export function SearchFilterCard({ filter, canDuplicate, onEdit, onDuplicate }: Props) {
+export function SearchFilterCard({
+    filter,
+    canDuplicate,
+    duplicateBlockedHint,
+    onEdit,
+    onDuplicate,
+}: Props) {
     const { t } = useTranslation();
     const updateFilter = useUpdateUserSearchFilter();
     const [deleteOpen, setDeleteOpen] = useState(false);
@@ -166,6 +173,7 @@ export function SearchFilterCard({ filter, canDuplicate, onEdit, onDuplicate }: 
                     <SearchFilterActionsMenu
                         className="-mr-3"
                         canDuplicate={canDuplicate}
+                        duplicateBlockedHint={duplicateBlockedHint}
                         onEdit={() => onEdit(filter)}
                         onDuplicate={() => onDuplicate(filter)}
                         onDelete={() => setDeleteOpen(true)}
@@ -187,7 +195,13 @@ export function SearchFilterCard({ filter, canDuplicate, onEdit, onDuplicate }: 
  * A paused or plan-locked search filter in the "Resting" list: why it is not watching, and how
  * to resume it.
  */
-export function SearchFilterRestingRow({ filter, canDuplicate, onEdit, onDuplicate }: Props) {
+export function SearchFilterRestingRow({
+    filter,
+    canDuplicate,
+    duplicateBlockedHint,
+    onEdit,
+    onDuplicate,
+}: Props) {
     const { t } = useTranslation();
     const updateFilter = useUpdateUserSearchFilter();
     const [deleteOpen, setDeleteOpen] = useState(false);
@@ -255,6 +269,7 @@ export function SearchFilterRestingRow({ filter, canDuplicate, onEdit, onDuplica
                 )}
                 <SearchFilterActionsMenu
                     canDuplicate={canDuplicate}
+                    duplicateBlockedHint={duplicateBlockedHint}
                     onEdit={() => onEdit(filter)}
                     onDuplicate={() => onDuplicate(filter)}
                     onDelete={() => setDeleteOpen(true)}

@@ -43,7 +43,7 @@ describe("ShopProfilePage", () => {
         expect(screen.getByTestId("shop-listings")).toHaveTextContent("ls_01TESTSOURCE:vase");
     });
 
-    it("sends visitors to the source's viewUrl", () => {
+    it("sends visitors to the source's view link", () => {
         render(
             <ShopProfilePage shop={makePublicListingSource()} query="" onQueryChange={vi.fn()} />,
         );
@@ -54,10 +54,10 @@ describe("ShopProfilePage", () => {
         );
     });
 
-    it("falls back to the raw url when the source has no viewUrl", () => {
+    it("falls back to the raw url when the source has no view link", () => {
         render(
             <ShopProfilePage
-                shop={makePublicListingSource({ viewUrl: undefined })}
+                shop={makePublicListingSource({ viewLink: undefined })}
                 query=""
                 onQueryChange={vi.fn()}
             />,
@@ -72,7 +72,7 @@ describe("ShopProfilePage", () => {
     it("offers no website link for a source without a url", () => {
         render(
             <ShopProfilePage
-                shop={makePublicListingSource({ url: undefined, viewUrl: undefined })}
+                shop={makePublicListingSource({ url: undefined, viewLink: undefined })}
                 query=""
                 onQueryChange={vi.fn()}
             />,

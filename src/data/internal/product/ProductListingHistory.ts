@@ -53,7 +53,6 @@ export type ProductListingDiscovery = {
     readonly listingSourceId: string;
     readonly sourceListingId: string;
     readonly title?: HistoryLocalizedText;
-    readonly description?: HistoryLocalizedText;
     readonly pricing: {
         readonly price?: HistoryListingPrice | null;
         readonly priceEstimateMin?: HistoryPriceEstimate | null;
@@ -68,10 +67,12 @@ export type ProductListingDiscovery = {
 export type ProductListingHistoryChange =
     | {
           /** `null` records an absent text on that side, so a change can add or remove it. */
-          readonly type: "TITLE_CHANGED" | "DESCRIPTION_CHANGED";
+          readonly type: "TITLE_CHANGED";
           readonly previous: HistoryLocalizedText | null;
           readonly current: HistoryLocalizedText | null;
       }
+    /** A marker only: the backend returns no description text, like `DELIVERY_CHANGED`. */
+    | { readonly type: "DESCRIPTION_CHANGED" }
     | {
           readonly type: "MAIN_PRICE_CHANGED";
           readonly previous: HistoryListingPrice | null;
@@ -186,12 +187,13 @@ function mapText(value: LocalizedTextData | null | undefined): HistoryLocalizedT
 function mapChange(change: ProductListingHistoryChangeData): ProductListingHistoryChange {
     switch (change.type) {
         case "TITLE_CHANGED":
-        case "DESCRIPTION_CHANGED":
             return {
                 type: change.type,
                 previous: mapText(change.previous),
                 current: mapText(change.current),
             };
+        case "DESCRIPTION_CHANGED":
+            return { type: change.type };
         case "MAIN_PRICE_CHANGED":
             return {
                 type: change.type,
@@ -259,7 +261,6 @@ function mapDiscovery(
         listingSourceId: data.listingSourceId,
         sourceListingId: data.sourceListingId,
         title: data.title,
-        description: data.description,
         pricing: {
             price: mapPrice(data.pricing.price),
             priceEstimateMin: mapMoney(data.pricing.priceEstimateMin),

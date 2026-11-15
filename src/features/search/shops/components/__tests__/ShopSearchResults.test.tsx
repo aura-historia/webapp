@@ -84,7 +84,7 @@ const TWO_SHOPS = [
         name: "Brocante du Midi",
         slugId: "midi",
         url: undefined,
-        viewUrl: undefined,
+        viewLink: undefined,
     }),
 ];
 
@@ -135,7 +135,7 @@ describe("ShopSearchResults", () => {
         expect(screen.queryByRole("link")).not.toBeInTheDocument();
     });
 
-    it("renders one card per provider and the website link only when a viewUrl exists", () => {
+    it("renders one card per provider and the website link only when a view link exists", () => {
         setShopSearchMock({ sources: TWO_SHOPS });
         renderWithQueryClient(<ShopSearchResults searchFilters={{ q: "" }} />);
         const cards = screen.getAllByTestId("shop-result-card");

@@ -58,14 +58,11 @@ function formatAvailabilityLabel(availability: ListingAvailability | null, t: TF
     return t(`product.listingAvailability.${key}`);
 }
 
-/** Names the change without quoting the source text, which can be long or unassessed. */
-function textChangeKey(
-    field: "title" | "description",
-    change: { readonly previous: unknown; readonly current: unknown },
-): string {
-    if (change.previous === null) return `${field}Added`;
-    if (change.current === null) return `${field}Removed`;
-    return `${field}Changed`;
+/** Names the title change without quoting the source text, which can be long or unassessed. */
+function titleChangeKey(change: { readonly previous: unknown; readonly current: unknown }): string {
+    if (change.previous === null) return "titleAdded";
+    if (change.current === null) return "titleRemoved";
+    return "titleChanged";
 }
 
 function formatHistoryChange(
@@ -78,9 +75,10 @@ function formatHistoryChange(
 ): string {
     switch (change.type) {
         case "TITLE_CHANGED":
-            return t(`product.history.events.${textChangeKey("title", change)}`);
+            return t(`product.history.events.${titleChangeKey(change)}`);
         case "DESCRIPTION_CHANGED":
-            return t(`product.history.events.${textChangeKey("description", change)}`);
+            // The backend no longer returns the description text, so only the change is named.
+            return t("product.history.events.descriptionChanged");
         case "MAIN_PRICE_CHANGED":
             return t("product.history.events.mainPriceChanged", {
                 previous: formatPrice(change.previous),

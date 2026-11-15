@@ -89,7 +89,10 @@ export function makePublicListingSource(
         operatorName: "Antique Operator",
         partner: false,
         url: "https://example.com",
-        viewUrl: "https://example.com/?utm_source=aura_historia&utm_medium=referral",
+        viewLink: {
+            url: "https://example.com/?utm_source=aura_historia&utm_medium=referral",
+            affiliate: false,
+        },
         ...overrides,
     };
 }

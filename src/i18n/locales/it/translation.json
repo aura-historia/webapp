@@ -809,6 +809,25 @@
         "description": "Nessun nome di fornitore contiene «{{query}}». Controlla l’ortografia o cerca direttamente gli oggetti.",
         "descriptionAll": "Al momento non ci sono fornitori da mostrare."
       }
+    },
+    "ranking": {
+      "trigger": "Come ordiniamo i risultati",
+      "triggerShort": "Come ordiniamo",
+      "eyebrow": "Ordine",
+      "title": "Come <em>ordiniamo.</em>",
+      "close": "Chiudi",
+      "selected": "Selezionato",
+      "relevanceLead": "Due classifiche contano allo stesso modo:",
+      "wordLabel": "Corrispondenza delle parole",
+      "wordText": "Tutti i termini di ricerca devono comparire nel titolo dell’annuncio, nella tua lingua o nell’originale. La tua lingua conta più dell’originale, e la frase esatta conta più di tutto.",
+      "meaningLabel": "Significato simile",
+      "meaningText": "Quanto il significato della tua ricerca è vicino al titolo, alla descrizione e alla prima foto dell’annuncio, secondo un modello di IA.",
+      "noQuery": "Senza un termine di ricerca, gli annunci compaiono nell’ordine in cui li abbiamo registrati per la prima volta, dai più vecchi.",
+      "addedText": "In base alla data in cui abbiamo registrato l’annuncio per la prima volta.",
+      "updatedText": "In base alla data in cui abbiamo registrato l’ultima modifica all’annuncio.",
+      "noPayment": "Lo stato di partner, le commissioni e i pagamenti non influiscono sull’ordine.",
+      "personal": "Nemmeno il tuo account o la cronologia delle ricerche. Conta solo la tua lingua, perché decide quale traduzione del titolo confrontiamo.",
+      "fallback": "Se il modello di IA non è disponibile, conta solo la corrispondenza delle parole."
     }
   },
   "product": {
@@ -867,9 +886,7 @@
         "titleAdded": "Titolo aggiunto.",
         "titleChanged": "Titolo aggiornato.",
         "titleRemoved": "Titolo rimosso.",
-        "descriptionAdded": "Descrizione aggiunta.",
         "descriptionChanged": "Descrizione aggiornata.",
-        "descriptionRemoved": "Descrizione rimossa.",
         "auctionChanged": "I dettagli dell’asta o del lotto sono cambiati.",
         "withdrawn": "Annuncio ritirato; la disponibilità era {{previousAvailability}}.",
         "restored": "Annuncio ripristinato dalla fonte.",
@@ -950,11 +967,6 @@
       "range": "{{min}}–{{max}}",
       "from": "Da {{price}}",
       "upTo": "Fino a {{price}}"
-    },
-    "description": {
-      "title": "Descrizione",
-      "showMore": "Mostra di più",
-      "showLess": "Mostra meno"
     },
     "title": {
       "showFull": "Mostra titolo completo",
@@ -1102,7 +1114,7 @@
         "features": {
           "search": "Ricerca illimitata tra tutti i fornitori indicizzati",
           "watchlistItems": "Lista privata illimitata",
-          "searchAlerts": "Avvisi di ricerca attivi illimitati",
+          "searchAlerts": "20 avvisi di ricerca attivi",
           "alertMatches": "Notifiche illimitate di risultati da avviso",
           "alertCriteria": "Avvisi anche per fornitore, asta, data, posizione e spedizione",
           "matching": "Confronto su testo dell’annuncio e fino a 4 immagini",
@@ -1863,7 +1875,7 @@
     "BAD_SORT_VALUE": "Ordinamento non valido.",
     "BAD_ORDER_VALUE": "Ordine di ordinamento non valido.",
     "WATCHLIST_QUOTA_EXCEEDED": "Hai raggiunto il numero massimo di articoli nella tua lista dei preferiti. Ci sono già 5/5 voci occupate.",
-    "SEARCH_FILTER_QUOTA_EXCEEDED": "Hai raggiunto il numero massimo di ricerche salvate. È possibile salvare un massimo di 5 ricerche.",
+    "SEARCH_FILTER_QUOTA_EXCEEDED": "Hai raggiunto il numero massimo di ricerche salvate attive per il tuo account.",
     "STRIPE_CUSTOMER_ALREADY_EXISTS": "Hai già un abbonamento attivo. Utilizza il portale clienti per gestirlo.",
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "Non è stato trovato alcun abbonamento esistente. Avvia un nuovo processo di pagamento.",
     "unknown": "Si è verificato un errore imprevisto.",
@@ -2288,7 +2300,9 @@
       "type": "Tipo",
       "ingestion": "Importazione",
       "slug": "Slug",
-      "operatorId": "ID dell’operatore"
+      "operatorId": "ID dell’operatore",
+      "country": "Paese",
+      "anyCountry": "Qualsiasi paese"
     },
     "list": {
       "heads": {
@@ -2840,6 +2854,7 @@
     "upgradeNow": "Effettua l'upgrade ora"
   },
   "searchFilters": {
+    "activeLimitReached": "Hai raggiunto il massimo di {{limit}} filtri di ricerca attivi. Metti in pausa un filtro per aggiungerne un altro.",
     "createUpgradeTooltip": "Effettua l'upgrade del tuo account per creare più filtri di ricerca",
     "duplicate": "Duplica filtro di ricerca",
     "duplicateNamePrefix": "Copia di {{name}}",
@@ -5865,7 +5880,9 @@
       "unchangedToast": "Nessuna modifica; l’annuncio aveva già questi valori.",
       "staleShort": "Modificato altrove (ora versione {{version}}).",
       "unsaved_one": "{{count}} modifica non salvata",
-      "unsaved_other": "{{count}} modifiche non salvate"
+      "unsaved_other": "{{count}} modifiche non salvate",
+      "descriptionNotShown": "La descrizione attuale non viene mostrata. Il testo inserito qui la sostituisce; se il campo resta vuoto, la descrizione attuale viene mantenuta.",
+      "clearDescription": "Rimuovi la descrizione attuale"
     },
     "lifecycle": {
       "withdrawAction": "Ritira annuncio",

@@ -25,7 +25,6 @@ export type ProductJsonLd = {
     "@context": "https://schema.org/";
     "@type": "Product";
     name?: string;
-    description?: string;
     image?: string[];
     url?: string;
     productID: string;
@@ -102,8 +101,12 @@ function toOffer(
         "@type": "Offer",
         priceCurrency: listingPrice.currency,
         price: toMajorCurrencyAmount(listingPrice.amount, listingPrice.currency),
-        // The page that shows the offer; the dealer's own listing is one click further.
-        url: canonicalUrl ?? product.viewUrl?.href ?? product.url?.href,
+        // The page that shows the offer; the dealer's own listing is one click further. Structured
+        // data never names an affiliate link.
+        url:
+            canonicalUrl ??
+            (product.viewLink?.affiliate ? undefined : product.viewLink?.url.href) ??
+            product.url?.href,
         seller,
     };
     if (availability) offer.availability = availability;
@@ -128,9 +131,6 @@ export function generateProductJsonLd(
         productID: product.productListingId,
     };
     if (product.title) jsonLd.name = product.title;
-    // Only present in the page's language (#1232).
-    const description = product.description?.replace(/\s+/g, " ").trim();
-    if (description) jsonLd.description = description;
 
     const validImages = product.images.flatMap((image) =>
         image.prohibitedContentType === "NONE" && image.url ? [image.url.href] : [],

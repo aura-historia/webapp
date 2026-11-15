@@ -8,10 +8,11 @@ export const watchlistPayload = {
     listingSourceSlugId: "antique-shop",
     productListingTitleSlugId: "vintage-vase",
     listingSourceName: "Antique Shop",
+    listingSourcePartner: false,
     title: { localized: { text: "Vintage Vase", language: "en" } },
     image: { url: "https://example.com/vase.png" },
     url: "https://example.com/vase",
-    viewUrl: "https://example.com/vase",
+    viewLink: { url: "https://example.com/vase", affiliate: false },
     change: {
         type: "PRICE_CHANGE",
         oldPrice: { type: "MONETARY", amount: 10000, currency: "USD" },

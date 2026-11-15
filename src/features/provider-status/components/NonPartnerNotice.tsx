@@ -10,11 +10,11 @@ import { cn } from "@/lib/utils.ts";
 type NonPartnerNoticeProps = {
     readonly scope: ProviderStatusScope;
     readonly providerName: string;
-    /** The provider's canonical address (`url`, not the referral-tagged `viewUrl`). */
+    /** The provider's canonical address (`url`, not the referral-tagged `viewLink`). */
     readonly sourceUrl?: URL | string;
     /** Absolute address of this Aura Historia page, for the removal request. */
     readonly pageUrl?: string;
-    /** Listing pages: whether the shown title or description is a machine translation. */
+    /** Listing pages: whether the shown title is a machine translation. */
     readonly translated?: boolean;
     readonly className?: string;
 };

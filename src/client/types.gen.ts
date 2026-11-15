@@ -1109,7 +1109,6 @@ export type AdminProductListingSummary = {
 };
 
 export type AdminProductListingDetails = AdminProductListingSummary & {
-  description?: LocalizedTextData;
   url: string;
   /**
    * Privileged canonical URLs. Preview respects sensitive/unassessed status; public visibility is unchanged.
@@ -1169,9 +1168,9 @@ export type ProductListingSummaryData = {
   lifecycle: ListingLifecycleData;
   url: string;
   /**
-   * Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
+   * The link to the provider's page that is meant to be shared with people, and whether it is an affiliate link.
    */
-  viewUrl: string;
+  viewLink: ViewLinkData;
   /**
    * The listing's first image. Omitted when the listing has no images.
    */
@@ -1211,13 +1210,9 @@ export type ProductListingDetailsData = {
   source: ProductListingSourceData;
   sourceListingId: string;
   /**
-   * Listing title. Omitted when the listing has neither an original nor a translated title. Chosen separately from `description`, so their languages can differ.
+   * Listing title. Omitted when the listing has neither an original nor a translated title.
    */
   title?: ListingTextData;
-  /**
-   * Listing description. Omitted when the listing has neither an original nor a translated description.
-   */
-  description?: ListingTextData;
   pricing: {
     source: ProductListingPricingData;
     display: ProductListingPricingData;
@@ -1227,9 +1222,9 @@ export type ProductListingDetailsData = {
   lifecycle: ListingLifecycleData;
   url: string;
   /**
-   * Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
+   * The link to the provider's page that is meant to be shared with people, and whether it is an affiliate link.
    */
-  viewUrl: string;
+  viewLink: ViewLinkData;
   images: Array<ProductListingImageData>;
   contentPolicy?: ContentPolicyData;
   auction?: AuctionSummaryData;
@@ -1255,13 +1250,9 @@ export type ProductListingCollectionDetailsData = {
   source: ProductListingSourceData;
   sourceListingId: string;
   /**
-   * Listing title. Omitted when the listing has neither an original nor a translated title. Chosen separately from `description`, so their languages can differ.
+   * Listing title. Omitted when the listing has neither an original nor a translated title.
    */
   title?: ListingTextData;
-  /**
-   * Listing description. Omitted when the listing has neither an original nor a translated description.
-   */
-  description?: ListingTextData;
   pricing: {
     source: ProductListingPricingData;
     display: ProductListingPricingData;
@@ -1271,9 +1262,9 @@ export type ProductListingCollectionDetailsData = {
   lifecycle: ListingLifecycleData;
   url: string;
   /**
-   * Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
+   * The link to the provider's page that is meant to be shared with people, and whether it is an affiliate link.
    */
-  viewUrl: string;
+  viewLink: ViewLinkData;
   /**
    * The listing's first image. Omitted when the listing has no images.
    */
@@ -1826,7 +1817,6 @@ export type ProductListingDiscoveryHistoryPayloadData = {
    * Normalized discovery title. Titles stored before a normalization change, including legacy trailing whitespace and decorative typography, are presented in current normalized form without rewriting the stored event; a title without remaining text is omitted.
    */
   title?: LocalizedTextData;
-  description?: LocalizedTextData;
   pricing: ProductListingHistoryPricingData;
   availability?: ListingAvailabilityData;
   url: string;
@@ -1852,10 +1842,11 @@ export type ProductListingTitleHistoryChangeData = {
   current?: LocalizedTextData;
 };
 
+/**
+ * The listing description changed. The description text is not returned.
+ */
 export type ProductListingDescriptionHistoryChangeData = {
   type: 'DESCRIPTION_CHANGED';
-  previous?: LocalizedTextData;
-  current?: LocalizedTextData;
 };
 
 export type ProductListingMainPriceHistoryChangeData = {
@@ -3366,15 +3357,19 @@ export type WatchlistNotificationPayloadData = {
   productListingTitleSlugId: string;
   listingSourceName: string;
   /**
+   * `true` while the ListingSource's operator holds an active Aura Historia partnership, like `operator.partner` on listing sources. It is read with the notification, so it turns `false` once the partnership ends.
+   */
+  listingSourcePartner: boolean;
+  /**
    * Listing title for the recipient's language. Omitted when the listing had no title. Carries only `localized`.
    */
   title?: ListingTextData;
   image?: ProductListingImageData;
   url: string;
   /**
-   * Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
+   * The link to the provider's page that is meant to be shared with people, and whether it is an affiliate link.
    */
-  viewUrl: string;
+  viewLink: ViewLinkData;
   change: WatchlistNotificationChangeData;
 };
 
@@ -3408,15 +3403,19 @@ export type SearchFilterNotificationPayloadData = {
   productListingTitleSlugId: string;
   listingSourceName: string;
   /**
+   * `true` while the ListingSource's operator holds an active Aura Historia partnership, like `operator.partner` on listing sources. It is read with the notification, so it turns `false` once the partnership ends.
+   */
+  listingSourcePartner: boolean;
+  /**
    * Listing title for the recipient's language. Omitted when the listing had no title. Carries only `localized`.
    */
   title?: ListingTextData;
   image?: ProductListingImageData;
   url: string;
   /**
-   * Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
+   * The link to the provider's page that is meant to be shared with people, and whether it is an affiliate link.
    */
-  viewUrl: string;
+  viewLink: ViewLinkData;
 };
 
 export type PartnershipApplicationNotificationPayloadData = {
@@ -3777,7 +3776,7 @@ export type PublicOverviewData = {
    */
   liveObjects: number;
   /**
-   * Distinct countries in the counted listings' effective advertised-inventory geography.
+   * Distinct countries where the counted listings' ListingSources are located, from the effective advertised-inventory geography or else the associated business.
    */
   countries: number;
   /**
@@ -4062,6 +4061,20 @@ export type ListingSourceReferenceData = {
 };
 
 /**
+ * The link to the provider's page that is meant to be shared with people, and whether it is an affiliate link.
+ */
+export type ViewLinkData = {
+  /**
+   * Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
+   */
+  url: string;
+  /**
+   * `true` when `url` is an affiliate link, which can earn Aura Historia a commission when people follow it. `false` when it carries only Aura Historia's tracking parameters or leads to Aura Historia itself.
+   */
+  affiliate: boolean;
+};
+
+/**
  * The Party that operates a ListingSource, wherever a ListingSource is presented.
  */
 export type PublicListingSourceOperatorData = {
@@ -4076,7 +4089,7 @@ export type PublicListingSourceOperatorData = {
 };
 
 /**
- * Allowlisted public ListingSource card used by public collection search, exact slug lookup and the `listingSources` of a saved search filter. It omits Party identifiers/contact, ingestion/provider/referral configuration, timestamps, versions, and search metadata. The only trace of the referral configuration is `viewUrl`.
+ * Allowlisted public ListingSource card used by public collection search, exact slug lookup and the `listingSources` of a saved search filter. It omits Party identifiers/contact, ingestion/provider/referral configuration, timestamps, versions, and search metadata. The only trace of the referral configuration is `viewLink`.
  */
 export type PublicListingSourceData = {
   /**
@@ -4094,9 +4107,9 @@ export type PublicListingSourceData = {
    */
   url?: string;
   /**
-   * The link to send visitors to, derived from `url` the same way as a ProductListing's `viewUrl`. The source's affiliate link when it has a referral configuration, otherwise `url` with Aura's `utm_source` and `utm_medium` parameters, unless `url` already carries a `utm_source`. Present exactly when `url` is.
+   * The link to send visitors to, derived from `url` the same way as a ProductListing's `viewLink`. Present exactly when `url` is.
    */
-  viewUrl?: string;
+  viewLink?: ViewLinkData;
   /**
    * Optional http/https presentation image URL, omitted when absent.
    */
@@ -4453,9 +4466,9 @@ export type PublicAuctionData = {
   name?: LocalizedTextData;
   catalogueUrl?: string;
   /**
-   * Link to the provider's page that is meant to be shared with people. It carries Aura Historia's referral tagging, which is lost when its query parameters are changed.
+   * The link to the provider's page that is meant to be shared with people, and whether it is an affiliate link.
    */
-  viewUrl?: string;
+  viewLink?: ViewLinkData;
   format?: AuctionFormatData;
   schedule: AuctionScheduleData;
   reportedStatus?: AuctionReportedStatusData;
@@ -4714,7 +4727,7 @@ export type SourceLocationDefaultAssignment = {
    */
   businessAssociation?: SourceLocationDefaultEvidence;
   /**
-   * Explicit inventory evidence; scope must be ADVERTISED_INVENTORY. Business, legal or correspondence evidence alone never establishes this meaning.
+   * Explicit inventory assertion; scope must be ADVERTISED_INVENTORY. The API never derives it from business, legal or correspondence evidence; operator policies that assert it are documented in the geography guide.
    */
   advertisedInventory?: SourceLocationDefaultEvidence;
 };
@@ -4746,7 +4759,7 @@ export type AssignSourceLocationDefaultData = {
    */
   businessAssociation?: SourceLocationDefaultEvidence | null;
   /**
-   * Explicit inventory evidence; scope must be ADVERTISED_INVENTORY. Business, legal or correspondence evidence alone never establishes this meaning.
+   * Explicit inventory assertion; scope must be ADVERTISED_INVENTORY. The API never derives it from business, legal or correspondence evidence; operator policies that assert it are documented in the geography guide.
    */
   advertisedInventory?: SourceLocationDefaultEvidence | null;
 };
@@ -7446,7 +7459,7 @@ export type GetProductListingData = {
   };
   query?: {
     /**
-     * Requested current title and description language. Defaults to `en`; unavailable translations fall back to stored content.
+     * Requested current title language. Defaults to `en`; unavailable translations fall back to stored content.
      */
     language?: LanguageData;
     /**
@@ -8385,6 +8398,10 @@ export type AdminSearchListingSourcesData = {
      * Optional exact platform code filter, combinable with all other filters. Use reusable SCREAMING_SNAKE_CASE codes.
      */
     platformTechnology?: PlatformTechnology;
+    /**
+     * Optional exact filter for the country where the ListingSource is located, as an uppercase ISO 3166-1 alpha-2 code. Lowercase, alpha-3 and unknown codes return `400 BAD_QUERY_PARAMETER_VALUE`.
+     */
+    country?: string;
     /**
      * Sort field. Valid values are `name`, `slug`, `created`, and `updated`. The default is `name` ascending.
      */

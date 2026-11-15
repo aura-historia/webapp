@@ -51,7 +51,7 @@ const createMockProduct = (overrides: Partial<ProductListing> = {}): ProductList
         availability: null,
         lifecycle: "ACTIVE",
         url: undefined,
-        viewUrl: undefined,
+        viewLink: undefined,
         contentPolicy: null,
         updated: new Date("2023-01-02"),
         userState: {

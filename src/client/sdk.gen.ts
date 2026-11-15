@@ -165,8 +165,11 @@ export const getReadiness = <ThrowOnError extends boolean = false>(options?: Opt
  * marketplace counts by that seller's type, not as a marketplace; individual sellers on
  * marketplaces and auction platforms are not counted. A reclassified ListingSource moves with
  * the next calculation.
- * `countries` counts distinct countries in the counted listings' effective advertised-inventory
- * geography; business association and shipping destinations do not establish inventory location.
+ * `countries` counts the distinct countries where the counted listings' ListingSources are
+ * located: the country of a listing's effective advertised-inventory geography when it has one,
+ * otherwise the country of the source's associated business. It describes the sources, not where
+ * any object is held, and shipping destinations are not counted. Listings without effective
+ * geography contribute no country. Listing `geography` and geographic search are unaffected.
  * `languages` counts the union of original title and description languages; generated
  * translations and presentation fallbacks are excluded. `newObjectsLast7Days` counts listings
  * whose `created` timestamp lies in the 168 hours ending at `asOf` (start exclusive, end inclusive).
@@ -231,7 +234,7 @@ export const withdrawAdminProductListing = <ThrowOnError extends boolean = false
 /**
  * Inspect authoritative ProductListing facts
  *
- * Administrator authority is required; delegated Aura tokens additionally require `product-listings:read`. Cognito administrators need no delegated scope or Partnership grant. Success and all errors use `private, no-store`. Original source values include retained withdrawn listings and do not depend on OpenSearch or enrichment readiness. Original title/description are mutable; slug, sale observation and enrichment are read-only. Canonical image URLs are privileged inspection data; previews must respect sensitive/unassessed content rather than automatically rendering them. Public redaction is unchanged.
+ * Administrator authority is required; delegated Aura tokens additionally require `product-listings:read`. Cognito administrators need no delegated scope or Partnership grant. Success and all errors use `private, no-store`. Original source values include retained withdrawn listings and do not depend on OpenSearch or enrichment readiness. Original title/description are mutable; slug, sale observation and enrichment are read-only. The description is write-only: no response returns it. Canonical image URLs are privileged inspection data; previews must respect sensitive/unassessed content rather than automatically rendering them. Public redaction is unchanged.
  */
 export const getAdminProductListing = <ThrowOnError extends boolean = false>(options: Options<GetAdminProductListingData, ThrowOnError>): RequestResult<GetAdminProductListingResponses, GetAdminProductListingErrors, ThrowOnError> => (options.client ?? client).get<GetAdminProductListingResponses, GetAdminProductListingErrors, ThrowOnError>({
   security: [{
@@ -636,7 +639,7 @@ export const withdrawPartnerProductListing = <ThrowOnError extends boolean = fal
 /**
  * Inspect authoritative ProductListing facts
  *
- * An authenticated partner with an active Partnership grant for the path ListingSource is required; delegated Aura tokens additionally require `product-listings:read`. Cognito partners need no delegated scope. Administrator role alone does not grant access. Source authorization precedes reads or mutations; a listing outside the authorized source returns the same not-found result as a missing listing. Success and all errors use `private, no-store`. Original source values include retained withdrawn listings and do not depend on OpenSearch or enrichment readiness. Original title/description are mutable; slug, sale observation and enrichment are read-only. Canonical image URLs are privileged inspection data; previews must respect sensitive/unassessed content rather than automatically rendering them. Public redaction is unchanged.
+ * An authenticated partner with an active Partnership grant for the path ListingSource is required; delegated Aura tokens additionally require `product-listings:read`. Cognito partners need no delegated scope. Administrator role alone does not grant access. Source authorization precedes reads or mutations; a listing outside the authorized source returns the same not-found result as a missing listing. Success and all errors use `private, no-store`. Original source values include retained withdrawn listings and do not depend on OpenSearch or enrichment readiness. Original title/description are mutable; slug, sale observation and enrichment are read-only. The description is write-only: no response returns it. Canonical image URLs are privileged inspection data; previews must respect sensitive/unassessed content rather than automatically rendering them. Public redaction is unchanged.
  */
 export const getPartnerProductListing = <ThrowOnError extends boolean = false>(options: Options<GetPartnerProductListingData, ThrowOnError>): RequestResult<GetPartnerProductListingResponses, GetPartnerProductListingErrors, ThrowOnError> => (options.client ?? client).get<GetPartnerProductListingResponses, GetPartnerProductListingErrors, ThrowOnError>({
   security: [{
@@ -1394,7 +1397,11 @@ export const addWatchlistProduct = <ThrowOnError extends boolean = false>(option
  * match to the ListingSource name. `listingSourceId` and `listingSourceSlugId` are exact
  * identity filters. `operatorPartyId`, `listingSourceType`, `ingestionMethod`, and
  * `platformTechnology` are exact filters and can be combined. ListingSource type and platform
- * technology are descriptive metadata independent of ingestion.
+ * technology are descriptive metadata independent of ingestion. `country` keeps only sources
+ * located in that country: the source's selected location default is active, carries
+ * associated-business or advertised-inventory evidence, and its submitted country, otherwise
+ * its accepted geocoded country, is the requested ISO 3166-1 alpha-2 code. Sources without such
+ * a location never match.
  *
  * Results use deterministic keyset pagination. The default sort is `name` ascending;
  * override it by providing both `sort` and `order`. Valid sort fields are `name`, `slug`,
