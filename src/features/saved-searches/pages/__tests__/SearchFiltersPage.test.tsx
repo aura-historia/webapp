@@ -38,13 +38,24 @@ vi.mock("@/features/saved-searches/components/CreateSearchFilterWizard.tsx", () 
 type CardMockProps = {
     filter: UserSearchFilter;
     canDuplicate: boolean;
+    duplicateBlockedHint?: string;
     onEdit: (filter: UserSearchFilter) => void;
     onDuplicate: (filter: UserSearchFilter) => void;
 };
 
 vi.mock("@/features/saved-searches/components/SearchFilterCard.tsx", () => ({
-    SearchFilterCard: ({ filter, canDuplicate, onEdit, onDuplicate }: CardMockProps) => (
-        <div data-testid="search-filter-card" data-can-duplicate={String(canDuplicate)}>
+    SearchFilterCard: ({
+        filter,
+        canDuplicate,
+        duplicateBlockedHint,
+        onEdit,
+        onDuplicate,
+    }: CardMockProps) => (
+        <div
+            data-testid="search-filter-card"
+            data-can-duplicate={String(canDuplicate)}
+            data-duplicate-hint={duplicateBlockedHint}
+        >
             {filter.name}
             <button type="button" onClick={() => onEdit(filter)}>
                 edit {filter.name}
@@ -54,8 +65,10 @@ vi.mock("@/features/saved-searches/components/SearchFilterCard.tsx", () => ({
             </button>
         </div>
     ),
-    SearchFilterRestingRow: ({ filter }: CardMockProps) => (
-        <div data-testid="search-filter-resting-row">{filter.name}</div>
+    SearchFilterRestingRow: ({ filter, duplicateBlockedHint }: CardMockProps) => (
+        <div data-testid="search-filter-resting-row" data-duplicate-hint={duplicateBlockedHint}>
+            {filter.name}
+        </div>
     ),
 }));
 
@@ -487,6 +500,36 @@ describe("SearchFiltersPage", () => {
                 "Sie haben das Maximum von 20 aktiven Suchaufträgen erreicht. Pausieren Sie einen, um einen weiteren hinzuzufügen.",
             );
             expect(tooltip).not.toHaveTextContent("Upgraden");
+        });
+
+        it("passes the blocked-duplicate hint to active and resting filters", () => {
+            const active = Array.from({ length: 20 }, (_, index) =>
+                buildFilter({ id: `f${index}` }),
+            );
+            setMock({
+                filters: [...active, buildFilter({ id: "paused", state: "INACTIVE_BY_USER" })],
+                subscriptionType: "ultimate",
+            });
+            renderWithQueryClient(<SearchFiltersPage />);
+
+            const ultimateHint =
+                "Sie haben das Maximum von 20 aktiven Suchaufträgen erreicht. Pausieren Sie einen, um einen weiteren hinzuzufügen.";
+            for (const card of screen.getAllByTestId("search-filter-card")) {
+                expect(card).toHaveAttribute("data-duplicate-hint", ultimateHint);
+            }
+            expect(screen.getByTestId("search-filter-resting-row")).toHaveAttribute(
+                "data-duplicate-hint",
+                ultimateHint,
+            );
+        });
+
+        it("passes the upgrade hint to filters of Free and Pro at the quota", () => {
+            setMock({ filters: [buildFilter()], subscriptionType: "free" });
+            renderWithQueryClient(<SearchFiltersPage />);
+            expect(screen.getByTestId("search-filter-card")).toHaveAttribute(
+                "data-duplicate-hint",
+                "Upgraden Sie Ihr Konto, um mehr Suchaufträge zu erstellen",
+            );
         });
 
         it("allows duplicating below the quota", () => {

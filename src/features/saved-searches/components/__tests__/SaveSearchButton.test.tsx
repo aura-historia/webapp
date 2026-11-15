@@ -99,8 +99,11 @@ describe("SaveSearchButton", () => {
         expect(saveButton()).toBeEnabled();
     });
 
-    it("points Free and Pro to an upgrade at the quota", async () => {
-        setMock({ filters: activeFilters(5), subscriptionType: "pro" });
+    it.each([
+        ["free", 1],
+        ["pro", 5],
+    ] as const)("points %s to an upgrade at the quota of %i", async (subscriptionType, quota) => {
+        setMock({ filters: activeFilters(quota), subscriptionType });
         renderButton();
         expect(saveButton()).toBeDisabled();
         await userEvent.hover(saveButton().parentElement as HTMLElement);

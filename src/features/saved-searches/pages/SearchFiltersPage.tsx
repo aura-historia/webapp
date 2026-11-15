@@ -95,7 +95,7 @@ export function SearchFiltersPage() {
                 </span>
             </TooltipTrigger>
             {!canCreate && !isAccountPending && !isPending && (
-                <TooltipContent>{limitHint}</TooltipContent>
+                <TooltipContent className="max-w-80">{limitHint}</TooltipContent>
             )}
         </Tooltip>
     );
