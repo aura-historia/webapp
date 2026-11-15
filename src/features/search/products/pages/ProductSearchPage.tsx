@@ -12,6 +12,7 @@ import { ScrollToTopButton } from "@/features/search/common/components/ScrollToT
 import { ActiveFilterChips } from "@/features/search/products/components/ActiveFilterChips.tsx";
 import { SearchFilterDrawer } from "@/features/search/products/components/SearchFilterDrawer.tsx";
 import { SearchFilters } from "@/features/search/products/components/SearchFilters.tsx";
+import { SearchRankingInfo } from "@/features/search/products/components/SearchRankingInfo.tsx";
 import { SearchResults } from "@/features/search/products/components/SearchResults.tsx";
 import { SearchSortControls } from "@/features/search/products/components/SearchSortControls.tsx";
 import { getActiveFilters } from "@/features/search/products/lib/activeFilters.ts";
@@ -20,6 +21,9 @@ import { cn } from "@/lib/utils.ts";
 
 const FOCUS_CLASS =
     "outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+// One item of the phone count line: never breaks inside, a "·" in its 18px lead-in.
+const COUNT_LINE_ITEM_CLASS =
+    "relative pl-[18px] font-mono text-label whitespace-nowrap text-ink-muted uppercase before:absolute before:left-0 before:w-[18px] before:text-center before:content-['·']";
 
 type ProductSearchPageProps = {
     readonly searchArgs: SearchFilterArguments;
@@ -61,6 +65,8 @@ export function ProductSearchPage({ searchArgs }: ProductSearchPageProps) {
         navigate({ search: { q: searchArgs.q } });
     }, [navigate, searchArgs.q]);
 
+    const hasQuery = searchArgs.q.trim() !== "";
+
     const countLabel = totalResults
         ? t("search.totalObjects", { count: totalResults, formattedCount: formattedTotal })
         : undefined;
@@ -93,9 +99,18 @@ export function ProductSearchPage({ searchArgs }: ProductSearchPageProps) {
 
                     <header className="mb-5 flex flex-wrap items-end justify-between gap-x-6 gap-y-4 sm:mb-6">
                         <div className="flex min-w-0 flex-col gap-2.5 sm:gap-3">
-                            <p className="font-mono text-[11px] tracking-[0.2em] text-brass-ink uppercase sm:text-eyebrow">
-                                {t("search.eyebrow")}
-                            </p>
+                            <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+                                <p className="font-mono text-[11px] tracking-[0.2em] text-brass-ink uppercase sm:text-eyebrow">
+                                    {t("search.eyebrow")}
+                                </p>
+                                <div className="hidden sm:flex">
+                                    <SearchRankingInfo
+                                        sortField={sortMode.field}
+                                        hasQuery={hasQuery}
+                                        layout="toolbar"
+                                    />
+                                </div>
+                            </div>
                             <h1 className="font-serif text-[32px] leading-[1.08] font-normal tracking-[-0.02em] wrap-break-word sm:text-[clamp(34px,3.4vw,48px)] sm:leading-[1.06] [&_em]:italic">
                                 <Trans
                                     i18nKey={
@@ -107,8 +122,25 @@ export function ProductSearchPage({ searchArgs }: ProductSearchPageProps) {
                                     components={HEADLINE_COMPONENTS}
                                 />
                             </h1>
+                            {/* Phones: count and ranking link share a wrapping line. Each item stays
+                                whole; a wrapped link starts its own line and its leading dot is
+                                clipped by the overflow box. */}
+                            <div className="-mx-1 -my-[15px] overflow-hidden px-1 py-[15px] sm:hidden">
+                                <div className="-ml-[18px] flex flex-wrap items-center gap-y-1.5">
+                                    {countLabel && (
+                                        <span className={COUNT_LINE_ITEM_CLASS}>{countLabel}</span>
+                                    )}
+                                    <span className={COUNT_LINE_ITEM_CLASS}>
+                                        <SearchRankingInfo
+                                            sortField={sortMode.field}
+                                            hasQuery={hasQuery}
+                                            layout="compact"
+                                        />
+                                    </span>
+                                </div>
+                            </div>
                             {countLabel && (
-                                <p className="text-body-sm text-ink-muted">
+                                <p className="hidden text-body-sm text-ink-muted sm:block">
                                     <span className="font-mono text-label text-ink-muted uppercase sm:text-ink">
                                         {countLabel}
                                     </span>
@@ -120,7 +152,7 @@ export function ProductSearchPage({ searchArgs }: ProductSearchPageProps) {
                             )}
                         </div>
 
-                        <div className="hidden flex-wrap items-center gap-2 sm:flex">
+                        <div className="hidden flex-wrap items-start gap-2 sm:flex">
                             <button
                                 type="button"
                                 onClick={() => setFiltersOpen(true)}

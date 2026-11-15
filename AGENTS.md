@@ -21,6 +21,7 @@ Refined global discovery for art, antiques, design objects, dealers, and auction
 - Map generated API DTOs before deep UI use.
 - Use route loaders for first-paint or SEO data. Do not prerender dynamic, personalised, or authenticated routes.
 - Keep server-rendered markup deterministic: no browser APIs, client auth, current dates, random values, or client locale/currency during render.
+- Keep the search ranking disclosure (`search.ranking.*`, `SearchRankingInfo`) true to the backend's actual ranking and sort modes; it is legally required (§ 5b Abs. 2 UWG). See "Search ranking disclosure" in `docs/design-guidelines.md`.
 - Treat tokens, OAuth, account, partner, admin, consent, storage, tracking, and payments as sensitive. Do not log, expose, or publicly cache private data.
 
 ## Read When Needed
