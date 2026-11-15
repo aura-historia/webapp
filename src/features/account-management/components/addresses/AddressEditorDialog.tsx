@@ -557,8 +557,9 @@ function InlineAlert({
     readonly body: string;
     readonly children?: React.ReactNode;
 }) {
+    const Root = tone === "danger" ? "div" : "output";
     return (
-        <div role={tone === "danger" ? "alert" : "status"} className={addressAlertClass(tone)}>
+        <Root role={tone === "danger" ? "alert" : undefined} className={addressAlertClass(tone)}>
             <CircleAlert
                 aria-hidden="true"
                 className={cn(
@@ -567,12 +568,12 @@ function InlineAlert({
                 )}
                 strokeWidth={1.8}
             />
-            <div className="flex min-w-0 flex-1 flex-col gap-1">
-                <p className="font-medium">{title}</p>
-                <p className="leading-[1.55] text-ink-secondary">{body}</p>
+            <span className="flex min-w-0 flex-1 flex-col gap-1">
+                <span className="font-medium">{title}</span>
+                <span className="leading-[1.55] text-ink-secondary">{body}</span>
                 {children}
-            </div>
-        </div>
+            </span>
+        </Root>
     );
 }
 
@@ -585,7 +586,7 @@ function ConflictNotice({ current }: { readonly current: UserAddress }) {
             title={t("account.addresses.editor.conflict.title")}
             body={t("account.addresses.editor.conflict.body")}
         >
-            <div className="mt-2 flex flex-col gap-1 rounded-md bg-surface-sunken px-3.5 py-3">
+            <span className="mt-2 flex flex-col gap-1 rounded-md bg-surface-sunken px-3.5 py-3">
                 <span className={ADDRESS_META_LABEL_CLASS}>
                     {t("account.addresses.editor.conflict.saved")}
                 </span>
@@ -596,7 +597,7 @@ function ConflictNotice({ current }: { readonly current: UserAddress }) {
                     </span>
                 )}
                 {facts && <span className="text-[13px] text-ink-muted">{facts}</span>}
-            </div>
+            </span>
         </InlineAlert>
     );
 }
@@ -611,17 +612,17 @@ function UncertainCreateNotice({
     const { t } = useTranslation();
     if (status === "refreshing") {
         return (
-            <div role="status" className={addressAlertClass("neutral")}>
+            <output className={addressAlertClass("neutral")}>
                 <Spinner className="mt-0.5 size-[18px] shrink-0 text-ink-muted" />
-                <div className="flex flex-col gap-1">
-                    <p className="font-medium">
+                <span className="flex flex-col gap-1">
+                    <span className="font-medium">
                         {t("account.addresses.editor.uncertain.checkingTitle")}
-                    </p>
-                    <p className="leading-[1.55] text-ink-secondary">
+                    </span>
+                    <span className="leading-[1.55] text-ink-secondary">
                         {t("account.addresses.editor.uncertain.checkingBody")}
-                    </p>
-                </div>
-            </div>
+                    </span>
+                </span>
+            </output>
         );
     }
     if (status === "refreshed") {

@@ -262,7 +262,7 @@ export function useCreateUserAddress(viewerCacheKey: string) {
 }
 
 /** Reads one address without caching it outside the viewer's address scope. */
-async function fetchCurrentAddress(
+function fetchCurrentAddress(
     queryClient: QueryClient,
     viewerCacheKey: string,
     addressId: string,
