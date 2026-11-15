@@ -639,6 +639,7 @@
     },
     "ranking": {
       "trigger": "Wie wir sortieren",
+      "triggerShort": "So sortieren wir",
       "eyebrow": "Reihenfolge",
       "title": "Wie wir <em>sortieren.</em>",
       "close": "Schließen",

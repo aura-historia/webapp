@@ -22,7 +22,7 @@ type SearchRankingInfoProps = {
     readonly sortField: SortMode["field"];
     /** Whether the search has a term; without one the relevance fallback line is emphasised. */
     readonly hasQuery: boolean;
-    /** `toolbar`: a link that opens a popover; `compact` (phones): a link that opens a bottom sheet. */
+    /** `toolbar`: a text link that opens a popover; `compact` (phones): a mono count-line link that opens a bottom sheet. */
     readonly layout: "toolbar" | "compact";
 };
 
@@ -180,7 +180,8 @@ function PanelHeading({ titleId, mobile }: { readonly titleId: string; readonly 
 }
 
 /**
- * "How results are ordered": the entry point under the sort control and the panel it opens.
+ * "How results are ordered": the entry point beside the SEARCH RESULTS eyebrow (toolbar) or in the
+ * count line (phones) and the panel it opens.
  * A popover from the toolbar, a bottom sheet on phones. Both close on Esc, the close button or a
  * click outside and return focus to the link; the results stay in place behind them.
  */
@@ -190,15 +191,33 @@ export function SearchRankingInfo({ sortField, hasQuery, layout }: SearchRanking
     const titleId = useId();
     const mobile = layout === "compact";
 
-    const trigger = (
+    // Toolbar: an underlined text link beside the SEARCH RESULTS eyebrow, its row height kept.
+    // Phones: a mono label in the count line ("· ⓘ HOW WE SORT"), 44px tap height without
+    // growing the line.
+    const trigger = mobile ? (
         <button
             type="button"
             aria-haspopup="dialog"
             aria-expanded={open}
             className={cn(
-                "-ml-2 inline-flex cursor-pointer items-center gap-1.5 self-start rounded-sm px-2 font-medium underline decoration-line-strong underline-offset-3 transition-colors hover:text-brass-ink hover:decoration-current motion-reduce:transition-none",
+                "group -my-[15px] inline-flex min-h-11 cursor-pointer items-center gap-1.5 rounded-sm pr-1.5 font-mono text-label whitespace-nowrap uppercase transition-colors hover:text-brass-ink focus-visible:outline-offset-2 motion-reduce:transition-none",
                 open ? "text-brass-ink" : "text-ink",
-                mobile ? "min-h-11 text-body-sm" : "h-8 text-meta",
+                FOCUS_CLASS,
+            )}
+        >
+            <Info aria-hidden="true" strokeWidth={2} className="size-[13px] shrink-0" />
+            <span className="underline decoration-line-strong underline-offset-3 group-hover:decoration-current">
+                {t("search.ranking.triggerShort")}
+            </span>
+        </button>
+    ) : (
+        <button
+            type="button"
+            aria-haspopup="dialog"
+            aria-expanded={open}
+            className={cn(
+                "-my-2 -ml-2 inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-sm px-2 text-meta font-medium whitespace-nowrap underline decoration-line-strong underline-offset-3 transition-colors hover:text-brass-ink hover:decoration-current motion-reduce:transition-none",
+                open ? "text-brass-ink" : "text-ink",
                 FOCUS_CLASS,
             )}
         >

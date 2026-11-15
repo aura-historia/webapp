@@ -639,6 +639,7 @@
     },
     "ranking": {
       "trigger": "Comment les résultats sont classés",
+      "triggerShort": "Comment nous trions",
       "eyebrow": "Classement",
       "title": "Comment nous <em>classons.</em>",
       "close": "Fermer",

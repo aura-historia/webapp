@@ -70,7 +70,7 @@ describe("SearchRankingInfo", () => {
     it("opens a bottom sheet from the phone link", async () => {
         render(<SearchRankingInfo sortField="CREATION_DATE" hasQuery layout="compact" />);
 
-        await userEvent.click(screen.getByRole("button", { name: "Wie wir sortieren" }));
+        await userEvent.click(screen.getByRole("button", { name: "So sortieren wir" }));
         const sheet = await screen.findByRole("dialog", { name: "Wie wir sortieren." });
         expect(within(sheet).getAllByRole("term")[1]).toHaveTextContent("Hinzugefügt amAusgewählt");
         expect(
@@ -83,7 +83,7 @@ describe("SearchRankingInfo", () => {
         // The sheet is driven by its Radix trigger, which returns focus to the link once the
         // sheet unmounts. vaul's exit animation never finishes in jsdom, so focus return itself
         // is checked in the browser.
-        const trigger = screen.getByRole("button", { name: "Wie wir sortieren", hidden: true });
+        const trigger = screen.getByRole("button", { name: "So sortieren wir", hidden: true });
         await waitFor(() => expect(trigger).toHaveAttribute("aria-expanded", "false"));
     });
 });
