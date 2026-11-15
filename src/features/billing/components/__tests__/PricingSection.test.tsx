@@ -276,7 +276,8 @@ describe("PricingSection", () => {
 
     it("renders ultimate tier features", () => {
         expect(screen.getByText("Unbegrenzte Merkliste")).toBeInTheDocument();
-        expect(screen.getByText("Unbegrenzt viele aktive Suchaufträge")).toBeInTheDocument();
+        expect(screen.getByText("20 aktive Suchaufträge")).toBeInTheDocument();
+        expect(screen.queryByText("Unbegrenzt viele aktive Suchaufträge")).not.toBeInTheDocument();
         expect(
             screen.getByText("Abgleich anhand des Angebotstexts und bis zu 4 Bildern"),
         ).toBeInTheDocument();

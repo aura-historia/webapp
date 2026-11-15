@@ -10,10 +10,11 @@ export const SUBSCRIPTION_TYPE_TRANSLATION_KEYS: Record<SubscriptionType, string
     ultimate: "landingPage.pricing.ultimate.name",
 };
 
+/** Maximum number of active search filters per plan, as enforced by the backend. */
 export const SEARCH_FILTER_QUOTA: Record<SubscriptionType, number> = {
     free: 1,
     pro: 5,
-    ultimate: Number.POSITIVE_INFINITY,
+    ultimate: 20,
 };
 
 export function parseSubscriptionType(userTier?: string): SubscriptionType {

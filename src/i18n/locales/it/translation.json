@@ -922,7 +922,7 @@
         "features": {
           "search": "Ricerca illimitata tra tutti i fornitori indicizzati",
           "watchlistItems": "Lista privata illimitata",
-          "searchAlerts": "Avvisi di ricerca attivi illimitati",
+          "searchAlerts": "20 avvisi di ricerca attivi",
           "alertMatches": "Notifiche illimitate di risultati da avviso",
           "alertCriteria": "Avvisi anche per fornitore, asta, data, posizione e spedizione",
           "matching": "Confronto su testo dell’annuncio e fino a 4 immagini",
@@ -1683,7 +1683,7 @@
     "BAD_SORT_VALUE": "Ordinamento non valido.",
     "BAD_ORDER_VALUE": "Ordine di ordinamento non valido.",
     "WATCHLIST_QUOTA_EXCEEDED": "Hai raggiunto il numero massimo di articoli nella tua lista dei preferiti. Ci sono già 5/5 voci occupate.",
-    "SEARCH_FILTER_QUOTA_EXCEEDED": "Hai raggiunto il numero massimo di ricerche salvate. È possibile salvare un massimo di 5 ricerche.",
+    "SEARCH_FILTER_QUOTA_EXCEEDED": "Hai raggiunto il numero massimo di ricerche salvate attive per il tuo account.",
     "STRIPE_CUSTOMER_ALREADY_EXISTS": "Hai già un abbonamento attivo. Utilizza il portale clienti per gestirlo.",
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "Non è stato trovato alcun abbonamento esistente. Avvia un nuovo processo di pagamento.",
     "unknown": "Si è verificato un errore imprevisto.",
@@ -2662,6 +2662,7 @@
     "upgradeNow": "Effettua l'upgrade ora"
   },
   "searchFilters": {
+    "activeLimitReached": "Hai raggiunto il massimo di {{limit}} filtri di ricerca attivi. Metti in pausa un filtro per aggiungerne un altro.",
     "createUpgradeTooltip": "Effettua l'upgrade del tuo account per creare più filtri di ricerca",
     "duplicate": "Duplica filtro di ricerca",
     "duplicateNamePrefix": "Copia di {{name}}",

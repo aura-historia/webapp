@@ -16,6 +16,8 @@ import { cn } from "@/lib/utils.ts";
 
 type Props = {
     readonly canDuplicate: boolean;
+    /** Why duplicating is blocked; defaults to the upgrade hint. */
+    readonly duplicateBlockedHint?: string;
     readonly onEdit: () => void;
     readonly onDuplicate: () => void;
     readonly onDelete: () => void;
@@ -25,6 +27,7 @@ type Props = {
 /** The ⋮ menu of a search filter: edit, duplicate (blocked at the plan quota) and delete. */
 export function SearchFilterActionsMenu({
     canDuplicate,
+    duplicateBlockedHint,
     onEdit,
     onDuplicate,
     onDelete,
@@ -60,7 +63,7 @@ export function SearchFilterActionsMenu({
                 </DropdownMenuItem>
                 {!canDuplicate && (
                     <p className="pr-3 pb-2 pl-[38px] text-xs leading-[1.45] text-ink-muted">
-                        {t("searchFilters.createUpgradeTooltip")}
+                        {duplicateBlockedHint ?? t("searchFilters.createUpgradeTooltip")}
                     </p>
                 )}
                 <DropdownMenuSeparator className="mx-2 my-1 bg-line-subtle" />
