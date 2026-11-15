@@ -206,7 +206,7 @@ export function SearchRankingInfo({ sortField, hasQuery, layout }: SearchRanking
             )}
         >
             <Info aria-hidden="true" strokeWidth={2} className="size-[13px] shrink-0" />
-            <span className="underline decoration-line-strong underline-offset-3 group-hover:decoration-current">
+            <span className="underline [text-box:trim-both_cap_alphabetic] decoration-line-strong underline-offset-3 group-hover:decoration-current">
                 {t("search.ranking.triggerShort")}
             </span>
         </button>
