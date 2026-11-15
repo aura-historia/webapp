@@ -2196,7 +2196,8 @@
         "ingestion": "Importación"
       },
       "fixed": "Fijo",
-      "replaceWarning": "Sobrescribe todos los métodos activos.",
+      "replaceWarning": "Sobrescribe todos los métodos activos. Los métodos eliminados se desactivan.",
+      "noMethodsSelected": "Ningún método seleccionado: la fuente no tendrá ningún método de ingestión.",
       "secretPlaceholder": "Déjalo vacío para conservarlo",
       "removeMethod": "Quitar {{method}}",
       "slug": "Slug · {{slug}}"

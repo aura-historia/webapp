@@ -27,6 +27,16 @@ admin workflows in [admin workflows](admin-workflows.md).
   keep their paths. Release this webapp only with or after a backend that serves `/v1`.
 - Without `VITE_API_URL` the app calls the production API (`getApiBaseUrl`); each deployment
   sets its environment's API URL explicitly.
+- **Admin listing-source `PATCH` can change the ingestion methods.** The swagger description of
+  `adminUpdateListingSource` says a replacement `ingestionConfiguration` "must match the
+  ListingSource ingestion methods", but the backend does not enforce that: it derives the source's
+  methods from the submitted list (checked against backend `develop` at `60ed39f`, 2026-11-15).
+  It rejects a repeated method and a WooCommerce entry without a secret unless WooCommerce is
+  already configured (`400`), and accepts an empty list (no methods). The edit form therefore
+  adds and drops methods (`buildUpdateAdminListingSourceData` only guards those two rejections).
+  Treat the sentence as stale until the backend corrects it. A duplicate Shopify domain answers
+  with the same `409 CONFLICT` as a concurrent edit, so the form cannot tell them apart and
+  reports both as "changed elsewhere".
 - Changes against the previous pin (`338af42f`, 2026-11-13), with their decisions:
   - **Admin listing-source search filters by country**
     ([backend#2966](https://github.com/aura-historia/backend/pull/2966)): `GET

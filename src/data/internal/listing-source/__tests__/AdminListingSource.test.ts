@@ -369,20 +369,87 @@ describe("admin ListingSource mapping and request builders", () => {
         );
     });
 
-    it("rejects replacement configurations that do not match immutable active methods", () => {
-        expect(() =>
-            buildUpdateAdminListingSourceData(detail, {
-                name: detail.name,
-                url: detail.presentation.url ?? "",
-                image: detail.presentation.image ?? "",
+    describe("replacing the ingestion configuration", () => {
+        const replacement = (
+            source: AdminListingSourceDetail,
+            configurations: ReturnType<typeof defaultUpdateConfigurations>,
+        ) =>
+            buildUpdateAdminListingSourceData(source, {
+                name: source.name,
+                url: source.presentation.url ?? "",
+                image: source.presentation.image ?? "",
                 referralAction: "KEEP",
                 platformTechnology: "",
                 listingSourceType: "DEALER" as const,
                 partnerizeCamref: "",
                 replaceIngestionConfiguration: true,
-                configurations: defaultUpdateConfigurations(["SHOPIFY"]),
-            }),
-        ).toThrow("Replacement configurations must match the source ingestion methods");
+                configurations,
+            });
+        const withMethods = (
+            ingestionMethods: AdminListingSourceDetail["ingestionMethods"],
+        ): AdminListingSourceDetail => ({ ...detail, ingestionMethods });
+
+        it("lets a replacement swap, add or drop methods, so a source can gain WEB_CRAWL", () => {
+            expect(
+                replacement(withMethods(["SHOPIFY"]), defaultUpdateConfigurations(["WEB_CRAWL"]))
+                    .ingestionConfiguration,
+            ).toEqual([{ type: "WEB_CRAWL" }]);
+            expect(
+                replacement(withMethods([]), [
+                    { ...defaultUpdateConfigurations(["WEB_CRAWL"])[0], fallbackCurrency: "eur" },
+                ]).ingestionConfiguration,
+            ).toEqual([{ type: "WEB_CRAWL", fallbackCurrency: "EUR" }]);
+            expect(
+                replacement(
+                    withMethods(["WEB_CRAWL"]),
+                    defaultUpdateConfigurations(["WEB_CRAWL", "PARTNER_API"]),
+                ).ingestionConfiguration,
+            ).toEqual([{ type: "WEB_CRAWL" }, { type: "PARTNER_API" }]);
+        });
+
+        it("sends an empty list to remove every ingestion method", () => {
+            expect(replacement(withMethods(["WEB_CRAWL"]), []).ingestionConfiguration).toEqual([]);
+        });
+
+        it("requires a secret only for a WooCommerce method the source does not have yet", () => {
+            const [woo] = defaultUpdateConfigurations(["WOOCOMMERCE"]);
+            expect(() => replacement(withMethods(["WEB_CRAWL"]), [woo])).toThrow(
+                "A WooCommerce webhook secret is required when adding the method",
+            );
+            expect(
+                replacement(withMethods(["WEB_CRAWL"]), [{ ...woo, webhookSecret: " s3cret " }])
+                    .ingestionConfiguration,
+            ).toEqual([{ type: "WOOCOMMERCE", webhookSecret: "s3cret" }]);
+            // A stored secret is kept by omission.
+            expect(replacement(withMethods(["WOOCOMMERCE"]), [woo]).ingestionConfiguration).toEqual(
+                [{ type: "WOOCOMMERCE" }],
+            );
+        });
+
+        it("rejects a repeated method", () => {
+            expect(() =>
+                replacement(
+                    withMethods(["WEB_CRAWL"]),
+                    defaultUpdateConfigurations(["WEB_CRAWL", "WEB_CRAWL"]),
+                ),
+            ).toThrow("Replacement configurations must not repeat an ingestion method");
+        });
+
+        it("leaves the configuration untouched unless replacement is requested", () => {
+            expect(
+                buildUpdateAdminListingSourceData(withMethods(["WEB_CRAWL"]), {
+                    name: detail.name,
+                    url: detail.presentation.url ?? "",
+                    image: detail.presentation.image ?? "",
+                    referralAction: "KEEP",
+                    platformTechnology: "",
+                    listingSourceType: "DEALER" as const,
+                    partnerizeCamref: "",
+                    replaceIngestionConfiguration: false,
+                    configurations: defaultUpdateConfigurations(["SHOPIFY"]),
+                }),
+            ).toEqual({});
+        });
     });
 
     it("maps mutation references without pretending they are full source details", () => {
