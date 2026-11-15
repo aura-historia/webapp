@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { mapToInternalUserSearchFilterCollection } from "../UserSearchFilterCollection.ts";
+import {
+    countActiveSearchFilters,
+    mapToInternalUserSearchFilterCollection,
+} from "../UserSearchFilterCollection.ts";
 import type { UserSearchFilterCollectionData } from "@/client";
 
 const baseItem = {
@@ -60,5 +63,43 @@ describe("mapToInternalUserSearchFilterCollection", () => {
         const data = { ...baseCollection, items: [], size: 0 };
         const result = mapToInternalUserSearchFilterCollection(data);
         expect(result.items).toHaveLength(0);
+    });
+});
+
+describe("countActiveSearchFilters", () => {
+    const collectionWithStates = (
+        ...states: UserSearchFilterCollectionData["items"][number]["state"][]
+    ) =>
+        mapToInternalUserSearchFilterCollection({
+            ...baseCollection,
+            items: states.map((state, index) => ({
+                ...baseItem,
+                userSearchFilterId: `filter-${index}`,
+                state,
+            })),
+            size: states.length,
+        });
+
+    it("counts only active filters", () => {
+        const collection = collectionWithStates(
+            "ACTIVE",
+            "INACTIVE_BY_USER",
+            "ACTIVE",
+            "INACTIVE_BY_RESTRICTED_PLAN",
+        );
+        expect(countActiveSearchFilters(collection)).toBe(2);
+    });
+
+    it("ignores the reported total, which counts paused filters too", () => {
+        const collection = {
+            ...collectionWithStates("ACTIVE", "INACTIVE_BY_USER"),
+            total: 2,
+        };
+        expect(countActiveSearchFilters(collection)).toBe(1);
+    });
+
+    it("is zero without filters or data", () => {
+        expect(countActiveSearchFilters(collectionWithStates())).toBe(0);
+        expect(countActiveSearchFilters(undefined)).toBe(0);
     });
 });

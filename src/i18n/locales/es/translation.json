@@ -922,7 +922,7 @@
         "features": {
           "search": "Búsqueda ilimitada en todos los proveedores indexados",
           "watchlistItems": "Lista privada ilimitada",
-          "searchAlerts": "Alertas de búsqueda activas ilimitadas",
+          "searchAlerts": "20 alertas de búsqueda activas",
           "alertMatches": "Notificaciones ilimitadas de coincidencias de alertas",
           "alertCriteria": "Alertas también por proveedor, subasta, fecha, ubicación y envío",
           "matching": "Coincidencias según el texto del anuncio y hasta 4 imágenes",
@@ -1684,7 +1684,7 @@
     "BAD_ORDER_VALUE": "Orden de clasificación no válido.",
     "unknown": "Se produjo un error inesperado.",
     "WATCHLIST_QUOTA_EXCEEDED": "Has alcanzado el número máximo de artículos en tu lista de seguimiento. Ya hay 5/5 entradas ocupadas en la lista de seguimiento.",
-    "SEARCH_FILTER_QUOTA_EXCEEDED": "Has alcanzado el número máximo de búsquedas guardadas. Se pueden guardar un máximo de 5 búsquedas.",
+    "SEARCH_FILTER_QUOTA_EXCEEDED": "Has alcanzado el número máximo de búsquedas guardadas activas de tu cuenta.",
     "STRIPE_CUSTOMER_ALREADY_EXISTS": "Ya tiene una suscripción activa. Por favor, utilice el portal de cliente para gestionarla.",
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "No se encontró ninguna suscripción existente. Por favor, inicie un nuevo proceso de pago.",
     "SEARCH_FILTER_RESTRICTED_FEATURE": "Algunos de los filtros activos solo están disponibles para usuarios premium. Por favor, elimine estos filtros o actualice su cuenta para guardar un filtro de búsqueda.",
@@ -2662,6 +2662,7 @@
     "upgradeNow": "Actualizar ahora"
   },
   "searchFilters": {
+    "activeLimitReached": "Ha alcanzado el máximo de {{limit}} filtros de búsqueda activos. Pause uno para añadir otro.",
     "createUpgradeTooltip": "Actualice su cuenta para crear más filtros de búsqueda",
     "duplicate": "Duplicar filtro de búsqueda",
     "duplicateNamePrefix": "Copia de {{name}}",

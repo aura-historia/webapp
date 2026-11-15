@@ -922,7 +922,7 @@
         "features": {
           "search": "Unlimited search across indexed providers",
           "watchlistItems": "Unlimited private watchlist",
-          "searchAlerts": "Unlimited active search alerts",
+          "searchAlerts": "20 active search alerts",
           "alertMatches": "Unlimited search-alert match notifications",
           "alertCriteria": "Search alerts also by provider, auction, date, location, and shipping",
           "matching": "Matching on the listing text and up to 4 images",
@@ -1683,7 +1683,7 @@
     "BAD_SORT_VALUE": "Invalid sorting.",
     "BAD_ORDER_VALUE": "Invalid sort order.",
     "WATCHLIST_QUOTA_EXCEEDED": "You've reached the maximum number of items on your watchlist. There are already 5/5 watchlist entries occupied.",
-    "SEARCH_FILTER_QUOTA_EXCEEDED": "You have reached the maximum number of saved search filters for your account.",
+    "SEARCH_FILTER_QUOTA_EXCEEDED": "You have reached the maximum number of active search filters for your account.",
     "STRIPE_CUSTOMER_ALREADY_EXISTS": "You already have an active subscription. Please use the customer portal to manage it.",
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "No existing subscription was found. Please start a new checkout.",
     "SEARCH_FILTER_RESTRICTED_FEATURE": "Some of your active filters are only available for premium users. Please remove these filters or upgrade your account to save a search filter.",
@@ -2170,6 +2170,7 @@
     "upgradeNow": "Upgrade now"
   },
   "searchFilters": {
+    "activeLimitReached": "You have reached the maximum of {{limit}} active search filters. Pause one to add another.",
     "createUpgradeTooltip": "Upgrade your account to create more search filters",
     "duplicate": "Duplicate search filter",
     "duplicateNamePrefix": "Copy of {{name}}",

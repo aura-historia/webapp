@@ -151,10 +151,23 @@ describe("SearchFiltersPage", () => {
             expect(screen.getByText("1 von 5 im Tarif „Pro“")).toBeInTheDocument();
         });
 
-        it("hides the quota for unlimited plans", () => {
+        it("shows the quota for the Ultimate plan, which is capped at 20", () => {
             setMock({ filters: [buildFilter()], subscriptionType: "ultimate" });
             renderWithQueryClient(<SearchFiltersPage />);
-            expect(screen.queryByText(/im Tarif „/)).not.toBeInTheDocument();
+            expect(screen.getByText("1 von 20 im Tarif „Ultimate“")).toBeInTheDocument();
+        });
+
+        it("counts only active filters in the quota meter", () => {
+            setMock({
+                filters: [
+                    buildFilter({ id: "f1" }),
+                    buildFilter({ id: "f2", state: "INACTIVE_BY_USER" }),
+                    buildFilter({ id: "f3", state: "INACTIVE_BY_RESTRICTED_PLAN" }),
+                ],
+                subscriptionType: "pro",
+            });
+            renderWithQueryClient(<SearchFiltersPage />);
+            expect(screen.getByText("1 von 5 im Tarif „Pro“")).toBeInTheDocument();
         });
 
         it("hides the name search when there are no filters", () => {
@@ -406,7 +419,7 @@ describe("SearchFiltersPage", () => {
         });
 
         it("disables creating and duplicating when the quota is reached", () => {
-            setMock({ filters: [buildFilter()], total: 1, subscriptionType: "free" });
+            setMock({ filters: [buildFilter()], subscriptionType: "free" });
             renderWithQueryClient(<SearchFiltersPage />);
             expect(screen.getByRole("button", { name: "Suchauftrag anlegen" })).toBeDisabled();
             expect(screen.getByTestId("search-filter-card")).toHaveAttribute(
@@ -415,8 +428,69 @@ describe("SearchFiltersPage", () => {
             );
         });
 
+        it("does not count paused filters toward the quota", () => {
+            setMock({
+                filters: [buildFilter({ id: "f1", state: "INACTIVE_BY_USER" })],
+                subscriptionType: "free",
+            });
+            renderWithQueryClient(<SearchFiltersPage />);
+            expect(screen.getByRole("button", { name: "Suchauftrag anlegen" })).toBeEnabled();
+        });
+
+        it("stops Ultimate at 20 active filters", () => {
+            const active = (count: number) =>
+                Array.from({ length: count }, (_, index) => buildFilter({ id: `f${index}` }));
+
+            setMock({ filters: active(19), subscriptionType: "ultimate" });
+            const { unmount } = renderWithQueryClient(<SearchFiltersPage />);
+            expect(screen.getByRole("button", { name: "Suchauftrag anlegen" })).toBeEnabled();
+            expect(screen.getByText("19 von 20 im Tarif „Ultimate“")).toBeInTheDocument();
+            unmount();
+
+            setMock({ filters: active(20), subscriptionType: "ultimate" });
+            renderWithQueryClient(<SearchFiltersPage />);
+            expect(screen.getByRole("button", { name: "Suchauftrag anlegen" })).toBeDisabled();
+            expect(screen.getByText("20 von 20 im Tarif „Ultimate“")).toBeInTheDocument();
+        });
+
+        it("lets Ultimate create again after pausing a filter at the limit", () => {
+            const filters = Array.from({ length: 20 }, (_, index) =>
+                buildFilter({
+                    id: `f${index}`,
+                    state: index === 0 ? "INACTIVE_BY_USER" : "ACTIVE",
+                }),
+            );
+            setMock({ filters, subscriptionType: "ultimate" });
+            renderWithQueryClient(<SearchFiltersPage />);
+            expect(screen.getByRole("button", { name: "Suchauftrag anlegen" })).toBeEnabled();
+            expect(screen.getByText("19 von 20 im Tarif „Ultimate“")).toBeInTheDocument();
+        });
+
+        it("points Free and Pro to an upgrade at the limit", async () => {
+            setMock({ filters: [buildFilter()], subscriptionType: "free" });
+            renderWithQueryClient(<SearchFiltersPage />);
+            await userEvent.hover(screen.getByRole("button", { name: "Suchauftrag anlegen" }));
+            expect(await screen.findByRole("tooltip")).toHaveTextContent(
+                "Upgraden Sie Ihr Konto, um mehr Suchaufträge zu erstellen",
+            );
+        });
+
+        it("tells Ultimate to pause a filter at the limit instead of upgrading", async () => {
+            const filters = Array.from({ length: 20 }, (_, index) =>
+                buildFilter({ id: `f${index}` }),
+            );
+            setMock({ filters, subscriptionType: "ultimate" });
+            renderWithQueryClient(<SearchFiltersPage />);
+            await userEvent.hover(screen.getByRole("button", { name: "Suchauftrag anlegen" }));
+            const tooltip = await screen.findByRole("tooltip");
+            expect(tooltip).toHaveTextContent(
+                "Sie haben das Maximum von 20 aktiven Suchaufträgen erreicht. Pausieren Sie einen, um einen weiteren hinzuzufügen.",
+            );
+            expect(tooltip).not.toHaveTextContent("Upgraden");
+        });
+
         it("allows duplicating below the quota", () => {
-            setMock({ filters: [buildFilter()], total: 1, subscriptionType: "pro" });
+            setMock({ filters: [buildFilter()], subscriptionType: "pro" });
             renderWithQueryClient(<SearchFiltersPage />);
             expect(screen.getByTestId("search-filter-card")).toHaveAttribute(
                 "data-can-duplicate",

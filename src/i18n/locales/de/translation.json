@@ -922,7 +922,7 @@
         "features": {
           "search": "Unbegrenzte Suche über alle indexierten Anbieter",
           "watchlistItems": "Unbegrenzte Merkliste",
-          "searchAlerts": "Unbegrenzt viele aktive Suchaufträge",
+          "searchAlerts": "20 aktive Suchaufträge",
           "alertMatches": "Unbegrenzte Trefferbenachrichtigungen aus Suchaufträgen",
           "alertCriteria": "Suchaufträge auch nach Anbieter, Auktion, Datum, Standort und Versand",
           "matching": "Abgleich anhand des Angebotstexts und bis zu 4 Bildern",
@@ -1683,7 +1683,7 @@
     "BAD_SORT_VALUE": "Ungültige Sortierung.",
     "BAD_ORDER_VALUE": "Ungültige Sortierreihenfolge.",
     "WATCHLIST_QUOTA_EXCEEDED": "Sie haben die maximale Anzahl an Artikeln auf Ihrer Merkliste erreicht. Es können maximal 5 Artikel gespeichert werden.",
-    "SEARCH_FILTER_QUOTA_EXCEEDED": "Sie haben die maximale Anzahl an Suchaufträgen für Ihren Account erreicht.",
+    "SEARCH_FILTER_QUOTA_EXCEEDED": "Sie haben die maximale Anzahl aktiver Suchaufträge für Ihren Account erreicht.",
     "STRIPE_CUSTOMER_ALREADY_EXISTS": "Sie haben bereits ein aktives Abonnement. Bitte nutzen Sie das Kundenportal zur Verwaltung.",
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "Es wurde kein bestehendes Abonnement gefunden. Bitte starten Sie einen neuen Checkout.",
     "unknown": "Ein unerwarteter Fehler ist aufgetreten.",
@@ -2170,6 +2170,7 @@
     "upgradeNow": "Jetzt upgraden"
   },
   "searchFilters": {
+    "activeLimitReached": "Sie haben das Maximum von {{limit}} aktiven Suchaufträgen erreicht. Pausieren Sie einen, um einen weiteren hinzuzufügen.",
     "createUpgradeTooltip": "Upgraden Sie Ihr Konto, um mehr Suchaufträge zu erstellen",
     "duplicate": "Suchauftrag duplizieren",
     "duplicateNamePrefix": "Kopie von {{name}}",

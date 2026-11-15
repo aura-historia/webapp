@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip.tsx";
 import { SEARCH_FILTER_QUOTA } from "@/data/internal/account/SubscriptionType.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
+import { countActiveSearchFilters } from "@/data/internal/search-filter/UserSearchFilterCollection.ts";
 import { useUserAccount } from "@/features/account-management/hooks/useUserAccount.ts";
 import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth.ts";
 import { useUserSearchFilters } from "@/features/saved-searches/api/useUserSearchFilters.ts";
@@ -36,12 +37,19 @@ export function SaveSearchButton({
     const { data: account } = useUserAccount();
     const { data: savedFilters } = useUserSearchFilters(isAuthenticated);
 
-    const quotaReached =
-        (savedFilters?.total ?? 0) >= SEARCH_FILTER_QUOTA[account?.subscriptionType ?? "free"];
+    const subscriptionType = account?.subscriptionType ?? "free";
+    const quota = SEARCH_FILTER_QUOTA[subscriptionType];
+    const quotaReached = countActiveSearchFilters(savedFilters) >= quota;
     const disabled = !isAuthenticated || quotaReached;
     let tooltip: string | undefined;
     if (!isAuthenticated) tooltip = t("searchFilter.loginRequired");
-    else if (quotaReached) tooltip = t("searchFilter.quotaReached");
+    else if (quotaReached) {
+        // The top plan has nothing to upgrade to; pausing a filter frees a slot instead.
+        tooltip =
+            subscriptionType === "ultimate"
+                ? t("searchFilters.activeLimitReached", { limit: quota })
+                : t("searchFilter.quotaReached");
+    }
 
     const isFloating = variant === "floating";
     const button = (

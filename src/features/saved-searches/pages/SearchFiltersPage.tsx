@@ -8,6 +8,7 @@ import {
     SUBSCRIPTION_TYPE_TRANSLATION_KEYS,
 } from "@/data/internal/account/SubscriptionType.ts";
 import type { UserSearchFilter } from "@/data/internal/search-filter/UserSearchFilter.ts";
+import { countActiveSearchFilters } from "@/data/internal/search-filter/UserSearchFilterCollection.ts";
 import { useUserAccount } from "@/features/account-management/hooks/useUserAccount.ts";
 import { HEADLINE_COMPONENTS } from "@/features/landing/components/common/SectionHeading.tsx";
 import { useUserSearchFilters } from "@/features/saved-searches/api/useUserSearchFilters.ts";
@@ -50,9 +51,14 @@ export function SearchFiltersPage() {
     const [wizard, setWizard] = useState<WizardState>({ open: false, mode: "create" });
 
     const items = data?.items ?? [];
-    const total = data?.total ?? data?.size ?? items.length;
+    const activeCount = countActiveSearchFilters(data);
     const quota = account ? SEARCH_FILTER_QUOTA[account.subscriptionType] : 0;
-    const canCreate = !isAccountPending && !isPending && account != null && total < quota;
+    const canCreate = !isAccountPending && !isPending && account != null && activeCount < quota;
+    // The top plan has nothing to upgrade to; pausing a filter frees a slot instead.
+    const limitHint =
+        account?.subscriptionType === "ultimate"
+            ? t("searchFilters.activeLimitReached", { limit: quota })
+            : t("searchFilters.createUpgradeTooltip");
 
     const trimmedQuery = query.trim().toLowerCase();
     const filtered = trimmedQuery
@@ -65,6 +71,7 @@ export function SearchFiltersPage() {
         setWizard({ open: true, mode, filter });
     const cardProps = {
         canDuplicate: canCreate,
+        duplicateBlockedHint: limitHint,
         onEdit: (filter: UserSearchFilter) => openWizard("edit", filter),
         onDuplicate: (filter: UserSearchFilter) => openWizard("duplicate", filter),
     };
@@ -88,7 +95,7 @@ export function SearchFiltersPage() {
                 </span>
             </TooltipTrigger>
             {!canCreate && !isAccountPending && !isPending && (
-                <TooltipContent>{t("searchFilters.createUpgradeTooltip")}</TooltipContent>
+                <TooltipContent>{limitHint}</TooltipContent>
             )}
         </Tooltip>
     );
@@ -350,9 +357,9 @@ export function SearchFiltersPage() {
                             )}
                             {createButton}
                         </div>
-                        {account && Number.isFinite(quota) && !isPending && (
+                        {account && !isPending && (
                             <QuotaMeter
-                                used={total}
+                                used={activeCount}
                                 limit={quota}
                                 plan={t(
                                     SUBSCRIPTION_TYPE_TRANSLATION_KEYS[account.subscriptionType],

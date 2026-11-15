@@ -922,7 +922,7 @@
         "features": {
           "search": "Recherche illimitée parmi tous les fournisseurs indexés",
           "watchlistItems": "Liste privée illimitée",
-          "searchAlerts": "Alertes de recherche actives illimitées",
+          "searchAlerts": "20 alertes de recherche actives",
           "alertMatches": "Notifications illimitées de correspondances d’alerte",
           "alertCriteria": "Alertes également par fournisseur, vente aux enchères, date, localisation et livraison",
           "matching": "Correspondance sur le texte de l’annonce et jusqu’à 4 images",
@@ -1684,7 +1684,7 @@
     "BAD_ORDER_VALUE": "Ordre de tri invalide.",
     "unknown": "Une erreur inattendue s'est produite.",
     "WATCHLIST_QUOTA_EXCEEDED": "Vous avez atteint le nombre maximum d'articles dans votre liste de suivi. Il y a déjà 5/5 entrées de liste de suivi occupées.",
-    "SEARCH_FILTER_QUOTA_EXCEEDED": "Vous avez atteint le nombre maximum de recherches sauvegardées. Un maximum de 5 recherches peut être sauvegardé.",
+    "SEARCH_FILTER_QUOTA_EXCEEDED": "Vous avez atteint le nombre maximum de recherches sauvegardées actives pour votre compte.",
     "STRIPE_CUSTOMER_ALREADY_EXISTS": "Vous avez déjà un abonnement actif. Veuillez utiliser le portail client pour le gérer.",
     "STRIPE_CUSTOMER_DOES_NOT_EXIST": "Aucun abonnement existant n'a été trouvé. Veuillez démarrer un nouveau processus de paiement.",
     "SEARCH_FILTER_RESTRICTED_FEATURE": "Certains de vos filtres actifs sont uniquement disponibles pour les utilisateurs premium. Veuillez supprimer ces filtres ou mettre à niveau votre compte pour enregistrer un filtre de recherche.",
@@ -2662,6 +2662,7 @@
     "upgradeNow": "Mettez à niveau maintenant"
   },
   "searchFilters": {
+    "activeLimitReached": "Vous avez atteint le maximum de {{limit}} filtres de recherche actifs. Mettez-en un en pause pour en ajouter un autre.",
     "createUpgradeTooltip": "Mettez à niveau votre compte pour créer plus de filtres de recherche",
     "duplicate": "Dupliquer le filtre de recherche",
     "duplicateNamePrefix": "Copie de {{name}}",
