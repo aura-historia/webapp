@@ -3056,7 +3056,8 @@
         "ingestion": "Import"
       },
       "fixed": "Fest",
-      "replaceWarning": "Überschreibt jede aktive Methode.",
+      "replaceWarning": "Überschreibt jede aktive Methode. Entfernte Methoden werden abgeschaltet.",
+      "noMethodsSelected": "Keine Methode ausgewählt: Die Quelle hat keine Importmethode.",
       "secretPlaceholder": "Leer lassen zum Beibehalten",
       "removeMethod": "{{method}} entfernen",
       "slug": "Slug · {{slug}}"

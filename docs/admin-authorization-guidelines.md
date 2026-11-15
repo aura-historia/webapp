@@ -26,7 +26,12 @@ refetches the authoritative record. Party contacts are available only through th
 operations. Listing-source search/detail use their separate safe DTOs; the read API
 omits full ingestion configuration and never returns the write-only WooCommerce
 secret. Preserve unseen configuration by omitting it from updates, and require an
-explicit replacement action before sending new settings. The operator and source slug
+explicit replacement action before sending new settings. The replacement may add or drop
+ingestion methods (the backend derives the source's methods from the submitted list, and an empty
+list removes them all): the edit form lists the current methods, each with Remove, and offers the
+others, and switching the replacement off discards those edits. A WooCommerce secret may stay
+blank only while the source already has WooCommerce, which keeps the stored one; a newly added
+WooCommerce needs it. The operator and source slug
 are immutable on update. The optional `platformTechnology` code is descriptive metadata,
 independent of ingestion: the forms upper-case ASCII letters, validate the backend pattern, and
 an update sends it only when it changed (empty clears it). The required `listingSourceType`

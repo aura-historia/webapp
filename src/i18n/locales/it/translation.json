@@ -2196,7 +2196,8 @@
         "ingestion": "Importazione"
       },
       "fixed": "Fisso",
-      "replaceWarning": "Sovrascrive ogni metodo attivo.",
+      "replaceWarning": "Sovrascrive ogni metodo attivo. I metodi rimossi vengono disattivati.",
+      "noMethodsSelected": "Nessun metodo selezionato: la fonte non avrà alcun metodo di acquisizione.",
       "secretPlaceholder": "Lascia vuoto per mantenerlo",
       "removeMethod": "Rimuovi {{method}}",
       "slug": "Slug · {{slug}}"

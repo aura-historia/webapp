@@ -3056,7 +3056,8 @@
         "ingestion": "Ingestion"
       },
       "fixed": "Fixed",
-      "replaceWarning": "Overwrites every active method.",
+      "replaceWarning": "Overwrites every active method. Removed methods are switched off.",
+      "noMethodsSelected": "No method selected: the source will have no ingestion method.",
       "secretPlaceholder": "Leave blank to keep",
       "removeMethod": "Remove {{method}}",
       "slug": "Slug · {{slug}}"

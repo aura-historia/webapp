@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus, TriangleAlert } from "lucide-react";
-import { type ReactNode, useId, useState } from "react";
+import { type ReactNode, useId, useMemo, useState } from "react";
 import {
     type Control,
     type UseFormRegisterReturn,
@@ -26,6 +26,7 @@ import {
     type AdminListingSourceDetail,
     type AdminListingSourceUpdateValues,
     createDefaultConfiguration,
+    createDefaultUpdateConfiguration,
     defaultUpdateConfigurations,
     isOptionalPlatformTechnology,
 } from "@/data/internal/listing-source/AdminListingSource.ts";
@@ -195,43 +196,64 @@ const updateConfigurationSchema = z.object({
     webhookSecret: z.string(),
 });
 
-const updateFormSchema = z
-    .object({
-        name: nameSchema,
-        listingSourceType: z.enum(LISTING_SOURCE_TYPES),
-        platformTechnology: platformTechnologySchema,
-        url: presentationUrlSchema,
-        image: presentationUrlSchema,
-        referralAction: z.enum(["KEEP", "SET", "CLEAR"]),
-        partnerizeCamref: z.string(),
-        replaceIngestionConfiguration: z.boolean(),
-        configurations: z.array(updateConfigurationSchema),
-    })
-    .superRefine((values, context) => {
-        if (values.referralAction === "SET" && !values.partnerizeCamref.trim()) {
-            context.addIssue({
-                code: "custom",
-                path: ["partnerizeCamref"],
-                message: "adminListingSources.validation.camrefRequired",
-            });
-        }
-        if (values.replaceIngestionConfiguration) {
-            values.configurations.forEach((configuration, index) => {
-                if (configuration.ingestionMethod === "SHOPIFY" && !configuration.domain.trim()) {
-                    context.addIssue({
-                        code: "custom",
-                        path: ["configurations", index, "domain"],
-                        message: "adminListingSources.validation.shopifyDomainRequired",
-                    });
-                }
-                addCurrencyIssues(configuration, configuration.ingestionMethod, index, context);
-            });
-        }
-    });
+/**
+ * A replacement may add or drop methods. A WooCommerce secret may stay blank only while the source
+ * already has WooCommerce (the backend then keeps the stored one), so the rule depends on the
+ * source's current methods.
+ */
+function createUpdateFormSchema(wooCommerceStored: boolean) {
+    return z
+        .object({
+            name: nameSchema,
+            listingSourceType: z.enum(LISTING_SOURCE_TYPES),
+            platformTechnology: platformTechnologySchema,
+            url: presentationUrlSchema,
+            image: presentationUrlSchema,
+            referralAction: z.enum(["KEEP", "SET", "CLEAR"]),
+            partnerizeCamref: z.string(),
+            replaceIngestionConfiguration: z.boolean(),
+            configurations: z.array(updateConfigurationSchema),
+        })
+        .superRefine((values, context) => {
+            if (values.referralAction === "SET" && !values.partnerizeCamref.trim()) {
+                context.addIssue({
+                    code: "custom",
+                    path: ["partnerizeCamref"],
+                    message: "adminListingSources.validation.camrefRequired",
+                });
+            }
+            if (values.replaceIngestionConfiguration) {
+                values.configurations.forEach((configuration, index) => {
+                    if (
+                        configuration.ingestionMethod === "SHOPIFY" &&
+                        !configuration.domain.trim()
+                    ) {
+                        context.addIssue({
+                            code: "custom",
+                            path: ["configurations", index, "domain"],
+                            message: "adminListingSources.validation.shopifyDomainRequired",
+                        });
+                    }
+                    if (
+                        configuration.ingestionMethod === "WOOCOMMERCE" &&
+                        !wooCommerceStored &&
+                        !configuration.webhookSecret.trim()
+                    ) {
+                        context.addIssue({
+                            code: "custom",
+                            path: ["configurations", index, "webhookSecret"],
+                            message: "adminListingSources.validation.webhookSecretRequired",
+                        });
+                    }
+                    addCurrencyIssues(configuration, configuration.ingestionMethod, index, context);
+                });
+            }
+        });
+}
 
 type CreateFormValues = z.input<typeof createFormSchema>;
 type CreateFormData = z.output<typeof createFormSchema>;
-type UpdateFormValues = z.infer<typeof updateFormSchema>;
+type UpdateFormValues = z.infer<ReturnType<typeof createUpdateFormSchema>>;
 
 type ConfigurationErrors = {
     readonly domain?: { readonly message?: string };
@@ -482,7 +504,7 @@ function CreateListingSourceForm({
                     <MethodCard key={field.id} method={field.type} onRemove={() => remove(index)}>
                         <ConfigurationFields
                             method={field.type}
-                            mode="create"
+                            secretStored={false}
                             fieldNames={configurationFieldNames(index)}
                             register={(name) =>
                                 form.register(name as `configurations.${number}.domain`)
@@ -525,8 +547,10 @@ function UpdateListingSourceForm({
     const { t } = useTranslation();
     const initialCamref =
         referralConfiguration?.type === "PARTNERIZE" ? referralConfiguration.camref : "";
+    const secretStored = source.ingestionMethods.includes("WOOCOMMERCE");
+    const schema = useMemo(() => createUpdateFormSchema(secretStored), [secretStored]);
     const form = useForm<UpdateFormValues>({
-        resolver: zodResolver(updateFormSchema),
+        resolver: zodResolver(schema),
         defaultValues: {
             name: source.name,
             listingSourceType: source.listingSourceType,
@@ -539,10 +563,19 @@ function UpdateListingSourceForm({
             configurations: defaultUpdateConfigurations(source.ingestionMethods),
         },
     });
-    const { fields } = useFieldArray({ control: form.control, name: "configurations" });
+    const {
+        fields,
+        append,
+        remove,
+        replace: replaceConfigurations,
+    } = useFieldArray({ control: form.control, name: "configurations" });
     const referralAction = useController({ control: form.control, name: "referralAction" }).field;
     const errors = form.formState.errors;
     const [requestError, setRequestError] = useState<string>();
+    const replacing = form.watch("replaceIngestionConfiguration");
+    const addedMethods = new Set(
+        form.watch("configurations").map((configuration) => configuration.ingestionMethod),
+    );
 
     const submit = (values: UpdateFormValues) => {
         const typedValues = values as AdminListingSourceUpdateValues;
@@ -627,21 +660,50 @@ function UpdateListingSourceForm({
             </FormGroup>
 
             <FormGroup number={4} legend={t("adminListingSources.form.legends.ingestion")} last>
-                <ReplaceSwitch control={form.control} />
-                {form.watch("replaceIngestionConfiguration") &&
-                    fields.map((field, index) => (
-                        <MethodCard key={field.id} method={field.ingestionMethod}>
-                            <ConfigurationFields
+                <ReplaceSwitch
+                    control={form.control}
+                    // Switching off discards the edits, so each time it goes on the list starts
+                    // from the source's current methods.
+                    onChange={(on) => {
+                        if (!on) {
+                            replaceConfigurations(
+                                defaultUpdateConfigurations(source.ingestionMethods),
+                            );
+                        }
+                    }}
+                />
+                {replacing && (
+                    <>
+                        {fields.map((field, index) => (
+                            <MethodCard
+                                key={field.id}
                                 method={field.ingestionMethod}
-                                mode="update"
-                                fieldNames={configurationFieldNames(index)}
-                                register={(name) =>
-                                    form.register(name as `configurations.${number}.domain`)
-                                }
-                                errors={errors.configurations?.[index]}
-                            />
-                        </MethodCard>
-                    ))}
+                                onRemove={() => remove(index)}
+                            >
+                                <ConfigurationFields
+                                    method={field.ingestionMethod}
+                                    secretStored={secretStored}
+                                    fieldNames={configurationFieldNames(index)}
+                                    register={(name) =>
+                                        form.register(name as `configurations.${number}.domain`)
+                                    }
+                                    errors={errors.configurations?.[index]}
+                                />
+                            </MethodCard>
+                        ))}
+                        {fields.length === 0 && (
+                            <p className="text-meta text-ink-secondary">
+                                {t("adminListingSources.form.noMethodsSelected")}
+                            </p>
+                        )}
+                        <AddMethodMenu
+                            available={ADMIN_LISTING_SOURCE_INGESTION_METHODS.filter(
+                                (method) => !addedMethods.has(method),
+                            )}
+                            onAdd={(method) => append(createDefaultUpdateConfiguration(method))}
+                        />
+                    </>
+                )}
             </FormGroup>
 
             <FormFooter
@@ -880,7 +942,13 @@ function ReferralField({
 }
 
 /** The design-system switch: a 34×20 track inside a 44px hit area, oxblood while on. */
-function ReplaceSwitch({ control }: { readonly control: Control<UpdateFormValues> }) {
+function ReplaceSwitch({
+    control,
+    onChange,
+}: {
+    readonly control: Control<UpdateFormValues>;
+    readonly onChange: (on: boolean) => void;
+}) {
     const { t } = useTranslation();
     const field = useController({ control, name: "replaceIngestionConfiguration" }).field;
     const labelId = useId();
@@ -894,7 +962,10 @@ function ReplaceSwitch({ control }: { readonly control: Control<UpdateFormValues
                 aria-checked={on}
                 aria-labelledby={labelId}
                 aria-describedby={hintId}
-                onClick={() => field.onChange(!on)}
+                onClick={() => {
+                    field.onChange(!on);
+                    onChange(!on);
+                }}
                 className={cn(
                     "inline-flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-pill",
                     FOCUS_CLASS,
@@ -979,13 +1050,14 @@ function configurationFieldNames(index: number) {
 
 function ConfigurationFields({
     method,
-    mode,
+    secretStored,
     fieldNames,
     register,
     errors,
 }: {
     readonly method: ListingIngestionMethodData;
-    readonly mode: "create" | "update";
+    /** A WooCommerce secret is already stored, so a blank field keeps it. */
+    readonly secretStored: boolean;
     readonly fieldNames: (name: ConfigurationFieldName) => string;
     readonly register: (name: string) => UseFormRegisterReturn;
     readonly errors?: ConfigurationErrors;
@@ -1048,9 +1120,7 @@ function ConfigurationFields({
                     type="password"
                     autoComplete="new-password"
                     placeholder={
-                        mode === "update"
-                            ? t("adminListingSources.form.secretPlaceholder")
-                            : undefined
+                        secretStored ? t("adminListingSources.form.secretPlaceholder") : undefined
                     }
                     raised
                 />
