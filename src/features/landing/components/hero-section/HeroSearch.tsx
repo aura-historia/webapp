@@ -1,17 +1,19 @@
 import { Loader2, Search } from "lucide-react";
-import { type FormEvent, useId, useMemo, useState } from "react";
+import { type FormEvent, useId, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { NAV_FOCUS_CLASS } from "@/features/app-shell/components/navigation/navigationConfig.ts";
 import { useAnimatedPlaceholder } from "@/features/search/common/hooks/useAnimatedPlaceholder.ts";
 import { useGlobalSearchSubmit } from "@/features/search/common/hooks/useGlobalSearchSubmit.ts";
 import { useSearchQueryContext } from "@/features/search/common/hooks/useSearchQueryContext.tsx";
+import { useHeroSearchFocus } from "@/features/landing/hooks/useHeroSearchFocus.ts";
 import { cn } from "@/lib/utils.ts";
 
 export const HERO_SEARCH_ID = "hero-search";
 
 /**
  * The hero search form on the ink ground: a parchment panel with the brass ring and deep glow,
- * a real example query as placeholder and the oxblood submit.
+ * a real example query as placeholder and the oxblood submit. The input takes focus on arrival
+ * (see `useHeroSearchFocus`), so the brass ring highlights where to start.
  */
 export function HeroSearch({ className }: { readonly className?: string }) {
     const { t } = useTranslation();
@@ -19,6 +21,8 @@ export function HeroSearch({ className }: { readonly className?: string }) {
     const { setQuery } = useSearchQueryContext();
     const { isPending, submit } = useGlobalSearchSubmit();
     const [value, setValue] = useState("");
+    const inputRef = useRef<HTMLInputElement>(null);
+    useHeroSearchFocus(inputRef, HERO_SEARCH_ID);
 
     const examples = useMemo(() => {
         const list = t("search.bar.placeholderExamplesProducts", { returnObjects: true });
@@ -47,6 +51,7 @@ export function HeroSearch({ className }: { readonly className?: string }) {
                     {t("landingPage.hero.searchLabel")}
                 </label>
                 <input
+                    ref={inputRef}
                     id={inputId}
                     type="search"
                     inputMode="search"
