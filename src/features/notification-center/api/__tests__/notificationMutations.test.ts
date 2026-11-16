@@ -222,6 +222,25 @@ describe("204 notification mutations", () => {
         },
     );
 
+    it("does not fail a listing detail page that is still loading (#1332)", async () => {
+        const detailKey = ["productListings", "detail", "vase", "en", "EUR"];
+        let respond!: (value: unknown) => void;
+        const loader = client.ensureQueryData({
+            queryKey: detailKey,
+            queryFn: () =>
+                new Promise((resolve) => {
+                    respond = resolve;
+                }),
+        });
+        const { result } = renderHook(() => useMarkNotificationSeen(), { wrapper });
+        await act(() => result.current.mutateAsync("notification-1"));
+        const detail = { item: { productListingId: "listing-1" }, userState: {} };
+        respond(detail);
+
+        await expect(loader).resolves.toBe(detail);
+        await waitFor(() => expect(client.getQueryState(detailKey)?.isInvalidated).toBe(true));
+    });
+
     it("rechecks the viewer after awaiting query cancellation", async () => {
         const before = client.getQueryData(key);
         const beforeListings = client.getQueryData(listingKey);

@@ -7,6 +7,7 @@ import {
     patchListingUserState,
     withoutUnseenNotifications,
 } from "@/features/product/catalog/lib/listingUserStateCache.ts";
+import { cancelRefetches } from "@/lib/query/cancelRefetches.ts";
 
 /** Apply only after a successful 204: failed requests leave caches untouched. */
 export async function commitNotificationMutation(
@@ -20,7 +21,7 @@ export async function commitNotificationMutation(
     const notificationKey = ["getNotifications", viewerId];
     // Stop older list responses from overwriting the acknowledged mutation.
     await Promise.all([
-        queryClient.cancelQueries({ queryKey: notificationKey }),
+        cancelRefetches(queryClient, { queryKey: notificationKey }),
         cancelListingQueries(queryClient, viewerId),
     ]);
     // An account transition may have occurred while awaiting cancellation.
