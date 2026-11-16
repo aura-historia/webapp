@@ -78,10 +78,7 @@ export function ContentNoticeConfirmation({
                         components={HEADLINE_COMPONENTS}
                     />
                 </h1>
-                <p
-                    role="status"
-                    className="max-w-[620px] text-base leading-[1.55] text-pretty text-ink-secondary sm:text-lg"
-                >
+                <output className="block max-w-[620px] text-base leading-[1.55] text-pretty text-ink-secondary sm:text-lg">
                     <Trans
                         i18nKey="contentNotice.confirmation.body"
                         values={{ email: submission.email }}
@@ -89,7 +86,7 @@ export function ContentNoticeConfirmation({
                             email: <strong className="font-semibold break-all text-ink" />,
                         }}
                     />
-                </p>
+                </output>
             </div>
 
             <dl className="mt-9 rounded-panel bg-surface-raised shadow-ring">

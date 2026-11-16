@@ -6,6 +6,7 @@ import {
     EMPTY_CONTENT_NOTICE_FORM,
     fieldForPointer,
     getContentNoticeSchema,
+    isNoticeEmail,
     reasonsForRole,
 } from "../contentNoticeForm.ts";
 import type {
@@ -171,5 +172,26 @@ describe("fieldForPointer", () => {
         expect(fieldForPointer("/additionalUrls/1", [0, 3])).toBe("additionalUrls.3.value");
         expect(fieldForPointer("/target/productListingId", [])).toBeUndefined();
         expect(fieldForPointer(undefined, [])).toBeUndefined();
+    });
+});
+
+describe("isNoticeEmail", () => {
+    it("accepts a bare address with an ASCII local part and a dotted domain", () => {
+        expect(isNoticeEmail("marie@example.com")).toBe(true);
+        expect(isNoticeEmail("m.roth+notice@mail.example.co.uk")).toBe(true);
+        for (const invalid of [
+            "",
+            "marie",
+            "@example.com",
+            "marie@example",
+            "marie@.com",
+            "marie@example.",
+            "ma rie@example.com",
+            "marie@exa mple.com",
+            "marie@@example.com",
+            "mär@example.com",
+        ]) {
+            expect(isNoticeEmail(invalid), invalid).toBe(false);
+        }
     });
 });

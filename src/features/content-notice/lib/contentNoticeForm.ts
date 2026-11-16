@@ -78,12 +78,27 @@ export type ContentNoticeFieldPath =
     | "email"
     | "goodFaithConfirmed";
 
-const HTTP_URL = /^https?:\/\/[^\s/?#]+\.[^\s/?#]+/i;
 // The receipt e-mail cannot be sent to a local part with non-ASCII characters (backend rule).
-const EMAIL = /^[\x21-\x3f\x41-\x7e]+@[^\s@]+\.[^\s@]+$/;
+const EMAIL_LOCAL_PART = /^[\x21-\x3f\x41-\x7e]+$/;
+const WHITESPACE = /\s/;
+
+/** A bare address: an ASCII local part, one `@` and a dotted domain, without whitespace. */
+export function isNoticeEmail(value: string): boolean {
+    const at = value.indexOf("@");
+    if (at <= 0 || at !== value.lastIndexOf("@")) return false;
+    const domain = value.slice(at + 1);
+    const dot = domain.indexOf(".");
+    return (
+        EMAIL_LOCAL_PART.test(value.slice(0, at)) &&
+        !WHITESPACE.test(domain) &&
+        dot > 0 &&
+        dot < domain.length - 1 &&
+        !domain.endsWith(".")
+    );
+}
 
 function isHttpUrl(value: string): boolean {
-    if (!HTTP_URL.test(value)) return false;
+    if (!/^https?:\/\//i.test(value) || WHITESPACE.test(value)) return false;
     try {
         const url = new URL(value);
         return (
@@ -185,7 +200,7 @@ export function getContentNoticeSchema(t: TFunction) {
                 });
             }
             const email = values.email.trim();
-            if (email.length > MAX_EMAIL_LENGTH || !EMAIL.test(email)) {
+            if (email.length > MAX_EMAIL_LENGTH || !isNoticeEmail(email)) {
                 ctx.addIssue({
                     code: "custom",
                     path: ["email"],

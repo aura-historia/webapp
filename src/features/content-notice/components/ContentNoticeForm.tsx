@@ -2,13 +2,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "@tanstack/react-router";
 import { AlertCircle, Check, LoaderCircle, Plus, X } from "lucide-react";
 import { type ReactNode, useEffect, useId, useMemo, useRef, useState } from "react";
-import { type FieldErrors, useFieldArray, useForm } from "react-hook-form";
+import { type FieldErrors, type UseFormReturn, useFieldArray, useForm } from "react-hook-form";
 import { Trans, useTranslation } from "react-i18next";
 import { mapToBackendLanguage, parseLanguage } from "@/data/internal/common/Language.ts";
 import { useUserAccount } from "@/features/account-management/hooks/useUserAccount.ts";
 import { CONTACT_EMAIL } from "@/features/app-shell/components/navigation/navigationConfig.ts";
 import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth.ts";
-import { useSubmitContentNotice } from "@/features/content-notice/api/useSubmitContentNotice.ts";
+import {
+    type ContentNoticeSubmitError,
+    useSubmitContentNotice,
+} from "@/features/content-notice/api/useSubmitContentNotice.ts";
 import { ContentNoticeTargetCard } from "@/features/content-notice/components/ContentNoticeTargetCard.tsx";
 import {
     buildContentNoticeRequest,
@@ -91,6 +94,46 @@ const FIELD_IDS: Record<
 };
 
 const urlFieldId = (index: number) => `content-notice-url-${index}`;
+
+type SubmitOutcome =
+    | { readonly kind: "targetGone" }
+    | { readonly kind: "field"; readonly field: ContentNoticeFieldPath }
+    | { readonly kind: "failure"; readonly failure: "rateLimited" | "unavailable" };
+
+/** What a failed submission means for the form. */
+function submitOutcome(
+    error: ContentNoticeSubmitError,
+    urlFormIndexes: readonly number[],
+): SubmitOutcome {
+    if (error.failure === "notFound") return { kind: "targetGone" };
+    const field =
+        error.failure === "invalid" ? fieldForPointer(error.field, urlFormIndexes) : undefined;
+    if (field) return { kind: "field", field };
+    return {
+        kind: "failure",
+        failure: error.failure === "rateLimited" ? "rateLimited" : "unavailable",
+    };
+}
+
+function submitLabelKey(pending: boolean, failure: "rateLimited" | "unavailable" | null): string {
+    if (pending) return "contentNotice.submitting";
+    return failure === "unavailable" ? "contentNotice.retry" : "contentNotice.submit";
+}
+
+/** Signed in: fills in name and e-mail from the account once, after hydration. Both stay editable. */
+function useAccountPrefill(form: UseFormReturn<ContentNoticeFormValues>) {
+    const { isAuthenticated } = useResolvedAuth();
+    const { data: account } = useUserAccount(isAuthenticated);
+    const [prefilled, setPrefilled] = useState(false);
+    useEffect(() => {
+        if (!account || prefilled) return;
+        const fullName = [account.firstName, account.lastName].filter(Boolean).join(" ").trim();
+        if (fullName && !form.getValues("name")) form.setValue("name", fullName);
+        if (account.email && !form.getValues("email")) form.setValue("email", account.email);
+        setPrefilled(true);
+    }, [account, prefilled, form]);
+    return Boolean(account);
+}
 
 type SummaryItem = { readonly id: string; readonly message: string };
 
@@ -181,17 +224,7 @@ export function ContentNoticeForm({ target, onSubmitted, onTargetGone }: Content
         }
     }, [role, reason, setValue, formState.isSubmitted]);
 
-    // Signed in: fill in name and e-mail from the account once, after hydration. Both stay editable.
-    const { isAuthenticated } = useResolvedAuth();
-    const { data: account } = useUserAccount(isAuthenticated);
-    const [prefilled, setPrefilled] = useState(false);
-    useEffect(() => {
-        if (!account || prefilled) return;
-        const fullName = [account.firstName, account.lastName].filter(Boolean).join(" ").trim();
-        if (fullName && !form.getValues("name")) setValue("name", fullName);
-        if (account.email && !form.getValues("email")) setValue("email", account.email);
-        setPrefilled(true);
-    }, [account, prefilled, form, setValue]);
+    const account = useAccountPrefill(form);
 
     const showSummary = () => {
         setSummaryShown(true);
@@ -212,25 +245,19 @@ export function ContentNoticeForm({ target, onSubmitted, onTargetGone }: Content
                     scope: request.body.target.type === "PRODUCT_LISTING" ? "listing" : "provider",
                 }),
             onError: (error) => {
-                if (error.failure === "notFound") {
+                const outcome = submitOutcome(error, request.urlFormIndexes);
+                if (outcome.kind === "targetGone") {
                     onTargetGone();
-                    return;
+                } else if (outcome.kind === "field") {
+                    const message = outcome.field.startsWith("additionalUrls")
+                        ? "contentNotice.errors.urlRejected"
+                        : "contentNotice.errors.notAccepted";
+                    setError(outcome.field, { type: "server", message: t(message) });
+                    setServerRejected(true);
+                    showSummary();
+                } else {
+                    setFailure(outcome.failure);
                 }
-                if (error.failure === "invalid") {
-                    const field = fieldForPointer(error.field, request.urlFormIndexes);
-                    if (field) {
-                        setError(field, {
-                            type: "server",
-                            message: field.startsWith("additionalUrls")
-                                ? t("contentNotice.errors.urlRejected")
-                                : t("contentNotice.errors.notAccepted"),
-                        });
-                        setServerRejected(true);
-                        showSummary();
-                        return;
-                    }
-                }
-                setFailure(error.failure === "rateLimited" ? "rateLimited" : "unavailable");
             },
         });
     };
@@ -406,9 +433,9 @@ export function ContentNoticeForm({ target, onSubmitted, onTargetGone }: Content
                                 )}
                             </button>
                         ) : (
-                            <p role="status" className="text-meta leading-normal text-ink-muted">
+                            <output className="block text-meta leading-normal text-ink-muted">
                                 {t("contentNotice.urls.limit", { max: MAX_ADDITIONAL_URLS })}
-                            </p>
+                            </output>
                         )}
                     </div>
                 </Section>
@@ -658,11 +685,7 @@ export function ContentNoticeForm({ target, onSubmitted, onTargetGone }: Content
                                     strokeWidth={2}
                                 />
                             )}
-                            {pending
-                                ? t("contentNotice.submitting")
-                                : failure === "unavailable"
-                                  ? t("contentNotice.retry")
-                                  : t("contentNotice.submit")}
+                            {t(submitLabelKey(pending, failure))}
                         </button>
                     </div>
                 </div>
