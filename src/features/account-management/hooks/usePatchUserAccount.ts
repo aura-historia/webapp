@@ -11,6 +11,7 @@ import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { toast } from "sonner";
 import { USER_ACCOUNT_QUERY_KEY } from "@/features/account-management/api/accountQueryKeys.ts";
 import { isViewerScopedQuery } from "@/features/authentication/lib/clearViewerScopedQueries.ts";
+import { cancelRefetches, isFirstLoadInFlight } from "@/lib/query/cancelRefetches.ts";
 
 export function useUpdateUserAccount(): UseMutationResult<
     UserAccountData,
@@ -38,10 +39,14 @@ export function useUpdateUserAccount(): UseMutationResult<
                 predicate: ({ queryKey }: { queryKey: readonly unknown[] }) =>
                     queryKey[0] !== USER_ACCOUNT_QUERY_KEY[0] && isViewerScopedQuery(queryKey),
             };
-            await queryClient.cancelQueries(affectedQueries);
+            await cancelRefetches(queryClient, affectedQueries);
             queryClient.setQueryData(USER_ACCOUNT_QUERY_KEY, updatedData);
             // Invalidation alone keeps previously visible content in the cache during refetch.
-            await queryClient.resetQueries(affectedQueries);
+            // Resetting a first load would reject its route loader; `cancelRefetches` refetches it.
+            await queryClient.resetQueries({
+                predicate: (query) =>
+                    !isFirstLoadInFlight(query) && affectedQueries.predicate(query),
+            });
         },
 
         onError: (error) => {
