@@ -4,7 +4,8 @@ import { useTranslation } from "react-i18next";
 import type { PublicListingSource } from "@/data/internal/shop/PublicListingSource.ts";
 import { NonPartnerNotice } from "@/features/provider-status/components/NonPartnerNotice.tsx";
 import { PartnerBadge } from "@/features/provider-status/components/PartnerBadge.tsx";
-import { providerStatusPageUrl } from "@/features/provider-status/lib/providerStatusLinks.ts";
+import { ContentNoticeReportLink } from "@/features/content-notice/components/ContentNoticeReportLink.tsx";
+import { contentNoticeSearchForProvider } from "@/features/content-notice/lib/contentNoticeSearch.ts";
 import { SHOP_FOCUS_CLASS } from "@/features/shop/profile/lib/shopStyles.ts";
 import { outboundLinkRel } from "@/lib/ui/outboundLinkRel.ts";
 import { cn } from "@/lib/utils.ts";
@@ -27,7 +28,8 @@ function initialOf(name: string): string {
  * row takes any spare height so the text stays aligned with the bottom of the tile.
  */
 export function ShopHeader({ shop }: ShopHeaderProps) {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
+    const noticeSearch = contentNoticeSearchForProvider(shop.slugId);
     // `viewLink` carries the referral or UTM tagging; `url` is only the fallback for a response without it.
     const websiteUrl = shop.viewLink?.url ?? shop.url;
 
@@ -77,17 +79,14 @@ export function ShopHeader({ shop }: ShopHeaderProps) {
                     scope="provider"
                     providerName={shop.name}
                     sourceUrl={shop.url}
-                    pageUrl={providerStatusPageUrl(
-                        { scope: "provider", shopSlugId: shop.slugId },
-                        i18n.language,
-                    )}
+                    noticeSearch={noticeSearch}
                     className="col-span-2 md:col-span-1 md:col-start-2 md:row-start-4 md:max-w-[560px]"
                 />
             )}
 
             <div
                 className={cn(
-                    "col-span-2 mt-1 flex flex-col gap-3",
+                    "col-span-2 mt-1 flex flex-col gap-5",
                     "md:col-span-1 md:col-start-3 md:row-span-4 md:row-start-1 md:mt-0 md:items-end md:self-end",
                 )}
             >
@@ -107,27 +106,40 @@ export function ShopHeader({ shop }: ShopHeaderProps) {
                         <ArrowUpRight aria-hidden="true" className="size-4" strokeWidth={1.8} />
                     </a>
                 )}
-                <p
+                {/* Secondary links grouped under the main action: apply as a partner, report. */}
+                <div
                     className={cn(
-                        "text-meta leading-normal text-ink-muted md:text-right",
-                        websiteUrl && "text-center",
+                        "flex flex-col md:items-end",
+                        websiteUrl ? "items-center" : "items-start",
                     )}
                 >
-                    {t("shop.header.partner.question")}{" "}
-                    <Link
-                        to="/$lng/partners/applications"
-                        params={true}
-                        from="/$lng"
-                        search={{ create: true, provider: shop.slugId }}
+                    <p
                         className={cn(
-                            "inline-flex min-h-6 items-center gap-1 text-ink underline decoration-line-strong underline-offset-3 transition-colors hover:text-oxblood hover:decoration-oxblood",
-                            SHOP_FOCUS_CLASS,
+                            "text-meta leading-normal text-ink-muted md:text-right",
+                            websiteUrl && "text-center",
                         )}
                     >
-                        {t("shop.header.partner.apply")}
-                        <ArrowRight aria-hidden="true" className="size-3.5" strokeWidth={1.8} />
-                    </Link>
-                </p>
+                        {t("shop.header.partner.question")}{" "}
+                        <Link
+                            to="/$lng/partners/applications"
+                            params={true}
+                            from="/$lng"
+                            search={{ create: true, provider: shop.slugId }}
+                            className={cn(
+                                "inline-flex min-h-6 items-center gap-1 text-ink underline decoration-line-strong underline-offset-3 transition-colors hover:text-oxblood hover:decoration-oxblood",
+                                SHOP_FOCUS_CLASS,
+                            )}
+                        >
+                            {t("shop.header.partner.apply")}
+                            <ArrowRight aria-hidden="true" className="size-3.5" strokeWidth={1.8} />
+                        </Link>
+                    </p>
+                    <ContentNoticeReportLink
+                        kind="provider"
+                        search={noticeSearch}
+                        className="-mt-2 -mb-2.5"
+                    />
+                </div>
             </div>
         </header>
     );

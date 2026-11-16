@@ -30,6 +30,7 @@ export type PageMetaKey =
     | "notifications"
     | "consentSettings"
     | "newsletterConfirm"
+    | "contentNotice"
     | "partnerProgram"
     | "partnerCustomIntegration"
     | "partnerDashboard"
@@ -98,6 +99,10 @@ const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string 
     consentSettings: {
         title: "meta.consentSettings.title",
         description: "meta.consentSettings.description",
+    },
+    contentNotice: {
+        title: "meta.contentNotice.title",
+        description: "meta.contentNotice.description",
     },
     newsletterConfirm: {
         title: "meta.newsletterConfirm.title",

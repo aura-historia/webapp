@@ -367,7 +367,8 @@ describe("AccessTokenCreateDialog", () => {
         await user.click(screen.getByRole("button", { name: `Alle auswählen: ${groupLabel}` }));
         expect(screen.getByLabelText("Auktionen lesen")).toBeChecked();
         expect(screen.getByLabelText("Admin-Übersicht lesen")).toBeChecked();
-        expect(screen.getByText("7 von 23 ausgewählt")).toBeInTheDocument();
+        expect(screen.getByLabelText("Meldungen lesen")).toBeChecked();
+        expect(screen.getByText("8 von 24 ausgewählt")).toBeInTheDocument();
     });
 
     it("keeps the prefilled scope when more are selected", async () => {

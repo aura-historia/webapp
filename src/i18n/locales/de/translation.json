@@ -124,6 +124,10 @@
     "aiAgents": {
       "title": "Aura Historia in Claude, ChatGPT & anderen KI-Assistenten",
       "description": "Verbinden Sie Aura Historia mit Claude oder ChatGPT und suchen Sie Kunst und Antiquitäten in Ihren eigenen Worten, mit oder ohne Konto. Apps für Gemini, Grok und Muse sind in Arbeit."
+    },
+    "contentNotice": {
+      "title": "Entfernung beantragen oder Inhalt melden",
+      "description": "Bitten Sie Aura Historia, ein Angebot zu entfernen, oder melden Sie Inhalte. Für Anbieter, Rechteinhaber und alle, die auf rechtswidrige Inhalte stoßen. Ohne Konto."
     }
   },
   "validation": {
@@ -6268,6 +6272,185 @@
         "subjectProvider": "Entfernung beantragen: alle Angebote von {{provider}}",
         "body": "Anbieter: {{provider}}\nSeite auf Aura Historia: {{url}}\n\nIch bin: (der Anbieter / Rechteinhaber, z. B. Fotograf oder Urheber / eine andere Person)\n\nBegründung (warum soll der Inhalt entfernt werden?):\n\n\nName:\n\nIch versichere in gutem Glauben, dass meine Angaben richtig und vollständig sind."
       }
+    }
+  },
+  "contentNotice": {
+    "eyebrow": "Meldung & Entfernung",
+    "title": "Entfernung beantragen oder <em>Inhalt melden.</em>",
+    "lead": "Sagen Sie uns, welches Angebot oder welchen Anbieter Ihre Meldung betrifft und warum. Melden kann jede und jeder: der Anbieter, Rechteinhaber wie Fotografen oder Autoren und alle, die auf rechtswidrige Inhalte stoßen.",
+    "backToListing": "Zurück zum Angebot",
+    "backToProvider": "Zurück zum Anbieter",
+    "formLabel": "Meldeformular",
+    "optional": "(optional)",
+    "free": "Kostenlos. Kein Konto nötig.",
+    "submit": "Meldung senden",
+    "submitting": "Wird gesendet …",
+    "retry": "Erneut versuchen",
+    "goodFaith": "Ich versichere in gutem Glauben, dass meine Angaben richtig und vollständig sind.",
+    "sections": {
+      "what": "Worum geht es in Ihrer Meldung?",
+      "role": "Wer sind Sie?",
+      "reason": "Was ist der Grund?",
+      "contact": "Wie erreichen wir Sie?",
+      "contactLead": "An diese Adresse senden wir die Eingangsbestätigung und unsere Entscheidung."
+    },
+    "target": {
+      "listing": "Angebot",
+      "provider": "Anbieter",
+      "untitled": "Angebot ohne Titel",
+      "partner": "Partner von Aura Historia",
+      "notPartner": "Kein Partner von Aura Historia",
+      "prefilled": "Vorausgefüllt",
+      "scopeLegend": "Betrifft",
+      "scopeListing": "Nur dieses Angebot",
+      "scopeListingHint": "Nur das Angebot oben.",
+      "scopeProvider": "Alle Angebote von {{provider}}",
+      "scopeProviderHint": "Alle Angebote, die wir von diesem Anbieter zeigen.",
+      "providerScopeNote": "Diese Meldung betrifft alle Angebote von {{provider}}. Um nur einzelne Angebote zu melden, öffnen Sie das Angebot und wählen Sie dort „Angebot melden“."
+    },
+    "urls": {
+      "label": "Weitere Links",
+      "hint": "Weitere Angebote oder wo der ursprüngliche Text oder das Bild veröffentlicht ist. Bis zu 10 Links.",
+      "add": "Link hinzufügen",
+      "addAnother": "Weiteren Link hinzufügen",
+      "remove": "Link {{number}} entfernen",
+      "limit": "Sie haben die Höchstzahl von {{max}} Links erreicht. Nennen Sie weitere in Ihrer Begründung."
+    },
+    "roles": {
+      "provider": {
+        "label": "Ich bin der Anbieter",
+        "description": "Ich betreibe diesen Shop oder darf für ihn sprechen."
+      },
+      "rightsHolder": {
+        "label": "Ich halte Rechte an diesem Inhalt",
+        "description": "Zum Beispiel als Fotograf oder Urheber eines Textes oder Bildes."
+      },
+      "illegalContentReporter": {
+        "label": "Ich möchte einen rechtswidrigen Inhalt melden",
+        "description": "Das Angebot, seine Texte oder Bilder verstoßen gegen geltendes Recht."
+      }
+    },
+    "reasons": {
+      "legend": "Grund",
+      "providerOptOut": {
+        "label": "Ich möchte nicht gelistet werden",
+        "description": "Meine Angebote von Aura Historia entfernen. Keine Begründung nötig."
+      },
+      "rightsInfringement": {
+        "label": "Rechtsverletzung",
+        "description": "Texte oder Bilder werden ohne Erlaubnis verwendet."
+      },
+      "illegalContent": {
+        "label": "Anderer rechtswidriger Inhalt",
+        "description": "Zum Beispiel verbotene Gegenstände oder Symbole."
+      },
+      "incorrectInformation": {
+        "label": "Falsche Angaben",
+        "description": "Zum Beispiel eine falsche Zuschreibung, Datierung oder ein falscher Status."
+      },
+      "other": {
+        "label": "Etwas anderes",
+        "description": "Erläutern Sie es in der Begründung."
+      }
+    },
+    "explanation": {
+      "label": "Begründung",
+      "counter": "{{count}} / {{max}}",
+      "hints": {
+        "providerOptOut": "Gibt es etwas, das wir wissen sollten? Sie können das Feld leer lassen.",
+        "rightsInfringement": "Welches Werk ist betroffen und welche Rechte halten Sie? Fügen Sie oben möglichst einen Link zum Original hinzu.",
+        "illegalContent": "Was ist daran rechtswidrig und warum? Bitte so konkret wie möglich.",
+        "incorrectInformation": "Was ist falsch, und was ist richtig?",
+        "other": "Bitte erläutern Sie Ihr Anliegen.",
+        "default": "Bitte erläutern Sie Ihr Anliegen."
+      }
+    },
+    "contact": {
+      "name": "Name",
+      "email": "E-Mail",
+      "prefilled": "Aus Ihrem Konto übernommen. Sie können beides ändern.",
+      "privacy": "Name, E-Mail-Adresse und Nachricht verwenden wir nur zur Bearbeitung dieser Meldung. Einzelheiten in unserer <privacyLink>Datenschutzerklärung</privacyLink>."
+    },
+    "summary": {
+      "title_one": "Bitte prüfen Sie 1 Angabe:",
+      "title_other": "Bitte prüfen Sie {{count}} Angaben:",
+      "serverTitle": "Einige Angaben wurden nicht angenommen. Bitte prüfen Sie:",
+      "link": "Link {{number}}: {{message}}"
+    },
+    "errors": {
+      "urlInvalid": "Geben Sie einen vollständigen Link ein, der mit https:// beginnt.",
+      "urlTooLong": "Kürzen Sie diesen Link auf 2.048 Zeichen.",
+      "urlDuplicate": "Diesen Link haben Sie bereits hinzugefügt.",
+      "urlRejected": "Dieser Link wurde nicht angenommen. Geben Sie einen vollständigen Link ein, der mit https:// beginnt.",
+      "role": "Wählen Sie aus, wer Sie sind.",
+      "reason": "Wählen Sie einen Grund.",
+      "explanation": "Begründen Sie Ihr Anliegen.",
+      "explanationTooLong": "Kürzen Sie Ihre Begründung auf 5.000 Zeichen.",
+      "name": "Geben Sie Ihren Namen ein.",
+      "nameTooLong": "Kürzen Sie Ihren Namen auf 200 Zeichen.",
+      "email": "Geben Sie eine E-Mail-Adresse wie name@beispiel.de ein.",
+      "goodFaith": "Bestätigen Sie, dass Ihre Angaben richtig und vollständig sind.",
+      "notAccepted": "Diese Angabe wurde nicht angenommen. Bitte prüfen Sie sie."
+    },
+    "alerts": {
+      "rateLimited": {
+        "title": "Heute zu viele Meldungen von dieser Adresse.",
+        "body": "Bitte senden Sie diese Meldung stattdessen per E-Mail an <email>{{email}}</email>."
+      },
+      "unavailable": {
+        "title": "Ihre Meldung konnte nicht gesendet werden.",
+        "body": "Ihre Angaben bleiben erhalten. Bitte versuchen Sie es gleich noch einmal oder senden Sie die Meldung per E-Mail an <email>{{email}}</email>."
+      },
+      "writeEmail": "E-Mail schreiben"
+    },
+    "aside": {
+      "eyebrow": "So geht es weiter",
+      "title": "So bearbeiten wir <em>Ihre Meldung.</em>",
+      "steps": {
+        "confirmation": {
+          "title": "Bestätigung",
+          "text": "Sie erhalten per E-Mail eine Eingangsbestätigung mit einem Aktenzeichen für Ihre Meldung."
+        },
+        "review": {
+          "title": "Prüfung",
+          "text": "Jede Meldung prüft ein Mitglied unseres Teams. Wir treffen keine automatisierten Entscheidungen."
+        },
+        "decision": {
+          "title": "Entscheidung",
+          "text": "Unsere Entscheidung und ihre Gründe teilen wir Ihnen per E-Mail mit."
+        }
+      },
+      "fallback": "Sie können das Formular nicht nutzen? Schreiben Sie an <email>{{email}}</email>."
+    },
+    "confirmation": {
+      "eyebrow": "Meldung eingegangen",
+      "title": "Danke für <em>Ihre Meldung.</em>",
+      "body": "Ihre Meldung ist eingegangen. Wir haben Ihnen eine Eingangsbestätigung an <email>{{email}}</email> gesendet und teilen Ihnen unsere Entscheidung per E-Mail mit.",
+      "allListings": "{{provider}}, alle Angebote",
+      "listingValue": "{{title}} · {{provider}}",
+      "reason": "Grund",
+      "next": "Weiter",
+      "nextText": "Ein Mitglied unseres Teams prüft Ihre Meldung. Die Eingangsbestätigung enthält ein Aktenzeichen; bitte geben Sie es an, wenn Sie uns schreiben.",
+      "spam": "Nach einigen Minuten keine E-Mail? Prüfen Sie Ihren Spam-Ordner oder schreiben Sie an {{email}}.",
+      "continue": "Weiter suchen"
+    },
+    "notFound": {
+      "listingTitle": "Dieses Angebot <em>gibt es nicht mehr.</em>",
+      "providerTitle": "Diesen Anbieter <em>gibt es nicht mehr.</em>",
+      "listingBody": "Es wurde entfernt oder ist auf Aura Historia nicht mehr verfügbar. Es gibt also nichts mehr zu melden.",
+      "providerBody": "Er wurde entfernt oder ist auf Aura Historia nicht mehr verfügbar. Es gibt also nichts mehr zu melden.",
+      "search": "Zur Suche"
+    },
+    "missing": {
+      "title": "Beginnen Sie beim <em>Angebot oder Anbieter.</em>",
+      "body": "Eine Meldung betrifft immer ein Angebot oder einen Anbieter auf Aura Historia. Öffnen Sie es und wählen Sie „Angebot melden“ oder „Anbieter melden“.",
+      "searchListings": "Angebote suchen",
+      "searchProviders": "Anbieter suchen",
+      "contact": "Nicht gefunden? Schreiben Sie an {{email}}."
+    },
+    "entry": {
+      "reportListing": "Angebot melden",
+      "reportProvider": "Anbieter melden"
     }
   }
 }
