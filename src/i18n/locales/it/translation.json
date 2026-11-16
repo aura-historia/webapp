@@ -5029,7 +5029,8 @@
         "partiesWrite": "Creare, aggiornare o eliminare record delle organizzazioni se l’account dispone di accesso amministratore.",
         "partnershipsRead": "Leggere le partnership se l’account dispone di accesso amministratore.",
         "partnershipsWrite": "Modificare o sciogliere partnership e concedere o revocare i relativi membri e fonti di annunci se l’account dispone di accesso amministratore.",
-        "adminOverviewRead": "Leggere la panoramica operativa dell’amministrazione se l’account dispone di accesso amministratore."
+        "adminOverviewRead": "Leggere la panoramica operativa dell’amministrazione se l’account dispone di accesso amministratore.",
+        "contentNoticesRead": "Leggere le segnalazioni sui contenuti, compresi nome, e-mail e messaggio di chi le ha inviate, se l’account ha accesso da amministratore."
       },
       "validation": {
         "nameRequired": "Inserisci un nome per il token.",
@@ -5102,7 +5103,8 @@
       "partiesWrite": "Gestire le organizzazioni",
       "partnershipsRead": "Leggere le partnership",
       "partnershipsWrite": "Gestire le partnership",
-      "adminOverviewRead": "Leggere la panoramica amministrazione"
+      "adminOverviewRead": "Leggere la panoramica amministrazione",
+      "contentNoticesRead": "Leggere le segnalazioni"
     },
     "scopeGroups": {
       "account": "Account e token di accesso",

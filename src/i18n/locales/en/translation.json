@@ -2452,7 +2452,8 @@
         "partiesWrite": "Create, update or delete organization records if the account has administrator access.",
         "partnershipsRead": "Read partnerships if the account has administrator access.",
         "partnershipsWrite": "Change or dissolve partnerships and grant or revoke their members and listing sources if the account has administrator access.",
-        "adminOverviewRead": "Read the operational admin overview if the account has administrator access."
+        "adminOverviewRead": "Read the operational admin overview if the account has administrator access.",
+        "contentNoticesRead": "Read content notices, including the name, email and message of the person who sent them, if the account has administrator access."
       },
       "validation": {
         "nameRequired": "Please enter a token name.",
@@ -2525,7 +2526,8 @@
       "partiesWrite": "Manage organizations",
       "partnershipsRead": "Read partnerships",
       "partnershipsWrite": "Manage partnerships",
-      "adminOverviewRead": "Read admin overview"
+      "adminOverviewRead": "Read admin overview",
+      "contentNoticesRead": "Read content notices"
     },
     "scopeGroups": {
       "account": "Account and access tokens",

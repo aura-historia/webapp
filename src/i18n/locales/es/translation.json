@@ -5029,7 +5029,8 @@
         "partiesWrite": "Crear, actualizar o eliminar registros de organizaciones si la cuenta tiene acceso de administrador.",
         "partnershipsRead": "Leer asociaciones si la cuenta tiene acceso de administrador.",
         "partnershipsWrite": "Modificar o disolver asociaciones y conceder o revocar sus miembros y fuentes de anuncios si la cuenta tiene acceso de administrador.",
-        "adminOverviewRead": "Leer el resumen operativo de administración si la cuenta tiene acceso de administrador."
+        "adminOverviewRead": "Leer el resumen operativo de administración si la cuenta tiene acceso de administrador.",
+        "contentNoticesRead": "Leer avisos sobre contenidos, incluidos el nombre, el correo electrónico y el mensaje de quien los envió, si la cuenta tiene acceso de administrador."
       },
       "validation": {
         "nameRequired": "Por favor, introduce un nombre para el token.",
@@ -5102,7 +5103,8 @@
       "partiesWrite": "Gestionar organizaciones",
       "partnershipsRead": "Leer asociaciones",
       "partnershipsWrite": "Gestionar asociaciones",
-      "adminOverviewRead": "Leer el resumen de administración"
+      "adminOverviewRead": "Leer el resumen de administración",
+      "contentNoticesRead": "Leer avisos de contenido"
     },
     "scopeGroups": {
       "account": "Cuenta y tokens de acceso",

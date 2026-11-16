@@ -5029,7 +5029,8 @@
         "partiesWrite": "Créer, mettre à jour ou supprimer des fiches d’organisations si le compte dispose d’un accès administrateur.",
         "partnershipsRead": "Lire les partenariats si le compte dispose d’un accès administrateur.",
         "partnershipsWrite": "Modifier ou dissoudre des partenariats et accorder ou retirer leurs membres et sources d’annonces si le compte dispose d’un accès administrateur.",
-        "adminOverviewRead": "Lire la vue d’ensemble opérationnelle de l’administration si le compte dispose d’un accès administrateur."
+        "adminOverviewRead": "Lire la vue d’ensemble opérationnelle de l’administration si le compte dispose d’un accès administrateur.",
+        "contentNoticesRead": "Lire les signalements de contenus, y compris le nom, l’adresse e-mail et le message de la personne qui les a envoyés, si le compte dispose d’un accès administrateur."
       },
       "validation": {
         "nameRequired": "Veuillez entrer un nom de jeton.",
@@ -5102,7 +5103,8 @@
       "partiesWrite": "Gérer les organisations",
       "partnershipsRead": "Lire les partenariats",
       "partnershipsWrite": "Gérer les partenariats",
-      "adminOverviewRead": "Lire la vue d’ensemble de l’administration"
+      "adminOverviewRead": "Lire la vue d’ensemble de l’administration",
+      "contentNoticesRead": "Lire les signalements"
     },
     "scopeGroups": {
       "account": "Compte et jetons d’accès",

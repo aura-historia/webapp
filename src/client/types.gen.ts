@@ -1930,7 +1930,10 @@ export type ApiError = {
  */
 export type ApiErrorSource = {
   /**
-   * Name of the field that caused the error
+   * Name of the field that caused the error. Most operations name a body field by its property name or
+   * dotted path (`operator.partyId`); operations that say so, such as `submitContentNotice`, use a JSON
+   * pointer (`/additionalUrls/2`).
+   *
    */
   field: string;
   /**
@@ -2249,7 +2252,7 @@ export type UserSearchFilterCollectionData = {
  * The value is one of the capabilities supported by the canonical access-token and OAuth flows.
  *
  */
-export type AccessTokenScopeData = 'auctions:read' | 'auctions:write' | 'listing-sources:read' | 'parties:read' | 'parties:write' | 'partnership-applications:read' | 'partnership-applications:write' | 'partnerships:read' | 'partnerships:write' | 'admin-overview:read' | 'search-filters:read' | 'notifications:read' | 'notifications:write' | 'product-listings:read' | 'product-listings:write' | 'listing-sources:write' | 'users:read' | 'users:write' | 'access-tokens:read' | 'access-tokens:write' | 'search-filters:write' | 'watchlist:read' | 'watchlist:write';
+export type AccessTokenScopeData = 'auctions:read' | 'auctions:write' | 'listing-sources:read' | 'parties:read' | 'parties:write' | 'partnership-applications:read' | 'partnership-applications:write' | 'partnerships:read' | 'partnerships:write' | 'admin-overview:read' | 'content-notices:read' | 'search-filters:read' | 'notifications:read' | 'notifications:write' | 'product-listings:read' | 'product-listings:write' | 'listing-sources:write' | 'users:read' | 'users:write' | 'access-tokens:read' | 'access-tokens:write' | 'search-filters:write' | 'watchlist:read' | 'watchlist:write';
 
 /**
  * Token type returned for Aura Historia access tokens.
@@ -3281,6 +3284,80 @@ export type BillingSessionUrlData = {
 };
 
 /**
+ * A content notice. Text is trimmed; it must not be blank and must not contain control characters, except
+ * that the explanation may keep line breaks and tabs. Values are never truncated.
+ *
+ */
+export type SubmitContentNoticeData = {
+  target: ContentNoticeTargetData;
+  submitterRole: ContentNoticeSubmitterRoleData;
+  reasonCategory: ContentNoticeReasonCategoryData;
+  /**
+   * A reasoned explanation. Required, except that it may be omitted or `null` for `PROVIDER_OPT_OUT`.
+   * For any other category a missing or `null` explanation is rejected with
+   * `CONTENT_NOTICE_EXPLANATION_REQUIRED`.
+   *
+   */
+  explanation?: string | null;
+  /**
+   * Further locations the notice points to, never fetched. No two may be equal after URL normalization.
+   */
+  additionalUrls?: Array<string>;
+  /**
+   * The notifier's name.
+   */
+  name: string;
+  /**
+   * The notifier's bare email address, without display text. An international domain is accepted and stored in its punycode form; a local part (before the `@`) with non-ASCII characters is rejected with `CONTENT_NOTICE_INVALID_FIELD`, because the receipt email cannot be sent to it.
+   */
+  email: string;
+  /**
+   * The language for correspondence about the notice.
+   */
+  language: LanguageData;
+  /**
+   * Confirms that the information is accurate and complete. Must be `true`; `false` or a missing value is
+   * rejected with `CONTENT_NOTICE_GOOD_FAITH_NOT_CONFIRMED`.
+   *
+   */
+  goodFaithConfirmed: true;
+};
+
+/**
+ * What the notice is about, one listing or a listing source with all of its listings.
+ */
+export type ContentNoticeTargetData = ({
+  type: 'PRODUCT_LISTING';
+} & ProductListingContentNoticeTargetData) | ({
+  type: 'LISTING_SOURCE';
+} & ListingSourceContentNoticeTargetData);
+
+export type ProductListingContentNoticeTargetData = {
+  type: 'PRODUCT_LISTING';
+  /**
+   * A publicly visible ProductListing.
+   */
+  productListingId: string;
+};
+
+export type ListingSourceContentNoticeTargetData = {
+  type: 'LISTING_SOURCE';
+  listingSourceId: string;
+};
+
+/**
+ * Who submits the notice, as the submitter declares: the operator of the listing source, a holder of rights
+ * in the listed content, or anyone reporting content they consider illegal.
+ *
+ */
+export type ContentNoticeSubmitterRoleData = 'PROVIDER' | 'RIGHTS_HOLDER' | 'ILLEGAL_CONTENT_REPORTER';
+
+/**
+ * Why the notice is submitted. Only submitter role `PROVIDER` may choose `PROVIDER_OPT_OUT`.
+ */
+export type ContentNoticeReasonCategoryData = 'PROVIDER_OPT_OUT' | 'RIGHTS_INFRINGEMENT' | 'ILLEGAL_CONTENT' | 'INCORRECT_INFORMATION' | 'OTHER';
+
+/**
  * Request body for requesting double opt-in confirmation for a newsletter subscription.
  * `email` is required; `firstName`, `lastName`, `language`, and `currency` are optional and may be omitted or set to `null`.
  *
@@ -3319,7 +3396,7 @@ export type ConfirmNewsletterSubscriptionData = {
  * The user's subscription tier, which determines limits and feature access (e.g. max watchlist entries, max search filters, allowed search filter fields).
  * - `FREE`: Default tier for all users. Allows up to 20 watchlist entries, up to 1 search filter (limited to `productQuery`, `price`, `state`, `excludeProductListingId`, and `lifecycle` filter fields), and up to 10 product matches per filter.
  * - `PRO`: Premium tier. Allows up to 100 watchlist entries, up to 5 search filters with access to all filter fields, and unlimited product matches per filter.
- * - `ULTIMATE`: Highest tier. Allows unlimited watchlist entries, unlimited search filters with access to all filter fields, and unlimited product matches per filter.
+ * - `ULTIMATE`: Highest tier. Allows unlimited watchlist entries, up to 20 search filters with access to all filter fields, and unlimited product matches per filter.
  *
  */
 export type UserTierData = 'FREE' | 'PRO' | 'ULTIMATE';
@@ -3814,7 +3891,7 @@ export type SourcesIndexedByTypeData = {
 };
 
 /**
- * Versioned bounded administrator operational summary sourced from authoritative PostgreSQL.
+ * Versioned bounded administrator operational summary sourced from PostgreSQL; `productListings` may be estimated.
  */
 export type AdminOverviewData = {
   /**
@@ -3823,6 +3900,7 @@ export type AdminOverviewData = {
   schemaVersion: 1;
   users: AdminOverviewUsersData;
   partnershipApplications: AdminOverviewPartnershipApplicationsData;
+  contentNotices: AdminOverviewContentNoticesData;
   parties: AdminOverviewCountData;
   listingSources: AdminOverviewListingSourcesData;
   partnerships: AdminOverviewCountData;
@@ -3864,6 +3942,21 @@ export type AdminOverviewPartnershipApplicationStateCountsData = {
 };
 
 /**
+ * Content notices of every target and category, counted by business state.
+ */
+export type AdminOverviewContentNoticesData = {
+  total: number;
+  byState: AdminOverviewContentNoticeStateCountsData;
+};
+
+/**
+ * Notices per business state. Every notice is `SUBMITTED` until decision states exist; later states are added as new keys, so clients must ignore unknown keys.
+ */
+export type AdminOverviewContentNoticeStateCountsData = {
+  submitted: number;
+};
+
+/**
  * methodAssignments counts source-method rows and need not sum to total.
  */
 export type AdminOverviewListingSourcesData = {
@@ -3880,7 +3973,7 @@ export type AdminOverviewListingSourceMethodAssignmentCountsData = {
 };
 
 /**
- * Availability counts include ACTIVE listings only.
+ * Availability counts include ACTIVE listings only. From an estimated 100,000 listings on, every count is an estimate; see `getAdminOverview`.
  */
 export type AdminOverviewProductListingsData = {
   total: number;
@@ -4054,6 +4147,219 @@ export type AdminPartnershipApplicationCollectionData = {
   ];
   total?: number;
 };
+
+export type AdminContentNoticeCollectionData = {
+  items: Array<AdminContentNoticeSummaryData>;
+  /**
+   * Number of items returned in the current page.
+   */
+  size: number;
+  /**
+   * Opaque cursor for the next page; omitted on the terminal page.
+   */
+  searchAfter?: string;
+};
+
+/**
+ * One content notice in the admin review queue. Contains personal data.
+ */
+export type AdminContentNoticeSummaryData = {
+  /**
+   * ContentNotice ID (prefix `ntc`).
+   */
+  contentNoticeId: string;
+  state: ContentNoticeStateData;
+  /**
+   * Submission time.
+   */
+  created: string;
+  target: AdminContentNoticeTargetData;
+  /**
+   * The ListingSource's name at submission.
+   */
+  listingSourceName: string;
+  /**
+   * The ProductListing's title at submission. Only `PRODUCT_LISTING` targets can have one; omitted when the listing had no title.
+   */
+  productListingTitle?: string;
+  /**
+   * Whether the ListingSource's operator was a partner at submission.
+   */
+  partner: boolean;
+  submitterRole: ContentNoticeSubmitterRoleData;
+  reasonCategory: ContentNoticeReasonCategoryData;
+  /**
+   * The name the submitter gave.
+   */
+  submitterName: string;
+  /**
+   * The submitter's email address.
+   */
+  submitterEmail: string;
+};
+
+/**
+ * One content notice for admin review. Contains personal data.
+ */
+export type AdminContentNoticeDetailsData = {
+  /**
+   * ContentNotice ID (prefix `ntc`).
+   */
+  contentNoticeId: string;
+  state: ContentNoticeStateData;
+  /**
+   * Submission time.
+   */
+  created: string;
+  /**
+   * Time of the last change to the notice.
+   */
+  updated: string;
+  /**
+   * Version of the stored notice; `1` until the notice changes.
+   */
+  version: number;
+  target: AdminContentNoticeTargetData;
+  targetSnapshot: AdminContentNoticeTargetSnapshotData;
+  currentTarget: AdminContentNoticeCurrentTargetData;
+  submitterRole: ContentNoticeSubmitterRoleData;
+  reasonCategory: ContentNoticeReasonCategoryData;
+  /**
+   * The submitter's reasoned explanation. Omitted when the notice has none, which only `PROVIDER_OPT_OUT` allows.
+   */
+  explanation?: string;
+  /**
+   * Further URLs the submitter gave, in submission order.
+   */
+  additionalUrls: Array<string>;
+  submitter: AdminContentNoticeSubmitterData;
+  /**
+   * Version of the good-faith statement wording the submitter confirmed.
+   */
+  goodFaithStatement: 'GOOD_FAITH_V1';
+  /**
+   * The delivery of the receipt email to the submitter. `null` only when no receipt was enqueued.
+   */
+  receipt: AdminContentNoticeReceiptData | null;
+};
+
+/**
+ * Where the receipt email to the submitter stands. `FAILED` means it was not delivered and will not be
+ * retried; answer the submitter from the contact mailbox.
+ *
+ */
+export type AdminContentNoticeReceiptData = {
+  /**
+   * `PENDING`: waiting for its first or next attempt. `PROCESSING`: an attempt is in progress or its outcome
+   * is uncertain. `DELIVERED`: accepted by the email provider. `FAILED`: permanently undeliverable, for
+   * example rejected by the email provider; it is not retried. Both `PENDING` and `PROCESSING` normally pass
+   * within minutes; a receipt whose delivery job was dead-lettered (which alarms) keeps its status until
+   * the job is redriven.
+   *
+   */
+  status: 'PENDING' | 'PROCESSING' | 'DELIVERED' | 'FAILED';
+  /**
+   * Send attempts so far.
+   */
+  attempts: number;
+  /**
+   * When the email provider accepted the receipt. Present exactly when `status` is `DELIVERED`.
+   */
+  deliveredAt?: string;
+};
+
+/**
+ * The target as it was at submission. It never changes.
+ */
+export type AdminContentNoticeTargetSnapshotData = {
+  /**
+   * The ListingSource's name at submission.
+   */
+  listingSourceName: string;
+  /**
+   * The ListingSource's URL at submission; omitted when it had none.
+   */
+  listingSourceUrl?: string;
+  /**
+   * Whether the ListingSource's operator was a partner at submission.
+   */
+  partner: boolean;
+  /**
+   * The ProductListing's title at submission. Omitted for `LISTING_SOURCE` targets and when the listing had no title.
+   */
+  productListingTitle?: string;
+  /**
+   * The ProductListing's URL at submission. Present exactly for `PRODUCT_LISTING` targets.
+   */
+  productListingUrl?: string;
+};
+
+/**
+ * The target as it is when the notice is read.
+ */
+export type AdminContentNoticeCurrentTargetData = {
+  listingSource: AdminContentNoticeCurrentListingSourceData;
+  productListing?: AdminContentNoticeCurrentProductListingData;
+};
+
+/**
+ * The ListingSource now. When it no longer exists, only `exists` is present.
+ */
+export type AdminContentNoticeCurrentListingSourceData = {
+  exists: boolean;
+  /**
+   * Current name. Present exactly when `exists` is `true`.
+   */
+  name?: string;
+  /**
+   * Current slug, which links to the public ListingSource page. Present exactly when `exists` is `true`.
+   */
+  slugId?: string;
+  /**
+   * Current ingestion methods, ordered by code. `WEB_CRAWL` means the ListingSource is still crawled. Present exactly when `exists` is `true`.
+   */
+  ingestionMethods?: Array<ListingIngestionMethodData>;
+  /**
+   * Whether the operator holds an active Partnership now, as in the public ListingSource details. Present exactly when `exists` is `true`.
+   */
+  partner?: boolean;
+};
+
+/**
+ * The ProductListing now; present only for `PRODUCT_LISTING` targets. When it no longer exists, only `exists` is present.
+ */
+export type AdminContentNoticeCurrentProductListingData = {
+  exists: boolean;
+  lifecycle?: ListingLifecycleData;
+};
+
+/**
+ * The notifier's contact as submitted.
+ */
+export type AdminContentNoticeSubmitterData = {
+  name: string;
+  email: string;
+  language: LanguageData;
+};
+
+/**
+ * What the notice is about. A `PRODUCT_LISTING` target also names its ListingSource.
+ */
+export type AdminContentNoticeTargetData = {
+  type: ContentNoticeTargetTypeData;
+  listingSourceId: string;
+  /**
+   * Present exactly when `type` is `PRODUCT_LISTING`.
+   */
+  productListingId?: string;
+};
+
+export type ContentNoticeTargetTypeData = 'LISTING_SOURCE' | 'PRODUCT_LISTING';
+
+/**
+ * Every notice is `SUBMITTED` until decisions exist.
+ */
+export type ContentNoticeStateData = 'SUBMITTED';
 
 export type ListingSourceReferenceData = {
   listingSourceId: string;
@@ -10213,6 +10519,60 @@ export type UpdateNotificationSeenResponses = {
 
 export type UpdateNotificationSeenResponse = UpdateNotificationSeenResponses[keyof UpdateNotificationSeenResponses];
 
+export type SubmitContentNoticeData2 = {
+  /**
+   * The notice.
+   */
+  body: SubmitContentNoticeData;
+  path?: never;
+  query?: never;
+  url: '/v1/content-notices';
+};
+
+export type SubmitContentNoticeErrors = {
+  /**
+   * Malformed JSON, an unknown or missing field, an unsupported value, a body over 64 KiB
+   * (`BAD_BODY_VALUE`), a malformed target ID (`INVALID_OBJECT_ID`), or a field that breaks a
+   * submission rule. Field errors carry the JSON pointer of the field in `source.field`.
+   *
+   */
+  400: ApiError;
+  /**
+   * A supplied bearer credential is invalid, expired or revoked.
+   */
+  401: ApiError;
+  /**
+   * The ProductListing does not exist or is withdrawn, or the ListingSource does not exist.
+   */
+  404: ApiError;
+  /**
+   * 10 notices from this email address were stored within the last 24 hours. Nothing was stored. Retry
+   * after the `Retry-After` seconds, once enough of them are 24 hours old (normally the oldest), or use
+   * another contact channel.
+   *
+   */
+  429: ApiError;
+  /**
+   * Internal failure, including invalid stored target data.
+   */
+  500: ApiError;
+  /**
+   * The notice could not be stored right now. Retrying the identical submission is safe.
+   */
+  503: ApiError;
+};
+
+export type SubmitContentNoticeError = SubmitContentNoticeErrors[keyof SubmitContentNoticeErrors];
+
+export type SubmitContentNoticeResponses = {
+  /**
+   * The notice was stored for review, or the identical submission from the same address was already
+   * stored within the last 24 hours. The two cases are indistinguishable. The response has no body.
+   *
+   */
+  202: unknown;
+};
+
 export type PutNewsletterSubscriptionData2 = {
   /**
    * Newsletter confirmation request data.
@@ -11425,7 +11785,7 @@ export type GetAdminOverviewError = GetAdminOverviewErrors[keyof GetAdminOvervie
 
 export type GetAdminOverviewResponses = {
   /**
-   * Authoritative operational counters returned successfully.
+   * Operational counters returned successfully.
    */
   200: AdminOverviewData;
 };
@@ -11817,6 +12177,142 @@ export type AdminGrantPartnershipMembershipResponses = {
 };
 
 export type AdminGrantPartnershipMembershipResponse = AdminGrantPartnershipMembershipResponses[keyof AdminGrantPartnershipMembershipResponses];
+
+export type AdminSearchContentNoticesData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * Optional target kind filter.
+     */
+    targetType?: ContentNoticeTargetTypeData;
+    /**
+     * Optional ListingSource ID filter. Matches notices about the ListingSource and about any of its ProductListings.
+     */
+    listingSourceId?: string;
+    /**
+     * Optional ProductListing ID filter.
+     */
+    productListingId?: string;
+    /**
+     * Optional reason category filter.
+     */
+    reasonCategory?: ContentNoticeReasonCategoryData;
+    /**
+     * Optional submitter role filter.
+     */
+    submitterRole?: ContentNoticeSubmitterRoleData;
+    /**
+     * Optional inclusive lower bound for the submission time (RFC3339).
+     */
+    'created[min]'?: string;
+    /**
+     * Optional inclusive upper bound for the submission time (RFC3339).
+     */
+    'created[max]'?: string;
+    /**
+     * Sort field. The only valid value is `created`. Requires `order`. The default is `created` descending.
+     */
+    sort?: 'created';
+    /**
+     * Sort direction for `sort`. Requires `sort`.
+     */
+    order?: 'asc' | 'desc';
+    /**
+     * Opaque cursor returned by the previous page for the same filters and sort. Pass it back unchanged.
+     */
+    searchAfter?: string;
+    /**
+     * Number of notices requested per page. The server clamps values to the inclusive range 1–100.
+     */
+    size?: number;
+  };
+  url: '/v1/admin/content-notices';
+};
+
+export type AdminSearchContentNoticesErrors = {
+  /**
+   * Bad request - invalid query parameters.
+   */
+  400: ApiError;
+  /**
+   * Unauthorized - invalid or missing bearer credentials.
+   */
+  401: ApiError;
+  /**
+   * Forbidden - this endpoint requires the ADMIN role and, for delegated access tokens, the `content-notices:read` scope.
+   */
+  403: ApiError;
+  /**
+   * Internal authentication failure, or a stored notice could not be read.
+   */
+  500: ApiError;
+  /**
+   * Authentication, admin authorization, or content notice storage is temporarily unavailable.
+   */
+  503: ApiError;
+};
+
+export type AdminSearchContentNoticesError = AdminSearchContentNoticesErrors[keyof AdminSearchContentNoticesErrors];
+
+export type AdminSearchContentNoticesResponses = {
+  /**
+   * Content notice summaries returned successfully.
+   */
+  200: AdminContentNoticeCollectionData;
+};
+
+export type AdminSearchContentNoticesResponse = AdminSearchContentNoticesResponses[keyof AdminSearchContentNoticesResponses];
+
+export type AdminGetContentNoticeData = {
+  body?: never;
+  path: {
+    /**
+     * ContentNotice ID (prefix `ntc`).
+     */
+    contentNoticeId: string;
+  };
+  query?: never;
+  url: '/v1/admin/content-notices/{contentNoticeId}';
+};
+
+export type AdminGetContentNoticeErrors = {
+  /**
+   * Bad request - invalid ContentNotice ID.
+   */
+  400: ApiError;
+  /**
+   * Unauthorized - invalid or missing bearer credentials.
+   */
+  401: ApiError;
+  /**
+   * Forbidden - this endpoint requires the ADMIN role and, for delegated access tokens, the `content-notices:read` scope.
+   */
+  403: ApiError;
+  /**
+   * The content notice does not exist.
+   */
+  404: ApiError;
+  /**
+   * Internal authentication failure, or the stored notice or its current target could not be read.
+   */
+  500: ApiError;
+  /**
+   * Authentication, admin authorization, or content notice storage is temporarily unavailable.
+   */
+  503: ApiError;
+};
+
+export type AdminGetContentNoticeError = AdminGetContentNoticeErrors[keyof AdminGetContentNoticeErrors];
+
+export type AdminGetContentNoticeResponses = {
+  /**
+   * Content notice returned successfully.
+   */
+  200: AdminContentNoticeDetailsData;
+};
+
+export type AdminGetContentNoticeResponse = AdminGetContentNoticeResponses[keyof AdminGetContentNoticeResponses];
 
 export type AdminSearchPartnershipApplicationsData = {
   body?: never;

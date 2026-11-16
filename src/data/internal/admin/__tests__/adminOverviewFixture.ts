@@ -7,6 +7,7 @@ export const adminOverviewFixture: AdminOverviewData = {
         total: 5,
         byState: { submitted: 2, inReview: 1, approved: 1, rejected: 0, withdrawn: 1 },
     },
+    contentNotices: { total: 0, byState: { submitted: 0 } },
     parties: { total: 0 },
     listingSources: {
         total: 3,

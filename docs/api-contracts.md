@@ -10,14 +10,12 @@ admin workflows in [admin workflows](admin-workflows.md).
   (`public/partner-products.openapi.json`) from the same pinned contract, `openapi/swagger.yaml`.
   Generation never fetches a moving contract. Never hand-edit either output.
 - The pinned capture is the complete backend `docs/swagger.yaml` at `develop`
-  `1be95314a7d338975977446706c726ebf3bb85c1` (2026-11-14,
-  [backend#2962](https://github.com/aura-historia/backend/pull/2962)). Git blob
-  `757fbf75311e112d2cf66c38c784f511fe2ae1c2`; file SHA-256
-  `1048bcac55abac2970d6998aaedddfdd968a57d10687d7d0a0d471698dd5c54c`; canonical parsed-JSON
+  `8c678cbbaf524f10d8ffafebee74433edbbc9c56` (2026-11-16). Git blob
+  `48c04002413b15f0a078b7d3fb4d4c39240c46fa`; file SHA-256
+  `f17a69aa6bf52d8ae96e3768d3a8302f2bc1d716e1f855019aabb6c4f2716229`; canonical parsed-JSON
   SHA-256 (recorded as `x-source-contract-sha256` in the partner reference):
-  `f743b075e32ddb7aa06edbe9f43b651dab4f56c161f38d41e3d94c398620fbe9`. It replaces the
-  `338af42f` capture (2026-11-13, the head of
-  [backend#2933](https://github.com/aura-historia/backend/pull/2933)).
+  `ee7e480baa96980d0fe5bcbad8990b36ebd6cde2a0a32d3cf698376bdf2b2fe9`. It replaces the
+  `1be95314` capture (2026-11-14, [backend#2962](https://github.com/aura-historia/backend/pull/2962)).
 - Every REST operation lives under `/v1/...` on `https://api.aura-historia.com` (production) and
   `https://api.stage.aura-historia.com`; `/api/v1/...` is gone without aliases
   ([backend#2216](https://github.com/aura-historia/backend/issues/2216)). The generated client and
@@ -37,7 +35,32 @@ admin workflows in [admin workflows](admin-workflows.md).
   Treat the sentence as stale until the backend corrects it. A duplicate Shopify domain answers
   with the same `409 CONFLICT` as a concurrent edit, so the form cannot tell them apart and
   reports both as "changed elsewhere".
-- Changes against the previous pin (`338af42f`, 2026-11-13), with their decisions:
+- Changes against the previous pin (`1be95314`, 2026-11-14), with their decisions:
+  - **Content notices** ([backend#2934](https://github.com/aura-historia/backend/issues/2934),
+    [backend#2938](https://github.com/aura-historia/backend/issues/2938),
+    [backend#2939](https://github.com/aura-historia/backend/issues/2939),
+    [backend#2958](https://github.com/aura-historia/backend/issues/2958)): `POST
+    /v1/content-notices` (`submitContentNotice`) takes a notice about one `PRODUCT_LISTING` or a
+    whole `LISTING_SOURCE`, without an account (an optional bearer is sent when signed in). `202`
+    has no body, also for an identical resubmission within 24 hours, so retrying is safe; `400`
+    names the field as a JSON pointer in `source.field`; `404` means the target is gone or
+    withdrawn; `429` means 10 notices from the address in 24 hours. Every stored notice gets one
+    receipt e-mail in `language`. Decision: the public form at `/{lng}/content-notice`
+    (`features/content-notice`, #1326) sends the IDs from the page data, never URLs, and maps
+    field errors back onto the form (see [design guidelines](design-guidelines.md)). `name` and
+    `email` are required for every role today; the DSA asks that a notice of illegal content can be
+    sent without them, which the backend tracks separately.
+  - **Admin content notices** (`GET /v1/admin/content-notices`, `GET
+    /v1/admin/content-notices/{contentNoticeId}`, [backend#2940](https://github.com/aura-historia/backend/issues/2940),
+    [backend#2941](https://github.com/aura-historia/backend/issues/2941)) and the overview's
+    required `contentNotices` counts ([backend#2942](https://github.com/aura-historia/backend/issues/2942)):
+    generated only; the admin pages are a separate issue. The overview mapper ignores the new field.
+  - **New access-token scope `content-notices:read`** for the admin reads: added to
+    `ACCESS_TOKEN_SCOPES` in the administrator-only group with its label and description, so token
+    and consent screens can show it.
+  - **Search-filter quota wording**: descriptions now say Ultimate allows 20 active filters and that
+    only active filters count, matching #1342. Description only.
+- Changes adopted with the `1be95314` capture (against `338af42f`, 2026-11-13), with their decisions:
   - **Admin listing-source search filters by country**
     ([backend#2966](https://github.com/aura-historia/backend/pull/2966)): `GET
     /v1/admin/listing-sources` accepts an optional `country`, an uppercase ISO 3166-1 alpha-2

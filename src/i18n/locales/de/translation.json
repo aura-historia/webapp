@@ -2452,7 +2452,8 @@
         "partiesWrite": "Organisationsdatensätze erstellen, aktualisieren oder löschen, wenn das Konto Administratorzugriff hat.",
         "partnershipsRead": "Partnerschaften lesen, wenn das Konto Administratorzugriff hat.",
         "partnershipsWrite": "Partnerschaften ändern oder auflösen sowie Mitglieder und Listing-Quellen freigeben oder entziehen, wenn das Konto Administratorzugriff hat.",
-        "adminOverviewRead": "Die operative Admin-Übersicht lesen, wenn das Konto Administratorzugriff hat."
+        "adminOverviewRead": "Die operative Admin-Übersicht lesen, wenn das Konto Administratorzugriff hat.",
+        "contentNoticesRead": "Meldungen zu Inhalten lesen, einschließlich Name, E-Mail-Adresse und Nachricht der meldenden Person, wenn das Konto Administratorzugriff hat."
       },
       "validation": {
         "nameRequired": "Bitte geben Sie einen Token-Namen ein.",
@@ -2525,7 +2526,8 @@
       "partiesWrite": "Organisationen verwalten",
       "partnershipsRead": "Partnerschaften lesen",
       "partnershipsWrite": "Partnerschaften verwalten",
-      "adminOverviewRead": "Admin-Übersicht lesen"
+      "adminOverviewRead": "Admin-Übersicht lesen",
+      "contentNoticesRead": "Meldungen lesen"
     },
     "scopeGroups": {
       "account": "Konto und Zugriffstoken",

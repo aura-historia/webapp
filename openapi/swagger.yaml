@@ -4456,7 +4456,7 @@ paths:
         - `PRO`: Up to 5 active search filters. All search fields, including `geography` and `shipping`, are allowed
         except `enhancedSearchDescription`.
 
-        - `ULTIMATE`: Unlimited search filters. All search fields are allowed.
+        - `ULTIMATE`: Up to 20 active search filters. All search fields are allowed.
 
 
         Scheduled matching classifies candidates against an English translation of `productQuery` and
@@ -4612,7 +4612,7 @@ paths:
                     status: 422
                     title: Unprocessable Content
                     error: SEARCH_FILTER_QUOTA_EXCEEDED
-                    detail: Exceeded the maximum amount of search filters. There are already 1/1 search filters occupied.
+                    detail: Exceeded the maximum amount of search filters. There are already 1/1 active search filters occupied.
                 restricted_feature:
                   summary: Search filter contains a field not available for the user's tier
                   value:
@@ -5054,6 +5054,11 @@ paths:
         Requires a Cognito JWT or an Aura access token with `search-filters:write`.
 
 
+        Setting `state` to `ACTIVE` on an inactive search filter counts against the user's tier limit of active search
+        filters (`FREE`: 1, `PRO`: 5, `ULTIMATE`: 20) and returns `SEARCH_FILTER_QUOTA_EXCEEDED` once the limit is
+        reached. Inactive search filters do not count.
+
+
         The set of usable search filter fields depends on the user's tier:
 
         - `FREE`: Allowed search fields are `language`, `currency`, `productQuery`, `price`, `excludeProductListingId`,
@@ -5271,7 +5276,7 @@ paths:
                     status: 422
                     title: Unprocessable Content
                     error: SEARCH_FILTER_QUOTA_EXCEEDED
-                    detail: Exceeded the maximum amount of search filters. There are already 1/1 search filters occupied.
+                    detail: Exceeded the maximum amount of search filters. There are already 1/1 active search filters occupied.
         "409":
           description: >-
             Conflict - the search filter changed concurrently while this patch was applied, including a concurrent
@@ -10592,6 +10597,263 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ApiError"
+  /v1/content-notices:
+    post:
+      summary: Submit a content notice
+      description: |
+        Asks Aura Historia to review a listed ProductListing or a ListingSource as a whole, for example a
+        provider's opt-out, a rights infringement or a report of illegal content. Anyone can submit a notice
+        without an account. An optional Cognito JWT or Aura Historia access-token bearer credential may be
+        supplied; an invalid, expired or revoked supplied credential returns 401 and is never treated as
+        anonymous. The caller's identity is neither stored with the notice nor logged.
+
+        The server resolves the target and stores a snapshot of it as it was at submission. A ProductListing
+        target must be publicly visible: a withdrawn listing is not found. A notice never removes anything by
+        itself; a person reviews every notice. The additional URLs are recorded for that review and never
+        fetched.
+
+        The body is limited to 64 KiB, which holds every field at its maximum. Every result is
+        `Cache-Control: no-store`. Field-level validation errors name the rejected field as a JSON pointer
+        in `source.field`, such as `/explanation` or `/additionalUrls/2`, and never repeat the submitted
+        value.
+
+        Submission limits, per email address (compared case-insensitively) within the 24 hours before the
+        submission:
+        - An identical resubmission (the same target, role, category, explanation, additional URLs, name,
+          email and language) stores nothing and returns the same `202` as a new notice.
+        - Once 10 notices from the address are stored, a further notice returns `429` with `Retry-After`.
+          Identical resubmissions do not count.
+
+        Retries: retrying the identical submission within 24 hours, for example after a `503`, a lost response
+        or a double click, is safe and stores the notice at most once. A changed submission is a new notice.
+
+        Receipt: every stored notice gets exactly one receipt email to `email`, sent asynchronously after the
+        `202`, in `language` when it is `de`, `en`, `es`, `fr` or `it` and in English otherwise. It confirms the
+        receipt time, a reference (the ContentNotice ID), the provider, what the notice covers (the listing and
+        its title for `PRODUCT_LISTING` targets, the whole provider with all of its listings for
+        `LISTING_SOURCE` targets) and the reason category. It never repeats anything the submitter typed. An
+        identical resubmission and a `429` send no receipt.
+      operationId: submitContentNotice
+      tags:
+        - ContentNotices
+      security:
+        - BearerAuth: []
+        - {}
+      requestBody:
+        required: true
+        description: The notice.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubmitContentNoticeData"
+            examples:
+              rights_infringement:
+                summary: A rights holder reports one listing
+                value:
+                  target:
+                    type: PRODUCT_LISTING
+                    productListingId: pl_01h455vb4pex5vy7enb1p677vn
+                  submitterRole: RIGHTS_HOLDER
+                  reasonCategory: RIGHTS_INFRINGEMENT
+                  explanation: The second photograph is mine and was used without a licence.
+                  additionalUrls:
+                    - https://portfolio.example/photographs/vase
+                  name: Erika Mustermann
+                  email: erika@example.com
+                  language: de
+                  goodFaithConfirmed: true
+              provider_opt_out:
+                summary: A provider opts out with all of its listings
+                value:
+                  target:
+                    type: LISTING_SOURCE
+                    listingSourceId: ls_01h455vb4pex5vy7enb1p677vn
+                  submitterRole: PROVIDER
+                  reasonCategory: PROVIDER_OPT_OUT
+                  name: Max Mustermann
+                  email: max@antik.example
+                  language: de
+                  goodFaithConfirmed: true
+      responses:
+        "202":
+          description: |
+            The notice was stored for review, or the identical submission from the same address was already
+            stored within the last 24 hours. The two cases are indistinguishable. The response has no body.
+          headers:
+            Cache-Control:
+              description: Caching is disabled for the response.
+              schema:
+                type: string
+              example: no-store
+        "400":
+          description: |
+            Malformed JSON, an unknown or missing field, an unsupported value, a body over 64 KiB
+            (`BAD_BODY_VALUE`), a malformed target ID (`INVALID_OBJECT_ID`), or a field that breaks a
+            submission rule. Field errors carry the JSON pointer of the field in `source.field`.
+          headers:
+            Cache-Control:
+              description: Caching is disabled for the response.
+              schema:
+                type: string
+              example: no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              examples:
+                invalid_body:
+                  summary: Malformed JSON, an unknown field or an oversized body
+                  value:
+                    status: 400
+                    title: Bad Request
+                    error: BAD_BODY_VALUE
+                invalid_target_id:
+                  summary: Malformed target ID
+                  value:
+                    status: 400
+                    title: Bad Request
+                    error: INVALID_OBJECT_ID
+                    source:
+                      field: /target/productListingId
+                      type: BODY
+                    detail: must be a valid ProductListing ID
+                invalid_field:
+                  summary: A field value is rejected
+                  value:
+                    status: 400
+                    title: Bad Request
+                    error: CONTENT_NOTICE_INVALID_FIELD
+                    source:
+                      field: /additionalUrls/2
+                      type: BODY
+                    detail: additional URL must use http or https
+                explanation_required:
+                  summary: The reason category requires an explanation
+                  value:
+                    status: 400
+                    title: Bad Request
+                    error: CONTENT_NOTICE_EXPLANATION_REQUIRED
+                    source:
+                      field: /explanation
+                      type: BODY
+                    detail: An explanation is required for this reason category.
+                provider_opt_out_requires_provider:
+                  summary: Only a provider may opt out
+                  value:
+                    status: 400
+                    title: Bad Request
+                    error: CONTENT_NOTICE_PROVIDER_OPT_OUT_REQUIRES_PROVIDER
+                    source:
+                      field: /reasonCategory
+                      type: BODY
+                    detail: Only submitter role PROVIDER may choose PROVIDER_OPT_OUT.
+                good_faith_not_confirmed:
+                  summary: The good-faith statement is missing or not confirmed
+                  value:
+                    status: 400
+                    title: Bad Request
+                    error: CONTENT_NOTICE_GOOD_FAITH_NOT_CONFIRMED
+                    source:
+                      field: /goodFaithConfirmed
+                      type: BODY
+                    detail: The good-faith statement must be confirmed with true.
+        "401":
+          description: A supplied bearer credential is invalid, expired or revoked.
+          headers:
+            Cache-Control:
+              description: Caching is disabled for the response.
+              schema:
+                type: string
+              example: no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 401
+                title: Unauthorized
+                error: INVALID_CREDENTIALS
+                source:
+                  field: Authorization
+                  type: HEADER
+                detail: Bearer token is invalid.
+        "404":
+          description: The ProductListing does not exist or is withdrawn, or the ListingSource does not exist.
+          headers:
+            Cache-Control:
+              description: Caching is disabled for the response.
+              schema:
+                type: string
+              example: no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 404
+                title: Not Found
+                error: CONTENT_NOTICE_TARGET_NOT_FOUND
+                detail: The product listing or listing source was not found.
+        "429":
+          description: |
+            10 notices from this email address were stored within the last 24 hours. Nothing was stored. Retry
+            after the `Retry-After` seconds, once enough of them are 24 hours old (normally the oldest), or use
+            another contact channel.
+          headers:
+            Retry-After:
+              description: Whole seconds until the address can store a notice again; at least 1.
+              schema:
+                type: integer
+                minimum: 1
+              example: 3600
+            Cache-Control:
+              description: Caching is disabled for the response.
+              schema:
+                type: string
+              example: no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 429
+                title: Too Many Requests
+                error: CONTENT_NOTICE_RATE_LIMITED
+                detail: Too many content notices were submitted from this email address. Try again later.
+        "503":
+          description: The notice could not be stored right now. Retrying the identical submission is safe.
+          headers:
+            Cache-Control:
+              description: Caching is disabled for the response.
+              schema:
+                type: string
+              example: no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 503
+                title: Service Unavailable
+                error: CONTENT_NOTICE_TEMPORARILY_UNAVAILABLE
+                detail: The content notice could not be submitted right now.
+        "500":
+          description: Internal failure, including invalid stored target data.
+          headers:
+            Cache-Control:
+              description: Caching is disabled for the response.
+              schema:
+                type: string
+              example: no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 500
+                title: Internal Server Error
+                error: CONTENT_NOTICE_INTERNAL_ERROR
+                detail: Content notice submission failed internally.
   /v1/newsletter-subscriptions:
     put:
       summary: Request newsletter confirmation
@@ -13321,14 +13583,23 @@ paths:
       description: |
         Delegated Aura access tokens require `admin-overview:read`; missing scope returns `403 FORBIDDEN`.
         Returns a bounded landing-page summary for authenticated administrators. `schemaVersion` is
-        required so clients can select a compatible response decoder. Every counter is read from
-        authoritative PostgreSQL by one aggregate statement; OpenSearch and other rebuildable
-        projections are not used.
+        required so clients can select a compatible response decoder. Counters are read from
+        PostgreSQL; OpenSearch and other rebuildable projections are not used. All counters except
+        `productListings` are exact. From an estimated 100,000 ProductListings on, `productListings`
+        counters are estimates from PostgreSQL planner statistics: `total` follows inserts and
+        deletes within about a minute, while the lifecycle and availability breakdown reflects the
+        latest table analysis, can trail recent changes and differs by a few percent. An
+        availability that is rare in the analyzed sample can read `0`; its listings are then
+        counted in `activeWithoutAvailability`. Estimated parts still add up: `byLifecycle` sums to
+        `total`, and `activeAvailability` plus `activeWithoutAvailability` sums to
+        `byLifecycle.active`. While the statistics for such a catalogue are missing, for example
+        right after a database upgrade, the overview returns `503` until the table is analyzed.
 
         `listingSources.methodAssignments` counts source-method assignments, not distinct sources,
         so its values may sum to more than `listingSources.total`. ProductListing availability
         counts include only `ACTIVE` listings; `activeWithoutAvailability` identifies active rows
-        without a current source availability assertion. Responses contain no PII, secrets, or
+        without a current source availability assertion. `contentNotices` counts content notices
+        and needs no `content-notices:read` scope. Responses contain no PII, secrets, or
         embedded collections and always use `Cache-Control: no-store`.
       operationId: getAdminOverview
       tags:
@@ -13338,7 +13609,7 @@ paths:
         - AccessTokenAuth: []
       responses:
         "200":
-          description: Authoritative operational counters returned successfully.
+          description: Operational counters returned successfully.
           headers:
             Cache-Control:
               description: Administrator overview responses are never stored.
@@ -14477,6 +14748,575 @@ paths:
                 status: 503
                 title: Service Unavailable
                 error: PARTNERSHIP_TEMPORARILY_UNAVAILABLE
+  /v1/admin/content-notices:
+    get:
+      summary: Search content notices for administration
+      description: |
+        Delegated Aura access tokens require `content-notices:read`; missing scope returns `403 FORBIDDEN`.
+        Lists content notices for authenticated administrators with the `ADMIN` role, newest first by default.
+
+        `targetType`, `reasonCategory` and `submitterRole` match one exact canonical value each.
+        `listingSourceId` matches notices about the ListingSource itself and about any of its
+        ProductListings; `productListingId` matches notices about that ProductListing. `created`
+        accepts an inclusive RFC3339 range using `min` and `max` query members. There are no filters
+        on the submitter's name or email, the explanation or the URLs, so personal data stays out of
+        URLs and access logs.
+
+        Results use deterministic keyset pagination. The default sort is `created` descending;
+        override it by providing both `sort` and `order`, as one alone is rejected. `created` is the
+        only sort field; the ContentNotice ID breaks ties in the same direction. Page sizes are clamped
+        to 1–100, with a default of 21. The opaque `searchAfter` cursor continues after the position of
+        the last returned notice and is omitted on the terminal page. Send it back unchanged with the
+        same filters and sort; a malformed cursor or one returned for other filters or sort is
+        rejected with `400 BAD_QUERY_PARAMETER_VALUE`. The response carries no `total`.
+
+        Each item is a summary. `listingSourceName`, `productListingTitle` and `partner` are the
+        snapshot taken at submission. The explanation and the additional URLs are not part of the
+        summary. Responses, including errors, always use `Cache-Control: no-store` because they
+        contain personal data.
+      operationId: adminSearchContentNotices
+      tags:
+        - ContentNotices
+      security:
+        - BearerAuth: []
+        - AccessTokenAuth: []
+      parameters:
+        - name: targetType
+          in: query
+          required: false
+          description: Optional target kind filter.
+          schema:
+            $ref: "#/components/schemas/ContentNoticeTargetTypeData"
+          example: PRODUCT_LISTING
+        - name: listingSourceId
+          in: query
+          required: false
+          description: Optional ListingSource ID filter. Matches notices about the ListingSource and about any of its ProductListings.
+          schema:
+            type: string
+          example: ls_7h03ebvas3fhj9qb5pr5s22029
+        - name: productListingId
+          in: query
+          required: false
+          description: Optional ProductListing ID filter.
+          schema:
+            type: string
+          example: pl_01h455vb4pex5vy7enb1p677vn
+        - name: reasonCategory
+          in: query
+          required: false
+          description: Optional reason category filter.
+          schema:
+            $ref: "#/components/schemas/ContentNoticeReasonCategoryData"
+          example: PROVIDER_OPT_OUT
+        - name: submitterRole
+          in: query
+          required: false
+          description: Optional submitter role filter.
+          schema:
+            $ref: "#/components/schemas/ContentNoticeSubmitterRoleData"
+          example: PROVIDER
+        - name: "created[min]"
+          in: query
+          required: false
+          description: Optional inclusive lower bound for the submission time (RFC3339).
+          schema:
+            type: string
+            format: date-time
+          example: "2026-11-01T00:00:00Z"
+        - name: "created[max]"
+          in: query
+          required: false
+          description: Optional inclusive upper bound for the submission time (RFC3339).
+          schema:
+            type: string
+            format: date-time
+          example: "2026-11-30T23:59:59Z"
+        - name: sort
+          in: query
+          required: false
+          description: Sort field. The only valid value is `created`. Requires `order`. The default is `created` descending.
+          schema:
+            type: string
+            enum:
+              - created
+          example: created
+        - name: order
+          in: query
+          required: false
+          description: Sort direction for `sort`. Requires `sort`.
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+          example: desc
+        - name: searchAfter
+          in: query
+          required: false
+          description: Opaque cursor returned by the previous page for the same filters and sort. Pass it back unchanged.
+          schema:
+            type: string
+          example: eyJ2ZXJzaW9uIjoxLCJzY29wZSI6IkFBRUNBd1FGQmdjSUNRb0xEQTBPRHhBUkVoTVVGUllYR0JrYUd4d2RIaDgiLCJrZXkiOnsiY3JlYXRlZCI6MTc2MzAzMDY1ODEyMzAwMDAwMH0sImlkIjoibnRjXzAxaDQ1NXZiNHBleDV2eTdlbmIxcDY3N3ZuIn0
+        - name: size
+          in: query
+          required: false
+          description: Number of notices requested per page. The server clamps values to the inclusive range 1–100.
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 21
+          example: 21
+      responses:
+        "200":
+          description: Content notice summaries returned successfully.
+          headers:
+            Cache-Control:
+              description: Responses are never stored because they contain personal data.
+              schema:
+                type: string
+              example: no-store
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminContentNoticeCollectionData"
+              examples:
+                page:
+                  summary: A page with a further page
+                  value:
+                    items:
+                      - contentNoticeId: ntc_01h455vb4pex5vy7enb1p677vn
+                        state: SUBMITTED
+                        created: "2026-11-13T10:44:18.123Z"
+                        target:
+                          type: PRODUCT_LISTING
+                          listingSourceId: ls_7h03ebvas3fhj9qb5pr5s22029
+                          productListingId: pl_01h455vb4pex5vy7enb1p677vn
+                        listingSourceName: Antiquitäten Muster
+                        productListingTitle: Jugendstil-Vase
+                        partner: false
+                        submitterRole: RIGHTS_HOLDER
+                        reasonCategory: RIGHTS_INFRINGEMENT
+                        submitterName: Erika Mustermann
+                        submitterEmail: erika@example.com
+                      - contentNoticeId: ntc_01h455vb4pex5vy7enb1p677vp
+                        state: SUBMITTED
+                        created: "2026-11-12T08:01:02.456Z"
+                        target:
+                          type: LISTING_SOURCE
+                          listingSourceId: ls_7h03ebvas3fhj9qb5pr5s22029
+                        listingSourceName: Antiquitäten Muster
+                        partner: false
+                        submitterRole: PROVIDER
+                        reasonCategory: PROVIDER_OPT_OUT
+                        submitterName: Max Mustermann
+                        submitterEmail: max@antik.example
+                    size: 2
+                    searchAfter: eyJ2ZXJzaW9uIjoxLCJzY29wZSI6IkFBRUNBd1FGQmdjSUNRb0xEQTBPRHhBUkVoTVVGUllYR0JrYUd4d2RIaDgiLCJrZXkiOnsiY3JlYXRlZCI6MTc2MzAzMDY1ODEyMzAwMDAwMH0sImlkIjoibnRjXzAxaDQ1NXZiNHBleDV2eTdlbmIxcDY3N3ZuIn0
+                empty:
+                  summary: No matching notices
+                  value:
+                    items: []
+                    size: 0
+        "400":
+          description: Bad request - invalid query parameters.
+          headers:
+            Cache-Control:
+              description: Error responses are never stored.
+              schema:
+                type: string
+              example: no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              examples:
+                invalid_filter:
+                  summary: Invalid enum filter
+                  value:
+                    status: 400
+                    title: Bad Request
+                    error: BAD_QUERY_PARAMETER_VALUE
+                    source:
+                      field: reasonCategory
+                      type: QUERY
+                    detail: Unsupported reasonCategory 'SPAM'.
+                invalid_id:
+                  summary: Invalid ID filter
+                  value:
+                    status: 400
+                    title: Bad Request
+                    error: INVALID_OBJECT_ID
+                    source:
+                      field: listingSourceId
+                      type: QUERY
+                invalid_created:
+                  summary: Invalid created range
+                  value:
+                    status: 400
+                    title: Bad Request
+                    error: BAD_QUERY_PARAMETER_VALUE
+                invalid_sort:
+                  summary: Invalid sort field, or order without sort
+                  value:
+                    status: 400
+                    title: Bad Request
+                    error: BAD_SORT_VALUE
+                    source:
+                      field: sort
+                      type: QUERY
+                invalid_order:
+                  summary: Invalid sort order, or sort without order
+                  value:
+                    status: 400
+                    title: Bad Request
+                    error: BAD_ORDER_VALUE
+                    source:
+                      field: order
+                      type: QUERY
+                    detail: "'order' is required when 'sort' is supplied."
+                invalid_search_after:
+                  summary: Invalid searchAfter cursor
+                  value:
+                    status: 400
+                    title: Bad Request
+                    error: BAD_QUERY_PARAMETER_VALUE
+                    source:
+                      field: searchAfter
+                      type: QUERY
+                    detail: searchAfter must be a cursor returned by this search.
+                foreign_search_after:
+                  summary: Cursor returned for other filters or sort
+                  value:
+                    status: 400
+                    title: Bad Request
+                    error: BAD_QUERY_PARAMETER_VALUE
+                    source:
+                      field: searchAfter
+                      type: QUERY
+                    detail: searchAfter belongs to different filters or sort. Repeat the request that returned it, or start again without searchAfter.
+                invalid_size:
+                  summary: Invalid page size
+                  value:
+                    status: 400
+                    title: Bad Request
+                    error: BAD_QUERY_PARAMETER_VALUE
+                    source:
+                      field: size
+                      type: QUERY
+        "401":
+          description: Unauthorized - invalid or missing bearer credentials.
+          headers:
+            Cache-Control:
+              description: Error responses are never stored.
+              schema:
+                type: string
+              example: no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 401
+                title: Unauthorized
+                error: INVALID_CREDENTIALS
+        "403":
+          description: Forbidden - this endpoint requires the ADMIN role and, for delegated access tokens, the `content-notices:read` scope.
+          headers:
+            Cache-Control:
+              description: Error responses are never stored.
+              schema:
+                type: string
+              example: no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 403
+                title: Forbidden
+                error: FORBIDDEN
+                detail: Operation is not permitted.
+        "500":
+          description: Internal authentication failure, or a stored notice could not be read.
+          headers:
+            Cache-Control:
+              description: Error responses are never stored.
+              schema:
+                type: string
+              example: no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 500
+                title: Internal Server Error
+                error: CONTENT_NOTICE_INTERNAL_ERROR
+                detail: Content notice search failed internally.
+        "503":
+          description: Authentication, admin authorization, or content notice storage is temporarily unavailable.
+          headers:
+            Cache-Control:
+              description: Error responses are never stored.
+              schema:
+                type: string
+              example: no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 503
+                title: Service Unavailable
+                error: CONTENT_NOTICE_TEMPORARILY_UNAVAILABLE
+                detail: Content notices are temporarily unavailable.
+  /v1/admin/content-notices/{contentNoticeId}:
+    get:
+      summary: Get a content notice for administration
+      description: |
+        Delegated Aura access tokens require `content-notices:read`; missing scope returns `403 FORBIDDEN`.
+        Returns one content notice to an authenticated administrator with the `ADMIN` role, with
+        everything needed to handle it.
+
+        - The submitted content: role, category, explanation, additional URLs, the submitter's
+          name, email and language, and the confirmed good-faith statement version.
+        - `targetSnapshot`: the target as it was at submission. It never changes.
+        - `currentTarget`: the target as it is now, read with the notice. `listingSource` tells
+          whether the ListingSource still exists and, while it does, its current name, slug (for
+          the public shop page), ingestion methods and partner status under the same rule as the
+          public ListingSource details. `productListing` is present only for `PRODUCT_LISTING`
+          targets and tells whether the ProductListing still exists and its lifecycle. A target
+          that no longer exists has `exists: false` and no other fields; the notice itself is
+          still returned.
+
+        `explanation` is omitted when the notice has none (`PROVIDER_OPT_OUT`); the
+        `productListing*` snapshot fields are omitted for `LISTING_SOURCE` targets. An unknown
+        notice returns `404 CONTENT_NOTICE_NOT_FOUND`. Responses, including errors, always use
+        `Cache-Control: no-store` because they contain personal data.
+      operationId: adminGetContentNotice
+      tags:
+        - ContentNotices
+      security:
+        - BearerAuth: []
+        - AccessTokenAuth: []
+      parameters:
+        - name: contentNoticeId
+          in: path
+          required: true
+          description: ContentNotice ID (prefix `ntc`).
+          schema:
+            type: string
+          example: ntc_01h455vb4pex5vy7enb1p677vn
+      responses:
+        "200":
+          description: Content notice returned successfully.
+          headers:
+            Cache-Control:
+              description: Responses are never stored because they contain personal data.
+              schema:
+                type: string
+              example: no-store
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminContentNoticeDetailsData"
+              examples:
+                product_listing:
+                  summary: A notice about a ProductListing that was withdrawn after submission
+                  value:
+                    contentNoticeId: ntc_01h455vb4pex5vy7enb1p677vn
+                    state: SUBMITTED
+                    created: "2026-11-13T10:44:18.123Z"
+                    updated: "2026-11-13T10:44:18.123Z"
+                    version: 1
+                    target:
+                      type: PRODUCT_LISTING
+                      listingSourceId: ls_7h03ebvas3fhj9qb5pr5s22029
+                      productListingId: pl_01h455vb4pex5vy7enb1p677vn
+                    targetSnapshot:
+                      listingSourceName: Antiquitäten Muster
+                      listingSourceUrl: https://antik.example/
+                      partner: false
+                      productListingTitle: Jugendstil-Vase
+                      productListingUrl: https://antik.example/vase
+                    currentTarget:
+                      listingSource:
+                        exists: true
+                        name: Antiquitäten Muster
+                        slugId: antiquitaeten-muster
+                        ingestionMethods:
+                          - WEB_CRAWL
+                        partner: false
+                      productListing:
+                        exists: true
+                        lifecycle: WITHDRAWN
+                    submitterRole: RIGHTS_HOLDER
+                    reasonCategory: RIGHTS_INFRINGEMENT
+                    explanation: Das Foto der Vase ist meins und ohne Lizenz verwendet.
+                    additionalUrls:
+                      - https://portfolio.example/vase
+                    submitter:
+                      name: Erika Mustermann
+                      email: erika@example.com
+                      language: de
+                    goodFaithStatement: GOOD_FAITH_V1
+                    receipt:
+                      status: DELIVERED
+                      attempts: 1
+                      deliveredAt: "2026-11-13T10:44:21.502Z"
+                listing_source:
+                  summary: A provider opt-out for a ListingSource that was deleted after submission
+                  value:
+                    contentNoticeId: ntc_01h455vb4pex5vy7enb1p677vp
+                    state: SUBMITTED
+                    created: "2026-11-12T08:01:02.456Z"
+                    updated: "2026-11-12T08:01:02.456Z"
+                    version: 1
+                    target:
+                      type: LISTING_SOURCE
+                      listingSourceId: ls_7h03ebvas3fhj9qb5pr5s22029
+                    targetSnapshot:
+                      listingSourceName: Antiquitäten Muster
+                      listingSourceUrl: https://antik.example/
+                      partner: true
+                    currentTarget:
+                      listingSource:
+                        exists: false
+                    submitterRole: PROVIDER
+                    reasonCategory: PROVIDER_OPT_OUT
+                    additionalUrls: []
+                    submitter:
+                      name: Max Mustermann
+                      email: max@antik.example
+                      language: de
+                    goodFaithStatement: GOOD_FAITH_V1
+                    receipt:
+                      status: FAILED
+                      attempts: 5
+        "400":
+          description: Bad request - invalid ContentNotice ID.
+          headers:
+            Cache-Control:
+              description: Error responses are never stored.
+              schema:
+                type: string
+              example: no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 400
+                title: Bad Request
+                error: INVALID_OBJECT_ID
+                source:
+                  field: contentNoticeId
+                  type: PATH
+                detail: must be a valid ContentNotice ID
+        "401":
+          description: Unauthorized - invalid or missing bearer credentials.
+          headers:
+            Cache-Control:
+              description: Error responses are never stored.
+              schema:
+                type: string
+              example: no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 401
+                title: Unauthorized
+                error: INVALID_CREDENTIALS
+        "403":
+          description: Forbidden - this endpoint requires the ADMIN role and, for delegated access tokens, the `content-notices:read` scope.
+          headers:
+            Cache-Control:
+              description: Error responses are never stored.
+              schema:
+                type: string
+              example: no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 403
+                title: Forbidden
+                error: FORBIDDEN
+                detail: Operation is not permitted.
+        "404":
+          description: The content notice does not exist.
+          headers:
+            Cache-Control:
+              description: Error responses are never stored.
+              schema:
+                type: string
+              example: no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                status: 404
+                title: Not Found
+                error: CONTENT_NOTICE_NOT_FOUND
+                detail: Content notice was not found.
+        "500":
+          description: Internal authentication failure, or the stored notice or its current target could not be read.
+          headers:
+            Cache-Control:
+              description: Error responses are never stored.
+              schema:
+                type: string
+              example: no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              examples:
+                content_notice:
+                  summary: The stored notice or its current target could not be read
+                  value:
+                    status: 500
+                    title: Internal Server Error
+                    error: CONTENT_NOTICE_INTERNAL_ERROR
+                    detail: Content notice read failed internally.
+                authentication:
+                  summary: Authentication failed internally
+                  value:
+                    status: 500
+                    title: Internal Server Error
+                    error: AUTH_INTERNAL_ERROR
+        "503":
+          description: Authentication, admin authorization, or content notice storage is temporarily unavailable.
+          headers:
+            Cache-Control:
+              description: Error responses are never stored.
+              schema:
+                type: string
+              example: no-store
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              examples:
+                content_notice:
+                  summary: Admin authorization or content notice storage is temporarily unavailable
+                  value:
+                    status: 503
+                    title: Service Unavailable
+                    error: CONTENT_NOTICE_TEMPORARILY_UNAVAILABLE
+                    detail: Content notices are temporarily unavailable.
+                authentication:
+                  summary: Authentication is temporarily unavailable
+                  value:
+                    status: 503
+                    title: Service Unavailable
+                    error: AUTH_TEMPORARILY_UNAVAILABLE
   /v1/admin/partnership-applications:
     get:
       summary: Search PartnershipApplications for administration
@@ -22859,7 +23699,10 @@ components:
       properties:
         field:
           type: string
-          description: Name of the field that caused the error
+          description: |
+            Name of the field that caused the error. Most operations name a body field by its property name or
+            dotted path (`operator.partyId`); operations that say so, such as `submitContentNotice`, use a JSON
+            pointer (`/additionalUrls/2`).
           example: listingSourceId
         type:
           type: string
@@ -23378,6 +24221,7 @@ components:
         - partnerships:read
         - partnerships:write
         - admin-overview:read
+        - content-notices:read
         - search-filters:read
         - notifications:read
         - notifications:write
@@ -24811,6 +25655,128 @@ components:
           format: uri
           description: Hosted Stripe URL that the frontend should redirect the authenticated user to
           example: https://checkout.stripe.com/c/pay/cs_test_123
+    SubmitContentNoticeData:
+      type: object
+      additionalProperties: false
+      description: |
+        A content notice. Text is trimmed; it must not be blank and must not contain control characters, except
+        that the explanation may keep line breaks and tabs. Values are never truncated.
+      required:
+        - target
+        - submitterRole
+        - reasonCategory
+        - name
+        - email
+        - language
+        - goodFaithConfirmed
+      properties:
+        target:
+          $ref: "#/components/schemas/ContentNoticeTargetData"
+        submitterRole:
+          $ref: "#/components/schemas/ContentNoticeSubmitterRoleData"
+        reasonCategory:
+          $ref: "#/components/schemas/ContentNoticeReasonCategoryData"
+        explanation:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 5000
+          description: |
+            A reasoned explanation. Required, except that it may be omitted or `null` for `PROVIDER_OPT_OUT`.
+            For any other category a missing or `null` explanation is rejected with
+            `CONTENT_NOTICE_EXPLANATION_REQUIRED`.
+        additionalUrls:
+          type: array
+          maxItems: 10
+          default: []
+          description: Further locations the notice points to, never fetched. No two may be equal after URL normalization.
+          items:
+            type: string
+            format: uri
+            maxLength: 2048
+            description: An absolute `http` or `https` URL without credentials.
+        name:
+          type: string
+          minLength: 1
+          maxLength: 200
+          description: The notifier's name.
+        email:
+          type: string
+          format: email
+          maxLength: 320
+          description: >-
+            The notifier's bare email address, without display text. An international domain is
+            accepted and stored in its punycode form; a local part (before the `@`) with non-ASCII
+            characters is rejected with `CONTENT_NOTICE_INVALID_FIELD`, because the receipt email
+            cannot be sent to it.
+        language:
+          allOf:
+            - $ref: "#/components/schemas/LanguageData"
+          description: The language for correspondence about the notice.
+        goodFaithConfirmed:
+          type: boolean
+          enum:
+            - true
+          description: |
+            Confirms that the information is accurate and complete. Must be `true`; `false` or a missing value is
+            rejected with `CONTENT_NOTICE_GOOD_FAITH_NOT_CONFIRMED`.
+    ContentNoticeTargetData:
+      oneOf:
+        - $ref: "#/components/schemas/ProductListingContentNoticeTargetData"
+        - $ref: "#/components/schemas/ListingSourceContentNoticeTargetData"
+      discriminator:
+        propertyName: type
+        mapping:
+          PRODUCT_LISTING: "#/components/schemas/ProductListingContentNoticeTargetData"
+          LISTING_SOURCE: "#/components/schemas/ListingSourceContentNoticeTargetData"
+      description: What the notice is about, one listing or a listing source with all of its listings.
+    ProductListingContentNoticeTargetData:
+      type: object
+      additionalProperties: false
+      required:
+        - type
+        - productListingId
+      properties:
+        type:
+          type: string
+          enum:
+            - PRODUCT_LISTING
+        productListingId:
+          type: string
+          description: A publicly visible ProductListing.
+          example: pl_01h455vb4pex5vy7enb1p677vn
+    ListingSourceContentNoticeTargetData:
+      type: object
+      additionalProperties: false
+      required:
+        - type
+        - listingSourceId
+      properties:
+        type:
+          type: string
+          enum:
+            - LISTING_SOURCE
+        listingSourceId:
+          type: string
+          example: ls_01h455vb4pex5vy7enb1p677vn
+    ContentNoticeSubmitterRoleData:
+      type: string
+      enum:
+        - PROVIDER
+        - RIGHTS_HOLDER
+        - ILLEGAL_CONTENT_REPORTER
+      description: |
+        Who submits the notice, as the submitter declares: the operator of the listing source, a holder of rights
+        in the listed content, or anyone reporting content they consider illegal.
+    ContentNoticeReasonCategoryData:
+      type: string
+      enum:
+        - PROVIDER_OPT_OUT
+        - RIGHTS_INFRINGEMENT
+        - ILLEGAL_CONTENT
+        - INCORRECT_INFORMATION
+        - OTHER
+      description: Why the notice is submitted. Only submitter role `PROVIDER` may choose `PROVIDER_OPT_OUT`.
     PutNewsletterSubscriptionData:
       type: object
       description:
@@ -24873,7 +25839,7 @@ components:
         - `PRO`: Premium tier. Allows up to 100 watchlist entries, up to 5 search filters with access to all filter fields,
         and unlimited product matches per filter.
 
-        - `ULTIMATE`: Highest tier. Allows unlimited watchlist entries, unlimited search filters with access to all filter
+        - `ULTIMATE`: Highest tier. Allows unlimited watchlist entries, up to 20 search filters with access to all filter
         fields, and unlimited product matches per filter.
 
         "
@@ -25644,11 +26610,12 @@ components:
           example: 3
     AdminOverviewData:
       type: object
-      description: Versioned bounded administrator operational summary sourced from authoritative PostgreSQL.
+      description: Versioned bounded administrator operational summary sourced from PostgreSQL; `productListings` may be estimated.
       required:
         - schemaVersion
         - users
         - partnershipApplications
+        - contentNotices
         - parties
         - listingSources
         - partnerships
@@ -25663,6 +26630,8 @@ components:
           $ref: "#/components/schemas/AdminOverviewUsersData"
         partnershipApplications:
           $ref: "#/components/schemas/AdminOverviewPartnershipApplicationsData"
+        contentNotices:
+          $ref: "#/components/schemas/AdminOverviewContentNoticesData"
         parties:
           $ref: "#/components/schemas/AdminOverviewCountData"
         listingSources:
@@ -25723,6 +26692,25 @@ components:
         approved: { type: integer, format: int64, minimum: 0 }
         rejected: { type: integer, format: int64, minimum: 0 }
         withdrawn: { type: integer, format: int64, minimum: 0 }
+    AdminOverviewContentNoticesData:
+      type: object
+      description: Content notices of every target and category, counted by business state.
+      required: [total, byState]
+      properties:
+        total:
+          type: integer
+          format: int64
+          minimum: 0
+        byState:
+          $ref: "#/components/schemas/AdminOverviewContentNoticeStateCountsData"
+    AdminOverviewContentNoticeStateCountsData:
+      type: object
+      description: >-
+        Notices per business state. Every notice is `SUBMITTED` until decision states exist;
+        later states are added as new keys, so clients must ignore unknown keys.
+      required: [submitted]
+      properties:
+        submitted: { type: integer, format: int64, minimum: 0 }
     AdminOverviewListingSourcesData:
       type: object
       description: "methodAssignments counts source-method rows and need not sum to total."
@@ -25748,7 +26736,7 @@ components:
         partnerApi: { type: integer, format: int64, minimum: 0 }
     AdminOverviewProductListingsData:
       type: object
-      description: Availability counts include ACTIVE listings only.
+      description: Availability counts include ACTIVE listings only. From an estimated 100,000 listings on, every count is an estimate; see `getAdminOverview`.
       required:
         [total, byLifecycle, activeAvailability, activeWithoutAvailability]
       properties:
@@ -26030,6 +27018,281 @@ components:
           type: integer
           format: int64
           minimum: 0
+    AdminContentNoticeCollectionData:
+      type: object
+      required:
+        - items
+        - size
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/AdminContentNoticeSummaryData"
+        size:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 100
+          description: Number of items returned in the current page.
+        searchAfter:
+          type: string
+          description: Opaque cursor for the next page; omitted on the terminal page.
+    AdminContentNoticeSummaryData:
+      type: object
+      description: One content notice in the admin review queue. Contains personal data.
+      required:
+        - contentNoticeId
+        - state
+        - created
+        - target
+        - listingSourceName
+        - partner
+        - submitterRole
+        - reasonCategory
+        - submitterName
+        - submitterEmail
+      properties:
+        contentNoticeId:
+          type: string
+          description: ContentNotice ID (prefix `ntc`).
+          example: ntc_01h455vb4pex5vy7enb1p677vn
+        state:
+          $ref: "#/components/schemas/ContentNoticeStateData"
+        created:
+          type: string
+          format: date-time
+          description: Submission time.
+        target:
+          $ref: "#/components/schemas/AdminContentNoticeTargetData"
+        listingSourceName:
+          type: string
+          description: The ListingSource's name at submission.
+        productListingTitle:
+          type: string
+          description: The ProductListing's title at submission. Only `PRODUCT_LISTING` targets can have one; omitted when the listing had no title.
+        partner:
+          type: boolean
+          description: Whether the ListingSource's operator was a partner at submission.
+        submitterRole:
+          $ref: "#/components/schemas/ContentNoticeSubmitterRoleData"
+        reasonCategory:
+          $ref: "#/components/schemas/ContentNoticeReasonCategoryData"
+        submitterName:
+          type: string
+          description: The name the submitter gave.
+        submitterEmail:
+          type: string
+          format: email
+          description: The submitter's email address.
+    AdminContentNoticeDetailsData:
+      type: object
+      description: One content notice for admin review. Contains personal data.
+      required:
+        - contentNoticeId
+        - state
+        - created
+        - updated
+        - version
+        - target
+        - targetSnapshot
+        - currentTarget
+        - submitterRole
+        - reasonCategory
+        - additionalUrls
+        - submitter
+        - goodFaithStatement
+        - receipt
+      properties:
+        contentNoticeId:
+          type: string
+          description: ContentNotice ID (prefix `ntc`).
+          example: ntc_01h455vb4pex5vy7enb1p677vn
+        state:
+          $ref: "#/components/schemas/ContentNoticeStateData"
+        created:
+          type: string
+          format: date-time
+          description: Submission time.
+        updated:
+          type: string
+          format: date-time
+          description: Time of the last change to the notice.
+        version:
+          type: integer
+          format: int64
+          minimum: 1
+          description: Version of the stored notice; `1` until the notice changes.
+        target:
+          $ref: "#/components/schemas/AdminContentNoticeTargetData"
+        targetSnapshot:
+          $ref: "#/components/schemas/AdminContentNoticeTargetSnapshotData"
+        currentTarget:
+          $ref: "#/components/schemas/AdminContentNoticeCurrentTargetData"
+        submitterRole:
+          $ref: "#/components/schemas/ContentNoticeSubmitterRoleData"
+        reasonCategory:
+          $ref: "#/components/schemas/ContentNoticeReasonCategoryData"
+        explanation:
+          type: string
+          description: The submitter's reasoned explanation. Omitted when the notice has none, which only `PROVIDER_OPT_OUT` allows.
+        additionalUrls:
+          type: array
+          maxItems: 10
+          description: Further URLs the submitter gave, in submission order.
+          items:
+            type: string
+            format: uri
+        submitter:
+          $ref: "#/components/schemas/AdminContentNoticeSubmitterData"
+        goodFaithStatement:
+          type: string
+          description: Version of the good-faith statement wording the submitter confirmed.
+          enum:
+            - GOOD_FAITH_V1
+        receipt:
+          description: The delivery of the receipt email to the submitter. `null` only when no receipt was enqueued.
+          nullable: true
+          allOf:
+            - $ref: "#/components/schemas/AdminContentNoticeReceiptData"
+    AdminContentNoticeReceiptData:
+      type: object
+      description: |
+        Where the receipt email to the submitter stands. `FAILED` means it was not delivered and will not be
+        retried; answer the submitter from the contact mailbox.
+      required:
+        - status
+        - attempts
+      properties:
+        status:
+          type: string
+          description: |
+            `PENDING`: waiting for its first or next attempt. `PROCESSING`: an attempt is in progress or its outcome
+            is uncertain. `DELIVERED`: accepted by the email provider. `FAILED`: permanently undeliverable, for
+            example rejected by the email provider; it is not retried. Both `PENDING` and `PROCESSING` normally pass
+            within minutes; a receipt whose delivery job was dead-lettered (which alarms) keeps its status until
+            the job is redriven.
+          enum:
+            - PENDING
+            - PROCESSING
+            - DELIVERED
+            - FAILED
+        attempts:
+          type: integer
+          format: int32
+          minimum: 0
+          description: Send attempts so far.
+        deliveredAt:
+          type: string
+          format: date-time
+          description: When the email provider accepted the receipt. Present exactly when `status` is `DELIVERED`.
+    AdminContentNoticeTargetSnapshotData:
+      type: object
+      description: The target as it was at submission. It never changes.
+      required:
+        - listingSourceName
+        - partner
+      properties:
+        listingSourceName:
+          type: string
+          description: The ListingSource's name at submission.
+        listingSourceUrl:
+          type: string
+          format: uri
+          description: The ListingSource's URL at submission; omitted when it had none.
+        partner:
+          type: boolean
+          description: Whether the ListingSource's operator was a partner at submission.
+        productListingTitle:
+          type: string
+          description: The ProductListing's title at submission. Omitted for `LISTING_SOURCE` targets and when the listing had no title.
+        productListingUrl:
+          type: string
+          format: uri
+          description: The ProductListing's URL at submission. Present exactly for `PRODUCT_LISTING` targets.
+    AdminContentNoticeCurrentTargetData:
+      type: object
+      description: The target as it is when the notice is read.
+      required:
+        - listingSource
+      properties:
+        listingSource:
+          $ref: "#/components/schemas/AdminContentNoticeCurrentListingSourceData"
+        productListing:
+          $ref: "#/components/schemas/AdminContentNoticeCurrentProductListingData"
+    AdminContentNoticeCurrentListingSourceData:
+      type: object
+      description: The ListingSource now. When it no longer exists, only `exists` is present.
+      required:
+        - exists
+      properties:
+        exists:
+          type: boolean
+        name:
+          type: string
+          description: Current name. Present exactly when `exists` is `true`.
+        slugId:
+          type: string
+          description: Current slug, which links to the public ListingSource page. Present exactly when `exists` is `true`.
+          example: antiquitaeten-muster
+        ingestionMethods:
+          type: array
+          description: Current ingestion methods, ordered by code. `WEB_CRAWL` means the ListingSource is still crawled. Present exactly when `exists` is `true`.
+          items:
+            $ref: "#/components/schemas/ListingIngestionMethodData"
+        partner:
+          type: boolean
+          description: Whether the operator holds an active Partnership now, as in the public ListingSource details. Present exactly when `exists` is `true`.
+    AdminContentNoticeCurrentProductListingData:
+      type: object
+      description: The ProductListing now; present only for `PRODUCT_LISTING` targets. When it no longer exists, only `exists` is present.
+      required:
+        - exists
+      properties:
+        exists:
+          type: boolean
+        lifecycle:
+          $ref: "#/components/schemas/ListingLifecycleData"
+    AdminContentNoticeSubmitterData:
+      type: object
+      description: The notifier's contact as submitted.
+      required:
+        - name
+        - email
+        - language
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        language:
+          $ref: "#/components/schemas/LanguageData"
+    AdminContentNoticeTargetData:
+      type: object
+      description: What the notice is about. A `PRODUCT_LISTING` target also names its ListingSource.
+      required:
+        - type
+        - listingSourceId
+      properties:
+        type:
+          $ref: "#/components/schemas/ContentNoticeTargetTypeData"
+        listingSourceId:
+          type: string
+          example: ls_7h03ebvas3fhj9qb5pr5s22029
+        productListingId:
+          type: string
+          description: Present exactly when `type` is `PRODUCT_LISTING`.
+          example: pl_01h455vb4pex5vy7enb1p677vn
+    ContentNoticeTargetTypeData:
+      type: string
+      enum:
+        - LISTING_SOURCE
+        - PRODUCT_LISTING
+    ContentNoticeStateData:
+      type: string
+      description: Every notice is `SUBMITTED` until decisions exist.
+      enum:
+        - SUBMITTED
     ListingSourceReferenceData:
       type: object
       required:
@@ -28111,6 +29374,7 @@ x-tagGroups:
       - User Account
       - Billing
       - Newsletter
+      - ContentNotices
   - name: Partner & Platform Integrations
     tags:
       - Partnerships
@@ -28144,6 +29408,8 @@ tags:
     description: Stripe checkout, billing-portal, and subscription-management session creation for authenticated users.
   - name: Newsletter
     description: Newsletter subscription upsert workflows for website or product-surface sign-up flows.
+  - name: ContentNotices
+    description: Notices from providers, rights holders and reporters of illegal content asking for a listing or a listing source to be reviewed.
   - name: Partnerships
     description: Partnership administration, safe summary reads, and membership/ListingSource count workflows.
   - name: PartnershipApplications
