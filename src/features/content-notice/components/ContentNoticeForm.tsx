@@ -673,10 +673,7 @@ export function ContentNoticeForm({ target, onSubmitted, onTargetGone }: Content
                         </div>
                     )}
 
-                    <div className="flex flex-col-reverse items-stretch justify-between gap-4 sm:flex-row sm:items-center">
-                        <p className="text-meta leading-[1.55] text-ink-muted">
-                            {t("contentNotice.free")}
-                        </p>
+                    <div className="flex flex-col items-stretch sm:flex-row sm:justify-end">
                         <button type="submit" disabled={pending} className={PRIMARY_BUTTON_CLASS}>
                             {pending && (
                                 <LoaderCircle
