@@ -1,6 +1,6 @@
 import { LANDING_PAGE_FRAGMENTS } from "@/features/landing/config/landingPageFragments.ts";
 
-export type SiteSectionId = "discover" | "platform" | "agent" | "dealers" | "pricing";
+export type SiteSectionId = "discover" | "platform" | "dealers" | "pricing";
 
 export type SiteSectionLink =
     | {
@@ -29,12 +29,6 @@ export const SITE_SECTION_LINKS: readonly SiteSectionLink[] = [
         translationKey: "header.sections.platform",
         kind: "landing",
         fragment: LANDING_PAGE_FRAGMENTS.platform,
-    },
-    {
-        id: "agent",
-        translationKey: "header.sections.agent",
-        kind: "landing",
-        fragment: LANDING_PAGE_FRAGMENTS.agent,
     },
     {
         id: "dealers",

@@ -77,10 +77,7 @@ describe("Header", () => {
                 "href",
                 "/de#platform",
             );
-            expect(nav.getByRole("link", { name: "Suchanweisungen" })).toHaveAttribute(
-                "href",
-                "/de#agent",
-            );
+            expect(nav.queryByRole("link", { name: "Suchanweisungen" })).not.toBeInTheDocument();
             expect(nav.getByRole("link", { name: "Für Händler" })).toHaveAttribute(
                 "href",
                 "/de#dealers",

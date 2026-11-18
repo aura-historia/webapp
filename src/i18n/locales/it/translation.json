@@ -170,7 +170,6 @@
     "sections": {
       "discover": "Scoprire",
       "platform": "Piattaforma",
-      "agent": "Istruzioni di ricerca",
       "dealers": "Per i mercanti",
       "pricing": "Prezzi"
     },
@@ -216,7 +215,6 @@
     "landingPageLinks": {
       "recentlyAdded": "Ultimi arrivi",
       "discover": "Piattaforma",
-      "features": "Funzionalità",
       "howItWorks": "Come funziona",
       "pricing": "Prezzi",
       "newsletter": "Newsletter",

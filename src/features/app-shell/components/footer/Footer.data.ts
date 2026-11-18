@@ -63,11 +63,6 @@ export const FOOTER_GROUPS: readonly FooterGroup[] = [
                 translationKey: "footer.landingPageLinks.discover",
                 fragment: LANDING_PAGE_FRAGMENTS.platform,
             },
-            {
-                kind: "landing",
-                translationKey: "footer.landingPageLinks.features",
-                fragment: LANDING_PAGE_FRAGMENTS.agent,
-            },
             { kind: "route", translationKey: "footer.aiAgents", to: "/$lng/ai-agents" },
             {
                 kind: "landing",

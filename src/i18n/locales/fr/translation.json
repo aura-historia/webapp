@@ -170,7 +170,6 @@
     "sections": {
       "discover": "Découvrir",
       "platform": "Plateforme",
-      "agent": "Consignes",
       "dealers": "Pour les marchands",
       "pricing": "Tarifs"
     },
@@ -216,7 +215,6 @@
     "landingPageLinks": {
       "recentlyAdded": "Derniers ajouts",
       "discover": "Plateforme",
-      "features": "Fonctionnalités",
       "howItWorks": "Comment ça marche",
       "pricing": "Tarifs",
       "newsletter": "Newsletter",
