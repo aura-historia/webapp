@@ -158,7 +158,9 @@ export function AddressSearchField({
                 <div className="absolute inset-x-0 top-[78px] z-50 flex flex-col gap-1 rounded-panel bg-surface-raised p-2 shadow-menu">
                     <div
                         id={listboxId}
-                        role="listbox"
+                        // WAI-ARIA combobox pattern: a native <datalist> cannot show kind tags, the
+                        // typed prefix or the required attribution, nor control request timing.
+                        role="listbox" // NOSONAR
                         aria-label={t("account.addresses.search.listLabel")}
                         className="flex flex-col"
                     >
@@ -245,7 +247,8 @@ function SuggestionOption({
     return (
         <div
             id={id}
-            role="option"
+            // Option of the combobox's listbox; see the NOSONAR note on the listbox.
+            role="option" // NOSONAR
             tabIndex={-1}
             aria-selected={active}
             // Keeps focus in the field so the click lands before blur.
