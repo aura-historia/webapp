@@ -86,7 +86,7 @@ Sources: the backend [geography contract](https://github.com/aura-historia/backe
 - Suspension reasons are sent only to the authorized admin suspension request and are logged by the backend for operations. Explain this before submission, reject blank or oversized reasons, and do not persist or log them in the client.
 - User rights: account deletion, privacy settings, unsubscribe, consent settings, and preference changes must remain functional.
 
-- Content notices (#1326) are a new data category: the notifier's name, e-mail, explanation and links, stored by the backend for review and the receipt and decision e-mails (no IP address; retention set by counsel, backend#2935). The form links the privacy policy at the point of collection, keeps nothing in the URL, logs or analytics, and pre-fills name and e-mail from the account only after hydration. The privacy policy does not describe this processing yet: purpose, legal basis, retention and the e-mail processor need counsel's text in every locale before release.
+- Content notices (#1326) are a new data category: the notifier's name, e-mail, explanation and links, stored by the backend for review and the receipt and decision e-mails; a report of illegal content may leave out name and e-mail and is then stored without them (no IP address; retention set by counsel, backend#2935). The form links the privacy policy at the point of collection, keeps nothing in the URL, logs or analytics, and pre-fills name and e-mail from the account only after hydration. The privacy policy does not describe this processing yet: purpose, legal basis, retention and the e-mail processor need counsel's text in every locale before release.
 
 ## Privacy review steps
 

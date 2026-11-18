@@ -167,6 +167,56 @@ describe("ContentNoticeForm", () => {
         await waitFor(() => expect(onTargetGone).toHaveBeenCalled());
     });
 
+    it("sends an anonymous report of illegal content without name and e-mail", async () => {
+        submitContentNotice.mockResolvedValue(response(202));
+        const { user, onSubmitted } = renderForm();
+        await user.click(
+            screen.getByRole("radio", { name: /Ich möchte einen rechtswidrigen Inhalt melden/ }),
+        );
+        expect(screen.getByLabelText(/^Name/)).toHaveAttribute("aria-required", "false");
+        expect(screen.getByLabelText(/^E-Mail/)).toHaveAttribute("aria-required", "false");
+        expect(
+            screen.getByText(/Ohne E-Mail-Adresse können wir Ihnen weder den Eingang bestätigen/),
+        ).toBeInTheDocument();
+        await user.click(screen.getByRole("radio", { name: /Anderer rechtswidriger Inhalt/ }));
+        await user.type(screen.getByLabelText(/^Begründung/), "Verbotenes Symbol ohne Kontext.");
+        await user.click(screen.getByRole("checkbox", { name: /in gutem Glauben/ }));
+        await user.click(screen.getByRole("button", { name: "Meldung senden" }));
+
+        await waitFor(() => expect(onSubmitted).toHaveBeenCalled());
+        const body = submitContentNotice.mock.calls[0]?.[0].body;
+        expect(body).not.toHaveProperty("name");
+        expect(body).not.toHaveProperty("email");
+        expect(onSubmitted).toHaveBeenCalledWith(
+            expect.objectContaining({ email: undefined, reasonCategory: "ILLEGAL_CONTENT" }),
+        );
+    });
+
+    it("offers the role “None of these”, which keeps name and e-mail required", async () => {
+        const { user } = renderForm();
+        await user.click(screen.getByRole("radio", { name: /Nichts davon/ }));
+        expect(screen.getByLabelText("Name")).toHaveAttribute("aria-required", "true");
+        expect(
+            screen.queryByRole("radio", { name: /Ich möchte nicht gelistet werden/ }),
+        ).toBeNull();
+    });
+
+    it("says when too many anonymous reports reached the target", async () => {
+        submitContentNotice.mockResolvedValue(response(429, { status: 429 }));
+        const { user } = renderForm();
+        await user.click(
+            screen.getByRole("radio", { name: /Ich möchte einen rechtswidrigen Inhalt melden/ }),
+        );
+        await user.click(screen.getByRole("radio", { name: /Anderer rechtswidriger Inhalt/ }));
+        await user.type(screen.getByLabelText(/^Begründung/), "Verbotenes Symbol.");
+        await user.click(screen.getByRole("checkbox", { name: /in gutem Glauben/ }));
+        await user.click(screen.getByRole("button", { name: "Meldung senden" }));
+
+        expect(await screen.findByRole("alert")).toHaveTextContent(
+            "Heute zu viele anonyme Meldungen zu diesem Inhalt.",
+        );
+    });
+
     it("fills in name and e-mail from the signed-in account", async () => {
         account.current = { firstName: "Marie", lastName: "Roth", email: "marie@example.com" };
         renderForm();

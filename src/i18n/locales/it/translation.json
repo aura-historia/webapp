@@ -6291,7 +6291,8 @@
       "role": "Chi sei?",
       "reason": "Qual è il motivo?",
       "contact": "Come possiamo contattarti?",
-      "contactLead": "A questo indirizzo inviamo la conferma di ricezione e la nostra decisione."
+      "contactLead": "A questo indirizzo inviamo la conferma di ricezione e la nostra decisione.",
+      "contactLeadOptional": "Facoltativo per le segnalazioni di contenuti illeciti. Senza indirizzo e-mail non possiamo confermare la ricezione né comunicarti la nostra decisione."
     },
     "target": {
       "listing": "Annuncio",
@@ -6326,7 +6327,11 @@
       },
       "illegalContentReporter": {
         "label": "Voglio segnalare un contenuto illecito",
-        "description": "L’annuncio, i suoi testi o le sue immagini violano la legge."
+        "description": "L’annuncio, i suoi testi o le sue immagini violano la legge. Puoi restare anonimo."
+      },
+      "other": {
+        "label": "Nessuno di questi",
+        "description": "Ad esempio un visitatore che ha notato informazioni errate."
       }
     },
     "reasons": {
@@ -6400,7 +6405,11 @@
         "title": "Non è stato possibile inviare la segnalazione.",
         "body": "I tuoi dati sono ancora qui. Riprova tra un momento oppure invia la segnalazione via e-mail a <email>{{email}}</email>."
       },
-      "writeEmail": "Scrivi un’e-mail"
+      "writeEmail": "Scrivi un’e-mail",
+      "rateLimitedAnonymous": {
+        "title": "Troppe segnalazioni anonime su questo contenuto oggi.",
+        "body": "Invia la segnalazione via e-mail a <email>{{email}}</email> oppure riprova domani."
+      }
     },
     "aside": {
       "eyebrow": "Cosa succede dopo",
@@ -6431,7 +6440,9 @@
       "next": "Prossimo passo",
       "nextText": "Un membro del nostro team verifica la tua segnalazione. L’e-mail di conferma contiene un riferimento; indicalo se ci scrivi.",
       "spam": "Nessuna e-mail dopo qualche minuto? Controlla la cartella spam o scrivi a {{email}}.",
-      "continue": "Continua a cercare"
+      "continue": "Continua a cercare",
+      "bodyAnonymous": "Abbiamo ricevuto la tua segnalazione. Non hai indicato un indirizzo e-mail, quindi non possiamo inviarti una conferma né comunicarti la nostra decisione.",
+      "nextTextAnonymous": "Un membro del nostro team verifica la tua segnalazione."
     },
     "notFound": {
       "listingTitle": "Questo annuncio <em>non c’è più.</em>",

@@ -3304,15 +3304,15 @@ export type SubmitContentNoticeData = {
    */
   additionalUrls?: Array<string>;
   /**
-   * The notifier's name.
+   * The notifier's name. Required unless `submitterRole` is `ILLEGAL_CONTENT_REPORTER`, which may omit it or send `null`; otherwise a missing or `null` name is rejected with `CONTENT_NOTICE_CONTACT_REQUIRED`.
    */
-  name: string;
+  name?: string | null;
   /**
-   * The notifier's bare email address, without display text. An international domain is accepted and stored in its punycode form; a local part (before the `@`) with non-ASCII characters is rejected with `CONTENT_NOTICE_INVALID_FIELD`, because the receipt email cannot be sent to it.
+   * The notifier's bare email address, without display text. Required unless `submitterRole` is `ILLEGAL_CONTENT_REPORTER`, which may omit it or send `null` and then gets no receipt; otherwise a missing or `null` email is rejected with `CONTENT_NOTICE_CONTACT_REQUIRED`. An international domain is accepted and stored in its punycode form; a local part (before the `@`) with non-ASCII characters is rejected with `CONTENT_NOTICE_INVALID_FIELD`, because the receipt email cannot be sent to it.
    */
-  email: string;
+  email?: string | null;
   /**
-   * The language for correspondence about the notice.
+   * The language for correspondence about the notice. Required even without `email`.
    */
   language: LanguageData;
   /**
@@ -3347,10 +3347,12 @@ export type ListingSourceContentNoticeTargetData = {
 
 /**
  * Who submits the notice, as the submitter declares: the operator of the listing source, a holder of rights
- * in the listed content, or anyone reporting content they consider illegal.
+ * in the listed content, anyone reporting content they consider illegal, or anyone else, for example a
+ * visitor reporting incorrect information. Only `ILLEGAL_CONTENT_REPORTER` may stay anonymous, and only
+ * `PROVIDER` may choose `PROVIDER_OPT_OUT`.
  *
  */
-export type ContentNoticeSubmitterRoleData = 'PROVIDER' | 'RIGHTS_HOLDER' | 'ILLEGAL_CONTENT_REPORTER';
+export type ContentNoticeSubmitterRoleData = 'PROVIDER' | 'RIGHTS_HOLDER' | 'ILLEGAL_CONTENT_REPORTER' | 'OTHER';
 
 /**
  * Why the notice is submitted. Only submitter role `PROVIDER` may choose `PROVIDER_OPT_OUT`.
@@ -4189,13 +4191,13 @@ export type AdminContentNoticeSummaryData = {
   submitterRole: ContentNoticeSubmitterRoleData;
   reasonCategory: ContentNoticeReasonCategoryData;
   /**
-   * The name the submitter gave.
+   * The name the submitter gave. Omitted when they gave none, which only an `ILLEGAL_CONTENT_REPORTER` may; a notice without name and email is anonymous.
    */
-  submitterName: string;
+  submitterName?: string;
   /**
-   * The submitter's email address.
+   * The submitter's email address. Omitted when they gave none, which only an `ILLEGAL_CONTENT_REPORTER` may; such a notifier gets no receipt and cannot be answered.
    */
-  submitterEmail: string;
+  submitterEmail?: string;
 };
 
 /**
@@ -4238,9 +4240,9 @@ export type AdminContentNoticeDetailsData = {
    */
   goodFaithStatement: 'GOOD_FAITH_V1';
   /**
-   * The delivery of the receipt email to the submitter. `null` only when no receipt was enqueued.
+   * The delivery of the receipt email to the submitter. Omitted only when no receipt was enqueued, which is always the case for a notice without an email address.
    */
-  receipt: AdminContentNoticeReceiptData | null;
+  receipt?: AdminContentNoticeReceiptData;
 };
 
 /**
@@ -4334,11 +4336,17 @@ export type AdminContentNoticeCurrentProductListingData = {
 };
 
 /**
- * The notifier's contact as submitted.
+ * The notifier's contact as submitted. Only an `ILLEGAL_CONTENT_REPORTER` may leave out the name or email; a notice without both is anonymous, and without an email the notifier gets no receipt and cannot be answered.
  */
 export type AdminContentNoticeSubmitterData = {
-  name: string;
-  email: string;
+  /**
+   * Omitted when the notifier gave none.
+   */
+  name?: string;
+  /**
+   * Omitted when the notifier gave none.
+   */
+  email?: string;
   language: LanguageData;
 };
 
@@ -4936,15 +4944,53 @@ export type UserAddressGeography = PartyLocationGeography & {
   addressText: string;
 };
 
+/**
+ * Opaque place reference from an address suggestion, passed back unchanged. A picked place is located exactly instead of searching for the address text; a reference the provider no longer knows falls back to that search. Never an Aura identifier.
+ */
+export type AddressSuggestionPlaceId = string;
+
+export type AddressSuggestionRequest = {
+  /**
+   * Partly typed address, 3 to 200 characters after trimming, without control characters.
+   */
+  query: string;
+  /**
+   * Language to render suggestions in, where the provider has it.
+   */
+  language: LanguageData;
+};
+
+export type AddressSuggestion = {
+  placeId: AddressSuggestionPlaceId;
+  /**
+   * Display text; prefill the address text with it when the suggestion is picked.
+   */
+  label: string;
+  /**
+   * ADDRESS is a complete address. Other kinds still need details such as a house number; OTHER covers place kinds without a closer category.
+   */
+  kind: 'ADDRESS' | 'STREET' | 'LOCALITY' | 'POSTAL_CODE' | 'REGION' | 'OTHER';
+};
+
+export type AddressSuggestionList = {
+  suggestions: Array<AddressSuggestion>;
+  attribution: UserAddressAttribution;
+};
+
 export type CreateUserAddress = {
   label: UserAddressLabel;
   geography: UserAddressGeography;
+  placeId?: AddressSuggestionPlaceId;
 };
 
 export type UpdateUserAddress = {
   expectedVersion: number;
   label: UserAddressLabel;
   geography: UserAddressGeography;
+  /**
+   * A picked suggestion. One different from the current pick advances inputRevision even when the address text is unchanged; re-sending the current pick changes nothing. Without one, the pick is kept until the address changes, after which the address is located from its text.
+   */
+  placeId?: AddressSuggestionPlaceId;
 };
 
 export type UserAddressExpectedVersion = {
@@ -5166,6 +5212,10 @@ export type CreatePartyLocationData = {
   position?: PartyLocationPosition | null;
   evidence?: PartyLocationEvidence | null;
   relocates?: ExpectedPartyLocation | null;
+  /**
+   * Picked suggestion for geography.addressText. Ignored when position is supplied or there is no address text.
+   */
+  placeId?: AddressSuggestionPlaceId;
 };
 
 /**
@@ -5185,6 +5235,10 @@ export type CorrectPartyLocationData = {
   evidence?: PartyLocationEvidence | null;
   expectedRevision: number;
   correction: 'SAME_SITE';
+  /**
+   * A picked suggestion for geography.addressText. One different from the current pick advances inputRevision even when the address is unchanged; re-sending the current pick changes nothing. Ignored when position is set or there is no address text. Without one, the pick is kept until the address, position or evidence changes, after which the address is located from its text.
+   */
+  placeId?: AddressSuggestionPlaceId;
 };
 
 /**
@@ -10546,9 +10600,11 @@ export type SubmitContentNoticeErrors = {
    */
   404: ApiError;
   /**
-   * 10 notices from this email address were stored within the last 24 hours. Nothing was stored. Retry
-   * after the `Retry-After` seconds, once enough of them are 24 hours old (normally the oldest), or use
-   * another contact channel.
+   * 10 notices from this email address, or without an email address about this target, were stored
+   * within the last 24 hours. Nothing was stored. Retry after the `Retry-After` seconds, once enough of
+   * them are 24 hours old (normally the oldest), or use another contact channel. Without an email
+   * address `Retry-After` is always the full 24 hours, so it does not reveal when others reported the
+   * target.
    *
    */
   429: ApiError;
@@ -10566,8 +10622,8 @@ export type SubmitContentNoticeError = SubmitContentNoticeErrors[keyof SubmitCon
 
 export type SubmitContentNoticeResponses = {
   /**
-   * The notice was stored for review, or the identical submission from the same address was already
-   * stored within the last 24 hours. The two cases are indistinguishable. The response has no body.
+   * The notice was stored for review, or the identical submission was already stored within the last
+   * 24 hours. The two cases are indistinguishable. The response has no body.
    *
    */
   202: unknown;
@@ -12561,6 +12617,51 @@ export type AdminDecidePartnershipApplicationResponses = {
 };
 
 export type AdminDecidePartnershipApplicationResponse = AdminDecidePartnershipApplicationResponses[keyof AdminDecidePartnershipApplicationResponses];
+
+export type SuggestAddressesData = {
+  body: AddressSuggestionRequest;
+  path?: never;
+  query?: never;
+  url: '/v1/address-suggestions';
+};
+
+export type SuggestAddressesErrors = {
+  /**
+   * Invalid body (BAD_BODY_VALUE), including unknown members, a query outside 3..=200 characters or an unsupported language.
+   */
+  400: ApiError;
+  /**
+   * Bearer credential required (INVALID_CREDENTIALS).
+   */
+  401: ApiError;
+  /**
+   * Delegated credentials cannot request suggestions (FORBIDDEN).
+   */
+  403: ApiError;
+  /**
+   * The per-user minute or day limit is reached (ADDRESS_SUGGESTIONS_RATE_LIMITED). Nothing was charged.
+   */
+  429: ApiError;
+  /**
+   * Provider configuration or response failure (ADDRESS_SUGGESTIONS_INTERNAL_ERROR).
+   */
+  500: ApiError;
+  /**
+   * Suggestions are temporarily unavailable (ADDRESS_SUGGESTIONS_UNAVAILABLE).
+   */
+  503: ApiError;
+};
+
+export type SuggestAddressesError = SuggestAddressesErrors[keyof SuggestAddressesErrors];
+
+export type SuggestAddressesResponses = {
+  /**
+   * Suggestions, possibly none.
+   */
+  200: AddressSuggestionList;
+};
+
+export type SuggestAddressesResponse = SuggestAddressesResponses[keyof SuggestAddressesResponses];
 
 export type ListUserAddressesData = {
   body?: never;

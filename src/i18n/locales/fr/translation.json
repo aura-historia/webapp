@@ -6291,7 +6291,8 @@
       "role": "Qui êtes-vous ?",
       "reason": "Quel est le motif ?",
       "contact": "Comment vous joindre ?",
-      "contactLead": "Nous envoyons l’accusé de réception et notre décision à cette adresse."
+      "contactLead": "Nous envoyons l’accusé de réception et notre décision à cette adresse.",
+      "contactLeadOptional": "Facultatif pour les signalements de contenus illicites. Sans adresse e-mail, nous ne pouvons ni confirmer la réception ni vous communiquer notre décision."
     },
     "target": {
       "listing": "Annonce",
@@ -6326,7 +6327,11 @@
       },
       "illegalContentReporter": {
         "label": "Je veux signaler un contenu illicite",
-        "description": "L’annonce, ses textes ou ses images enfreignent la loi."
+        "description": "L’annonce, ses textes ou ses images enfreignent la loi. Vous pouvez rester anonyme."
+      },
+      "other": {
+        "label": "Aucun de ces cas",
+        "description": "Par exemple un visiteur qui a remarqué une information inexacte."
       }
     },
     "reasons": {
@@ -6400,7 +6405,11 @@
         "title": "Votre signalement n’a pas pu être envoyé.",
         "body": "Vos saisies sont conservées. Réessayez dans un instant ou envoyez le signalement par e-mail à <email>{{email}}</email>."
       },
-      "writeEmail": "Écrire un e-mail"
+      "writeEmail": "Écrire un e-mail",
+      "rateLimitedAnonymous": {
+        "title": "Trop de signalements anonymes sur ce contenu aujourd’hui.",
+        "body": "Veuillez envoyer votre signalement par e-mail à <email>{{email}}</email> ou réessayer demain."
+      }
     },
     "aside": {
       "eyebrow": "La suite",
@@ -6431,7 +6440,9 @@
       "next": "Ensuite",
       "nextText": "Un membre de notre équipe examine votre signalement. L’e-mail de confirmation contient une référence ; indiquez-la si vous nous écrivez.",
       "spam": "Pas d’e-mail après quelques minutes ? Vérifiez vos indésirables ou écrivez à {{email}}.",
-      "continue": "Continuer la recherche"
+      "continue": "Continuer la recherche",
+      "bodyAnonymous": "Nous avons bien reçu votre signalement. Vous n’avez pas indiqué d’adresse e-mail : nous ne pouvons donc ni vous envoyer de confirmation ni vous communiquer notre décision.",
+      "nextTextAnonymous": "Un membre de notre équipe examine votre signalement."
     },
     "notFound": {
       "listingTitle": "Cette annonce <em>n’existe plus.</em>",

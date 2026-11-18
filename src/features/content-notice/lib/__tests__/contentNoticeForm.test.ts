@@ -74,6 +74,8 @@ describe("reasonsForRole", () => {
         expect(reasonsForRole("RIGHTS_HOLDER")).not.toContain("PROVIDER_OPT_OUT");
         expect(reasonsForRole("ILLEGAL_CONTENT_REPORTER")).not.toContain("PROVIDER_OPT_OUT");
         expect(reasonsForRole("")).not.toContain("PROVIDER_OPT_OUT");
+        expect(reasonsForRole("OTHER")[0]).toBe("INCORRECT_INFORMATION");
+        expect(reasonsForRole("OTHER")).not.toContain("PROVIDER_OPT_OUT");
     });
 });
 
@@ -115,6 +117,34 @@ describe("getContentNoticeSchema", () => {
             }),
         ).toEqual(["additionalUrls.0.value", "additionalUrls.2.value"]);
         expect(issues({ ...valid, email: "mär@example.com" })).toEqual(["email"]);
+    });
+});
+
+describe("anonymous reports (backend#3011)", () => {
+    const anonymous: ContentNoticeFormValues = {
+        ...valid,
+        submitterRole: "ILLEGAL_CONTENT_REPORTER",
+        reasonCategory: "ILLEGAL_CONTENT",
+        name: " ",
+        email: "",
+    };
+
+    it("lets only a report of illegal content leave name and e-mail empty", () => {
+        expect(issues(anonymous)).toEqual([]);
+        expect(issues({ ...anonymous, email: "not-an-address" })).toEqual(["email"]);
+        expect(issues({ ...anonymous, submitterRole: "OTHER" })).toEqual(["name", "email"]);
+        expect(issues({ ...anonymous, submitterRole: "RIGHTS_HOLDER" })).toEqual(["name", "email"]);
+    });
+
+    it("leaves blank contact fields out of the request", () => {
+        const { body } = buildContentNoticeRequest(anonymous, listing, "de");
+        expect(body).not.toHaveProperty("name");
+        expect(body).not.toHaveProperty("email");
+        expect(body.language).toBe("de");
+        expect(
+            buildContentNoticeRequest({ ...anonymous, email: "marie@example.com" }, listing, "de")
+                .body,
+        ).toMatchObject({ email: "marie@example.com" });
     });
 });
 

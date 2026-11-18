@@ -10,12 +10,12 @@ admin workflows in [admin workflows](admin-workflows.md).
   (`public/partner-products.openapi.json`) from the same pinned contract, `openapi/swagger.yaml`.
   Generation never fetches a moving contract. Never hand-edit either output.
 - The pinned capture is the complete backend `docs/swagger.yaml` at `develop`
-  `8c678cbbaf524f10d8ffafebee74433edbbc9c56` (2026-11-16). Git blob
-  `48c04002413b15f0a078b7d3fb4d4c39240c46fa`; file SHA-256
-  `f17a69aa6bf52d8ae96e3768d3a8302f2bc1d716e1f855019aabb6c4f2716229`; canonical parsed-JSON
+  `7a96cc886d6f6f6433655e0f119df5682ad07008` (2026-11-18). Git blob
+  `1dc7c03c6cc291979130e87da3290a4a93dae051`; file SHA-256
+  `e851b5beaf535849db40e94ab7952d4b35206785e0a5a5db79d6ad41e986d70c`; canonical parsed-JSON
   SHA-256 (recorded as `x-source-contract-sha256` in the partner reference):
-  `ee7e480baa96980d0fe5bcbad8990b36ebd6cde2a0a32d3cf698376bdf2b2fe9`. It replaces the
-  `1be95314` capture (2026-11-14, [backend#2962](https://github.com/aura-historia/backend/pull/2962)).
+  `0b0b5e5be24117f266f355700423c3f0db484184de493a316436310cbdc24c20`. It replaces the
+  `8c678cb` capture (2026-11-16).
 - Every REST operation lives under `/v1/...` on `https://api.aura-historia.com` (production) and
   `https://api.stage.aura-historia.com`; `/api/v1/...` is gone without aliases
   ([backend#2216](https://github.com/aura-historia/backend/issues/2216)). The generated client and
@@ -35,7 +35,22 @@ admin workflows in [admin workflows](admin-workflows.md).
   Treat the sentence as stale until the backend corrects it. A duplicate Shopify domain answers
   with the same `409 CONFLICT` as a concurrent edit, so the form cannot tell them apart and
   reports both as "changed elsewhere".
-- Changes against the previous pin (`1be95314`, 2026-11-14), with their decisions:
+- Changes against the previous pin (`8c678cb`, 2026-11-16), with their decisions:
+  - **Anonymous reports of illegal content and the role `OTHER`**
+    ([backend#3011](https://github.com/aura-historia/backend/issues/3011)): `name` and `email` of
+    `SubmitContentNoticeData` are optional (and nullable) for `submitterRole: ILLEGAL_CONTENT_REPORTER`
+    (DSA Recital 50, Art. 16(2)(c)); every other role still gets `400
+    CONTENT_NOTICE_CONTACT_REQUIRED` without them. A notice without `email` gets no receipt, and its
+    `429` limit counts notices without an address per target, always with a 24-hour `Retry-After`.
+    `submitterRole` gains `OTHER` for anyone else, which must give name and e-mail and may not opt
+    out. Decisions: the form marks name and e-mail optional only for "I want to report illegal
+    content" and leaves blank ones out of the request; it adds the role "None of these"; a `429`
+    without an e-mail says the limit is per content; the confirmation without an e-mail says that
+    no confirmation or decision can be sent. The admin content-notice DTOs make the submitter's name,
+    e-mail and receipt optional (generated only).
+  - **Address suggestions** (`POST /v1/address-suggestions`, `placeId` on address and party-location
+    writes): generated only; the address forms do not use them yet.
+- Changes adopted with the `8c678cb` capture (against `1be95314`, 2026-11-14), with their decisions:
   - **Content notices** ([backend#2934](https://github.com/aura-historia/backend/issues/2934),
     [backend#2938](https://github.com/aura-historia/backend/issues/2938),
     [backend#2939](https://github.com/aura-historia/backend/issues/2939),
@@ -47,9 +62,7 @@ admin workflows in [admin workflows](admin-workflows.md).
     withdrawn; `429` means 10 notices from the address in 24 hours. Every stored notice gets one
     receipt e-mail in `language`. Decision: the public form at `/{lng}/content-notice`
     (`features/content-notice`, #1326) sends the IDs from the page data, never URLs, and maps
-    field errors back onto the form (see [design guidelines](design-guidelines.md)). `name` and
-    `email` are required for every role today; the DSA asks that a notice of illegal content can be
-    sent without them, which the backend tracks separately.
+    field errors back onto the form (see [design guidelines](design-guidelines.md)).
   - **Admin content notices** (`GET /v1/admin/content-notices`, `GET
     /v1/admin/content-notices/{contentNoticeId}`, [backend#2940](https://github.com/aura-historia/backend/issues/2940),
     [backend#2941](https://github.com/aura-historia/backend/issues/2941)) and the overview's

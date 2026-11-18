@@ -26,7 +26,16 @@ export const CONTENT_NOTICE_ROLES = [
     "PROVIDER",
     "RIGHTS_HOLDER",
     "ILLEGAL_CONTENT_REPORTER",
+    "OTHER",
 ] as const satisfies readonly ContentNoticeRole[];
+
+/**
+ * Only a report of illegal content may leave out name and e-mail (DSA Recital 50 and
+ * Art. 16(2)(c); backend#3011). Every other role must give both.
+ */
+export function contactOptional(role: ContentNoticeRole | ""): boolean {
+    return role === "ILLEGAL_CONTENT_REPORTER";
+}
 
 /** Reasons in the order shown for a role; only a provider may opt out. */
 export function reasonsForRole(role: ContentNoticeRole | ""): readonly ContentNoticeReason[] {
@@ -41,6 +50,8 @@ export function reasonsForRole(role: ContentNoticeRole | ""): readonly ContentNo
             ];
         case "ILLEGAL_CONTENT_REPORTER":
             return ["ILLEGAL_CONTENT", "RIGHTS_INFRINGEMENT", "INCORRECT_INFORMATION", "OTHER"];
+        case "OTHER":
+            return ["INCORRECT_INFORMATION", "RIGHTS_INFRINGEMENT", "ILLEGAL_CONTENT", "OTHER"];
         default:
             return ["RIGHTS_INFRINGEMENT", "ILLEGAL_CONTENT", "INCORRECT_INFORMATION", "OTHER"];
     }
@@ -185,8 +196,9 @@ export function getContentNoticeSchema(t: TFunction) {
                     message: t("contentNotice.errors.explanationTooLong"),
                 });
             }
+            const anonymousAllowed = contactOptional(values.submitterRole);
             const name = values.name.trim();
-            if (name.length === 0) {
+            if (name.length === 0 && !anonymousAllowed) {
                 ctx.addIssue({
                     code: "custom",
                     path: ["name"],
@@ -200,7 +212,11 @@ export function getContentNoticeSchema(t: TFunction) {
                 });
             }
             const email = values.email.trim();
-            if (email.length > MAX_EMAIL_LENGTH || !isNoticeEmail(email)) {
+            const emailMissingAllowed = email.length === 0 && anonymousAllowed;
+            if (
+                !emailMissingAllowed &&
+                (email.length > MAX_EMAIL_LENGTH || !isNoticeEmail(email))
+            ) {
                 ctx.addIssue({
                     code: "custom",
                     path: ["email"],
@@ -240,6 +256,8 @@ export function buildContentNoticeRequest(
         }
     });
     const explanation = values.explanation.trim();
+    const name = values.name.trim();
+    const email = values.email.trim();
     return {
         body: {
             target:
@@ -250,8 +268,9 @@ export function buildContentNoticeRequest(
             reasonCategory: values.reasonCategory as ContentNoticeReason,
             ...(explanation ? { explanation } : {}),
             additionalUrls: urls,
-            name: values.name.trim(),
-            email: values.email.trim(),
+            // Blank contact fields are left out, which only a report of illegal content may do.
+            ...(name ? { name } : {}),
+            ...(email ? { email } : {}),
             language,
             goodFaithConfirmed: true,
         },

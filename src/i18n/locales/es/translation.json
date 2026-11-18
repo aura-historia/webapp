@@ -6291,7 +6291,8 @@
       "role": "¿Quién es usted?",
       "reason": "¿Cuál es el motivo?",
       "contact": "¿Cómo podemos contactarle?",
-      "contactLead": "Enviaremos a esta dirección el acuse de recibo y nuestra decisión."
+      "contactLead": "Enviaremos a esta dirección el acuse de recibo y nuestra decisión.",
+      "contactLeadOptional": "Opcional en las denuncias de contenido ilícito. Sin un correo electrónico no podemos confirmar la recepción ni comunicarle nuestra decisión."
     },
     "target": {
       "listing": "Anuncio",
@@ -6326,7 +6327,11 @@
       },
       "illegalContentReporter": {
         "label": "Quiero denunciar un contenido ilícito",
-        "description": "El anuncio, sus textos o sus imágenes infringen la ley."
+        "description": "El anuncio, sus textos o sus imágenes infringen la ley. Puede permanecer en el anonimato."
+      },
+      "other": {
+        "label": "Ninguna de estas",
+        "description": "Por ejemplo, un visitante que ha visto información incorrecta."
       }
     },
     "reasons": {
@@ -6400,7 +6405,11 @@
         "title": "No se pudo enviar su aviso.",
         "body": "Sus datos se conservan. Inténtelo de nuevo en un momento o envíe el aviso por correo a <email>{{email}}</email>."
       },
-      "writeEmail": "Escribir un correo"
+      "writeEmail": "Escribir un correo",
+      "rateLimitedAnonymous": {
+        "title": "Demasiadas denuncias anónimas sobre este contenido hoy.",
+        "body": "Envíe su denuncia por correo a <email>{{email}}</email> o vuelva a intentarlo mañana."
+      }
     },
     "aside": {
       "eyebrow": "Qué pasa después",
@@ -6431,7 +6440,9 @@
       "next": "Siguiente",
       "nextText": "Una persona de nuestro equipo revisa su aviso. El correo de confirmación incluye una referencia; indíquela si nos escribe.",
       "spam": "¿No le llega el correo en unos minutos? Revise la carpeta de spam o escriba a {{email}}.",
-      "continue": "Seguir buscando"
+      "continue": "Seguir buscando",
+      "bodyAnonymous": "Hemos recibido su denuncia. No ha indicado un correo electrónico, por lo que no podemos enviarle una confirmación ni comunicarle nuestra decisión.",
+      "nextTextAnonymous": "Una persona de nuestro equipo revisa su denuncia."
     },
     "notFound": {
       "listingTitle": "Este anuncio <em>ya no está.</em>",

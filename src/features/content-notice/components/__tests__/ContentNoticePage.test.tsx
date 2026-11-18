@@ -62,4 +62,17 @@ describe("ContentNoticeConfirmation", () => {
         expect(screen.getByText("Rechtsverletzung")).toBeInTheDocument();
         expect(screen.queryByText(/Partner/)).toBeNull();
     });
+
+    it("says that an anonymous report gets no confirmation or decision", () => {
+        render(
+            <ContentNoticeConfirmation
+                target={listing}
+                submission={{ reasonCategory: "ILLEGAL_CONTENT", scope: "listing" }}
+            />,
+        );
+        expect(screen.getByRole("status")).toHaveTextContent(
+            "Ihre Meldung ist eingegangen. Sie haben keine E-Mail-Adresse angegeben, daher können wir Ihnen weder den Eingang bestätigen noch unsere Entscheidung mitteilen.",
+        );
+        expect(screen.queryByText(/Spam-Ordner/)).toBeNull();
+    });
 });

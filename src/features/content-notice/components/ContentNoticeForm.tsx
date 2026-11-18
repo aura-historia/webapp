@@ -16,6 +16,7 @@ import { ContentNoticeTargetCard } from "@/features/content-notice/components/Co
 import {
     buildContentNoticeRequest,
     CONTENT_NOTICE_ROLES,
+    contactOptional,
     type ContentNoticeFieldPath,
     type ContentNoticeFormValues,
     type ContentNoticeReason,
@@ -54,7 +55,8 @@ import {
 import { cn } from "@/lib/utils.ts";
 
 export type ContentNoticeSubmission = {
-    readonly email: string;
+    /** Absent for an anonymous report of illegal content: no receipt, no decision e-mail. */
+    readonly email?: string;
     readonly reasonCategory: ContentNoticeReason;
     readonly scope: ContentNoticeScope;
 };
@@ -70,6 +72,7 @@ const ROLE_KEYS: Record<ContentNoticeRole, string> = {
     PROVIDER: "provider",
     RIGHTS_HOLDER: "rightsHolder",
     ILLEGAL_CONTENT_REPORTER: "illegalContentReporter",
+    OTHER: "other",
 };
 
 const REASON_KEYS: Record<ContentNoticeReason, string> = {
@@ -95,27 +98,29 @@ const FIELD_IDS: Record<
 
 const urlFieldId = (index: number) => `content-notice-url-${index}`;
 
+/** A failure shown above the button; without an e-mail the backend limits notices per target. */
+type FormFailure = "rateLimited" | "rateLimitedAnonymous" | "unavailable";
+
 type SubmitOutcome =
     | { readonly kind: "targetGone" }
     | { readonly kind: "field"; readonly field: ContentNoticeFieldPath }
-    | { readonly kind: "failure"; readonly failure: "rateLimited" | "unavailable" };
+    | { readonly kind: "failure"; readonly failure: FormFailure };
 
 /** What a failed submission means for the form. */
 function submitOutcome(
     error: ContentNoticeSubmitError,
     urlFormIndexes: readonly number[],
+    anonymous: boolean,
 ): SubmitOutcome {
     if (error.failure === "notFound") return { kind: "targetGone" };
     const field =
         error.failure === "invalid" ? fieldForPointer(error.field, urlFormIndexes) : undefined;
     if (field) return { kind: "field", field };
-    return {
-        kind: "failure",
-        failure: error.failure === "rateLimited" ? "rateLimited" : "unavailable",
-    };
+    if (error.failure !== "rateLimited") return { kind: "failure", failure: "unavailable" };
+    return { kind: "failure", failure: anonymous ? "rateLimitedAnonymous" : "rateLimited" };
 }
 
-function submitLabelKey(pending: boolean, failure: "rateLimited" | "unavailable" | null): string {
+function submitLabelKey(pending: boolean, failure: FormFailure | null): string {
     if (pending) return "contentNotice.submitting";
     return failure === "unavailable" ? "contentNotice.retry" : "contentNotice.submit";
 }
@@ -210,19 +215,23 @@ export function ContentNoticeForm({ target, onSubmitted, onTargetGone }: Content
     const submit = useSubmitContentNotice();
     const [summaryShown, setSummaryShown] = useState(false);
     const [serverRejected, setServerRejected] = useState(false);
-    const [failure, setFailure] = useState<"rateLimited" | "unavailable" | null>(null);
+    const [failure, setFailure] = useState<FormFailure | null>(null);
     const summaryRef = useRef<HTMLDivElement>(null);
 
     const role = watch("submitterRole");
+    const anonymousAllowed = contactOptional(role);
     const reason = watch("reasonCategory");
     const explanationLength = watch("explanation").trim().length;
 
-    // Only a provider may opt out: picking another role clears that reason.
+    // Only a provider may opt out: picking another role clears that reason. Name and e-mail are
+    // optional only for a report of illegal content, so a role change after a submit re-checks them.
+    const { trigger } = form;
     useEffect(() => {
         if (role !== "PROVIDER" && reason === "PROVIDER_OPT_OUT") {
             setValue("reasonCategory", "", { shouldValidate: formState.isSubmitted });
         }
-    }, [role, reason, setValue, formState.isSubmitted]);
+        if (formState.isSubmitted && role) void trigger(["name", "email"]);
+    }, [role, reason, setValue, trigger, formState.isSubmitted]);
 
     const account = useAccountPrefill(form);
 
@@ -240,12 +249,12 @@ export function ContentNoticeForm({ target, onSubmitted, onTargetGone }: Content
         submit.mutate(request, {
             onSuccess: () =>
                 onSubmitted({
-                    email: request.body.email,
+                    email: request.body.email ?? undefined,
                     reasonCategory: request.body.reasonCategory,
                     scope: request.body.target.type === "PRODUCT_LISTING" ? "listing" : "provider",
                 }),
             onError: (error) => {
-                const outcome = submitOutcome(error, request.urlFormIndexes);
+                const outcome = submitOutcome(error, request.urlFormIndexes, !request.body.email);
                 if (outcome.kind === "targetGone") {
                     onTargetGone();
                 } else if (outcome.kind === "field") {
@@ -555,12 +564,17 @@ export function ContentNoticeForm({ target, onSubmitted, onTargetGone }: Content
                 <Section
                     number="04"
                     title={t("contentNotice.sections.contact")}
-                    lead={t("contentNotice.sections.contactLead")}
+                    lead={t(
+                        anonymousAllowed
+                            ? "contentNotice.sections.contactLeadOptional"
+                            : "contentNotice.sections.contactLead",
+                    )}
                 >
                     <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                         <TextField
                             id={FIELD_IDS.name}
                             label={t("contentNotice.contact.name")}
+                            optional={anonymousAllowed}
                             autoComplete="name"
                             error={nameError}
                             describedBy={account ? "content-notice-prefilled" : undefined}
@@ -569,6 +583,7 @@ export function ContentNoticeForm({ target, onSubmitted, onTargetGone }: Content
                         <TextField
                             id={FIELD_IDS.email}
                             label={t("contentNotice.contact.email")}
+                            optional={anonymousAllowed}
                             type="email"
                             autoComplete="email"
                             error={emailError}
@@ -663,7 +678,7 @@ export function ContentNoticeForm({ target, onSubmitted, onTargetGone }: Content
                                         values={{ email: CONTACT_EMAIL }}
                                         components={{ email: fallbackEmail }}
                                     />{" "}
-                                    {failure === "rateLimited" && (
+                                    {failure !== "unavailable" && (
                                         <a href={mailto} className={TEXT_LINK_CLASS}>
                                             {t("contentNotice.alerts.writeEmail")}
                                         </a>
@@ -733,9 +748,15 @@ function OptionCard({
     );
 }
 
+function OptionalMark() {
+    const { t } = useTranslation();
+    return <span className="font-normal text-ink-muted"> {t("contentNotice.optional")}</span>;
+}
+
 function TextField({
     id,
     label,
+    optional = false,
     type = "text",
     autoComplete,
     error,
@@ -744,6 +765,8 @@ function TextField({
 }: {
     readonly id: string;
     readonly label: string;
+    /** Only a report of illegal content may leave name and e-mail empty. */
+    readonly optional?: boolean;
     readonly type?: "text" | "email";
     readonly autoComplete: string;
     readonly error?: string;
@@ -754,6 +777,7 @@ function TextField({
         <div className="flex min-w-0 flex-col gap-2">
             <label htmlFor={id} className={LABEL_CLASS}>
                 {label}
+                {optional && <OptionalMark />}
             </label>
             <input
                 id={id}
@@ -761,7 +785,7 @@ function TextField({
                 inputMode={type === "email" ? "email" : undefined}
                 autoComplete={autoComplete}
                 {...field}
-                aria-required="true"
+                aria-required={!optional}
                 aria-invalid={Boolean(error)}
                 aria-describedby={cn(error && `${id}-error`, describedBy) || undefined}
                 className={FIELD_CLASS}

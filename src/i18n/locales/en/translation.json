@@ -6291,7 +6291,8 @@
       "role": "Who are you?",
       "reason": "What is the reason?",
       "contact": "How can we reach you?",
-      "contactLead": "We send a confirmation of receipt and our decision to this address."
+      "contactLead": "We send a confirmation of receipt and our decision to this address.",
+      "contactLeadOptional": "Optional for reports of illegal content. Without an e-mail address we cannot confirm receipt or tell you our decision."
     },
     "target": {
       "listing": "Listing",
@@ -6326,7 +6327,11 @@
       },
       "illegalContentReporter": {
         "label": "I want to report illegal content",
-        "description": "The listing, its texts or its images break the law."
+        "description": "The listing, its texts or its images break the law. You can stay anonymous."
+      },
+      "other": {
+        "label": "None of these",
+        "description": "For example a visitor who noticed incorrect information."
       }
     },
     "reasons": {
@@ -6400,7 +6405,11 @@
         "title": "Your notice could not be sent.",
         "body": "Your entries are still here. Please try again in a moment, or send the notice by e-mail to <email>{{email}}</email>."
       },
-      "writeEmail": "Write an e-mail"
+      "writeEmail": "Write an e-mail",
+      "rateLimitedAnonymous": {
+        "title": "Too many anonymous reports about this content today.",
+        "body": "Please send your report by e-mail to <email>{{email}}</email>, or try again tomorrow."
+      }
     },
     "aside": {
       "eyebrow": "What happens next",
@@ -6431,7 +6440,9 @@
       "next": "Next",
       "nextText": "A member of our team reviews your notice. The confirmation e-mail carries a reference; please quote it if you write to us.",
       "spam": "No e-mail after a few minutes? Check your spam folder, or write to {{email}}.",
-      "continue": "Continue searching"
+      "continue": "Continue searching",
+      "bodyAnonymous": "We have received your report. You gave no e-mail address, so we cannot send you a confirmation or tell you our decision.",
+      "nextTextAnonymous": "A member of our team reviews your report."
     },
     "notFound": {
       "listingTitle": "This listing is <em>no longer here.</em>",

@@ -79,13 +79,17 @@ export function ContentNoticeConfirmation({
                     />
                 </h1>
                 <output className="block max-w-[620px] text-base leading-[1.55] text-pretty text-ink-secondary sm:text-lg">
-                    <Trans
-                        i18nKey="contentNotice.confirmation.body"
-                        values={{ email: submission.email }}
-                        components={{
-                            email: <strong className="font-semibold break-all text-ink" />,
-                        }}
-                    />
+                    {submission.email ? (
+                        <Trans
+                            i18nKey="contentNotice.confirmation.body"
+                            values={{ email: submission.email }}
+                            components={{
+                                email: <strong className="font-semibold break-all text-ink" />,
+                            }}
+                        />
+                    ) : (
+                        t("contentNotice.confirmation.bodyAnonymous")
+                    )}
                 </output>
             </div>
 
@@ -106,15 +110,21 @@ export function ContentNoticeConfirmation({
                 />
                 <ConfirmationRow
                     label={t("contentNotice.confirmation.next")}
-                    value={t("contentNotice.confirmation.nextText")}
+                    value={t(
+                        submission.email
+                            ? "contentNotice.confirmation.nextText"
+                            : "contentNotice.confirmation.nextTextAnonymous",
+                    )}
                     muted
                     last
                 />
             </dl>
 
-            <p className="mt-5 text-meta leading-[1.6] text-ink-muted">
-                {t("contentNotice.confirmation.spam", { email: CONTACT_EMAIL })}
-            </p>
+            {submission.email && (
+                <p className="mt-5 text-meta leading-[1.6] text-ink-muted">
+                    {t("contentNotice.confirmation.spam", { email: CONTACT_EMAIL })}
+                </p>
+            )}
 
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                 <ContentNoticeBackLink target={target} variant="button" />

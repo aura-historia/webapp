@@ -6291,7 +6291,8 @@
       "role": "Wer sind Sie?",
       "reason": "Was ist der Grund?",
       "contact": "Wie erreichen wir Sie?",
-      "contactLead": "An diese Adresse senden wir die Eingangsbestätigung und unsere Entscheidung."
+      "contactLead": "An diese Adresse senden wir die Eingangsbestätigung und unsere Entscheidung.",
+      "contactLeadOptional": "Bei Meldungen rechtswidriger Inhalte freiwillig. Ohne E-Mail-Adresse können wir Ihnen weder den Eingang bestätigen noch unsere Entscheidung mitteilen."
     },
     "target": {
       "listing": "Angebot",
@@ -6326,7 +6327,11 @@
       },
       "illegalContentReporter": {
         "label": "Ich möchte einen rechtswidrigen Inhalt melden",
-        "description": "Das Angebot, seine Texte oder Bilder verstoßen gegen geltendes Recht."
+        "description": "Das Angebot, seine Texte oder Bilder verstoßen gegen geltendes Recht. Sie können anonym bleiben."
+      },
+      "other": {
+        "label": "Nichts davon",
+        "description": "Zum Beispiel als Besucher, dem falsche Angaben aufgefallen sind."
       }
     },
     "reasons": {
@@ -6400,7 +6405,11 @@
         "title": "Ihre Meldung konnte nicht gesendet werden.",
         "body": "Ihre Angaben bleiben erhalten. Bitte versuchen Sie es gleich noch einmal oder senden Sie die Meldung per E-Mail an <email>{{email}}</email>."
       },
-      "writeEmail": "E-Mail schreiben"
+      "writeEmail": "E-Mail schreiben",
+      "rateLimitedAnonymous": {
+        "title": "Heute zu viele anonyme Meldungen zu diesem Inhalt.",
+        "body": "Bitte senden Sie Ihre Meldung per E-Mail an <email>{{email}}</email> oder versuchen Sie es morgen erneut."
+      }
     },
     "aside": {
       "eyebrow": "So geht es weiter",
@@ -6431,7 +6440,9 @@
       "next": "Weiter",
       "nextText": "Ein Mitglied unseres Teams prüft Ihre Meldung. Die Eingangsbestätigung enthält ein Aktenzeichen; bitte geben Sie es an, wenn Sie uns schreiben.",
       "spam": "Nach einigen Minuten keine E-Mail? Prüfen Sie Ihren Spam-Ordner oder schreiben Sie an {{email}}.",
-      "continue": "Weiter suchen"
+      "continue": "Weiter suchen",
+      "bodyAnonymous": "Ihre Meldung ist eingegangen. Sie haben keine E-Mail-Adresse angegeben, daher können wir Ihnen weder den Eingang bestätigen noch unsere Entscheidung mitteilen.",
+      "nextTextAnonymous": "Ein Mitglied unseres Teams prüft Ihre Meldung."
     },
     "notFound": {
       "listingTitle": "Dieses Angebot <em>gibt es nicht mehr.</em>",
