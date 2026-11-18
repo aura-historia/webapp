@@ -1,3 +1,4 @@
+import type { TFunction } from "i18next";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "@tanstack/react-router";
 import { AlertCircle, Check, LoaderCircle, Plus, X } from "lucide-react";
@@ -15,6 +16,7 @@ import {
 import { ContentNoticeTargetCard } from "@/features/content-notice/components/ContentNoticeTargetCard.tsx";
 import {
     buildContentNoticeRequest,
+    type ContentNoticeRequest,
     CONTENT_NOTICE_ROLES,
     contactOptional,
     type ContentNoticeFieldPath,
@@ -118,6 +120,50 @@ function submitOutcome(
     if (field) return { kind: "field", field };
     if (error.failure !== "rateLimited") return { kind: "failure", failure: "unavailable" };
     return { kind: "failure", failure: anonymous ? "rateLimitedAnonymous" : "rateLimited" };
+}
+
+/** The notice as reported to the page after the `202`. */
+function submissionOf(request: ContentNoticeRequest): ContentNoticeSubmission {
+    return {
+        email: request.body.email ?? undefined,
+        reasonCategory: request.body.reasonCategory,
+        scope: request.body.target.type === "PRODUCT_LISTING" ? "listing" : "provider",
+    };
+}
+
+/** Routes a failed submission to the page, a field or the alert above the button. */
+function applyOutcome(
+    outcome: SubmitOutcome,
+    handlers: {
+        readonly onTargetGone: () => void;
+        readonly onField: (field: ContentNoticeFieldPath, messageKey: string) => void;
+        readonly onFailure: (failure: FormFailure) => void;
+    },
+) {
+    if (outcome.kind === "targetGone") return handlers.onTargetGone();
+    if (outcome.kind === "failure") return handlers.onFailure(outcome.failure);
+    handlers.onField(
+        outcome.field,
+        outcome.field.startsWith("additionalUrls")
+            ? "contentNotice.errors.urlRejected"
+            : "contentNotice.errors.notAccepted",
+    );
+}
+
+/** The e-mail fallback for a `429`: subject and page only, never what the person typed. */
+function fallbackMailto(t: TFunction, target: ContentNoticeTarget, language: string): string {
+    const page =
+        target.kind === "listing"
+            ? {
+                  scope: "listing" as const,
+                  productListingTitleSlugId: target.productListingTitleSlugId,
+              }
+            : { scope: "provider" as const, shopSlugId: target.providerSlugId };
+    return buildRemovalMailto(t, {
+        scope: target.kind,
+        providerName: target.providerName,
+        pageUrl: providerStatusPageUrl(page, language) ?? "",
+    });
 }
 
 function submitLabelKey(pending: boolean, failure: FormFailure | null): string {
@@ -258,27 +304,17 @@ export function ContentNoticeForm({ target, onSubmitted, onTargetGone }: Content
         const language = mapToBackendLanguage(parseLanguage(i18n.language)) ?? "en";
         const request = buildContentNoticeRequest(values, target, language);
         submit.mutate(request, {
-            onSuccess: () =>
-                onSubmitted({
-                    email: request.body.email ?? undefined,
-                    reasonCategory: request.body.reasonCategory,
-                    scope: request.body.target.type === "PRODUCT_LISTING" ? "listing" : "provider",
+            onSuccess: () => onSubmitted(submissionOf(request)),
+            onError: (error) =>
+                applyOutcome(submitOutcome(error, request.urlFormIndexes, !request.body.email), {
+                    onTargetGone,
+                    onField: (field, message) => {
+                        setError(field, { type: "server", message: t(message) });
+                        setServerRejected(true);
+                        showSummary();
+                    },
+                    onFailure: setFailure,
                 }),
-            onError: (error) => {
-                const outcome = submitOutcome(error, request.urlFormIndexes, !request.body.email);
-                if (outcome.kind === "targetGone") {
-                    onTargetGone();
-                } else if (outcome.kind === "field") {
-                    const message = outcome.field.startsWith("additionalUrls")
-                        ? "contentNotice.errors.urlRejected"
-                        : "contentNotice.errors.notAccepted";
-                    setError(outcome.field, { type: "server", message: t(message) });
-                    setServerRejected(true);
-                    showSummary();
-                } else {
-                    setFailure(outcome.failure);
-                }
-            },
         });
     };
 
@@ -293,20 +329,7 @@ export function ContentNoticeForm({ target, onSubmitted, onTargetGone }: Content
     );
     const pending = submit.isPending;
     const optOut = reason === "PROVIDER_OPT_OUT";
-    const mailto = buildRemovalMailto(t, {
-        scope: target.kind,
-        providerName: target.providerName,
-        pageUrl:
-            providerStatusPageUrl(
-                target.kind === "listing"
-                    ? {
-                          scope: "listing",
-                          productListingTitleSlugId: target.productListingTitleSlugId,
-                      }
-                    : { scope: "provider", shopSlugId: target.providerSlugId },
-                i18n.language,
-            ) ?? "",
-    });
+    const mailto = fallbackMailto(t, target, i18n.language);
     const fallbackEmail = <strong className="font-semibold text-ink" />;
     const explanationHintKey = reason ? REASON_KEYS[reason] : "default";
     const roleError = formState.errors.submitterRole?.message;
