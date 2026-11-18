@@ -12,8 +12,10 @@ const api = vi.hoisted(() => ({
     get: vi.fn(),
     update: vi.fn(),
     remove: vi.fn(),
+    suggest: vi.fn(),
 }));
 vi.mock("@/client", () => ({
+    suggestAddresses: api.suggest,
     listUserAddresses: api.list,
     createUserAddress: api.create,
     getUserAddress: api.get,
@@ -56,6 +58,22 @@ const failure = (status?: number) => ({
     response: status === undefined ? undefined : { status },
 });
 const serve = (...items: UserAddressDto[]) => api.list.mockResolvedValue(ok({ items }));
+const ATTRIBUTION = {
+    provider: "Amazon Location Service",
+    attributionUrl: "https://example.com/attr",
+};
+const suggest = (...suggestions: { placeId: string; label: string; kind: string }[]) =>
+    api.suggest.mockResolvedValue(ok({ suggestions, attribution: ATTRIBUTION }));
+const FULL = {
+    placeId: "pl_full",
+    label: "Torstraße 12, 10119 Berlin, Deutschland",
+    kind: "ADDRESS",
+};
+const STREET = {
+    placeId: "pl_street",
+    label: "Torstraße, 10119 Berlin, Deutschland",
+    kind: "STREET",
+};
 
 function renderSection() {
     render(
@@ -68,6 +86,7 @@ function renderSection() {
 describe("SavedAddressesSection", () => {
     beforeEach(() => {
         vi.clearAllMocks();
+        suggest();
         serve(
             dto(),
             dto({
@@ -89,7 +108,7 @@ describe("SavedAddressesSection", () => {
         expect(row.getByText(t("account.addresses.searchLocation"))).toBeInTheDocument();
         expect(row.getByText(/Torstraße 12/)).toBeInTheDocument();
         expect(row.getByText(t("account.addresses.yourDetails"))).toBeInTheDocument();
-        expect(row.getByText(t("account.addresses.status.ACCEPTED.label"))).toBeInTheDocument();
+        expect(row.getByText(t("account.addresses.location"))).toBeInTheDocument();
         expect(row.getByText(/DE-BE/)).toBeInTheDocument();
         expect(row.getByRole("link", { name: "Amazon Location Service" })).toHaveAttribute(
             "href",
@@ -99,14 +118,138 @@ describe("SavedAddressesSection", () => {
         const storage = within(
             screen.getByRole("heading", { name: "Storage unit" }).closest("li") as HTMLElement,
         );
-        expect(
-            storage.getByText(t("account.addresses.status.AMBIGUOUS.label")),
-        ).toBeInTheDocument();
-        expect(storage.getByText(t("account.addresses.status.AMBIGUOUS.hint"))).toBeInTheDocument();
+        expect(storage.getByText(t("account.addresses.notLocated.label"))).toBeInTheDocument();
+        expect(storage.getByText(t("account.addresses.notLocated.hint"))).toBeInTheDocument();
         // No provider values or attribution without an accepted resolution.
         expect(storage.queryByRole("link")).toBeNull();
         expect(storage.queryByText(t("account.addresses.yourDetails"))).toBeNull();
         expect(storage.queryByText(t("account.addresses.searchLocation"))).toBeNull();
+    });
+
+    it("shows no location line while the lookup is still running", async () => {
+        serve(dto({ resolution: { status: "PENDING" } }));
+        renderSection();
+        const home = (await screen.findByRole("heading", { name: "Home" })).closest("li");
+        if (!home) throw new Error("row missing");
+        expect(within(home).queryByText(t("account.addresses.location"))).toBeNull();
+        expect(within(home).queryByText(t("account.addresses.notLocated.label"))).toBeNull();
+    });
+
+    async function openAddDialog() {
+        renderSection();
+        await screen.findByRole("heading", { name: "Home" });
+        fireEvent.click(screen.getByRole("button", { name: t("account.addresses.add") }));
+        const dialog = await screen.findByRole("dialog");
+        fireEvent.change(
+            within(dialog).getByLabelText(t("account.addresses.editor.fields.label")),
+            {
+                target: { value: "Gallery" },
+            },
+        );
+        return dialog;
+    }
+
+    it("suggests addresses while typing and sends the picked place", async () => {
+        suggest(FULL, STREET);
+        api.create.mockResolvedValue(ok(dto({ addressId: "uaddr_new" }), 201));
+        const dialog = await openAddDialog();
+        const field = within(dialog).getByRole("combobox", {
+            name: t("account.addresses.editor.fields.address"),
+        });
+        fireEvent.focus(field);
+        fireEvent.change(field, { target: { value: "Torstr" } });
+
+        const option = await within(dialog).findByRole("option", { name: /Torstraße 12/ });
+        expect(api.suggest).toHaveBeenCalledWith(
+            expect.objectContaining({
+                body: { query: "Torstr", language: "de" },
+                cache: "no-store",
+                signal: expect.any(AbortSignal),
+            }),
+        );
+        expect(
+            within(dialog).getByRole("link", { name: "Amazon Location Service" }),
+        ).toBeInTheDocument();
+        expect(
+            within(dialog).getByText(t("account.addresses.search.kinds.STREET")),
+        ).toBeInTheDocument();
+
+        fireEvent.click(option);
+        expect(field).toHaveValue(FULL.label);
+        expect(within(dialog).getByText(t("account.addresses.search.picked"))).toBeInTheDocument();
+
+        fireEvent.click(
+            within(dialog).getByRole("button", { name: t("account.addresses.editor.save") }),
+        );
+        await waitFor(() => expect(api.create).toHaveBeenCalledTimes(1));
+        expect(api.create).toHaveBeenCalledWith(
+            expect.objectContaining({
+                body: expect.objectContaining({
+                    label: "Gallery",
+                    placeId: "pl_full",
+                    geography: expect.objectContaining({ addressText: FULL.label }),
+                }),
+            }),
+        );
+    });
+
+    it("drops the pick when the text is edited afterwards", async () => {
+        suggest(FULL);
+        api.create.mockResolvedValue(ok(dto({ addressId: "uaddr_new" }), 201));
+        const dialog = await openAddDialog();
+        const field = within(dialog).getByRole("combobox", {
+            name: t("account.addresses.editor.fields.address"),
+        });
+        fireEvent.focus(field);
+        fireEvent.change(field, { target: { value: "Torstr" } });
+        fireEvent.click(await within(dialog).findByRole("option", { name: /Torstraße 12/ }));
+        fireEvent.change(field, { target: { value: `${FULL.label}, rear building` } });
+
+        fireEvent.click(
+            within(dialog).getByRole("button", { name: t("account.addresses.editor.save") }),
+        );
+        await waitFor(() => expect(api.create).toHaveBeenCalledTimes(1));
+        expect(api.create.mock.calls[0][0].body.placeId).toBeUndefined();
+    });
+
+    it("falls back to typing when suggestions are rate limited", async () => {
+        api.suggest.mockResolvedValue({
+            error: {},
+            response: { status: 429, headers: new Headers({ "Retry-After": "30" }) },
+        });
+        const dialog = await openAddDialog();
+        const field = within(dialog).getByRole("combobox", {
+            name: t("account.addresses.editor.fields.address"),
+        });
+        fireEvent.focus(field);
+        fireEvent.change(field, { target: { value: "Torstr" } });
+
+        expect(
+            await within(dialog).findByText(t("account.addresses.search.limited")),
+        ).toBeInTheDocument();
+        expect(within(dialog).queryByRole("listbox")).toBeNull();
+        // Paused until Retry-After: further typing sends nothing.
+        fireEvent.change(field, { target: { value: "Torstra" } });
+        await new Promise((resolve) => setTimeout(resolve, 400));
+        expect(api.suggest).toHaveBeenCalledTimes(1);
+    });
+
+    it("does not search a prefilled address until it is edited", async () => {
+        renderSection();
+        await screen.findByRole("heading", { name: "Home" });
+        fireEvent.click(
+            screen.getByRole("button", {
+                name: t("account.addresses.editNamed", { label: "Home" }),
+            }),
+        );
+        const dialog = await screen.findByRole("dialog");
+        const field = within(dialog).getByRole("combobox", {
+            name: t("account.addresses.editor.fields.address"),
+        });
+        // A two-line address is shown on one line and sent unchanged.
+        expect(field).toHaveValue("Torstraße 12, 10119 Berlin");
+        await new Promise((resolve) => setTimeout(resolve, 400));
+        expect(api.suggest).not.toHaveBeenCalled();
     });
 
     it("shows the empty state", async () => {

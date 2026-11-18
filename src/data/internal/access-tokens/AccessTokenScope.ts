@@ -27,6 +27,7 @@ export const ACCESS_TOKEN_SCOPES = [
     "partnerships:read",
     "partnerships:write",
     "admin-overview:read",
+    "content-notices:read",
 ] as const;
 
 export type AccessTokenScope = (typeof ACCESS_TOKEN_SCOPES)[number];
@@ -71,6 +72,7 @@ export const ACCESS_TOKEN_SCOPE_GROUPS = [
             "partnerships:read",
             "partnerships:write",
             "admin-overview:read",
+            "content-notices:read",
         ],
     },
 ] as const satisfies readonly AccessTokenScopeGroup[];
@@ -119,6 +121,7 @@ export const ACCESS_TOKEN_SCOPE_METADATA = {
     "partnerships:read": scopeMetadata("partnershipsRead"),
     "partnerships:write": scopeMetadata("partnershipsWrite"),
     "admin-overview:read": scopeMetadata("adminOverviewRead"),
+    "content-notices:read": scopeMetadata("contentNoticesRead"),
     "product-listings:read": scopeMetadata("productListingsRead"),
 } as const satisfies Record<AccessTokenScope, { label: string; description: string }>;
 

@@ -32,4 +32,5 @@ export const adminOverviewFixture: AdminOverviewData = {
         },
         activeWithoutAvailability: 2,
     },
+    contentNotices: { total: 0, byState: { submitted: 0 } },
 };

@@ -17,7 +17,7 @@ import es from "@/i18n/locales/es/translation.json";
 import fr from "@/i18n/locales/fr/translation.json";
 import itLocale from "@/i18n/locales/it/translation.json";
 
-/** Canonical backend `AccessTokenScopeData` enum (backend#1991, backend#1994, backend#2043). */
+/** Canonical backend `AccessTokenScopeData` enum (backend#1991, backend#1994, backend#2043, backend#2980). */
 const BACKEND_SCOPES = [
     "auctions:read",
     "auctions:write",
@@ -32,6 +32,7 @@ const BACKEND_SCOPES = [
     "partnerships:read",
     "partnerships:write",
     "admin-overview:read",
+    "content-notices:read",
     "users:read",
     "users:write",
     "access-tokens:read",

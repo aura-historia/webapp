@@ -501,56 +501,12 @@
         "description": "Votre session ne permet plus d’y accéder. Reconnectez-vous pour voir vos adresses enregistrées.",
         "action": "Se reconnecter"
       },
-      "status": {
-        "PENDING": {
-          "label": "Localisation en cours",
-          "hint": "Nous localisons cette adresse en arrière-plan.",
-          "note": "Nous localisons cette adresse en arrière-plan. Vous pouvez continuer à l’utiliser en attendant."
-        },
-        "ACCEPTED": {
-          "label": "Localisée",
-          "note": "Nous avons trouvé un seul lieu correspondant à cette adresse."
-        },
-        "AMBIGUOUS": {
-          "label": "Plusieurs correspondances",
-          "hint": "Indiquez un pays ou un code postal pour affiner.",
-          "note": "Plusieurs lieux correspondent. Indiquez un pays ou un code postal pour affiner.",
-          "hintDetailed": "Précisez l’adresse, par exemple avec le numéro et la rue.",
-          "noteDetailed": "Plusieurs lieux correspondent, même avec vos indications. Précisez l’adresse, par exemple avec le numéro et la rue."
-        },
-        "NO_MATCH": {
-          "label": "Aucune correspondance",
-          "hint": "Vérifiez l’orthographe ou indiquez un pays.",
-          "note": "Aucun lieu ne correspond à cette adresse. Vérifiez l’orthographe ou indiquez un pays.",
-          "hintDetailed": "Vérifiez l’orthographe et vos indications.",
-          "noteDetailed": "Aucun lieu ne correspond à cette adresse et à vos indications. Vérifiez l’orthographe et que les indications concernent bien cette adresse."
-        },
-        "FAILED": {
-          "label": "Échec de la localisation",
-          "hint": "L’adresse reste enregistrée et utilisable sans point.",
-          "note": "La localisation de cette adresse a échoué. Elle reste enregistrée et utilisable sans point précis."
-        },
-        "BLOCKED": {
-          "label": "Non localisable",
-          "hint": "L’adresse reste enregistrée et utilisable sans point.",
-          "note": "Cette adresse ne peut pas être localisée automatiquement. Elle reste enregistrée et utilisable sans point précis."
-        },
-        "UNAVAILABLE": {
-          "label": "Localisation indisponible",
-          "hint": "L’adresse reste enregistrée et utilisable sans point.",
-          "note": "La localisation n’est pas disponible pour le moment. L’adresse reste enregistrée et utilisable sans point précis."
-        },
-        "UNKNOWN": {
-          "label": "Statut inconnu",
-          "note": "Nous ne pouvons pas afficher le statut de localisation de cette adresse."
-        }
-      },
       "derived": {
         "country": "Pays",
         "region": "Région",
         "postalCode": "Code postal"
       },
-      "locationNote": "Déterminé en arrière-plan à partir de votre adresse. Cela ne confirme ni l’adresse ni la possibilité d’y livrer des objets. Toute modification de l’adresse ou de ses indications relance cette étape.",
+      "locationNote": "La localisation ne confirme ni l’adresse ni la possibilité d’y livrer des objets.",
       "editor": {
         "eyebrow": "Adresse enregistrée",
         "createTitle": "Ajouter une adresse",
@@ -560,14 +516,10 @@
           "label": "Nom",
           "labelPlaceholder": "Par exemple Domicile ou Entrepôt",
           "address": "Adresse",
-          "addressPlaceholder": "Numéro et rue, code postal, ville",
-          "addressHint": "Écrivez-la comme sur une enveloppe. Nous la conservons exactement telle que vous la saisissez.",
           "country": "Pays",
           "region": "Région",
           "postalCode": "Code postal"
         },
-        "optional": "Indications facultatives",
-        "optionalHint": "Elles nous aident à localiser l’adresse. Nous ne les comparons pas à celle-ci.",
         "noCountry": "Aucun pays",
         "searchCountries": "Rechercher un pays",
         "searchCountriesPlaceholder": "Rechercher un pays…",
@@ -610,7 +562,8 @@
         "unsupported": {
           "title": "Certaines indications de cette adresse ne peuvent pas être affichées ici.",
           "body": "Pour les conserver, cette adresse ne peut pas être modifiée ici. Vous pouvez toujours la supprimer."
-        }
+        },
+        "optionalDetails": "Pays, région et code postal (facultatif)"
       },
       "delete": {
         "title": "Supprimer « {{label}} » ?",
@@ -644,7 +597,33 @@
         "invalid": "L’adresse n’a pas pu être enregistrée. Vérifiez vos saisies.",
         "requestFailed": "La requête a échoué. Veuillez réessayer."
       },
-      "searchLocation": "Lieu de recherche"
+      "searchLocation": "Lieu de recherche",
+      "located": "Localisée",
+      "notLocated": {
+        "label": "Non localisée",
+        "hint": "Modifiez l’adresse et choisissez une suggestion pour la localiser.",
+        "note": "Nous n’avons pas pu situer précisément cette adresse. Recherchez l’adresse ci-dessus et choisissez une suggestion pour la localiser."
+      },
+      "search": {
+        "placeholder": "Commencez à saisir l’adresse",
+        "hint": "Commencez la saisie et choisissez une suggestion pour localiser précisément l’adresse.",
+        "hintTyping": "Choisissez une suggestion pour localiser précisément l’adresse, ou continuez la saisie.",
+        "partialPick": "Ce n’est pas encore une adresse complète. Ajoutez le numéro pour trouver l’adresse exacte, ou enregistrez-la telle quelle.",
+        "limited": "Les suggestions sont suspendues un instant. Vous pouvez continuer à saisir l’adresse et l’enregistrer telle quelle.",
+        "unavailable": "Les suggestions ne sont pas disponibles pour le moment. Vous pouvez saisir l’adresse et l’enregistrer telle quelle.",
+        "empty": "Aucune suggestion pour ce texte. Vous pouvez tout de même enregistrer l’adresse telle que vous l’avez saisie.",
+        "picked": "Choisie parmi les suggestions",
+        "searchAgain": "Rechercher à nouveau",
+        "listLabel": "Suggestions d’adresses",
+        "attribution": "Suggestions : <providerLink>{{provider}}</providerLink>",
+        "kinds": {
+          "STREET": "Rue",
+          "LOCALITY": "Ville",
+          "POSTAL_CODE": "Code postal",
+          "REGION": "Région",
+          "OTHER": "Lieu"
+        }
+      }
     }
   },
   "search": {
@@ -5200,7 +5179,8 @@
         "partiesWrite": "Créer, mettre à jour ou supprimer des fiches d’organisations si le compte dispose d’un accès administrateur.",
         "partnershipsRead": "Lire les partenariats si le compte dispose d’un accès administrateur.",
         "partnershipsWrite": "Modifier ou dissoudre des partenariats et accorder ou retirer leurs membres et sources d’annonces si le compte dispose d’un accès administrateur.",
-        "adminOverviewRead": "Lire la vue d’ensemble opérationnelle de l’administration si le compte dispose d’un accès administrateur."
+        "adminOverviewRead": "Lire la vue d’ensemble opérationnelle de l’administration si le compte dispose d’un accès administrateur.",
+        "contentNoticesRead": "Lire les signalements de contenu reçus si le compte dispose d’un accès administrateur."
       },
       "validation": {
         "nameRequired": "Veuillez entrer un nom de jeton.",
@@ -5273,7 +5253,8 @@
       "partiesWrite": "Gérer les organisations",
       "partnershipsRead": "Lire les partenariats",
       "partnershipsWrite": "Gérer les partenariats",
-      "adminOverviewRead": "Lire la vue d’ensemble de l’administration"
+      "adminOverviewRead": "Lire la vue d’ensemble de l’administration",
+      "contentNoticesRead": "Lire les signalements de contenu"
     },
     "scopeGroups": {
       "account": "Compte et jetons d’accès",

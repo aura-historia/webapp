@@ -501,56 +501,12 @@
         "description": "Your session no longer allows access to them. Sign in again to see your saved addresses.",
         "action": "Sign in again"
       },
-      "status": {
-        "PENDING": {
-          "label": "Locating",
-          "hint": "We’re locating this address in the background.",
-          "note": "We’re locating this address in the background. You can keep using it in the meantime."
-        },
-        "ACCEPTED": {
-          "label": "Located",
-          "note": "We found one matching place for this address."
-        },
-        "AMBIGUOUS": {
-          "label": "Several matches",
-          "hint": "Add a country or postal code to narrow it down.",
-          "note": "More than one place matches. Add a country or postal code to narrow it down.",
-          "hintDetailed": "Add more detail to the address, such as the street and number.",
-          "noteDetailed": "More than one place matches, even with your details. Add more detail to the address, such as the street and number."
-        },
-        "NO_MATCH": {
-          "label": "No match",
-          "hint": "Check the spelling or add a country.",
-          "note": "No place matches this address. Check the spelling or add a country.",
-          "hintDetailed": "Check the spelling and your details.",
-          "noteDetailed": "No place matches this address and your details. Check the spelling and that the details belong to this address."
-        },
-        "FAILED": {
-          "label": "Locating failed",
-          "hint": "The address stays saved and usable without a point.",
-          "note": "Locating this address failed. It stays saved and usable without a precise point."
-        },
-        "BLOCKED": {
-          "label": "Can’t be located",
-          "hint": "The address stays saved and usable without a point.",
-          "note": "This address can’t be located automatically. It stays saved and usable without a precise point."
-        },
-        "UNAVAILABLE": {
-          "label": "Locating unavailable",
-          "hint": "The address stays saved and usable without a point.",
-          "note": "Locating isn’t available right now. The address stays saved and usable without a precise point."
-        },
-        "UNKNOWN": {
-          "label": "Status unknown",
-          "note": "We can’t show the location status of this address."
-        }
-      },
       "derived": {
         "country": "Country",
         "region": "Region",
         "postalCode": "Postal code"
       },
-      "locationNote": "Determined from your address in the background. It doesn’t confirm the address or whether objects can be delivered there. Changing the address or its details starts this again.",
+      "locationNote": "The location confirms neither the address nor whether objects can be delivered there.",
       "editor": {
         "eyebrow": "Saved address",
         "createTitle": "Add an address",
@@ -560,14 +516,10 @@
           "label": "Name",
           "labelPlaceholder": "For example Home or Storage unit",
           "address": "Address",
-          "addressPlaceholder": "Street and number, postal code, town",
-          "addressHint": "Write it as you would on an envelope. We keep it exactly as you enter it.",
           "country": "Country",
           "region": "Region",
           "postalCode": "Postal code"
         },
-        "optional": "Optional details",
-        "optionalHint": "These help us locate the address. We don’t check them against it.",
         "noCountry": "No country",
         "searchCountries": "Search countries",
         "searchCountriesPlaceholder": "Search countries…",
@@ -610,7 +562,8 @@
         "unsupported": {
           "title": "Some details of this address can’t be shown here.",
           "body": "To keep them, this address can’t be edited here. You can still delete it."
-        }
+        },
+        "optionalDetails": "Country, region & postal code (optional)"
       },
       "delete": {
         "title": "Delete “{{label}}”?",
@@ -644,7 +597,33 @@
         "invalid": "The address could not be saved. Check your entries.",
         "requestFailed": "The request failed. Please try again."
       },
-      "searchLocation": "Search location"
+      "searchLocation": "Search location",
+      "located": "Located",
+      "notLocated": {
+        "label": "Not located",
+        "hint": "Edit the address and pick a suggestion to locate it.",
+        "note": "We couldn’t place this address exactly. Search the address above and pick a suggestion to locate it."
+      },
+      "search": {
+        "placeholder": "Start typing the address",
+        "hint": "Start typing and pick a suggestion to locate the address exactly.",
+        "hintTyping": "Pick a suggestion to locate the address exactly, or keep typing.",
+        "partialPick": "This isn’t a full address yet. Add the house number to find the exact address, or save it as it is.",
+        "limited": "Suggestions are paused for a moment. You can keep typing the address and save it as typed.",
+        "unavailable": "Suggestions aren’t available right now. You can type the address and save it as typed.",
+        "empty": "No suggestions for this text. You can still save the address as you typed it.",
+        "picked": "Picked from suggestions",
+        "searchAgain": "Search again",
+        "listLabel": "Address suggestions",
+        "attribution": "Suggestions: <providerLink>{{provider}}</providerLink>",
+        "kinds": {
+          "STREET": "Street",
+          "LOCALITY": "Town",
+          "POSTAL_CODE": "Postal code",
+          "REGION": "Region",
+          "OTHER": "Place"
+        }
+      }
     }
   },
   "search": {
@@ -2624,7 +2603,8 @@
         "partiesWrite": "Create, update or delete organization records if the account has administrator access.",
         "partnershipsRead": "Read partnerships if the account has administrator access.",
         "partnershipsWrite": "Change or dissolve partnerships and grant or revoke their members and listing sources if the account has administrator access.",
-        "adminOverviewRead": "Read the operational admin overview if the account has administrator access."
+        "adminOverviewRead": "Read the operational admin overview if the account has administrator access.",
+        "contentNoticesRead": "Read submitted content notices if the account has administrator access."
       },
       "validation": {
         "nameRequired": "Please enter a token name.",
@@ -2697,7 +2677,8 @@
       "partiesWrite": "Manage organizations",
       "partnershipsRead": "Read partnerships",
       "partnershipsWrite": "Manage partnerships",
-      "adminOverviewRead": "Read admin overview"
+      "adminOverviewRead": "Read admin overview",
+      "contentNoticesRead": "Read content notices"
     },
     "scopeGroups": {
       "account": "Account and access tokens",

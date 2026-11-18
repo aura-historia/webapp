@@ -10,14 +10,14 @@ admin workflows in [admin workflows](admin-workflows.md).
   (`public/partner-products.openapi.json`) from the same pinned contract, `openapi/swagger.yaml`.
   Generation never fetches a moving contract. Never hand-edit either output.
 - The pinned capture is the complete backend `docs/swagger.yaml` at `develop`
-  `1be95314a7d338975977446706c726ebf3bb85c1` (2026-11-14,
-  [backend#2962](https://github.com/aura-historia/backend/pull/2962)). Git blob
-  `757fbf75311e112d2cf66c38c784f511fe2ae1c2`; file SHA-256
-  `1048bcac55abac2970d6998aaedddfdd968a57d10687d7d0a0d471698dd5c54c`; canonical parsed-JSON
+  `7a96cc886d6f6f6433655e0f119df5682ad07008` (2026-11-18,
+  [backend#3047](https://github.com/aura-historia/backend/pull/3047)). Git blob
+  `1dc7c03c6cc291979130e87da3290a4a93dae051`; file SHA-256
+  `e851b5beaf535849db40e94ab7952d4b35206785e0a5a5db79d6ad41e986d70c`; canonical parsed-JSON
   SHA-256 (recorded as `x-source-contract-sha256` in the partner reference):
-  `f743b075e32ddb7aa06edbe9f43b651dab4f56c161f38d41e3d94c398620fbe9`. It replaces the
-  `338af42f` capture (2026-11-13, the head of
-  [backend#2933](https://github.com/aura-historia/backend/pull/2933)).
+  `0b0b5e5be24117f266f355700423c3f0db484184de493a316436310cbdc24c20`. It replaces the
+  `1be95314` capture (2026-11-14,
+  [backend#2962](https://github.com/aura-historia/backend/pull/2962)).
 - Every REST operation lives under `/v1/...` on `https://api.aura-historia.com` (production) and
   `https://api.stage.aura-historia.com`; `/api/v1/...` is gone without aliases
   ([backend#2216](https://github.com/aura-historia/backend/issues/2216)). The generated client and
@@ -27,7 +27,42 @@ admin workflows in [admin workflows](admin-workflows.md).
   keep their paths. Release this webapp only with or after a backend that serves `/v1`.
 - Without `VITE_API_URL` the app calls the production API (`getApiBaseUrl`); each deployment
   sets its environment's API URL explicitly.
-- Changes against the previous pin (`338af42f`, 2026-11-13), with their decisions:
+- Changes against the previous pin (`1be95314`, 2026-11-14), with their decisions:
+  - **Address suggestions** ([backend#3014](https://github.com/aura-historia/backend/pull/3014)):
+    `POST /v1/address-suggestions` (`suggestAddresses`) takes `{ query, language }` (3–200
+    characters after trimming) and returns up to five `{ placeId, label, kind }` plus an
+    `attribution`; signed-in first-party users only, 60 per minute and 600 per UTC day,
+    `429` with `Retry-After`, `503` on a provider outage, always `no-store`. Address and
+    Party-location writes accept an optional `placeId`; the backend still resolves after the
+    write, so `resolution.status` keeps `PENDING` and its other values. Decisions: the saved
+    addresses editor searches as the user types (`useAddressSuggestions`: 300 ms debounce, the
+    next query aborts the previous request, nothing in the query cache, no request after a
+    complete `ADDRESS` pick or before a prefilled address is edited, a `429` pauses until
+    `Retry-After`, any other failure falls back to typing). `AddressSuggestion.ts` maps the
+    list (an unknown `kind` becomes `OTHER`, an invalid attribution is dropped and the static
+    Amazon Location attribution shown instead). `UserAddressInput.placeId` is sent only while
+    the text still equals the picked label; editing the text drops it. Party-location
+    `placeId` stays generated-only. The UI shows no background status: `PENDING` shows no
+    location, every status other than `ACCEPTED` shows "Not located" with a prompt to pick a
+    suggestion. The privacy policy and `privateAddress` disclosure describe the processing
+    (see [privacy alignment](privacy-policy-alignment.md#geography)).
+  - **Content notices** ([backend#2980](https://github.com/aura-historia/backend/pull/2980),
+    [backend#3016](https://github.com/aura-historia/backend/pull/3016)): `submitContentNotice`,
+    `adminSearchContentNotices` and `adminGetContentNotice`, the `content-notices:read` token
+    scope and the overview's required `contentNotices` counts. Decisions: the scope joins
+    `ACCESS_TOKEN_SCOPES` in the administrators-only group with copy in every locale (the
+    scope test enforces it); the operations and overview counts stay generated-only until a
+    content-notice slice consumes them; `ApiErrorSource` now documents JSON-pointer sources for
+    `submitContentNotice` (description only).
+  - **Ultimate search-filter cap** ([backend#2989](https://github.com/aura-historia/backend/pull/2989)):
+    Ultimate allows 20 active search filters. Description only: the webapp already states 20
+    (`SubscriptionType.ts` and the pricing copy).
+  - **Estimated admin overview listing counts**
+    ([backend#3007](https://github.com/aura-historia/backend/pull/3007)): from about 100,000
+    listings the `productListings` counters are estimates and the overview can return `503`
+    until statistics exist. Description only; the overview already shows its failure state on
+    `503`.
+- Changes against the `338af42f` pin (2026-11-13), with their decisions:
   - **Admin listing-source search filters by country**
     ([backend#2966](https://github.com/aura-historia/backend/pull/2966)): `GET
     /v1/admin/listing-sources` accepts an optional `country`, an uppercase ISO 3166-1 alpha-2
@@ -565,7 +600,8 @@ To sync a backend revision:
   The account page's saved addresses consume the user address book (`listUserAddresses`,
   `createUserAddress`, `getUserAddress`, `updateUserAddress`, `deleteUserAddress`;
   [#1078](https://github.com/aura-historia/webapp/issues/1078)). Every other geography
-  operation is generated-only until its feature slice consumes it: the browsing destination
+  operation is generated-only until its feature slice consumes it (`suggestAddresses` is
+  consumed by the address editor): the browsing destination
   (`getBrowsingDestination`,
   `setBrowsingDestination`), public discovery (`discoverPartyLocations`) and the non-admin source
   defaults (`getSourceLocationDefault`, `assignSourceLocationDefault`,

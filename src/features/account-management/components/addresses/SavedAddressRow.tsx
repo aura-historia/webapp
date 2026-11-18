@@ -1,15 +1,10 @@
 import { Navigation, Pencil, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import type {
-    UserAddress,
-    UserAddressResolutionStatus,
-} from "@/data/internal/geography/UserAddress.ts";
+import type { UserAddress } from "@/data/internal/geography/UserAddress.ts";
 import { GeographyAttribution } from "@/features/geography/components/GeographyAttribution.tsx";
 import {
     formatGeographyFacts,
-    RESOLUTION_MARK_CLASS,
-    RESOLUTION_MARKS,
-    resolutionCopyKeys,
+    locationDisplay,
 } from "@/features/account-management/lib/addressResolution.ts";
 import {
     ADDRESS_ICON_BUTTON_CLASS,
@@ -18,15 +13,12 @@ import {
 } from "@/features/account-management/lib/addressStyles.ts";
 import { cn } from "@/lib/utils.ts";
 
-export function ResolutionMark({ status }: { readonly status: UserAddressResolutionStatus }) {
+/** Dashed ring beside "Not located"; always paired with its label. */
+export function NotLocatedMark() {
     return (
         <span
             aria-hidden="true"
-            data-mark={RESOLUTION_MARKS[status]}
-            className={cn(
-                "size-[9px] shrink-0 rounded-pill",
-                RESOLUTION_MARK_CLASS[RESOLUTION_MARKS[status]],
-            )}
+            className="size-[9px] shrink-0 rounded-pill border-[1.5px] border-dashed border-ink-muted"
         />
     );
 }
@@ -49,18 +41,18 @@ interface SavedAddressRowProps {
 
 /**
  * One saved address: the text exactly as entered, the user's own details, then the
- * provider-derived location kept apart (board "Account · Saved addresses section").
+ * provider-derived location kept apart (board "Account · Saved addresses section"). A lookup
+ * that is still running shows no location line.
  */
 export function SavedAddressRow({ address, onEdit, onDelete }: SavedAddressRowProps) {
     const { t, i18n } = useTranslation();
     const { geography, resolution } = address;
-    const status = resolution.status;
+    const display = locationDisplay(resolution.status);
     const asserted = formatGeographyFacts(geography, i18n.language);
     const derived =
-        status === "ACCEPTED"
+        display === "located"
             ? formatGeographyFacts(resolution.derivedGeography, i18n.language)
             : "";
-    const copy = resolutionCopyKeys(status, geography);
 
     return (
         <li className="flex flex-col gap-4 border-t border-line-subtle py-6 sm:flex-row sm:items-start sm:gap-6">
@@ -85,17 +77,28 @@ export function SavedAddressRow({ address, onEdit, onDelete }: SavedAddressRowPr
                             <dd className="text-ink wrap-anywhere">{asserted}</dd>
                         </>
                     )}
-                    <dt className={ADDRESS_META_LABEL_CLASS}>{t("account.addresses.location")}</dt>
-                    <dd className="flex flex-wrap items-center gap-x-2 gap-y-1 text-ink">
-                        <ResolutionMark status={status} />
-                        <span>{t(`account.addresses.status.${status}.label`)}</span>
-                        {derived && <span className="text-ink-secondary">· {derived}</span>}
-                        {copy.hint && (
-                            <span className="basis-full text-ink-muted">{t(copy.hint)}</span>
-                        )}
-                    </dd>
+                    {display !== "pending" && (
+                        <>
+                            <dt className={ADDRESS_META_LABEL_CLASS}>
+                                {t("account.addresses.location")}
+                            </dt>
+                            <dd className="flex flex-wrap items-center gap-x-2 gap-y-1 text-ink wrap-anywhere">
+                                {display === "located" ? (
+                                    <span>{derived || t("account.addresses.located")}</span>
+                                ) : (
+                                    <>
+                                        <NotLocatedMark />
+                                        <span>{t("account.addresses.notLocated.label")}</span>
+                                        <span className="basis-full text-ink-muted">
+                                            {t("account.addresses.notLocated.hint")}
+                                        </span>
+                                    </>
+                                )}
+                            </dd>
+                        </>
+                    )}
                 </dl>
-                {derived && (
+                {display === "located" && (
                     <GeographyAttribution
                         attribution={resolution.attribution}
                         className="text-ink-muted"

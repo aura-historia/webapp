@@ -501,56 +501,12 @@
         "description": "Su sesión ya no permite acceder a ellas. Vuelva a iniciar sesión para ver sus direcciones guardadas.",
         "action": "Volver a iniciar sesión"
       },
-      "status": {
-        "PENDING": {
-          "label": "Localizando",
-          "hint": "Estamos localizando esta dirección en segundo plano.",
-          "note": "Estamos localizando esta dirección en segundo plano. Mientras tanto, puede seguir usándola."
-        },
-        "ACCEPTED": {
-          "label": "Localizada",
-          "note": "Hemos encontrado un único lugar que coincide con esta dirección."
-        },
-        "AMBIGUOUS": {
-          "label": "Varias coincidencias",
-          "hint": "Añada un país o un código postal para acotarla.",
-          "note": "Varios lugares coinciden. Añada un país o un código postal para acotarla.",
-          "hintDetailed": "Complete la dirección, por ejemplo con la calle y el número.",
-          "noteDetailed": "Varios lugares coinciden, incluso con sus datos. Complete la dirección, por ejemplo con la calle y el número."
-        },
-        "NO_MATCH": {
-          "label": "Sin coincidencias",
-          "hint": "Revise la ortografía o añada un país.",
-          "note": "Ningún lugar coincide con esta dirección. Revise la ortografía o añada un país.",
-          "hintDetailed": "Revise la ortografía y sus datos.",
-          "noteDetailed": "Ningún lugar coincide con esta dirección y sus datos. Revise la ortografía y que los datos correspondan a esta dirección."
-        },
-        "FAILED": {
-          "label": "No se pudo localizar",
-          "hint": "La dirección sigue guardada y se puede usar sin un punto.",
-          "note": "No se pudo localizar esta dirección. Sigue guardada y se puede usar sin un punto preciso."
-        },
-        "BLOCKED": {
-          "label": "No localizable",
-          "hint": "La dirección sigue guardada y se puede usar sin un punto.",
-          "note": "Esta dirección no se puede localizar automáticamente. Sigue guardada y se puede usar sin un punto preciso."
-        },
-        "UNAVAILABLE": {
-          "label": "Localización no disponible",
-          "hint": "La dirección sigue guardada y se puede usar sin un punto.",
-          "note": "La localización no está disponible en este momento. La dirección sigue guardada y se puede usar sin un punto preciso."
-        },
-        "UNKNOWN": {
-          "label": "Estado desconocido",
-          "note": "No podemos mostrar el estado de localización de esta dirección."
-        }
-      },
       "derived": {
         "country": "País",
         "region": "Región",
         "postalCode": "Código postal"
       },
-      "locationNote": "Determinado en segundo plano a partir de su dirección. No confirma la dirección ni que se puedan entregar objetos allí. Si cambia la dirección o sus datos, se vuelve a determinar.",
+      "locationNote": "La ubicación no confirma la dirección ni que se puedan entregar objetos allí.",
       "editor": {
         "eyebrow": "Dirección guardada",
         "createTitle": "Añadir una dirección",
@@ -560,14 +516,10 @@
           "label": "Nombre",
           "labelPlaceholder": "Por ejemplo Casa o Trastero",
           "address": "Dirección",
-          "addressPlaceholder": "Calle y número, código postal, localidad",
-          "addressHint": "Escríbala como en un sobre. La guardamos exactamente como la introduzca.",
           "country": "País",
           "region": "Región",
           "postalCode": "Código postal"
         },
-        "optional": "Datos opcionales",
-        "optionalHint": "Nos ayudan a localizar la dirección. No los comparamos con ella.",
         "noCountry": "Ningún país",
         "searchCountries": "Buscar países",
         "searchCountriesPlaceholder": "Buscar países…",
@@ -610,7 +562,8 @@
         "unsupported": {
           "title": "Algunos datos de esta dirección no se pueden mostrar aquí.",
           "body": "Para conservarlos, esta dirección no se puede editar aquí. Aún puede eliminarla."
-        }
+        },
+        "optionalDetails": "País, región y código postal (opcional)"
       },
       "delete": {
         "title": "¿Eliminar «{{label}}»?",
@@ -644,7 +597,33 @@
         "invalid": "No se pudo guardar la dirección. Revise sus datos.",
         "requestFailed": "La solicitud ha fallado. Inténtelo de nuevo."
       },
-      "searchLocation": "Ubicación de búsqueda"
+      "searchLocation": "Ubicación de búsqueda",
+      "located": "Localizada",
+      "notLocated": {
+        "label": "Sin localizar",
+        "hint": "Edite la dirección y elija una sugerencia para localizarla.",
+        "note": "No pudimos ubicar esta dirección con exactitud. Busque la dirección arriba y elija una sugerencia para localizarla."
+      },
+      "search": {
+        "placeholder": "Empiece a escribir la dirección",
+        "hint": "Empiece a escribir y elija una sugerencia para localizar la dirección con exactitud.",
+        "hintTyping": "Elija una sugerencia para localizar la dirección con exactitud, o siga escribiendo.",
+        "partialPick": "Todavía no es una dirección completa. Añada el número para encontrar la dirección exacta, o guárdela tal cual.",
+        "limited": "Las sugerencias están en pausa un momento. Puede seguir escribiendo la dirección y guardarla tal cual.",
+        "unavailable": "Las sugerencias no están disponibles en este momento. Puede escribir la dirección y guardarla tal cual.",
+        "empty": "No hay sugerencias para este texto. Aun así, puede guardar la dirección tal como la escribió.",
+        "picked": "Elegida de las sugerencias",
+        "searchAgain": "Buscar de nuevo",
+        "listLabel": "Sugerencias de direcciones",
+        "attribution": "Sugerencias: <providerLink>{{provider}}</providerLink>",
+        "kinds": {
+          "STREET": "Calle",
+          "LOCALITY": "Localidad",
+          "POSTAL_CODE": "Código postal",
+          "REGION": "Región",
+          "OTHER": "Lugar"
+        }
+      }
     }
   },
   "search": {
@@ -5200,7 +5179,8 @@
         "partiesWrite": "Crear, actualizar o eliminar registros de organizaciones si la cuenta tiene acceso de administrador.",
         "partnershipsRead": "Leer asociaciones si la cuenta tiene acceso de administrador.",
         "partnershipsWrite": "Modificar o disolver asociaciones y conceder o revocar sus miembros y fuentes de anuncios si la cuenta tiene acceso de administrador.",
-        "adminOverviewRead": "Leer el resumen operativo de administración si la cuenta tiene acceso de administrador."
+        "adminOverviewRead": "Leer el resumen operativo de administración si la cuenta tiene acceso de administrador.",
+        "contentNoticesRead": "Leer los avisos de contenido recibidos si la cuenta tiene acceso de administrador."
       },
       "validation": {
         "nameRequired": "Por favor, introduce un nombre para el token.",
@@ -5273,7 +5253,8 @@
       "partiesWrite": "Gestionar organizaciones",
       "partnershipsRead": "Leer asociaciones",
       "partnershipsWrite": "Gestionar asociaciones",
-      "adminOverviewRead": "Leer el resumen de administración"
+      "adminOverviewRead": "Leer el resumen de administración",
+      "contentNoticesRead": "Leer avisos de contenido"
     },
     "scopeGroups": {
       "account": "Cuenta y tokens de acceso",

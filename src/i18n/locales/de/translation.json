@@ -501,56 +501,12 @@
         "description": "Ihre Sitzung erlaubt keinen Zugriff mehr darauf. Melden Sie sich erneut an, um Ihre gespeicherten Adressen zu sehen.",
         "action": "Erneut anmelden"
       },
-      "status": {
-        "PENDING": {
-          "label": "Wird ermittelt",
-          "hint": "Wir ermitteln den Standort dieser Adresse im Hintergrund.",
-          "note": "Wir ermitteln den Standort dieser Adresse im Hintergrund. Sie können die Adresse währenddessen weiter verwenden."
-        },
-        "ACCEPTED": {
-          "label": "Ermittelt",
-          "note": "Wir haben genau einen passenden Ort für diese Adresse gefunden."
-        },
-        "AMBIGUOUS": {
-          "label": "Mehrere Treffer",
-          "hint": "Geben Sie ein Land oder eine Postleitzahl an, um die Auswahl einzugrenzen.",
-          "note": "Mehrere Orte passen zu dieser Adresse. Geben Sie ein Land oder eine Postleitzahl an, um die Auswahl einzugrenzen.",
-          "hintDetailed": "Ergänzen Sie die Adresse, etwa um Straße und Hausnummer.",
-          "noteDetailed": "Auch mit Ihren Angaben passen mehrere Orte. Ergänzen Sie die Adresse, etwa um Straße und Hausnummer."
-        },
-        "NO_MATCH": {
-          "label": "Kein Treffer",
-          "hint": "Prüfen Sie die Schreibweise oder geben Sie ein Land an.",
-          "note": "Kein Ort passt zu dieser Adresse. Prüfen Sie die Schreibweise oder geben Sie ein Land an.",
-          "hintDetailed": "Prüfen Sie die Schreibweise und Ihre Angaben.",
-          "noteDetailed": "Kein Ort passt zu dieser Adresse und Ihren Angaben. Prüfen Sie die Schreibweise und ob die Angaben zur Adresse gehören."
-        },
-        "FAILED": {
-          "label": "Ermittlung fehlgeschlagen",
-          "hint": "Die Adresse bleibt gespeichert und ohne Punkt nutzbar.",
-          "note": "Der Standort dieser Adresse konnte nicht ermittelt werden. Sie bleibt gespeichert und ohne genauen Punkt nutzbar."
-        },
-        "BLOCKED": {
-          "label": "Nicht ermittelbar",
-          "hint": "Die Adresse bleibt gespeichert und ohne Punkt nutzbar.",
-          "note": "Der Standort dieser Adresse kann nicht automatisch ermittelt werden. Sie bleibt gespeichert und ohne genauen Punkt nutzbar."
-        },
-        "UNAVAILABLE": {
-          "label": "Ermittlung nicht verfügbar",
-          "hint": "Die Adresse bleibt gespeichert und ohne Punkt nutzbar.",
-          "note": "Die Standortermittlung ist gerade nicht verfügbar. Die Adresse bleibt gespeichert und ohne genauen Punkt nutzbar."
-        },
-        "UNKNOWN": {
-          "label": "Status unbekannt",
-          "note": "Wir können den Standortstatus dieser Adresse nicht anzeigen."
-        }
-      },
       "derived": {
         "country": "Land",
         "region": "Region",
         "postalCode": "Postleitzahl"
       },
-      "locationNote": "Im Hintergrund aus Ihrer Adresse ermittelt. Das bestätigt weder die Adresse noch, ob Objekte dorthin geliefert werden können. Wenn Sie die Adresse oder ihre Angaben ändern, wird der Standort neu ermittelt.",
+      "locationNote": "Der Standort bestätigt weder die Adresse noch, ob Objekte dorthin geliefert werden können.",
       "editor": {
         "eyebrow": "Gespeicherte Adresse",
         "createTitle": "Adresse hinzufügen",
@@ -560,14 +516,10 @@
           "label": "Name",
           "labelPlaceholder": "Zum Beispiel Zuhause oder Lager",
           "address": "Adresse",
-          "addressPlaceholder": "Straße und Hausnummer, Postleitzahl, Ort",
-          "addressHint": "Schreiben Sie sie wie auf einen Briefumschlag. Wir speichern sie genau so, wie Sie sie eingeben.",
           "country": "Land",
           "region": "Region",
           "postalCode": "Postleitzahl"
         },
-        "optional": "Optionale Angaben",
-        "optionalHint": "Sie helfen uns, die Adresse zu finden. Wir gleichen sie nicht mit der Adresse ab.",
         "noCountry": "Kein Land",
         "searchCountries": "Länder suchen",
         "searchCountriesPlaceholder": "Länder suchen…",
@@ -610,7 +562,8 @@
         "unsupported": {
           "title": "Einige Angaben dieser Adresse können hier nicht angezeigt werden.",
           "body": "Damit sie erhalten bleiben, kann diese Adresse hier nicht bearbeitet werden. Löschen können Sie sie weiterhin."
-        }
+        },
+        "optionalDetails": "Land, Region und Postleitzahl (optional)"
       },
       "delete": {
         "title": "„{{label}}“ löschen?",
@@ -644,7 +597,33 @@
         "invalid": "Die Adresse konnte nicht gespeichert werden. Prüfen Sie Ihre Eingaben.",
         "requestFailed": "Die Anfrage ist fehlgeschlagen. Bitte versuchen Sie es erneut."
       },
-      "searchLocation": "Suchstandort"
+      "searchLocation": "Suchstandort",
+      "located": "Ermittelt",
+      "notLocated": {
+        "label": "Nicht ermittelt",
+        "hint": "Bearbeiten Sie die Adresse und wählen Sie einen Vorschlag, um den Standort zu ermitteln.",
+        "note": "Wir konnten diese Adresse nicht genau zuordnen. Suchen Sie die Adresse oben und wählen Sie einen Vorschlag, um den Standort zu ermitteln."
+      },
+      "search": {
+        "placeholder": "Adresse eingeben",
+        "hint": "Beginnen Sie mit der Eingabe und wählen Sie einen Vorschlag, um die Adresse genau zuzuordnen.",
+        "hintTyping": "Wählen Sie einen Vorschlag, um die Adresse genau zuzuordnen, oder tippen Sie weiter.",
+        "partialPick": "Das ist noch keine vollständige Adresse. Ergänzen Sie die Hausnummer, um die genaue Adresse zu finden, oder speichern Sie sie so.",
+        "limited": "Vorschläge sind kurz pausiert. Sie können die Adresse weiter eintippen und so speichern.",
+        "unavailable": "Vorschläge sind gerade nicht verfügbar. Sie können die Adresse eintippen und so speichern.",
+        "empty": "Keine Vorschläge für diese Eingabe. Sie können die Adresse trotzdem so speichern, wie Sie sie eingegeben haben.",
+        "picked": "Aus den Vorschlägen gewählt",
+        "searchAgain": "Erneut suchen",
+        "listLabel": "Adressvorschläge",
+        "attribution": "Vorschläge: <providerLink>{{provider}}</providerLink>",
+        "kinds": {
+          "STREET": "Straße",
+          "LOCALITY": "Ort",
+          "POSTAL_CODE": "Postleitzahl",
+          "REGION": "Region",
+          "OTHER": "Ort"
+        }
+      }
     }
   },
   "search": {
@@ -2624,7 +2603,8 @@
         "partiesWrite": "Organisationsdatensätze erstellen, aktualisieren oder löschen, wenn das Konto Administratorzugriff hat.",
         "partnershipsRead": "Partnerschaften lesen, wenn das Konto Administratorzugriff hat.",
         "partnershipsWrite": "Partnerschaften ändern oder auflösen sowie Mitglieder und Listing-Quellen freigeben oder entziehen, wenn das Konto Administratorzugriff hat.",
-        "adminOverviewRead": "Die operative Admin-Übersicht lesen, wenn das Konto Administratorzugriff hat."
+        "adminOverviewRead": "Die operative Admin-Übersicht lesen, wenn das Konto Administratorzugriff hat.",
+        "contentNoticesRead": "Eingegangene Inhaltsmeldungen lesen, wenn das Konto Administratorzugriff hat."
       },
       "validation": {
         "nameRequired": "Bitte geben Sie einen Token-Namen ein.",
@@ -2697,7 +2677,8 @@
       "partiesWrite": "Organisationen verwalten",
       "partnershipsRead": "Partnerschaften lesen",
       "partnershipsWrite": "Partnerschaften verwalten",
-      "adminOverviewRead": "Admin-Übersicht lesen"
+      "adminOverviewRead": "Admin-Übersicht lesen",
+      "contentNoticesRead": "Inhaltsmeldungen lesen"
     },
     "scopeGroups": {
       "account": "Konto und Zugriffstoken",

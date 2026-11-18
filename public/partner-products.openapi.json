@@ -6,7 +6,7 @@
     "description": "Listing-source batch writes in two modes, each with POST, PATCH, PUT and DELETE. Asynchronous submission (recommended, /async) answers HTTP 202 once entries are admitted; admitted entries are then processed for you. Synchronous batches answer HTTP 200 with completed writes and the entries that failed. Both use product-listings:write and a current grant for the target listing source."
   },
   "x-source-url": "https://raw.githubusercontent.com/aura-historia/backend/refs/heads/develop/docs/swagger.yaml",
-  "x-source-contract-sha256": "f743b075e32ddb7aa06edbe9f43b651dab4f56c161f38d41e3d94c398620fbe9",
+  "x-source-contract-sha256": "0b0b5e5be24117f266f355700423c3f0db484184de493a316436310cbdc24c20",
   "servers": [
     {
       "url": "https://api.stage.aura-historia.com",
@@ -1877,7 +1877,7 @@
         "properties": {
           "field": {
             "type": "string",
-            "description": "Name of the field that caused the error",
+            "description": "Name of the field that caused the error. Most operations name a body field by its property name or\ndotted path (`operator.partyId`); operations that say so, such as `submitContentNotice`, use a JSON\npointer (`/additionalUrls/2`).\n",
             "example": "listingSourceId"
           },
           "type": {

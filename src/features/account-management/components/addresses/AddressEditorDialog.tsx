@@ -1,5 +1,5 @@
-import { CircleAlert, Navigation, Trash2 } from "lucide-react";
-import { type FormEvent, useMemo, useState } from "react";
+import { ChevronRight, CircleAlert, Navigation, Trash2 } from "lucide-react";
+import { type FormEvent, type ReactNode, useId, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
@@ -11,9 +11,14 @@ import {
     parseCountryCode,
     parseSubdivisionCode,
 } from "@/data/internal/geography/GeographicCodes.ts";
+import type { AddressSuggestion } from "@/data/internal/geography/AddressSuggestion.ts";
 import type { UserAddress } from "@/data/internal/geography/UserAddress.ts";
 import { PreferenceField } from "@/features/account-management/components/PreferenceField.tsx";
-import { ResolutionMark } from "@/features/account-management/components/addresses/SavedAddressRow.tsx";
+import {
+    type AddressPick,
+    AddressSearchField,
+} from "@/features/account-management/components/addresses/AddressSearchField.tsx";
+import { NotLocatedMark } from "@/features/account-management/components/addresses/SavedAddressRow.tsx";
 import {
     useCreateUserAddress,
     UserAddressRequestError,
@@ -21,13 +26,14 @@ import {
 } from "@/features/account-management/hooks/useUserAddresses.ts";
 import {
     FIELD_CLASS,
+    FOCUS_CLASS,
     FIELD_MESSAGE_CLASS,
     GROUP_LABEL_CLASS,
     LABEL_CLASS,
 } from "@/features/account-management/lib/accountStyles.ts";
 import {
     formatGeographyFacts,
-    resolutionCopyKeys,
+    locationDisplay,
 } from "@/features/account-management/lib/addressResolution.ts";
 import {
     ADDRESS_DIALOG_BUTTON_CLASS,
@@ -80,6 +86,9 @@ export function AddressEditorDialog({
         toUserAddressFormValues(address),
     );
     const [errors, setErrors] = useState<UserAddressFormErrors>({});
+    // A prefilled address is shown on one line and searched only once the user types.
+    const [addressTyped, setAddressTyped] = useState(!isEdit);
+    const [pick, setPick] = useState<AddressPick>();
     const create = useCreateUserAddress(viewerCacheKey);
     const update = useUpdateUserAddress(viewerCacheKey);
 
@@ -101,6 +110,17 @@ export function AddressEditorDialog({
         if (errors[field]) setErrors((current) => ({ ...current, [field]: undefined }));
     };
 
+    const typeAddress = (value: string) => {
+        setAddressTyped(true);
+        set("addressText", value);
+    };
+
+    const pickSuggestion = (suggestion: AddressSuggestion) => {
+        setAddressTyped(true);
+        set("addressText", suggestion.label);
+        setPick(suggestion);
+    };
+
     const close = () => {
         if (!busy) onClose();
     };
@@ -120,7 +140,9 @@ export function AddressEditorDialog({
             document.getElementById(FIELD_IDS[invalid])?.focus();
             return;
         }
-        const input = buildUserAddressInput(values);
+        // A pick counts only while the text is still the picked label.
+        const placeId = pick && pick.label === values.addressText ? pick.placeId : undefined;
+        const input = { ...buildUserAddressInput(values), ...(placeId ? { placeId } : {}) };
         if (isEdit) {
             update.mutate(
                 {
@@ -195,7 +217,18 @@ export function AddressEditorDialog({
                             values={values}
                             errors={errors}
                             disabled={busy || unsupported}
+                            addressTyped={addressTyped}
+                            pick={pick}
+                            detailsInitiallyOpen={Boolean(
+                                values.country || values.subdivision || values.postalCode,
+                            )}
                             onChange={set}
+                            onTypeAddress={typeAddress}
+                            onPick={pickSuggestion}
+                            onSearchAgain={() => {
+                                setAddressTyped(true);
+                                setPick(undefined);
+                            }}
                         />
 
                         {isEdit && <LocationPanel address={address} />}
@@ -284,14 +317,30 @@ function AddressFields({
     values,
     errors,
     disabled,
+    addressTyped,
+    pick,
+    detailsInitiallyOpen,
     onChange,
+    onTypeAddress,
+    onPick,
+    onSearchAgain,
 }: {
     readonly values: UserAddressFormValues;
     readonly errors: UserAddressFormErrors;
     readonly disabled: boolean;
+    readonly addressTyped: boolean;
+    readonly pick?: AddressPick;
+    readonly detailsInitiallyOpen: boolean;
     readonly onChange: (field: UserAddressFormField, value: string) => void;
+    readonly onTypeAddress: (value: string) => void;
+    readonly onPick: (suggestion: AddressSuggestion) => void;
+    readonly onSearchAgain: () => void;
 }) {
     const { t, i18n } = useTranslation();
+    const detailsId = useId();
+    const [detailsOpen, setDetailsOpen] = useState(detailsInitiallyOpen);
+    const detailsShown =
+        detailsOpen || Boolean(errors.country || errors.subdivision || errors.postalCode);
     const errorText = (field: UserAddressFormField) => {
         const key = errors[field];
         return key ? t(key) : undefined;
@@ -353,34 +402,45 @@ function AddressFields({
                 />
             </TextField>
 
-            <TextField
+            <AddressSearchField
                 id={FIELD_IDS.addressText}
                 label={t("account.addresses.editor.fields.address")}
-                hint={t("account.addresses.editor.fields.addressHint")}
+                // An address saved over several lines is shown on one; it is sent unchanged
+                // unless the user edits it.
+                value={addressTyped ? values.addressText : oneLine(values.addressText)}
+                searchable={addressTyped}
+                pick={pick}
+                disabled={disabled}
                 error={errorText("addressText")}
-            >
-                <textarea
-                    id={FIELD_IDS.addressText}
-                    rows={3}
-                    value={values.addressText}
-                    disabled={disabled}
-                    autoComplete="street-address"
-                    placeholder={t("account.addresses.editor.fields.addressPlaceholder")}
-                    aria-invalid={Boolean(errors.addressText)}
-                    aria-describedby={describedBy("addressText")}
-                    onChange={(event) => onChange("addressText", event.target.value)}
-                    className={cn(FIELD_CLASS, "h-auto min-h-[104px] resize-y py-3 leading-normal")}
-                />
-            </TextField>
+                onType={onTypeAddress}
+                onPick={onPick}
+                onSearchAgain={onSearchAgain}
+            />
 
-            <fieldset className="flex flex-col gap-3.5" aria-describedby="address-optional-hint">
-                <legend className={cn(GROUP_LABEL_CLASS, "mb-1")}>
-                    {t("account.addresses.editor.optional")}
-                </legend>
-                <p id="address-optional-hint" className="-mt-1 text-[13px] text-ink-secondary">
-                    {t("account.addresses.editor.optionalHint")}
-                </p>
-                <div className="grid gap-4 sm:grid-cols-2">
+            <div className="flex flex-col border-t border-line-subtle pt-4">
+                <button
+                    type="button"
+                    aria-expanded={detailsShown}
+                    aria-controls={detailsId}
+                    onClick={() => setDetailsOpen((open) => !open)}
+                    className={cn(
+                        GROUP_LABEL_CLASS,
+                        "inline-flex min-h-8 cursor-pointer items-center gap-2 self-start rounded-xs text-left",
+                        FOCUS_CLASS,
+                    )}
+                >
+                    <ChevronRight
+                        aria-hidden="true"
+                        className={cn("size-3 transition-transform", detailsShown && "rotate-90")}
+                        strokeWidth={2}
+                    />
+                    {t("account.addresses.editor.optionalDetails")}
+                </button>
+                <div
+                    id={detailsId}
+                    hidden={!detailsShown}
+                    className="grid gap-4 pt-3.5 sm:grid-cols-2"
+                >
                     <PreferenceField
                         id={FIELD_IDS.country}
                         label={t("account.addresses.editor.fields.country")}
@@ -436,9 +496,17 @@ function AddressFields({
                         />
                     </TextField>
                 </div>
-            </fieldset>
+            </div>
         </>
     );
+}
+
+function oneLine(text: string): string {
+    return text
+        .split(/\r?\n/)
+        .map((line) => line.trim())
+        .filter(Boolean)
+        .join(", ");
 }
 
 function TextField({
@@ -452,7 +520,7 @@ function TextField({
     readonly label: string;
     readonly hint?: string;
     readonly error?: string;
-    readonly children: React.ReactNode;
+    readonly children: ReactNode;
 }) {
     return (
         <div className="flex min-w-0 flex-col gap-2">
@@ -480,62 +548,74 @@ function TextField({
     );
 }
 
-/** Provider-derived state, kept apart from what the user entered. */
+/**
+ * Provider-derived location, kept apart from what the user entered. Nothing is shown while the
+ * lookup runs; otherwise the located values, or "Not located" with the way to fix it.
+ */
 function LocationPanel({ address }: { readonly address: UserAddress }) {
     const { t, i18n } = useTranslation();
     const { status, derivedGeography, attribution } = address.resolution;
-    const derived = status === "ACCEPTED" ? derivedGeography : undefined;
-    const rows = derived
-        ? [
-              {
-                  key: "country",
-                  value: derived.country && formatCountryName(derived.country, i18n.language),
-              },
-              { key: "region", value: derived.subdivision },
-              { key: "postalCode", value: derived.postalCode },
-          ].filter((row) => row.value)
-        : [];
+    const display = locationDisplay(status);
+    if (display === "pending") return null;
+    const rows =
+        display === "located" && derivedGeography
+            ? [
+                  {
+                      key: "country",
+                      value:
+                          derivedGeography.country &&
+                          formatCountryName(derivedGeography.country, i18n.language),
+                  },
+                  { key: "region", value: derivedGeography.subdivision },
+                  { key: "postalCode", value: derivedGeography.postalCode },
+              ].filter((row) => row.value)
+            : [];
 
     return (
         <section
             aria-labelledby="address-location-heading"
             className="flex flex-col gap-3 rounded-lg bg-surface-sunken p-[18px]"
         >
-            <div className="flex flex-wrap items-center justify-between gap-2">
-                <h3
-                    id="address-location-heading"
-                    className={cn(ADDRESS_META_LABEL_CLASS, "text-[11px] font-normal")}
-                >
-                    {t("account.addresses.location")}
-                </h3>
-                <span className="inline-flex items-center gap-2 text-sm font-medium">
-                    <ResolutionMark status={status} />
-                    {t(`account.addresses.status.${status}.label`)}
-                </span>
-            </div>
-            <p className="text-[13px] leading-[1.55] text-ink-secondary">
-                {t(resolutionCopyKeys(status, address.geography).note)}
-            </p>
-            {rows.length > 0 && (
+            <h3
+                id="address-location-heading"
+                className={cn(ADDRESS_META_LABEL_CLASS, "text-[11px] font-normal")}
+            >
+                {t("account.addresses.location")}
+            </h3>
+            {display === "located" ? (
                 <>
-                    <dl className="grid grid-cols-[max-content_minmax(0,1fr)] gap-x-4 text-sm">
-                        {rows.map((row) => (
-                            <div key={row.key} className="contents">
-                                <dt
-                                    className={cn(
-                                        ADDRESS_META_LABEL_CLASS,
-                                        "flex items-center border-t border-line-subtle py-2",
-                                    )}
-                                >
-                                    {t(`account.addresses.derived.${row.key}`)}
-                                </dt>
-                                <dd className="border-t border-line-subtle py-2 wrap-anywhere">
-                                    {row.value}
-                                </dd>
-                            </div>
-                        ))}
-                    </dl>
+                    {rows.length > 0 ? (
+                        <dl className="grid grid-cols-[max-content_minmax(0,1fr)] gap-x-4 text-sm">
+                            {rows.map((row) => (
+                                <div key={row.key} className="contents">
+                                    <dt
+                                        className={cn(
+                                            ADDRESS_META_LABEL_CLASS,
+                                            "flex items-center border-t border-line-subtle py-2",
+                                        )}
+                                    >
+                                        {t(`account.addresses.derived.${row.key}`)}
+                                    </dt>
+                                    <dd className="border-t border-line-subtle py-2 wrap-anywhere">
+                                        {row.value}
+                                    </dd>
+                                </div>
+                            ))}
+                        </dl>
+                    ) : (
+                        <p className="text-sm">{t("account.addresses.located")}</p>
+                    )}
                     <GeographyAttribution attribution={attribution} className="text-ink-muted" />
+                </>
+            ) : (
+                <>
+                    <p className="inline-flex items-center gap-2 text-sm font-medium">
+                        <NotLocatedMark />
+                        {t("account.addresses.notLocated.label")}
+                    </p>
+                    <p className="text-[13px] leading-[1.55] text-ink-secondary">
+                        {t("account.addresses.notLocated.note")}
+                    </p>
                 </>
             )}
             <p className="border-t border-line-subtle pt-2.5 text-xs leading-[1.55] text-ink-muted">
@@ -554,7 +634,7 @@ function InlineAlert({
     readonly tone: "danger" | "neutral";
     readonly title: string;
     readonly body: string;
-    readonly children?: React.ReactNode;
+    readonly children?: ReactNode;
 }) {
     const Root = tone === "danger" ? "div" : "output";
     return (
