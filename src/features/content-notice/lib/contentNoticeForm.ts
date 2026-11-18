@@ -37,24 +37,17 @@ export function contactOptional(role: ContentNoticeRole | ""): boolean {
     return role === "ILLEGAL_CONTENT_REPORTER";
 }
 
-/** Reasons in the order shown for a role; only a provider may opt out. */
+/** The reasons every role sees, in one fixed order so they never move when the role changes. */
+const SHARED_REASONS = [
+    "RIGHTS_INFRINGEMENT",
+    "ILLEGAL_CONTENT",
+    "INCORRECT_INFORMATION",
+    "OTHER",
+] as const satisfies readonly ContentNoticeReason[];
+
+/** Reasons shown for a role: the same list for everyone, plus the opt-out on top for a provider. */
 export function reasonsForRole(role: ContentNoticeRole | ""): readonly ContentNoticeReason[] {
-    switch (role) {
-        case "PROVIDER":
-            return [
-                "PROVIDER_OPT_OUT",
-                "RIGHTS_INFRINGEMENT",
-                "INCORRECT_INFORMATION",
-                "ILLEGAL_CONTENT",
-                "OTHER",
-            ];
-        case "ILLEGAL_CONTENT_REPORTER":
-            return ["ILLEGAL_CONTENT", "RIGHTS_INFRINGEMENT", "INCORRECT_INFORMATION", "OTHER"];
-        case "OTHER":
-            return ["INCORRECT_INFORMATION", "RIGHTS_INFRINGEMENT", "ILLEGAL_CONTENT", "OTHER"];
-        default:
-            return ["RIGHTS_INFRINGEMENT", "ILLEGAL_CONTENT", "INCORRECT_INFORMATION", "OTHER"];
-    }
+    return role === "PROVIDER" ? ["PROVIDER_OPT_OUT", ...SHARED_REASONS] : SHARED_REASONS;
 }
 
 export type ContentNoticeFormValues = {

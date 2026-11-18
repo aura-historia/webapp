@@ -74,8 +74,15 @@ describe("reasonsForRole", () => {
         expect(reasonsForRole("RIGHTS_HOLDER")).not.toContain("PROVIDER_OPT_OUT");
         expect(reasonsForRole("ILLEGAL_CONTENT_REPORTER")).not.toContain("PROVIDER_OPT_OUT");
         expect(reasonsForRole("")).not.toContain("PROVIDER_OPT_OUT");
-        expect(reasonsForRole("OTHER")[0]).toBe("INCORRECT_INFORMATION");
         expect(reasonsForRole("OTHER")).not.toContain("PROVIDER_OPT_OUT");
+    });
+
+    it("keeps the reasons in one order for every role, the opt-out only added on top", () => {
+        const shared = ["RIGHTS_INFRINGEMENT", "ILLEGAL_CONTENT", "INCORRECT_INFORMATION", "OTHER"];
+        for (const role of ["", "RIGHTS_HOLDER", "ILLEGAL_CONTENT_REPORTER", "OTHER"] as const) {
+            expect(reasonsForRole(role)).toEqual(shared);
+        }
+        expect(reasonsForRole("PROVIDER")).toEqual(["PROVIDER_OPT_OUT", ...shared]);
     });
 });
 
