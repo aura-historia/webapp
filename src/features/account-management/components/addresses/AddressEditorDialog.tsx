@@ -337,7 +337,6 @@ function AddressFields({
             <TextField
                 id={FIELD_IDS.label}
                 label={t("account.addresses.editor.fields.label")}
-                hint={t("account.addresses.editor.fields.labelHint")}
                 error={errorText("label")}
             >
                 <input
@@ -348,7 +347,7 @@ function AddressFields({
                     autoComplete="off"
                     placeholder={t("account.addresses.editor.fields.labelPlaceholder")}
                     aria-invalid={Boolean(errors.label)}
-                    aria-describedby={describedBy("label")}
+                    aria-describedby={errors.label ? describedBy("label") : undefined}
                     onChange={(event) => onChange("label", event.target.value)}
                     className={FIELD_CLASS}
                 />

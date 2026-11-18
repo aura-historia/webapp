@@ -559,7 +559,6 @@
         "fields": {
           "label": "Nome",
           "labelPlaceholder": "Ad esempio Casa o Magazzino",
-          "labelHint": "Solo voi vedete questo nome.",
           "address": "Indirizzo",
           "addressPlaceholder": "Via e numero civico, codice postale, località",
           "addressHint": "Scrivetelo come su una busta. Lo conserviamo esattamente come lo inserite.",
@@ -5973,7 +5972,7 @@
   "geography": {
     "attribution": "Dati di posizione: <providerLink>{{provider}}</providerLink>",
     "disclosure": {
-      "privateAddress": "Gli indirizzi salvati sono privati e destinati solo al vostro account. Li utilizziamo per mostrare distanze e risultati regionali, non per verificare la vostra residenza o la possibilità di consegnare oggetti. Dopo il salvataggio determiniamo la posizione in background con Amazon Location Service. Fino ad allora, o in assenza di un risultato univoco, l’indirizzo resta utilizzabile senza un punto preciso.",
+      "privateAddress": "Gli indirizzi salvati sono privati e destinati solo al vostro account. Li utilizziamo per mostrare distanze e risultati regionali, non per verificare la vostra residenza o la possibilità di consegnare oggetti. Durante la digitazione trasmettiamo il testo inserito ad Amazon Location Service per suggerire indirizzi corrispondenti; non memorizziamo i suggerimenti. Dopo il salvataggio localizziamo l’indirizzo con Amazon Location Service. In assenza di una corrispondenza univoca, l’indirizzo resta utilizzabile senza un punto preciso.",
       "savedOrigin": "Salvando questa ricerca conserviamo una copia privata della sua posizione di ricerca. Le modifiche successive ai vostri indirizzi non la spostano. Modificate o cancellate la ricerca salvata per rimuoverla.",
       "browserLocation": "Il browser vi chiederà se volete condividere la vostra posizione attuale. La utilizziamo solo per questa ricerca e la memorizziamo solo se salvate la ricerca.",
       "publicPartyLocation": "Le sedi attive sono pubbliche: il punto geografico esatto, il paese e la regione possono comparire nei risultati di ricerca ed essere utilizzati per le ricerche per raggio. L’indirizzo completo, le prove e i dati di gestione sono visibili solo alle persone autorizzate. Dismettete una sede per rimuoverla dai risultati pubblici; l’aggiornamento può richiedere un breve tempo.",

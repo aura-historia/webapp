@@ -133,6 +133,7 @@ Where partner, shop, or administration features are used, we may additionally pr
 When you use geographic features, we process in particular, depending on the feature:
 
 - addresses you save in your account, with label, address text, country, region, and postal code where provided
+- the text you enter when searching for an address, and the suggestion you pick
 - geographic information derived from them, such as country, region, coordinates and their precision, and the processing status
 - your selected search location, meaning a saved address or a country with an optional postal code
 - coordinates you use for a radius search or keep in a saved search
@@ -140,7 +141,9 @@ When you use geographic features, we process in particular, depending on the fea
 
 **Saved addresses and search location:** Your saved addresses and your search location are private and intended for your account only. We use them to determine distances and regional results for you. They are not used to verify your residence, billing address, nationality, or whether objects can be delivered. We do not derive a search location from your language, currency, or IP address.
 
-**Geocoding:** After you save or change an address, we determine its geographic location in the background, with a delay. To do so, we send the address text and your country, region, and postal code details to Amazon Location Service provided by Amazon Web Services (AWS), which we use through the Frankfurt region (eu-central-1). Amazon Location Service relies on data from data providers, whose processing may also take place outside this region. We store the result only where the provider's terms permit it and use it exclusively for your account, even if other users save the same address. We adopt a precise point only from an unambiguous result. Until the lookup is complete, or if there is no unambiguous result, the address remains usable without a precise point; you can correct it at any time. Geocoding does not verify your address.
+**Address suggestions:** When you enter an address in your account, we suggest matching addresses while you type. To do so, we send the text you have entered so far and your page language to Amazon Location Service, which we use through the Frankfurt region (eu-central-1). The suggestions are only displayed to you; we do not store them. To limit usage, we store only the number of your suggestion requests per minute and per day. If you pick a suggestion, we send its place reference together with the address and use it to determine the place you picked.
+
+**Geocoding:** After you save or change an address, we determine its geographic location in the background, with a delay. To do so, we send the address text and your country, region, and postal code details or, if you picked a suggestion, its place reference to Amazon Location Service provided by Amazon Web Services (AWS), which we use through the Frankfurt region (eu-central-1). If the provider no longer knows the place reference, we search using the address text. Amazon Location Service relies on data from data providers, whose processing may also take place outside this region. We store the result only where the provider's terms permit it and use it exclusively for your account, even if other users save the same address. We adopt a precise point only from an unambiguous result or if the suggestion you picked is an exact address. Until the lookup is complete, or if there is no unambiguous result, the address remains usable without a precise point; you can correct it at any time. Geocoding does not verify your address.
 
 **Browser location sharing:** We request your current location only when you explicitly trigger it. Your browser asks for your permission first; you can refuse or withdraw it in your browser settings. We use the coordinates for the search in question and store them only if you save the search.
 
@@ -386,4 +389,4 @@ We may adapt these privacy notices where this becomes necessary due to legal, te
 
 ---
 
-_Status: 10 November 2026_
+_Status: 18 November 2026_

@@ -133,6 +133,7 @@ Soweit Partner-, Shop- oder Administrationsfunktionen genutzt werden, können zu
 Wenn Sie geografische Funktionen nutzen, verarbeiten wir je nach Funktion insbesondere:
 
 - Adressen, die Sie in Ihrem Konto speichern, mit Bezeichnung, Adresstext, Land, Region und Postleitzahl, soweit angegeben
+- den Text, den Sie bei der Adresssuche eingeben, und den Vorschlag, den Sie auswählen
 - daraus abgeleitete geografische Angaben wie Land, Region, Koordinaten und deren Genauigkeit sowie den Bearbeitungsstatus
 - Ihren gewählten Suchstandort, also eine gespeicherte Adresse oder ein Land mit optionaler Postleitzahl
 - Koordinaten, die Sie für eine Umkreissuche verwenden oder in einer gespeicherten Suche hinterlegen
@@ -140,7 +141,9 @@ Wenn Sie geografische Funktionen nutzen, verarbeiten wir je nach Funktion insbes
 
 **Gespeicherte Adressen und Suchstandort:** Ihre gespeicherten Adressen und Ihr Suchstandort sind privat und nur für Ihr Konto bestimmt. Wir verwenden sie, um Entfernungen und regionale Ergebnisse für Sie zu ermitteln. Sie dienen nicht der Prüfung Ihres Wohnsitzes, Ihrer Rechnungsanschrift, Ihrer Staatsangehörigkeit oder der Lieferbarkeit von Objekten. Aus Sprache, Währung oder IP-Adresse leiten wir keinen Suchstandort ab.
 
-**Geokodierung:** Nachdem Sie eine Adresse gespeichert oder geändert haben, ermitteln wir ihre geografische Lage zeitversetzt im Hintergrund. Dazu übermitteln wir den Adresstext sowie Ihre Angaben zu Land, Region und Postleitzahl an Amazon Location Service von Amazon Web Services (AWS), den wir über die Region Frankfurt (eu-central-1) nutzen. Amazon Location Service greift auf Daten von Datenlieferanten zurück; deren Verarbeitung kann auch außerhalb dieser Region erfolgen. Wir speichern das Ergebnis nur, soweit die Bedingungen des Anbieters dies erlauben, und verwenden es ausschließlich für Ihr Konto, auch wenn andere Nutzer dieselbe Adresse speichern. Einen genauen Punkt übernehmen wir nur bei einem eindeutigen Ergebnis. Bis die Ermittlung abgeschlossen ist oder wenn kein eindeutiges Ergebnis vorliegt, bleibt die Adresse ohne genauen Punkt nutzbar; Sie können sie jederzeit korrigieren. Die Geokodierung ist keine Prüfung Ihrer Adresse.
+**Adressvorschläge:** Wenn Sie in Ihrem Konto eine Adresse eingeben, schlagen wir Ihnen bereits während der Eingabe passende Adressen vor. Dazu übermitteln wir den bis dahin eingegebenen Text und Ihre Seitensprache an Amazon Location Service, den wir über die Region Frankfurt (eu-central-1) nutzen. Die Vorschläge werden Ihnen nur angezeigt; wir speichern sie nicht. Um die Nutzung zu begrenzen, speichern wir lediglich die Anzahl Ihrer Vorschlagsanfragen pro Minute und pro Tag. Wählen Sie einen Vorschlag aus, übermitteln wir dessen Ortsreferenz zusammen mit der Adresse und ermitteln damit den Ort, den Sie ausgewählt haben.
+
+**Geokodierung:** Nachdem Sie eine Adresse gespeichert oder geändert haben, ermitteln wir ihre geografische Lage zeitversetzt im Hintergrund. Dazu übermitteln wir den Adresstext sowie Ihre Angaben zu Land, Region und Postleitzahl oder, wenn Sie einen Vorschlag ausgewählt haben, dessen Ortsreferenz an Amazon Location Service von Amazon Web Services (AWS), den wir über die Region Frankfurt (eu-central-1) nutzen. Ist die Ortsreferenz dem Anbieter nicht mehr bekannt, suchen wir anhand des Adresstexts. Amazon Location Service greift auf Daten von Datenlieferanten zurück; deren Verarbeitung kann auch außerhalb dieser Region erfolgen. Wir speichern das Ergebnis nur, soweit die Bedingungen des Anbieters dies erlauben, und verwenden es ausschließlich für Ihr Konto, auch wenn andere Nutzer dieselbe Adresse speichern. Einen genauen Punkt übernehmen wir nur bei einem eindeutigen Ergebnis oder wenn der ausgewählte Vorschlag eine genaue Adresse ist. Bis die Ermittlung abgeschlossen ist oder wenn kein eindeutiges Ergebnis vorliegt, bleibt die Adresse ohne genauen Punkt nutzbar; Sie können sie jederzeit korrigieren. Die Geokodierung ist keine Prüfung Ihrer Adresse.
 
 **Standortfreigabe im Browser:** Ihren aktuellen Standort fragen wir nur ab, wenn Sie dies ausdrücklich auslösen. Ihr Browser bittet Sie zuvor um Erlaubnis; Sie können diese verweigern oder in den Browsereinstellungen widerrufen. Wir verwenden die Koordinaten für die jeweilige Suche und speichern sie nur, wenn Sie die Suche speichern.
 
@@ -386,4 +389,4 @@ Wir können diese Datenschutzhinweise anpassen, wenn dies aufgrund rechtlicher, 
 
 ---
 
-_Stand: 10.11.2026_
+_Stand: 18.11.2026_

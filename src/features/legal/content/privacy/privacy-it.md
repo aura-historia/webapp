@@ -133,6 +133,7 @@ Quando vengono utilizzate funzionalità partner, shop o di amministrazione, poss
 Quando utilizzate funzionalità geografiche, trattiamo in particolare, a seconda della funzionalità:
 
 - indirizzi che salvate nel vostro account, con denominazione, testo dell’indirizzo, paese, regione e codice postale, ove indicati
+- il testo che inserite durante la ricerca di un indirizzo e il suggerimento che scegliete
 - dati geografici da essi derivati, come paese, regione, coordinate e relativa precisione, nonché lo stato di elaborazione
 - la posizione di ricerca da voi scelta, ossia un indirizzo salvato oppure un paese con codice postale facoltativo
 - coordinate che utilizzate per una ricerca per raggio o che conservate in una ricerca salvata
@@ -140,7 +141,9 @@ Quando utilizzate funzionalità geografiche, trattiamo in particolare, a seconda
 
 **Indirizzi salvati e posizione di ricerca:** I vostri indirizzi salvati e la vostra posizione di ricerca sono privati e destinati esclusivamente al vostro account. Li utilizziamo per determinare distanze e risultati regionali per voi. Non servono a verificare la vostra residenza, l’indirizzo di fatturazione, la cittadinanza o la possibilità di consegnare oggetti. Non deduciamo alcuna posizione di ricerca dalla lingua, dalla valuta o dall’indirizzo IP.
 
-**Geocodifica:** Dopo che avete salvato o modificato un indirizzo, ne determiniamo la posizione geografica in background, con un certo ritardo. A tal fine trasmettiamo il testo dell’indirizzo e i vostri dati su paese, regione e codice postale ad Amazon Location Service di Amazon Web Services (AWS), che utilizziamo tramite la regione di Francoforte (eu-central-1). Amazon Location Service si basa su dati di fornitori di dati, il cui trattamento può avvenire anche al di fuori di tale regione. Memorizziamo il risultato solo nella misura in cui le condizioni del fornitore lo consentono e lo utilizziamo esclusivamente per il vostro account, anche se altri utenti salvano lo stesso indirizzo. Adottiamo un punto preciso solo da un risultato univoco. Finché la determinazione non è conclusa, o in assenza di un risultato univoco, l’indirizzo resta utilizzabile senza un punto preciso; potete correggerlo in qualsiasi momento. La geocodifica non costituisce una verifica del vostro indirizzo.
+**Suggerimenti di indirizzi:** Quando inserite un indirizzo nel vostro account, vi suggeriamo indirizzi corrispondenti già durante la digitazione. A tal fine trasmettiamo il testo inserito fino a quel momento e la lingua della pagina ad Amazon Location Service, che utilizziamo tramite la regione di Francoforte (eu-central-1). I suggerimenti vi vengono soltanto mostrati; non li memorizziamo. Per limitarne l’uso, memorizziamo soltanto il numero delle vostre richieste di suggerimenti al minuto e al giorno. Se scegliete un suggerimento, ne trasmettiamo il riferimento al luogo insieme all’indirizzo e lo utilizziamo per determinare il luogo da voi scelto.
+
+**Geocodifica:** Dopo che avete salvato o modificato un indirizzo, ne determiniamo la posizione geografica in background, con un certo ritardo. A tal fine trasmettiamo il testo dell’indirizzo e i vostri dati su paese, regione e codice postale oppure, se avete scelto un suggerimento, il relativo riferimento al luogo ad Amazon Location Service di Amazon Web Services (AWS), che utilizziamo tramite la regione di Francoforte (eu-central-1). Se il fornitore non conosce più il riferimento al luogo, effettuiamo la ricerca in base al testo dell’indirizzo. Amazon Location Service si basa su dati di fornitori di dati, il cui trattamento può avvenire anche al di fuori di tale regione. Memorizziamo il risultato solo nella misura in cui le condizioni del fornitore lo consentono e lo utilizziamo esclusivamente per il vostro account, anche se altri utenti salvano lo stesso indirizzo. Adottiamo un punto preciso solo da un risultato univoco o se il suggerimento scelto è un indirizzo esatto. Finché la determinazione non è conclusa, o in assenza di un risultato univoco, l’indirizzo resta utilizzabile senza un punto preciso; potete correggerlo in qualsiasi momento. La geocodifica non costituisce una verifica del vostro indirizzo.
 
 **Condivisione della posizione del browser:** Richiediamo la vostra posizione attuale solo quando lo attivate espressamente. Il browser vi chiede prima l’autorizzazione; potete negarla o revocarla nelle impostazioni del browser. Utilizziamo le coordinate per la ricerca in questione e le memorizziamo solo se salvate la ricerca.
 
@@ -386,4 +389,4 @@ Possiamo adeguare le presenti note sulla privacy quando ciò si renda necessario
 
 ---
 
-_Stato: 10.11.2026_
+_Stato: 18.11.2026_

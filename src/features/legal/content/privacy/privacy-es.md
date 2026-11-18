@@ -133,6 +133,7 @@ Cuando se utilizan funciones para socios, tiendas o administración, también po
 Cuando utiliza funciones geográficas, tratamos en particular, según la función:
 
 - direcciones que guarda en su cuenta, con denominación, texto de la dirección, país, región y código postal, cuando se indiquen
+- el texto que introduce al buscar una dirección y la sugerencia que elige
 - datos geográficos derivados de ellas, como país, región, coordenadas y su precisión, así como el estado del procesamiento
 - la ubicación de búsqueda que elija, es decir, una dirección guardada o un país con código postal opcional
 - coordenadas que utilice para una búsqueda por radio o que conserve en una búsqueda guardada
@@ -140,7 +141,9 @@ Cuando utiliza funciones geográficas, tratamos en particular, según la funció
 
 **Direcciones guardadas y ubicación de búsqueda:** Sus direcciones guardadas y su ubicación de búsqueda son privadas y están destinadas únicamente a su cuenta. Las utilizamos para determinar distancias y resultados regionales para usted. No sirven para verificar su domicilio, su dirección de facturación, su nacionalidad ni si los objetos pueden enviarse. No deducimos ninguna ubicación de búsqueda de su idioma, su moneda o su dirección IP.
 
-**Geocodificación:** Después de que guarde o modifique una dirección, determinamos su ubicación geográfica en segundo plano y con cierto retraso. Para ello, enviamos el texto de la dirección y sus datos de país, región y código postal a Amazon Location Service de Amazon Web Services (AWS), que utilizamos a través de la región de Fráncfort (eu-central-1). Amazon Location Service se basa en datos de proveedores de datos, cuyo tratamiento también puede realizarse fuera de esta región. Solo almacenamos el resultado cuando las condiciones del proveedor lo permiten y lo utilizamos exclusivamente para su cuenta, aunque otros usuarios guarden la misma dirección. Solo adoptamos un punto exacto a partir de un resultado inequívoco. Hasta que concluya la determinación, o si no hay un resultado inequívoco, la dirección sigue pudiendo utilizarse sin un punto exacto; puede corregirla en cualquier momento. La geocodificación no verifica su dirección.
+**Sugerencias de direcciones:** Cuando introduce una dirección en su cuenta, le sugerimos direcciones coincidentes mientras escribe. Para ello, enviamos el texto introducido hasta ese momento y el idioma de la página a Amazon Location Service, que utilizamos a través de la región de Fráncfort (eu-central-1). Las sugerencias solo se le muestran; no las almacenamos. Para limitar el uso, solo almacenamos el número de sus solicitudes de sugerencias por minuto y por día. Si elige una sugerencia, enviamos su referencia de lugar junto con la dirección y la utilizamos para determinar el lugar que ha elegido.
+
+**Geocodificación:** Después de que guarde o modifique una dirección, determinamos su ubicación geográfica en segundo plano y con cierto retraso. Para ello, enviamos el texto de la dirección y sus datos de país, región y código postal o, si ha elegido una sugerencia, su referencia de lugar a Amazon Location Service de Amazon Web Services (AWS), que utilizamos a través de la región de Fráncfort (eu-central-1). Si el proveedor ya no conoce la referencia de lugar, buscamos a partir del texto de la dirección. Amazon Location Service se basa en datos de proveedores de datos, cuyo tratamiento también puede realizarse fuera de esta región. Solo almacenamos el resultado cuando las condiciones del proveedor lo permiten y lo utilizamos exclusivamente para su cuenta, aunque otros usuarios guarden la misma dirección. Solo adoptamos un punto exacto a partir de un resultado inequívoco o si la sugerencia elegida es una dirección exacta. Hasta que concluya la determinación, o si no hay un resultado inequívoco, la dirección sigue pudiendo utilizarse sin un punto exacto; puede corregirla en cualquier momento. La geocodificación no verifica su dirección.
 
 **Compartir la ubicación del navegador:** Solo solicitamos su ubicación actual cuando usted lo activa expresamente. Su navegador le pide permiso previamente; puede denegarlo o revocarlo en la configuración del navegador. Utilizamos las coordenadas para la búsqueda correspondiente y solo las almacenamos si guarda la búsqueda.
 
@@ -386,4 +389,4 @@ Podemos adaptar estas notas de privacidad cuando sea necesario por cambios legal
 
 ---
 
-_Estado: 10.11.2026_
+_Estado: 18.11.2026_
