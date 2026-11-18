@@ -1,10 +1,13 @@
 import { CircleAlert, Check, MapPin, Search } from "lucide-react";
-import { type KeyboardEvent, useId, useState } from "react";
+import { type KeyboardEvent, type ReactNode, useId, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { Spinner } from "@/components/ui/spinner";
 import type { AddressSuggestion } from "@/data/internal/geography/AddressSuggestion.ts";
 import { AMAZON_LOCATION_ATTRIBUTION } from "@/data/internal/geography/GeographyAttribution.ts";
-import { useAddressSuggestions } from "@/features/account-management/hooks/useAddressSuggestions.ts";
+import {
+    type AddressSuggestionsState,
+    useAddressSuggestions,
+} from "@/features/account-management/hooks/useAddressSuggestions.ts";
 import {
     FIELD_CLASS,
     FIELD_MESSAGE_CLASS,
@@ -55,8 +58,8 @@ export function AddressSearchField({
     const listboxId = useId();
     const optionId = useId();
     const messageId = `${id}-message`;
-    const pickCurrent = pick !== undefined && pick.label === value;
-    const completePick = pickCurrent && pick.kind === "ADDRESS";
+    const pickCurrent = pick?.label === value;
+    const completePick = pickCurrent && pick?.kind === "ADDRESS";
     const suggestions = useAddressSuggestions(value, searchable && !completePick && !disabled);
     const [focused, setFocused] = useState(false);
     const [dismissed, setDismissed] = useState(false);
@@ -99,25 +102,13 @@ export function AddressSearchField({
         }
     };
 
-    let hint: { text: string; tone: "muted" | "secondary" } | undefined;
-    if (pickCurrent && !completePick) {
-        hint = { text: t("account.addresses.search.partialPick"), tone: "secondary" };
-    } else if (suggestions.status === "limited") {
-        hint = { text: t("account.addresses.search.limited"), tone: "secondary" };
-    } else if (suggestions.status === "unavailable") {
-        hint = { text: t("account.addresses.search.unavailable"), tone: "secondary" };
-    } else if (suggestions.status === "ready" && items.length === 0) {
-        hint = { text: t("account.addresses.search.empty"), tone: "muted" };
-    } else if (!completePick) {
-        hint = {
-            text: searchable
-                ? t("account.addresses.search.hintTyping")
-                : t("account.addresses.search.hint"),
-            tone: "muted",
-        };
-    }
-
-    const typedLength = value.length;
+    const hint = searchHint({
+        partialPick: pickCurrent && !completePick,
+        completePick,
+        status: suggestions.status,
+        empty: items.length === 0,
+        searchable,
+    });
 
     return (
         <div className="relative flex min-w-0 flex-col gap-2">
@@ -171,123 +162,229 @@ export function AddressSearchField({
                         aria-label={t("account.addresses.search.listLabel")}
                         className="flex flex-col"
                     >
-                        {items.map((suggestion, index) => {
-                            const prefix =
-                                suggestion.label.slice(0, typedLength).toLocaleLowerCase() ===
-                                value.toLocaleLowerCase()
-                                    ? suggestion.label.slice(0, typedLength)
-                                    : "";
-                            return (
-                                // biome-ignore lint/a11y/useKeyWithClickEvents: keyboard selection runs on the combobox via aria-activedescendant.
-                                <div
-                                    key={suggestion.placeId}
-                                    id={`${optionId}-${index}`}
-                                    role="option"
-                                    tabIndex={-1}
-                                    aria-selected={index === active}
-                                    // Keeps focus in the field so the click lands before blur.
-                                    onMouseDown={(event) => event.preventDefault()}
-                                    onClick={() => pickSuggestion(suggestion)}
-                                    onMouseEnter={() => setHighlighted(index)}
-                                    className={cn(
-                                        "flex min-h-12 cursor-pointer items-center gap-2.5 rounded-md px-2.5 py-1.5 text-sm leading-snug",
-                                        index === active && "bg-surface-sunken",
-                                    )}
-                                >
-                                    <MapPin
-                                        aria-hidden="true"
-                                        className="size-4 shrink-0 text-ink-muted"
-                                        strokeWidth={1.6}
-                                    />
-                                    <span className="min-w-0 flex-1 wrap-anywhere">
-                                        {prefix && (
-                                            <strong className="font-semibold">{prefix}</strong>
-                                        )}
-                                        {suggestion.label.slice(prefix.length)}
-                                    </span>
-                                    {suggestion.kind !== "ADDRESS" && (
-                                        <span className="inline-flex h-[22px] shrink-0 items-center rounded-sm bg-surface-sunken px-2 font-mono text-[10px] tracking-[0.1em] text-ink-secondary uppercase">
-                                            {t(`account.addresses.search.kinds.${suggestion.kind}`)}
-                                        </span>
-                                    )}
-                                </div>
-                            );
-                        })}
+                        {items.map((suggestion, index) => (
+                            <SuggestionOption
+                                key={suggestion.placeId}
+                                id={`${optionId}-${index}`}
+                                suggestion={suggestion}
+                                typed={value}
+                                active={index === active}
+                                onPick={() => pickSuggestion(suggestion)}
+                                onHover={() => setHighlighted(index)}
+                            />
+                        ))}
                     </div>
-                    <p className="border-t border-line-subtle px-2.5 pt-2 pb-1 text-xs text-ink-muted">
-                        <Trans
-                            i18nKey="account.addresses.search.attribution"
-                            values={{ provider: attribution.provider }}
-                            components={{
-                                providerLink: (
-                                    // biome-ignore lint/a11y/useAnchorContent: Trans fills in the provider name.
-                                    <a
-                                        href={attribution.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        onMouseDown={(event) => event.preventDefault()}
-                                        className={LINK_CLASS}
-                                    />
-                                ),
-                            }}
-                        />
-                    </p>
+                    <SuggestionAttribution provider={attribution.provider} url={attribution.url} />
                 </div>
             )}
 
-            {error ? (
-                <p
-                    id={messageId}
-                    role="alert"
-                    className={cn(FIELD_MESSAGE_CLASS, "flex items-center gap-1.5")}
-                >
-                    <CircleAlert aria-hidden="true" className="size-3.5 shrink-0" strokeWidth={2} />
-                    {error}
-                </p>
-            ) : completePick ? (
-                <p
-                    id={messageId}
-                    className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-meta text-ink"
-                >
-                    <span className="inline-flex items-center gap-1.5">
-                        <span
-                            aria-hidden="true"
-                            className="inline-flex size-[18px] items-center justify-center rounded-pill bg-oxblood text-on-oxblood"
-                        >
-                            <Check className="size-[11px]" strokeWidth={3} />
-                        </span>
-                        {t("account.addresses.search.picked")}
-                    </span>
-                    <button
-                        type="button"
-                        disabled={disabled}
-                        onClick={() => {
-                            setDismissed(false);
-                            onSearchAgain();
-                            document.getElementById(id)?.focus();
-                        }}
-                        className={cn(
-                            "min-h-8 cursor-pointer text-ink-secondary disabled:cursor-not-allowed",
-                            LINK_CLASS,
-                        )}
-                    >
-                        {t("account.addresses.search.searchAgain")}
-                    </button>
-                </p>
-            ) : (
-                hint && (
-                    <p
-                        id={messageId}
-                        aria-live="polite"
-                        className={cn(
-                            "text-meta",
-                            hint.tone === "muted" ? "text-ink-muted" : "text-ink-secondary",
-                        )}
-                    >
-                        {hint.text}
-                    </p>
-                )
+            <FieldMessage
+                id={messageId}
+                error={error}
+                completePick={completePick}
+                hint={hint}
+                disabled={disabled}
+                onSearchAgain={() => {
+                    setDismissed(false);
+                    onSearchAgain();
+                    document.getElementById(id)?.focus();
+                }}
+            />
+        </div>
+    );
+}
+
+type SearchHint = { readonly key: string; readonly tone: "muted" | "secondary" };
+
+/** The line under the field while there is no error and no complete pick. */
+function searchHint({
+    partialPick,
+    completePick,
+    status,
+    empty,
+    searchable,
+}: {
+    readonly partialPick: boolean;
+    readonly completePick: boolean;
+    readonly status: AddressSuggestionsState["status"];
+    readonly empty: boolean;
+    readonly searchable: boolean;
+}): SearchHint | undefined {
+    if (partialPick) return { key: "account.addresses.search.partialPick", tone: "secondary" };
+    if (status === "limited") return { key: "account.addresses.search.limited", tone: "secondary" };
+    if (status === "unavailable") {
+        return { key: "account.addresses.search.unavailable", tone: "secondary" };
+    }
+    if (status === "ready" && empty)
+        return { key: "account.addresses.search.empty", tone: "muted" };
+    if (completePick) return undefined;
+    return {
+        key: searchable ? "account.addresses.search.hintTyping" : "account.addresses.search.hint",
+        tone: "muted",
+    };
+}
+
+function SuggestionOption({
+    id,
+    suggestion,
+    typed,
+    active,
+    onPick,
+    onHover,
+}: {
+    readonly id: string;
+    readonly suggestion: AddressSuggestion;
+    readonly typed: string;
+    readonly active: boolean;
+    readonly onPick: () => void;
+    readonly onHover: () => void;
+}) {
+    const { t } = useTranslation();
+    const head = suggestion.label.slice(0, typed.length);
+    const prefix = head.toLocaleLowerCase() === typed.toLocaleLowerCase() ? head : "";
+    return (
+        <div
+            id={id}
+            role="option"
+            tabIndex={-1}
+            aria-selected={active}
+            // Keeps focus in the field so the click lands before blur.
+            onMouseDown={(event) => event.preventDefault()}
+            onClick={onPick}
+            // The combobox handles the keyboard; this covers an option that receives focus.
+            onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    onPick();
+                }
+            }}
+            onMouseEnter={onHover}
+            className={cn(
+                "flex min-h-12 cursor-pointer items-center gap-2.5 rounded-md px-2.5 py-1.5 text-sm leading-snug",
+                active && "bg-surface-sunken",
+            )}
+        >
+            <MapPin
+                aria-hidden="true"
+                className="size-4 shrink-0 text-ink-muted"
+                strokeWidth={1.6}
+            />
+            <span className="min-w-0 flex-1 wrap-anywhere">
+                {prefix && <strong className="font-semibold">{prefix}</strong>}
+                {suggestion.label.slice(prefix.length)}
+            </span>
+            {suggestion.kind !== "ADDRESS" && (
+                <span className="inline-flex h-[22px] shrink-0 items-center rounded-sm bg-surface-sunken px-2 font-mono text-[10px] tracking-[0.1em] text-ink-secondary uppercase">
+                    {t(`account.addresses.search.kinds.${suggestion.kind}`)}
+                </span>
             )}
         </div>
+    );
+}
+
+function ProviderLink({
+    href,
+    children,
+}: {
+    readonly href: string;
+    readonly children?: ReactNode;
+}) {
+    return (
+        <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            onMouseDown={(event) => event.preventDefault()}
+            className={LINK_CLASS}
+        >
+            {children}
+        </a>
+    );
+}
+
+function SuggestionAttribution({
+    provider,
+    url,
+}: {
+    readonly provider: string;
+    readonly url: string;
+}) {
+    return (
+        <p className="border-t border-line-subtle px-2.5 pt-2 pb-1 text-xs text-ink-muted">
+            <Trans
+                i18nKey="account.addresses.search.attribution"
+                values={{ provider }}
+                components={{ providerLink: <ProviderLink href={url} /> }}
+            />
+        </p>
+    );
+}
+
+function FieldMessage({
+    id,
+    error,
+    completePick,
+    hint,
+    disabled,
+    onSearchAgain,
+}: {
+    readonly id: string;
+    readonly error?: string;
+    readonly completePick: boolean;
+    readonly hint?: SearchHint;
+    readonly disabled: boolean;
+    readonly onSearchAgain: () => void;
+}) {
+    const { t } = useTranslation();
+    if (error) {
+        return (
+            <p
+                id={id}
+                role="alert"
+                className={cn(FIELD_MESSAGE_CLASS, "flex items-center gap-1.5")}
+            >
+                <CircleAlert aria-hidden="true" className="size-3.5 shrink-0" strokeWidth={2} />
+                {error}
+            </p>
+        );
+    }
+    if (completePick) {
+        return (
+            <p id={id} className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-meta text-ink">
+                <span className="inline-flex items-center gap-1.5">
+                    <span
+                        aria-hidden="true"
+                        className="inline-flex size-[18px] items-center justify-center rounded-pill bg-oxblood text-on-oxblood"
+                    >
+                        <Check className="size-[11px]" strokeWidth={3} />
+                    </span>
+                    {t("account.addresses.search.picked")}
+                </span>
+                <button
+                    type="button"
+                    disabled={disabled}
+                    onClick={onSearchAgain}
+                    className={cn(
+                        "min-h-8 cursor-pointer text-ink-secondary disabled:cursor-not-allowed",
+                        LINK_CLASS,
+                    )}
+                >
+                    {t("account.addresses.search.searchAgain")}
+                </button>
+            </p>
+        );
+    }
+    if (!hint) return null;
+    return (
+        <p
+            id={id}
+            aria-live="polite"
+            className={cn(
+                "text-meta",
+                hint.tone === "muted" ? "text-ink-muted" : "text-ink-secondary",
+            )}
+        >
+            {t(hint.key)}
+        </p>
     );
 }
