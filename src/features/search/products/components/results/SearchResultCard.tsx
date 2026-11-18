@@ -23,6 +23,12 @@ const IMAGE_BUTTON_CLASS = cn(
     "inline-flex size-9 cursor-pointer items-center justify-center rounded-pill disabled:cursor-default",
     FOCUS_CLASS,
 );
+/**
+ * The photo link fills a clipping box, so its own outline would be hidden; the box draws the ring
+ * instead while that link has keyboard focus.
+ */
+const MEDIA_FOCUS_CLASS =
+    "has-[[data-slot=result-media]_a:focus-visible]:outline-2 has-[[data-slot=result-media]_a:focus-visible]:outline-solid has-[[data-slot=result-media]_a:focus-visible]:outline-offset-3 has-[[data-slot=result-media]_a:focus-visible]:outline-brass";
 const BADGE_CLASS =
     "absolute top-2.5 left-2.5 z-10 rounded-sm bg-oxblood px-[7px] py-1 font-mono text-tag text-on-oxblood uppercase";
 
@@ -80,6 +86,7 @@ function SearchResultCardComponent({ product }: { readonly product: ProductListi
             <div
                 className={cn(
                     "relative aspect-square overflow-hidden rounded-md bg-image-ground",
+                    MEDIA_FOCUS_CLASS,
                     (hasUnseenNotification || matchedFilterId) && "shadow-selected",
                 )}
             >

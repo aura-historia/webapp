@@ -127,11 +127,27 @@ function Carousel({
     );
 }
 
-function CarouselContent({ className, ...props }: React.ComponentProps<"div">) {
+/**
+ * The viewport clips its slides, so it reaches 6px past its box on every side (padding cancelled
+ * by a negative margin) to leave room for focus outlines (2px at a 3px offset) and selection
+ * rings. Keep the slide gap wider than this, or pass `viewportClassName="m-0 p-0"` for gapless
+ * carousels so neighbouring slides do not peek in.
+ */
+const VIEWPORT_BLEED_CLASS = "-m-1.5 p-1.5";
+
+function CarouselContent({
+    className,
+    viewportClassName,
+    ...props
+}: React.ComponentProps<"div"> & { readonly viewportClassName?: string }) {
     const { carouselRef, orientation } = useCarousel();
 
     return (
-        <div ref={carouselRef} className="overflow-hidden" data-slot="carousel-content">
+        <div
+            ref={carouselRef}
+            className={cn("overflow-hidden", VIEWPORT_BLEED_CLASS, viewportClassName)}
+            data-slot="carousel-content"
+        >
             <div
                 className={cn(
                     "flex",

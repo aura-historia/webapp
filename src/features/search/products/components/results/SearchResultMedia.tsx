@@ -62,7 +62,7 @@ export function SearchResultMedia({
     onProductClick,
 }: SearchResultMediaProps) {
     return (
-        <div aria-hidden="true" className="size-full">
+        <div aria-hidden="true" data-slot="result-media" className="size-full">
             <ProductListingLink
                 productListingTitleSlugId={productListingTitleSlugId}
                 onClick={onProductClick}
