@@ -32,6 +32,7 @@ const BACKEND_SCOPES = [
     "partnerships:read",
     "partnerships:write",
     "admin-overview:read",
+    "content-notices:read",
     "users:read",
     "users:write",
     "access-tokens:read",

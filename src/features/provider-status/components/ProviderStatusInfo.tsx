@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { Drawer, DrawerContent, DrawerDescription, DrawerTitle } from "@/components/ui/drawer.tsx";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover.tsx";
+import type { ContentNoticeSearch } from "@/features/content-notice/lib/contentNoticeSearch.ts";
 import type { ProviderStatusScope } from "@/features/provider-status/lib/providerStatusLinks.ts";
 import { useMediaQuery } from "@/hooks/common/useMediaQuery.ts";
 import { cn } from "@/lib/utils.ts";
@@ -23,10 +24,11 @@ type ProviderStatusInfoProps = {
     /** The provider's canonical address, linked as the place the content was found. */
     readonly sourceUrl?: string;
     readonly sourceHost?: string;
-    readonly removalHref: string;
+    /** Opens the notice form with this listing or provider pre-filled. */
+    readonly removalSearch: ContentNoticeSearch;
 };
 
-type FactsProps = Omit<ProviderStatusInfoProps, "removalHref"> & { readonly mobile: boolean };
+type FactsProps = Omit<ProviderStatusInfoProps, "removalSearch"> & { readonly mobile: boolean };
 
 function ProviderStatusFacts({ scope, providerName, sourceUrl, sourceHost, mobile }: FactsProps) {
     const { t } = useTranslation();
@@ -187,9 +189,15 @@ export function ProviderStatusInfo(props: ProviderStatusInfoProps) {
                     <ProviderStatusFacts {...props} mobile={false} />
                     <p className="text-meta leading-[1.6] text-ink-muted">
                         {t("providerStatus.info.providerQuestion")}{" "}
-                        <a href={props.removalHref} className={LINK_CLASS}>
+                        <Link
+                            to="/$lng/content-notice"
+                            params={true}
+                            from="/$lng"
+                            search={props.removalSearch}
+                            className={LINK_CLASS}
+                        >
                             {removalLabel}
-                        </a>{" "}
+                        </Link>{" "}
                         ·{" "}
                         <Link
                             to="/$lng/partner-program"
@@ -242,15 +250,18 @@ export function ProviderStatusInfo(props: ProviderStatusInfoProps) {
                             <span className={EYEBROW_CLASS}>
                                 {t("providerStatus.info.providerQuestion")}
                             </span>
-                            <a
-                                href={props.removalHref}
+                            <Link
+                                to="/$lng/content-notice"
+                                params={true}
+                                from="/$lng"
+                                search={props.removalSearch}
                                 className={cn(
                                     "inline-flex min-h-12 items-center justify-center rounded-pill px-4 text-center text-button text-ink shadow-[inset_0_0_0_1px_var(--color-line-strong)]",
                                     FOCUS_CLASS,
                                 )}
                             >
                                 {removalLabel}
-                            </a>
+                            </Link>
                             <Link
                                 to="/$lng/partner-program"
                                 params={true}

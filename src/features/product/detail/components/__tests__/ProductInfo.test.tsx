@@ -13,22 +13,31 @@ vi.mock("@tanstack/react-router", async () => {
         Link: ({
             to,
             params,
+            search,
             children,
             ...props
         }: {
             to: string;
             params?:
+                | true
                 | Record<string, string>
                 | ((current: Record<string, string>) => Record<string, string>);
+            search?: Record<string, string>;
             children: React.ReactNode;
             className?: string;
         }) => {
             const resolvedParams =
-                typeof params === "function" ? params({ lng: "de" }) : (params ?? { lng: "de" });
+                typeof params === "function"
+                    ? params({ lng: "de" })
+                    : params === true || params === undefined
+                      ? { lng: "de" }
+                      : params;
             let href = to;
             for (const [key, value] of Object.entries(resolvedParams)) {
                 href = href.replace(`$${key}`, value);
             }
+            const query = new URLSearchParams(search ?? {}).toString();
+            if (query) href = `${href}?${query}`;
             return (
                 <a href={href} {...props}>
                     {children}
@@ -88,9 +97,10 @@ describe("ProductInfo", () => {
         expect(notice).toHaveTextContent(
             "Kein Partner von Aura Historia. Angebot automatisch auf der Website von Antique Store gefunden. Rechte an Texten und Bildern liegen beim Anbieter oder den jeweiligen Rechteinhabern.",
         );
+        // Opens the notice form (#1326) instead of the interim mailto.
         expect(screen.getByRole("link", { name: "Entfernung beantragen" })).toHaveAttribute(
             "href",
-            expect.stringMatching(/^mailto:contact@aura-historia\.com\?subject=/),
+            "/de/content-notice?listing=antique-chair-listing-1",
         );
         expect(screen.getByRole("button", { name: "Über dieses Angebot" })).toBeInTheDocument();
         expect(screen.queryByTestId("partner-badge")).not.toBeInTheDocument();
@@ -108,6 +118,26 @@ describe("ProductInfo", () => {
         expect(screen.getByTestId("partner-badge")).toHaveTextContent("Partner von Aura Historia");
         expect(screen.queryByTestId("non-partner-notice")).not.toBeInTheDocument();
     });
+    it.each([true, false])(
+        "links every listing (partner: %s) to the notice form under its actions",
+        (partner) => {
+            renderWithQueryClient(
+                <ProductInfo product={{ ...product, source: { ...product.source, partner } }} />,
+            );
+            expect(screen.getByRole("link", { name: "Angebot melden" })).toHaveAttribute(
+                "href",
+                "/de/content-notice?listing=antique-chair-listing-1",
+            );
+        },
+    );
+
+    it("shows no report link without a listing slug to link to", () => {
+        renderWithQueryClient(
+            <ProductInfo product={{ ...product, productListingTitleSlugId: undefined }} />,
+        );
+        expect(screen.queryByRole("link", { name: "Angebot melden" })).not.toBeInTheDocument();
+    });
+
     it("uses the referral URL with a nofollow relationship", () => {
         renderWithQueryClient(<ProductInfo product={product} />);
         const link = screen.getByRole("link", { name: /Zur Seite des Anbieters/ });

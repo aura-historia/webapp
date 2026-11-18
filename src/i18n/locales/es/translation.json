@@ -124,6 +124,10 @@
     "aiAgents": {
       "title": "Aura Historia en Claude, ChatGPT y otros asistentes de IA",
       "description": "Conecte Aura Historia a Claude o ChatGPT y busque arte y antigüedades con sus propias palabras, con o sin cuenta. Las apps para Gemini, Grok y Muse están en camino."
+    },
+    "contentNotice": {
+      "title": "Solicitar la retirada o denunciar contenido",
+      "description": "Pida a Aura Historia que retire un anuncio o denuncie contenido. Para proveedores, titulares de derechos y cualquiera que encuentre contenido ilícito. Sin cuenta."
     }
   },
   "validation": {
@@ -5029,7 +5033,8 @@
         "partiesWrite": "Crear, actualizar o eliminar registros de organizaciones si la cuenta tiene acceso de administrador.",
         "partnershipsRead": "Leer asociaciones si la cuenta tiene acceso de administrador.",
         "partnershipsWrite": "Modificar o disolver asociaciones y conceder o revocar sus miembros y fuentes de anuncios si la cuenta tiene acceso de administrador.",
-        "adminOverviewRead": "Leer el resumen operativo de administración si la cuenta tiene acceso de administrador."
+        "adminOverviewRead": "Leer el resumen operativo de administración si la cuenta tiene acceso de administrador.",
+        "contentNoticesRead": "Leer avisos sobre contenidos, incluidos el nombre, el correo electrónico y el mensaje de quien los envió, si la cuenta tiene acceso de administrador."
       },
       "validation": {
         "nameRequired": "Por favor, introduce un nombre para el token.",
@@ -5102,7 +5107,8 @@
       "partiesWrite": "Gestionar organizaciones",
       "partnershipsRead": "Leer asociaciones",
       "partnershipsWrite": "Gestionar asociaciones",
-      "adminOverviewRead": "Leer el resumen de administración"
+      "adminOverviewRead": "Leer el resumen de administración",
+      "contentNoticesRead": "Leer avisos de contenido"
     },
     "scopeGroups": {
       "account": "Cuenta y tokens de acceso",
@@ -6266,6 +6272,195 @@
         "subjectProvider": "Solicitud de retirada: todos los anuncios de {{provider}}",
         "body": "Proveedor: {{provider}}\nPágina en Aura Historia: {{url}}\n\nSoy: (el proveedor / titular de derechos, p. ej. fotógrafo o autor / otra persona)\n\nMotivo (¿por qué debe retirarse el contenido?):\n\n\nNombre:\n\nDeclaro de buena fe que la información facilitada es exacta y completa."
       }
+    }
+  },
+  "contentNotice": {
+    "eyebrow": "Aviso y retirada",
+    "title": "Solicitar la retirada o <em>denunciar contenido.</em>",
+    "lead": "Indíquenos a qué anuncio o proveedor se refiere su aviso y por qué. Cualquiera puede enviar un aviso: el proveedor, titulares de derechos como fotógrafos o autores, y cualquier persona que encuentre contenido ilícito.",
+    "backToListing": "Volver al anuncio",
+    "backToProvider": "Volver al proveedor",
+    "formLabel": "Formulario de aviso",
+    "optional": "(opcional)",
+    "submit": "Enviar aviso",
+    "submitting": "Enviando…",
+    "retry": "Reintentar",
+    "goodFaith": "Declaro de buena fe que la información facilitada es exacta y completa.",
+    "sections": {
+      "what": "¿Sobre qué es su aviso?",
+      "role": "¿Quién es usted?",
+      "reason": "¿Cuál es el motivo?",
+      "contact": "¿Cómo podemos contactarle?",
+      "contactLead": "Enviaremos a esta dirección el acuse de recibo y nuestra decisión.",
+      "contactLeadOptional": "Opcional en las denuncias de contenido ilícito. Sin un correo electrónico no podemos confirmar la recepción ni comunicarle nuestra decisión."
+    },
+    "target": {
+      "listing": "Anuncio",
+      "provider": "Proveedor",
+      "untitled": "Anuncio sin título",
+      "partner": "Socio de Aura Historia",
+      "notPartner": "No es socio de Aura Historia",
+      "prefilled": "Rellenado",
+      "scopeLegend": "Se refiere a",
+      "scopeListing": "Solo este anuncio",
+      "scopeListingHint": "Solo el anuncio de arriba.",
+      "scopeProvider": "Todos los anuncios de {{provider}}",
+      "scopeProviderHint": "Todos los anuncios que mostramos de este proveedor.",
+      "providerScopeNote": "Este aviso se refiere a todos los anuncios de {{provider}}. Para denunciar solo anuncios concretos, abra el anuncio y elija allí «Denunciar este anuncio»."
+    },
+    "urls": {
+      "label": "Más enlaces",
+      "hint": "Otros anuncios, o dónde está publicado el texto o la imagen original. Hasta 10 enlaces.",
+      "add": "Añadir un enlace",
+      "addAnother": "Añadir otro enlace",
+      "remove": "Quitar el enlace {{number}}",
+      "limit": "Ha añadido el máximo de {{max}} enlaces. Mencione los demás en su explicación."
+    },
+    "roles": {
+      "provider": {
+        "label": "Soy el proveedor",
+        "description": "Gestiono esta tienda o estoy autorizado a hablar en su nombre."
+      },
+      "rightsHolder": {
+        "label": "Tengo derechos sobre este contenido",
+        "description": "Por ejemplo, como fotógrafo o autor de un texto o una imagen."
+      },
+      "illegalContentReporter": {
+        "label": "Quiero denunciar un contenido ilícito",
+        "description": "El anuncio, sus textos o sus imágenes infringen la ley. Puede permanecer en el anonimato."
+      },
+      "other": {
+        "label": "Ninguna de estas",
+        "description": "Por ejemplo, un visitante que ha visto información incorrecta."
+      }
+    },
+    "reasons": {
+      "legend": "Motivo",
+      "providerOptOut": {
+        "label": "No quiero aparecer",
+        "description": "Retirar mis anuncios de Aura Historia. Sin necesidad de motivo."
+      },
+      "rightsInfringement": {
+        "label": "Infracción de derechos",
+        "description": "Se usan textos o imágenes sin permiso."
+      },
+      "illegalContent": {
+        "label": "Otro contenido ilícito",
+        "description": "Por ejemplo, objetos o símbolos prohibidos."
+      },
+      "incorrectInformation": {
+        "label": "Información incorrecta",
+        "description": "Por ejemplo, una atribución, una fecha o un estado erróneos."
+      },
+      "other": {
+        "label": "Otra cosa",
+        "description": "Explíquelo en la explicación."
+      }
+    },
+    "explanation": {
+      "label": "Explicación",
+      "counter": "{{count}} / {{max}}",
+      "hints": {
+        "providerOptOut": "¿Hay algo que debamos saber? Puede dejarlo vacío.",
+        "rightsInfringement": "¿Qué obra se ve afectada y qué derechos tiene? Si puede, añada arriba un enlace al original.",
+        "illegalContent": "¿Qué tiene de ilícito y por qué? Sea lo más concreto posible.",
+        "incorrectInformation": "¿Qué es incorrecto y qué es correcto?",
+        "other": "Explique su solicitud.",
+        "default": "Explique su solicitud."
+      }
+    },
+    "contact": {
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "prefilled": "Tomado de su cuenta. Puede cambiar ambos.",
+      "privacy": "Usamos su nombre, su correo y su mensaje solo para tramitar este aviso. Más información en nuestra <privacyLink>política de privacidad</privacyLink>."
+    },
+    "summary": {
+      "title_one": "Revise 1 dato:",
+      "title_other": "Revise {{count}} datos:",
+      "serverTitle": "Algunos datos no se aceptaron. Revise:",
+      "link": "Enlace {{number}}: {{message}}"
+    },
+    "errors": {
+      "urlInvalid": "Introduzca un enlace completo que empiece por https://",
+      "urlTooLong": "Acorte este enlace a 2048 caracteres.",
+      "urlDuplicate": "Ya ha añadido este enlace.",
+      "urlRejected": "Este enlace no se aceptó. Introduzca un enlace completo que empiece por https://",
+      "role": "Indique quién es usted.",
+      "reason": "Elija un motivo.",
+      "explanation": "Explique su solicitud.",
+      "explanationTooLong": "Acorte su explicación a 5000 caracteres.",
+      "name": "Introduzca su nombre.",
+      "nameTooLong": "Acorte su nombre a 200 caracteres.",
+      "email": "Introduzca un correo como nombre@ejemplo.com.",
+      "goodFaith": "Confirme que su información es exacta y completa.",
+      "notAccepted": "Este dato no se aceptó. Revíselo."
+    },
+    "alerts": {
+      "rateLimited": {
+        "title": "Demasiados avisos desde esta dirección hoy.",
+        "body": "Envíe este aviso por correo a <email>{{email}}</email>."
+      },
+      "unavailable": {
+        "title": "No se pudo enviar su aviso.",
+        "body": "Sus datos se conservan. Inténtelo de nuevo en un momento o envíe el aviso por correo a <email>{{email}}</email>."
+      },
+      "writeEmail": "Escribir un correo",
+      "rateLimitedAnonymous": {
+        "title": "Demasiadas denuncias anónimas sobre este contenido hoy.",
+        "body": "Envíe su denuncia por correo a <email>{{email}}</email> o vuelva a intentarlo mañana."
+      }
+    },
+    "aside": {
+      "eyebrow": "Qué pasa después",
+      "title": "Cómo tramitamos <em>su aviso.</em>",
+      "steps": {
+        "confirmation": {
+          "title": "Confirmación",
+          "text": "Recibirá por correo un acuse de recibo con una referencia de su aviso."
+        },
+        "review": {
+          "title": "Revisión",
+          "text": "Una persona de nuestro equipo revisa cada aviso. No tomamos decisiones automatizadas."
+        },
+        "decision": {
+          "title": "Decisión",
+          "text": "Le comunicamos por correo nuestra decisión y sus motivos."
+        }
+      },
+      "fallback": "¿No puede usar el formulario? Escriba a <email>{{email}}</email>."
+    },
+    "confirmation": {
+      "eyebrow": "Aviso recibido",
+      "title": "Gracias por <em>su aviso.</em>",
+      "body": "Hemos recibido su solicitud. Le hemos enviado una confirmación a <email>{{email}}</email> y le comunicaremos nuestra decisión por correo.",
+      "allListings": "{{provider}}, todos los anuncios",
+      "listingValue": "{{title}} · {{provider}}",
+      "reason": "Motivo",
+      "next": "Siguiente",
+      "nextText": "Una persona de nuestro equipo revisa su aviso. El correo de confirmación incluye una referencia; indíquela si nos escribe.",
+      "spam": "¿No le llega el correo en unos minutos? Revise la carpeta de spam o escriba a {{email}}.",
+      "continue": "Seguir buscando",
+      "bodyAnonymous": "Hemos recibido su denuncia. No ha indicado un correo electrónico, por lo que no podemos enviarle una confirmación ni comunicarle nuestra decisión.",
+      "nextTextAnonymous": "Una persona de nuestro equipo revisa su denuncia."
+    },
+    "notFound": {
+      "listingTitle": "Este anuncio <em>ya no está.</em>",
+      "providerTitle": "Este proveedor <em>ya no está.</em>",
+      "listingBody": "Se ha retirado o ya no está disponible en Aura Historia, así que no queda nada que denunciar.",
+      "providerBody": "Se ha retirado o ya no está disponible en Aura Historia, así que no queda nada que denunciar.",
+      "search": "Ir a la búsqueda"
+    },
+    "missing": {
+      "title": "Empiece por el <em>anuncio o el proveedor.</em>",
+      "body": "Un aviso siempre se refiere a un anuncio o a un proveedor de Aura Historia. Ábralo y elija «Denunciar este anuncio» o «Denunciar a este proveedor».",
+      "searchListings": "Buscar anuncios",
+      "searchProviders": "Buscar proveedores",
+      "contact": "¿No lo encuentra? Escriba a {{email}}."
+    },
+    "entry": {
+      "reportListing": "Denunciar este anuncio",
+      "reportProvider": "Denunciar a este proveedor"
     }
   }
 }
