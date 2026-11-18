@@ -39,7 +39,7 @@ export function CheckboxPanel({
         <label
             className={cn(
                 AUTH_PANEL_CLASS,
-                "flex cursor-pointer items-start gap-3 has-focus-visible:outline-2 has-focus-visible:outline-offset-3 has-focus-visible:outline-brass has-disabled:cursor-not-allowed has-disabled:opacity-60",
+                "flex cursor-pointer items-start gap-3 has-focus-visible:outline-2 has-focus-visible:outline-solid has-focus-visible:outline-offset-3 has-focus-visible:outline-brass has-disabled:cursor-not-allowed has-disabled:opacity-60",
             )}
         >
             <FormControl>

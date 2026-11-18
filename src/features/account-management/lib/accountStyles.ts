@@ -1,8 +1,12 @@
 import { cn } from "@/lib/utils.ts";
 
 /** Class names shared by the account page's section cards and forms (design board "Account"). */
+/**
+ * Brass keyboard focus ring. `outline-none` also sets `--tw-outline-style: none`, which
+ * `outline-2` would inherit, so the ring names its style (`outline-solid`) to be drawn at all.
+ */
 export const FOCUS_CLASS =
-    "outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+    "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
 
 export const CARD_CLASS = "rounded-panel bg-surface-raised p-5 text-ink shadow-ring sm:p-8";
 

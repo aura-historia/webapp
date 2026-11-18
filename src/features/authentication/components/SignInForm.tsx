@@ -150,31 +150,40 @@ export function SignInForm({
                         control={form.control}
                         name="password"
                         render={({ field }) => (
-                            <FormItem className="gap-2">
-                                <div className="flex items-baseline justify-between gap-3">
-                                    <FormLabel className={AUTH_LABEL_CLASS}>
-                                        {t("auth.signIn.password")}
-                                    </FormLabel>
-                                    <button
-                                        type="button"
-                                        onClick={onSwitchToResetPassword}
-                                        className={cn(
-                                            AUTH_LINK_CLASS,
-                                            "text-meta font-normal text-ink-secondary",
-                                        )}
-                                    >
-                                        {t("auth.signIn.forgotPassword")}
-                                    </button>
+                            // The reset link follows the field in the DOM, so Tab goes from the
+                            // email straight to the password; the grid still shows it beside the label.
+                            <FormItem className="grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-3 gap-y-2">
+                                <FormLabel
+                                    className={cn(AUTH_LABEL_CLASS, "col-start-1 row-start-1")}
+                                >
+                                    {t("auth.signIn.password")}
+                                </FormLabel>
+                                <div className="col-span-2 row-start-2">
+                                    <FormControl>
+                                        <PasswordInput
+                                            {...field}
+                                            autoComplete="current-password"
+                                            placeholder={t("auth.signIn.passwordPlaceholder")}
+                                            disabled={form.formState.isSubmitting}
+                                        />
+                                    </FormControl>
                                 </div>
-                                <FormControl>
-                                    <PasswordInput
-                                        {...field}
-                                        autoComplete="current-password"
-                                        placeholder={t("auth.signIn.passwordPlaceholder")}
-                                        disabled={form.formState.isSubmitting}
-                                    />
-                                </FormControl>
-                                <FormMessage className={AUTH_FIELD_MESSAGE_CLASS} />
+                                <FormMessage
+                                    className={cn(
+                                        AUTH_FIELD_MESSAGE_CLASS,
+                                        "col-span-2 row-start-3",
+                                    )}
+                                />
+                                <button
+                                    type="button"
+                                    onClick={onSwitchToResetPassword}
+                                    className={cn(
+                                        AUTH_LINK_CLASS,
+                                        "col-start-2 row-start-1 justify-self-end text-meta font-normal text-ink-secondary",
+                                    )}
+                                >
+                                    {t("auth.signIn.forgotPassword")}
+                                </button>
                             </FormItem>
                         )}
                     />
