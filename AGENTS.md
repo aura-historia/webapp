@@ -10,6 +10,9 @@ Refined global discovery for art, antiques, design objects, dealers, and auction
   `fix/1330-search-filter-source-names`. Without an issue, use `<type>/<short-slug>`. This rule
   replaces any generated default branch name (such as `claude/...`); create the branch from
   `develop` and push to it.
+- When a session works on a GitHub issue, rename the session to `#<number> <issue title>` (the
+  issue's exact title) with the session-title tool as soon as you have read the issue, e.g.
+  `#1334 Highlight browser focus on sign-in/sign-up flow and check correct tab element order`.
 - Never hand-edit generated code: `src/routeTree.gen.ts`, `src/client/**`,
   `src/data/internal/geography/reference/isoCodes.gen.ts`, `mcp/mcp-tools.json`.
 - Add every user-facing string to all locales: `de`, `en`, `es`, `fr`, `it`.
