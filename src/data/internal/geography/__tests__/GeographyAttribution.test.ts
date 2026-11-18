@@ -14,6 +14,18 @@ describe("mapToGeographyAttribution", () => {
         });
     });
 
+    it("shows the provider's name for a provider code the backend sends", () => {
+        expect(
+            mapToGeographyAttribution({
+                provider: "AMAZON_LOCATION",
+                attributionUrl: "https://example.test/attribution",
+            }),
+        ).toEqual({
+            provider: "Amazon Location Service",
+            url: "https://example.test/attribution",
+        });
+    });
+
     it.each([null, undefined])("returns undefined for a missing attribution (%s)", (input) => {
         expect(mapToGeographyAttribution(input)).toBeUndefined();
     });
