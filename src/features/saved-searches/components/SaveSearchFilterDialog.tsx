@@ -56,7 +56,7 @@ type Props = {
 };
 
 const FOCUS_CLASS =
-    "outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+    "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
 const SECONDARY_BUTTON_CLASS = cn(
     "inline-flex h-11 cursor-pointer items-center justify-center gap-2 rounded-pill px-5 text-sm font-medium text-ink shadow-[inset_0_0_0_1px_var(--line-strong)] disabled:cursor-not-allowed disabled:opacity-35",
     FOCUS_CLASS,
@@ -66,7 +66,7 @@ const PRIMARY_BUTTON_CLASS = cn(
     FOCUS_CLASS,
 );
 const FIELD_CLASS =
-    "w-full rounded-md border-0 bg-surface px-3 text-[15px] text-ink shadow-field outline-none placeholder:text-ink-placeholder focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+    "w-full rounded-md border-0 bg-surface px-3 text-[15px] text-ink shadow-field outline-none placeholder:text-ink-placeholder focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
 
 /** Which applied filters belong to a restricted filter group, by the group's label key. */
 const RESTRICTED_GROUP_FILTERS: Record<string, (filter: ActiveFilter) => boolean> = {

@@ -162,7 +162,7 @@ export function ConsentBanner() {
                             aria-expanded={purposesOpen}
                             aria-controls={purposesId}
                             onClick={() => setPurposesOpen((open) => !open)}
-                            className="flex min-h-12 cursor-pointer items-center justify-between gap-3 text-left font-sans text-[14px] font-medium text-ink outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass md:hidden"
+                            className="flex min-h-12 cursor-pointer items-center justify-between gap-3 text-left font-sans text-[14px] font-medium text-ink outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass md:hidden"
                         >
                             {purposesOpen ? t("consent.hidePurposes") : t("consent.choosePurposes")}
                             <ChevronDown

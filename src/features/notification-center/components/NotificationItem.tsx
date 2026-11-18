@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 import { useRouteContext } from "@tanstack/react-router";
 
 const ICON_BUTTON_CLASS =
-    "inline-flex size-8 cursor-pointer items-center justify-center rounded-pill text-ink-muted hover:enabled:bg-surface-sunken hover:enabled:text-ink disabled:cursor-not-allowed disabled:opacity-35 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass";
+    "inline-flex size-8 cursor-pointer items-center justify-center rounded-pill text-ink-muted hover:enabled:bg-surface-sunken hover:enabled:text-ink disabled:cursor-not-allowed disabled:opacity-35 outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-brass";
 
 /** One row of the notification popover; its actions show on hover or focus, always on touch. */
 export function NotificationItem({

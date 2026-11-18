@@ -67,7 +67,7 @@ export function ProductHistory({ history, displayCurrency }: ProductHistoryProps
                         key={option.value}
                         onClick={() => setActiveFilter(option.value)}
                         className={cn(
-                            "relative min-h-11 cursor-pointer text-body-sm outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass",
+                            "relative min-h-11 cursor-pointer text-body-sm outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass",
                             selected ? "font-semibold text-ink" : "text-ink-muted hover:text-ink",
                         )}
                     >

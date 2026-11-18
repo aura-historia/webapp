@@ -264,7 +264,7 @@ type ConfigurationErrors = {
 
 /** A dialog option card on the raised ground; the checked card gets the oxblood ring. */
 const OPTION_CARD_CLASS =
-    "flex cursor-pointer items-start gap-2.5 rounded-md bg-surface px-3.5 py-3 shadow-[inset_0_0_0_1px_var(--line)] has-checked:bg-surface-raised has-checked:shadow-[inset_0_0_0_1.5px_var(--oxblood)] has-focus-visible:outline-2 has-focus-visible:outline-offset-3 has-focus-visible:outline-brass";
+    "flex cursor-pointer items-start gap-2.5 rounded-md bg-surface px-3.5 py-3 shadow-[inset_0_0_0_1px_var(--line)] has-checked:bg-surface-raised has-checked:shadow-[inset_0_0_0_1.5px_var(--oxblood)] has-focus-visible:outline-2 has-focus-visible:outline-solid has-focus-visible:outline-offset-3 has-focus-visible:outline-brass";
 
 /**
  * Creates or edits a listing source (board "Admin · Listing source form"): four numbered groups —
@@ -417,7 +417,7 @@ function CreateListingSourceForm({
                     {(["EXISTING", "NEW"] as const).map((value) => (
                         <label
                             key={value}
-                            className="inline-flex min-h-9 cursor-pointer items-center rounded-pill px-3.5 text-meta text-ink-secondary has-checked:bg-surface-raised has-checked:font-medium has-checked:text-ink has-checked:shadow-ring has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-brass"
+                            className="inline-flex min-h-9 cursor-pointer items-center rounded-pill px-3.5 text-meta text-ink-secondary has-checked:bg-surface-raised has-checked:font-medium has-checked:text-ink has-checked:shadow-ring has-focus-visible:outline-2 has-focus-visible:outline-solid has-focus-visible:outline-offset-2 has-focus-visible:outline-brass"
                         >
                             <input
                                 type="radio"

@@ -49,7 +49,7 @@ export function AdminSegmentedControl<T extends string>({
                     <label
                         key={option.value}
                         className={cn(
-                            "inline-flex min-h-9 items-center justify-center rounded-pill px-3.5 text-meta has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-brass",
+                            "inline-flex min-h-9 items-center justify-center rounded-pill px-3.5 text-meta has-focus-visible:outline-2 has-focus-visible:outline-solid has-focus-visible:outline-offset-2 has-focus-visible:outline-brass",
                             fill && "flex-1",
                             checked
                                 ? "bg-surface-raised font-medium text-ink shadow-ring"

@@ -16,7 +16,7 @@ const POPOVER_LIMIT = 5;
 const MAX_BADGE_COUNT = 9;
 
 const FOCUS_CLASS =
-    "outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+    "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
 
 const HEADER_ICON_CLASS = cn(
     "inline-flex size-9 cursor-pointer items-center justify-center rounded-pill text-ink-muted hover:enabled:bg-surface-sunken hover:enabled:text-ink disabled:cursor-not-allowed disabled:opacity-35",
@@ -126,7 +126,7 @@ export function NotificationBell({
                 <button
                     type="button"
                     className={cn(
-                        "relative inline-flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-md text-ink-secondary transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass data-[state=open]:bg-surface-sunken data-[state=open]:text-ink",
+                        "relative inline-flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-md text-ink-secondary transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass data-[state=open]:bg-surface-sunken data-[state=open]:text-ink",
                         triggerClassName,
                     )}
                     aria-label={
@@ -328,7 +328,7 @@ export function NotificationBell({
                         from="/$lng"
                         className={cn(
                             "flex min-h-[52px] items-center justify-between bg-surface px-5 text-meta font-medium text-ink hover:text-brass-ink",
-                            "outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brass",
+                            "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:-outline-offset-2 focus-visible:outline-brass",
                         )}
                     >
                         {t("notifications.showAll")}

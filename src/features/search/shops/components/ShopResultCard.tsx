@@ -8,7 +8,7 @@ import { outboundLinkRel } from "@/lib/ui/outboundLinkRel.ts";
 import { cn } from "@/lib/utils.ts";
 
 const FOCUS_CLASS =
-    "outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+    "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
 
 const ACTION_CLASS = cn(
     "inline-flex min-h-11 items-center gap-1.5 text-meta font-medium hover:text-brass-ink",

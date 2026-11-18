@@ -8,7 +8,7 @@ import { SearchTypeTabs } from "@/features/search/common/components/SearchTypeTa
 import { ShopSearchResults } from "@/features/search/shops/components/ShopSearchResults.tsx";
 
 const TEXT_LINK_CLASS =
-    "inline-flex min-h-11 items-center self-start text-sm font-medium text-ink underline decoration-line-strong underline-offset-3 hover:text-brass-ink outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+    "inline-flex min-h-11 items-center self-start text-sm font-medium text-ink underline decoration-line-strong underline-offset-3 hover:text-brass-ink outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
 
 type ShopSearchPageProps = {
     readonly searchArgs: ShopSearchFilterArguments;

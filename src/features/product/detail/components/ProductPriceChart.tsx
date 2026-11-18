@@ -19,7 +19,7 @@ import Chart from "react-apexcharts";
 
 const HEADING_ID = "product-price-history-title";
 const FOCUS_CLASS =
-    "outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+    "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
 const AXIS_FONT = {
     fontSize: "10px",
     fontWeight: 400,

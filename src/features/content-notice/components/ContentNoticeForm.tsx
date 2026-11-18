@@ -655,7 +655,7 @@ export function ContentNoticeForm({ target, onSubmitted, onTargetGone }: Content
                                 goodFaithError
                                     ? "shadow-[inset_0_0_0_1.5px_var(--oxblood)]"
                                     : "shadow-field",
-                                "has-focus-visible:outline-2 has-focus-visible:outline-offset-3 has-focus-visible:outline-brass",
+                                "has-focus-visible:outline-2 has-focus-visible:outline-solid has-focus-visible:outline-offset-3 has-focus-visible:outline-brass",
                             )}
                         >
                             <input

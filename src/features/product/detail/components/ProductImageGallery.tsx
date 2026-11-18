@@ -20,7 +20,7 @@ import { cn } from "@/lib/utils.ts";
 const MAX_THUMBNAILS = 6;
 
 const FOCUS_CLASS =
-    "outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+    "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
 const CHIP_BUTTON_CLASS = cn(
     "inline-flex cursor-pointer items-center justify-center rounded-pill bg-chip-on-image text-[#170D0E]",
     FOCUS_CLASS,

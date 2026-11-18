@@ -52,7 +52,7 @@ export function LocaleSwitch({ variant, className }: LocaleSwitchProps) {
     );
 
     const triggerClassName = cn(
-        "inline-flex min-h-9 items-center font-mono text-[11px] tracking-[0.1em] text-ink-secondary uppercase transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass",
+        "inline-flex min-h-9 items-center font-mono text-[11px] tracking-[0.1em] text-ink-secondary uppercase transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass",
         VARIANT_CLASSES[variant].trigger,
     );
 

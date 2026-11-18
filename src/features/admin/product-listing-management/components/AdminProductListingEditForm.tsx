@@ -418,7 +418,7 @@ function TextFields({
                     error={errors.descriptionLanguage?.message}
                 />
             </div>
-            <label className="flex cursor-pointer items-start gap-3 rounded-md bg-surface px-4 py-3.5 shadow-ring has-focus-visible:outline-2 has-focus-visible:outline-offset-3 has-focus-visible:outline-brass has-disabled:cursor-default has-disabled:opacity-55">
+            <label className="flex cursor-pointer items-start gap-3 rounded-md bg-surface px-4 py-3.5 shadow-ring has-focus-visible:outline-2 has-focus-visible:outline-solid has-focus-visible:outline-offset-3 has-focus-visible:outline-brass has-disabled:cursor-default has-disabled:opacity-55">
                 <input
                     type="checkbox"
                     disabled={disabled}

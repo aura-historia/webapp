@@ -5,7 +5,7 @@ import { useCarousel } from "@/components/ui/carousel.tsx";
 import { cn } from "@/lib/utils.ts";
 
 const BUTTON_CLASS =
-    "inline-flex size-11 cursor-pointer items-center justify-center rounded-pill outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass disabled:cursor-not-allowed disabled:opacity-35";
+    "inline-flex size-11 cursor-pointer items-center justify-center rounded-pill outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass disabled:cursor-not-allowed disabled:opacity-35";
 
 /** Rail paging: a hairline previous button and an ink next button, disabled at the ends. */
 export function ProductCarouselNavButtons({

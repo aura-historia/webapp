@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils.ts";
 import { ToggleBellIcon } from "@/components/common/ToggleBellIcon.tsx";
 
 const FOCUS_CLASS =
-    "outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+    "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
 const IMAGE_BUTTON_CLASS = cn(
     "inline-flex size-9 cursor-pointer items-center justify-center rounded-pill disabled:cursor-default",
     FOCUS_CLASS,

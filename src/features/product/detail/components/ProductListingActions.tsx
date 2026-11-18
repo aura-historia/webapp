@@ -9,7 +9,7 @@ import { outboundLinkRel } from "@/lib/ui/outboundLinkRel.ts";
 import { cn } from "@/lib/utils.ts";
 
 export const FOCUS_CLASS =
-    "outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+    "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
 
 export type PriceDisplay = {
     /** The large figure: the price, "Price on request", the estimate, or "Price unknown". */

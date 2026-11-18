@@ -26,7 +26,7 @@ import { cn } from "@/lib/utils.ts";
 const SKELETON_IDS = ["skeleton-1", "skeleton-2", "skeleton-3"] as const;
 
 const PRIMARY_BUTTON_CLASS =
-    "inline-flex h-11 items-center justify-center gap-2 rounded-pill bg-ink px-5 text-sm font-medium text-surface outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+    "inline-flex h-11 items-center justify-center gap-2 rounded-pill bg-ink px-5 text-sm font-medium text-surface outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
 
 const DELETE_BUTTON_CLASS = cn(
     SECONDARY_PILL_CLASS,
@@ -34,7 +34,7 @@ const DELETE_BUTTON_CLASS = cn(
 );
 
 const SOURCE_LINK_CLASS =
-    "flex min-h-11 items-center justify-between text-body-sm font-medium hover:text-brass-ink outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass";
+    "flex min-h-11 items-center justify-between text-body-sm font-medium hover:text-brass-ink outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-brass";
 
 /** Grouped notifications sit in one card from 640px; on phones each is its own card. */
 const GROUP_CLASS =

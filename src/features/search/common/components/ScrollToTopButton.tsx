@@ -26,7 +26,7 @@ export function ScrollToTopButton({ className }: { readonly className?: string }
             onClick={() => globalThis.scrollTo({ top: 0, behavior: "smooth" })}
             className={cn(
                 "inline-flex size-12 cursor-pointer items-center justify-center rounded-pill bg-surface-raised text-ink shadow-menu",
-                "outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass",
+                "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass",
                 className,
             )}
         >

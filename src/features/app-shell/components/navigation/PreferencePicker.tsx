@@ -167,7 +167,7 @@ export function PreferencePicker({
                 </span>
 
                 {search && (
-                    <div className="flex h-10 items-center gap-2 rounded-md bg-surface px-2.5 shadow-field has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-brass">
+                    <div className="flex h-10 items-center gap-2 rounded-md bg-surface px-2.5 shadow-field has-focus-visible:outline-2 has-focus-visible:outline-solid has-focus-visible:outline-offset-2 has-focus-visible:outline-brass">
                         <Search
                             aria-hidden="true"
                             className="size-3.5 shrink-0 text-ink-muted"
@@ -209,7 +209,7 @@ export function PreferencePicker({
                     className={cn(
                         "flex max-h-[312px] flex-col overflow-y-auto overscroll-contain outline-none",
                         !search &&
-                            "rounded-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass",
+                            "rounded-md focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-brass",
                     )}
                 >
                     {visibleOptions.map((option, index) => {

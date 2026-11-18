@@ -51,7 +51,7 @@ export function OAuthListingSourceSelection({
                             key={shop.listingSourceId}
                             className={cn(
                                 SOURCE_OPTION_CLASS,
-                                "cursor-pointer has-focus-visible:outline-2 has-focus-visible:outline-offset-3 has-focus-visible:outline-brass",
+                                "cursor-pointer has-focus-visible:outline-2 has-focus-visible:outline-solid has-focus-visible:outline-offset-3 has-focus-visible:outline-brass",
                                 selected && SOURCE_OPTION_SELECTED_CLASS,
                             )}
                         >

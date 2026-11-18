@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils.ts";
 type Size = "sm" | "lg";
 
 const FOCUS_CLASS =
-    "outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+    "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
 
 function ChangeArrow({ size }: { readonly size: Size }) {
     const { t } = useTranslation();

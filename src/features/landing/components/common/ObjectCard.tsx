@@ -79,7 +79,7 @@ export function ObjectCard({ product, className }: ObjectCardProps) {
         <article className={cn("min-w-0", className)}>
             <ProductListingLink
                 productListingTitleSlugId={product.productListingTitleSlugId}
-                className="group flex flex-col gap-3 rounded-field text-ink outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass sm:gap-3.5"
+                className="group flex flex-col gap-3 rounded-field text-ink outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass sm:gap-3.5"
             >
                 <div className="relative aspect-4/5 overflow-hidden rounded-field bg-image-ground">
                     {media}

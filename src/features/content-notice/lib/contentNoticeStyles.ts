@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils.ts";
 
 /** Class names of the content notice form (Redesign, Legal page, "Content notice" rows). */
 export const FOCUS_CLASS =
-    "outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+    "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
 
 export const SECTION_NUMBER_CLASS = "font-mono text-xs tracking-[0.14em] text-brass-ink";
 
@@ -33,7 +33,7 @@ export const OPTION_CARD_CLASS = cn(
     "flex min-h-11 cursor-pointer items-start gap-3 rounded-md bg-surface p-3.5 shadow-field",
     "has-checked:bg-surface-raised has-checked:shadow-[inset_0_0_0_1.5px_var(--oxblood)]",
     "data-[invalid=true]:shadow-[inset_0_0_0_1.5px_var(--oxblood)]",
-    "has-focus-visible:outline-2 has-focus-visible:outline-offset-3 has-focus-visible:outline-brass",
+    "has-focus-visible:outline-2 has-focus-visible:outline-solid has-focus-visible:outline-offset-3 has-focus-visible:outline-brass",
     "has-disabled:cursor-not-allowed has-disabled:opacity-60",
 );
 

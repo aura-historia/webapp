@@ -21,7 +21,7 @@ const WATCHLIST_GRID_CLASS =
     "grid grid-cols-2 gap-x-3 gap-y-7 sm:gap-x-6 sm:gap-y-10 md:grid-cols-3 min-[1180px]:grid-cols-4";
 
 const PRIMARY_BUTTON_CLASS =
-    "inline-flex h-11 items-center justify-center gap-2 rounded-pill bg-ink px-5 text-sm font-medium text-surface outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+    "inline-flex h-11 items-center justify-center gap-2 rounded-pill bg-ink px-5 text-sm font-medium text-surface outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
 
 export function WatchlistPage() {
     const { ref: sentinelRef, inView } = useInView();

@@ -6,7 +6,7 @@ import { HEADLINE_COMPONENTS } from "@/features/landing/components/common/Sectio
 import { cn } from "@/lib/utils.ts";
 
 const FOCUS_CLASS =
-    "outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+    "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
 
 export const FALLBACK_PRIMARY_BUTTON_CLASS = cn(
     "inline-flex h-11 cursor-pointer items-center justify-center gap-2 rounded-pill bg-ink px-5 text-sm font-medium text-surface aria-disabled:cursor-progress aria-disabled:opacity-70",

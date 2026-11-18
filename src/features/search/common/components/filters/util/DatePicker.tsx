@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils.ts";
 /** Day cells and month/year selects of the filter calendar, in the design-system look. */
 const CALENDAR_CLASS_NAMES = {
     dropdown_root:
-        "relative rounded-md bg-surface-sunken has-focus:outline-2 has-focus:outline-brass",
+        "relative rounded-md bg-surface-sunken has-focus:outline-2 has-focus:outline-solid has-focus:outline-brass",
     caption_label:
         "flex h-8 items-center gap-1 rounded-md pr-1.5 pl-2 text-meta font-medium [&>svg]:size-3.5 [&>svg]:text-ink-muted",
     weekday: "flex-1 select-none font-mono text-tag text-ink-muted uppercase",

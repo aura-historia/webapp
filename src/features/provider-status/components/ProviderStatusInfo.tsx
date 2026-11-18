@@ -10,7 +10,7 @@ import { useMediaQuery } from "@/hooks/common/useMediaQuery.ts";
 import { cn } from "@/lib/utils.ts";
 
 const FOCUS_CLASS =
-    "outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+    "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
 const LINK_CLASS = cn(
     "text-ink underline decoration-line-strong underline-offset-3 transition-colors hover:text-oxblood hover:decoration-oxblood",
     FOCUS_CLASS,

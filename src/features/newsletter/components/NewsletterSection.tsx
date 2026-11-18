@@ -87,7 +87,7 @@ export default function NewsletterSection() {
     const isBusy = isPending || form.formState.isSubmitting;
 
     const fieldClass =
-        "h-[54px] min-w-0 rounded-lg border-0 bg-[rgba(23,13,14,0.35)] px-4 text-base text-ink shadow-field outline-none placeholder:text-on-oxblood-placeholder focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass aria-invalid:shadow-[inset_0_0_0_1px_var(--brass-light)]";
+        "h-[54px] min-w-0 rounded-lg border-0 bg-[rgba(23,13,14,0.35)] px-4 text-base text-ink shadow-field outline-none placeholder:text-on-oxblood-placeholder focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-brass aria-invalid:shadow-[inset_0_0_0_1px_var(--brass-light)]";
 
     return (
         <LandingSection

@@ -320,7 +320,7 @@ export function SearchFiltersPage() {
                     <div className="flex flex-col gap-3 lg:items-end">
                         <div className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:items-center">
                             {items.length > 0 && (
-                                <label className="flex h-12 items-center gap-2 rounded-pill bg-surface-raised px-3.5 shadow-field focus-within:outline-2 focus-within:outline-offset-3 focus-within:outline-brass sm:h-11 sm:w-[260px]">
+                                <label className="flex h-12 items-center gap-2 rounded-pill bg-surface-raised px-3.5 shadow-field focus-within:outline-2 focus-within:outline-solid focus-within:outline-offset-3 focus-within:outline-brass sm:h-11 sm:w-[260px]">
                                     <span className="sr-only">
                                         {t("searchFilters.searchLabel")}
                                     </span>

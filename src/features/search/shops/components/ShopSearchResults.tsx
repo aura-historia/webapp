@@ -20,10 +20,10 @@ import {
 const SKELETON_IDS = ["s1", "s2", "s3", "s4", "s5", "s6"] as const;
 
 const PRIMARY_BUTTON_CLASS =
-    "inline-flex h-11 items-center justify-center rounded-pill bg-ink px-5 text-sm font-medium text-surface outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+    "inline-flex h-11 items-center justify-center rounded-pill bg-ink px-5 text-sm font-medium text-surface outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
 
 const TEXT_BUTTON_CLASS =
-    "inline-flex min-h-11 cursor-pointer items-center text-sm font-medium text-ink underline decoration-line-strong underline-offset-3 hover:text-brass-ink outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+    "inline-flex min-h-11 cursor-pointer items-center text-sm font-medium text-ink underline decoration-line-strong underline-offset-3 hover:text-brass-ink outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
 
 type ShopSearchResultsProps = {
     readonly searchFilters: ShopSearchFilterArguments;

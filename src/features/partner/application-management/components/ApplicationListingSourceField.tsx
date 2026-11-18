@@ -134,7 +134,7 @@ export function ApplicationListingSourceField({
                 <div className="flex flex-col gap-2">
                     <div
                         className={cn(
-                            "flex h-11 items-center gap-2 rounded-md bg-surface px-3 shadow-field has-focus-visible:outline-2 has-focus-visible:outline-offset-3 has-focus-visible:outline-brass",
+                            "flex h-11 items-center gap-2 rounded-md bg-surface px-3 shadow-field has-focus-visible:outline-2 has-focus-visible:outline-solid has-focus-visible:outline-offset-3 has-focus-visible:outline-brass",
                             error && "shadow-[inset_0_0_0_1.5px_var(--oxblood)]",
                         )}
                     >
