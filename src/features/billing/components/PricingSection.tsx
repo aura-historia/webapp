@@ -3,17 +3,19 @@ import { Check, Loader2, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import type { BillingCycle } from "@/data/internal/billing/BillingCycle.ts";
+import type { SubscriptionType } from "@/data/internal/account/SubscriptionType.ts";
 import type { BillingPlan } from "@/data/internal/billing/BillingPlan.ts";
 import { CURRENCY_MINOR_UNIT_EXPONENTS, parseCurrency } from "@/data/internal/common/Currency.ts";
 import { NAV_FOCUS_CLASS } from "@/features/app-shell/components/navigation/navigationConfig.ts";
+import { useUserAccount } from "@/features/account-management/hooks/useUserAccount.ts";
 import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth.ts";
 import {
     type BillingInterval,
     PRICING_TIERS,
-    type PaidPricingTier,
     type PricingTier,
 } from "@/features/billing/components/PricingSection.data.ts";
 import { useStripeBilling } from "@/features/billing/hooks/useStripeBilling.ts";
+import { type PricingCta, pricingCtaFor } from "@/features/billing/lib/pricingCta.ts";
 import { LandingSection } from "@/features/landing/components/common/LandingSection.tsx";
 import {
     HEADLINE_COMPONENTS,
@@ -29,16 +31,104 @@ const CTA_BASE = cn(
 );
 const CTA_PRIMARY = "bg-surface font-medium text-ink hover:opacity-90";
 const CTA_SECONDARY = "text-ink shadow-[inset_0_0_0_1px_var(--line-strong)] hover:text-brass-ink";
+/** The visitor's own plan: a status in the CTA's place, not an action. */
+const CTA_CURRENT = "cursor-default gap-2 text-ink-secondary shadow-[inset_0_0_0_1px_var(--line)]";
 /** From this many characters (e.g. "1 399 TWD") the prices step down a size to fit the cards. */
 const LONG_PRICE_LENGTH = 9;
 
-function toBillingPlan(tier: PaidPricingTier): BillingPlan {
-    switch (tier.id) {
+/**
+ * The plan sent to the billing entrypoint. Paid visitors always get the Stripe customer portal,
+ * where plan changes happen, so the Free card sends their current plan to open it.
+ */
+function billingPlanFor(tier: SubscriptionType, currentPlan?: SubscriptionType): BillingPlan {
+    switch (tier) {
         case "pro":
             return "PRO";
         case "ultimate":
             return "ULTIMATE";
+        case "free":
+            return currentPlan === "ultimate" ? "ULTIMATE" : "PRO";
     }
+}
+
+const CTA_LABEL_KEYS: Record<PricingCta, string> = {
+    "get-started": "landingPage.pricing.getStartedFree",
+    subscribe: "landingPage.pricing.subscribe",
+    current: "landingPage.pricing.currentPlan",
+    upgrade: "landingPage.pricing.upgrade",
+    switch: "landingPage.pricing.switchPlan",
+};
+
+interface PricingCtaControlProps {
+    readonly cta: PricingCta;
+    /** The highlighted card on the ink ground. */
+    readonly isInk: boolean;
+    /** Auth has resolved to a signed-out visitor, who can sign up for Free. */
+    readonly canSignUp: boolean;
+    /** A billing session is being created. */
+    readonly isBusy: boolean;
+    /** Signed in, but the current plan is still loading. */
+    readonly isPlanPending: boolean;
+    readonly onSelect: () => void;
+}
+
+function PricingCtaControl({
+    cta,
+    isInk,
+    canSignUp,
+    isBusy,
+    isPlanPending,
+    onSelect,
+}: PricingCtaControlProps) {
+    const { t } = useTranslation();
+    const label = t(CTA_LABEL_KEYS[cta]);
+
+    if (cta === "current") {
+        return (
+            <p className={cn(CTA_BASE, CTA_CURRENT)}>
+                <Check aria-hidden="true" className="size-4 shrink-0" strokeWidth={2} />
+                {label}
+            </p>
+        );
+    }
+
+    if (cta === "get-started") {
+        // Auth still restoring, or signed in with the plan unknown: nothing to start yet.
+        if (!canSignUp) {
+            return (
+                <button type="button" disabled className={cn(CTA_BASE, CTA_SECONDARY)}>
+                    {label}
+                </button>
+            );
+        }
+
+        return (
+            <Link
+                to="/$lng/login"
+                search={{ mode: "sign-up" }}
+                params={true}
+                from="/$lng"
+                className={cn(CTA_BASE, CTA_SECONDARY)}
+            >
+                {label}
+            </Link>
+        );
+    }
+
+    // Upgrades are the recommended path on the highlighted card; a switch down stays secondary.
+    const isPrimary = isInk && cta !== "switch";
+
+    return (
+        <button
+            type="button"
+            data-theme={isPrimary ? "light" : undefined}
+            disabled={isBusy || isPlanPending}
+            onClick={onSelect}
+            className={cn(CTA_BASE, isPrimary ? CTA_PRIMARY : CTA_SECONDARY)}
+        >
+            {isBusy ? <Loader2 aria-hidden="true" className="size-4 animate-spin" /> : label}
+        </button>
+    );
 }
 
 interface IntervalToggleProps {
@@ -98,6 +188,11 @@ export default function PricingSection() {
     const currency = parseCurrency(preferences.currency);
     const [billingInterval, setBillingInterval] = useState<BillingInterval>("yearly");
     const { isAuthenticated, isResolved: isAuthResolved } = useResolvedAuth();
+    const { data: userAccount, isPending: isAccountPending } = useUserAccount();
+    // Signed out, or the account has not loaded: every card keeps its default call to action.
+    const currentPlan =
+        isAuthResolved && isAuthenticated ? userAccount?.subscriptionType : undefined;
+    const isPlanPending = isAuthResolved && isAuthenticated && isAccountPending;
     const { handleSubscribe, isLoading } = useStripeBilling();
     const isYearly = billingInterval === "yearly";
     const billingCycle: BillingCycle = isYearly ? "YEARLY" : "MONTHLY";
@@ -259,46 +354,19 @@ export default function PricingSection() {
                                 ))}
                             </ul>
 
-                            {tier.id === "free" ? (
-                                !isAuthResolved || isAuthenticated ? (
-                                    <button
-                                        type="button"
-                                        disabled
-                                        className={cn(CTA_BASE, CTA_SECONDARY)}
-                                    >
-                                        {t("landingPage.pricing.getStartedFree")}
-                                    </button>
-                                ) : (
-                                    <Link
-                                        to="/$lng/login"
-                                        search={{ mode: "sign-up" }}
-                                        params={true}
-                                        from="/$lng"
-                                        className={cn(CTA_BASE, CTA_SECONDARY)}
-                                    >
-                                        {t("landingPage.pricing.getStartedFree")}
-                                    </Link>
-                                )
-                            ) : (
-                                <button
-                                    type="button"
-                                    data-theme={isInk ? "light" : undefined}
-                                    disabled={isLoading}
-                                    onClick={() =>
-                                        handleSubscribe(toBillingPlan(tier), billingCycle)
-                                    }
-                                    className={cn(CTA_BASE, isInk ? CTA_PRIMARY : CTA_SECONDARY)}
-                                >
-                                    {isLoading ? (
-                                        <Loader2
-                                            aria-hidden="true"
-                                            className="size-4 animate-spin"
-                                        />
-                                    ) : (
-                                        t("landingPage.pricing.subscribe")
-                                    )}
-                                </button>
-                            )}
+                            <PricingCtaControl
+                                cta={pricingCtaFor(tier.id, currentPlan)}
+                                isInk={isInk}
+                                canSignUp={isAuthResolved && !isAuthenticated}
+                                isBusy={isLoading}
+                                isPlanPending={isPlanPending}
+                                onSelect={() =>
+                                    handleSubscribe(
+                                        billingPlanFor(tier.id, currentPlan),
+                                        billingCycle,
+                                    )
+                                }
+                            />
                         </article>
                     );
                 })}

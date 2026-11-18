@@ -73,11 +73,16 @@ const createAuthMockValue = (user: MockAuthUser = null) => ({
 
 const mockUseResolvedAuth = vi.hoisted(() => vi.fn());
 
+const mockUseUserAccount = vi.hoisted(() => vi.fn());
 const mockPostBillingManage = vi.hoisted(() => vi.fn());
 const mockNavigate = vi.hoisted(() => vi.fn());
 
 vi.mock("@/features/authentication/hooks/useResolvedAuth", () => ({
     useResolvedAuth: mockUseResolvedAuth,
+}));
+
+vi.mock("@/features/account-management/hooks/useUserAccount", () => ({
+    useUserAccount: mockUseUserAccount,
 }));
 
 vi.mock("@/client", () => ({
@@ -104,6 +109,7 @@ vi.mock("@/data/internal/hooks/ApiError", () => ({
 
 beforeEach(() => {
     mockUseResolvedAuth.mockReturnValue(createAuthMockValue());
+    mockUseUserAccount.mockReturnValue({ data: undefined, isPending: true });
 });
 
 describe("PricingSection", () => {
@@ -398,6 +404,77 @@ describe("PricingSection", () => {
     });
 });
 
+describe("PricingSection calls to action for a signed-in visitor", () => {
+    const signedIn = { userId: "user-1", username: "collector" };
+
+    async function renderFor(account: { subscriptionType: string } | undefined, isPending = false) {
+        mockUseResolvedAuth.mockReturnValue(createAuthMockValue(signedIn));
+        mockUseUserAccount.mockReturnValue({ data: account, isPending });
+        await act(async () => {
+            renderWithRouter(<PricingSection />);
+        });
+    }
+
+    function ctaOf(tierId: string): HTMLElement {
+        const card = document.querySelector(`article[aria-labelledby="pricing-${tierId}"]`);
+        const cta = card?.querySelector("button, a, p.mt-auto");
+        if (!(cta instanceof HTMLElement)) throw new Error(`Missing CTA for ${tierId}`);
+        return cta;
+    }
+
+    it("labels the free plan current and offers upgrades to both paid plans", async () => {
+        await renderFor({ subscriptionType: "free" });
+        expect(ctaOf("free")).toHaveTextContent("Aktuelles Abo");
+        expect(ctaOf("free").tagName).toBe("P");
+        expect(ctaOf("pro")).toHaveTextContent("Upgrade");
+        expect(ctaOf("ultimate")).toHaveTextContent("Upgrade");
+        expect(screen.queryByText("Abonnieren")).not.toBeInTheDocument();
+    });
+
+    it("on Pro, offers a switch to Free, marks Pro current and an upgrade to Ultimate", async () => {
+        await renderFor({ subscriptionType: "pro" });
+        expect(ctaOf("free")).toHaveTextContent("Abo wechseln");
+        expect(ctaOf("free")).toBeEnabled();
+        expect(ctaOf("pro")).toHaveTextContent("Aktuelles Abo");
+        expect(ctaOf("pro").tagName).toBe("P");
+        expect(ctaOf("ultimate")).toHaveTextContent("Upgrade");
+    });
+
+    it("on Ultimate, offers switches to the lower plans and marks Ultimate current", async () => {
+        await renderFor({ subscriptionType: "ultimate" });
+        expect(ctaOf("free")).toHaveTextContent("Abo wechseln");
+        expect(ctaOf("pro")).toHaveTextContent("Abo wechseln");
+        expect(ctaOf("ultimate")).toHaveTextContent("Aktuelles Abo");
+        expect(screen.getAllByRole("button", { name: "Abo wechseln" })).toHaveLength(2);
+    });
+
+    it("opens the billing portal through the current plan when switching to Free", async () => {
+        mockPostBillingManage.mockResolvedValue({
+            data: { url: "https://billing.example/portal" },
+        });
+        await renderFor({ subscriptionType: "ultimate" });
+        await userEvent.click(ctaOf("free"));
+        expect(mockPostBillingManage).toHaveBeenCalledWith({
+            body: { plan: "ULTIMATE", cycle: "YEARLY" },
+        });
+    });
+
+    it("keeps the default labels, with paid actions disabled, while the plan loads", async () => {
+        await renderFor(undefined, true);
+        expect(ctaOf("free")).toHaveTextContent("Kostenlos starten");
+        expect(ctaOf("free")).toBeDisabled();
+        expect(ctaOf("pro")).toHaveTextContent("Abonnieren");
+        expect(ctaOf("pro")).toBeDisabled();
+        expect(ctaOf("ultimate")).toBeDisabled();
+    });
+
+    it("falls back to the enabled defaults when the plan cannot be loaded", async () => {
+        await renderFor(undefined, false);
+        expect(ctaOf("pro")).toHaveTextContent("Abonnieren");
+        expect(ctaOf("pro")).toBeEnabled();
+    });
+});
+
 describe("Pricing and search-instruction copy", () => {
     it.each(["de", "en", "es", "fr", "it"])(
         "promises no notification timing or priority, and names an agent only on the Ultimate row, in %s",
@@ -571,6 +648,11 @@ describe("PricingSection billing button behavior", () => {
     beforeEach(() => {
         vi.clearAllMocks();
 
+        mockUseUserAccount.mockReturnValue({
+            data: { subscriptionType: "free" },
+            isPending: false,
+        });
+
         Object.defineProperty(window, "location", {
             value: { href: "" },
             writable: true,
@@ -596,7 +678,7 @@ describe("PricingSection billing button behavior", () => {
         expect(mockPostBillingManage).not.toHaveBeenCalled();
     });
 
-    it("should call billing manage with PRO plan and YEARLY cycle when clicking Pro subscribe", async () => {
+    it("should call billing manage with PRO plan and YEARLY cycle when upgrading to Pro", async () => {
         mockUseResolvedAuth.mockReturnValue(
             createAuthMockValue({ userId: "test-id", username: "test-user" }),
         );
@@ -611,16 +693,16 @@ describe("PricingSection billing button behavior", () => {
         });
 
         const user = userEvent.setup();
-        const subscribeButtons = screen.getAllByText("Abonnieren");
+        const upgradeButtons = screen.getAllByText("Upgrade");
 
-        await user.click(subscribeButtons[0]);
+        await user.click(upgradeButtons[0]);
 
         expect(mockPostBillingManage).toHaveBeenCalledWith({
             body: { plan: "PRO", cycle: "YEARLY" },
         });
     });
 
-    it("should call billing manage with ULTIMATE plan and YEARLY cycle when clicking Ultimate subscribe", async () => {
+    it("should call billing manage with ULTIMATE plan and YEARLY cycle when upgrading to Ultimate", async () => {
         mockUseResolvedAuth.mockReturnValue(
             createAuthMockValue({ userId: "test-id", username: "test-user" }),
         );
@@ -635,9 +717,9 @@ describe("PricingSection billing button behavior", () => {
         });
 
         const user = userEvent.setup();
-        const subscribeButtons = screen.getAllByText("Abonnieren");
+        const upgradeButtons = screen.getAllByText("Upgrade");
 
-        await user.click(subscribeButtons[1]);
+        await user.click(upgradeButtons[1]);
 
         expect(mockPostBillingManage).toHaveBeenCalledWith({
             body: { plan: "ULTIMATE", cycle: "YEARLY" },
@@ -662,8 +744,8 @@ describe("PricingSection billing button behavior", () => {
 
         await user.click(screen.getByRole("button", { name: "Monatlich" }));
 
-        const subscribeButtons = screen.getAllByText("Abonnieren");
-        await user.click(subscribeButtons[0]);
+        const upgradeButtons = screen.getAllByText("Upgrade");
+        await user.click(upgradeButtons[0]);
 
         expect(mockPostBillingManage).toHaveBeenCalledWith({
             body: { plan: "PRO", cycle: "MONTHLY" },
@@ -685,9 +767,9 @@ describe("PricingSection billing button behavior", () => {
         });
 
         const user = userEvent.setup();
-        const subscribeButtons = screen.getAllByText("Abonnieren");
+        const upgradeButtons = screen.getAllByText("Upgrade");
 
-        await user.click(subscribeButtons[0]);
+        await user.click(upgradeButtons[0]);
 
         expect(mockNavigate).toHaveBeenCalledWith({
             href: "https://checkout.stripe.com/c/pay/cs_test_redirect",
@@ -698,6 +780,7 @@ describe("PricingSection billing button behavior", () => {
         mockUseResolvedAuth.mockReturnValue(
             createAuthMockValue({ userId: "test-id", username: "test-user" }),
         );
+        mockUseUserAccount.mockReturnValue({ data: { subscriptionType: "pro" }, isPending: false });
 
         mockPostBillingManage.mockResolvedValue({
             data: { url: "https://billing.stripe.com/p/session/test_portal" },
@@ -709,12 +792,12 @@ describe("PricingSection billing button behavior", () => {
         });
 
         const user = userEvent.setup();
-        const subscribeButtons = screen.getAllByText("Abonnieren");
+        const upgradeButtons = screen.getAllByText("Upgrade");
 
-        await user.click(subscribeButtons[0]);
+        await user.click(upgradeButtons[0]);
 
         expect(mockPostBillingManage).toHaveBeenCalledWith({
-            body: { plan: "PRO", cycle: "YEARLY" },
+            body: { plan: "ULTIMATE", cycle: "YEARLY" },
         });
         expect(mockNavigate).toHaveBeenCalledWith({
             href: "https://billing.stripe.com/p/session/test_portal",
