@@ -234,8 +234,10 @@ function LatestAcquisitionsRail({ products }: { readonly products: readonly Prod
                 // biome-ignore lint/a11y/noNoninteractiveTabindex: the scrollable rail must be reachable by keyboard.
                 tabIndex={0}
                 onScroll={update}
+                // The scroller clips its cards, so 6px of padding (offset by negative margins)
+                // keeps their focus outlines (2px at a 3px offset) visible.
                 className={cn(
-                    "-mx-(--page-gutter) flex snap-x snap-mandatory scroll-px-(--page-gutter) gap-3 overflow-x-auto px-(--page-gutter) pt-0.5 pb-1.5 [scrollbar-width:none] md:mx-0 md:scroll-px-0 md:gap-5 md:px-0 [&::-webkit-scrollbar]:hidden",
+                    "-mx-(--page-gutter) flex snap-x snap-mandatory scroll-px-(--page-gutter) gap-3 overflow-x-auto px-(--page-gutter) -mt-1 pt-1.5 pb-1.5 [scrollbar-width:none] md:-mx-1.5 md:scroll-px-1.5 md:gap-5 md:px-1.5 [&::-webkit-scrollbar]:hidden",
                     NAV_FOCUS_CLASS,
                 )}
             >

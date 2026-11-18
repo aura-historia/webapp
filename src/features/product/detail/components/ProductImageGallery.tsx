@@ -339,7 +339,7 @@ export function ProductImageGallery({
                         opts={{ loop: false }}
                         className="size-full"
                     >
-                        <CarouselContent className="ml-0 h-full">
+                        <CarouselContent className="ml-0 h-full" viewportClassName="m-0 p-0">
                             {images.map((img, idx) => (
                                 <CarouselItem
                                     key={imageKey(img, idx)}
