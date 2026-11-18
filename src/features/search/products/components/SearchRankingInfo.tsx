@@ -14,7 +14,7 @@ import { HEADLINE_COMPONENTS } from "@/features/landing/components/common/Sectio
 import { cn } from "@/lib/utils.ts";
 
 const FOCUS_CLASS =
-    "outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+    "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
 const MONO_LABEL_CLASS = "font-mono text-tag leading-[1.4] tracking-[0.14em] uppercase";
 
 type SearchRankingInfoProps = {

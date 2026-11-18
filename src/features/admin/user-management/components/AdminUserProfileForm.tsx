@@ -124,7 +124,7 @@ export function AdminUserProfileForm({ account }: { readonly account: AdminUserA
                     }))}
                 />
             </div>
-            <label className="flex cursor-pointer items-start gap-3 rounded-md bg-surface px-4 py-3.5 shadow-ring has-focus-visible:outline-2 has-focus-visible:outline-offset-3 has-focus-visible:outline-brass">
+            <label className="flex cursor-pointer items-start gap-3 rounded-md bg-surface px-4 py-3.5 shadow-ring has-focus-visible:outline-2 has-focus-visible:outline-solid has-focus-visible:outline-offset-3 has-focus-visible:outline-brass">
                 <input
                     type="checkbox"
                     className="mt-0.5 size-[18px] shrink-0 accent-oxblood"

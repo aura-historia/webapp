@@ -87,7 +87,7 @@ export function ProductStateFilter() {
                                     <span
                                         aria-hidden="true"
                                         className={cn(
-                                            "inline-flex size-3.5 shrink-0 items-center justify-center rounded-[3px] text-on-oxblood peer-focus-visible:outline-2 peer-focus-visible:outline-offset-3 peer-focus-visible:outline-brass",
+                                            "inline-flex size-3.5 shrink-0 items-center justify-center rounded-[3px] text-on-oxblood peer-focus-visible:outline-2 peer-focus-visible:outline-solid peer-focus-visible:outline-offset-3 peer-focus-visible:outline-brass",
                                             isChecked
                                                 ? "bg-oxblood"
                                                 : "shadow-[inset_0_0_0_1px_var(--line-strong)]",

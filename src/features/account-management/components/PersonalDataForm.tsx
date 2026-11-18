@@ -228,7 +228,7 @@ export function PersonalDataForm() {
                             name="showUnassessedOrSensitiveContent"
                             render={({ field }) => (
                                 <FormItem className="gap-0">
-                                    <label className="flex cursor-pointer items-start gap-3 rounded-lg bg-surface p-4 shadow-field has-focus-visible:outline-2 has-focus-visible:outline-offset-3 has-focus-visible:outline-brass">
+                                    <label className="flex cursor-pointer items-start gap-3 rounded-lg bg-surface p-4 shadow-field has-focus-visible:outline-2 has-focus-visible:outline-solid has-focus-visible:outline-offset-3 has-focus-visible:outline-brass">
                                         <FormControl>
                                             <input
                                                 type="checkbox"

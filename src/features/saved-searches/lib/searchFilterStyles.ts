@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils.ts";
 
 /** Class names shared by the search filter list, detail page and wizard (design page "Search Filters"). */
 export const FOCUS_CLASS =
-    "outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+    "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
 
 const PILL_CLASS = cn(
     "inline-flex h-11 shrink-0 cursor-pointer items-center justify-center gap-2 rounded-pill text-sm font-medium disabled:cursor-not-allowed disabled:opacity-45",

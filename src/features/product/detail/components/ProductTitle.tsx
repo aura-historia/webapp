@@ -42,7 +42,7 @@ export function ProductTitle({ title }: { readonly title: string }) {
                     aria-expanded={expanded}
                     aria-controls={titleId}
                     onClick={() => setExpanded((value) => !value)}
-                    className="mt-1 inline-flex min-h-11 cursor-pointer items-center gap-1.5 text-body-sm font-medium underline decoration-line-strong underline-offset-3 outline-none hover:text-brass-ink focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass"
+                    className="mt-1 inline-flex min-h-11 cursor-pointer items-center gap-1.5 text-body-sm font-medium underline decoration-line-strong underline-offset-3 outline-none hover:text-brass-ink focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass"
                 >
                     {expanded ? t("product.title.showLess") : t("product.title.showFull")}
                     <ChevronDown

@@ -608,7 +608,7 @@ export function AdminCheckGroup({
                         <label
                             key={option.value}
                             className={cn(
-                                "inline-flex min-h-9 cursor-pointer items-center gap-2 rounded-pill pr-3 pl-2.5 text-meta has-focus-visible:outline-2 has-focus-visible:outline-offset-3 has-focus-visible:outline-brass",
+                                "inline-flex min-h-9 cursor-pointer items-center gap-2 rounded-pill pr-3 pl-2.5 text-meta has-focus-visible:outline-2 has-focus-visible:outline-solid has-focus-visible:outline-offset-3 has-focus-visible:outline-brass",
                                 checked
                                     ? "bg-surface-sunken shadow-[inset_0_0_0_1px_var(--ink)]"
                                     : "bg-surface shadow-[inset_0_0_0_1px_var(--line)]",

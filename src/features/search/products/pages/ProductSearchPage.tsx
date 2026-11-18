@@ -20,7 +20,7 @@ import { serializeSearchParams } from "@/features/search/products/lib/searchVali
 import { cn } from "@/lib/utils.ts";
 
 const FOCUS_CLASS =
-    "outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+    "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
 // One item of the phone count line: never breaks inside, a "·" in its 18px lead-in.
 const COUNT_LINE_ITEM_CLASS =
     "relative pl-[18px] font-mono text-label whitespace-nowrap text-ink-muted uppercase before:absolute before:left-0 before:w-[18px] before:text-center before:content-['·']";

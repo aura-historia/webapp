@@ -15,7 +15,7 @@ type MarkdownProps<T extends keyof JSX.IntrinsicElements> = ComponentPropsWithou
 };
 
 const TOC_LINK_CLASS =
-    "flex items-baseline gap-3 py-2 text-ink-secondary outline-none transition-colors hover:text-ink focus-visible:rounded-xs focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+    "flex items-baseline gap-3 py-2 text-ink-secondary outline-none transition-colors hover:text-ink focus-visible:rounded-xs focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
 
 export function LegalMarkdownPage({ titleKey, localeMap }: MarkdownPageProps) {
     const { t, i18n } = useTranslation();
@@ -54,7 +54,7 @@ export function LegalMarkdownPage({ titleKey, localeMap }: MarkdownPageProps) {
                 {sections.length > 0 && (
                     <>
                         <details className="group mb-9 rounded-panel bg-surface-raised shadow-ring lg:hidden">
-                            <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 rounded-panel px-4 outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass [&::-webkit-details-marker]:hidden">
+                            <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 rounded-panel px-4 outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass [&::-webkit-details-marker]:hidden">
                                 <span className="font-mono text-kicker text-ink uppercase">
                                     {t("legal.contents")}{" "}
                                     <span className="text-ink-muted">· {sections.length}</span>
@@ -156,7 +156,7 @@ const MARKDOWN_COMPONENTS: Components = {
         <a
             {...props}
             className={cn(
-                "underline decoration-line-strong underline-offset-3 transition-colors wrap-anywhere hover:text-brass-ink hover:decoration-current focus-visible:rounded-xs focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass",
+                "underline decoration-line-strong underline-offset-3 transition-colors wrap-anywhere hover:text-brass-ink hover:decoration-current focus-visible:rounded-xs focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass",
                 className,
             )}
         />

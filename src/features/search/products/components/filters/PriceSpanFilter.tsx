@@ -50,7 +50,7 @@ export function PriceSpanFilter({ currency }: { readonly currency?: Currency } =
             <span className="font-mono text-tag tracking-[0.14em] text-ink-muted uppercase">
                 {label}
             </span>
-            <span className="flex h-12 items-center gap-1.5 rounded-md bg-surface-raised px-3 shadow-field focus-within:outline-2 focus-within:outline-offset-3 focus-within:outline-brass lg:h-10">
+            <span className="flex h-12 items-center gap-1.5 rounded-md bg-surface-raised px-3 shadow-field focus-within:outline-2 focus-within:outline-solid focus-within:outline-offset-3 focus-within:outline-brass lg:h-10">
                 <span aria-hidden="true" className="text-body-sm text-ink-muted">
                     {currencySymbol}
                 </span>

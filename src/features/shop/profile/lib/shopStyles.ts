@@ -1,7 +1,7 @@
 /** Shared class strings for the provider page, from the Redesign's Providers boards. */
 
 export const SHOP_FOCUS_CLASS =
-    "outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+    "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
 
 /** Page column: the content width plus the page gutter, like the watchlist and account pages. */
 export const SHOP_PAGE_CLASS =

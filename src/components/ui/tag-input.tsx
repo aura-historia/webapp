@@ -63,7 +63,7 @@ export function TagInput({
             <div
                 className={cn(
                     "flex min-h-11 flex-wrap items-center gap-1.5 rounded-md bg-surface px-2 py-1.5 shadow-field",
-                    "focus-within:outline-2 focus-within:outline-offset-3 focus-within:outline-brass",
+                    "focus-within:outline-2 focus-within:outline-solid focus-within:outline-offset-3 focus-within:outline-brass",
                     "has-[input[aria-invalid=true]]:shadow-[inset_0_0_0_1.5px_var(--oxblood)]",
                 )}
             >
@@ -77,7 +77,7 @@ export function TagInput({
                             type="button"
                             onClick={() => removeTag(tag)}
                             aria-label={removeTagLabel?.(tag) ?? tag}
-                            className="inline-flex size-[26px] cursor-pointer items-center justify-center rounded-pill outline-none focus-visible:outline-2 focus-visible:outline-brass"
+                            className="inline-flex size-[26px] cursor-pointer items-center justify-center rounded-pill outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-brass"
                         >
                             <X className="size-3" strokeWidth={2.2} aria-hidden="true" />
                         </button>

@@ -4,7 +4,7 @@ import type { SearchUrlParams } from "@/features/search/products/lib/searchUrlPa
 import { cn } from "@/lib/utils.ts";
 
 const FOCUS_CLASS =
-    "outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+    "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
 
 const ACTIVE_TAB_CLASS = cn(
     "relative inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-ink",

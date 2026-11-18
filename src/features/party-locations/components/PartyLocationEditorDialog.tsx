@@ -432,7 +432,7 @@ function PartyLocationFields({
                         <label
                             key={role}
                             htmlFor={`party-location-role-${role}`}
-                            className="flex min-h-10 cursor-pointer items-center gap-2.5 rounded-md bg-surface px-3 text-sm shadow-[inset_0_0_0_1px_var(--line)] has-checked:shadow-[inset_0_0_0_1.5px_var(--oxblood)] has-focus-visible:outline-2 has-focus-visible:outline-offset-3 has-focus-visible:outline-brass"
+                            className="flex min-h-10 cursor-pointer items-center gap-2.5 rounded-md bg-surface px-3 text-sm shadow-[inset_0_0_0_1px_var(--line)] has-checked:shadow-[inset_0_0_0_1.5px_var(--oxblood)] has-focus-visible:outline-2 has-focus-visible:outline-solid has-focus-visible:outline-offset-3 has-focus-visible:outline-brass"
                         >
                             <input
                                 id={`party-location-role-${role}`}

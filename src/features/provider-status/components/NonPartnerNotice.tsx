@@ -83,7 +83,7 @@ export function NonPartnerNotice({
                     params={true}
                     from="/$lng"
                     search={noticeSearch}
-                    className="whitespace-nowrap text-ink underline decoration-line-strong decoration-1 underline-offset-3 hover:text-oxblood hover:decoration-oxblood focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass"
+                    className="whitespace-nowrap text-ink underline decoration-line-strong decoration-1 underline-offset-3 hover:text-oxblood hover:decoration-oxblood focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass"
                 >
                     {t("providerStatus.notice.removal")}
                 </Link>

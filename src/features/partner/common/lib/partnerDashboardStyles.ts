@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils.ts";
 
 /** Class names shared by the partner dashboard pages and dialogs (design page "Partner Program", rows "Partner dashboard"). */
 export const FOCUS_CLASS =
-    "outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+    "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
 
 const PILL_CLASS = cn(
     "inline-flex h-11 shrink-0 cursor-pointer items-center justify-center gap-2 rounded-pill text-sm font-medium disabled:cursor-not-allowed disabled:opacity-45",
@@ -69,7 +69,7 @@ export const INLINE_ALERT_CLASS =
 
 /** A selectable option card (radio or checkbox) whose input sits inside it. */
 export const OPTION_CARD_CLASS = cn(
-    "flex cursor-pointer gap-3 rounded-md bg-surface-raised p-3.5 shadow-[inset_0_0_0_1px_var(--line)] has-checked:bg-surface has-checked:shadow-[inset_0_0_0_1.5px_var(--oxblood)] has-focus-visible:outline-2 has-focus-visible:outline-offset-3 has-focus-visible:outline-brass has-disabled:cursor-not-allowed has-disabled:opacity-60",
+    "flex cursor-pointer gap-3 rounded-md bg-surface-raised p-3.5 shadow-[inset_0_0_0_1px_var(--line)] has-checked:bg-surface has-checked:shadow-[inset_0_0_0_1.5px_var(--oxblood)] has-focus-visible:outline-2 has-focus-visible:outline-solid has-focus-visible:outline-offset-3 has-focus-visible:outline-brass has-disabled:cursor-not-allowed has-disabled:opacity-60",
 );
 
 /** The page column shared with the watchlist, account and search filter pages. */

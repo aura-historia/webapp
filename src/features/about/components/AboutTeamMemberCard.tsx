@@ -5,7 +5,7 @@ import { LinkedInIcon } from "@/components/icons/SocialIcons.tsx";
 import type { AboutTeamMember } from "@/features/about/config/aboutPage.data";
 
 const CONTACT_BUTTON_CLASS =
-    "inline-flex h-10 items-center gap-2 rounded-pill px-4 text-meta font-medium text-ink shadow-[inset_0_0_0_1px_var(--line-strong)] outline-none transition-shadow hover:shadow-[inset_0_0_0_1px_var(--ink)] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+    "inline-flex h-10 items-center gap-2 rounded-pill px-4 text-meta font-medium text-ink shadow-[inset_0_0_0_1px_var(--line-strong)] outline-none transition-shadow hover:shadow-[inset_0_0_0_1px_var(--ink)] focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
 
 function getInitials(name: string) {
     return name

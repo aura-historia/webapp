@@ -497,7 +497,7 @@ function SecretField({ label, value }: { readonly label: string; readonly value:
                     value={value}
                     spellCheck={false}
                     onFocus={(event) => event.currentTarget.select()}
-                    className="h-11 min-w-0 flex-1 rounded-sm border-0 bg-surface-raised px-3 font-mono text-[13px] text-ink outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass"
+                    className="h-11 min-w-0 flex-1 rounded-sm border-0 bg-surface-raised px-3 font-mono text-[13px] text-ink outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-brass"
                 />
                 <button
                     type="button"

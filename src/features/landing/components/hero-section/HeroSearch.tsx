@@ -45,7 +45,7 @@ export function HeroSearch({ className }: { readonly className?: string }) {
                 data-theme="light"
                 onSubmit={handleSubmit}
                 noValidate
-                className="flex w-full scroll-mt-28 items-center gap-1 rounded-panel bg-surface-raised p-1.5 shadow-search has-focus-visible:outline-2 has-focus-visible:outline-offset-3 has-focus-visible:outline-brass sm:flex-wrap sm:gap-2 sm:p-2"
+                className="flex w-full scroll-mt-28 items-center gap-1 rounded-panel bg-surface-raised p-1.5 shadow-search has-focus-visible:outline-2 has-focus-visible:outline-solid has-focus-visible:outline-offset-3 has-focus-visible:outline-brass sm:flex-wrap sm:gap-2 sm:p-2"
             >
                 <label htmlFor={inputId} className="sr-only">
                     {t("landingPage.hero.searchLabel")}

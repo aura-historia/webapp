@@ -55,7 +55,7 @@ export function ProductDealerItems({ source, excludeProductListingId }: ProductD
             to="/$lng/shops/$shopSlugId"
             params={(current) => ({ ...current, shopSlugId: source.slugId })}
             from="/$lng"
-            className="inline-flex min-h-11 items-center gap-1.5 self-start text-body-sm font-medium underline decoration-line-strong underline-offset-3 outline-none hover:text-brass-ink focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass"
+            className="inline-flex min-h-11 items-center gap-1.5 self-start text-body-sm font-medium underline decoration-line-strong underline-offset-3 outline-none hover:text-brass-ink focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass"
         >
             {t("shop.card.viewSource")}
             <ArrowUpRight aria-hidden="true" className="size-3.5" strokeWidth={1.8} />

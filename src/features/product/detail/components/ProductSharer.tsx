@@ -58,7 +58,7 @@ export function ProductSharer({ title, variant = "ghost", className }: ProductSh
                     type="button"
                     aria-label={t("share.shareProduct")}
                     className={cn(
-                        "inline-flex size-11 cursor-pointer items-center justify-center rounded-pill text-ink outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass",
+                        "inline-flex size-11 cursor-pointer items-center justify-center rounded-pill text-ink outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass",
                         variant === "outline" &&
                             "shadow-[inset_0_0_0_1px_var(--color-line-strong)]",
                         open ? "bg-surface-sunken" : "hover:bg-surface-sunken",
@@ -104,7 +104,7 @@ export function ProductSharer({ title, variant = "ghost", className }: ProductSh
                         url={url}
                         title={shareText}
                         resetButtonStyle={false}
-                        className="w-full rounded-md text-left outline-none focus-visible:outline-2 focus-visible:outline-brass"
+                        className="w-full rounded-md text-left outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-brass"
                     >
                         <span className={cn(ROW_CLASS, "h-10 justify-between")}>
                             {name}

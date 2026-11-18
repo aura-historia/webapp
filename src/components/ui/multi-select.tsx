@@ -28,7 +28,7 @@ export type MultiSelectProps = {
 };
 
 const FOCUS_CLASS =
-    "outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+    "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
 
 /**
  * A searchable multi-select: a search field over a listbox with ticks on the chosen options,
@@ -92,7 +92,7 @@ export function MultiSelect({
             className="flex flex-col gap-2 overflow-visible"
         >
             <PopoverPrimitive.Root open={showList}>
-                <PopoverPrimitive.Anchor className="flex h-12 items-center gap-2 rounded-md bg-surface-raised px-3 shadow-field focus-within:outline-2 focus-within:outline-offset-3 focus-within:outline-brass lg:h-10">
+                <PopoverPrimitive.Anchor className="flex h-12 items-center gap-2 rounded-md bg-surface-raised px-3 shadow-field focus-within:outline-2 focus-within:outline-solid focus-within:outline-offset-3 focus-within:outline-brass lg:h-10">
                     <Search
                         aria-hidden="true"
                         className="size-[15px] shrink-0 text-ink-muted"

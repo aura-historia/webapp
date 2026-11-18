@@ -57,6 +57,27 @@ describe("SignInForm", () => {
         mockResendSignUpCode.mockResolvedValue(undefined);
     });
 
+    it("tabs from the email to the password before the reset link", async () => {
+        const user = userEvent.setup();
+
+        await act(async () => {
+            renderSignInForm();
+        });
+
+        await user.click(screen.getByLabelText("E-Mail"));
+        await user.tab();
+        expect(screen.getByLabelText("Passwort")).toHaveFocus();
+
+        await user.tab();
+        expect(screen.getByRole("button", { name: "Passwort anzeigen" })).toHaveFocus();
+
+        await user.tab();
+        expect(screen.getByRole("button", { name: "Passwort vergessen?" })).toHaveFocus();
+
+        await user.tab();
+        expect(screen.getByRole("button", { name: "Anmelden" })).toHaveFocus();
+    });
+
     it("signs in with the address normalized to the registered form", async () => {
         // The user pool is case sensitive on the email username, so a capitalised address
         // is a different, nonexistent user to Cognito.

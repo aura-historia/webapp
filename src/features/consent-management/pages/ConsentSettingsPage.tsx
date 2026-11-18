@@ -69,7 +69,7 @@ export function ConsentSettingsPage() {
                             1: (
                                 <Link
                                     to="/$lng/privacy"
-                                    className="underline decoration-line-strong underline-offset-3 transition-colors hover:text-brass-ink hover:decoration-current focus-visible:rounded-xs focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass"
+                                    className="underline decoration-line-strong underline-offset-3 transition-colors hover:text-brass-ink hover:decoration-current focus-visible:rounded-xs focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass"
                                     params={true}
                                     from="/$lng"
                                 />

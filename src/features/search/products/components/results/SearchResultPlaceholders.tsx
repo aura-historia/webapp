@@ -60,7 +60,7 @@ export function SearchHiddenMatchCard() {
                     from="/$lng"
                     className={cn(
                         "inline-flex min-h-11 items-center gap-1.5 text-meta font-medium text-oxblood hover:text-brass-ink",
-                        "outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass",
+                        "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass",
                     )}
                 >
                     {t("searchFilter.upgradeNow")}
@@ -72,7 +72,7 @@ export function SearchHiddenMatchCard() {
 }
 
 export const RESULT_SECONDARY_BUTTON_CLASS =
-    "inline-flex h-11 cursor-pointer items-center justify-center rounded-pill px-5 text-sm font-medium text-ink shadow-[inset_0_0_0_1px_var(--line-strong)] outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass";
+    "inline-flex h-11 cursor-pointer items-center justify-center rounded-pill px-5 text-sm font-medium text-ink shadow-[inset_0_0_0_1px_var(--line-strong)] outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
 
 /** Centred empty or error state for a result list: icon, serif headline, copy and actions. */
 export function ResultStatePanel({
