@@ -126,6 +126,25 @@ function submitLabelKey(pending: boolean, failure: FormFailure | null): string {
 }
 
 /** Signed in: fills in name and e-mail from the account once, after hydration. Both stay editable. */
+/**
+ * Only a provider may opt out: picking another role clears that reason. Name and e-mail are
+ * optional only for a report of illegal content, so a role change after a submit re-checks them.
+ */
+function useRoleRules(
+    form: UseFormReturn<ContentNoticeFormValues>,
+    role: ContentNoticeFormValues["submitterRole"],
+    reason: ContentNoticeFormValues["reasonCategory"],
+) {
+    const { setValue, trigger, formState } = form;
+    const submitted = formState.isSubmitted;
+    useEffect(() => {
+        if (role !== "PROVIDER" && reason === "PROVIDER_OPT_OUT") {
+            setValue("reasonCategory", "", { shouldValidate: submitted });
+        }
+        if (submitted && role) void trigger(["name", "email"]);
+    }, [role, reason, setValue, trigger, submitted]);
+}
+
 function useAccountPrefill(form: UseFormReturn<ContentNoticeFormValues>) {
     const { isAuthenticated } = useResolvedAuth();
     const { data: account } = useUserAccount(isAuthenticated);
@@ -223,15 +242,7 @@ export function ContentNoticeForm({ target, onSubmitted, onTargetGone }: Content
     const reason = watch("reasonCategory");
     const explanationLength = watch("explanation").trim().length;
 
-    // Only a provider may opt out: picking another role clears that reason. Name and e-mail are
-    // optional only for a report of illegal content, so a role change after a submit re-checks them.
-    const { trigger } = form;
-    useEffect(() => {
-        if (role !== "PROVIDER" && reason === "PROVIDER_OPT_OUT") {
-            setValue("reasonCategory", "", { shouldValidate: formState.isSubmitted });
-        }
-        if (formState.isSubmitted && role) void trigger(["name", "email"]);
-    }, [role, reason, setValue, trigger, formState.isSubmitted]);
+    useRoleRules(form, role, reason);
 
     const account = useAccountPrefill(form);
 
