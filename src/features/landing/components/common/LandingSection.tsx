@@ -14,6 +14,10 @@ const GROUND_CLASS: Record<LandingGround, string> = {
 interface LandingSectionProps {
     /** The section's ground; `ink` and `oxblood` switch everything inside to the dark theme. */
     readonly ground: LandingGround;
+    /**
+     * Fragment id. It sits on the content column, not the section, so a link to it brings the
+     * section's title (not its top padding) to the top of the viewport, below the sticky header.
+     */
     readonly id?: string;
     readonly labelledBy?: string;
     readonly className?: string;
@@ -34,16 +38,23 @@ export function LandingSection({
 
     return (
         <section
-            id={id}
             aria-labelledby={labelledBy}
             data-theme={isDark ? "dark" : undefined}
             className={cn(
-                "scroll-mt-16 px-(--page-gutter) py-[clamp(72px,10vw,140px)] text-ink",
+                "px-(--page-gutter) py-[clamp(72px,10vw,140px)] text-ink",
                 GROUND_CLASS[ground],
                 className,
             )}
         >
-            <div className={cn("mx-auto w-full max-w-content", containerClassName)}>{children}</div>
+            <div
+                id={id}
+                className={cn(
+                    "mx-auto w-full max-w-content scroll-mt-(--anchor-offset)",
+                    containerClassName,
+                )}
+            >
+                {children}
+            </div>
         </section>
     );
 }
