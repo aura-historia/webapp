@@ -156,11 +156,11 @@ export function AddressSearchField({
 
             {open && (
                 <div className="absolute inset-x-0 top-[78px] z-50 flex flex-col gap-1 rounded-panel bg-surface-raised p-2 shadow-menu">
-                    <div
+                    {/* WAI-ARIA combobox pattern: a native <datalist> cannot show kind tags, the
+                        typed prefix or the required attribution, nor control request timing. */}
+                    <div // NOSONAR
                         id={listboxId}
-                        // WAI-ARIA combobox pattern: a native <datalist> cannot show kind tags, the
-                        // typed prefix or the required attribution, nor control request timing.
-                        role="listbox" // NOSONAR
+                        role="listbox"
                         aria-label={t("account.addresses.search.listLabel")}
                         className="flex flex-col"
                     >
@@ -245,10 +245,10 @@ function SuggestionOption({
     const head = suggestion.label.slice(0, typed.length);
     const prefix = head.toLocaleLowerCase() === typed.toLocaleLowerCase() ? head : "";
     return (
-        <div
+        // Option of the combobox's listbox; see the note on the listbox.
+        <div // NOSONAR
             id={id}
-            // Option of the combobox's listbox; see the NOSONAR note on the listbox.
-            role="option" // NOSONAR
+            role="option"
             tabIndex={-1}
             aria-selected={active}
             // Keeps focus in the field so the click lands before blur.
