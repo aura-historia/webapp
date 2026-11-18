@@ -1,7 +1,8 @@
 import { useTranslation } from "react-i18next";
+import { Link } from "@tanstack/react-router";
+import type { ContentNoticeSearch } from "@/features/content-notice/lib/contentNoticeSearch.ts";
 import { ProviderStatusInfo } from "@/features/provider-status/components/ProviderStatusInfo.tsx";
 import {
-    buildRemovalMailto,
     displayHost,
     type ProviderStatusScope,
 } from "@/features/provider-status/lib/providerStatusLinks.ts";
@@ -12,8 +13,8 @@ type NonPartnerNoticeProps = {
     readonly providerName: string;
     /** The provider's canonical address (`url`, not the referral-tagged `viewLink`). */
     readonly sourceUrl?: URL | string;
-    /** Absolute address of this Aura Historia page, for the removal request. */
-    readonly pageUrl?: string;
+    /** Opens the notice form (#1326) with this listing or provider pre-filled. */
+    readonly noticeSearch: ContentNoticeSearch;
     /** Listing pages: whether the shown title is a machine translation. */
     readonly translated?: boolean;
     readonly className?: string;
@@ -29,7 +30,7 @@ export function NonPartnerNotice({
     scope,
     providerName,
     sourceUrl,
-    pageUrl,
+    noticeSearch,
     translated = false,
     className,
 }: NonPartnerNoticeProps) {
@@ -41,7 +42,6 @@ export function NonPartnerNotice({
         scope === "provider"
             ? t("providerStatus.notice.provider")
             : t(listingKey, { provider: providerName });
-    const removalHref = buildRemovalMailto(t, { scope, providerName, pageUrl: pageUrl ?? "" });
     const sourceHref = sourceUrl?.toString();
 
     return (
@@ -78,12 +78,15 @@ export function NonPartnerNotice({
                     {t("providerStatus.notice.lead")}
                 </strong>{" "}
                 {body}{" "}
-                <a
-                    href={removalHref}
+                <Link
+                    to="/$lng/content-notice"
+                    params={true}
+                    from="/$lng"
+                    search={noticeSearch}
                     className="whitespace-nowrap text-ink underline decoration-line-strong decoration-1 underline-offset-3 hover:text-oxblood hover:decoration-oxblood focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brass"
                 >
                     {t("providerStatus.notice.removal")}
-                </a>
+                </Link>
             </p>
             <span className="shrink-0 pt-[5px] pr-0.5">
                 <ProviderStatusInfo
@@ -91,7 +94,7 @@ export function NonPartnerNotice({
                     providerName={providerName}
                     sourceUrl={sourceHref}
                     sourceHost={displayHost(sourceHref)}
-                    removalHref={removalHref}
+                    removalSearch={noticeSearch}
                 />
             </span>
         </aside>

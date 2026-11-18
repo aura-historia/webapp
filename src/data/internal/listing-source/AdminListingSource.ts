@@ -410,28 +410,52 @@ export function buildUpdateAdminListingSourceData(
         patch.referralConfiguration = null;
     }
     if (values.replaceIngestionConfiguration) {
-        if (
-            values.configurations.length !== source.ingestionMethods.length ||
-            source.ingestionMethods.some(
-                (method, index) => values.configurations[index]?.ingestionMethod !== method,
-            )
-        ) {
-            throw new Error("Replacement configurations must match the source ingestion methods");
-        }
+        assertReplaceableConfiguration(source, values.configurations);
         patch.ingestionConfiguration = values.configurations.map(mapUpdateConfiguration);
     }
     return patch;
 }
 
-export function defaultUpdateConfigurations(
-    methods: readonly ListingIngestionMethodData[],
-): AdminListingSourceUpdateConfigurationFields[] {
-    return methods.map((ingestionMethod) => ({
+/**
+ * The backend derives the source's ingestion methods from the replacement list, so a patch may add
+ * or drop methods (an empty list removes them all). It rejects a repeated method, and a WooCommerce
+ * entry without a secret unless WooCommerce is already configured, so fail here rather than with
+ * an opaque 400.
+ */
+function assertReplaceableConfiguration(
+    source: AdminListingSourceDetail,
+    configurations: readonly AdminListingSourceUpdateConfigurationFields[],
+) {
+    const methods = configurations.map((configuration) => configuration.ingestionMethod);
+    if (new Set(methods).size !== methods.length) {
+        throw new Error("Replacement configurations must not repeat an ingestion method");
+    }
+    const needsSecret = !source.ingestionMethods.includes("WOOCOMMERCE");
+    const withoutSecret = configurations.some(
+        (configuration) =>
+            configuration.ingestionMethod === "WOOCOMMERCE" &&
+            !optionalValue(configuration.webhookSecret),
+    );
+    if (needsSecret && withoutSecret) {
+        throw new Error("A WooCommerce webhook secret is required when adding the method");
+    }
+}
+
+export function createDefaultUpdateConfiguration(
+    ingestionMethod: ListingIngestionMethodData,
+): AdminListingSourceUpdateConfigurationFields {
+    return {
         ingestionMethod,
         fallbackCurrency: "",
         domain: "",
         currency: "",
         language: "",
         webhookSecret: "",
-    }));
+    };
+}
+
+export function defaultUpdateConfigurations(
+    methods: readonly ListingIngestionMethodData[],
+): AdminListingSourceUpdateConfigurationFields[] {
+    return methods.map(createDefaultUpdateConfiguration);
 }

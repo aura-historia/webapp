@@ -124,6 +124,10 @@
     "aiAgents": {
       "title": "Aura Historia in Claude, ChatGPT e altri assistenti IA",
       "description": "Collegate Aura Historia a Claude o ChatGPT e cercate arte e antiquariato con parole vostre, con o senza account. Le app per Gemini, Grok e Muse sono in arrivo."
+    },
+    "contentNotice": {
+      "title": "Richiedi la rimozione o segnala un contenuto",
+      "description": "Chiedi ad Aura Historia di rimuovere un annuncio o segnala un contenuto. Per fornitori, titolari di diritti e chiunque trovi contenuti illeciti. Senza account."
     }
   },
   "validation": {
@@ -2347,7 +2351,8 @@
         "ingestion": "Importazione"
       },
       "fixed": "Fisso",
-      "replaceWarning": "Sovrascrive ogni metodo attivo.",
+      "replaceWarning": "Sovrascrive ogni metodo attivo. I metodi rimossi vengono disattivati.",
+      "noMethodsSelected": "Nessun metodo selezionato: la fonte non avrà alcun metodo di acquisizione.",
       "secretPlaceholder": "Lascia vuoto per mantenerlo",
       "removeMethod": "Rimuovi {{method}}",
       "slug": "Slug · {{slug}}"
@@ -5180,7 +5185,7 @@
         "partnershipsRead": "Leggere le partnership se l’account dispone di accesso amministratore.",
         "partnershipsWrite": "Modificare o sciogliere partnership e concedere o revocare i relativi membri e fonti di annunci se l’account dispone di accesso amministratore.",
         "adminOverviewRead": "Leggere la panoramica operativa dell’amministrazione se l’account dispone di accesso amministratore.",
-        "contentNoticesRead": "Leggere le segnalazioni di contenuti ricevute se l’account dispone di accesso amministratore."
+        "contentNoticesRead": "Leggere le segnalazioni sui contenuti, compresi nome, e-mail e messaggio di chi le ha inviate, se l’account ha accesso da amministratore."
       },
       "validation": {
         "nameRequired": "Inserisci un nome per il token.",
@@ -5254,7 +5259,7 @@
       "partnershipsRead": "Leggere le partnership",
       "partnershipsWrite": "Gestire le partnership",
       "adminOverviewRead": "Leggere la panoramica amministrazione",
-      "contentNoticesRead": "Leggere le segnalazioni di contenuti"
+      "contentNoticesRead": "Leggere le segnalazioni"
     },
     "scopeGroups": {
       "account": "Account e token di accesso",
@@ -6418,6 +6423,195 @@
         "subjectProvider": "Richiesta di rimozione: tutti gli annunci di {{provider}}",
         "body": "Fornitore: {{provider}}\nPagina su Aura Historia: {{url}}\n\nSono: (il fornitore / titolare dei diritti, ad es. fotografo o autore / un’altra persona)\n\nMotivo (perché il contenuto dovrebbe essere rimosso?):\n\n\nNome:\n\nDichiaro in buona fede che le informazioni fornite sono esatte e complete."
       }
+    }
+  },
+  "contentNotice": {
+    "eyebrow": "Segnalazione e rimozione",
+    "title": "Richiedi la rimozione o <em>segnala un contenuto.</em>",
+    "lead": "Indicaci a quale annuncio o fornitore si riferisce la tua segnalazione e perché. Chiunque può inviare una segnalazione: il fornitore, i titolari di diritti come fotografi o autori, e chiunque trovi contenuti illeciti.",
+    "backToListing": "Torna all’annuncio",
+    "backToProvider": "Torna al fornitore",
+    "formLabel": "Modulo di segnalazione",
+    "optional": "(facoltativo)",
+    "submit": "Invia segnalazione",
+    "submitting": "Invio in corso…",
+    "retry": "Riprova",
+    "goodFaith": "Confermo in buona fede che le informazioni fornite sono esatte e complete.",
+    "sections": {
+      "what": "Di cosa tratta la tua segnalazione?",
+      "role": "Chi sei?",
+      "reason": "Qual è il motivo?",
+      "contact": "Come possiamo contattarti?",
+      "contactLead": "A questo indirizzo inviamo la conferma di ricezione e la nostra decisione.",
+      "contactLeadOptional": "Facoltativo per le segnalazioni di contenuti illeciti. Senza indirizzo e-mail non possiamo confermare la ricezione né comunicarti la nostra decisione."
+    },
+    "target": {
+      "listing": "Annuncio",
+      "provider": "Fornitore",
+      "untitled": "Annuncio senza titolo",
+      "partner": "Partner di Aura Historia",
+      "notPartner": "Non è un partner di Aura Historia",
+      "prefilled": "Precompilato",
+      "scopeLegend": "Riguarda",
+      "scopeListing": "Solo questo annuncio",
+      "scopeListingHint": "Solo l’annuncio qui sopra.",
+      "scopeProvider": "Tutti gli annunci di {{provider}}",
+      "scopeProviderHint": "Tutti gli annunci che mostriamo di questo fornitore.",
+      "providerScopeNote": "Questa segnalazione riguarda tutti gli annunci di {{provider}}. Per segnalare solo singoli annunci, apri l’annuncio e scegli «Segnala questo annuncio»."
+    },
+    "urls": {
+      "label": "Altri link",
+      "hint": "Altri annunci, oppure dove è pubblicato il testo o l’immagine originale. Fino a 10 link.",
+      "add": "Aggiungi un link",
+      "addAnother": "Aggiungi un altro link",
+      "remove": "Rimuovi il link {{number}}",
+      "limit": "Hai aggiunto il massimo di {{max}} link. Indica gli altri nella spiegazione."
+    },
+    "roles": {
+      "provider": {
+        "label": "Sono il fornitore",
+        "description": "Gestisco questo negozio o sono autorizzato a parlare per suo conto."
+      },
+      "rightsHolder": {
+        "label": "Ho diritti su questo contenuto",
+        "description": "Ad esempio come fotografo o autore di un testo o di un’immagine."
+      },
+      "illegalContentReporter": {
+        "label": "Voglio segnalare un contenuto illecito",
+        "description": "L’annuncio, i suoi testi o le sue immagini violano la legge. Puoi restare anonimo."
+      },
+      "other": {
+        "label": "Nessuno di questi",
+        "description": "Ad esempio un visitatore che ha notato informazioni errate."
+      }
+    },
+    "reasons": {
+      "legend": "Motivo",
+      "providerOptOut": {
+        "label": "Non voglio essere presente",
+        "description": "Rimuovere i miei annunci da Aura Historia. Nessun motivo necessario."
+      },
+      "rightsInfringement": {
+        "label": "Violazione di diritti",
+        "description": "Testi o immagini sono usati senza autorizzazione."
+      },
+      "illegalContent": {
+        "label": "Altro contenuto illecito",
+        "description": "Ad esempio oggetti o simboli vietati."
+      },
+      "incorrectInformation": {
+        "label": "Informazioni errate",
+        "description": "Ad esempio un’attribuzione, una data o uno stato errati."
+      },
+      "other": {
+        "label": "Altro",
+        "description": "Spiegalo nella spiegazione."
+      }
+    },
+    "explanation": {
+      "label": "Spiegazione",
+      "counter": "{{count}} / {{max}}",
+      "hints": {
+        "providerOptOut": "C’è qualcosa che dovremmo sapere? Puoi lasciare il campo vuoto.",
+        "rightsInfringement": "Quale opera è interessata e quali diritti detieni? Se puoi, aggiungi sopra un link all’originale.",
+        "illegalContent": "Cosa c’è di illecito e perché? Sii il più preciso possibile.",
+        "incorrectInformation": "Cosa è sbagliato e cosa è corretto?",
+        "other": "Spiega la tua richiesta.",
+        "default": "Spiega la tua richiesta."
+      }
+    },
+    "contact": {
+      "name": "Nome",
+      "email": "E-mail",
+      "prefilled": "Ripreso dal tuo account. Puoi modificare entrambi.",
+      "privacy": "Usiamo nome, e-mail e messaggio solo per gestire questa segnalazione. Dettagli nella nostra <privacyLink>informativa sulla privacy</privacyLink>."
+    },
+    "summary": {
+      "title_one": "Controlla 1 campo:",
+      "title_other": "Controlla {{count}} campi:",
+      "serverTitle": "Alcuni campi non sono stati accettati. Controlla:",
+      "link": "Link {{number}}: {{message}}"
+    },
+    "errors": {
+      "urlInvalid": "Inserisci un link completo che inizi con https://",
+      "urlTooLong": "Accorcia questo link a 2048 caratteri.",
+      "urlDuplicate": "Hai già aggiunto questo link.",
+      "urlRejected": "Questo link non è stato accettato. Inserisci un link completo che inizi con https://",
+      "role": "Indica chi sei.",
+      "reason": "Scegli un motivo.",
+      "explanation": "Spiega la tua richiesta.",
+      "explanationTooLong": "Accorcia la spiegazione a 5000 caratteri.",
+      "name": "Inserisci il tuo nome.",
+      "nameTooLong": "Accorcia il nome a 200 caratteri.",
+      "email": "Inserisci un indirizzo e-mail come nome@esempio.it.",
+      "goodFaith": "Conferma che le tue informazioni sono esatte e complete.",
+      "notAccepted": "Questo campo non è stato accettato. Controllalo."
+    },
+    "alerts": {
+      "rateLimited": {
+        "title": "Troppe segnalazioni da questo indirizzo oggi.",
+        "body": "Invia invece questa segnalazione via e-mail a <email>{{email}}</email>."
+      },
+      "unavailable": {
+        "title": "Non è stato possibile inviare la segnalazione.",
+        "body": "I tuoi dati sono ancora qui. Riprova tra un momento oppure invia la segnalazione via e-mail a <email>{{email}}</email>."
+      },
+      "writeEmail": "Scrivi un’e-mail",
+      "rateLimitedAnonymous": {
+        "title": "Troppe segnalazioni anonime su questo contenuto oggi.",
+        "body": "Invia la segnalazione via e-mail a <email>{{email}}</email> oppure riprova domani."
+      }
+    },
+    "aside": {
+      "eyebrow": "Cosa succede dopo",
+      "title": "Come gestiamo <em>la tua segnalazione.</em>",
+      "steps": {
+        "confirmation": {
+          "title": "Conferma",
+          "text": "Ricevi via e-mail una conferma di ricezione con un riferimento per la tua segnalazione."
+        },
+        "review": {
+          "title": "Verifica",
+          "text": "Un membro del nostro team verifica ogni segnalazione. Non prendiamo decisioni automatizzate."
+        },
+        "decision": {
+          "title": "Decisione",
+          "text": "Ti comunichiamo via e-mail la nostra decisione e i suoi motivi."
+        }
+      },
+      "fallback": "Non puoi usare il modulo? Scrivi a <email>{{email}}</email>."
+    },
+    "confirmation": {
+      "eyebrow": "Segnalazione ricevuta",
+      "title": "Grazie per <em>la tua segnalazione.</em>",
+      "body": "Abbiamo ricevuto la tua richiesta. Abbiamo inviato una conferma a <email>{{email}}</email> e ti comunicheremo la nostra decisione via e-mail.",
+      "allListings": "{{provider}}, tutti gli annunci",
+      "listingValue": "{{title}} · {{provider}}",
+      "reason": "Motivo",
+      "next": "Prossimo passo",
+      "nextText": "Un membro del nostro team verifica la tua segnalazione. L’e-mail di conferma contiene un riferimento; indicalo se ci scrivi.",
+      "spam": "Nessuna e-mail dopo qualche minuto? Controlla la cartella spam o scrivi a {{email}}.",
+      "continue": "Continua a cercare",
+      "bodyAnonymous": "Abbiamo ricevuto la tua segnalazione. Non hai indicato un indirizzo e-mail, quindi non possiamo inviarti una conferma né comunicarti la nostra decisione.",
+      "nextTextAnonymous": "Un membro del nostro team verifica la tua segnalazione."
+    },
+    "notFound": {
+      "listingTitle": "Questo annuncio <em>non c’è più.</em>",
+      "providerTitle": "Questo fornitore <em>non c’è più.</em>",
+      "listingBody": "È stato rimosso o non è più disponibile su Aura Historia, quindi non c’è più nulla da segnalare.",
+      "providerBody": "È stato rimosso o non è più disponibile su Aura Historia, quindi non c’è più nulla da segnalare.",
+      "search": "Vai alla ricerca"
+    },
+    "missing": {
+      "title": "Parti dall’<em>annuncio o dal fornitore.</em>",
+      "body": "Una segnalazione riguarda sempre un annuncio o un fornitore su Aura Historia. Aprilo e scegli «Segnala questo annuncio» o «Segnala questo fornitore».",
+      "searchListings": "Cerca annunci",
+      "searchProviders": "Cerca fornitori",
+      "contact": "Non lo trovi? Scrivi a {{email}}."
+    },
+    "entry": {
+      "reportListing": "Segnala questo annuncio",
+      "reportProvider": "Segnala questo fornitore"
     }
   }
 }

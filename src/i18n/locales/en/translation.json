@@ -124,6 +124,10 @@
     "aiAgents": {
       "title": "Aura Historia in Claude, ChatGPT & other AI assistants",
       "description": "Connect Aura Historia to Claude or ChatGPT and search art and antiques in your own words, with or without an account. Apps for Gemini, Grok and Muse are on their way."
+    },
+    "contentNotice": {
+      "title": "Request removal or report content",
+      "description": "Ask Aura Historia to remove a listing or report content. For providers, rights holders and anyone who comes across illegal content. No account needed."
     }
   },
   "validation": {
@@ -2604,7 +2608,7 @@
         "partnershipsRead": "Read partnerships if the account has administrator access.",
         "partnershipsWrite": "Change or dissolve partnerships and grant or revoke their members and listing sources if the account has administrator access.",
         "adminOverviewRead": "Read the operational admin overview if the account has administrator access.",
-        "contentNoticesRead": "Read submitted content notices if the account has administrator access."
+        "contentNoticesRead": "Read content notices, including the name, email and message of the person who sent them, if the account has administrator access."
       },
       "validation": {
         "nameRequired": "Please enter a token name.",
@@ -3209,7 +3213,8 @@
         "ingestion": "Ingestion"
       },
       "fixed": "Fixed",
-      "replaceWarning": "Overwrites every active method.",
+      "replaceWarning": "Overwrites every active method. Removed methods are switched off.",
+      "noMethodsSelected": "No method selected: the source will have no ingestion method.",
       "secretPlaceholder": "Leave blank to keep",
       "removeMethod": "Remove {{method}}",
       "slug": "Slug · {{slug}}"
@@ -6418,6 +6423,195 @@
         "subjectProvider": "Removal request: all listings from {{provider}}",
         "body": "Provider: {{provider}}\nPage on Aura Historia: {{url}}\n\nI am: (the provider / a rights holder, e.g. photographer or author / another person)\n\nReason (why should the content be removed?):\n\n\nName:\n\nI confirm in good faith that the information I have given is accurate and complete."
       }
+    }
+  },
+  "contentNotice": {
+    "eyebrow": "Notice & removal",
+    "title": "Request removal or <em>report content.</em>",
+    "lead": "Tell us which listing or provider your notice is about and why. Anyone can send a notice: the provider, rights holders such as photographers or authors, and anyone who comes across illegal content.",
+    "backToListing": "Back to the listing",
+    "backToProvider": "Back to the provider",
+    "formLabel": "Notice form",
+    "optional": "(optional)",
+    "submit": "Send notice",
+    "submitting": "Sending…",
+    "retry": "Try again",
+    "goodFaith": "I confirm in good faith that the information I have given is accurate and complete.",
+    "sections": {
+      "what": "What is your notice about?",
+      "role": "Who are you?",
+      "reason": "What is the reason?",
+      "contact": "How can we reach you?",
+      "contactLead": "We send a confirmation of receipt and our decision to this address.",
+      "contactLeadOptional": "Optional for reports of illegal content. Without an e-mail address we cannot confirm receipt or tell you our decision."
+    },
+    "target": {
+      "listing": "Listing",
+      "provider": "Provider",
+      "untitled": "Untitled listing",
+      "partner": "Aura Historia partner",
+      "notPartner": "Not an Aura Historia partner",
+      "prefilled": "Pre-filled",
+      "scopeLegend": "Applies to",
+      "scopeListing": "This listing only",
+      "scopeListingHint": "Only the listing above.",
+      "scopeProvider": "All listings from {{provider}}",
+      "scopeProviderHint": "Every listing we show from this provider.",
+      "providerScopeNote": "This notice applies to all listings from {{provider}}. To report single listings only, open a listing and choose “Report this listing” there."
+    },
+    "urls": {
+      "label": "More links",
+      "hint": "Further listings, or where the original text or image is published. Up to 10 links.",
+      "add": "Add a link",
+      "addAnother": "Add another link",
+      "remove": "Remove link {{number}}",
+      "limit": "You have added the maximum of {{max}} links. Mention any further ones in your explanation."
+    },
+    "roles": {
+      "provider": {
+        "label": "I am the provider",
+        "description": "I run this shop or am authorised to speak for it."
+      },
+      "rightsHolder": {
+        "label": "I hold rights to this content",
+        "description": "For example as the photographer or author of a text or image."
+      },
+      "illegalContentReporter": {
+        "label": "I want to report illegal content",
+        "description": "The listing, its texts or its images break the law. You can stay anonymous."
+      },
+      "other": {
+        "label": "None of these",
+        "description": "For example a visitor who noticed incorrect information."
+      }
+    },
+    "reasons": {
+      "legend": "Reason",
+      "providerOptOut": {
+        "label": "I don’t want to be listed",
+        "description": "Remove my listings from Aura Historia. No reason needed."
+      },
+      "rightsInfringement": {
+        "label": "Rights infringement",
+        "description": "Texts or images are used without permission."
+      },
+      "illegalContent": {
+        "label": "Other illegal content",
+        "description": "For example prohibited items or symbols."
+      },
+      "incorrectInformation": {
+        "label": "Incorrect information",
+        "description": "For example a wrong attribution, date or status."
+      },
+      "other": {
+        "label": "Something else",
+        "description": "Tell us in the explanation."
+      }
+    },
+    "explanation": {
+      "label": "Explanation",
+      "counter": "{{count}} / {{max}}",
+      "hints": {
+        "providerOptOut": "Anything we should know? You can leave this empty.",
+        "rightsInfringement": "Which work is affected and which rights do you hold? Add a link to the original above if you can.",
+        "illegalContent": "What is illegal about it, and why? Please be as specific as you can.",
+        "incorrectInformation": "What is wrong, and what is correct?",
+        "other": "Please explain your request.",
+        "default": "Please explain your request."
+      }
+    },
+    "contact": {
+      "name": "Name",
+      "email": "E-mail",
+      "prefilled": "Filled in from your account. You can change both.",
+      "privacy": "We use your name, e-mail and message only to handle this notice. Details in our <privacyLink>privacy policy</privacyLink>."
+    },
+    "summary": {
+      "title_one": "Please check 1 entry:",
+      "title_other": "Please check {{count}} entries:",
+      "serverTitle": "Some entries were not accepted. Please check:",
+      "link": "Link {{number}}: {{message}}"
+    },
+    "errors": {
+      "urlInvalid": "Enter a full link starting with https://",
+      "urlTooLong": "Shorten this link to 2,048 characters.",
+      "urlDuplicate": "You have added this link already.",
+      "urlRejected": "This link was not accepted. Enter a full link starting with https://",
+      "role": "Choose who you are.",
+      "reason": "Choose a reason.",
+      "explanation": "Explain your request.",
+      "explanationTooLong": "Shorten your explanation to 5,000 characters.",
+      "name": "Enter your name.",
+      "nameTooLong": "Shorten your name to 200 characters.",
+      "email": "Enter an e-mail address like name@example.com.",
+      "goodFaith": "Confirm that your information is accurate and complete.",
+      "notAccepted": "This entry was not accepted. Please check it."
+    },
+    "alerts": {
+      "rateLimited": {
+        "title": "Too many notices from this address today.",
+        "body": "Please send this notice by e-mail to <email>{{email}}</email> instead."
+      },
+      "unavailable": {
+        "title": "Your notice could not be sent.",
+        "body": "Your entries are still here. Please try again in a moment, or send the notice by e-mail to <email>{{email}}</email>."
+      },
+      "writeEmail": "Write an e-mail",
+      "rateLimitedAnonymous": {
+        "title": "Too many anonymous reports about this content today.",
+        "body": "Please send your report by e-mail to <email>{{email}}</email>, or try again tomorrow."
+      }
+    },
+    "aside": {
+      "eyebrow": "What happens next",
+      "title": "How we handle <em>your notice.</em>",
+      "steps": {
+        "confirmation": {
+          "title": "Confirmation",
+          "text": "You receive a confirmation of receipt by e-mail, with a reference for your notice."
+        },
+        "review": {
+          "title": "Review",
+          "text": "A member of our team reviews every notice. We make no automated decisions."
+        },
+        "decision": {
+          "title": "Decision",
+          "text": "We tell you our decision and the reasons for it by e-mail."
+        }
+      },
+      "fallback": "Can’t use the form? Write to <email>{{email}}</email>."
+    },
+    "confirmation": {
+      "eyebrow": "Notice received",
+      "title": "Your notice <em>has arrived.</em>",
+      "body": "We have received your request. We’ve sent a confirmation to <email>{{email}}</email> and will let you know our decision by e-mail.",
+      "allListings": "{{provider}}, all listings",
+      "listingValue": "{{title}} · {{provider}}",
+      "reason": "Reason",
+      "next": "Next",
+      "nextText": "A member of our team reviews your notice. The confirmation e-mail carries a reference; please quote it if you write to us.",
+      "spam": "No e-mail after a few minutes? Check your spam folder, or write to {{email}}.",
+      "continue": "Continue searching",
+      "bodyAnonymous": "We have received your report. You gave no e-mail address, so we cannot send you a confirmation or tell you our decision.",
+      "nextTextAnonymous": "A member of our team reviews your report."
+    },
+    "notFound": {
+      "listingTitle": "This listing is <em>no longer here.</em>",
+      "providerTitle": "This provider is <em>no longer here.</em>",
+      "listingBody": "It has been removed or is no longer available on Aura Historia, so there is nothing left to report.",
+      "providerBody": "It has been removed or is no longer available on Aura Historia, so there is nothing left to report.",
+      "search": "Go to search"
+    },
+    "missing": {
+      "title": "Start from the <em>listing or provider.</em>",
+      "body": "A notice always concerns a listing or a provider on Aura Historia. Open it and choose “Report this listing” or “Report this provider”.",
+      "searchListings": "Search listings",
+      "searchProviders": "Search providers",
+      "contact": "Can’t find it? Write to {{email}}."
+    },
+    "entry": {
+      "reportListing": "Report this listing",
+      "reportProvider": "Report this provider"
     }
   }
 }

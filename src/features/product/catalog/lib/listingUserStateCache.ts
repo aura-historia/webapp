@@ -1,5 +1,6 @@
 import type { QueryClient, QueryKey } from "@tanstack/react-query";
 import { productListingQueryKeys } from "@/data/internal/product/ProductListingQueryKeys.ts";
+import { cancelRefetches } from "@/lib/query/cancelRefetches.ts";
 
 /**
  * Viewer state shared by mapped listings (`ProductListing.userState`) and the raw personalized
@@ -149,9 +150,12 @@ export function removeListingFromQueries(
     rewriteListingQueries(queryClient, queryKey, { productListingId }, () => null);
 }
 
-/** Stop older listing responses from overwriting a confirmed update. */
+/**
+ * Stop older listing responses from overwriting a confirmed update. First loads keep running, so
+ * a detail page loading meanwhile does not fail; they are refetched once they land.
+ */
 export function cancelListingQueries(queryClient: QueryClient, viewerId?: string) {
-    return queryClient.cancelQueries({
+    return cancelRefetches(queryClient, {
         queryKey: productListingQueryKeys.all,
         predicate: ({ queryKey }) => belongsToViewer(queryKey, viewerId),
     });

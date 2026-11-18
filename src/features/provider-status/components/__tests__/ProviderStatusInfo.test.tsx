@@ -25,7 +25,7 @@ const props = {
     providerName: "Hartley & Finch",
     sourceUrl: "https://www.hartleyfinch.co.uk/item/1",
     sourceHost: "hartleyfinch.co.uk",
-    removalHref: "mailto:contact@aura-historia.com?subject=x",
+    removalSearch: { listing: "vase-pl_1" },
 } as const;
 
 describe("ProviderStatusInfo", () => {
@@ -69,7 +69,7 @@ describe("ProviderStatusInfo", () => {
         );
         expect(
             screen.getByRole("link", { name: "Entfernung dieses Angebots beantragen" }),
-        ).toHaveAttribute("href", props.removalHref);
+        ).toHaveAttribute("href", "/de/content-notice");
         expect(screen.getByRole("link", { name: "Partner werden" })).toHaveAttribute(
             "href",
             "/de/partner-program",

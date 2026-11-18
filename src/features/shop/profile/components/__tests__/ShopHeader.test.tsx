@@ -59,15 +59,24 @@ describe("ShopHeader", () => {
             screen.queryByText(/^Aura Historia erfasst die öffentlichen Angebote/),
         ).not.toBeInTheDocument();
 
-        const removal = screen.getByRole("link", { name: "Entfernung beantragen" });
-        const href = removal.getAttribute("href") ?? "";
-        expect(href).toMatch(/^mailto:contact@aura-historia\.com\?subject=/);
-        const params = new URLSearchParams(href.split("?")[1]);
-        expect(params.get("subject")).toBe(
-            "Entfernung beantragen: alle Angebote von Antique Store",
+        // The notice opens the notice form with the provider pre-filled (#1326), not a mailto.
+        expect(screen.getByRole("link", { name: "Entfernung beantragen" })).toHaveAttribute(
+            "href",
+            "/de/content-notice?provider=antique-store",
         );
-        expect(params.get("body")).toContain("/de/shops/antique-store");
     });
+
+    it.each([true, false])(
+        "links every provider (partner: %s) to the notice form under the partner line",
+        (partner) => {
+            render(<ShopHeader shop={makePublicListingSource({ partner })} />);
+
+            expect(screen.getByRole("link", { name: "Anbieter melden" })).toHaveAttribute(
+                "href",
+                "/de/content-notice?provider=antique-store",
+            );
+        },
+    );
 
     it("no longer renders a separate profile heading", () => {
         render(<ShopHeader shop={makePublicListingSource()} />);

@@ -15,6 +15,7 @@ import { Route as LngAuthRouteImport } from './routes/$lng._auth'
 import { Route as LngAboutUsRouteImport } from './routes/$lng.about-us'
 import { Route as LngAiAgentsRouteImport } from './routes/$lng.ai-agents'
 import { Route as LngConsentSettingsRouteImport } from './routes/$lng.consent-settings'
+import { Route as LngContentNoticeRouteImport } from './routes/$lng.content-notice'
 import { Route as LngImprintRouteImport } from './routes/$lng.imprint'
 import { Route as LngLoginRouteImport } from './routes/$lng.login'
 import { Route as LngPartnerProgramRouteImport } from './routes/$lng.partner-program'
@@ -98,6 +99,11 @@ const LngAiAgentsRoute = LngAiAgentsRouteImport.update({
 const LngConsentSettingsRoute = LngConsentSettingsRouteImport.update({
   id: '/consent-settings',
   path: '/consent-settings',
+  getParentRoute: () => LngRoute,
+} as any)
+const LngContentNoticeRoute = LngContentNoticeRouteImport.update({
+  id: '/content-notice',
+  path: '/content-notice',
   getParentRoute: () => LngRoute,
 } as any)
 const LngImprintRoute = LngImprintRouteImport.update({
@@ -408,6 +414,7 @@ export interface FileRoutesByFullPath {
   '/$lng/about-us': typeof LngAboutUsRoute
   '/$lng/ai-agents': typeof LngAiAgentsRoute
   '/$lng/consent-settings': typeof LngConsentSettingsRoute
+  '/$lng/content-notice': typeof LngContentNoticeRoute
   '/$lng/imprint': typeof LngImprintRoute
   '/$lng/login': typeof LngLoginRoute
   '/$lng/partner-program': typeof LngPartnerProgramRouteWithChildren
@@ -470,6 +477,7 @@ export interface FileRoutesByTo {
   '/$lng/about-us': typeof LngAboutUsRoute
   '/$lng/ai-agents': typeof LngAiAgentsRoute
   '/$lng/consent-settings': typeof LngConsentSettingsRoute
+  '/$lng/content-notice': typeof LngContentNoticeRoute
   '/$lng/imprint': typeof LngImprintRoute
   '/$lng/login': typeof LngLoginRoute
   '/$lng/privacy': typeof LngPrivacyRoute
@@ -530,6 +538,7 @@ export interface FileRoutesById {
   '/$lng/about-us': typeof LngAboutUsRoute
   '/$lng/ai-agents': typeof LngAiAgentsRoute
   '/$lng/consent-settings': typeof LngConsentSettingsRoute
+  '/$lng/content-notice': typeof LngContentNoticeRoute
   '/$lng/imprint': typeof LngImprintRoute
   '/$lng/login': typeof LngLoginRoute
   '/$lng/partner-program': typeof LngPartnerProgramRouteWithChildren
@@ -594,6 +603,7 @@ export interface FileRouteTypes {
     | '/$lng/about-us'
     | '/$lng/ai-agents'
     | '/$lng/consent-settings'
+    | '/$lng/content-notice'
     | '/$lng/imprint'
     | '/$lng/login'
     | '/$lng/partner-program'
@@ -656,6 +666,7 @@ export interface FileRouteTypes {
     | '/$lng/about-us'
     | '/$lng/ai-agents'
     | '/$lng/consent-settings'
+    | '/$lng/content-notice'
     | '/$lng/imprint'
     | '/$lng/login'
     | '/$lng/privacy'
@@ -715,6 +726,7 @@ export interface FileRouteTypes {
     | '/$lng/about-us'
     | '/$lng/ai-agents'
     | '/$lng/consent-settings'
+    | '/$lng/content-notice'
     | '/$lng/imprint'
     | '/$lng/login'
     | '/$lng/partner-program'
@@ -826,6 +838,13 @@ declare module '@tanstack/react-router' {
       path: '/consent-settings'
       fullPath: '/$lng/consent-settings'
       preLoaderRoute: typeof LngConsentSettingsRouteImport
+      parentRoute: typeof LngRoute
+    }
+    '/$lng/content-notice': {
+      id: '/$lng/content-notice'
+      path: '/content-notice'
+      fullPath: '/$lng/content-notice'
+      preLoaderRoute: typeof LngContentNoticeRouteImport
       parentRoute: typeof LngRoute
     }
     '/$lng/imprint': {
@@ -1322,6 +1341,7 @@ interface LngRouteChildren {
   LngAboutUsRoute: typeof LngAboutUsRoute
   LngAiAgentsRoute: typeof LngAiAgentsRoute
   LngConsentSettingsRoute: typeof LngConsentSettingsRoute
+  LngContentNoticeRoute: typeof LngContentNoticeRoute
   LngImprintRoute: typeof LngImprintRoute
   LngLoginRoute: typeof LngLoginRoute
   LngPartnerProgramRoute: typeof LngPartnerProgramRouteWithChildren
@@ -1348,6 +1368,7 @@ const LngRouteChildren: LngRouteChildren = {
   LngAboutUsRoute: LngAboutUsRoute,
   LngAiAgentsRoute: LngAiAgentsRoute,
   LngConsentSettingsRoute: LngConsentSettingsRoute,
+  LngContentNoticeRoute: LngContentNoticeRoute,
   LngImprintRoute: LngImprintRoute,
   LngLoginRoute: LngLoginRoute,
   LngPartnerProgramRoute: LngPartnerProgramRouteWithChildren,

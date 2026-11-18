@@ -367,7 +367,7 @@ describe("AccessTokenCreateDialog", () => {
         await user.click(screen.getByRole("button", { name: `Alle auswählen: ${groupLabel}` }));
         expect(screen.getByLabelText("Auktionen lesen")).toBeChecked();
         expect(screen.getByLabelText("Admin-Übersicht lesen")).toBeChecked();
-        expect(screen.getByLabelText("Inhaltsmeldungen lesen")).toBeChecked();
+        expect(screen.getByLabelText("Meldungen lesen")).toBeChecked();
         expect(screen.getByText("8 von 24 ausgewählt")).toBeInTheDocument();
     });
 

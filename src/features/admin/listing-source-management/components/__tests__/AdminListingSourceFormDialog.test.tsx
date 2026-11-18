@@ -340,6 +340,175 @@ describe("AdminListingSourceFormDialog", () => {
         expect(callbacks.onUpdated).toHaveBeenCalledWith("ls_01SOURCE");
     });
 
+    describe("replacing the ingestion configuration in the edit form", () => {
+        const methodName = (method: string) => testI18n.t(`adminListingSources.methods.${method}`);
+        const card = (method: string) => screen.getByRole("region", { name: methodName(method) });
+        const queryCard = (method: string) =>
+            screen.queryByRole("region", { name: methodName(method) });
+        const toggle = () =>
+            screen.getByRole("switch", {
+                name: testI18n.t("adminListingSources.form.replaceConfiguration"),
+            });
+        const remove = (user: ReturnType<typeof userEvent.setup>, method: string) =>
+            user.click(
+                within(card(method)).getByRole("button", {
+                    name: testI18n.t("adminListingSources.form.removeMethod", {
+                        method: methodName(method),
+                    }),
+                }),
+            );
+        const addTrigger = () =>
+            screen.getByRole("button", {
+                name: testI18n.t("adminListingSources.actions.addMethod"),
+            });
+        const add = async (user: ReturnType<typeof userEvent.setup>, method: string) => {
+            await user.click(addTrigger());
+            await user.click(await screen.findByRole("menuitem", { name: methodName(method) }));
+        };
+        const save = () =>
+            fireEvent.click(
+                screen.getByRole("button", {
+                    name: testI18n.t("adminListingSources.actions.save"),
+                }),
+            );
+
+        it("offers no method editors or add control until the switch is on", () => {
+            renderDialog({ source });
+            expect(queryCard("WEB_CRAWL")).not.toBeInTheDocument();
+            expect(
+                screen.queryByRole("button", {
+                    name: testI18n.t("adminListingSources.actions.addMethod"),
+                }),
+            ).not.toBeInTheDocument();
+
+            fireEvent.click(toggle());
+            expect(card("WEB_CRAWL")).toBeInTheDocument();
+            expect(addTrigger()).toBeEnabled();
+        });
+
+        it("swaps a source's method for WEB_CRAWL", async () => {
+            const user = userEvent.setup();
+            const shopifySource = { ...source, ingestionMethods: ["SHOPIFY" as const] };
+            renderDialog({ source: shopifySource });
+            fireEvent.click(toggle());
+            await remove(user, "SHOPIFY");
+            await add(user, "WEB_CRAWL");
+            fireEvent.change(
+                within(card("WEB_CRAWL")).getByLabelText(
+                    testI18n.t("adminListingSources.fields.fallbackCurrency"),
+                ),
+                { target: { value: "EUR" } },
+            );
+            save();
+
+            await waitFor(() => expect(api.update.mutate).toHaveBeenCalledTimes(1));
+            expect(api.update.mutate).toHaveBeenCalledWith(
+                {
+                    source: shopifySource,
+                    values: expect.objectContaining({
+                        replaceIngestionConfiguration: true,
+                        configurations: [
+                            expect.objectContaining({
+                                ingestionMethod: "WEB_CRAWL",
+                                fallbackCurrency: "EUR",
+                            }),
+                        ],
+                    }),
+                },
+                expect.any(Object),
+            );
+        });
+
+        it("adds a method next to the existing ones and never offers a method twice", async () => {
+            const user = userEvent.setup();
+            renderDialog({ source });
+            fireEvent.click(toggle());
+            await user.click(addTrigger());
+            expect(screen.queryByRole("menuitem", { name: methodName("WEB_CRAWL") })).toBeNull();
+            expect(await screen.findAllByRole("menuitem")).toHaveLength(3);
+            await user.click(screen.getByRole("menuitem", { name: methodName("PARTNER_API") }));
+
+            expect(card("WEB_CRAWL")).toBeInTheDocument();
+            expect(card("PARTNER_API")).toBeInTheDocument();
+        });
+
+        it("disables adding when the source already has every method", () => {
+            renderDialog({
+                source: {
+                    ...source,
+                    ingestionMethods: ["WEB_CRAWL", "SHOPIFY", "WOOCOMMERCE", "PARTNER_API"],
+                },
+            });
+            fireEvent.click(toggle());
+            expect(addTrigger()).toBeDisabled();
+        });
+
+        it("requires the secret of a newly added WooCommerce method", async () => {
+            const user = userEvent.setup();
+            renderDialog({ source });
+            fireEvent.click(toggle());
+            await add(user, "WOOCOMMERCE");
+            const secret = within(card("WOOCOMMERCE")).getByLabelText(
+                testI18n.t("adminListingSources.fields.secret"),
+            );
+            // There is no stored secret to keep, so no "leave blank to keep" hint either.
+            expect(secret).not.toHaveAttribute("placeholder");
+            save();
+
+            expect(
+                await screen.findByText(
+                    testI18n.t("adminListingSources.validation.webhookSecretRequired"),
+                ),
+            ).toBeInTheDocument();
+            expect(secret).toHaveAttribute("aria-invalid", "true");
+            expect(api.update.mutate).not.toHaveBeenCalled();
+
+            fireEvent.change(secret, { target: { value: "s3cret" } });
+            save();
+            await waitFor(() => expect(api.update.mutate).toHaveBeenCalledTimes(1));
+            expect(api.update.mutate.mock.calls[0][0].values.configurations.at(-1)).toMatchObject({
+                ingestionMethod: "WOOCOMMERCE",
+                webhookSecret: "s3cret",
+            });
+        });
+
+        it("says so, and sends an empty list, when every method is removed", async () => {
+            const user = userEvent.setup();
+            renderDialog({ source });
+            fireEvent.click(toggle());
+            expect(
+                screen.queryByText(testI18n.t("adminListingSources.form.noMethodsSelected")),
+            ).not.toBeInTheDocument();
+            await remove(user, "WEB_CRAWL");
+
+            expect(
+                screen.getByText(testI18n.t("adminListingSources.form.noMethodsSelected")),
+            ).toBeInTheDocument();
+            expect(addTrigger()).toBeEnabled();
+            save();
+
+            await waitFor(() => expect(api.update.mutate).toHaveBeenCalledTimes(1));
+            expect(api.update.mutate.mock.calls[0][0].values).toMatchObject({
+                replaceIngestionConfiguration: true,
+                configurations: [],
+            });
+        });
+
+        it("starts from the current methods each time the switch is turned on", async () => {
+            const user = userEvent.setup();
+            renderDialog({ source });
+            fireEvent.click(toggle());
+            await remove(user, "WEB_CRAWL");
+            await add(user, "SHOPIFY");
+
+            fireEvent.click(toggle());
+            expect(queryCard("SHOPIFY")).not.toBeInTheDocument();
+            fireEvent.click(toggle());
+            expect(card("WEB_CRAWL")).toBeInTheDocument();
+            expect(queryCard("SHOPIFY")).not.toBeInTheDocument();
+        });
+    });
+
     describe("currency validation in the edit form", () => {
         const multiMethodSource: AdminListingSourceDetail = {
             ...source,

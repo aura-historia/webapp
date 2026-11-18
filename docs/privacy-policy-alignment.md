@@ -26,6 +26,7 @@ Run this checklist when code touches any of the following:
 - Preferences and cookies: `user-preferences`, `i18next`, localStorage, sessionStorage, consent state.
 - Watchlists, saved searches/search filters, notifications, matching, product interactions, analytics events.
 - Newsletter or marketing consent, including double opt-in evidence.
+- Content notices (`features/content-notice`): the notifier's name, e-mail, explanation and links, sent to `POST /v1/content-notices`.
 - Partner/listing-source/admin data: listing-source and Party (operator) details, contact fields, partnership applications and memberships, auctions, admin product listing records, API access tokens, OAuth clients, suspensions.
 - Payment/subscription metadata and Stripe-related behavior.
 - Private addresses, the browsing destination, saved-search origins, browser location, and Party locations (see [Geography](#geography)).
@@ -37,7 +38,7 @@ Run this checklist when code touches any of the following:
 - `showUnassessedOrSensitiveContent` is an account preference covering both unassessed and sensitive content. It is separate from tracking and external-map consent. Do not migrate an old restricted-symbol consent into this broader preference or persist it in browser preferences.
 - Treat missing content assessments as unassessed. Only `ALLOWED` content is displayed without the preference. Redacted image URLs remain unavailable even when the preference is enabled.
 - Sensitive content covers both consent categories, `NAZI_GERMANY` (symbols covered by § 86a StGB) and `NUDITY` (nudity, erotica and pornography). One preference unlocks both; do not add a per-category setting or branch image visibility on the category. The preference's tooltip names both kinds. The imprint reserves display restrictions without limiting them to § 86a StGB ("in particular"), while terms § 12 speaks only of sensitive historical depictions; neither was edited for `NUDITY`. Whether the terms need wording for it is a legal/product decision, not a copy edit (see [legal content](legal-content-guidelines.md)).
-- Account updates must discard and refetch cached personalized listings, watchlists, saved-search matches/previews, and notifications; merely marking them stale can retain previously visible images. Cancel in-flight queries before resetting these caches, and cancel and clear them on account deletion.
+- Account updates must discard and refetch cached personalized listings, watchlists, saved-search matches/previews, and notifications; merely marking them stale can retain previously visible images. Cancel in-flight refetches before resetting these caches (`cancelRefetches`; first loads keep running and are refetched once they land), and cancel and clear them on account deletion.
 - Sign-in, sign-out and viewer changes also remove own-source grants, partnership applications and access-token caches before refetching. Pending private reads must be aborted so late responses cannot repopulate a previous viewer's data. Public SEO images must be assessed ALLOWED, regardless of a signed-in viewer's content preference.
 
 ### Newsletter consent
@@ -85,6 +86,8 @@ Sources: the backend [geography contract](https://github.com/aura-historia/backe
 - Admin product listing images are privileged, unassessed source URLs. Load a preview from the source host only after an explicit request for that image, with `no-referrer`; never render them automatically or reuse them in public or shared caches.
 - Suspension reasons are sent only to the authorized admin suspension request and are logged by the backend for operations. Explain this before submission, reject blank or oversized reasons, and do not persist or log them in the client.
 - User rights: account deletion, privacy settings, unsubscribe, consent settings, and preference changes must remain functional.
+
+- Content notices (#1326) are a new data category: the notifier's name, e-mail, explanation and links, stored by the backend for review and the receipt and decision e-mails; a report of illegal content may leave out name and e-mail and is then stored without them (no IP address; retention set by counsel, backend#2935). The form links the privacy policy at the point of collection, keeps nothing in the URL, logs or analytics, and pre-fills name and e-mail from the account only after hydration. The privacy policy does not describe this processing yet: purpose, legal basis, retention and the e-mail processor need counsel's text in every locale before release.
 
 ## Privacy review steps
 
