@@ -1,6 +1,6 @@
 import { LANDING_PAGE_FRAGMENTS } from "@/features/landing/config/landingPageFragments.ts";
 
-export type SiteSectionId = "discover" | "platform" | "dealers" | "pricing";
+export type SiteSectionId = "discover" | "platform" | "dealers" | "pricing" | "faq";
 
 export type SiteSectionLink =
     | {
@@ -41,6 +41,12 @@ export const SITE_SECTION_LINKS: readonly SiteSectionLink[] = [
         translationKey: "header.sections.pricing",
         kind: "landing",
         fragment: LANDING_PAGE_FRAGMENTS.pricing,
+    },
+    {
+        id: "faq",
+        translationKey: "header.sections.faq",
+        kind: "landing",
+        fragment: LANDING_PAGE_FRAGMENTS.faq,
     },
 ];
 

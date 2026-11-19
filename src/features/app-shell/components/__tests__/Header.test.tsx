@@ -86,6 +86,7 @@ describe("Header", () => {
                 "href",
                 "/de#pricing",
             );
+            expect(nav.getByRole("link", { name: "FAQ" })).toHaveAttribute("href", "/de#faq");
         });
 
         it("shows sign in and the create account call to action when signed out", async () => {
