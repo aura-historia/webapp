@@ -37,6 +37,11 @@ interface PreferencePickerProps {
         readonly emptyMessage: string;
     };
     readonly className?: string;
+    /** Form-field wiring for the trigger; all optional. */
+    readonly triggerId?: string;
+    readonly disabled?: boolean;
+    readonly invalid?: boolean;
+    readonly describedBy?: string;
 }
 
 const ROW_CLASS =
@@ -62,6 +67,10 @@ export function PreferencePicker({
     triggerContent,
     search,
     className,
+    triggerId,
+    disabled,
+    invalid,
+    describedBy,
 }: PreferencePickerProps) {
     const [open, setOpen] = useState(false);
     const [query, setQuery] = useState("");
@@ -140,8 +149,15 @@ export function PreferencePicker({
         <Popover open={open} onOpenChange={handleOpenChange}>
             <PopoverTrigger
                 aria-haspopup="listbox"
+                id={triggerId}
+                disabled={disabled}
                 aria-label={`${label}: ${displayValue}`}
-                className={cn("cursor-pointer data-[state=open]:text-ink", triggerClassName)}
+                aria-invalid={invalid || undefined}
+                aria-describedby={describedBy}
+                className={cn(
+                    "cursor-pointer disabled:cursor-not-allowed data-[state=open]:text-ink",
+                    triggerClassName,
+                )}
             >
                 {triggerContent ?? displayValue}
             </PopoverTrigger>

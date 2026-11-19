@@ -133,6 +133,7 @@ Lorsque des fonctionnalités partenaires, boutique ou d’administration sont ut
 Lorsque vous utilisez des fonctionnalités géographiques, nous traitons notamment, selon la fonctionnalité :
 
 - les adresses que vous enregistrez dans votre compte, avec libellé, texte de l’adresse, pays, région et code postal, lorsqu’ils sont indiqués
+- le texte que vous saisissez lors de la recherche d’une adresse, et la suggestion que vous choisissez
 - les informations géographiques qui en sont dérivées, telles que pays, région, coordonnées et leur précision, ainsi que l’état du traitement
 - le lieu de recherche que vous choisissez, c’est-à-dire une adresse enregistrée ou un pays avec un code postal facultatif
 - les coordonnées que vous utilisez pour une recherche par rayon ou que vous conservez dans une recherche enregistrée
@@ -140,7 +141,9 @@ Lorsque vous utilisez des fonctionnalités géographiques, nous traitons notamme
 
 **Adresses enregistrées et lieu de recherche :** Vos adresses enregistrées et votre lieu de recherche sont privés et destinés uniquement à votre compte. Nous les utilisons pour déterminer des distances et des résultats régionaux pour vous. Ils ne servent pas à vérifier votre domicile, votre adresse de facturation, votre nationalité ni la possibilité de livrer des objets. Nous ne déduisons aucun lieu de recherche de votre langue, de votre devise ou de votre adresse IP.
 
-**Géocodage :** Après que vous avez enregistré ou modifié une adresse, nous déterminons sa position géographique en arrière-plan, avec un certain délai. À cette fin, nous transmettons le texte de l’adresse ainsi que vos indications de pays, de région et de code postal à Amazon Location Service d’Amazon Web Services (AWS), que nous utilisons via la région de Francfort (eu-central-1). Amazon Location Service s’appuie sur des données de fournisseurs de données, dont le traitement peut également avoir lieu en dehors de cette région. Nous n’enregistrons le résultat que dans la mesure où les conditions du fournisseur le permettent et l’utilisons exclusivement pour votre compte, même si d’autres utilisateurs enregistrent la même adresse. Nous ne retenons un point précis qu’à partir d’un résultat univoque. Tant que la détermination n’est pas terminée, ou en l’absence de résultat univoque, l’adresse reste utilisable sans point précis ; vous pouvez la corriger à tout moment. Le géocodage ne vérifie pas votre adresse.
+**Suggestions d’adresses :** Lorsque vous saisissez une adresse dans votre compte, nous vous proposons des adresses correspondantes pendant la saisie. À cette fin, nous transmettons le texte saisi jusque-là ainsi que la langue de la page à Amazon Location Service, que nous utilisons via la région de Francfort (eu-central-1). Les suggestions vous sont uniquement affichées ; nous ne les enregistrons pas. Afin de limiter l’utilisation, nous enregistrons uniquement le nombre de vos demandes de suggestions par minute et par jour. Si vous choisissez une suggestion, nous transmettons sa référence de lieu avec l’adresse et l’utilisons pour déterminer le lieu que vous avez choisi.
+
+**Géocodage :** Après que vous avez enregistré ou modifié une adresse, nous déterminons sa position géographique en arrière-plan, avec un certain délai. À cette fin, nous transmettons le texte de l’adresse ainsi que vos indications de pays, de région et de code postal ou, si vous avez choisi une suggestion, sa référence de lieu à Amazon Location Service d’Amazon Web Services (AWS), que nous utilisons via la région de Francfort (eu-central-1). Si le fournisseur ne connaît plus la référence de lieu, nous effectuons la recherche à partir du texte de l’adresse. Amazon Location Service s’appuie sur des données de fournisseurs de données, dont le traitement peut également avoir lieu en dehors de cette région. Nous n’enregistrons le résultat que dans la mesure où les conditions du fournisseur le permettent et l’utilisons exclusivement pour votre compte, même si d’autres utilisateurs enregistrent la même adresse. Nous ne retenons un point précis qu’à partir d’un résultat univoque ou si la suggestion choisie est une adresse exacte. Tant que la détermination n’est pas terminée, ou en l’absence de résultat univoque, l’adresse reste utilisable sans point précis ; vous pouvez la corriger à tout moment. Le géocodage ne vérifie pas votre adresse.
 
 **Partage de la position du navigateur :** Nous ne demandons votre position actuelle que lorsque vous le déclenchez expressément. Votre navigateur vous demande d’abord votre autorisation ; vous pouvez la refuser ou la retirer dans les paramètres du navigateur. Nous utilisons les coordonnées pour la recherche concernée et ne les enregistrons que si vous enregistrez la recherche.
 
@@ -386,4 +389,4 @@ Nous pouvons adapter les présentes notices de confidentialité lorsque cela dev
 
 ---
 
-_État : 10.11.2026_
+_État : 18.11.2026_

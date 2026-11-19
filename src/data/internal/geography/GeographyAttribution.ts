@@ -16,6 +16,11 @@ export const AMAZON_LOCATION_ATTRIBUTION: GeographyAttribution = {
     url: "https://docs.aws.amazon.com/location/latest/developerguide/data-attribution.html",
 };
 
+/** Display names for provider codes the backend sends, such as `AMAZON_LOCATION`. */
+const PROVIDER_NAMES: Readonly<Record<string, string>> = {
+    AMAZON_LOCATION: AMAZON_LOCATION_ATTRIBUTION.provider,
+};
+
 export function mapToGeographyAttribution(
     attribution: UserAddressAttribution | null | undefined,
 ): GeographyAttribution | undefined {
@@ -24,7 +29,7 @@ export function mapToGeographyAttribution(
         return undefined;
     }
 
-    return { provider, url: attribution.attributionUrl };
+    return { provider: PROVIDER_NAMES[provider] ?? provider, url: attribution.attributionUrl };
 }
 
 function isHttpsUrl(url: string): boolean {

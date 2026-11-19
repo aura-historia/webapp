@@ -48,8 +48,29 @@ admin workflows in [admin workflows](admin-workflows.md).
     without an e-mail says the limit is per content; the confirmation without an e-mail says that
     no confirmation or decision can be sent. The admin content-notice DTOs make the submitter's name,
     e-mail and receipt optional (generated only).
-  - **Address suggestions** (`POST /v1/address-suggestions`, `placeId` on address and party-location
-    writes): generated only; the address forms do not use them yet.
+  - **Address suggestions** ([backend#3014](https://github.com/aura-historia/backend/pull/3014)):
+    `POST /v1/address-suggestions` (`suggestAddresses`) takes `{ query, language }` (3–200
+    characters after trimming) and returns up to five `{ placeId, label, kind }` plus an
+    `attribution`; signed-in first-party users only, 60 per minute and 600 per UTC day,
+    `429` with `Retry-After`, `503` on a provider outage, always `no-store`. Address and
+    Party-location writes accept an optional `placeId`; the backend still resolves after the
+    write, so `resolution.status` keeps `PENDING` and its other values. Decisions: the saved
+    addresses editor searches as the user types (`useAddressSuggestions`: 300 ms debounce, the
+    next query aborts the previous request, nothing in the query cache, no request after a
+    complete `ADDRESS` pick or before a prefilled address is edited, a `429` pauses until
+    `Retry-After`, any other failure falls back to typing). `AddressSuggestion.ts` maps the
+    list (an unknown `kind` becomes `OTHER`, an invalid attribution is dropped and the static
+    Amazon Location attribution shown instead). `UserAddressInput.placeId` is sent only while
+    the text still equals the picked label; editing the text drops it. Party-location
+    `placeId` stays generated-only. The UI shows no background status: `PENDING` shows no
+    location, every status other than `ACCEPTED` shows "Not located" with a prompt to pick a
+    suggestion. The privacy policy and `privateAddress` disclosure describe the processing
+    (see [privacy alignment](privacy-policy-alignment.md#geography)).
+  - **Estimated admin overview listing counts**
+    ([backend#3007](https://github.com/aura-historia/backend/pull/3007)): from about 100,000
+    listings the `productListings` counters are estimates and the overview can return `503`
+    until statistics exist. Description only; the overview already shows its failure state on
+    `503`.
 - Changes adopted with the `8c678cb` capture (against `1be95314`, 2026-11-14), with their decisions:
   - **Content notices** ([backend#2934](https://github.com/aura-historia/backend/issues/2934),
     [backend#2938](https://github.com/aura-historia/backend/issues/2938),
@@ -607,10 +628,13 @@ To sync a backend revision:
   operations (`adminGetSourceLocationDefault`, `adminAssignSourceLocationDefault`,
   `adminChangeSourceLocationDefaultApplicability`, `adminClearSourceLocationDefault`) are consumed
   by listing-source management ([#1088](https://github.com/aura-historia/webapp/issues/1088); see
-  [admin workflows](admin-workflows.md#listing-source-default-locations)). Every other geography
-  operation is generated-only until its feature slice consumes it: the user
-  address book (`listUserAddresses`, `createUserAddress`, `getUserAddress`, `updateUserAddress`,
-  `deleteUserAddress`), the browsing destination (`getBrowsingDestination`,
+  [admin workflows](admin-workflows.md#listing-source-default-locations)).
+  The account page's saved addresses consume the user address book (`listUserAddresses`,
+  `createUserAddress`, `getUserAddress`, `updateUserAddress`, `deleteUserAddress`;
+  [#1078](https://github.com/aura-historia/webapp/issues/1078)). Every other geography
+  operation is generated-only until its feature slice consumes it (`suggestAddresses` is
+  consumed by the address editor): the browsing destination
+  (`getBrowsingDestination`,
   `setBrowsingDestination`), public discovery (`discoverPartyLocations`) and the non-admin source
   defaults (`getSourceLocationDefault`, `assignSourceLocationDefault`,
   `changeSourceLocationDefaultApplicability`, `clearSourceLocationDefault`) and the admin
@@ -824,9 +848,12 @@ Shared models live in `src/data/internal/geography`; formatting helpers in
   failed refresh leaves the outcome unresolved and blocks resubmission until a refresh succeeds.
   Equal content cannot identify the original request. A relocation keeps the old location's
   expected revision; a repeated committed relocation returns `409`, which refreshes the locations
-  and keeps the draft, never substitutes a newer revision or resubmits. The upcoming address book
-  ([#1078](https://github.com/aura-historia/webapp/issues/1078)) follows the same policy and must
-  not change the browsing destination when an address is saved. Backend runtimes older than
+  and keeps the draft, never substitutes a newer revision or resubmits. The address book
+  (`useCreateUserAddress` in `features/account-management/hooks/useUserAddresses.ts`) follows the
+  same policy and never changes the browsing destination when an address is saved. An address
+  replace that returns `409` loads the current version with `getUserAddress` and keeps the draft;
+  saving again sends that version. A delete refreshes the addresses and the browsing destination.
+  Addresses with `hasUnsupportedValues` cannot be edited, only deleted. Backend runtimes older than
   backend#2081 still require the header, so release this webapp only with or after the keyless
   backend.
 - **Commands:** source-default evidence is opaque text whose scope follows the field; omitted

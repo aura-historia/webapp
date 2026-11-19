@@ -477,6 +477,157 @@
       "currentPlanLabel": "Current plan",
       "manageButton": "Manage subscription",
       "description": "Change your plan, payment method or billing details with our payment provider."
+    },
+    "addresses": {
+      "title": "Saved addresses",
+      "description": "Private places you keep under a name of your choice. Only you can see them.",
+      "listLabel": "Saved addresses",
+      "add": "Add address",
+      "yourDetails": "Your details",
+      "location": "Location",
+      "edit": "Edit",
+      "editNamed": "Edit {{label}}",
+      "deleteNamed": "Delete {{label}}",
+      "showMore": "Show more addresses",
+      "loadMoreError": "More addresses could not be loaded.",
+      "retry": "Try again",
+      "loading": "Loading saved addresses",
+      "empty": {
+        "title": "No saved <em>addresses</em> yet.",
+        "description": "Keep the places that matter to you, such as your home or a storage unit, under a name of your choice."
+      },
+      "error": {
+        "title": "Addresses could not be <em>loaded.</em>",
+        "description": "Please try again in a moment."
+      },
+      "accessLost": {
+        "title": "Your addresses aren’t <em>available.</em>",
+        "description": "Your session no longer allows access to them. Sign in again to see your saved addresses.",
+        "action": "Sign in again"
+      },
+      "derived": {
+        "country": "Country",
+        "region": "Region",
+        "postalCode": "Postal code"
+      },
+      "locationNote": "The location confirms neither the address nor whether objects can be delivered there.",
+      "editor": {
+        "eyebrow": "Saved address",
+        "createTitle": "Add an address",
+        "editTitle": "Edit address",
+        "preferredNote": "This is your search location. Saving changes doesn’t change that.",
+        "fields": {
+          "label": "Name",
+          "labelPlaceholder": "For example Home or Storage unit",
+          "address": "Address",
+          "country": "Country",
+          "region": "Region",
+          "postalCode": "Postal code"
+        },
+        "noCountry": "No country",
+        "searchCountries": "Search countries",
+        "searchCountriesPlaceholder": "Search countries…",
+        "noCountries": "No countries found.",
+        "noRegion": "No region",
+        "searchRegions": "Search regions",
+        "searchRegionsPlaceholder": "Search regions…",
+        "noRegions": "No regions found.",
+        "chooseCountryFirst": "Choose a country first.",
+        "save": "Save address",
+        "saveChanges": "Save changes",
+        "saving": "Saving…",
+        "saveMyVersion": "Save my version",
+        "saveAgain": "Save again",
+        "cancel": "Cancel",
+        "delete": "Delete address",
+        "close": "Close",
+        "conflict": {
+          "title": "This address was changed elsewhere.",
+          "body": "Your edits are kept above. Compare them with the saved version, then save again to replace it.",
+          "saved": "Saved version"
+        },
+        "uncertain": {
+          "checkingTitle": "We couldn’t confirm whether the address was saved.",
+          "checkingBody": "Checking your saved addresses…",
+          "checkedTitle": "Your addresses are up to date.",
+          "checkedBody": "If this address isn’t in your list, save it again. Saving it twice keeps two copies.",
+          "failedTitle": "We couldn’t check whether the address was saved.",
+          "failedBody": "Check again before saving, so the address isn’t saved twice.",
+          "checkAgain": "Check again"
+        },
+        "saveError": {
+          "title": "The address could not be saved.",
+          "body": "Your entries are kept. Please try again."
+        },
+        "missing": {
+          "title": "This address no longer exists.",
+          "body": "It may have been deleted on another device. Your list has been updated."
+        },
+        "unsupported": {
+          "title": "Some details of this address can’t be shown here.",
+          "body": "To keep them, this address can’t be edited here. You can still delete it."
+        },
+        "optionalDetails": "Country, region & postal code (optional)"
+      },
+      "delete": {
+        "title": "Delete “{{label}}”?",
+        "body": "The address is removed from your account. Saved searches keep their own copy of a search location and don’t change.",
+        "preferred": "This is your search location. After deleting it, it is no longer used.",
+        "conflict": "This address was changed elsewhere. Your list now shows the saved version. Check it, then delete again.",
+        "cancel": "Cancel",
+        "confirm": "Delete address"
+      },
+      "toasts": {
+        "saved": "Address saved",
+        "updated": "Address updated",
+        "deleted": "Address deleted",
+        "deleteFailed": "The address could not be deleted. Please try again.",
+        "missing": "This address no longer exists."
+      },
+      "validation": {
+        "labelRequired": "Enter a name for this address.",
+        "labelInvalid": "Use a shorter name on one line.",
+        "addressRequired": "Enter the address.",
+        "addressTooLong": "This address is too long.",
+        "countryInvalid": "Choose a country from the list.",
+        "subdivisionMismatch": "This region isn’t in the selected country.",
+        "postalCodeInvalid": "Use a shorter postal code on one line."
+      },
+      "errors": {
+        "forbidden": "You no longer have access to your saved addresses.",
+        "missing": "This address no longer exists.",
+        "conflict": "This address was changed elsewhere.",
+        "createIndefinite": "We couldn’t confirm whether the address was saved.",
+        "invalid": "The address could not be saved. Check your entries.",
+        "requestFailed": "The request failed. Please try again."
+      },
+      "searchLocation": "Search location",
+      "located": "Located",
+      "notLocated": {
+        "label": "Not located",
+        "hint": "Edit the address and pick a suggestion to locate it.",
+        "note": "We couldn’t place this address exactly. Search the address above and pick a suggestion to locate it."
+      },
+      "search": {
+        "placeholder": "Start typing the address",
+        "hint": "Start typing and pick a suggestion to locate the address exactly.",
+        "hintTyping": "Pick a suggestion to locate the address exactly, or keep typing.",
+        "partialPick": "This isn’t a full address yet. Add the house number to find the exact address, or save it as it is.",
+        "limited": "Suggestions are paused for a moment. You can keep typing the address and save it as typed.",
+        "unavailable": "Suggestions aren’t available right now. You can type the address and save it as typed.",
+        "empty": "No suggestions for this text. You can still save the address as you typed it.",
+        "picked": "Picked from suggestions",
+        "searchAgain": "Search again",
+        "listLabel": "Address suggestions",
+        "attribution": "Suggestions: <providerLink>{{provider}}</providerLink>",
+        "kinds": {
+          "STREET": "Street",
+          "LOCALITY": "Town",
+          "POSTAL_CODE": "Postal code",
+          "REGION": "Region",
+          "OTHER": "Place"
+        }
+      }
     }
   },
   "search": {
@@ -5810,7 +5961,7 @@
   "geography": {
     "attribution": "Location data: <providerLink>{{provider}}</providerLink>",
     "disclosure": {
-      "privateAddress": "Saved addresses are private to your account. We use them to show distances and regional results, not to verify your residence or whether objects can be delivered. After you save, we determine the location in the background using Amazon Location Service. Until then, or if there is no clear match, the address remains usable without a precise point.",
+      "privateAddress": "Saved addresses are private to your account. We use them to show distances and regional results, not to verify your residence or whether objects can be delivered. While you type, we send your entry to Amazon Location Service to suggest matching addresses; we do not store the suggestions. After you save, we locate the address with Amazon Location Service. If there is no clear match, the address remains usable without a precise point.",
       "savedOrigin": "Saving this search keeps a private copy of its search location. Later changes to your addresses do not move it. Change or delete the saved search to remove it.",
       "browserLocation": "Your browser will ask whether to share your current location. We use it only for this search and store it only if you save the search.",
       "publicPartyLocation": "Active locations are public: the exact geographic point, country and region can appear in search results and be used for radius searches. The full address, supporting evidence and management details are visible only to authorized people. Retire a location to remove it from public results; the update can take a short time.",

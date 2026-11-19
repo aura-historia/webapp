@@ -477,6 +477,157 @@
       "currentPlanLabel": "Aktuelles Abo",
       "manageButton": "Abo verwalten",
       "description": "Ändern Sie Ihren Plan, Ihre Zahlungsmethode oder Rechnungsdaten bei unserem Zahlungsanbieter."
+    },
+    "addresses": {
+      "title": "Gespeicherte Adressen",
+      "description": "Private Orte, die Sie unter einem Namen Ihrer Wahl speichern. Nur Sie können sie sehen.",
+      "listLabel": "Gespeicherte Adressen",
+      "add": "Adresse hinzufügen",
+      "yourDetails": "Ihre Angaben",
+      "location": "Standort",
+      "edit": "Bearbeiten",
+      "editNamed": "{{label}} bearbeiten",
+      "deleteNamed": "{{label}} löschen",
+      "showMore": "Weitere Adressen anzeigen",
+      "loadMoreError": "Weitere Adressen konnten nicht geladen werden.",
+      "retry": "Erneut versuchen",
+      "loading": "Gespeicherte Adressen werden geladen",
+      "empty": {
+        "title": "Noch keine <em>Adressen</em> gespeichert.",
+        "description": "Speichern Sie Orte, die Ihnen wichtig sind, etwa Ihr Zuhause oder ein Lager, unter einem Namen Ihrer Wahl."
+      },
+      "error": {
+        "title": "Adressen konnten nicht <em>geladen werden.</em>",
+        "description": "Bitte versuchen Sie es gleich noch einmal."
+      },
+      "accessLost": {
+        "title": "Ihre Adressen sind nicht <em>verfügbar.</em>",
+        "description": "Ihre Sitzung erlaubt keinen Zugriff mehr darauf. Melden Sie sich erneut an, um Ihre gespeicherten Adressen zu sehen.",
+        "action": "Erneut anmelden"
+      },
+      "derived": {
+        "country": "Land",
+        "region": "Region",
+        "postalCode": "Postleitzahl"
+      },
+      "locationNote": "Der Standort bestätigt weder die Adresse noch, ob Objekte dorthin geliefert werden können.",
+      "editor": {
+        "eyebrow": "Gespeicherte Adresse",
+        "createTitle": "Adresse hinzufügen",
+        "editTitle": "Adresse bearbeiten",
+        "preferredNote": "Dies ist Ihr Suchstandort. Daran ändert das Speichern nichts.",
+        "fields": {
+          "label": "Name",
+          "labelPlaceholder": "Zum Beispiel Zuhause oder Lager",
+          "address": "Adresse",
+          "country": "Land",
+          "region": "Region",
+          "postalCode": "Postleitzahl"
+        },
+        "noCountry": "Kein Land",
+        "searchCountries": "Länder suchen",
+        "searchCountriesPlaceholder": "Länder suchen…",
+        "noCountries": "Keine Länder gefunden.",
+        "noRegion": "Keine Region",
+        "searchRegions": "Regionen suchen",
+        "searchRegionsPlaceholder": "Regionen suchen…",
+        "noRegions": "Keine Regionen gefunden.",
+        "chooseCountryFirst": "Wählen Sie zuerst ein Land.",
+        "save": "Adresse speichern",
+        "saveChanges": "Änderungen speichern",
+        "saving": "Wird gespeichert…",
+        "saveMyVersion": "Meine Fassung speichern",
+        "saveAgain": "Erneut speichern",
+        "cancel": "Abbrechen",
+        "delete": "Adresse löschen",
+        "close": "Schließen",
+        "conflict": {
+          "title": "Diese Adresse wurde an anderer Stelle geändert.",
+          "body": "Ihre Änderungen bleiben oben erhalten. Vergleichen Sie sie mit der gespeicherten Fassung und speichern Sie erneut, um sie zu ersetzen.",
+          "saved": "Gespeicherte Fassung"
+        },
+        "uncertain": {
+          "checkingTitle": "Wir konnten nicht bestätigen, ob die Adresse gespeichert wurde.",
+          "checkingBody": "Ihre gespeicherten Adressen werden geprüft…",
+          "checkedTitle": "Ihre Adressen sind auf dem neuesten Stand.",
+          "checkedBody": "Wenn diese Adresse nicht in Ihrer Liste steht, speichern Sie sie erneut. Doppelt gespeichert bleiben zwei Kopien erhalten.",
+          "failedTitle": "Wir konnten nicht prüfen, ob die Adresse gespeichert wurde.",
+          "failedBody": "Prüfen Sie erneut, bevor Sie speichern, damit die Adresse nicht doppelt gespeichert wird.",
+          "checkAgain": "Erneut prüfen"
+        },
+        "saveError": {
+          "title": "Die Adresse konnte nicht gespeichert werden.",
+          "body": "Ihre Eingaben bleiben erhalten. Bitte versuchen Sie es erneut."
+        },
+        "missing": {
+          "title": "Diese Adresse gibt es nicht mehr.",
+          "body": "Sie wurde möglicherweise auf einem anderen Gerät gelöscht. Ihre Liste wurde aktualisiert."
+        },
+        "unsupported": {
+          "title": "Einige Angaben dieser Adresse können hier nicht angezeigt werden.",
+          "body": "Damit sie erhalten bleiben, kann diese Adresse hier nicht bearbeitet werden. Löschen können Sie sie weiterhin."
+        },
+        "optionalDetails": "Land, Region und Postleitzahl (optional)"
+      },
+      "delete": {
+        "title": "„{{label}}“ löschen?",
+        "body": "Die Adresse wird aus Ihrem Konto entfernt. Gespeicherte Suchen behalten ihre eigene Kopie eines Suchorts und ändern sich nicht.",
+        "preferred": "Dies ist Ihr Suchstandort. Nach dem Löschen wird er nicht mehr verwendet.",
+        "conflict": "Diese Adresse wurde an anderer Stelle geändert. Ihre Liste zeigt jetzt die gespeicherte Fassung. Prüfen Sie sie und löschen Sie dann erneut.",
+        "cancel": "Abbrechen",
+        "confirm": "Adresse löschen"
+      },
+      "toasts": {
+        "saved": "Adresse gespeichert",
+        "updated": "Adresse aktualisiert",
+        "deleted": "Adresse gelöscht",
+        "deleteFailed": "Die Adresse konnte nicht gelöscht werden. Bitte versuchen Sie es erneut.",
+        "missing": "Diese Adresse gibt es nicht mehr."
+      },
+      "validation": {
+        "labelRequired": "Geben Sie einen Namen für diese Adresse ein.",
+        "labelInvalid": "Verwenden Sie einen kürzeren Namen in einer Zeile.",
+        "addressRequired": "Geben Sie die Adresse ein.",
+        "addressTooLong": "Diese Adresse ist zu lang.",
+        "countryInvalid": "Wählen Sie ein Land aus der Liste.",
+        "subdivisionMismatch": "Diese Region liegt nicht im gewählten Land.",
+        "postalCodeInvalid": "Verwenden Sie eine kürzere Postleitzahl in einer Zeile."
+      },
+      "errors": {
+        "forbidden": "Sie haben keinen Zugriff mehr auf Ihre gespeicherten Adressen.",
+        "missing": "Diese Adresse gibt es nicht mehr.",
+        "conflict": "Diese Adresse wurde an anderer Stelle geändert.",
+        "createIndefinite": "Wir konnten nicht bestätigen, ob die Adresse gespeichert wurde.",
+        "invalid": "Die Adresse konnte nicht gespeichert werden. Prüfen Sie Ihre Eingaben.",
+        "requestFailed": "Die Anfrage ist fehlgeschlagen. Bitte versuchen Sie es erneut."
+      },
+      "searchLocation": "Suchstandort",
+      "located": "Ermittelt",
+      "notLocated": {
+        "label": "Nicht ermittelt",
+        "hint": "Bearbeiten Sie die Adresse und wählen Sie einen Vorschlag, um den Standort zu ermitteln.",
+        "note": "Wir konnten diese Adresse nicht genau zuordnen. Suchen Sie die Adresse oben und wählen Sie einen Vorschlag, um den Standort zu ermitteln."
+      },
+      "search": {
+        "placeholder": "Adresse eingeben",
+        "hint": "Beginnen Sie mit der Eingabe und wählen Sie einen Vorschlag, um die Adresse genau zuzuordnen.",
+        "hintTyping": "Wählen Sie einen Vorschlag, um die Adresse genau zuzuordnen, oder tippen Sie weiter.",
+        "partialPick": "Das ist noch keine vollständige Adresse. Ergänzen Sie die Hausnummer, um die genaue Adresse zu finden, oder speichern Sie sie so.",
+        "limited": "Vorschläge sind kurz pausiert. Sie können die Adresse weiter eintippen und so speichern.",
+        "unavailable": "Vorschläge sind gerade nicht verfügbar. Sie können die Adresse eintippen und so speichern.",
+        "empty": "Keine Vorschläge für diese Eingabe. Sie können die Adresse trotzdem so speichern, wie Sie sie eingegeben haben.",
+        "picked": "Aus den Vorschlägen gewählt",
+        "searchAgain": "Erneut suchen",
+        "listLabel": "Adressvorschläge",
+        "attribution": "Vorschläge: <providerLink>{{provider}}</providerLink>",
+        "kinds": {
+          "STREET": "Straße",
+          "LOCALITY": "Ort",
+          "POSTAL_CODE": "Postleitzahl",
+          "REGION": "Region",
+          "OTHER": "Ort"
+        }
+      }
     }
   },
   "search": {
@@ -5810,7 +5961,7 @@
   "geography": {
     "attribution": "Standortdaten: <providerLink>{{provider}}</providerLink>",
     "disclosure": {
-      "privateAddress": "Gespeicherte Adressen sind privat und nur für Ihr Konto bestimmt. Wir verwenden sie, um Entfernungen und regionale Ergebnisse anzuzeigen, nicht um Ihren Wohnsitz oder die Lieferbarkeit von Objekten zu prüfen. Nach dem Speichern ermitteln wir die Lage im Hintergrund mit Amazon Location Service. Bis dahin oder ohne eindeutiges Ergebnis bleibt die Adresse ohne genauen Punkt nutzbar.",
+      "privateAddress": "Gespeicherte Adressen sind privat und nur für Ihr Konto bestimmt. Wir verwenden sie, um Entfernungen und regionale Ergebnisse anzuzeigen, nicht um Ihren Wohnsitz oder die Lieferbarkeit von Objekten zu prüfen. Während Sie tippen, übermitteln wir Ihre Eingabe an Amazon Location Service, um passende Adressen vorzuschlagen; die Vorschläge speichern wir nicht. Nach dem Speichern ermitteln wir den Standort der Adresse mit Amazon Location Service. Gibt es keinen eindeutigen Treffer, bleibt die Adresse ohne genauen Punkt nutzbar.",
       "savedOrigin": "Mit dieser Suche speichern wir eine private Kopie ihres Suchstandorts. Spätere Änderungen an Ihren Adressen verschieben ihn nicht. Ändern oder löschen Sie die gespeicherte Suche, um ihn zu entfernen.",
       "browserLocation": "Ihr Browser fragt, ob Sie Ihren aktuellen Standort freigeben möchten. Wir verwenden ihn nur für diese Suche und speichern ihn nur, wenn Sie die Suche speichern.",
       "publicPartyLocation": "Aktive Standorte sind öffentlich: Der genaue geografische Punkt sowie Land und Region können in Suchergebnissen erscheinen und für die Umkreissuche verwendet werden. Die vollständige Adresse, Nachweise und Verwaltungsangaben sehen nur berechtigte Personen. Legen Sie einen Standort still, um ihn aus öffentlichen Ergebnissen zu entfernen; die Aktualisierung kann kurze Zeit dauern.",

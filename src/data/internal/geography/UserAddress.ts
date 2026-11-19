@@ -74,6 +74,12 @@ export type UserAddressPage = {
 export type UserAddressInput = {
     readonly label: string;
     readonly geography: GeographicAssertionsInput & { readonly addressText: string };
+    /**
+     * A picked address suggestion, located exactly by the backend. Omit it when the address text
+     * was edited after the pick; on replace, omitting it keeps the current pick until the address
+     * text changes.
+     */
+    readonly placeId?: string;
 };
 
 export const MAX_USER_ADDRESS_LABEL_BYTES = 128;
@@ -126,6 +132,7 @@ export function mapToBackendCreateUserAddress(input: UserAddressInput): CreateUs
             ...mapToBackendGeographicAssertions(input.geography),
             addressText: input.geography.addressText,
         },
+        ...(input.placeId ? { placeId: input.placeId } : {}),
     };
 }
 

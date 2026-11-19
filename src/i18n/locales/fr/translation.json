@@ -477,6 +477,157 @@
       "profileGroup": "Profil",
       "preferencesGroup": "Préférences",
       "loading": "Chargement des données personnelles"
+    },
+    "addresses": {
+      "title": "Adresses enregistrées",
+      "description": "Des lieux privés que vous enregistrez sous le nom de votre choix. Vous seul pouvez les voir.",
+      "listLabel": "Adresses enregistrées",
+      "add": "Ajouter une adresse",
+      "yourDetails": "Vos indications",
+      "location": "Localisation",
+      "edit": "Modifier",
+      "editNamed": "Modifier {{label}}",
+      "deleteNamed": "Supprimer {{label}}",
+      "showMore": "Afficher plus d’adresses",
+      "loadMoreError": "Les adresses suivantes n’ont pas pu être chargées.",
+      "retry": "Réessayer",
+      "loading": "Chargement des adresses enregistrées",
+      "empty": {
+        "title": "Aucune <em>adresse</em> enregistrée pour l’instant.",
+        "description": "Enregistrez les lieux qui comptent pour vous, comme votre domicile ou un local de stockage, sous le nom de votre choix."
+      },
+      "error": {
+        "title": "Les adresses n’ont pas pu être <em>chargées.</em>",
+        "description": "Veuillez réessayer dans un instant."
+      },
+      "accessLost": {
+        "title": "Vos adresses ne sont pas <em>disponibles.</em>",
+        "description": "Votre session ne permet plus d’y accéder. Reconnectez-vous pour voir vos adresses enregistrées.",
+        "action": "Se reconnecter"
+      },
+      "derived": {
+        "country": "Pays",
+        "region": "Région",
+        "postalCode": "Code postal"
+      },
+      "locationNote": "La localisation ne confirme ni l’adresse ni la possibilité d’y livrer des objets.",
+      "editor": {
+        "eyebrow": "Adresse enregistrée",
+        "createTitle": "Ajouter une adresse",
+        "editTitle": "Modifier l’adresse",
+        "preferredNote": "C’est votre lieu de recherche. L’enregistrement des modifications n’y change rien.",
+        "fields": {
+          "label": "Nom",
+          "labelPlaceholder": "Par exemple Domicile ou Entrepôt",
+          "address": "Adresse",
+          "country": "Pays",
+          "region": "Région",
+          "postalCode": "Code postal"
+        },
+        "noCountry": "Aucun pays",
+        "searchCountries": "Rechercher un pays",
+        "searchCountriesPlaceholder": "Rechercher un pays…",
+        "noCountries": "Aucun pays trouvé.",
+        "noRegion": "Aucune région",
+        "searchRegions": "Rechercher une région",
+        "searchRegionsPlaceholder": "Rechercher une région…",
+        "noRegions": "Aucune région trouvée.",
+        "chooseCountryFirst": "Choisissez d’abord un pays.",
+        "save": "Enregistrer l’adresse",
+        "saveChanges": "Enregistrer les modifications",
+        "saving": "Enregistrement…",
+        "saveMyVersion": "Enregistrer ma version",
+        "saveAgain": "Enregistrer à nouveau",
+        "cancel": "Annuler",
+        "delete": "Supprimer l’adresse",
+        "close": "Fermer",
+        "conflict": {
+          "title": "Cette adresse a été modifiée ailleurs.",
+          "body": "Vos modifications sont conservées ci-dessus. Comparez-les avec la version enregistrée, puis enregistrez à nouveau pour la remplacer.",
+          "saved": "Version enregistrée"
+        },
+        "uncertain": {
+          "checkingTitle": "Nous n’avons pas pu confirmer l’enregistrement de l’adresse.",
+          "checkingBody": "Vérification de vos adresses enregistrées…",
+          "checkedTitle": "Vos adresses sont à jour.",
+          "checkedBody": "Si cette adresse n’apparaît pas dans votre liste, enregistrez-la à nouveau. Un double enregistrement conserve deux copies.",
+          "failedTitle": "Nous n’avons pas pu vérifier l’enregistrement de l’adresse.",
+          "failedBody": "Vérifiez à nouveau avant d’enregistrer, afin que l’adresse ne soit pas enregistrée deux fois.",
+          "checkAgain": "Vérifier à nouveau"
+        },
+        "saveError": {
+          "title": "L’adresse n’a pas pu être enregistrée.",
+          "body": "Vos saisies sont conservées. Veuillez réessayer."
+        },
+        "missing": {
+          "title": "Cette adresse n’existe plus.",
+          "body": "Elle a peut-être été supprimée sur un autre appareil. Votre liste a été mise à jour."
+        },
+        "unsupported": {
+          "title": "Certaines indications de cette adresse ne peuvent pas être affichées ici.",
+          "body": "Pour les conserver, cette adresse ne peut pas être modifiée ici. Vous pouvez toujours la supprimer."
+        },
+        "optionalDetails": "Pays, région et code postal (facultatif)"
+      },
+      "delete": {
+        "title": "Supprimer « {{label}} » ?",
+        "body": "L’adresse est retirée de votre compte. Les recherches enregistrées conservent leur propre copie d’un lieu de recherche et ne changent pas.",
+        "preferred": "C’est votre lieu de recherche. Après la suppression, il ne sera plus utilisé.",
+        "conflict": "Cette adresse a été modifiée ailleurs. Votre liste affiche maintenant la version enregistrée. Vérifiez-la, puis supprimez à nouveau.",
+        "cancel": "Annuler",
+        "confirm": "Supprimer l’adresse"
+      },
+      "toasts": {
+        "saved": "Adresse enregistrée",
+        "updated": "Adresse mise à jour",
+        "deleted": "Adresse supprimée",
+        "deleteFailed": "L’adresse n’a pas pu être supprimée. Veuillez réessayer.",
+        "missing": "Cette adresse n’existe plus."
+      },
+      "validation": {
+        "labelRequired": "Saisissez un nom pour cette adresse.",
+        "labelInvalid": "Utilisez un nom plus court, sur une seule ligne.",
+        "addressRequired": "Saisissez l’adresse.",
+        "addressTooLong": "Cette adresse est trop longue.",
+        "countryInvalid": "Choisissez un pays dans la liste.",
+        "subdivisionMismatch": "Cette région ne fait pas partie du pays choisi.",
+        "postalCodeInvalid": "Utilisez un code postal plus court, sur une seule ligne."
+      },
+      "errors": {
+        "forbidden": "Vous n’avez plus accès à vos adresses enregistrées.",
+        "missing": "Cette adresse n’existe plus.",
+        "conflict": "Cette adresse a été modifiée ailleurs.",
+        "createIndefinite": "Nous n’avons pas pu confirmer l’enregistrement de l’adresse.",
+        "invalid": "L’adresse n’a pas pu être enregistrée. Vérifiez vos saisies.",
+        "requestFailed": "La requête a échoué. Veuillez réessayer."
+      },
+      "searchLocation": "Lieu de recherche",
+      "located": "Localisée",
+      "notLocated": {
+        "label": "Non localisée",
+        "hint": "Modifiez l’adresse et choisissez une suggestion pour la localiser.",
+        "note": "Nous n’avons pas pu situer précisément cette adresse. Recherchez l’adresse ci-dessus et choisissez une suggestion pour la localiser."
+      },
+      "search": {
+        "placeholder": "Commencez à saisir l’adresse",
+        "hint": "Commencez la saisie et choisissez une suggestion pour localiser précisément l’adresse.",
+        "hintTyping": "Choisissez une suggestion pour localiser précisément l’adresse, ou continuez la saisie.",
+        "partialPick": "Ce n’est pas encore une adresse complète. Ajoutez le numéro pour trouver l’adresse exacte, ou enregistrez-la telle quelle.",
+        "limited": "Les suggestions sont suspendues un instant. Vous pouvez continuer à saisir l’adresse et l’enregistrer telle quelle.",
+        "unavailable": "Les suggestions ne sont pas disponibles pour le moment. Vous pouvez saisir l’adresse et l’enregistrer telle quelle.",
+        "empty": "Aucune suggestion pour ce texte. Vous pouvez tout de même enregistrer l’adresse telle que vous l’avez saisie.",
+        "picked": "Choisie parmi les suggestions",
+        "searchAgain": "Rechercher à nouveau",
+        "listLabel": "Suggestions d’adresses",
+        "attribution": "Suggestions : <providerLink>{{provider}}</providerLink>",
+        "kinds": {
+          "STREET": "Rue",
+          "LOCALITY": "Ville",
+          "POSTAL_CODE": "Code postal",
+          "REGION": "Région",
+          "OTHER": "Lieu"
+        }
+      }
     }
   },
   "search": {
@@ -5810,7 +5961,7 @@
   "geography": {
     "attribution": "Données de localisation : <providerLink>{{provider}}</providerLink>",
     "disclosure": {
-      "privateAddress": "Les adresses enregistrées sont privées et réservées à votre compte. Nous les utilisons pour afficher des distances et des résultats régionaux, et non pour vérifier votre domicile ou la possibilité de livrer des objets. Après l’enregistrement, nous déterminons la position en arrière-plan avec Amazon Location Service. D’ici là, ou en l’absence de résultat univoque, l’adresse reste utilisable sans point précis.",
+      "privateAddress": "Les adresses enregistrées sont privées et réservées à votre compte. Nous les utilisons pour afficher des distances et des résultats régionaux, et non pour vérifier votre domicile ou la possibilité de livrer des objets. Pendant la saisie, nous transmettons votre texte à Amazon Location Service afin de proposer des adresses correspondantes ; nous n’enregistrons pas les suggestions. Après l’enregistrement, nous localisons l’adresse avec Amazon Location Service. En l’absence de correspondance univoque, l’adresse reste utilisable sans point précis.",
       "savedOrigin": "En enregistrant cette recherche, nous conservons une copie privée de son lieu de recherche. Les modifications ultérieures de vos adresses ne le déplacent pas. Modifiez ou supprimez la recherche enregistrée pour le retirer.",
       "browserLocation": "Votre navigateur vous demandera si vous souhaitez partager votre position actuelle. Nous l’utilisons uniquement pour cette recherche et ne l’enregistrons que si vous enregistrez la recherche.",
       "publicPartyLocation": "Les sites actifs sont publics : le point géographique exact, le pays et la région peuvent apparaître dans les résultats de recherche et être utilisés pour les recherches par rayon. L’adresse complète, les justificatifs et les données de gestion ne sont visibles que par les personnes autorisées. Retirez un site pour le supprimer des résultats publics ; la mise à jour peut prendre un court délai.",
