@@ -39,7 +39,7 @@ export function Header() {
 
     if (isLandingPage) {
         return (
-            <header className="sticky top-0 z-50 lg:relative">
+            <header data-scrolls-away-from="lg" className="sticky top-0 z-50 lg:relative">
                 <SiteHeader
                     tone={LANDING_HEADER_TONE}
                     activeSection={activeSection}

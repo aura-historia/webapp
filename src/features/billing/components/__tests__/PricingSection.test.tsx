@@ -487,7 +487,6 @@ describe("Pricing and search-instruction copy", () => {
                 translation.landingPage.platform.agent.body,
                 translation.landingPage.platform.agent.demoLabel,
                 translation.landingPage.platform.alerts.title,
-                translation.header.sections.agent,
             ]);
             expect(copy).not.toMatch(
                 /real-time|Echtzeit|tiempo real|temps réel|tempo reale|priorit|few hours|weniger Stunden|pocas horas|quelques heures|poche ore/i,

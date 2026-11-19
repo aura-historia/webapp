@@ -130,6 +130,17 @@ code {
 
     --page-gutter: clamp(20px, 4vw, 48px);
     --section-padding: clamp(80px, 10vw, 140px);
+
+    /* The sticky header (60px on phones, 64px app bar) and the air a fragment target keeps below it. */
+    --sticky-header-height: 4rem;
+    --anchor-offset: calc(var(--sticky-header-height) + 1.5rem);
+}
+
+/* The landing header scrolls away from `lg` up, so nothing covers a fragment target there. */
+@media (width >= 64rem) {
+    :root:has(header[data-scrolls-away-from="lg"]) {
+        --sticky-header-height: 0px;
+    }
 }
 
 /*

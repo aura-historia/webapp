@@ -96,7 +96,7 @@ export function PlatformSection() {
                 <article
                     id={LANDING_PAGE_FRAGMENTS.agent}
                     data-theme="dark"
-                    className="flex scroll-mt-16 flex-col gap-[22px] rounded-card bg-surface-raised p-[22px] text-ink sm:gap-7 sm:p-[clamp(24px,3vw,40px)] min-[920px]:col-span-4 min-[920px]:min-h-[440px]"
+                    className="flex scroll-mt-(--anchor-offset) flex-col gap-[22px] rounded-card bg-surface-raised p-[22px] text-ink sm:gap-7 sm:p-[clamp(24px,3vw,40px)] min-[920px]:col-span-4 min-[920px]:min-h-[440px]"
                 >
                     <div className="flex max-w-[520px] flex-col gap-2.5 sm:gap-3">
                         <span className="font-mono text-[10px] tracking-[0.16em] text-brass uppercase sm:text-kicker">

@@ -62,6 +62,7 @@ Use the token system in `src/styles.css`, which mirrors the design system's `tok
 - Site sections live in `navigation/navigationConfig.ts`; account shortcuts live in `AccountMenu` and `MobileMenu`.
 - `Footer` sits on the ink ground: wordmark, tagline and contact, then the Discover, Partners, Comparisons and Company groups from `footer/Footer.data.ts` (the brand takes the first, wider column from 1024px; from 768px it has its own row above four equal link columns; one-at-a-time disclosures on phones), social links and `LocaleSwitch` (language, currency, units; shared with `MobileMenu`). Each switch opens a `PreferencePicker`: a parchment popover listbox with a mono title, an oxblood check on the selected row and, for currencies, a search field (design board "Nav · Locale pickers").
 - The landing header lies transparently over the ink hero (`tone="overlay"`); it is sticky on phones and scrolls away with the hero from 1024px.
+- Fragment links (`/#pricing`, `/partner-program#apply`) bring the section's title to the top of the viewport: `LandingSection` puts its `id` on the content column, not the padded section, and fragment targets use `scroll-mt-(--anchor-offset)`, which is the sticky header's height plus 24px (just 24px where the header scrolls away, marked by `data-scrolls-away-from="lg"` on the landing header).
 
 ## Fallback pages
 

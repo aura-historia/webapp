@@ -170,9 +170,9 @@
     "sections": {
       "discover": "Entdecken",
       "platform": "Plattform",
-      "agent": "Suchanweisungen",
       "dealers": "Für Händler",
-      "pricing": "Preise"
+      "pricing": "Preise",
+      "faq": "FAQ"
     },
     "signIn": "Anmelden",
     "createAccount": "Konto erstellen",
@@ -216,7 +216,6 @@
     "landingPageLinks": {
       "recentlyAdded": "Neueste Zugänge",
       "discover": "Plattform",
-      "features": "Funktionen",
       "howItWorks": "So funktioniert's",
       "pricing": "Preise",
       "newsletter": "Newsletter",

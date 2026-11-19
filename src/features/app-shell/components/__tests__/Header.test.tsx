@@ -77,10 +77,7 @@ describe("Header", () => {
                 "href",
                 "/de#platform",
             );
-            expect(nav.getByRole("link", { name: "Suchanweisungen" })).toHaveAttribute(
-                "href",
-                "/de#agent",
-            );
+            expect(nav.queryByRole("link", { name: "Suchanweisungen" })).not.toBeInTheDocument();
             expect(nav.getByRole("link", { name: "Für Händler" })).toHaveAttribute(
                 "href",
                 "/de#dealers",
@@ -89,6 +86,7 @@ describe("Header", () => {
                 "href",
                 "/de#pricing",
             );
+            expect(nav.getByRole("link", { name: "FAQ" })).toHaveAttribute("href", "/de#faq");
         });
 
         it("shows sign in and the create account call to action when signed out", async () => {
