@@ -1,6 +1,6 @@
 import { act, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { UserAccountData } from "@/data/internal/account/UserAccountData.ts";
 import type { FederatedIdentity } from "@/features/authentication/lib/federatedIdentity.ts";
 
@@ -48,7 +48,7 @@ vi.mock("sonner", () => ({
 }));
 
 import { UserDetailsForm } from "../UserDetailsForm";
-import { renderWithRouter } from "@/test/utils";
+import { renderWithRouter, stubMatchMedia } from "@/test/utils";
 
 const newsletterCheckboxName = /Ich möchte E-Mails von Aura Historia/;
 
@@ -77,6 +77,11 @@ describe("UserDetailsForm", () => {
         mockFederatedIdentity.current = null;
         mockUpdateAccount.mockResolvedValue(undefined);
         mockSubscribe.mockRejectedValue(new Error("Newsletter provider unavailable"));
+        // From 768px: the preference pickers open as popovers.
+        stubMatchMedia(() => true);
+    });
+    afterEach(() => {
+        vi.unstubAllGlobals();
     });
 
     describe("after native sign-up", () => {

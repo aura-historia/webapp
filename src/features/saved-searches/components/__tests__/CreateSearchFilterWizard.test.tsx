@@ -1,8 +1,8 @@
-import { act, screen, within } from "@testing-library/react";
+import { act, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { CreateSearchFilterWizard } from "../CreateSearchFilterWizard.tsx";
-import { renderWithRouter } from "@/test/utils.tsx";
+import { renderWithRouter, stubMatchMedia } from "@/test/utils.tsx";
 import type { UserSearchFilter } from "@/data/internal/search-filter/UserSearchFilter.ts";
 
 const mockCreateMutate = vi.hoisted(() => vi.fn());
@@ -85,6 +85,42 @@ async function navigateToConfirmStep(user: ReturnType<typeof userEvent.setup>) {
 describe("CreateSearchFilterWizard", () => {
     beforeEach(() => {
         vi.clearAllMocks();
+    });
+
+    describe("focus on open", () => {
+        afterEach(() => {
+            vi.unstubAllGlobals();
+        });
+
+        it("starts in the name field with a mouse or trackpad", async () => {
+            stubMatchMedia((query) => query === "(pointer: fine)");
+            await act(() =>
+                renderWithRouter(
+                    <CreateSearchFilterWizard open onOpenChange={vi.fn()} mode="create" />,
+                ),
+            );
+
+            await waitFor(() =>
+                expect(
+                    screen.getByRole("textbox", { name: /Name des Suchauftrags/i }),
+                ).toHaveFocus(),
+            );
+        });
+
+        it("keeps the keyboard closed on touch screens by focusing the dialog", async () => {
+            stubMatchMedia(() => false);
+            await act(() =>
+                renderWithRouter(
+                    <CreateSearchFilterWizard open onOpenChange={vi.fn()} mode="create" />,
+                ),
+            );
+
+            const dialog = screen.getByRole("dialog", { name: "Suchauftrag anlegen" });
+            await waitFor(() => expect(dialog).toHaveFocus());
+            expect(
+                screen.getByRole("textbox", { name: /Name des Suchauftrags/i }),
+            ).not.toHaveFocus();
+        });
     });
 
     describe("rendering", () => {
