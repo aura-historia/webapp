@@ -158,75 +158,115 @@ function SearchLocationCard({ viewerCacheKey }: { readonly viewerCacheKey: strin
     return <div className={CARD_CLASS}>{body}</div>;
 }
 
-function SearchLocationForm({
-    viewerCacheKey,
-    view,
-}: {
-    readonly viewerCacheKey: string;
-    readonly view: BrowsingDestinationView;
-}) {
-    const { t, i18n } = useTranslation();
-    const save = useSetBrowsingDestination(viewerCacheKey);
-    const list = useUserAddressList(viewerCacheKey);
-    const addresses = useMemo(
-        () => list.data?.pages.flatMap((page) => page.items) ?? [],
-        [list.data],
-    );
+const FIELD_ID_BY_ERROR: Record<FieldError, string> = {
+    addressRequired: FIELD_IDS.address,
+    countryRequired: FIELD_IDS.country,
+    postalCodeInvalid: FIELD_IDS.postalCode,
+};
 
+type AddressListState = "loading" | "error" | "empty" | "ready";
+
+function addressListState(
+    list: { readonly isPending: boolean; readonly isError: boolean },
+    loadedCount: number,
+    optionCount: number,
+): AddressListState {
+    if (list.isPending) return "loading";
+    if (list.isError && loadedCount === 0) return "error";
+    if (optionCount === 0) return "empty";
+    return "ready";
+}
+
+function savedToastKey(destination: BrowsingDestination) {
+    return destination.kind === "NONE"
+        ? "account.searchLocation.toasts.cleared"
+        : "account.searchLocation.toasts.saved";
+}
+
+function saveLabelKey(busy: boolean, conflict: boolean) {
+    if (busy) return "account.searchLocation.saving";
+    if (conflict) return "account.searchLocation.saveAgain";
+    return "account.searchLocation.save";
+}
+
+function noticeKey(destination: BrowsingDestination, savedAddressGone: boolean, cleared: boolean) {
+    if (destination.kind === "UNSUPPORTED") return "account.searchLocation.notice.unsupported";
+    if (savedAddressGone) return "account.searchLocation.notice.unavailable";
+    if (cleared && destination.kind === "NONE") return "account.searchLocation.notice.cleared";
+    return undefined;
+}
+
+/**
+ * The form's draft, kept in step with the saved value: a newer saved value replaces an untouched
+ * form, while after a conflict the user's choice is kept. A saved address that turns into none
+ * without a save here was deleted, which `cleared` reports.
+ */
+function useSyncedDraft(
+    view: BrowsingDestinationView,
+    isOwnSave: (view: BrowsingDestinationView) => boolean,
+) {
     const [draft, setDraft] = useState<Draft>(() => draftFrom(view.destination));
     const [base, setBase] = useState(view);
-    const [fieldError, setFieldError] = useState<FieldError>();
     const [cleared, setCleared] = useState(false);
-    const [creating, setCreating] = useState(false);
 
-    // A newer saved value replaces an untouched form; after a conflict the user's choice is kept.
-    // A saved address that turns into none without a save here was deleted.
     if (view !== base) {
         if (sameDraft(draft, draftFrom(base.destination))) setDraft(draftFrom(view.destination));
-        if (
-            !save.isOwnSave(view) &&
-            base.destination.kind === "ADDRESS" &&
-            view.destination.kind === "NONE"
-        ) {
-            setCleared(true);
-        }
+        const addressDeleted =
+            base.destination.kind === "ADDRESS" && view.destination.kind === "NONE";
+        if (addressDeleted && !isOwnSave(view)) setCleared(true);
         setBase(view);
     }
 
-    // The saved address, also when it sits on a page that is not loaded yet.
+    return { draft, setDraft, cleared, setCleared };
+}
+
+/** The saved destination's address, also when it sits on a page that is not loaded yet. */
+function useSavedAddress(
+    viewerCacheKey: string,
+    view: BrowsingDestinationView,
+    addresses: readonly UserAddress[],
+    listPending: boolean,
+) {
     const savedAddressId =
         view.destination.kind === "ADDRESS" ? view.destination.addressId : undefined;
-    const listedSavedAddress = addresses.find((address) => address.addressId === savedAddressId);
-    const detail = useUserAddressDetail(
-        viewerCacheKey,
-        savedAddressId && !listedSavedAddress && !list.isPending ? savedAddressId : undefined,
-    );
-    const savedAddress = listedSavedAddress ?? detail.data;
-    const savedAddressGone =
-        detail.error instanceof UserAddressRequestError && detail.error.isNotFound;
+    const listed = addresses.find((address) => address.addressId === savedAddressId);
+    const lookUp = savedAddressId !== undefined && !listed && !listPending;
+    const detail = useUserAddressDetail(viewerCacheKey, lookUp ? savedAddressId : undefined);
+    const savedAddress = listed ?? detail.data;
+    const gone = detail.error instanceof UserAddressRequestError && detail.error.isNotFound;
+    return {
+        savedAddress,
+        savedAddressGone: gone,
+        savedAddressLoading: savedAddressId !== undefined && !savedAddress && !gone,
+    };
+}
 
-    const options = useMemo(() => {
-        const all =
-            savedAddress && !addresses.some((item) => item.addressId === savedAddress.addressId)
-                ? [savedAddress, ...addresses]
-                : addresses;
-        return all.map((address) => {
-            const notLocated = locationDisplay(address.resolution.status) === "notLocated";
-            return {
-                value: address.addressId,
-                label: address.label,
-                description: address.geography.addressText ?? "",
-                ...(notLocated
-                    ? {
-                          detail: t("account.searchLocation.address.notLocated"),
-                          detailMark: <NotLocatedMark />,
-                      }
-                    : {}),
-            };
-        });
+function useAddressOptions(
+    addresses: readonly UserAddress[],
+    savedAddress: UserAddress | undefined,
+) {
+    const { t } = useTranslation();
+    return useMemo(() => {
+        const missing =
+            savedAddress && !addresses.some((item) => item.addressId === savedAddress.addressId);
+        const all = missing ? [savedAddress, ...addresses] : addresses;
+        return all.map((address) => ({
+            value: address.addressId,
+            label: address.label,
+            description: address.geography.addressText ?? "",
+            ...(isNotLocated(address)
+                ? {
+                      detail: t("account.searchLocation.address.notLocated"),
+                      detailMark: <NotLocatedMark />,
+                  }
+                : {}),
+        }));
     }, [addresses, savedAddress, t]);
+}
 
-    const countryOptions = useMemo(
+function useCountryOptions() {
+    const { i18n } = useTranslation();
+    return useMemo(
         () =>
             listCountryCodes()
                 .map((code) => ({
@@ -237,17 +277,50 @@ function SearchLocationForm({
                 .sort((left, right) => left.label.localeCompare(right.label, i18n.language)),
         [i18n.language],
     );
+}
+
+function isNotLocated(address: UserAddress | undefined) {
+    return address !== undefined && locationDisplay(address.resolution.status) === "notLocated";
+}
+
+function SearchLocationForm({
+    viewerCacheKey,
+    view,
+}: {
+    readonly viewerCacheKey: string;
+    readonly view: BrowsingDestinationView;
+}) {
+    const { t } = useTranslation();
+    const save = useSetBrowsingDestination(viewerCacheKey);
+    const list = useUserAddressList(viewerCacheKey);
+    const addresses = useMemo(
+        () => list.data?.pages.flatMap((page) => page.items) ?? [],
+        [list.data],
+    );
+    const { draft, setDraft, cleared, setCleared } = useSyncedDraft(view, save.isOwnSave);
+    const [fieldError, setFieldError] = useState<FieldError>();
+    const [creating, setCreating] = useState(false);
+    const { savedAddress, savedAddressGone, savedAddressLoading } = useSavedAddress(
+        viewerCacheKey,
+        view,
+        addresses,
+        list.isPending,
+    );
+    const options = useAddressOptions(addresses, savedAddress);
 
     const busy = save.isPending;
-    const chosenAddress = [savedAddress, ...addresses].find(
-        (address) => address?.addressId === draft.addressId,
-    );
-    const addressGone = save.problem === "addressGone";
+    const conflict = save.problem === "conflict";
 
     const update = (patch: Partial<Draft>) => {
         setDraft((current) => ({ ...current, ...patch }));
         setFieldError(undefined);
         if (save.problem === "addressGone" || save.problem === "failed") save.clearProblem();
+    };
+
+    const onSaved = (saved: BrowsingDestinationView) => {
+        setCleared(false);
+        setDraft(draftFrom(saved.destination));
+        toast.success(t(savedToastKey(saved.destination)));
     };
 
     const submit = (event: FormEvent) => {
@@ -260,102 +333,216 @@ function SearchLocationForm({
         }
         if ("error" in result) {
             setFieldError(result.error);
-            const id =
-                result.error === "addressRequired"
-                    ? FIELD_IDS.address
-                    : result.error === "countryRequired"
-                      ? FIELD_IDS.country
-                      : FIELD_IDS.postalCode;
-            document.getElementById(id)?.focus();
+            document.getElementById(FIELD_ID_BY_ERROR[result.error])?.focus();
             return;
         }
         save.mutate(
             { destination: result.destination, expectedVersion: view.version },
-            {
-                onSuccess: (saved) => {
-                    setCleared(false);
-                    setDraft(draftFrom(saved.destination));
-                    toast.success(
-                        t(
-                            saved.destination.kind === "NONE"
-                                ? "account.searchLocation.toasts.cleared"
-                                : "account.searchLocation.toasts.saved",
-                        ),
-                    );
-                },
-            },
+            { onSuccess: onSaved },
         );
     };
 
     if (save.problem === "accessLost") return <AccessLostPanel />;
 
-    const unsupported = view.destination.kind === "UNSUPPORTED";
-    let notice: string | undefined;
-    if (unsupported) notice = t("account.searchLocation.notice.unsupported");
-    else if (savedAddressGone) notice = t("account.searchLocation.notice.unavailable");
-    else if (cleared && view.destination.kind === "NONE") {
-        notice = t("account.searchLocation.notice.cleared");
-    }
-
-    const addressError = addressGone
-        ? t("account.searchLocation.validation.addressGone")
-        : fieldError === "addressRequired"
-          ? t("account.searchLocation.validation.addressRequired")
-          : undefined;
-
-    const addressPanel = (
-        <AddressChoicePanel
-            listState={
-                list.isPending
-                    ? "loading"
-                    : list.isError && addresses.length === 0
-                      ? "error"
-                      : options.length === 0
-                        ? "empty"
-                        : "ready"
-            }
-            onRetry={() => void list.refetch()}
-            onAdd={() => setCreating(true)}
-        >
-            <PreferenceField
-                id={FIELD_IDS.address}
-                label={t("account.searchLocation.address.label")}
-                placeholder={t("account.searchLocation.address.placeholder")}
-                value={draft.addressId || undefined}
-                options={options}
-                onChange={(addressId) => update({ addressId })}
-                ground="page"
-                disabled={busy}
-                error={addressError}
-                hint={
-                    chosenAddress &&
-                    locationDisplay(chosenAddress.resolution.status) === "notLocated"
-                        ? t("account.searchLocation.address.notLocatedHint")
-                        : undefined
-                }
-                menuClassName="w-(--radix-popover-trigger-width) min-w-[min(18rem,calc(100vw-2rem))]"
-                sheetOnPhone={{ closeLabel: t("account.searchLocation.close") }}
-                footer={
-                    list.hasNextPage ? (
-                        <button
-                            type="button"
-                            disabled={list.isFetchingNextPage}
-                            onClick={() => void list.fetchNextPage()}
-                            className={cn(
-                                "mt-0.5 inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 border-t border-line-subtle text-sm font-medium text-ink disabled:cursor-not-allowed disabled:opacity-60",
-                                FOCUS_CLASS,
-                            )}
-                        >
-                            {list.isFetchingNextPage && <Spinner className="size-[15px]" />}
-                            {t("account.searchLocation.address.showMore")}
-                        </button>
-                    ) : undefined
-                }
-            />
-        </AddressChoicePanel>
+    const notice = noticeKey(view.destination, savedAddressGone, cleared);
+    const listState = addressListState(list, addresses.length, options.length);
+    const moreAddresses = list.hasNextPage
+        ? { loading: list.isFetchingNextPage, load: () => void list.fetchNextPage() }
+        : undefined;
+    const chosenAddress = [savedAddress, ...addresses].find(
+        (address) => address?.addressId === draft.addressId,
     );
 
-    const countryPanel = (
+    return (
+        <form onSubmit={submit} noValidate className="flex flex-col gap-6">
+            <CurrentLine
+                view={view}
+                address={savedAddress}
+                addressLoading={savedAddressLoading}
+                addressGone={savedAddressGone}
+            />
+
+            {notice && (
+                <div className={cn(addressAlertClass("neutral"), "text-ink-secondary")}>
+                    <Info
+                        aria-hidden="true"
+                        className="mt-0.5 size-[18px] shrink-0 text-ink-muted"
+                        strokeWidth={1.8}
+                    />
+                    <p className="leading-[1.55]">{t(notice)}</p>
+                </div>
+            )}
+
+            <fieldset disabled={busy} className="flex min-w-0 flex-col gap-3">
+                <legend className={cn(GROUP_LABEL_CLASS, "mb-3.5")}>
+                    {t("account.searchLocation.legend")}
+                </legend>
+                {CHOICES.map((choice) => (
+                    <ChoiceCard
+                        key={choice}
+                        choice={choice}
+                        checked={draft.kind === choice}
+                        empty={choice === "ADDRESS" && listState === "empty"}
+                        onSelect={() => update({ kind: choice })}
+                    >
+                        {choice === "ADDRESS" && (
+                            <AddressChoicePanel
+                                listState={listState}
+                                onRetry={() => void list.refetch()}
+                                onAdd={() => setCreating(true)}
+                            >
+                                <AddressField
+                                    value={draft.addressId}
+                                    options={options}
+                                    onChange={(addressId) => update({ addressId })}
+                                    disabled={busy}
+                                    gone={save.problem === "addressGone"}
+                                    required={fieldError === "addressRequired"}
+                                    notLocated={isNotLocated(chosenAddress)}
+                                    more={moreAddresses}
+                                />
+                            </AddressChoicePanel>
+                        )}
+                        {choice === "COUNTRY_POSTAL" && (
+                            <CountryPanel
+                                draft={draft}
+                                onChange={update}
+                                disabled={busy}
+                                fieldError={fieldError}
+                            />
+                        )}
+                    </ChoiceCard>
+                ))}
+            </fieldset>
+
+            {conflict && (
+                <SaveProblemAlert
+                    title={t("account.searchLocation.conflict.title")}
+                    body={t("account.searchLocation.conflict.body")}
+                />
+            )}
+            {save.problem === "failed" && (
+                <SaveProblemAlert
+                    title={t("account.searchLocation.saveError.title")}
+                    body={t("account.searchLocation.saveError.body")}
+                />
+            )}
+
+            <div className="flex flex-col items-stretch justify-between gap-4 border-t border-line-subtle pt-5 sm:flex-row sm:items-center sm:gap-6">
+                <p className="max-w-[400px] text-meta leading-[1.55] text-ink-muted">
+                    {t("account.searchLocation.distinction")}
+                </p>
+                <button
+                    type="submit"
+                    disabled={busy}
+                    className={cn(PRIMARY_BUTTON_CLASS, "shrink-0")}
+                >
+                    {busy && <Spinner className="size-4" />}
+                    {t(saveLabelKey(busy, conflict))}
+                </button>
+            </div>
+
+            {creating && (
+                <AddressEditorDialog
+                    viewerCacheKey={viewerCacheKey}
+                    onClose={() => setCreating(false)}
+                    onDelete={() => undefined}
+                />
+            )}
+        </form>
+    );
+}
+
+function SaveProblemAlert({ title, body }: { readonly title: string; readonly body: string }) {
+    return (
+        <div role="alert" className={addressAlertClass("danger")}>
+            <CircleAlert
+                aria-hidden="true"
+                className="mt-0.5 size-[18px] shrink-0 text-oxblood"
+                strokeWidth={1.8}
+            />
+            <div className="flex flex-col gap-1">
+                <p className="font-medium">{title}</p>
+                <p className="leading-[1.55] text-ink-secondary">{body}</p>
+            </div>
+        </div>
+    );
+}
+
+function AddressField({
+    value,
+    options,
+    onChange,
+    disabled,
+    gone,
+    required,
+    notLocated,
+    more,
+}: {
+    readonly value: string;
+    readonly options: ReturnType<typeof useAddressOptions>;
+    readonly onChange: (addressId: string) => void;
+    readonly disabled: boolean;
+    /** The chosen address was deleted before saving. */
+    readonly gone: boolean;
+    /** Saved without picking an address. */
+    readonly required: boolean;
+    readonly notLocated: boolean;
+    readonly more?: { readonly loading: boolean; readonly load: () => void };
+}) {
+    const { t } = useTranslation();
+    let error: string | undefined;
+    if (gone) error = t("account.searchLocation.validation.addressGone");
+    else if (required) error = t("account.searchLocation.validation.addressRequired");
+
+    return (
+        <PreferenceField
+            id={FIELD_IDS.address}
+            label={t("account.searchLocation.address.label")}
+            placeholder={t("account.searchLocation.address.placeholder")}
+            value={value || undefined}
+            options={options}
+            onChange={onChange}
+            ground="page"
+            disabled={disabled}
+            error={error}
+            hint={notLocated ? t("account.searchLocation.address.notLocatedHint") : undefined}
+            menuClassName="w-(--radix-popover-trigger-width) min-w-[min(18rem,calc(100vw-2rem))]"
+            sheetOnPhone={{ closeLabel: t("account.searchLocation.close") }}
+            footer={
+                more && (
+                    <button
+                        type="button"
+                        disabled={more.loading}
+                        onClick={more.load}
+                        className={cn(
+                            "mt-0.5 inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 border-t border-line-subtle text-sm font-medium text-ink disabled:cursor-not-allowed disabled:opacity-60",
+                            FOCUS_CLASS,
+                        )}
+                    >
+                        {more.loading && <Spinner className="size-[15px]" />}
+                        {t("account.searchLocation.address.showMore")}
+                    </button>
+                )
+            }
+        />
+    );
+}
+
+function CountryPanel({
+    draft,
+    onChange,
+    disabled,
+    fieldError,
+}: {
+    readonly draft: Draft;
+    readonly onChange: (patch: Partial<Draft>) => void;
+    readonly disabled: boolean;
+    readonly fieldError: FieldError | undefined;
+}) {
+    const { t } = useTranslation();
+    const countryOptions = useCountryOptions();
+    return (
         <div className="grid gap-4 sm:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
             <PreferenceField
                 id={FIELD_IDS.country}
@@ -363,9 +550,9 @@ function SearchLocationForm({
                 placeholder={t("account.searchLocation.country.placeholder")}
                 value={draft.country || undefined}
                 options={countryOptions}
-                onChange={(country) => update({ country })}
+                onChange={(country) => onChange({ country })}
                 ground="page"
-                disabled={busy}
+                disabled={disabled}
                 error={
                     fieldError === "countryRequired"
                         ? t("account.searchLocation.validation.countryRequired")
@@ -380,114 +567,11 @@ function SearchLocationForm({
             />
             <PostalCodeField
                 value={draft.postalCode}
-                onChange={(postalCode) => update({ postalCode })}
-                disabled={busy}
+                onChange={(postalCode) => onChange({ postalCode })}
+                disabled={disabled}
                 invalid={fieldError === "postalCodeInvalid"}
             />
         </div>
-    );
-
-    const conflict = save.problem === "conflict";
-
-    return (
-        <form onSubmit={submit} noValidate className="flex flex-col gap-6">
-            <CurrentLine
-                view={view}
-                address={savedAddress}
-                addressLoading={Boolean(savedAddressId && !savedAddress && !savedAddressGone)}
-                addressGone={savedAddressGone}
-            />
-
-            {notice && (
-                <div className={cn(addressAlertClass("neutral"), "text-ink-secondary")}>
-                    <Info
-                        aria-hidden="true"
-                        className="mt-0.5 size-[18px] shrink-0 text-ink-muted"
-                        strokeWidth={1.8}
-                    />
-                    <p className="leading-[1.55]">{notice}</p>
-                </div>
-            )}
-
-            <fieldset disabled={busy} className="flex min-w-0 flex-col gap-3">
-                <legend className={cn(GROUP_LABEL_CLASS, "mb-3.5")}>
-                    {t("account.searchLocation.legend")}
-                </legend>
-                {CHOICES.map((choice) => (
-                    <ChoiceCard
-                        key={choice}
-                        choice={choice}
-                        checked={draft.kind === choice}
-                        description={
-                            choice === "ADDRESS" && list.isSuccess && options.length === 0
-                                ? t("account.searchLocation.choices.ADDRESS.descriptionEmpty")
-                                : t(`account.searchLocation.choices.${choice}.description`)
-                        }
-                        onSelect={() => update({ kind: choice })}
-                    >
-                        {choice === "ADDRESS" && addressPanel}
-                        {choice === "COUNTRY_POSTAL" && countryPanel}
-                    </ChoiceCard>
-                ))}
-            </fieldset>
-
-            {conflict && (
-                <div role="alert" className={addressAlertClass("danger")}>
-                    <CircleAlert
-                        aria-hidden="true"
-                        className="mt-0.5 size-[18px] shrink-0 text-oxblood"
-                        strokeWidth={1.8}
-                    />
-                    <div className="flex flex-col gap-1">
-                        <p className="font-medium">{t("account.searchLocation.conflict.title")}</p>
-                        <p className="leading-[1.55] text-ink-secondary">
-                            {t("account.searchLocation.conflict.body")}
-                        </p>
-                    </div>
-                </div>
-            )}
-            {save.problem === "failed" && (
-                <div role="alert" className={addressAlertClass("danger")}>
-                    <CircleAlert
-                        aria-hidden="true"
-                        className="mt-0.5 size-[18px] shrink-0 text-oxblood"
-                        strokeWidth={1.8}
-                    />
-                    <div className="flex flex-col gap-1">
-                        <p className="font-medium">{t("account.searchLocation.saveError.title")}</p>
-                        <p className="leading-[1.55] text-ink-secondary">
-                            {t("account.searchLocation.saveError.body")}
-                        </p>
-                    </div>
-                </div>
-            )}
-
-            <div className="flex flex-col items-stretch justify-between gap-4 border-t border-line-subtle pt-5 sm:flex-row sm:items-center sm:gap-6">
-                <p className="max-w-[400px] text-meta leading-[1.55] text-ink-muted">
-                    {t("account.searchLocation.distinction")}
-                </p>
-                <button
-                    type="submit"
-                    disabled={busy}
-                    className={cn(PRIMARY_BUTTON_CLASS, "shrink-0")}
-                >
-                    {busy && <Spinner className="size-4" />}
-                    {busy
-                        ? t("account.searchLocation.saving")
-                        : conflict
-                          ? t("account.searchLocation.saveAgain")
-                          : t("account.searchLocation.save")}
-                </button>
-            </div>
-
-            {creating && (
-                <AddressEditorDialog
-                    viewerCacheKey={viewerCacheKey}
-                    onClose={() => setCreating(false)}
-                    onDelete={() => undefined}
-                />
-            )}
-        </form>
     );
 }
 
@@ -535,7 +619,7 @@ function CurrentLine({
     }
 
     return (
-        <div role="status" className="flex items-start gap-4 border-b border-line-subtle pb-6">
+        <output className="flex items-start gap-4 border-b border-line-subtle pb-6">
             <span
                 aria-hidden="true"
                 className="inline-flex size-11 shrink-0 items-center justify-center rounded-pill bg-surface text-ink shadow-ring"
@@ -567,20 +651,21 @@ function CurrentLine({
                     </span>
                 )}
             </span>
-        </div>
+        </output>
     );
 }
 
 function ChoiceCard({
     choice,
     checked,
-    description,
+    empty,
     onSelect,
     children,
 }: {
     readonly choice: Choice;
     readonly checked: boolean;
-    readonly description: string;
+    /** The address book has no addresses to choose from. */
+    readonly empty: boolean;
     readonly onSelect: () => void;
     readonly children?: ReactNode;
 }) {
@@ -619,7 +704,9 @@ function ChoiceCard({
                         {t(`account.searchLocation.choices.${choice}.title`)}
                     </span>
                     <span className="text-meta leading-[1.55] text-ink-secondary">
-                        {description}
+                        {empty
+                            ? t("account.searchLocation.choices.ADDRESS.descriptionEmpty")
+                            : t(`account.searchLocation.choices.${choice}.description`)}
                     </span>
                 </span>
             </label>
