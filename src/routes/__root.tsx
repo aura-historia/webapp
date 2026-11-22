@@ -65,7 +65,9 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
                 },
                 {
                     name: "viewport",
-                    content: "width=device-width, initial-scale=1",
+                    // `viewport-fit=cover` lets bottom sheets and bars paint under the iOS home
+                    // indicator and Android's navigation bar; they pad by env(safe-area-inset-*).
+                    content: "width=device-width, initial-scale=1, viewport-fit=cover",
                 },
                 {
                     title: i18n.t("common.auraHistoria"),

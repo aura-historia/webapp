@@ -606,6 +606,9 @@ code {
     }
     body {
         @apply text-foreground;
+        /* viewport-fit=cover: keep content clear of a landscape phone's notch. */
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
     }
 }
 

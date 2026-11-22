@@ -87,7 +87,7 @@ export function ShopSearchPage({ searchArgs }: ShopSearchPageProps) {
                 </div>
             </div>
 
-            <div className="fixed right-5 bottom-6 z-30 sm:right-8 sm:bottom-8">
+            <div className="fixed right-5 bottom-[calc(1.5rem+env(safe-area-inset-bottom))] z-30 sm:right-8 sm:bottom-8">
                 <ScrollToTopButton />
             </div>
         </div>

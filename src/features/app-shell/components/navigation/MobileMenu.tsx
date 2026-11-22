@@ -112,7 +112,7 @@ export function MobileMenu({
                         </DialogPrimitive.Close>
                     </div>
 
-                    <div className="flex flex-1 flex-col gap-7 px-5 pt-5 pb-7">
+                    <div className="flex flex-1 flex-col gap-7 px-5 pt-5 pb-[calc(1.75rem+env(safe-area-inset-bottom))]">
                         {showSearch && (
                             <div data-theme="light" className="rounded-panel">
                                 <NavSearchField variant="menu" onSubmitted={close} />
