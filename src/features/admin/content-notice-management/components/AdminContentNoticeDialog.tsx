@@ -5,7 +5,10 @@ import { useTranslation } from "react-i18next";
 import {
     type AdminContentNotice,
     type AdminContentNoticeSummary,
+    type AdminContentNoticeTarget,
     adminContentNoticeTitle,
+    type ContentNoticeState,
+    type ContentNoticeTargetType,
 } from "@/data/internal/content-notice/AdminContentNotice.ts";
 import { AdminFacts } from "@/features/admin/common/components/AdminFacts.tsx";
 import { AdminRecordDialog } from "@/features/admin/common/components/AdminRecordDialog.tsx";
@@ -56,48 +59,94 @@ export function safeExternalUrl(value: string): string | undefined {
  * reported, the target then and now, and the notifier with the receipt. The API has no decisions
  * yet, so there are no actions besides writing to the notifier.
  */
-export function AdminContentNoticeDialog({
-    noticeId: requestedId,
-    summary: requestedSummary,
+type DialogHeader = {
+    readonly target: AdminContentNoticeTarget;
+    readonly title?: string;
+    readonly state: ContentNoticeState;
+    readonly created: Date;
+};
+
+const EYEBROW_KEY: Record<ContentNoticeTargetType, string> = {
+    PRODUCT_LISTING: "adminContentNotices.detail.eyebrowListing",
+    LISTING_SOURCE: "adminContentNotices.detail.eyebrowSource",
+};
+
+/** The header shows the loaded record, or the row that opened the dialog while it loads. */
+function dialogHeader(
+    notice: AdminContentNotice | undefined,
+    summary: AdminContentNoticeSummary | undefined,
+    noticeId: string | undefined,
+): DialogHeader | undefined {
+    if (notice) {
+        return {
+            target: notice.target,
+            title: adminContentNoticeTitle({
+                target: notice.target,
+                listingSourceName: notice.snapshot.listingSourceName,
+                productListingTitle: notice.snapshot.productListingTitle,
+            }),
+            state: notice.state,
+            created: notice.created,
+        };
+    }
+    if (summary && summary.id === noticeId) {
+        return {
+            target: summary.target,
+            title: adminContentNoticeTitle(summary),
+            state: summary.state,
+            created: summary.created,
+        };
+    }
+    return undefined;
+}
+
+function HeaderTitle({ header }: { readonly header: DialogHeader }) {
+    const { t } = useTranslation();
+    return (
+        <span className={cn(!header.title && "text-ink-muted italic")}>
+            {header.title ?? t("adminContentNotices.list.untitled")}
+        </span>
+    );
+}
+
+function HeaderSubtitle({ header }: { readonly header: DialogHeader }) {
+    const { t, i18n } = useTranslation();
+    const state = CONTENT_NOTICE_STATE[header.state];
+    return (
+        <span className="flex flex-wrap items-center gap-2">
+            <AdminStatusMark tone={state.tone} label={t(state.key)} className="text-ink" />
+            <span aria-hidden="true" className="text-ink-muted">
+                ·
+            </span>
+            <span>
+                {t("adminContentNotices.detail.received", {
+                    time: formatAdminTimestamp(header.created, i18n.language),
+                })}
+            </span>
+        </span>
+    );
+}
+
+/** The dialog body: the record, or its not-found, failed or loading state. */
+function DialogContent({
+    notice,
+    error,
+    isPending,
     language,
+    onRetry,
     onClose,
 }: {
-    readonly noticeId?: string;
-    readonly summary?: AdminContentNoticeSummary;
+    readonly notice?: AdminContentNotice;
+    readonly error: Error | null;
+    readonly isPending: boolean;
     readonly language: string;
+    readonly onRetry: () => void;
     readonly onClose: () => void;
 }) {
-    const { t, i18n } = useTranslation();
-    const open = Boolean(requestedId);
-    const [noticeId, releaseId] = useRetainedDialogValue(requestedId, open);
-    const [summary, releaseSummary] = useRetainedDialogValue(requestedSummary, open);
-    const { data: notice, isPending, error, refetch } = useAdminContentNotice(noticeId, open);
-    const header = notice
-        ? {
-              target: notice.target,
-              title: adminContentNoticeTitle({
-                  target: notice.target,
-                  listingSourceName: notice.snapshot.listingSourceName,
-                  productListingTitle: notice.snapshot.productListingTitle,
-              }),
-              state: notice.state,
-              created: notice.created,
-          }
-        : summary?.id === noticeId && summary
-          ? {
-                target: summary.target,
-                title: adminContentNoticeTitle(summary),
-                state: summary.state,
-                created: summary.created,
-            }
-          : undefined;
-    const missing = error instanceof AdminContentNoticeRequestError && error.status === 404;
-
-    let content: ReactNode;
-    if (notice) {
-        content = <NoticeBody notice={notice} language={language} />;
-    } else if (missing) {
-        content = (
+    const { t } = useTranslation();
+    if (notice) return <NoticeBody notice={notice} language={language} />;
+    if (error instanceof AdminContentNoticeRequestError && error.status === 404) {
+        return (
             <AdminStatePanel
                 tone="empty"
                 framed={false}
@@ -109,36 +158,56 @@ export function AdminContentNoticeDialog({
                 </button>
             </AdminStatePanel>
         );
-    } else if (error) {
-        content = (
+    }
+    if (error) {
+        return (
             <div className="flex flex-wrap items-center justify-between gap-3.5">
                 <AdminErrorLine message={error.message} className="text-sm" />
-                <button
-                    type="button"
-                    onClick={() => refetch()}
-                    className={SMALL_SECONDARY_PILL_CLASS}
-                >
+                <button type="button" onClick={onRetry} className={SMALL_SECONDARY_PILL_CLASS}>
                     {t("adminCommon.retry")}
                 </button>
             </div>
         );
-    } else if (isPending) {
-        content = (
-            <div aria-busy="true" className="flex flex-col gap-3.5">
-                <div className="grid grid-cols-2 gap-2.5">
-                    {[0, 1, 2, 3].map((index) => (
-                        <span key={index} className={cn(ADMIN_SKELETON_CLASS, "h-10 rounded-sm")} />
-                    ))}
-                </div>
-                <span className={cn(ADMIN_SKELETON_CLASS, "h-32 rounded-md")} />
-                <output className="block text-meta text-ink-secondary">
-                    {t("adminContentNotices.loadingDetail")}
-                </output>
-            </div>
-        );
     }
+    if (!isPending) return null;
+    return (
+        <div aria-busy="true" className="flex flex-col gap-3.5">
+            <div className="grid grid-cols-2 gap-2.5">
+                {[0, 1, 2, 3].map((index) => (
+                    <span key={index} className={cn(ADMIN_SKELETON_CLASS, "h-10 rounded-sm")} />
+                ))}
+            </div>
+            <span className={cn(ADMIN_SKELETON_CLASS, "h-32 rounded-md")} />
+            <output className="block text-meta text-ink-secondary">
+                {t("adminContentNotices.loadingDetail")}
+            </output>
+        </div>
+    );
+}
 
-    const state = header ? CONTENT_NOTICE_STATE[header.state] : undefined;
+/**
+ * The read-only record of one notice (board "Admin · Content notice — record dialog"): what was
+ * reported, the target then and now, and the notifier with the receipt. The API has no decisions
+ * yet, so there are no actions besides writing to the notifier.
+ */
+export function AdminContentNoticeDialog({
+    noticeId: requestedId,
+    summary: requestedSummary,
+    language,
+    onClose,
+}: {
+    readonly noticeId?: string;
+    readonly summary?: AdminContentNoticeSummary;
+    readonly language: string;
+    readonly onClose: () => void;
+}) {
+    const { t } = useTranslation();
+    const open = Boolean(requestedId);
+    const [noticeId, releaseId] = useRetainedDialogValue(requestedId, open);
+    const [summary, releaseSummary] = useRetainedDialogValue(requestedSummary, open);
+    const { data: notice, isPending, error, refetch } = useAdminContentNotice(noticeId, open);
+    const header = dialogHeader(notice, summary, noticeId);
+
     return (
         <AdminRecordDialog
             open={open}
@@ -149,45 +218,24 @@ export function AdminContentNoticeDialog({
                 releaseId();
                 releaseSummary();
             }}
-            eyebrow={
-                header
-                    ? t(
-                          header.target.type === "LISTING_SOURCE"
-                              ? "adminContentNotices.detail.eyebrowSource"
-                              : "adminContentNotices.detail.eyebrowListing",
-                      )
-                    : undefined
-            }
+            eyebrow={header && t(EYEBROW_KEY[header.target.type])}
             title={
                 header ? (
-                    <span className={cn(!header.title && "text-ink-muted italic")}>
-                        {header.title ?? t("adminContentNotices.list.untitled")}
-                    </span>
+                    <HeaderTitle header={header} />
                 ) : (
                     t("adminContentNotices.detail.fallbackTitle")
                 )
             }
-            subtitle={
-                header && state ? (
-                    <span className="flex flex-wrap items-center gap-2">
-                        <AdminStatusMark
-                            tone={state.tone}
-                            label={t(state.key)}
-                            className="text-ink"
-                        />
-                        <span aria-hidden="true" className="text-ink-muted">
-                            ·
-                        </span>
-                        <span>
-                            {t("adminContentNotices.detail.received", {
-                                time: formatAdminTimestamp(header.created, i18n.language),
-                            })}
-                        </span>
-                    </span>
-                ) : undefined
-            }
+            subtitle={header && <HeaderSubtitle header={header} />}
         >
-            {content}
+            <DialogContent
+                notice={notice}
+                error={error}
+                isPending={isPending}
+                language={language}
+                onRetry={() => void refetch()}
+                onClose={onClose}
+            />
         </AdminRecordDialog>
     );
 }
@@ -302,6 +350,388 @@ function CompareColumn({ title, rows }: { readonly title: string; readonly rows:
     );
 }
 
+type Translate = ReturnType<typeof useTranslation>["t"];
+
+const LIFECYCLE: Record<string, { readonly key: string; readonly tone: AdminMarkTone }> = {
+    ACTIVE: { key: "adminContentNotices.content.active", tone: "ink" },
+    WITHDRAWN: { key: "adminContentNotices.content.withdrawn", tone: "muted" },
+};
+const UNKNOWN_LIFECYCLE = {
+    key: "adminContentNotices.content.lifecycleUnknown",
+    tone: "dashed",
+} as const;
+
+function yesNo(value: boolean, t: Translate): string {
+    return t(value ? "adminContentNotices.content.yes" : "adminContentNotices.content.no");
+}
+
+/** The partner status now; a change since submission is spelled out and marked brass. */
+function partnerNow(now: boolean, then: boolean, t: Translate): Pick<CompareRow, "value" | "mark"> {
+    if (now === then) return { value: yesNo(now, t) };
+    const key = now
+        ? "adminContentNotices.content.partnerNowYes"
+        : "adminContentNotices.content.partnerNowNo";
+    return { value: t(key), mark: "brass" };
+}
+
+function urlRow(key: string, label: string, url: string | undefined): CompareRow[] {
+    if (!url) return [];
+    return [{ key, label, value: <ExternalLink href={url}>{url}</ExternalLink> }];
+}
+
+/** The target as it was when the notice arrived. */
+function snapshotRows(notice: AdminContentNotice, t: Translate): CompareRow[] {
+    const { snapshot } = notice;
+    const listingRows: CompareRow[] =
+        notice.target.type === "PRODUCT_LISTING"
+            ? [
+                  {
+                      key: "listing",
+                      label: t("adminContentNotices.content.listing"),
+                      value: snapshot.productListingTitle ?? t("adminContentNotices.list.untitled"),
+                      muted: !snapshot.productListingTitle,
+                  },
+                  ...urlRow(
+                      "listingUrl",
+                      t("adminContentNotices.content.listingUrl"),
+                      snapshot.productListingUrl,
+                  ),
+              ]
+            : [];
+    return [
+        ...listingRows,
+        {
+            key: "source",
+            label: t("adminContentNotices.content.source"),
+            value: snapshot.listingSourceName,
+        },
+        ...urlRow(
+            "sourceUrl",
+            t("adminContentNotices.content.sourceUrl"),
+            snapshot.listingSourceUrl,
+        ),
+        {
+            key: "partner",
+            label: t("adminContentNotices.content.partner"),
+            value: yesNo(snapshot.partner, t),
+        },
+    ];
+}
+
+function goneRow(key: string, label: string, t: Translate): CompareRow {
+    return {
+        key,
+        label,
+        value: t("adminContentNotices.content.gone"),
+        mark: "dashed",
+        muted: true,
+    };
+}
+
+function currentListingRows(notice: AdminContentNotice, t: Translate): CompareRow[] {
+    const listing = notice.current.productListing;
+    const label = t("adminContentNotices.content.listing");
+    if (!listing) return [];
+    if (!listing.exists) return [goneRow("listing", label, t)];
+    const lifecycle = (listing.lifecycle && LIFECYCLE[listing.lifecycle]) || UNKNOWN_LIFECYCLE;
+    return [{ key: "listing", label, value: t(lifecycle.key), mark: lifecycle.tone }];
+}
+
+function IngestionTags({ methods }: { readonly methods: readonly string[] }) {
+    const { t } = useTranslation();
+    if (methods.length === 0) {
+        return <MutedText>{t("adminContentNotices.content.noIngestion")}</MutedText>;
+    }
+    return methods.map((method) => (
+        <span key={method} className={ADMIN_TAG_CLASS}>
+            {t(`adminListingSources.methods.${method}`)}
+        </span>
+    ));
+}
+
+/** The target as it is now: the listing's lifecycle, the source, its ingestion and partner status. */
+function currentRows(notice: AdminContentNotice, t: Translate, language: string): CompareRow[] {
+    const source = notice.current.listingSource;
+    const sourceLabel = t("adminContentNotices.content.source");
+    if (!source.exists) {
+        return [...currentListingRows(notice, t), goneRow("source", sourceLabel, t)];
+    }
+    return [
+        ...currentListingRows(notice, t),
+        {
+            key: "source",
+            label: sourceLabel,
+            value: (
+                <Link
+                    to="/$lng/shops/$shopSlugId"
+                    params={{ lng: language, shopSlugId: source.slugId }}
+                    target="_blank"
+                    className={TEXT_LINK_CLASS}
+                >
+                    {source.name}
+                </Link>
+            ),
+        },
+        {
+            key: "ingestion",
+            label: t("adminContentNotices.content.ingestion"),
+            value: <IngestionTags methods={source.ingestionMethods} />,
+        },
+        {
+            key: "partner",
+            label: t("adminContentNotices.content.partner"),
+            ...partnerNow(source.partner, notice.snapshot.partner, t),
+        },
+    ];
+}
+
+function MutedText({ children }: { readonly children: ReactNode }) {
+    return <span className="text-ink-muted">{children}</span>;
+}
+
+function NoticeFacts({ notice }: { readonly notice: AdminContentNotice }) {
+    const { t, i18n } = useTranslation();
+    const listingId = notice.target.productListingId;
+    const targetFact = listingId
+        ? {
+              key: "listing",
+              label: t("adminContentNotices.fields.productListingId"),
+              value: listingId,
+          }
+        : {
+              key: "source",
+              label: t("adminContentNotices.fields.listingSourceId"),
+              value: notice.target.listingSourceId,
+          };
+    return (
+        <AdminFacts
+            facts={[
+                {
+                    key: "id",
+                    label: t("adminContentNotices.fields.id"),
+                    value: notice.id,
+                    mono: true,
+                },
+                { ...targetFact, mono: true },
+                {
+                    key: "received",
+                    label: t("adminContentNotices.fields.received"),
+                    value: formatAdminTimestamp(notice.created, i18n.language),
+                },
+                {
+                    key: "updated",
+                    label: t("adminContentNotices.fields.updated"),
+                    value: formatAdminTimestamp(notice.updated, i18n.language),
+                },
+            ]}
+        />
+    );
+}
+
+function NoticeSection({ notice }: { readonly notice: AdminContentNotice }) {
+    const { t } = useTranslation();
+    const explanation = notice.explanation ? (
+        <span className="leading-relaxed whitespace-pre-line">{notice.explanation}</span>
+    ) : (
+        <MutedText>{t("adminContentNotices.notice.noExplanation")}</MutedText>
+    );
+    const urls =
+        notice.additionalUrls.length > 0 ? (
+            <ul className="flex flex-col gap-1.5">
+                {notice.additionalUrls.map((url) => (
+                    <li key={url} className="min-w-0">
+                        <ExternalLink href={url}>{url}</ExternalLink>
+                    </li>
+                ))}
+            </ul>
+        ) : (
+            <MutedText>{t("adminContentNotices.notice.noUrls")}</MutedText>
+        );
+    return (
+        <Section id="notice" title={t("adminContentNotices.notice.title")}>
+            <KeyValueRows
+                rows={[
+                    {
+                        key: "role",
+                        label: t("adminContentNotices.notice.role"),
+                        value: t(CONTENT_NOTICE_ROLE_KEY[notice.role]),
+                    },
+                    {
+                        key: "reason",
+                        label: t("adminContentNotices.notice.reason"),
+                        value: t(CONTENT_NOTICE_REASON_KEY[notice.reason]),
+                    },
+                    {
+                        key: "explanation",
+                        label: t("adminContentNotices.notice.explanation"),
+                        value: explanation,
+                    },
+                    { key: "urls", label: t("adminContentNotices.notice.urls"), value: urls },
+                    {
+                        key: "goodFaith",
+                        label: t("adminContentNotices.notice.goodFaith"),
+                        value: t("adminContentNotices.notice.goodFaithConfirmed"),
+                    },
+                ]}
+            />
+        </Section>
+    );
+}
+
+function ReportedContentSection({
+    notice,
+    language,
+}: {
+    readonly notice: AdminContentNotice;
+    readonly language: string;
+}) {
+    const { t } = useTranslation();
+    const sourceExists = notice.current.listingSource.exists;
+    const listingId = notice.current.productListing?.exists
+        ? notice.target.productListingId
+        : undefined;
+    return (
+        <Section
+            id="content"
+            title={t("adminContentNotices.content.title")}
+            action={
+                <Link
+                    to="/$lng/admin/content-notices"
+                    params={{ lng: language }}
+                    search={{ sourceId: notice.target.listingSourceId }}
+                    className={cn(
+                        TEXT_LINK_CLASS,
+                        "inline-flex min-h-8 items-center text-meta font-medium",
+                    )}
+                >
+                    {t("adminContentNotices.content.moreAbout", {
+                        source: notice.snapshot.listingSourceName,
+                    })}
+                </Link>
+            }
+        >
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <CompareColumn
+                    title={t("adminContentNotices.content.atSubmission")}
+                    rows={snapshotRows(notice, t)}
+                />
+                <CompareColumn
+                    title={t("adminContentNotices.content.now")}
+                    rows={currentRows(notice, t, language)}
+                />
+            </div>
+            {(listingId || sourceExists) && (
+                <div className="flex flex-wrap gap-2.5">
+                    {listingId && (
+                        <Link
+                            to="/$lng/admin/product-listings/$productListingId"
+                            params={{ lng: language, productListingId: listingId }}
+                            className={cn(SECONDARY_PILL_CLASS, "basis-full sm:basis-auto")}
+                        >
+                            <Package aria-hidden="true" className="size-4" strokeWidth={1.7} />
+                            {t("adminContentNotices.content.openListing")}
+                        </Link>
+                    )}
+                    {sourceExists && (
+                        <Link
+                            to="/$lng/admin/listing-sources"
+                            params={{ lng: language }}
+                            search={{ source: notice.target.listingSourceId }}
+                            className={cn(SECONDARY_PILL_CLASS, "basis-full sm:basis-auto")}
+                        >
+                            <Store aria-hidden="true" className="size-4" strokeWidth={1.7} />
+                            {t("adminContentNotices.content.openSource")}
+                        </Link>
+                    )}
+                </div>
+            )}
+        </Section>
+    );
+}
+
+function AnonymousNotice() {
+    const { t } = useTranslation();
+    return (
+        <p className="flex items-start gap-2.5 rounded-md bg-surface-sunken px-4 py-3.5 text-sm leading-normal">
+            <EyeOff
+                aria-hidden="true"
+                className="mt-0.5 size-[17px] shrink-0 text-ink-muted"
+                strokeWidth={1.7}
+            />
+            <span>
+                <strong className="font-semibold">
+                    {t("adminContentNotices.notifier.anonymousTitle")}
+                </strong>{" "}
+                {t("adminContentNotices.notifier.anonymous")}
+            </span>
+        </p>
+    );
+}
+
+function NotifierSection({ notice }: { readonly notice: AdminContentNotice }) {
+    const { t, i18n } = useTranslation();
+    const languageName = useLanguageNames();
+    const { name, email } = notice.submitter;
+    const languageRow = {
+        key: "language",
+        label: t("adminContentNotices.notifier.language"),
+        value: languageName(notice.submitter.language),
+    };
+    const emailValue = email ? (
+        <a href={`mailto:${email}`} className={TEXT_LINK_CLASS}>
+            {email}
+        </a>
+    ) : (
+        <MutedText>{t("adminContentNotices.notifier.noEmail")}</MutedText>
+    );
+    return (
+        <Section id="notifier" title={t("adminContentNotices.notifier.title")}>
+            {!name && !email ? (
+                <>
+                    <AnonymousNotice />
+                    <KeyValueRows rows={[languageRow]} />
+                </>
+            ) : (
+                <KeyValueRows
+                    rows={[
+                        {
+                            key: "name",
+                            label: t("adminContentNotices.notifier.name"),
+                            value: name ?? (
+                                <MutedText>{t("adminContentNotices.notifier.noName")}</MutedText>
+                            ),
+                        },
+                        {
+                            key: "email",
+                            label: t("adminContentNotices.notifier.email"),
+                            value: emailValue,
+                        },
+                        languageRow,
+                        {
+                            key: "receipt",
+                            label: t("adminContentNotices.notifier.receipt"),
+                            value: receiptValue(notice, t, i18n.language),
+                        },
+                    ]}
+                />
+            )}
+            {email && (
+                <div className="flex sm:justify-end">
+                    <a
+                        href={`mailto:${email}?subject=${encodeURIComponent(
+                            t("adminContentNotices.notifier.mailSubject", { id: notice.id }),
+                        )}`}
+                        className={cn(SECONDARY_PILL_CLASS, "w-full sm:w-auto")}
+                    >
+                        <Mail aria-hidden="true" className="size-4" strokeWidth={1.7} />
+                        {t("adminContentNotices.notifier.write")}
+                    </a>
+                </div>
+            )}
+        </Section>
+    );
+}
+
 function NoticeBody({
     notice,
     language,
@@ -309,378 +739,15 @@ function NoticeBody({
     readonly notice: AdminContentNotice;
     readonly language: string;
 }) {
-    const { t, i18n } = useTranslation();
-    const languageName = useLanguageNames();
-    const isListing = notice.target.type === "PRODUCT_LISTING";
-    const source = notice.current.listingSource;
-    const listing = notice.current.productListing;
-    const yesNo = (value: boolean) =>
-        t(value ? "adminContentNotices.content.yes" : "adminContentNotices.content.no");
-
-    const facts = [
-        { key: "id", label: t("adminContentNotices.fields.id"), value: notice.id, mono: true },
-        isListing && notice.target.productListingId
-            ? {
-                  key: "listing",
-                  label: t("adminContentNotices.fields.productListingId"),
-                  value: notice.target.productListingId,
-                  mono: true,
-              }
-            : {
-                  key: "source",
-                  label: t("adminContentNotices.fields.listingSourceId"),
-                  value: notice.target.listingSourceId,
-                  mono: true,
-              },
-        {
-            key: "received",
-            label: t("adminContentNotices.fields.received"),
-            value: formatAdminTimestamp(notice.created, i18n.language),
-        },
-        {
-            key: "updated",
-            label: t("adminContentNotices.fields.updated"),
-            value: formatAdminTimestamp(notice.updated, i18n.language),
-        },
-    ];
-
-    const then: CompareRow[] = [
-        ...(isListing
-            ? [
-                  {
-                      key: "listing",
-                      label: t("adminContentNotices.content.listing"),
-                      value:
-                          notice.snapshot.productListingTitle ??
-                          t("adminContentNotices.list.untitled"),
-                      muted: !notice.snapshot.productListingTitle,
-                  },
-                  ...(notice.snapshot.productListingUrl
-                      ? [
-                            {
-                                key: "listingUrl",
-                                label: t("adminContentNotices.content.listingUrl"),
-                                value: (
-                                    <ExternalLink href={notice.snapshot.productListingUrl}>
-                                        {notice.snapshot.productListingUrl}
-                                    </ExternalLink>
-                                ),
-                            },
-                        ]
-                      : []),
-              ]
-            : []),
-        {
-            key: "source",
-            label: t("adminContentNotices.content.source"),
-            value: notice.snapshot.listingSourceName,
-        },
-        ...(notice.snapshot.listingSourceUrl
-            ? [
-                  {
-                      key: "sourceUrl",
-                      label: t("adminContentNotices.content.sourceUrl"),
-                      value: (
-                          <ExternalLink href={notice.snapshot.listingSourceUrl}>
-                              {notice.snapshot.listingSourceUrl}
-                          </ExternalLink>
-                      ),
-                  },
-              ]
-            : []),
-        {
-            key: "partner",
-            label: t("adminContentNotices.content.partner"),
-            value: yesNo(notice.snapshot.partner),
-        },
-    ];
-
-    const gone = t("adminContentNotices.content.gone");
-    const now: CompareRow[] = [];
-    if (listing) {
-        if (!listing.exists) {
-            now.push({
-                key: "listing",
-                label: t("adminContentNotices.content.listing"),
-                value: gone,
-                mark: "dashed",
-                muted: true,
-            });
-        } else {
-            const lifecycle = listing.lifecycle;
-            now.push({
-                key: "listing",
-                label: t("adminContentNotices.content.listing"),
-                value: t(
-                    lifecycle === "ACTIVE"
-                        ? "adminContentNotices.content.active"
-                        : lifecycle === "WITHDRAWN"
-                          ? "adminContentNotices.content.withdrawn"
-                          : "adminContentNotices.content.lifecycleUnknown",
-                ),
-                mark:
-                    lifecycle === "ACTIVE" ? "ink" : lifecycle === "WITHDRAWN" ? "muted" : "dashed",
-            });
-        }
-    }
-    if (!source.exists) {
-        now.push({
-            key: "source",
-            label: t("adminContentNotices.content.source"),
-            value: gone,
-            mark: "dashed",
-            muted: true,
-        });
-    } else {
-        const partnerChanged = source.partner !== notice.snapshot.partner;
-        now.push(
-            {
-                key: "source",
-                label: t("adminContentNotices.content.source"),
-                value: (
-                    <Link
-                        to="/$lng/shops/$shopSlugId"
-                        params={{ lng: language, shopSlugId: source.slugId }}
-                        target="_blank"
-                        className={TEXT_LINK_CLASS}
-                    >
-                        {source.name}
-                    </Link>
-                ),
-            },
-            {
-                key: "ingestion",
-                label: t("adminContentNotices.content.ingestion"),
-                value:
-                    source.ingestionMethods.length > 0 ? (
-                        source.ingestionMethods.map((method) => (
-                            <span key={method} className={ADMIN_TAG_CLASS}>
-                                {t(`adminListingSources.methods.${method}`)}
-                            </span>
-                        ))
-                    ) : (
-                        <span className="text-ink-muted">
-                            {t("adminContentNotices.content.noIngestion")}
-                        </span>
-                    ),
-            },
-            {
-                key: "partner",
-                label: t("adminContentNotices.content.partner"),
-                value: partnerChanged
-                    ? t(
-                          source.partner
-                              ? "adminContentNotices.content.partnerNowYes"
-                              : "adminContentNotices.content.partnerNowNo",
-                      )
-                    : yesNo(source.partner),
-                mark: partnerChanged ? "brass" : undefined,
-            },
-        );
-    }
-
-    const showListingButton = isListing && listing?.exists && notice.target.productListingId;
-    const email = notice.submitter.email;
-    const name = notice.submitter.name;
-    const anonymous = !name && !email;
-    const receiptRow = receiptValue(notice, t, i18n.language);
-
     return (
         <>
-            <AdminFacts facts={facts} />
-
-            <Section id="notice" title={t("adminContentNotices.notice.title")}>
-                <KeyValueRows
-                    rows={[
-                        {
-                            key: "role",
-                            label: t("adminContentNotices.notice.role"),
-                            value: t(CONTENT_NOTICE_ROLE_KEY[notice.role]),
-                        },
-                        {
-                            key: "reason",
-                            label: t("adminContentNotices.notice.reason"),
-                            value: t(CONTENT_NOTICE_REASON_KEY[notice.reason]),
-                        },
-                        {
-                            key: "explanation",
-                            label: t("adminContentNotices.notice.explanation"),
-                            value: notice.explanation ? (
-                                <span className="leading-relaxed whitespace-pre-line">
-                                    {notice.explanation}
-                                </span>
-                            ) : (
-                                <span className="text-ink-muted">
-                                    {t("adminContentNotices.notice.noExplanation")}
-                                </span>
-                            ),
-                        },
-                        {
-                            key: "urls",
-                            label: t("adminContentNotices.notice.urls"),
-                            value:
-                                notice.additionalUrls.length > 0 ? (
-                                    <ul className="flex flex-col gap-1.5">
-                                        {notice.additionalUrls.map((url) => (
-                                            <li key={url} className="min-w-0">
-                                                <ExternalLink href={url}>{url}</ExternalLink>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                ) : (
-                                    <span className="text-ink-muted">
-                                        {t("adminContentNotices.notice.noUrls")}
-                                    </span>
-                                ),
-                        },
-                        {
-                            key: "goodFaith",
-                            label: t("adminContentNotices.notice.goodFaith"),
-                            value: t("adminContentNotices.notice.goodFaithConfirmed"),
-                        },
-                    ]}
-                />
-            </Section>
-
-            <Section
-                id="content"
-                title={t("adminContentNotices.content.title")}
-                action={
-                    <Link
-                        to="/$lng/admin/content-notices"
-                        params={{ lng: language }}
-                        search={{ sourceId: notice.target.listingSourceId }}
-                        className={cn(
-                            TEXT_LINK_CLASS,
-                            "inline-flex min-h-8 items-center text-meta font-medium",
-                        )}
-                    >
-                        {t("adminContentNotices.content.moreAbout", {
-                            source: notice.snapshot.listingSourceName,
-                        })}
-                    </Link>
-                }
-            >
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                    <CompareColumn
-                        title={t("adminContentNotices.content.atSubmission")}
-                        rows={then}
-                    />
-                    <CompareColumn title={t("adminContentNotices.content.now")} rows={now} />
-                </div>
-                {(showListingButton || source.exists) && (
-                    <div className="flex flex-wrap gap-2.5">
-                        {showListingButton && notice.target.productListingId && (
-                            <Link
-                                to="/$lng/admin/product-listings/$productListingId"
-                                params={{
-                                    lng: language,
-                                    productListingId: notice.target.productListingId,
-                                }}
-                                className={cn(SECONDARY_PILL_CLASS, "basis-full sm:basis-auto")}
-                            >
-                                <Package aria-hidden="true" className="size-4" strokeWidth={1.7} />
-                                {t("adminContentNotices.content.openListing")}
-                            </Link>
-                        )}
-                        {source.exists && (
-                            <Link
-                                to="/$lng/admin/listing-sources"
-                                params={{ lng: language }}
-                                search={{ source: notice.target.listingSourceId }}
-                                className={cn(SECONDARY_PILL_CLASS, "basis-full sm:basis-auto")}
-                            >
-                                <Store aria-hidden="true" className="size-4" strokeWidth={1.7} />
-                                {t("adminContentNotices.content.openSource")}
-                            </Link>
-                        )}
-                    </div>
-                )}
-            </Section>
-
-            <Section id="notifier" title={t("adminContentNotices.notifier.title")}>
-                {anonymous ? (
-                    <>
-                        <p className="flex items-start gap-2.5 rounded-md bg-surface-sunken px-4 py-3.5 text-sm leading-normal">
-                            <EyeOff
-                                aria-hidden="true"
-                                className="mt-0.5 size-[17px] shrink-0 text-ink-muted"
-                                strokeWidth={1.7}
-                            />
-                            <span>
-                                <strong className="font-semibold">
-                                    {t("adminContentNotices.notifier.anonymousTitle")}
-                                </strong>{" "}
-                                {t("adminContentNotices.notifier.anonymous")}
-                            </span>
-                        </p>
-                        <KeyValueRows
-                            rows={[
-                                {
-                                    key: "language",
-                                    label: t("adminContentNotices.notifier.language"),
-                                    value: languageName(notice.submitter.language),
-                                },
-                            ]}
-                        />
-                    </>
-                ) : (
-                    <KeyValueRows
-                        rows={[
-                            {
-                                key: "name",
-                                label: t("adminContentNotices.notifier.name"),
-                                value: name ?? (
-                                    <span className="text-ink-muted">
-                                        {t("adminContentNotices.notifier.noName")}
-                                    </span>
-                                ),
-                            },
-                            {
-                                key: "email",
-                                label: t("adminContentNotices.notifier.email"),
-                                value: email ? (
-                                    <a href={`mailto:${email}`} className={TEXT_LINK_CLASS}>
-                                        {email}
-                                    </a>
-                                ) : (
-                                    <span className="text-ink-muted">
-                                        {t("adminContentNotices.notifier.noEmail")}
-                                    </span>
-                                ),
-                            },
-                            {
-                                key: "language",
-                                label: t("adminContentNotices.notifier.language"),
-                                value: languageName(notice.submitter.language),
-                            },
-                            {
-                                key: "receipt",
-                                label: t("adminContentNotices.notifier.receipt"),
-                                value: receiptRow,
-                            },
-                        ]}
-                    />
-                )}
-                {email && (
-                    <div className="flex sm:justify-end">
-                        <a
-                            href={`mailto:${email}?subject=${encodeURIComponent(
-                                t("adminContentNotices.notifier.mailSubject", { id: notice.id }),
-                            )}`}
-                            className={cn(SECONDARY_PILL_CLASS, "w-full sm:w-auto")}
-                        >
-                            <Mail aria-hidden="true" className="size-4" strokeWidth={1.7} />
-                            {t("adminContentNotices.notifier.write")}
-                        </a>
-                    </div>
-                )}
-            </Section>
+            <NoticeFacts notice={notice} />
+            <NoticeSection notice={notice} />
+            <ReportedContentSection notice={notice} language={language} />
+            <NotifierSection notice={notice} />
         </>
     );
 }
-
-type Translate = ReturnType<typeof useTranslation>["t"];
 
 function receiptValue(notice: AdminContentNotice, t: Translate, language: string): ReactNode {
     const receipt = notice.receipt;
