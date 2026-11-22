@@ -627,6 +627,98 @@
           "OTHER": "Lieu"
         }
       }
+    },
+    "searchLocation": {
+      "title": "Lieu de recherche",
+      "description": "Un lieu à partir duquel nous calculons les distances et les résultats régionaux pour vous. Vous seul pouvez le voir.",
+      "currently": "Actuellement",
+      "current": {
+        "none": "Aucun lieu de recherche",
+        "unavailable": "Une adresse enregistrée qui n’est plus disponible",
+        "unsupported": "Un lieu de recherche qui ne peut pas être affiché ici",
+        "postalCode": "Code postal {{postalCode}}",
+        "noPostalCode": "Pas de code postal"
+      },
+      "notice": {
+        "cleared": "Votre lieu de recherche était une adresse enregistrée qui a été supprimée ; aucun n’est donc utilisé pour le moment.",
+        "unavailable": "L’adresse enregistrée choisie n’est plus disponible. Choisissez un autre lieu ou n’en gardez aucun.",
+        "unsupported": "Pour le conserver, laissez cette section telle quelle. Enregistrer un nouveau choix le remplace."
+      },
+      "legend": "Utiliser comme lieu de recherche",
+      "choices": {
+        "NONE": {
+          "title": "Aucun lieu de recherche",
+          "description": "Les distances et les résultats régionaux ne sont pas calculés pour vous."
+        },
+        "ADDRESS": {
+          "title": "L’une de mes adresses enregistrées",
+          "description": "Sa localisation est utilisée telle quelle. Si vous modifiez l’adresse plus tard, elle est mise à jour.",
+          "descriptionEmpty": "Vous n’avez encore aucune adresse enregistrée."
+        },
+        "COUNTRY_POSTAL": {
+          "title": "Un pays",
+          "description": "Avec un code postal si vous le souhaitez. Rien n’est déduit de votre langue, de votre devise ou de votre connexion."
+        }
+      },
+      "address": {
+        "label": "Adresse enregistrée",
+        "placeholder": "Choisir une adresse",
+        "notLocated": "Non localisée",
+        "notLocatedHint": "Cette adresse n’est pas encore localisée, les distances ne peuvent donc pas être calculées. Modifiez-la dans Adresses enregistrées et choisissez une suggestion pour la localiser.",
+        "showMore": "Afficher plus d’adresses",
+        "empty": "Vous n’avez encore aucune adresse enregistrée. Ajoutez-en une, puis choisissez-la ici.",
+        "add": "Ajouter une adresse",
+        "loadError": "Vos adresses enregistrées n’ont pas pu être chargées."
+      },
+      "country": {
+        "label": "Pays",
+        "placeholder": "Choisir un pays",
+        "search": "Rechercher un pays",
+        "searchPlaceholder": "Rechercher un pays…",
+        "noCountries": "Aucun pays trouvé."
+      },
+      "postalCode": {
+        "label": "Code postal",
+        "optional": "(facultatif)",
+        "hint": "Enregistré exactement tel que vous le saisissez."
+      },
+      "validation": {
+        "addressRequired": "Choisissez l’une de vos adresses enregistrées.",
+        "addressGone": "Cette adresse n’existe plus. Votre liste a été mise à jour. Choisissez-en une autre.",
+        "countryRequired": "Choisissez un pays dans la liste.",
+        "postalCodeInvalid": "Utilisez un code postal plus court, sur une seule ligne."
+      },
+      "conflict": {
+        "title": "Votre lieu de recherche a été modifié ailleurs.",
+        "body": "« Actuellement » affiche désormais celui enregistré. Votre choix est conservé ci-dessus. Enregistrez à nouveau pour le remplacer."
+      },
+      "saveError": {
+        "title": "Votre lieu de recherche n’a pas pu être enregistré.",
+        "body": "Votre choix est conservé. Veuillez réessayer."
+      },
+      "errors": {
+        "loadFailed": "Votre lieu de recherche n’a pas pu être chargé."
+      },
+      "distinction": "Ce n’est pas une adresse de livraison, de facturation ou de domicile. Vos recherches et recherches enregistrées gardent leur propre lieu et ne changent pas.",
+      "save": "Enregistrer le lieu de recherche",
+      "saveAgain": "Enregistrer mon choix",
+      "saving": "Enregistrement…",
+      "toasts": {
+        "saved": "Lieu de recherche enregistré",
+        "cleared": "Lieu de recherche supprimé"
+      },
+      "loading": "Chargement de votre lieu de recherche",
+      "error": {
+        "title": "Votre lieu de recherche n’a pas pu être <em>chargé.</em>",
+        "description": "Veuillez réessayer dans un instant."
+      },
+      "retry": "Réessayer",
+      "accessLost": {
+        "title": "Votre lieu de recherche n’est pas <em>disponible.</em>",
+        "description": "Votre session ne permet plus d’y accéder. Reconnectez-vous pour voir votre lieu de recherche.",
+        "action": "Se reconnecter"
+      },
+      "close": "Fermer"
     }
   },
   "search": {

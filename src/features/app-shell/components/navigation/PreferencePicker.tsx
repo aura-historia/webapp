@@ -1,4 +1,4 @@
-import { Check, Search } from "lucide-react";
+import { Check, Search, X } from "lucide-react";
 import {
     type KeyboardEvent,
     type ReactNode,
@@ -8,7 +8,15 @@ import {
     useRef,
     useState,
 } from "react";
+import {
+    Drawer,
+    DrawerContent,
+    DrawerDescription,
+    DrawerTitle,
+    DrawerTrigger,
+} from "@/components/ui/drawer.tsx";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover.tsx";
+import { useMediaQuery } from "@/hooks/common/useMediaQuery.ts";
 import { cn } from "@/lib/utils.ts";
 
 export interface PreferenceOption {
@@ -18,6 +26,10 @@ export interface PreferenceOption {
     readonly code?: string;
     /** Mono detail at the end of the row (language code, currency symbol, units). */
     readonly detail?: string;
+    /** Mark before the detail (a "Not located" ring); always paired with the detail text. */
+    readonly detailMark?: ReactNode;
+    /** Second line under the label, wrapped instead of truncated (an address as entered). */
+    readonly description?: string;
     readonly searchTerms?: readonly string[];
 }
 
@@ -42,7 +54,16 @@ interface PreferencePickerProps {
     readonly disabled?: boolean;
     readonly invalid?: boolean;
     readonly describedBy?: string;
+    /** Content below the list, such as a button that loads more options. */
+    readonly footer?: ReactNode;
+    /**
+     * Opens as a bottom sheet below 640px (serif title, close button) instead of the popover.
+     * The popover stays until after mount, so server and first client render agree.
+     */
+    readonly sheetOnPhone?: { readonly closeLabel: string };
 }
+
+const PHONE_QUERY = "(max-width: 639px)";
 
 const ROW_CLASS =
     "flex min-h-11 cursor-pointer items-center gap-2.5 rounded-md px-2.5 text-sm text-ink select-none";
@@ -71,7 +92,10 @@ export function PreferencePicker({
     disabled,
     invalid,
     describedBy,
+    footer,
+    sheetOnPhone,
 }: PreferencePickerProps) {
+    const phone = useMediaQuery(PHONE_QUERY);
     const [open, setOpen] = useState(false);
     const [query, setQuery] = useState("");
     const [highlighted, setHighlighted] = useState(0);
@@ -145,136 +169,196 @@ export function PreferencePicker({
 
     const activeDescendant = highlightedOption ? optionId(highlightedOption) : undefined;
 
-    return (
-        <Popover open={open} onOpenChange={handleOpenChange}>
-            <PopoverTrigger
-                aria-haspopup="listbox"
-                id={triggerId}
-                disabled={disabled}
-                aria-label={`${label}: ${displayValue}`}
-                aria-invalid={invalid || undefined}
-                aria-describedby={describedBy}
+    const triggerProps = {
+        "aria-haspopup": sheetOnPhone && phone ? ("dialog" as const) : ("listbox" as const),
+        id: triggerId,
+        disabled,
+        "aria-label": `${label}: ${displayValue}`,
+        "aria-invalid": invalid || undefined,
+        "aria-describedby": describedBy,
+        className: cn(
+            "cursor-pointer disabled:cursor-not-allowed data-[state=open]:text-ink",
+            triggerClassName,
+        ),
+    };
+    const focusFirst = (event: Event) => {
+        event.preventDefault();
+        (search ? searchRef.current : listboxRef.current)?.focus();
+    };
+
+    const panel = (
+        <>
+            <span
+                aria-hidden="true"
+                className="px-2.5 pt-2.5 pb-0.5 font-mono text-kicker text-ink-muted uppercase"
+            >
+                {label}
+            </span>
+
+            {search && (
+                <div className="flex h-10 items-center gap-2 rounded-md bg-surface px-2.5 shadow-field has-focus-visible:outline-2 has-focus-visible:outline-solid has-focus-visible:outline-offset-2 has-focus-visible:outline-brass">
+                    <Search
+                        aria-hidden="true"
+                        className="size-3.5 shrink-0 text-ink-muted"
+                        strokeWidth={2}
+                    />
+                    <label htmlFor={searchId} className="sr-only">
+                        {search.label}
+                    </label>
+                    <input
+                        ref={searchRef}
+                        id={searchId}
+                        type="search"
+                        role="combobox"
+                        aria-expanded={true}
+                        aria-controls={listboxId}
+                        aria-activedescendant={activeDescendant}
+                        aria-autocomplete="list"
+                        autoComplete="off"
+                        value={query}
+                        placeholder={search.placeholder}
+                        onChange={(event) => {
+                            setQuery(event.target.value);
+                            setHighlighted(0);
+                        }}
+                        onKeyDown={handleKeyDown}
+                        className="h-9 min-w-0 flex-1 border-0 bg-transparent text-sm text-ink outline-none placeholder:text-ink-placeholder [&::-webkit-search-cancel-button]:hidden"
+                    />
+                </div>
+            )}
+
+            <div
+                ref={listboxRef}
+                id={listboxId}
+                role="listbox"
+                aria-label={label}
+                tabIndex={search ? -1 : 0}
+                aria-activedescendant={search ? undefined : activeDescendant}
+                onKeyDown={search ? undefined : handleKeyDown}
                 className={cn(
-                    "cursor-pointer disabled:cursor-not-allowed data-[state=open]:text-ink",
-                    triggerClassName,
+                    "flex flex-col overflow-y-auto overscroll-contain outline-none",
+                    !(sheetOnPhone && phone) && "max-h-[312px]",
+                    !search &&
+                        "rounded-md focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-brass",
                 )}
             >
-                {triggerContent ?? displayValue}
-            </PopoverTrigger>
+                {visibleOptions.map((option, index) => {
+                    const isSelected = option.value === value;
+                    return (
+                        // biome-ignore lint/a11y/useKeyWithClickEvents: keyboard selection runs on the listbox or search field via aria-activedescendant.
+                        <div
+                            key={option.value}
+                            id={optionId(option)}
+                            role="option"
+                            tabIndex={-1}
+                            aria-selected={isSelected}
+                            onClick={() => select(option)}
+                            onPointerMove={() => setHighlighted(index)}
+                            className={cn(
+                                ROW_CLASS,
+                                option.description && "items-start py-2",
+                                isSelected && "font-medium",
+                                index === highlighted && "bg-surface-sunken",
+                            )}
+                        >
+                            {isSelected ? (
+                                <Check
+                                    aria-hidden="true"
+                                    className={cn(
+                                        "size-4 shrink-0 text-oxblood",
+                                        option.description && "mt-0.5",
+                                    )}
+                                    strokeWidth={2}
+                                />
+                            ) : (
+                                <span aria-hidden="true" className="w-4 shrink-0" />
+                            )}
+                            {option.code && (
+                                <span className="w-[34px] shrink-0 font-mono text-[11px] font-normal tracking-[0.08em] text-ink-muted">
+                                    {option.code}
+                                </span>
+                            )}
+                            {option.description ? (
+                                <span className="flex min-w-0 flex-1 flex-col gap-0.5">
+                                    <span className="wrap-anywhere">{option.label}</span>
+                                    <span className="text-xs leading-[1.45] font-normal wrap-anywhere text-ink-muted">
+                                        {option.description}
+                                    </span>
+                                </span>
+                            ) : (
+                                <span className="min-w-0 flex-1 truncate">{option.label}</span>
+                            )}
+                            {option.detail && (
+                                <span
+                                    className={cn(
+                                        "inline-flex shrink-0 items-center gap-1.5 font-mono text-[10px] font-normal tracking-[0.08em] text-ink-muted uppercase",
+                                        option.description && "mt-0.5",
+                                    )}
+                                >
+                                    {option.detailMark}
+                                    {option.detail}
+                                </span>
+                            )}
+                        </div>
+                    );
+                })}
+            </div>
+            {visibleOptions.length === 0 && search && (
+                <p role="status" className="px-2.5 py-3 text-meta text-ink-muted">
+                    {search.emptyMessage}
+                </p>
+            )}
+            {footer}
+        </>
+    );
+
+    if (sheetOnPhone && phone) {
+        return (
+            // The Radix trigger lets the sheet return focus to the field when it closes.
+            <Drawer open={open} onOpenChange={handleOpenChange}>
+                <DrawerTrigger {...triggerProps}>{triggerContent ?? displayValue}</DrawerTrigger>
+                <DrawerContent
+                    data-theme="light"
+                    onOpenAutoFocus={focusFirst}
+                    className="max-h-[82vh] rounded-t-[20px] border-0 bg-surface-raised text-ink shadow-menu"
+                >
+                    <div className="flex min-h-0 flex-col gap-1.5 overflow-y-auto px-3 pt-1.5 pb-[calc(16px+env(safe-area-inset-bottom,0px))]">
+                        <div className="flex items-center justify-between gap-3 pl-2.5">
+                            <DrawerTitle className="font-serif text-[22px] leading-[1.2] font-normal text-ink">
+                                {label}
+                            </DrawerTitle>
+                            <button
+                                type="button"
+                                aria-label={sheetOnPhone.closeLabel}
+                                onClick={() => setOpen(false)}
+                                className="-mr-0.5 inline-flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-pill text-ink outline-none hover:bg-surface-sunken focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass"
+                            >
+                                <X aria-hidden="true" className="size-[18px]" strokeWidth={1.8} />
+                            </button>
+                        </div>
+                        <DrawerDescription className="sr-only">{displayValue}</DrawerDescription>
+                        {panel}
+                    </div>
+                </DrawerContent>
+            </Drawer>
+        );
+    }
+
+    return (
+        <Popover open={open} onOpenChange={handleOpenChange}>
+            <PopoverTrigger {...triggerProps}>{triggerContent ?? displayValue}</PopoverTrigger>
             <PopoverContent
                 data-theme="light"
                 align="start"
                 sideOffset={10}
                 collisionPadding={16}
-                onOpenAutoFocus={(event) => {
-                    event.preventDefault();
-                    (search ? searchRef.current : listboxRef.current)?.focus();
-                }}
+                onOpenAutoFocus={focusFirst}
                 className={cn(
                     "z-[70] flex w-[min(18rem,calc(100vw-2rem))] flex-col gap-1.5 rounded-panel border-0 bg-surface-raised p-2 text-ink shadow-menu",
                     className,
                 )}
             >
-                <span
-                    aria-hidden="true"
-                    className="px-2.5 pt-2.5 pb-0.5 font-mono text-kicker text-ink-muted uppercase"
-                >
-                    {label}
-                </span>
-
-                {search && (
-                    <div className="flex h-10 items-center gap-2 rounded-md bg-surface px-2.5 shadow-field has-focus-visible:outline-2 has-focus-visible:outline-solid has-focus-visible:outline-offset-2 has-focus-visible:outline-brass">
-                        <Search
-                            aria-hidden="true"
-                            className="size-3.5 shrink-0 text-ink-muted"
-                            strokeWidth={2}
-                        />
-                        <label htmlFor={searchId} className="sr-only">
-                            {search.label}
-                        </label>
-                        <input
-                            ref={searchRef}
-                            id={searchId}
-                            type="search"
-                            role="combobox"
-                            aria-expanded={true}
-                            aria-controls={listboxId}
-                            aria-activedescendant={activeDescendant}
-                            aria-autocomplete="list"
-                            autoComplete="off"
-                            value={query}
-                            placeholder={search.placeholder}
-                            onChange={(event) => {
-                                setQuery(event.target.value);
-                                setHighlighted(0);
-                            }}
-                            onKeyDown={handleKeyDown}
-                            className="h-9 min-w-0 flex-1 border-0 bg-transparent text-sm text-ink outline-none placeholder:text-ink-placeholder [&::-webkit-search-cancel-button]:hidden"
-                        />
-                    </div>
-                )}
-
-                <div
-                    ref={listboxRef}
-                    id={listboxId}
-                    role="listbox"
-                    aria-label={label}
-                    tabIndex={search ? -1 : 0}
-                    aria-activedescendant={search ? undefined : activeDescendant}
-                    onKeyDown={search ? undefined : handleKeyDown}
-                    className={cn(
-                        "flex max-h-[312px] flex-col overflow-y-auto overscroll-contain outline-none",
-                        !search &&
-                            "rounded-md focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-brass",
-                    )}
-                >
-                    {visibleOptions.map((option, index) => {
-                        const isSelected = option.value === value;
-                        return (
-                            // biome-ignore lint/a11y/useKeyWithClickEvents: keyboard selection runs on the listbox or search field via aria-activedescendant.
-                            <div
-                                key={option.value}
-                                id={optionId(option)}
-                                role="option"
-                                tabIndex={-1}
-                                aria-selected={isSelected}
-                                onClick={() => select(option)}
-                                onPointerMove={() => setHighlighted(index)}
-                                className={cn(
-                                    ROW_CLASS,
-                                    isSelected && "font-medium",
-                                    index === highlighted && "bg-surface-sunken",
-                                )}
-                            >
-                                {isSelected ? (
-                                    <Check
-                                        aria-hidden="true"
-                                        className="size-4 shrink-0 text-oxblood"
-                                        strokeWidth={2}
-                                    />
-                                ) : (
-                                    <span aria-hidden="true" className="w-4 shrink-0" />
-                                )}
-                                {option.code && (
-                                    <span className="w-[34px] shrink-0 font-mono text-[11px] font-normal tracking-[0.08em] text-ink-muted">
-                                        {option.code}
-                                    </span>
-                                )}
-                                <span className="min-w-0 flex-1 truncate">{option.label}</span>
-                                {option.detail && (
-                                    <span className="shrink-0 font-mono text-[10px] font-normal tracking-[0.08em] text-ink-muted uppercase">
-                                        {option.detail}
-                                    </span>
-                                )}
-                            </div>
-                        );
-                    })}
-                </div>
-                {visibleOptions.length === 0 && search && (
-                    <p role="status" className="px-2.5 py-3 text-meta text-ink-muted">
-                        {search.emptyMessage}
-                    </p>
-                )}
+                {panel}
             </PopoverContent>
         </Popover>
     );

@@ -1,6 +1,7 @@
 import { Trans, useTranslation } from "react-i18next";
 import { AccountSection } from "@/features/account-management/components/AccountSection.tsx";
 import { SavedAddressesSection } from "@/features/account-management/components/addresses/SavedAddressesSection.tsx";
+import { SearchLocationSection } from "@/features/account-management/components/searchLocation/SearchLocationSection.tsx";
 import { ChangePasswordForm } from "@/features/account-management/components/ChangePasswordForm.tsx";
 import { DeleteAccountForm } from "@/features/account-management/components/DeleteAccountForm.tsx";
 import { PersonalDataForm } from "@/features/account-management/components/PersonalDataForm.tsx";
@@ -13,6 +14,7 @@ import { cn } from "@/lib/utils.ts";
 const SECTIONS = [
     { id: "personal-data", titleKey: "account.personalData.title" },
     { id: "saved-addresses", titleKey: "account.addresses.title" },
+    { id: "search-location", titleKey: "account.searchLocation.title" },
     { id: "change-password", titleKey: "account.changePassword.title" },
     { id: "subscription", titleKey: "account.subscription.title" },
     { id: "delete-account", titleKey: "account.deleteAccount.title" },
@@ -77,6 +79,14 @@ export function AccountPage() {
                 description={t("account.addresses.description")}
             >
                 <SavedAddressesSection />
+            </AccountSection>
+
+            <AccountSection
+                id="search-location"
+                title={t("account.searchLocation.title")}
+                description={t("account.searchLocation.description")}
+            >
+                <SearchLocationSection />
             </AccountSection>
 
             <AccountSection

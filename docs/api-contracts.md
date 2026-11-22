@@ -631,11 +631,11 @@ To sync a backend revision:
   [admin workflows](admin-workflows.md#listing-source-default-locations)).
   The account page's saved addresses consume the user address book (`listUserAddresses`,
   `createUserAddress`, `getUserAddress`, `updateUserAddress`, `deleteUserAddress`;
-  [#1078](https://github.com/aura-historia/webapp/issues/1078)). Every other geography
+  [#1078](https://github.com/aura-historia/webapp/issues/1078)), and its search location the
+  browsing destination (`getBrowsingDestination`, `setBrowsingDestination`;
+  [#1079](https://github.com/aura-historia/webapp/issues/1079)). Every other geography
   operation is generated-only until its feature slice consumes it (`suggestAddresses` is
-  consumed by the address editor): the browsing destination
-  (`getBrowsingDestination`,
-  `setBrowsingDestination`), public discovery (`discoverPartyLocations`) and the non-admin source
+  consumed by the address editor): public discovery (`discoverPartyLocations`) and the non-admin source
   defaults (`getSourceLocationDefault`, `assignSourceLocationDefault`,
   `changeSourceLocationDefaultApplicability`, `clearSourceLocationDefault`) and the admin
   geocoding review (`listPartyLocationResolutionReviews`, `getPartyLocationResolution`,
@@ -853,6 +853,13 @@ Shared models live in `src/data/internal/geography`; formatting helpers in
   same policy and never changes the browsing destination when an address is saved. An address
   replace that returns `409` loads the current version with `getUserAddress` and keeps the draft;
   saving again sends that version. A delete refreshes the addresses and the browsing destination.
+  The browsing destination (`useSetBrowsingDestination` in
+  `features/account-management/hooks/useBrowsingDestination.ts`) is never retried: it sends
+  `{expectedVersion, destination}` with the version that was read, a `409` refetches the
+  destination and keeps the user's choice until they save again, a `404` (the chosen address is
+  gone) refreshes the addresses and the destination, and a success refreshes the addresses, whose
+  `preferred` flag follows it. A destination address on a page not yet loaded is read with
+  `getUserAddress`.
   Addresses with `hasUnsupportedValues` cannot be edited, only deleted. Backend runtimes older than
   backend#2081 still require the header, so release this webapp only with or after the keyless
   backend.

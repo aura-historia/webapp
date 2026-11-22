@@ -627,6 +627,98 @@
           "OTHER": "Ort"
         }
       }
+    },
+    "searchLocation": {
+      "title": "Suchstandort",
+      "description": "Ein Ort, von dem aus wir Entfernungen und regionale Ergebnisse für Sie berechnen. Nur Sie können ihn sehen.",
+      "currently": "Aktuell",
+      "current": {
+        "none": "Kein Suchstandort",
+        "unavailable": "Eine gespeicherte Adresse, die nicht mehr verfügbar ist",
+        "unsupported": "Ein Suchstandort, der hier nicht angezeigt werden kann",
+        "postalCode": "Postleitzahl {{postalCode}}",
+        "noPostalCode": "Keine Postleitzahl"
+      },
+      "notice": {
+        "cleared": "Ihr Suchstandort war eine gespeicherte Adresse, die gelöscht wurde. Deshalb wird jetzt keiner verwendet.",
+        "unavailable": "Die gewählte gespeicherte Adresse ist nicht mehr verfügbar. Wählen Sie einen anderen Ort oder behalten Sie keinen Suchstandort.",
+        "unsupported": "Um ihn zu behalten, lassen Sie diesen Bereich unverändert. Wenn Sie eine neue Auswahl speichern, wird er ersetzt."
+      },
+      "legend": "Als Suchstandort verwenden",
+      "choices": {
+        "NONE": {
+          "title": "Kein Suchstandort",
+          "description": "Entfernungen und regionale Ergebnisse werden für Sie nicht berechnet."
+        },
+        "ADDRESS": {
+          "title": "Eine meiner gespeicherten Adressen",
+          "description": "Ihr Standort wird so verwendet, wie er ist. Wenn Sie die Adresse später bearbeiten, wird er aktualisiert.",
+          "descriptionEmpty": "Sie haben noch keine gespeicherten Adressen."
+        },
+        "COUNTRY_POSTAL": {
+          "title": "Ein Land",
+          "description": "Auf Wunsch mit Postleitzahl. Nichts wird aus Ihrer Sprache, Währung oder Verbindung abgeleitet."
+        }
+      },
+      "address": {
+        "label": "Gespeicherte Adresse",
+        "placeholder": "Adresse auswählen",
+        "notLocated": "Nicht ermittelt",
+        "notLocatedHint": "Der Standort dieser Adresse ist noch nicht ermittelt, daher können keine Entfernungen berechnet werden. Bearbeiten Sie sie unter Gespeicherte Adressen und wählen Sie einen Vorschlag, um sie zu verorten.",
+        "showMore": "Weitere Adressen anzeigen",
+        "empty": "Sie haben noch keine gespeicherten Adressen. Fügen Sie eine hinzu und wählen Sie sie dann hier aus.",
+        "add": "Adresse hinzufügen",
+        "loadError": "Ihre gespeicherten Adressen konnten nicht geladen werden."
+      },
+      "country": {
+        "label": "Land",
+        "placeholder": "Land auswählen",
+        "search": "Länder suchen",
+        "searchPlaceholder": "Länder suchen…",
+        "noCountries": "Keine Länder gefunden."
+      },
+      "postalCode": {
+        "label": "Postleitzahl",
+        "optional": "(optional)",
+        "hint": "Wird genau so gespeichert, wie Sie sie eingeben."
+      },
+      "validation": {
+        "addressRequired": "Wählen Sie eine Ihrer gespeicherten Adressen.",
+        "addressGone": "Diese Adresse existiert nicht mehr. Ihre Liste wurde aktualisiert. Wählen Sie eine andere.",
+        "countryRequired": "Wählen Sie ein Land aus der Liste.",
+        "postalCodeInvalid": "Verwenden Sie eine kürzere Postleitzahl in einer Zeile."
+      },
+      "conflict": {
+        "title": "Ihr Suchstandort wurde an anderer Stelle geändert.",
+        "body": "„Aktuell“ zeigt jetzt den gespeicherten. Ihre Auswahl bleibt oben erhalten. Speichern Sie erneut, um ihn zu ersetzen."
+      },
+      "saveError": {
+        "title": "Ihr Suchstandort konnte nicht gespeichert werden.",
+        "body": "Ihre Auswahl bleibt erhalten. Bitte versuchen Sie es erneut."
+      },
+      "errors": {
+        "loadFailed": "Ihr Suchstandort konnte nicht geladen werden."
+      },
+      "distinction": "Er ist keine Liefer-, Rechnungs- oder Wohnadresse. Ihre Suchen und Suchaufträge behalten ihren eigenen Standort und ändern sich nicht.",
+      "save": "Suchstandort speichern",
+      "saveAgain": "Meine Auswahl speichern",
+      "saving": "Wird gespeichert…",
+      "toasts": {
+        "saved": "Suchstandort gespeichert",
+        "cleared": "Suchstandort entfernt"
+      },
+      "loading": "Ihr Suchstandort wird geladen",
+      "error": {
+        "title": "Ihr Suchstandort konnte nicht <em>geladen werden.</em>",
+        "description": "Bitte versuchen Sie es gleich noch einmal."
+      },
+      "retry": "Erneut versuchen",
+      "accessLost": {
+        "title": "Ihr Suchstandort ist nicht <em>verfügbar.</em>",
+        "description": "Ihre Sitzung erlaubt keinen Zugriff mehr darauf. Melden Sie sich erneut an, um Ihren Suchstandort zu sehen.",
+        "action": "Erneut anmelden"
+      },
+      "close": "Schließen"
     }
   },
   "search": {

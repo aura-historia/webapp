@@ -627,6 +627,98 @@
           "OTHER": "Place"
         }
       }
+    },
+    "searchLocation": {
+      "title": "Search location",
+      "description": "One place we use to work out distances and regional results for you. Only you can see it.",
+      "currently": "Currently",
+      "current": {
+        "none": "No search location",
+        "unavailable": "A saved address that is no longer available",
+        "unsupported": "A search location that can’t be shown here",
+        "postalCode": "Postal code {{postalCode}}",
+        "noPostalCode": "No postal code"
+      },
+      "notice": {
+        "cleared": "Your search location was a saved address that has been deleted, so none is used now.",
+        "unavailable": "The saved address you chose is no longer available. Choose another place, or keep no search location.",
+        "unsupported": "To keep it, leave this section as it is. Saving a new choice replaces it."
+      },
+      "legend": "Use as search location",
+      "choices": {
+        "NONE": {
+          "title": "No search location",
+          "description": "Distances and regional results aren’t worked out for you."
+        },
+        "ADDRESS": {
+          "title": "One of my saved addresses",
+          "description": "Its location is used as it is. Editing the address later updates it.",
+          "descriptionEmpty": "You have no saved addresses yet."
+        },
+        "COUNTRY_POSTAL": {
+          "title": "A country",
+          "description": "With a postal code if you like. Nothing is worked out from your language, currency or connection."
+        }
+      },
+      "address": {
+        "label": "Saved address",
+        "placeholder": "Choose an address",
+        "notLocated": "Not located",
+        "notLocatedHint": "This address isn’t located yet, so distances can’t be worked out for it. Edit it under Saved addresses and pick a suggestion to locate it.",
+        "showMore": "Show more addresses",
+        "empty": "You have no saved addresses yet. Add one, then choose it here.",
+        "add": "Add address",
+        "loadError": "Your saved addresses could not be loaded."
+      },
+      "country": {
+        "label": "Country",
+        "placeholder": "Choose a country",
+        "search": "Search countries",
+        "searchPlaceholder": "Search countries…",
+        "noCountries": "No countries found."
+      },
+      "postalCode": {
+        "label": "Postal code",
+        "optional": "(optional)",
+        "hint": "Saved exactly as you type it."
+      },
+      "validation": {
+        "addressRequired": "Choose one of your saved addresses.",
+        "addressGone": "This address no longer exists. Your list has been updated. Choose another one.",
+        "countryRequired": "Choose a country from the list.",
+        "postalCodeInvalid": "Use a shorter postal code on one line."
+      },
+      "conflict": {
+        "title": "Your search location was changed elsewhere.",
+        "body": "“Currently” now shows the saved one. Your choice is kept above. Save again to replace it."
+      },
+      "saveError": {
+        "title": "Your search location could not be saved.",
+        "body": "Your choice is kept. Please try again."
+      },
+      "errors": {
+        "loadFailed": "Your search location could not be loaded."
+      },
+      "distinction": "It isn’t a shipping, billing or home address. Your searches and saved searches keep their own location and don’t change.",
+      "save": "Save search location",
+      "saveAgain": "Save my choice",
+      "saving": "Saving…",
+      "toasts": {
+        "saved": "Search location saved",
+        "cleared": "Search location removed"
+      },
+      "loading": "Loading your search location",
+      "error": {
+        "title": "Your search location could not be <em>loaded.</em>",
+        "description": "Please try again in a moment."
+      },
+      "retry": "Try again",
+      "accessLost": {
+        "title": "Your search location isn’t <em>available.</em>",
+        "description": "Your session no longer allows access to it. Sign in again to see your search location.",
+        "action": "Sign in again"
+      },
+      "close": "Close"
     }
   },
   "search": {
