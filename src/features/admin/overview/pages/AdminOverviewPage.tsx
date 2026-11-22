@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { Trans, useTranslation } from "react-i18next";
 import {
     ADMIN_APPLICATION_STATE_KEYS,
+    ADMIN_CONTENT_NOTICE_STATE_KEYS,
     ADMIN_INGESTION_METHOD_KEYS,
     ADMIN_LISTING_AVAILABILITY_KEYS,
     ADMIN_LISTING_LIFECYCLE_KEYS,
@@ -236,6 +237,7 @@ function OverviewContent({
     const formatter = new Intl.NumberFormat(language);
     const format: Format = (value) => formatter.format(value);
     const { users, partnershipApplications, parties, partnerships, listingSources } = overview;
+    const { contentNotices } = overview;
     const { productListings } = overview;
     const applicationStates = partnershipApplications.byState;
     // Submitted and in-review are distinct states, so their sum is exact.
@@ -359,45 +361,90 @@ function OverviewContent({
                         </Panel>
                     </div>
 
-                    <Panel id="applications" title={t("adminOverview.applications.label")}>
-                        {awaitingReview > 0 && (
-                            <div className="flex flex-wrap items-center justify-between gap-3 rounded-md bg-surface-sunken px-4 py-3.5">
-                                <p className="flex items-center gap-2.5 text-sm">
-                                    <AdminMark tone="brass" />
-                                    <span>
-                                        <Trans
-                                            i18nKey="adminOverview.applications.awaitingReview"
-                                            count={awaitingReview}
-                                            values={{ value: format(awaitingReview) }}
-                                            components={{
-                                                strong: (
-                                                    <strong className="font-semibold tabular-nums" />
-                                                ),
-                                            }}
-                                        />
-                                    </span>
-                                </p>
-                                <Link
-                                    to="/$lng/admin/partnership-applications"
-                                    params={{ lng: language }}
-                                    className={cn(ADMIN_SMALL_PRIMARY_CLASS, "h-9 px-3.5")}
-                                >
-                                    {t("adminOverview.applications.review")}
-                                </Link>
-                            </div>
-                        )}
-                        <CountGroup
-                            title={t("adminOverview.applications.byState")}
-                            rows={rowsFor(
-                                applicationStates,
-                                ADMIN_APPLICATION_STATE_KEYS,
-                                (key) => t(`adminOverview.applications.states.${key}`),
-                                (key) => APPLICATION_MARKS[key],
+                    {/* Applications and content notices share the second column. */}
+                    <div className="flex min-w-0 flex-col gap-5">
+                        <Panel id="applications" title={t("adminOverview.applications.label")}>
+                            {awaitingReview > 0 && (
+                                <div className="flex flex-wrap items-center justify-between gap-3 rounded-md bg-surface-sunken px-4 py-3.5">
+                                    <p className="flex items-center gap-2.5 text-sm">
+                                        <AdminMark tone="brass" />
+                                        <span>
+                                            <Trans
+                                                i18nKey="adminOverview.applications.awaitingReview"
+                                                count={awaitingReview}
+                                                values={{ value: format(awaitingReview) }}
+                                                components={{
+                                                    strong: (
+                                                        <strong className="font-semibold tabular-nums" />
+                                                    ),
+                                                }}
+                                            />
+                                        </span>
+                                    </p>
+                                    <Link
+                                        to="/$lng/admin/partnership-applications"
+                                        params={{ lng: language }}
+                                        className={cn(ADMIN_SMALL_PRIMARY_CLASS, "h-9 px-3.5")}
+                                    >
+                                        {t("adminOverview.applications.review")}
+                                    </Link>
+                                </div>
                             )}
-                            base={partnershipApplications.total}
-                            format={format}
-                        />
-                    </Panel>
+                            <CountGroup
+                                title={t("adminOverview.applications.byState")}
+                                rows={rowsFor(
+                                    applicationStates,
+                                    ADMIN_APPLICATION_STATE_KEYS,
+                                    (key) => t(`adminOverview.applications.states.${key}`),
+                                    (key) => APPLICATION_MARKS[key],
+                                )}
+                                base={partnershipApplications.total}
+                                format={format}
+                            />
+                        </Panel>
+
+                        <Panel id="content-notices" title={t("adminOverview.contentNotices.title")}>
+                            {contentNotices.byState.submitted > 0 && (
+                                <div className="flex flex-wrap items-center justify-between gap-3 rounded-md bg-surface-sunken px-4 py-3.5">
+                                    <p className="flex items-center gap-2.5 text-sm">
+                                        <AdminMark tone="hollow" />
+                                        <span>
+                                            <Trans
+                                                i18nKey="adminOverview.contentNotices.submitted"
+                                                count={contentNotices.byState.submitted}
+                                                values={{
+                                                    value: format(contentNotices.byState.submitted),
+                                                }}
+                                                components={{
+                                                    strong: (
+                                                        <strong className="font-semibold tabular-nums" />
+                                                    ),
+                                                }}
+                                            />
+                                        </span>
+                                    </p>
+                                    <Link
+                                        to="/$lng/admin/content-notices"
+                                        params={{ lng: language }}
+                                        className={cn(ADMIN_SMALL_PRIMARY_CLASS, "h-9 px-3.5")}
+                                    >
+                                        {t("adminOverview.contentNotices.review")}
+                                    </Link>
+                                </div>
+                            )}
+                            <CountGroup
+                                title={t("adminOverview.contentNotices.byState")}
+                                rows={rowsFor(
+                                    contentNotices.byState,
+                                    ADMIN_CONTENT_NOTICE_STATE_KEYS,
+                                    (key) => t(`adminOverview.contentNotices.states.${key}`),
+                                    () => "hollow",
+                                )}
+                                base={contentNotices.total}
+                                format={format}
+                            />
+                        </Panel>
+                    </div>
 
                     <Panel
                         id="product-listings"

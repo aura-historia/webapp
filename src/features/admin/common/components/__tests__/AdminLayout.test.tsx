@@ -31,16 +31,20 @@ describe("AdminLayout", () => {
         renderLayout("/de/admin/users");
         const { rail } = await findNavigations();
 
-        for (const group of ["Allgemein", "Partner", "Katalog", "Integrationen"]) {
+        for (const group of ["Allgemein", "Partner", "Katalog", "Moderation", "Integrationen"]) {
             expect(within(rail).getByRole("list", { name: group })).toBeInTheDocument();
         }
-        expect(within(rail).getAllByRole("link")).toHaveLength(9);
+        expect(within(rail).getAllByRole("link")).toHaveLength(10);
         expect(within(rail).getByRole("link", { name: "Benutzer" })).toHaveAttribute(
             "aria-current",
             "page",
         );
         expect(within(rail).getByRole("link", { name: "Übersicht" })).not.toHaveAttribute(
             "aria-current",
+        );
+        expect(within(rail).getByRole("link", { name: "Meldungen" })).toHaveAttribute(
+            "href",
+            "/de/admin/content-notices",
         );
         expect(within(rail).getByRole("link", { name: "OAuth-Clients" })).toHaveAttribute(
             "href",
@@ -59,7 +63,7 @@ describe("AdminLayout", () => {
 
         await user.click(trigger);
         const items = await screen.findAllByRole("menuitem");
-        expect(items).toHaveLength(9);
+        expect(items).toHaveLength(10);
         expect(screen.getByRole("menuitem", { name: "Benutzer" })).toHaveAttribute(
             "aria-current",
             "page",

@@ -2835,6 +2835,16 @@
       "withoutIngestionMethod_other": "{{value}} sin método de importación",
       "active_one": "{{value}} activo",
       "active_other": "{{value}} activos"
+    },
+    "contentNotices": {
+      "title": "Avisos de contenido",
+      "byState": "Por estado",
+      "states": {
+        "submitted": "Recibido"
+      },
+      "submitted_one": "<strong>{{value}}</strong> recibido",
+      "submitted_other": "<strong>{{value}}</strong> recibidos",
+      "review": "Revisar"
     }
   },
   "adminNavigation": {
@@ -2843,7 +2853,8 @@
       "general": "General",
       "partners": "Socios",
       "catalogue": "Catálogo",
-      "integrations": "Integraciones"
+      "integrations": "Integraciones",
+      "moderation": "Moderación"
     },
     "items": {
       "overview": "Resumen",
@@ -2854,7 +2865,8 @@
       "listingSources": "Fuentes de anuncios",
       "auctions": "Subastas",
       "productListings": "Anuncios de productos",
-      "oauthClients": "Clientes OAuth"
+      "oauthClients": "Clientes OAuth",
+      "contentNotices": "Avisos de contenido"
     },
     "title": "Admin"
   },
@@ -6706,6 +6718,146 @@
     "entry": {
       "reportListing": "Denunciar este anuncio",
       "reportProvider": "Denunciar a este proveedor"
+    }
+  },
+  "adminContentNotices": {
+    "pageTitle": "Avisos de contenido",
+    "loading": "Cargando avisos…",
+    "loadingDetail": "Cargando el aviso…",
+    "loadFailed": "No se pudieron cargar los avisos.",
+    "emptyTitle": "Aún no hay avisos de contenido.",
+    "noMatches": "Ningún aviso coincide.",
+    "errors": {
+      "missing": "Este aviso no existe.",
+      "filterRejected": "Este filtro no se aceptó."
+    },
+    "filters": {
+      "title": "Filtrar avisos de contenido",
+      "target": "Objeto",
+      "targetAny": "Anuncios y fuentes",
+      "reason": "Motivo",
+      "role": "Rol del notificante",
+      "listingSourceId": "ID de fuente",
+      "productListingId": "ID de anuncio",
+      "received": "Recibido"
+    },
+    "sort": {
+      "newest": "Más recientes primero",
+      "oldest": "Más antiguos primero"
+    },
+    "columns": {
+      "content": "Contenido notificado",
+      "reason": "Motivo",
+      "notifier": "Notificante",
+      "received": "Recibido"
+    },
+    "list": {
+      "anonymous": "Anónimo",
+      "untitled": "Anuncio sin título",
+      "listingFrom": "Anuncio · {{source}}",
+      "sourceAll": "Fuente · todos los anuncios",
+      "partner": "Socio",
+      "open": "Abrir el aviso sobre {{name}}",
+      "loadMore": "Cargar más avisos",
+      "end": "Todos los avisos cargados"
+    },
+    "reasons": {
+      "providerOptOut": "Exclusión",
+      "rightsInfringement": "Infracción de derechos",
+      "illegalContent": "Contenido ilícito",
+      "incorrectInformation": "Información incorrecta",
+      "other": "Otro"
+    },
+    "roles": {
+      "provider": "Proveedor",
+      "rightsHolder": "Titular de derechos",
+      "illegalContentReporter": "Denuncia de contenido ilícito",
+      "other": "Otro"
+    },
+    "targets": {
+      "listing": "Anuncios",
+      "source": "Fuentes"
+    },
+    "states": {
+      "submitted": "Recibido",
+      "unknown": "Sin indicar"
+    },
+    "detail": {
+      "eyebrowListing": "Aviso de contenido · Anuncio",
+      "eyebrowSource": "Aviso de contenido · Fuente, todos los anuncios",
+      "fallbackTitle": "Aviso de contenido",
+      "received": "Recibido el {{time}}",
+      "back": "Volver a los avisos"
+    },
+    "fields": {
+      "id": "ID del aviso",
+      "productListingId": "ID de anuncio",
+      "listingSourceId": "ID de fuente",
+      "received": "Recibido",
+      "updated": "Última modificación"
+    },
+    "notice": {
+      "title": "Aviso",
+      "role": "Rol del notificante",
+      "reason": "Motivo",
+      "explanation": "Explicación",
+      "noExplanation": "Ninguna (permitido en una exclusión)",
+      "urls": "Más enlaces",
+      "noUrls": "Ninguno",
+      "goodFaith": "Buena fe",
+      "goodFaithConfirmed": "Confirmada"
+    },
+    "content": {
+      "title": "Contenido notificado",
+      "moreAbout": "Todos los avisos sobre {{source}}",
+      "atSubmission": "Al recibirlo",
+      "now": "Ahora",
+      "listing": "Anuncio",
+      "listingUrl": "URL del anuncio",
+      "source": "Fuente",
+      "sourceUrl": "URL de la fuente",
+      "partner": "Socio",
+      "ingestion": "Importación",
+      "noIngestion": "Ninguna",
+      "yes": "Sí",
+      "no": "No",
+      "partnerNowYes": "Sí (antes no)",
+      "partnerNowNo": "No (antes sí)",
+      "active": "Activo",
+      "withdrawn": "Retirado",
+      "lifecycleUnknown": "Sin indicar",
+      "gone": "Ya no existe",
+      "openListing": "Abrir anuncio",
+      "openSource": "Abrir fuente"
+    },
+    "notifier": {
+      "title": "Notificante",
+      "name": "Nombre",
+      "noName": "No indicado",
+      "email": "Correo electrónico",
+      "noEmail": "No indicado: sin acuse de recibo, no se puede responder",
+      "language": "Idioma",
+      "receipt": "Acuse de recibo",
+      "anonymousTitle": "Anónimo.",
+      "anonymous": "Sin nombre ni correo electrónico: no se envió acuse de recibo y no se puede responder.",
+      "write": "Escribir al notificante",
+      "mailSubject": "Su aviso {{id}}"
+    },
+    "receipt": {
+      "delivered": "Entregado",
+      "deliveredNote_one": "{{time}} · {{count}} intento",
+      "deliveredNote_other": "{{time}} · {{count}} intentos",
+      "pending": "Pendiente de envío",
+      "pendingNote_one": "{{count}} intento. Suele enviarse en pocos minutos.",
+      "pendingNote_other": "{{count}} intentos. Suele enviarse en pocos minutos.",
+      "processing": "Enviando",
+      "processingNote_one": "{{count}} intento. Suele resolverse en pocos minutos.",
+      "processingNote_other": "{{count}} intentos. Suele resolverse en pocos minutos.",
+      "failed": "No entregado",
+      "failedNote_one": "{{count}} intento. No se reintenta; responda desde el buzón de contacto.",
+      "failedNote_other": "{{count}} intentos. No se reintenta; responda desde el buzón de contacto.",
+      "none": "Ninguno",
+      "noneNote": "Sin dirección de correo electrónico, no se envió acuse de recibo."
     }
   }
 }

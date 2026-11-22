@@ -33,6 +33,21 @@ describe("mapToAdminOverview", () => {
         });
     });
 
+    it("maps content notice counts and ignores states it does not know yet", () => {
+        const overview = mapToAdminOverview({
+            ...adminOverviewFixture,
+            contentNotices: {
+                total: 9,
+                byState: {
+                    submitted: 7,
+                    decided: 2,
+                } as AdminOverviewData["contentNotices"]["byState"],
+            },
+        });
+
+        expect(overview.contentNotices).toEqual({ total: 9, byState: { submitted: 7 } });
+    });
+
     it("rejects unsupported schema versions", () => {
         expect(() =>
             mapToAdminOverview({

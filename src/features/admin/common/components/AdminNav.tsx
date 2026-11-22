@@ -4,6 +4,7 @@ import {
     Check,
     ChevronDown,
     FileText,
+    Flag,
     Gavel,
     Handshake,
     KeyRound,
@@ -34,6 +35,7 @@ export type AdminSectionRoute =
     | "/$lng/admin/listing-sources"
     | "/$lng/admin/auctions"
     | "/$lng/admin/product-listings"
+    | "/$lng/admin/content-notices"
     | "/$lng/admin/oauth-clients";
 
 type AdminNavItem = {
@@ -96,6 +98,17 @@ export const ADMIN_NAV_GROUPS: readonly AdminNavGroup[] = [
                 to: "/$lng/admin/product-listings",
                 labelKey: "adminNavigation.items.productListings",
                 icon: Package,
+            },
+        ],
+    },
+    {
+        id: "moderation",
+        labelKey: "adminNavigation.groups.moderation",
+        items: [
+            {
+                to: "/$lng/admin/content-notices",
+                labelKey: "adminNavigation.items.contentNotices",
+                icon: Flag,
             },
         ],
     },
