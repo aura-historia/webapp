@@ -5,6 +5,7 @@ import type { AdminContentNoticeSummary } from "@/data/internal/content-notice/A
 import testI18n from "@/i18n/i18nForTests";
 import { AdminContentNoticeRequestError } from "../../api/useAdminContentNotices.ts";
 import { AdminContentNoticesPage } from "../AdminContentNoticesPage.tsx";
+import { chooseSelectOption } from "@/test/utils.tsx";
 
 const mocks = vi.hoisted(() => ({ list: vi.fn(), dialog: vi.fn() }));
 vi.mock("../../api/useAdminContentNotices.ts", async (importOriginal) => ({
@@ -129,6 +130,136 @@ describe("AdminContentNoticesPage", () => {
         );
 
         expect(onSearchChange).toHaveBeenCalledWith({ order: "asc" });
+    });
+
+    it("filters by reason and notifier role from the quick pills", async () => {
+        const user = userEvent.setup();
+        const onSearchChange = renderPage({ notice: "ntc_1" });
+
+        await user.click(
+            screen.getByRole("button", {
+                name: new RegExp(`^${t("adminContentNotices.filters.reason")}`),
+            }),
+        );
+        await user.click(
+            await screen.findByRole("menuitemradio", {
+                name: t("adminContentNotices.reasons.providerOptOut"),
+            }),
+        );
+        expect(onSearchChange).toHaveBeenLastCalledWith({
+            reason: "PROVIDER_OPT_OUT",
+            notice: "ntc_1",
+        });
+
+        await user.click(
+            screen.getByRole("button", {
+                name: new RegExp(`^${t("adminContentNotices.filters.role")}`),
+            }),
+        );
+        await user.click(
+            await screen.findByRole("menuitemradio", {
+                name: t("adminContentNotices.roles.illegalContentReporter"),
+            }),
+        );
+        expect(onSearchChange).toHaveBeenLastCalledWith({
+            role: "ILLEGAL_CONTENT_REPORTER",
+            notice: "ntc_1",
+        });
+    });
+
+    it("applies the panel filters, counts them and resets them", async () => {
+        const user = userEvent.setup();
+        const onSearchChange = renderPage();
+
+        await user.click(screen.getByRole("button", { name: t("adminCommon.filters.all") }));
+        await chooseSelectOption(
+            user,
+            screen.getByRole("combobox", { name: t("adminContentNotices.filters.target") }),
+            t("adminContentNotices.targets.source"),
+        );
+        await user.type(
+            screen.getByLabelText(t("adminContentNotices.filters.listingSourceId")),
+            " ls_1 ",
+        );
+        await user.type(
+            screen.getByLabelText(t("adminContentNotices.filters.productListingId")),
+            "pl_1",
+        );
+        await user.click(screen.getByRole("button", { name: t("adminCommon.filters.apply") }));
+        expect(onSearchChange).toHaveBeenLastCalledWith({
+            targetType: "LISTING_SOURCE",
+            sourceId: "ls_1",
+            productListingId: "pl_1",
+        });
+
+        await user.click(screen.getByRole("button", { name: t("adminCommon.filters.all") }));
+        await user.click(screen.getByRole("button", { name: t("adminCommon.filters.reset") }));
+        expect(onSearchChange).toHaveBeenLastCalledWith({});
+    });
+
+    it("shows a chip for every active filter and removes one at a time", async () => {
+        const onSearchChange = renderPage({
+            targetType: "PRODUCT_LISTING",
+            reason: "OTHER",
+            role: "OTHER",
+            productListingId: "pl_1",
+            receivedFrom: "2026-11-01",
+            receivedTo: "2026-11-07",
+        });
+        const label = `${t("adminContentNotices.filters.received")}: 2026-11-01 – 2026-11-07`;
+        await userEvent.click(
+            screen.getByRole("button", {
+                name: t("adminCommon.filters.remove", { filter: label }),
+            }),
+        );
+        expect(onSearchChange).toHaveBeenLastCalledWith({
+            targetType: "PRODUCT_LISTING",
+            reason: "OTHER",
+            role: "OTHER",
+            productListingId: "pl_1",
+        });
+        for (const key of ["target", "reason", "role", "productListingId"] as const) {
+            expect(
+                screen.getAllByText(new RegExp(`^${t(`adminContentNotices.filters.${key}`)}: `))
+                    .length,
+            ).toBeGreaterThan(0);
+        }
+    });
+
+    it("sorts oldest first and back to the default", async () => {
+        const user = userEvent.setup();
+        const onSearchChange = renderPage({ order: "asc" });
+        const sort = screen.getByRole("combobox", { name: t("adminCommon.sort") });
+
+        await chooseSelectOption(user, sort, t("adminContentNotices.sort.newest"));
+        expect(onSearchChange).toHaveBeenLastCalledWith({});
+    });
+
+    it("sorts oldest first", async () => {
+        const user = userEvent.setup();
+        const onSearchChange = renderPage();
+        await chooseSelectOption(
+            user,
+            screen.getByRole("combobox", { name: t("adminCommon.sort") }),
+            t("adminContentNotices.sort.oldest"),
+        );
+        expect(onSearchChange).toHaveBeenLastCalledWith({ order: "asc" });
+    });
+
+    it("loads more while a cursor remains and shows the skeleton first", async () => {
+        const fetchNextPage = vi.fn();
+        mocks.list.mockReturnValue(listResult({ hasNextPage: true, fetchNextPage }));
+        renderPage();
+        await userEvent.click(
+            screen.getByRole("button", { name: t("adminContentNotices.list.loadMore") }),
+        );
+        expect(fetchNextPage).toHaveBeenCalled();
+    });
+
+    it("shows the loading skeleton while the first page loads", () => {
+        mocks.list.mockReturnValue(listResult({ data: undefined, isPending: true }));
+        renderPage();
+        expect(screen.getByText(t("adminContentNotices.loading"))).toBeInTheDocument();
     });
 
     it("says when there are no notices yet", () => {

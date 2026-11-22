@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { render, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { AdminContentNotice } from "@/data/internal/content-notice/AdminContentNotice.ts";
 import testI18n from "@/i18n/i18nForTests";
@@ -207,6 +208,155 @@ describe("AdminContentNoticeDialog", () => {
         expect(
             within(dialog).getByRole("heading", { name: t("adminContentNotices.errors.missing") }),
         ).toBeVisible();
+    });
+});
+
+describe("AdminContentNoticeDialog states", () => {
+    beforeEach(() => vi.clearAllMocks());
+
+    it("shows the row's header while the record loads", () => {
+        mocks.detail.mockReturnValue({
+            data: undefined,
+            isPending: true,
+            error: null,
+            refetch: vi.fn(),
+        });
+        render(
+            <AdminContentNoticeDialog
+                noticeId="ntc_2"
+                language="en"
+                onClose={vi.fn()}
+                summary={{
+                    id: "ntc_2",
+                    state: "SUBMITTED",
+                    created: new Date("2026-11-20T08:14:00Z"),
+                    target: { type: "LISTING_SOURCE", listingSourceId: "ls_2" },
+                    listingSourceName: "Casa d’Aste Bellini",
+                    partner: false,
+                    role: "OTHER",
+                    reason: "OTHER",
+                }}
+            />,
+        );
+        const dialog = screen.getByRole("dialog");
+        expect(within(dialog).getByRole("heading", { name: "Casa d’Aste Bellini" })).toBeVisible();
+        expect(
+            within(dialog).getByText(t("adminContentNotices.detail.eyebrowSource")),
+        ).toBeVisible();
+        expect(within(dialog).getByText(t("adminContentNotices.loadingDetail"))).toBeVisible();
+    });
+
+    it("offers Try again when the record fails to load", async () => {
+        const refetch = vi.fn();
+        mocks.detail.mockReturnValue({
+            data: undefined,
+            isPending: false,
+            error: new Error("Request failed"),
+            refetch,
+        });
+        render(<AdminContentNoticeDialog noticeId="ntc_1" language="en" onClose={vi.fn()} />);
+        const dialog = screen.getByRole("dialog");
+        expect(within(dialog).getByText("Request failed")).toBeVisible();
+        expect(
+            within(dialog).getByRole("heading", {
+                name: t("adminContentNotices.detail.fallbackTitle"),
+            }),
+        ).toBeVisible();
+        await userEvent.click(within(dialog).getByRole("button", { name: t("adminCommon.retry") }));
+        expect(refetch).toHaveBeenCalled();
+    });
+
+    it("closes from the not-found state", async () => {
+        const { AdminContentNoticeRequestError } = await import(
+            "../../api/useAdminContentNotices.ts"
+        );
+        const onClose = vi.fn();
+        mocks.detail.mockReturnValue({
+            data: undefined,
+            isPending: false,
+            error: new AdminContentNoticeRequestError("missing", 404),
+            refetch: vi.fn(),
+        });
+        render(<AdminContentNoticeDialog noticeId="ntc_x" language="en" onClose={onClose} />);
+        await userEvent.click(
+            screen.getByRole("button", { name: t("adminContentNotices.detail.back") }),
+        );
+        expect(onClose).toHaveBeenCalled();
+    });
+
+    it("shows an untitled listing, a withdrawn listing and receipts still on their way", () => {
+        for (const status of ["PENDING", "PROCESSING"] as const) {
+            mocks.detail.mockReturnValue({
+                data: {
+                    ...notice,
+                    snapshot: { ...notice.snapshot, productListingTitle: undefined },
+                    current: {
+                        ...notice.current,
+                        productListing: { exists: true, lifecycle: "WITHDRAWN" },
+                    },
+                    explanation: undefined,
+                    additionalUrls: [],
+                    submitter: { name: undefined, email: "x@example.com", language: "fr" },
+                    receipt: { status, attempts: 0 },
+                },
+                isPending: false,
+                error: null,
+                refetch: vi.fn(),
+            });
+            const { unmount } = render(
+                <AdminContentNoticeDialog noticeId="ntc_1" language="en" onClose={vi.fn()} />,
+            );
+            const dialog = screen.getByRole("dialog");
+            expect(
+                within(dialog).getAllByText(t("adminContentNotices.list.untitled")).length,
+            ).toBeGreaterThan(0);
+            expect(
+                within(dialog).getByText(t("adminContentNotices.content.withdrawn")),
+            ).toBeVisible();
+            expect(
+                within(dialog).getByText(t("adminContentNotices.notice.noExplanation")),
+            ).toBeVisible();
+            expect(
+                within(dialog).getByText(t("adminContentNotices.notifier.noName")),
+            ).toBeVisible();
+            expect(
+                within(dialog).getByText(
+                    t(
+                        status === "PENDING"
+                            ? "adminContentNotices.receipt.pending"
+                            : "adminContentNotices.receipt.processing",
+                    ),
+                ),
+            ).toBeVisible();
+            unmount();
+        }
+    });
+
+    it("says no receipt was sent to a named notifier without e-mail", () => {
+        mocks.detail.mockReturnValue({
+            data: {
+                ...notice,
+                current: {
+                    listingSource: { ...notice.current.listingSource, ingestionMethods: [] },
+                },
+                target: { type: "LISTING_SOURCE", listingSourceId: "ls_1" },
+                submitter: { name: "Lena Holm", language: "de" },
+                receipt: undefined,
+            },
+            isPending: false,
+            error: null,
+            refetch: vi.fn(),
+        });
+        render(<AdminContentNoticeDialog noticeId="ntc_1" language="en" onClose={vi.fn()} />);
+        const dialog = screen.getByRole("dialog");
+        expect(within(dialog).getByText(t("adminContentNotices.notifier.noEmail"))).toBeVisible();
+        expect(within(dialog).getByText(t("adminContentNotices.receipt.noneNote"))).toBeVisible();
+        expect(
+            within(dialog).getAllByText(t("adminContentNotices.content.noIngestion")).length,
+        ).toBeGreaterThan(0);
+        expect(
+            within(dialog).queryByRole("link", { name: t("adminContentNotices.notifier.write") }),
+        ).toBeNull();
     });
 });
 
