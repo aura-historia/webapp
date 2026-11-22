@@ -28,6 +28,10 @@ export interface PreferenceOption {
     readonly code?: string;
     /** Mono detail at the end of the row (language code, currency symbol, units). */
     readonly detail?: string;
+    /** Mark before the detail (a "Not located" ring); always paired with the detail text. */
+    readonly detailMark?: ReactNode;
+    /** Second line under the label, wrapped instead of truncated (an address as entered). */
+    readonly description?: string;
     readonly searchTerms?: readonly string[];
 }
 
@@ -52,6 +56,8 @@ interface PreferencePickerProps {
     readonly disabled?: boolean;
     readonly invalid?: boolean;
     readonly describedBy?: string;
+    /** Content below the list, such as a button that loads more options. */
+    readonly footer?: ReactNode;
 }
 
 const FOCUS_CLASS =
@@ -83,6 +89,7 @@ export function PreferencePicker({
     disabled,
     invalid,
     describedBy,
+    footer,
 }: PreferencePickerProps) {
     const { t } = useTranslation();
     const desktop = useMediaQuery("(min-width: 768px)");
@@ -276,6 +283,7 @@ export function PreferencePicker({
                         {searchField}
                         {list}
                         {empty}
+                        {footer}
                     </div>
                 </DrawerContent>
             </Drawer>
@@ -308,6 +316,7 @@ export function PreferencePicker({
                 {searchField}
                 {list}
                 {empty}
+                {footer}
             </PopoverContent>
         </Popover>
     );
@@ -375,6 +384,7 @@ function PreferenceList({
                         className={cn(
                             "flex shrink-0 cursor-pointer items-center gap-2.5 rounded-md px-2.5 text-ink select-none",
                             sheet ? "min-h-12 text-[15px]" : "min-h-11 text-sm",
+                            option.description && "items-start py-2",
                             isSelected && "font-medium",
                             index === highlighted && "bg-surface-sunken",
                         )}
@@ -382,7 +392,10 @@ function PreferenceList({
                         {isSelected ? (
                             <Check
                                 aria-hidden="true"
-                                className="size-4 shrink-0 text-oxblood"
+                                className={cn(
+                                    "size-4 shrink-0 text-oxblood",
+                                    option.description && "mt-0.5",
+                                )}
                                 strokeWidth={2}
                             />
                         ) : (
@@ -393,9 +406,24 @@ function PreferenceList({
                                 {option.code}
                             </span>
                         )}
-                        <span className="min-w-0 flex-1 truncate">{option.label}</span>
+                        {option.description ? (
+                            <span className="flex min-w-0 flex-1 flex-col gap-0.5">
+                                <span className="wrap-anywhere">{option.label}</span>
+                                <span className="text-xs leading-[1.45] font-normal wrap-anywhere text-ink-muted">
+                                    {option.description}
+                                </span>
+                            </span>
+                        ) : (
+                            <span className="min-w-0 flex-1 truncate">{option.label}</span>
+                        )}
                         {option.detail && (
-                            <span className="shrink-0 font-mono text-[10px] font-normal tracking-[0.08em] text-ink-muted uppercase">
+                            <span
+                                className={cn(
+                                    "inline-flex shrink-0 items-center gap-1.5 font-mono text-[10px] font-normal tracking-[0.08em] text-ink-muted uppercase",
+                                    option.description && "mt-0.5",
+                                )}
+                            >
+                                {option.detailMark}
                                 {option.detail}
                             </span>
                         )}

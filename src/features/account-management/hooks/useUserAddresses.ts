@@ -4,6 +4,7 @@ import {
     type QueryClient,
     useInfiniteQuery,
     useMutation,
+    useQuery,
     useQueryClient,
 } from "@tanstack/react-query";
 import type { TFunction } from "i18next";
@@ -388,6 +389,30 @@ export function useDeleteUserAddress(viewerCacheKey: string) {
                     queryKey: geographyQueryKeys.browsingDestination(viewerCacheKey),
                 });
             }
+        },
+    });
+}
+
+/**
+ * Reads one address the loaded pages do not hold, such as a browsing destination on a later page.
+ * A `404` means the address no longer exists.
+ */
+export function useUserAddressDetail(viewerCacheKey: string, addressId: string | undefined) {
+    const requestError = useUserAddressError();
+    return useQuery({
+        queryKey: geographyQueryKeys.userAddress(viewerCacheKey, addressId ?? ""),
+        enabled: addressId !== undefined,
+        retry: false,
+        queryFn: async ({ signal }) => {
+            const response = await getUserAddress({
+                path: { address_id: addressId ?? "" },
+                signal,
+                cache: "no-store",
+            });
+            if (response.error || !response.data) {
+                throw requestError(response.response?.status, "read");
+            }
+            return mapToUserAddress(response.data);
         },
     });
 }

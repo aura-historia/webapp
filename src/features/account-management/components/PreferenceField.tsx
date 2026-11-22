@@ -1,5 +1,5 @@
 import { ChevronDown } from "lucide-react";
-import { useMemo } from "react";
+import { type ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { CURRENCIES, CURRENCY_SYMBOLS } from "@/data/internal/common/Currency.ts";
 import { LANGUAGES } from "@/data/internal/common/Language.ts";
@@ -21,7 +21,7 @@ const UNIT_DETAILS: Record<UnitSystem, string> = {
 };
 
 const PICKER_TRIGGER_CLASS = cn(
-    "flex h-12 w-full min-w-0 items-center gap-2 rounded-md pr-3 pl-3.5 text-left text-[15px] text-ink shadow-field data-[state=open]:shadow-[inset_0_0_0_1.5px_var(--ink)]",
+    "flex min-h-12 w-full min-w-0 items-center gap-2 rounded-md py-2 pr-3 pl-3.5 text-left text-[15px] text-ink shadow-field data-[state=open]:shadow-[inset_0_0_0_1.5px_var(--ink)]",
     FOCUS_CLASS,
 );
 
@@ -79,6 +79,8 @@ interface PreferenceFieldProps {
     readonly error?: string;
     /** Help line under the field while there is no error. */
     readonly hint?: string;
+    /** Content below the option list (load more). */
+    readonly footer?: ReactNode;
 }
 
 /** A form field that opens the shared preference picker (language, currency, units). */
@@ -96,9 +98,13 @@ export function PreferenceField({
     disabled,
     error,
     hint,
+    footer,
 }: PreferenceFieldProps) {
     const selected = options.find((option) => option.value === value);
-    const code = [selected?.code, selected?.detail].filter(Boolean).join(" ");
+    // A two-line option (an address) shows its second line in the trigger instead of its tag.
+    const code = selected?.description
+        ? ""
+        : [selected?.code, selected?.detail].filter(Boolean).join(" ");
     const messageId = id && (error || hint) ? `${id}-message` : undefined;
 
     return (
@@ -117,6 +123,7 @@ export function PreferenceField({
                 disabled={disabled}
                 invalid={Boolean(error)}
                 describedBy={messageId}
+                footer={footer}
                 triggerClassName={cn(
                     PICKER_TRIGGER_CLASS,
                     ground === "card" ? "bg-surface" : "bg-surface-raised",
@@ -125,14 +132,23 @@ export function PreferenceField({
                 className={menuClassName}
                 triggerContent={
                     <>
-                        <span
-                            className={cn(
-                                "min-w-0 flex-1 truncate",
-                                !selected && "text-ink-placeholder",
-                            )}
-                        >
-                            {selected?.label ?? placeholder}
-                        </span>
+                        {selected?.description ? (
+                            <span className="flex min-w-0 flex-1 flex-col gap-px">
+                                <span className="truncate">{selected.label}</span>
+                                <span className="truncate text-xs text-ink-muted">
+                                    {selected.description}
+                                </span>
+                            </span>
+                        ) : (
+                            <span
+                                className={cn(
+                                    "min-w-0 flex-1 truncate",
+                                    !selected && "text-ink-placeholder",
+                                )}
+                            >
+                                {selected?.label ?? placeholder}
+                            </span>
+                        )}
                         {code && (
                             <span className="shrink-0 font-mono text-tag text-ink-muted uppercase">
                                 {code}
