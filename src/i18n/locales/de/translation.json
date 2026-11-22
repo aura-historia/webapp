@@ -519,20 +519,8 @@
         "fields": {
           "label": "Name",
           "labelPlaceholder": "Zum Beispiel Zuhause oder Lager",
-          "address": "Adresse",
-          "country": "Land",
-          "region": "Region",
-          "postalCode": "Postleitzahl"
+          "address": "Adresse"
         },
-        "noCountry": "Kein Land",
-        "searchCountries": "Länder suchen",
-        "searchCountriesPlaceholder": "Länder suchen…",
-        "noCountries": "Keine Länder gefunden.",
-        "noRegion": "Keine Region",
-        "searchRegions": "Regionen suchen",
-        "searchRegionsPlaceholder": "Regionen suchen…",
-        "noRegions": "Keine Regionen gefunden.",
-        "chooseCountryFirst": "Wählen Sie zuerst ein Land.",
         "save": "Adresse speichern",
         "saveChanges": "Änderungen speichern",
         "saving": "Wird gespeichert…",
@@ -566,8 +554,7 @@
         "unsupported": {
           "title": "Einige Angaben dieser Adresse können hier nicht angezeigt werden.",
           "body": "Damit sie erhalten bleiben, kann diese Adresse hier nicht bearbeitet werden. Löschen können Sie sie weiterhin."
-        },
-        "optionalDetails": "Land, Region und Postleitzahl (optional)"
+        }
       },
       "delete": {
         "title": "„{{label}}“ löschen?",
@@ -588,10 +575,7 @@
         "labelRequired": "Geben Sie einen Namen für diese Adresse ein.",
         "labelInvalid": "Verwenden Sie einen kürzeren Namen in einer Zeile.",
         "addressRequired": "Geben Sie die Adresse ein.",
-        "addressTooLong": "Diese Adresse ist zu lang.",
-        "countryInvalid": "Wählen Sie ein Land aus der Liste.",
-        "subdivisionMismatch": "Diese Region liegt nicht im gewählten Land.",
-        "postalCodeInvalid": "Verwenden Sie eine kürzere Postleitzahl in einer Zeile."
+        "addressTooLong": "Diese Adresse ist zu lang."
       },
       "errors": {
         "forbidden": "Sie haben keinen Zugriff mehr auf Ihre gespeicherten Adressen.",

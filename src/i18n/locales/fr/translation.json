@@ -519,20 +519,8 @@
         "fields": {
           "label": "Nom",
           "labelPlaceholder": "Par exemple Domicile ou Entrepôt",
-          "address": "Adresse",
-          "country": "Pays",
-          "region": "Région",
-          "postalCode": "Code postal"
+          "address": "Adresse"
         },
-        "noCountry": "Aucun pays",
-        "searchCountries": "Rechercher un pays",
-        "searchCountriesPlaceholder": "Rechercher un pays…",
-        "noCountries": "Aucun pays trouvé.",
-        "noRegion": "Aucune région",
-        "searchRegions": "Rechercher une région",
-        "searchRegionsPlaceholder": "Rechercher une région…",
-        "noRegions": "Aucune région trouvée.",
-        "chooseCountryFirst": "Choisissez d’abord un pays.",
         "save": "Enregistrer l’adresse",
         "saveChanges": "Enregistrer les modifications",
         "saving": "Enregistrement…",
@@ -566,8 +554,7 @@
         "unsupported": {
           "title": "Certaines indications de cette adresse ne peuvent pas être affichées ici.",
           "body": "Pour les conserver, cette adresse ne peut pas être modifiée ici. Vous pouvez toujours la supprimer."
-        },
-        "optionalDetails": "Pays, région et code postal (facultatif)"
+        }
       },
       "delete": {
         "title": "Supprimer « {{label}} » ?",
@@ -588,10 +575,7 @@
         "labelRequired": "Saisissez un nom pour cette adresse.",
         "labelInvalid": "Utilisez un nom plus court, sur une seule ligne.",
         "addressRequired": "Saisissez l’adresse.",
-        "addressTooLong": "Cette adresse est trop longue.",
-        "countryInvalid": "Choisissez un pays dans la liste.",
-        "subdivisionMismatch": "Cette région ne fait pas partie du pays choisi.",
-        "postalCodeInvalid": "Utilisez un code postal plus court, sur une seule ligne."
+        "addressTooLong": "Cette adresse est trop longue."
       },
       "errors": {
         "forbidden": "Vous n’avez plus accès à vos adresses enregistrées.",
