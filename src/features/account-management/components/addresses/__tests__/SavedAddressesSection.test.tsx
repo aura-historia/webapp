@@ -248,6 +248,9 @@ describe("SavedAddressesSection", () => {
         });
         // A two-line address is shown on one line and sent unchanged.
         expect(field).toHaveValue("Torstraße 12, 10119 Berlin");
+        // The address search locates the address; there are no country, region or postal fields.
+        expect(within(dialog).getAllByRole("textbox")).toHaveLength(1);
+        expect(within(dialog).queryByRole("button", { expanded: false })).toBeNull();
         await new Promise((resolve) => setTimeout(resolve, 400));
         expect(api.suggest).not.toHaveBeenCalled();
     });
@@ -357,6 +360,11 @@ describe("SavedAddressesSection", () => {
                 body: expect.objectContaining({ expectedVersion: 5, label: "My home" }),
             }),
         );
+        // The country asserted earlier is not sent back, so the save clears it.
+        expect(api.update.mock.lastCall?.[0].body.geography).toEqual({
+            referenceRelease: RELEASE,
+            addressText: "Torstraße 12\n10119 Berlin",
+        });
         await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
     });
 

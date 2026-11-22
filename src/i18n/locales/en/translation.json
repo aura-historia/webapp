@@ -519,20 +519,8 @@
         "fields": {
           "label": "Name",
           "labelPlaceholder": "For example Home or Storage unit",
-          "address": "Address",
-          "country": "Country",
-          "region": "Region",
-          "postalCode": "Postal code"
+          "address": "Address"
         },
-        "noCountry": "No country",
-        "searchCountries": "Search countries",
-        "searchCountriesPlaceholder": "Search countries…",
-        "noCountries": "No countries found.",
-        "noRegion": "No region",
-        "searchRegions": "Search regions",
-        "searchRegionsPlaceholder": "Search regions…",
-        "noRegions": "No regions found.",
-        "chooseCountryFirst": "Choose a country first.",
         "save": "Save address",
         "saveChanges": "Save changes",
         "saving": "Saving…",
@@ -566,8 +554,7 @@
         "unsupported": {
           "title": "Some details of this address can’t be shown here.",
           "body": "To keep them, this address can’t be edited here. You can still delete it."
-        },
-        "optionalDetails": "Country, region & postal code (optional)"
+        }
       },
       "delete": {
         "title": "Delete “{{label}}”?",
@@ -588,10 +575,7 @@
         "labelRequired": "Enter a name for this address.",
         "labelInvalid": "Use a shorter name on one line.",
         "addressRequired": "Enter the address.",
-        "addressTooLong": "This address is too long.",
-        "countryInvalid": "Choose a country from the list.",
-        "subdivisionMismatch": "This region isn’t in the selected country.",
-        "postalCodeInvalid": "Use a shorter postal code on one line."
+        "addressTooLong": "This address is too long."
       },
       "errors": {
         "forbidden": "You no longer have access to your saved addresses.",

@@ -1,20 +1,12 @@
-import { ChevronRight, CircleAlert, Navigation, Trash2 } from "lucide-react";
-import { type FormEvent, type ReactNode, useId, useMemo, useState } from "react";
+import { CircleAlert, Navigation, Trash2 } from "lucide-react";
+import { type FormEvent, type ReactNode, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { keepTouchKeyboardClosed } from "@/lib/ui/touchKeyboard.ts";
 import { Spinner } from "@/components/ui/spinner";
-import {
-    getSubdivisionCountry,
-    listCountryCodes,
-    listSubdivisionCodes,
-    parseCountryCode,
-    parseSubdivisionCode,
-} from "@/data/internal/geography/GeographicCodes.ts";
 import type { AddressSuggestion } from "@/data/internal/geography/AddressSuggestion.ts";
 import type { UserAddress } from "@/data/internal/geography/UserAddress.ts";
-import { PreferenceField } from "@/features/account-management/components/PreferenceField.tsx";
 import {
     type AddressPick,
     AddressSearchField,
@@ -27,7 +19,6 @@ import {
 } from "@/features/account-management/hooks/useUserAddresses.ts";
 import {
     FIELD_CLASS,
-    FOCUS_CLASS,
     FIELD_MESSAGE_CLASS,
     GROUP_LABEL_CLASS,
     LABEL_CLASS,
@@ -58,9 +49,6 @@ import { cn } from "@/lib/utils.ts";
 const FIELD_IDS: Record<UserAddressFormField, string> = {
     label: "address-label",
     addressText: "address-text",
-    country: "address-country",
-    subdivision: "address-region",
-    postalCode: "address-postal-code",
 };
 
 interface AddressEditorDialogProps {
@@ -221,9 +209,6 @@ export function AddressEditorDialog({
                             disabled={busy || unsupported}
                             addressTyped={addressTyped}
                             pick={pick}
-                            detailsInitiallyOpen={Boolean(
-                                values.country || values.subdivision || values.postalCode,
-                            )}
                             onChange={set}
                             onTypeAddress={typeAddress}
                             onPick={pickSuggestion}
@@ -321,7 +306,6 @@ function AddressFields({
     disabled,
     addressTyped,
     pick,
-    detailsInitiallyOpen,
     onChange,
     onTypeAddress,
     onPick,
@@ -332,56 +316,17 @@ function AddressFields({
     readonly disabled: boolean;
     readonly addressTyped: boolean;
     readonly pick?: AddressPick;
-    readonly detailsInitiallyOpen: boolean;
     readonly onChange: (field: UserAddressFormField, value: string) => void;
     readonly onTypeAddress: (value: string) => void;
     readonly onPick: (suggestion: AddressSuggestion) => void;
     readonly onSearchAgain: () => void;
 }) {
-    const { t, i18n } = useTranslation();
-    const detailsId = useId();
-    const [detailsOpen, setDetailsOpen] = useState(detailsInitiallyOpen);
-    const detailsShown =
-        detailsOpen || Boolean(errors.country || errors.subdivision || errors.postalCode);
+    const { t } = useTranslation();
     const errorText = (field: UserAddressFormField) => {
         const key = errors[field];
         return key ? t(key) : undefined;
     };
     const describedBy = (field: UserAddressFormField) => `${FIELD_IDS[field]}-message`;
-
-    const country = parseCountryCode(values.country);
-    const countryOptions = useMemo(
-        () => [
-            { value: "", label: t("account.addresses.editor.noCountry") },
-            ...listCountryCodes()
-                .map((code) => ({
-                    value: code,
-                    label: formatCountryName(code, i18n.language),
-                    detail: code,
-                }))
-                .sort((left, right) => left.label.localeCompare(right.label, i18n.language)),
-        ],
-        [i18n.language, t],
-    );
-    const regionOptions = useMemo(
-        () =>
-            country
-                ? [
-                      { value: "", label: t("account.addresses.editor.noRegion") },
-                      ...listSubdivisionCodes(country).map((code) => ({
-                          value: code,
-                          label: code,
-                      })),
-                  ]
-                : [],
-        [country, t],
-    );
-
-    const changeCountry = (next: string) => {
-        onChange("country", next);
-        const subdivision = parseSubdivisionCode(values.subdivision);
-        if (subdivision && getSubdivisionCountry(subdivision) !== next) onChange("subdivision", "");
-    };
 
     return (
         <>
@@ -418,87 +363,6 @@ function AddressFields({
                 onPick={onPick}
                 onSearchAgain={onSearchAgain}
             />
-
-            <div className="flex flex-col border-t border-line-subtle pt-4">
-                <button
-                    type="button"
-                    aria-expanded={detailsShown}
-                    aria-controls={detailsId}
-                    onClick={() => setDetailsOpen((open) => !open)}
-                    className={cn(
-                        GROUP_LABEL_CLASS,
-                        "inline-flex min-h-8 cursor-pointer items-center gap-2 self-start rounded-xs text-left",
-                        FOCUS_CLASS,
-                    )}
-                >
-                    <ChevronRight
-                        aria-hidden="true"
-                        className={cn("size-3 transition-transform", detailsShown && "rotate-90")}
-                        strokeWidth={2}
-                    />
-                    {t("account.addresses.editor.optionalDetails")}
-                </button>
-                <div
-                    id={detailsId}
-                    hidden={!detailsShown}
-                    className="grid gap-4 pt-3.5 sm:grid-cols-2"
-                >
-                    <PreferenceField
-                        id={FIELD_IDS.country}
-                        label={t("account.addresses.editor.fields.country")}
-                        placeholder={t("account.addresses.editor.noCountry")}
-                        value={values.country}
-                        options={countryOptions}
-                        onChange={changeCountry}
-                        disabled={disabled}
-                        error={errorText("country")}
-                        search={{
-                            label: t("account.addresses.editor.searchCountries"),
-                            placeholder: t("account.addresses.editor.searchCountriesPlaceholder"),
-                            emptyMessage: t("account.addresses.editor.noCountries"),
-                        }}
-                        menuClassName="min-w-[280px]"
-                    />
-                    <PreferenceField
-                        id={FIELD_IDS.subdivision}
-                        label={t("account.addresses.editor.fields.region")}
-                        placeholder={t("account.addresses.editor.noRegion")}
-                        value={values.subdivision}
-                        options={regionOptions}
-                        onChange={(next) => onChange("subdivision", next)}
-                        disabled={disabled || !country}
-                        error={errorText("subdivision")}
-                        hint={
-                            country ? undefined : t("account.addresses.editor.chooseCountryFirst")
-                        }
-                        search={{
-                            label: t("account.addresses.editor.searchRegions"),
-                            placeholder: t("account.addresses.editor.searchRegionsPlaceholder"),
-                            emptyMessage: t("account.addresses.editor.noRegions"),
-                        }}
-                        menuClassName="min-w-[260px]"
-                    />
-                    <TextField
-                        id={FIELD_IDS.postalCode}
-                        label={t("account.addresses.editor.fields.postalCode")}
-                        error={errorText("postalCode")}
-                    >
-                        <input
-                            id={FIELD_IDS.postalCode}
-                            type="text"
-                            value={values.postalCode}
-                            disabled={disabled}
-                            autoComplete="postal-code"
-                            aria-invalid={Boolean(errors.postalCode)}
-                            aria-describedby={
-                                errors.postalCode ? describedBy("postalCode") : undefined
-                            }
-                            onChange={(event) => onChange("postalCode", event.target.value)}
-                            className={FIELD_CLASS}
-                        />
-                    </TextField>
-                </div>
-            </div>
         </>
     );
 }

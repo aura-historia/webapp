@@ -18,37 +18,30 @@ describe("saved address form", () => {
         expect(firstInvalidField(errors)).toBe("label");
     });
 
-    it("rejects a multi-line name, a foreign region and a multi-line postal code", () => {
+    it("rejects a multi-line name and an address over the size limit", () => {
         const errors = validateUserAddressForm({
             label: "Home\nflat",
-            addressText: "Torstraße 12",
-            country: "DE",
-            subdivision: "FR-IDF",
-            postalCode: "10119\n",
+            addressText: "x".repeat(4097),
         });
         expect(errors).toEqual({
             label: "account.addresses.validation.labelInvalid",
-            subdivision: "account.addresses.validation.subdivisionMismatch",
-            postalCode: "account.addresses.validation.postalCodeInvalid",
+            addressText: "account.addresses.validation.addressTooLong",
         });
     });
 
-    it("keeps text verbatim and omits blank optional details", () => {
+    it("sends the name and address verbatim and nothing else", () => {
         expect(
             buildUserAddressInput({
                 label: " Home ",
                 addressText: "Torstraße 12\n10119 Berlin",
-                country: "DE",
-                subdivision: "",
-                postalCode: "   ",
             }),
         ).toEqual({
             label: " Home ",
-            geography: { addressText: "Torstraße 12\n10119 Berlin", country: "DE" },
+            geography: { addressText: "Torstraße 12\n10119 Berlin" },
         });
     });
 
-    it("prefills from the asserted values only, never the derived ones", () => {
+    it("prefills the name and address only, dropping earlier asserted details", () => {
         const address = mapToUserAddress({
             addressId: "uaddr_1",
             label: "Home",
@@ -68,9 +61,6 @@ describe("saved address form", () => {
         expect(toUserAddressFormValues(address)).toEqual({
             label: "Home",
             addressText: "Torstraße 12",
-            country: "",
-            subdivision: "",
-            postalCode: "010119",
         });
     });
 });
