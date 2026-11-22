@@ -81,8 +81,6 @@ interface PreferenceFieldProps {
     readonly hint?: string;
     /** Content below the option list (load more). */
     readonly footer?: ReactNode;
-    /** Opens as a bottom sheet on phones. */
-    readonly sheetOnPhone?: { readonly closeLabel: string };
 }
 
 /** A form field that opens the shared preference picker (language, currency, units). */
@@ -101,7 +99,6 @@ export function PreferenceField({
     error,
     hint,
     footer,
-    sheetOnPhone,
 }: PreferenceFieldProps) {
     const selected = options.find((option) => option.value === value);
     // A two-line option (an address) shows its second line in the trigger instead of its tag.
@@ -127,7 +124,6 @@ export function PreferenceField({
                 invalid={Boolean(error)}
                 describedBy={messageId}
                 footer={footer}
-                sheetOnPhone={sheetOnPhone}
                 triggerClassName={cn(
                     PICKER_TRIGGER_CLASS,
                     ground === "card" ? "bg-surface" : "bg-surface-raised",

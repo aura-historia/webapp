@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { Trans, useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { z } from "zod";
+import { keepTouchKeyboardClosed } from "@/lib/ui/touchKeyboard.ts";
 import {
     Dialog,
     DialogContent,
@@ -152,6 +153,7 @@ export function SaveSearchFilterDialog({ searchArgs, children }: Props) {
             <DialogTrigger asChild>{children}</DialogTrigger>
             <DialogContent
                 closeLabel={t("searchFilter.saveDialog.close")}
+                onOpenAutoFocus={keepTouchKeyboardClosed}
                 className="gap-5 rounded-panel border-0 bg-surface-raised p-7 text-ink shadow-menu sm:max-w-[480px] [&>[data-slot=dialog-close]]:top-6 [&>[data-slot=dialog-close]]:right-6 [&>[data-slot=dialog-close]]:inline-flex [&>[data-slot=dialog-close]]:size-9 [&>[data-slot=dialog-close]]:items-center [&>[data-slot=dialog-close]]:justify-center [&>[data-slot=dialog-close]]:rounded-pill [&>[data-slot=dialog-close]]:text-ink-muted"
             >
                 {showResetConfirm ? (

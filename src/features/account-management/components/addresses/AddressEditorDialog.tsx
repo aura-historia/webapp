@@ -3,6 +3,7 @@ import { type FormEvent, type ReactNode, useId, useMemo, useState } from "react"
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
+import { keepTouchKeyboardClosed } from "@/lib/ui/touchKeyboard.ts";
 import { Spinner } from "@/components/ui/spinner";
 import {
     getSubdivisionCountry,
@@ -180,9 +181,10 @@ export function AddressEditorDialog({
         <Dialog open onOpenChange={(open) => !open && close()}>
             <DialogContent
                 closeLabel={t("account.addresses.editor.close")}
+                onOpenAutoFocus={keepTouchKeyboardClosed}
                 onInteractOutside={(event) => busy && event.preventDefault()}
                 onEscapeKeyDown={(event) => busy && event.preventDefault()}
-                className="max-h-[calc(100dvh-2rem)] gap-6 overflow-y-auto p-8 sm:max-w-[600px] max-sm:top-auto max-sm:bottom-0 max-sm:max-h-[calc(100dvh-2.5rem)] max-sm:max-w-full max-sm:translate-y-0 max-sm:rounded-b-none max-sm:px-5 max-sm:pt-6 max-sm:pb-7"
+                className="max-h-[calc(100dvh-2rem)] gap-6 overflow-y-auto p-8 sm:max-w-[600px] max-sm:top-auto max-sm:bottom-0 max-sm:max-h-[calc(100dvh-2.5rem)] max-sm:max-w-full max-sm:translate-y-0 max-sm:rounded-b-none max-sm:px-5 max-sm:pt-6 max-sm:pb-[calc(1.75rem+env(safe-area-inset-bottom))]"
             >
                 <div className="flex flex-col gap-2 pr-8 text-left">
                     <span className={GROUP_LABEL_CLASS}>

@@ -2,13 +2,13 @@ import { useLocation } from "@tanstack/react-router";
 import { act, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { t } from "i18next";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { COMPARISON_REGISTRY } from "@/features/comparison/config/comparisonRegistry.ts";
 import {
     SHOPIFY_APP_STORE_URL,
     WORDPRESS_PLUGIN_DIRECTORY_URL,
 } from "@/features/partner/partner-program/config/partnerProgramLinks.ts";
-import { renderWithRouter } from "@/test/utils.tsx";
+import { renderWithRouter, stubMatchMedia } from "@/test/utils.tsx";
 import { Footer } from "../Footer.tsx";
 import { FOOTER_GROUPS, footerLinkKey } from "../footer/Footer.data.ts";
 
@@ -75,6 +75,11 @@ describe("Footer", () => {
         localStorage.clear();
         changeLanguageMock.mockClear();
         persistLanguagePreferenceMock.mockClear();
+        // From 768px with a mouse: the pickers open as popovers.
+        stubMatchMedia(() => true);
+    });
+    afterEach(() => {
+        vi.unstubAllGlobals();
     });
 
     it("sits on the ink ground", async () => {
@@ -338,5 +343,67 @@ describe("Footer", () => {
         expect(
             await screen.findByRole("button", { name: /^Einheiten: Imperial/ }),
         ).toBeInTheDocument();
+    });
+
+    describe("on phones", () => {
+        beforeEach(() => {
+            // Below 768px on a touch screen: the pickers open as bottom sheets.
+            stubMatchMedia(() => false);
+        });
+
+        it("opens the currency picker as a sheet without focusing its search field", async () => {
+            const user = userEvent.setup();
+            await renderFooter();
+
+            await user.click(screen.getByRole("button", { name: /^Währung: EUR/ }));
+            const sheet = await screen.findByRole("dialog", { name: "Währung" });
+            const listbox = within(sheet).getByRole("listbox", { name: "Währung" });
+            await waitFor(() => expect(listbox).toHaveFocus());
+            expect(
+                within(sheet).getByRole("combobox", { name: "Währungen durchsuchen…" }),
+            ).not.toHaveFocus();
+
+            await user.keyboard("{ArrowDown}{Enter}");
+
+            // vaul's exit animation never finishes in jsdom, so the closed sheet stays mounted
+            // and the page behind it stays hidden from the accessibility tree.
+            const trigger = await screen.findByRole("button", {
+                name: /^Währung: (?!EUR)/,
+                hidden: true,
+            });
+            await waitFor(() => expect(trigger).toHaveAttribute("aria-expanded", "false"));
+        });
+
+        it("searches once the field is tapped and picks a currency", async () => {
+            const user = userEvent.setup();
+            await renderFooter();
+
+            await user.click(screen.getByRole("button", { name: /^Währung: EUR/ }));
+            const sheet = await screen.findByRole("dialog", { name: "Währung" });
+            await user.type(
+                within(sheet).getByRole("combobox", { name: "Währungen durchsuchen…" }),
+                "usd",
+            );
+            await user.click(within(sheet).getByRole("option", { name: /USD/ }));
+
+            const trigger = await screen.findByRole("button", {
+                name: /^Währung: USD/,
+                hidden: true,
+            });
+            await waitFor(() => expect(trigger).toHaveAttribute("aria-expanded", "false"));
+        });
+
+        it("closes the sheet from its close button", async () => {
+            const user = userEvent.setup();
+            await renderFooter();
+
+            await user.click(screen.getByRole("button", { name: "Sprache: Deutsch" }));
+            const sheet = await screen.findByRole("dialog", { name: "Sprache" });
+            await user.click(within(sheet).getByRole("button", { name: "Schließen" }));
+
+            const trigger = screen.getByRole("button", { name: "Sprache: Deutsch", hidden: true });
+            await waitFor(() => expect(trigger).toHaveAttribute("aria-expanded", "false"));
+            expect(changeLanguageMock).not.toHaveBeenCalled();
+        });
     });
 });

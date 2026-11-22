@@ -3,6 +3,7 @@
     "auraHistoria": "Aura Historia",
     "unitSystemPrefix": "Unidades",
     "currencySearchPlaceholder": "Buscar divisas…",
+    "close": "Cerrar",
     "currencySearchEmpty": "No se ha encontrado ninguna divisa."
   },
   "meta": {
@@ -717,8 +718,7 @@
         "title": "Su ubicación de búsqueda no está <em>disponible.</em>",
         "description": "Su sesión ya no permite acceder a ella. Vuelva a iniciar sesión para ver su ubicación de búsqueda.",
         "action": "Volver a iniciar sesión"
-      },
-      "close": "Cerrar"
+      }
     }
   },
   "search": {

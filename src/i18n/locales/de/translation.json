@@ -3,6 +3,7 @@
     "auraHistoria": "Aura Historia",
     "unitSystemPrefix": "Einheiten",
     "currencySearchPlaceholder": "Währungen durchsuchen…",
+    "close": "Schließen",
     "currencySearchEmpty": "Keine Währung gefunden."
   },
   "meta": {
@@ -717,8 +718,7 @@
         "title": "Ihr Suchstandort ist nicht <em>verfügbar.</em>",
         "description": "Ihre Sitzung erlaubt keinen Zugriff mehr darauf. Melden Sie sich erneut an, um Ihren Suchstandort zu sehen.",
         "action": "Erneut anmelden"
-      },
-      "close": "Schließen"
+      }
     }
   },
   "search": {

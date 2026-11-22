@@ -1,7 +1,8 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { stubMatchMedia } from "@/test/utils.tsx";
 import { PersonalDataForm } from "../PersonalDataForm";
 import type { UseQueryResult, UseMutationResult } from "@tanstack/react-query";
 import type {
@@ -47,9 +48,15 @@ describe("PersonalDataForm", () => {
 
     let mockMutate: ReturnType<typeof vi.fn>;
 
+    afterEach(() => {
+        vi.unstubAllGlobals();
+    });
+
     beforeEach(async () => {
         vi.clearAllMocks();
         mockMutate = vi.fn();
+        // From 768px: the preference pickers open as popovers.
+        stubMatchMedia(() => true);
 
         const { useUserAccount } = await import(
             "@/features/account-management/hooks/useUserAccount.ts"

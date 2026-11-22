@@ -508,7 +508,6 @@ function AddressField({
             error={error}
             hint={notLocated ? t("account.searchLocation.address.notLocatedHint") : undefined}
             menuClassName="w-(--radix-popover-trigger-width) min-w-[min(18rem,calc(100vw-2rem))]"
-            sheetOnPhone={{ closeLabel: t("account.searchLocation.close") }}
             footer={
                 more && (
                     <button
@@ -563,7 +562,6 @@ function CountryPanel({
                     placeholder: t("account.searchLocation.country.searchPlaceholder"),
                     emptyMessage: t("account.searchLocation.country.noCountries"),
                 }}
-                sheetOnPhone={{ closeLabel: t("account.searchLocation.close") }}
             />
             <PostalCodeField
                 value={draft.postalCode}

@@ -2,16 +2,18 @@ import { Check, Search, X } from "lucide-react";
 import {
     type KeyboardEvent,
     type ReactNode,
+    type RefObject,
     useEffect,
     useId,
     useMemo,
     useRef,
     useState,
 } from "react";
+import { useTranslation } from "react-i18next";
 import {
     Drawer,
+    DrawerClose,
     DrawerContent,
-    DrawerDescription,
     DrawerTitle,
     DrawerTrigger,
 } from "@/components/ui/drawer.tsx";
@@ -56,17 +58,10 @@ interface PreferencePickerProps {
     readonly describedBy?: string;
     /** Content below the list, such as a button that loads more options. */
     readonly footer?: ReactNode;
-    /**
-     * Opens as a bottom sheet below 640px (serif title, close button) instead of the popover.
-     * The popover stays until after mount, so server and first client render agree.
-     */
-    readonly sheetOnPhone?: { readonly closeLabel: string };
 }
 
-const PHONE_QUERY = "(max-width: 639px)";
-
-const ROW_CLASS =
-    "flex min-h-11 cursor-pointer items-center gap-2.5 rounded-md px-2.5 text-sm text-ink select-none";
+const FOCUS_CLASS =
+    "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-brass";
 
 function matches(option: PreferenceOption, query: string): boolean {
     return [option.value, option.label, option.code, option.detail, ...(option.searchTerms ?? [])]
@@ -75,8 +70,10 @@ function matches(option: PreferenceOption, query: string): boolean {
 }
 
 /**
- * A locale preference picker: a parchment popover with a mono title, an optional search
- * field and a listbox whose selected row carries an oxblood check.
+ * A locale preference picker: a parchment popover anchored to the trigger from 768px, a bottom
+ * sheet below, each with a mono title, an optional search field and a listbox whose selected row
+ * carries an oxblood check. The popover puts focus in the search field; the sheet puts it on the
+ * list, so a phone's keyboard only opens when the search field is tapped.
  */
 export function PreferencePicker({
     label,
@@ -93,9 +90,10 @@ export function PreferencePicker({
     invalid,
     describedBy,
     footer,
-    sheetOnPhone,
 }: PreferencePickerProps) {
-    const phone = useMediaQuery(PHONE_QUERY);
+    const { t } = useTranslation();
+    const desktop = useMediaQuery("(min-width: 768px)");
+    const sheet = !desktop;
     const [open, setOpen] = useState(false);
     const [query, setQuery] = useState("");
     const [highlighted, setHighlighted] = useState(0);
@@ -143,7 +141,8 @@ export function PreferencePicker({
         setOpen(false);
     };
 
-    const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    /** `typing`: the search field has focus, so Home, End and Space stay with the text. */
+    const handleKeyDown = (event: KeyboardEvent<HTMLElement>, typing: boolean) => {
         const last = visibleOptions.length - 1;
         const moves: Record<string, () => number> = {
             ArrowDown: () => Math.min(highlighted + 1, last),
@@ -153,13 +152,13 @@ export function PreferencePicker({
         };
         const move = moves[event.key];
 
-        if (move && (search === undefined || event.key.startsWith("Arrow"))) {
+        if (move && (!typing || event.key.startsWith("Arrow"))) {
             event.preventDefault();
             setHighlighted(move());
             return;
         }
 
-        if (event.key === "Enter" || (event.key === " " && search === undefined)) {
+        if (event.key === "Enter" || (event.key === " " && !typing)) {
             if (highlightedOption) {
                 event.preventDefault();
                 select(highlightedOption);
@@ -168,9 +167,77 @@ export function PreferencePicker({
     };
 
     const activeDescendant = highlightedOption ? optionId(highlightedOption) : undefined;
+    // The list takes keys itself when nothing else does: without a search field, and in the
+    // sheet, where focus starts on the list rather than the search field.
+    const listboxOwnsKeys = !search || sheet;
+
+    const searchField = search && (
+        <div
+            className={cn(
+                "flex shrink-0 items-center gap-2 rounded-md bg-surface shadow-field has-focus-visible:outline-2 has-focus-visible:outline-solid has-focus-visible:outline-offset-2 has-focus-visible:outline-brass",
+                sheet ? "h-11 px-3" : "h-10 px-2.5",
+            )}
+        >
+            <Search
+                aria-hidden="true"
+                className={cn("shrink-0 text-ink-muted", sheet ? "size-4" : "size-3.5")}
+                strokeWidth={2}
+            />
+            <label htmlFor={searchId} className="sr-only">
+                {search.label}
+            </label>
+            <input
+                ref={searchRef}
+                id={searchId}
+                type="search"
+                role="combobox"
+                aria-expanded={true}
+                aria-controls={listboxId}
+                aria-activedescendant={activeDescendant}
+                aria-autocomplete="list"
+                autoComplete="off"
+                value={query}
+                placeholder={search.placeholder}
+                onChange={(event) => {
+                    setQuery(event.target.value);
+                    setHighlighted(0);
+                }}
+                onKeyDown={(event) => handleKeyDown(event, true)}
+                className={cn(
+                    "min-w-0 flex-1 border-0 bg-transparent text-ink outline-none placeholder:text-ink-placeholder [&::-webkit-search-cancel-button]:hidden",
+                    // 16px keeps iOS Safari from zooming into the field when it is tapped.
+                    sheet ? "h-10 text-base" : "h-9 text-sm",
+                )}
+            />
+        </div>
+    );
+
+    const list = (
+        <PreferenceList
+            listboxRef={listboxRef}
+            listboxId={listboxId}
+            label={label}
+            options={visibleOptions}
+            value={value}
+            highlighted={highlighted}
+            optionId={optionId}
+            ownsKeys={listboxOwnsKeys}
+            activeDescendant={activeDescendant}
+            sheet={sheet}
+            onKeyDown={(event) => handleKeyDown(event, false)}
+            onSelect={select}
+            onHighlight={setHighlighted}
+        />
+    );
+
+    const empty = visibleOptions.length === 0 && search && (
+        <p role="status" className="px-2.5 py-3 text-meta text-ink-muted">
+            {search.emptyMessage}
+        </p>
+    );
 
     const triggerProps = {
-        "aria-haspopup": sheetOnPhone && phone ? ("dialog" as const) : ("listbox" as const),
+        "aria-haspopup": "listbox" as const,
         id: triggerId,
         disabled,
         "aria-label": `${label}: ${displayValue}`,
@@ -180,164 +247,43 @@ export function PreferencePicker({
             "cursor-pointer disabled:cursor-not-allowed data-[state=open]:text-ink",
             triggerClassName,
         ),
-    };
-    const focusFirst = (event: Event) => {
-        event.preventDefault();
-        (search ? searchRef.current : listboxRef.current)?.focus();
+        children: triggerContent ?? displayValue,
     };
 
-    const panel = (
-        <>
-            <span
-                aria-hidden="true"
-                className="px-2.5 pt-2.5 pb-0.5 font-mono text-kicker text-ink-muted uppercase"
-            >
-                {label}
-            </span>
-
-            {search && (
-                <div className="flex h-10 items-center gap-2 rounded-md bg-surface px-2.5 shadow-field has-focus-visible:outline-2 has-focus-visible:outline-solid has-focus-visible:outline-offset-2 has-focus-visible:outline-brass">
-                    <Search
-                        aria-hidden="true"
-                        className="size-3.5 shrink-0 text-ink-muted"
-                        strokeWidth={2}
-                    />
-                    <label htmlFor={searchId} className="sr-only">
-                        {search.label}
-                    </label>
-                    <input
-                        ref={searchRef}
-                        id={searchId}
-                        type="search"
-                        role="combobox"
-                        aria-expanded={true}
-                        aria-controls={listboxId}
-                        aria-activedescendant={activeDescendant}
-                        aria-autocomplete="list"
-                        autoComplete="off"
-                        value={query}
-                        placeholder={search.placeholder}
-                        onChange={(event) => {
-                            setQuery(event.target.value);
-                            setHighlighted(0);
-                        }}
-                        onKeyDown={handleKeyDown}
-                        className="h-9 min-w-0 flex-1 border-0 bg-transparent text-sm text-ink outline-none placeholder:text-ink-placeholder [&::-webkit-search-cancel-button]:hidden"
-                    />
-                </div>
-            )}
-
-            <div
-                ref={listboxRef}
-                id={listboxId}
-                role="listbox"
-                aria-label={label}
-                tabIndex={search ? -1 : 0}
-                aria-activedescendant={search ? undefined : activeDescendant}
-                onKeyDown={search ? undefined : handleKeyDown}
-                className={cn(
-                    "flex flex-col overflow-y-auto overscroll-contain outline-none",
-                    !(sheetOnPhone && phone) && "max-h-[312px]",
-                    !search &&
-                        "rounded-md focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-brass",
-                )}
-            >
-                {visibleOptions.map((option, index) => {
-                    const isSelected = option.value === value;
-                    return (
-                        // biome-ignore lint/a11y/useKeyWithClickEvents: keyboard selection runs on the listbox or search field via aria-activedescendant.
-                        <div
-                            key={option.value}
-                            id={optionId(option)}
-                            role="option"
-                            tabIndex={-1}
-                            aria-selected={isSelected}
-                            onClick={() => select(option)}
-                            onPointerMove={() => setHighlighted(index)}
-                            className={cn(
-                                ROW_CLASS,
-                                option.description && "items-start py-2",
-                                isSelected && "font-medium",
-                                index === highlighted && "bg-surface-sunken",
-                            )}
-                        >
-                            {isSelected ? (
-                                <Check
-                                    aria-hidden="true"
-                                    className={cn(
-                                        "size-4 shrink-0 text-oxblood",
-                                        option.description && "mt-0.5",
-                                    )}
-                                    strokeWidth={2}
-                                />
-                            ) : (
-                                <span aria-hidden="true" className="w-4 shrink-0" />
-                            )}
-                            {option.code && (
-                                <span className="w-[34px] shrink-0 font-mono text-[11px] font-normal tracking-[0.08em] text-ink-muted">
-                                    {option.code}
-                                </span>
-                            )}
-                            {option.description ? (
-                                <span className="flex min-w-0 flex-1 flex-col gap-0.5">
-                                    <span className="wrap-anywhere">{option.label}</span>
-                                    <span className="text-xs leading-[1.45] font-normal wrap-anywhere text-ink-muted">
-                                        {option.description}
-                                    </span>
-                                </span>
-                            ) : (
-                                <span className="min-w-0 flex-1 truncate">{option.label}</span>
-                            )}
-                            {option.detail && (
-                                <span
-                                    className={cn(
-                                        "inline-flex shrink-0 items-center gap-1.5 font-mono text-[10px] font-normal tracking-[0.08em] text-ink-muted uppercase",
-                                        option.description && "mt-0.5",
-                                    )}
-                                >
-                                    {option.detailMark}
-                                    {option.detail}
-                                </span>
-                            )}
-                        </div>
-                    );
-                })}
-            </div>
-            {visibleOptions.length === 0 && search && (
-                <p role="status" className="px-2.5 py-3 text-meta text-ink-muted">
-                    {search.emptyMessage}
-                </p>
-            )}
-            {footer}
-        </>
-    );
-
-    if (sheetOnPhone && phone) {
+    if (sheet) {
         return (
-            // The Radix trigger lets the sheet return focus to the field when it closes.
             <Drawer open={open} onOpenChange={handleOpenChange}>
-                <DrawerTrigger {...triggerProps}>{triggerContent ?? displayValue}</DrawerTrigger>
+                <DrawerTrigger {...triggerProps} />
                 <DrawerContent
                     data-theme="light"
-                    onOpenAutoFocus={focusFirst}
-                    className="max-h-[82vh] rounded-t-[20px] border-0 bg-surface-raised text-ink shadow-menu"
+                    aria-describedby={undefined}
+                    onOpenAutoFocus={(event) => {
+                        event.preventDefault();
+                        listboxRef.current?.focus({ preventScroll: true });
+                    }}
+                    // Above the phone menu (z-60), which opens the language, currency and unit pickers.
+                    overlayClassName="z-[70]"
+                    className="z-[70] rounded-t-[20px] border-0 bg-surface-raised text-ink shadow-menu"
                 >
-                    <div className="flex min-h-0 flex-col gap-1.5 overflow-y-auto px-3 pt-1.5 pb-[calc(16px+env(safe-area-inset-bottom,0px))]">
+                    <div className="flex min-h-0 flex-col gap-1.5 px-3 pt-1.5 pb-2">
                         <div className="flex items-center justify-between gap-3 pl-2.5">
-                            <DrawerTitle className="font-serif text-[22px] leading-[1.2] font-normal text-ink">
+                            <DrawerTitle className="font-mono text-kicker font-normal text-ink-muted uppercase">
                                 {label}
                             </DrawerTitle>
-                            <button
-                                type="button"
-                                aria-label={sheetOnPhone.closeLabel}
-                                onClick={() => setOpen(false)}
-                                className="-mr-0.5 inline-flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-pill text-ink outline-none hover:bg-surface-sunken focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass"
+                            <DrawerClose
+                                aria-label={t("common.close")}
+                                className={cn(
+                                    "inline-flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-pill text-ink-muted outline-none hover:bg-surface-sunken",
+                                    FOCUS_CLASS,
+                                )}
                             >
                                 <X aria-hidden="true" className="size-[18px]" strokeWidth={1.8} />
-                            </button>
+                            </DrawerClose>
                         </div>
-                        <DrawerDescription className="sr-only">{displayValue}</DrawerDescription>
-                        {panel}
+                        {searchField}
+                        {list}
+                        {empty}
+                        {footer}
                     </div>
                 </DrawerContent>
             </Drawer>
@@ -346,20 +292,144 @@ export function PreferencePicker({
 
     return (
         <Popover open={open} onOpenChange={handleOpenChange}>
-            <PopoverTrigger {...triggerProps}>{triggerContent ?? displayValue}</PopoverTrigger>
+            <PopoverTrigger {...triggerProps} />
             <PopoverContent
                 data-theme="light"
                 align="start"
                 sideOffset={10}
                 collisionPadding={16}
-                onOpenAutoFocus={focusFirst}
+                onOpenAutoFocus={(event) => {
+                    event.preventDefault();
+                    (search ? searchRef.current : listboxRef.current)?.focus();
+                }}
                 className={cn(
                     "z-[70] flex w-[min(18rem,calc(100vw-2rem))] flex-col gap-1.5 rounded-panel border-0 bg-surface-raised p-2 text-ink shadow-menu",
                     className,
                 )}
             >
-                {panel}
+                <span
+                    aria-hidden="true"
+                    className="px-2.5 pt-2.5 pb-0.5 font-mono text-kicker text-ink-muted uppercase"
+                >
+                    {label}
+                </span>
+                {searchField}
+                {list}
+                {empty}
+                {footer}
             </PopoverContent>
         </Popover>
+    );
+}
+
+interface PreferenceListProps {
+    readonly listboxRef: RefObject<HTMLDivElement | null>;
+    readonly listboxId: string;
+    readonly label: string;
+    readonly options: readonly PreferenceOption[];
+    readonly value: string;
+    readonly highlighted: number;
+    readonly optionId: (option: PreferenceOption) => string;
+    /** Whether the list is in the tab order and handles the arrow keys itself. */
+    readonly ownsKeys: boolean;
+    readonly activeDescendant: string | undefined;
+    readonly sheet: boolean;
+    readonly onKeyDown: (event: KeyboardEvent<HTMLElement>) => void;
+    readonly onSelect: (option: PreferenceOption) => void;
+    readonly onHighlight: (index: number) => void;
+}
+
+function PreferenceList({
+    listboxRef,
+    listboxId,
+    label,
+    options,
+    value,
+    highlighted,
+    optionId,
+    ownsKeys,
+    activeDescendant,
+    sheet,
+    onKeyDown,
+    onSelect,
+    onHighlight,
+}: PreferenceListProps) {
+    return (
+        <div
+            ref={listboxRef}
+            id={listboxId}
+            role="listbox"
+            aria-label={label}
+            tabIndex={ownsKeys ? 0 : -1}
+            aria-activedescendant={ownsKeys ? activeDescendant : undefined}
+            onKeyDown={ownsKeys ? onKeyDown : undefined}
+            className={cn(
+                "flex flex-col overflow-y-auto overscroll-contain outline-none",
+                sheet ? "min-h-0 flex-1" : "max-h-[312px]",
+                ownsKeys && cn("rounded-md", FOCUS_CLASS),
+            )}
+        >
+            {options.map((option, index) => {
+                const isSelected = option.value === value;
+                return (
+                    // biome-ignore lint/a11y/useKeyWithClickEvents: keyboard selection runs on the listbox or search field via aria-activedescendant.
+                    <div
+                        key={option.value}
+                        id={optionId(option)}
+                        role="option"
+                        tabIndex={-1}
+                        aria-selected={isSelected}
+                        onClick={() => onSelect(option)}
+                        onPointerMove={() => onHighlight(index)}
+                        className={cn(
+                            "flex shrink-0 cursor-pointer items-center gap-2.5 rounded-md px-2.5 text-ink select-none",
+                            sheet ? "min-h-12 text-[15px]" : "min-h-11 text-sm",
+                            option.description && "items-start py-2",
+                            isSelected && "font-medium",
+                            index === highlighted && "bg-surface-sunken",
+                        )}
+                    >
+                        {isSelected ? (
+                            <Check
+                                aria-hidden="true"
+                                className={cn(
+                                    "size-4 shrink-0 text-oxblood",
+                                    option.description && "mt-0.5",
+                                )}
+                                strokeWidth={2}
+                            />
+                        ) : (
+                            <span aria-hidden="true" className="w-4 shrink-0" />
+                        )}
+                        {option.code && (
+                            <span className="w-[34px] shrink-0 font-mono text-[11px] font-normal tracking-[0.08em] text-ink-muted">
+                                {option.code}
+                            </span>
+                        )}
+                        {option.description ? (
+                            <span className="flex min-w-0 flex-1 flex-col gap-0.5">
+                                <span className="wrap-anywhere">{option.label}</span>
+                                <span className="text-xs leading-[1.45] font-normal wrap-anywhere text-ink-muted">
+                                    {option.description}
+                                </span>
+                            </span>
+                        ) : (
+                            <span className="min-w-0 flex-1 truncate">{option.label}</span>
+                        )}
+                        {option.detail && (
+                            <span
+                                className={cn(
+                                    "inline-flex shrink-0 items-center gap-1.5 font-mono text-[10px] font-normal tracking-[0.08em] text-ink-muted uppercase",
+                                    option.description && "mt-0.5",
+                                )}
+                            >
+                                {option.detailMark}
+                                {option.detail}
+                            </span>
+                        )}
+                    </div>
+                );
+            })}
+        </div>
     );
 }

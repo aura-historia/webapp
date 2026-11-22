@@ -1,3 +1,4 @@
+import { vi } from "vitest";
 import {
     Outlet,
     RouterProvider,
@@ -184,4 +185,22 @@ export async function chooseSelectOption(
 ) {
     await user.click(trigger);
     await user.click(await screen.findByRole("option", { name: optionName }));
+}
+
+/**
+ * Stubs `window.matchMedia` (jsdom has none) so components pick a layout or pointer: pass
+ * `() => true` for a desktop with a mouse, `() => false` for a phone. Undo with
+ * `vi.unstubAllGlobals()`.
+ */
+export function stubMatchMedia(matches: (query: string) => boolean) {
+    vi.stubGlobal("matchMedia", (query: string) => ({
+        matches: matches(query),
+        media: query,
+        onchange: null,
+        addListener: () => {},
+        removeListener: () => {},
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        dispatchEvent: () => false,
+    }));
 }

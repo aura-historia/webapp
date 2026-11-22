@@ -11,6 +11,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { ArrowLeft, ArrowRight, Check, Lock, X } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog.tsx";
+import { hasFinePointer, keepTouchKeyboardClosed } from "@/lib/ui/touchKeyboard.ts";
 import {
     Form,
     FormControl,
@@ -263,10 +264,21 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
 
     const scrollRef = useRef<HTMLDivElement>(null);
 
-    // Focus the scroll container on every step change so Enter-key events are captured.
-    // Step 1 is excluded — its name input autofocuses itself.
+    // Focus the scroll container on every step change so Enter-key events are captured. Back on
+    // step 1 a mouse or trackpad returns to the name field; a touch screen keeps the keyboard
+    // closed. Opening the dialog on step 1 is handled by onOpenAutoFocus.
+    const previousStep = useRef(step);
     useEffect(() => {
-        if (step > 1) scrollRef.current?.focus();
+        const cameBack = step === 1 && previousStep.current > 1;
+        previousStep.current = step;
+        if (step > 1) {
+            scrollRef.current?.focus();
+        } else if (cameBack) {
+            const nameField = hasFinePointer()
+                ? scrollRef.current?.querySelector<HTMLInputElement>('input[name="name"]')
+                : null;
+            (nameField ?? scrollRef.current)?.focus();
+        }
     }, [step]);
 
     const handleSave = useCallback(() => {
@@ -387,8 +399,6 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                                     <FormControl>
                                         <input
                                             {...field}
-                                            // biome-ignore lint/a11y/noAutofocus: the dialog's first field
-                                            autoFocus
                                             maxLength={255}
                                             placeholder={t(
                                                 "searchFilter.saveDialog.namePlaceholder",
@@ -567,6 +577,22 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                 className="flex h-dvh w-full max-w-full flex-col gap-0 overflow-hidden rounded-none border-0 bg-surface-raised p-0 text-ink shadow-menu sm:max-w-full md:h-[700px] md:max-w-[95vw] md:rounded-panel lg:max-w-[1000px]"
                 onInteractOutside={(e) => e.preventDefault()}
                 onEscapeKeyDown={(e) => e.preventDefault()}
+                onOpenAutoFocus={(event) => {
+                    // A mouse or trackpad starts in the name field; a touch screen starts on the
+                    // dialog, so the keyboard waits for a tap.
+                    const nameField =
+                        event.currentTarget instanceof HTMLElement
+                            ? event.currentTarget.querySelector<HTMLInputElement>(
+                                  'input[name="name"]',
+                              )
+                            : null;
+                    if (hasFinePointer() && nameField) {
+                        event.preventDefault();
+                        nameField.focus();
+                        return;
+                    }
+                    keepTouchKeyboardClosed(event);
+                }}
                 onKeyDown={handleContentKeyDown}
             >
                 <DialogTitle className="sr-only">{wizardTitle}</DialogTitle>

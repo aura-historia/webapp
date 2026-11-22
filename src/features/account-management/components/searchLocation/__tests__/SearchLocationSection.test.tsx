@@ -35,6 +35,20 @@ vi.mock("@/features/authentication/hooks/useResolvedAuth.ts", () => ({
     useResolvedAuth: () => ({ user: { userId: "user-1", username: "user" }, isLoading: false }),
 }));
 
+/** jsdom has no `matchMedia`: `true` for a desktop with a mouse, `false` for a phone. */
+function stubMatchMedia(matches: (query: string) => boolean) {
+    vi.stubGlobal("matchMedia", (query: string) => ({
+        matches: matches(query),
+        media: query,
+        onchange: null,
+        addListener: () => {},
+        removeListener: () => {},
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        dispatchEvent: () => false,
+    }));
+}
+
 const t = (key: string, options?: Record<string, unknown>) => testI18n.t(key, options);
 const RELEASE = "iso-codes-4.20.1";
 const address = (patch: Partial<UserAddressDto> = {}): UserAddressDto => ({
@@ -82,8 +96,12 @@ const save = () =>
     fireEvent.click(screen.getByRole("button", { name: t("account.searchLocation.save") }));
 
 describe("SearchLocationSection", () => {
+    afterEach(() => vi.unstubAllGlobals());
+
     beforeEach(() => {
         vi.clearAllMocks();
+        // From 768px with a mouse: the pickers open as popovers.
+        stubMatchMedia(() => true);
         addresses(address(), STORAGE);
         destination({ kind: "NONE" });
     });
@@ -227,23 +245,16 @@ describe("SearchLocationSection", () => {
 
     describe("on phones", () => {
         beforeEach(() => {
-            vi.stubGlobal("matchMedia", (query: string) => ({
-                matches: query === "(max-width: 639px)",
-                media: query,
-                addEventListener: () => {},
-                removeEventListener: () => {},
-            }));
+            // Below 768px: the bottom sheet.
+            stubMatchMedia(() => false);
         });
-        afterEach(() => vi.unstubAllGlobals());
-
-        it("opens the address picker as a bottom sheet with a title and close button", async () => {
+        it("opens the address picker as a bottom sheet", async () => {
             renderSection();
             await screen.findByText(t("account.searchLocation.currently"));
             fireEvent.click(radio("ADDRESS"));
             const trigger = await screen.findByRole("button", {
                 name: new RegExp(t("account.searchLocation.address.label")),
             });
-            expect(trigger).toHaveAttribute("aria-haspopup", "dialog");
             fireEvent.click(trigger);
 
             const sheet = await screen.findByRole("dialog");
