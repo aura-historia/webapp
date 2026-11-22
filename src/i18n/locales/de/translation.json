@@ -3697,6 +3697,16 @@
       "withoutIngestionMethod_other": "{{value}} ohne Erfassungsmethode",
       "active_one": "{{value}} aktiv",
       "active_other": "{{value}} aktiv"
+    },
+    "contentNotices": {
+      "title": "Meldungen",
+      "byState": "Nach Status",
+      "states": {
+        "submitted": "Eingegangen"
+      },
+      "submitted_one": "<strong>{{value}}</strong> eingegangen",
+      "submitted_other": "<strong>{{value}}</strong> eingegangen",
+      "review": "Prüfen"
     }
   },
   "adminNavigation": {
@@ -3705,7 +3715,8 @@
       "general": "Allgemein",
       "partners": "Partner",
       "catalogue": "Katalog",
-      "integrations": "Integrationen"
+      "integrations": "Integrationen",
+      "moderation": "Moderation"
     },
     "items": {
       "overview": "Übersicht",
@@ -3716,7 +3727,8 @@
       "listingSources": "Listing-Quellen",
       "auctions": "Auktionen",
       "productListings": "Produktangebote",
-      "oauthClients": "OAuth-Clients"
+      "oauthClients": "OAuth-Clients",
+      "contentNotices": "Meldungen"
     },
     "title": "Admin"
   },
@@ -6706,6 +6718,146 @@
     "entry": {
       "reportListing": "Angebot melden",
       "reportProvider": "Anbieter melden"
+    }
+  },
+  "adminContentNotices": {
+    "pageTitle": "Meldungen",
+    "loading": "Meldungen werden geladen…",
+    "loadingDetail": "Meldung wird geladen…",
+    "loadFailed": "Meldungen konnten nicht geladen werden.",
+    "emptyTitle": "Noch keine Meldungen.",
+    "noMatches": "Keine Meldungen gefunden.",
+    "errors": {
+      "missing": "Diese Meldung gibt es nicht.",
+      "filterRejected": "Dieser Filter wurde nicht angenommen."
+    },
+    "filters": {
+      "title": "Meldungen filtern",
+      "target": "Ziel",
+      "targetAny": "Angebote und Quellen",
+      "reason": "Grund",
+      "role": "Rolle der meldenden Person",
+      "listingSourceId": "Quellen-ID",
+      "productListingId": "Angebots-ID",
+      "received": "Eingegangen"
+    },
+    "sort": {
+      "newest": "Neueste zuerst",
+      "oldest": "Älteste zuerst"
+    },
+    "columns": {
+      "content": "Gemeldeter Inhalt",
+      "reason": "Grund",
+      "notifier": "Meldende Person",
+      "received": "Eingegangen"
+    },
+    "list": {
+      "anonymous": "Anonym",
+      "untitled": "Angebot ohne Titel",
+      "listingFrom": "Angebot · {{source}}",
+      "sourceAll": "Quelle · alle Angebote",
+      "partner": "Partner",
+      "open": "Meldung zu {{name}} öffnen",
+      "loadMore": "Weitere Meldungen laden",
+      "end": "Alle Meldungen geladen"
+    },
+    "reasons": {
+      "providerOptOut": "Opt-out",
+      "rightsInfringement": "Rechtsverletzung",
+      "illegalContent": "Rechtswidriger Inhalt",
+      "incorrectInformation": "Falsche Angaben",
+      "other": "Sonstiges"
+    },
+    "roles": {
+      "provider": "Anbieter",
+      "rightsHolder": "Rechteinhaber",
+      "illegalContentReporter": "Meldung rechtswidriger Inhalte",
+      "other": "Sonstige"
+    },
+    "targets": {
+      "listing": "Angebote",
+      "source": "Quellen"
+    },
+    "states": {
+      "submitted": "Eingegangen",
+      "unknown": "Nicht gemeldet"
+    },
+    "detail": {
+      "eyebrowListing": "Meldung · Angebot",
+      "eyebrowSource": "Meldung · Quelle, alle Angebote",
+      "fallbackTitle": "Meldung",
+      "received": "Eingegangen am {{time}}",
+      "back": "Zurück zu den Meldungen"
+    },
+    "fields": {
+      "id": "Meldungs-ID",
+      "productListingId": "Angebots-ID",
+      "listingSourceId": "Quellen-ID",
+      "received": "Eingegangen",
+      "updated": "Zuletzt geändert"
+    },
+    "notice": {
+      "title": "Meldung",
+      "role": "Rolle der meldenden Person",
+      "reason": "Grund",
+      "explanation": "Begründung",
+      "noExplanation": "Keine (bei Opt-out zulässig)",
+      "urls": "Weitere Links",
+      "noUrls": "Keine",
+      "goodFaith": "Guter Glaube",
+      "goodFaithConfirmed": "Bestätigt"
+    },
+    "content": {
+      "title": "Gemeldeter Inhalt",
+      "moreAbout": "Alle Meldungen zu {{source}}",
+      "atSubmission": "Bei Eingang",
+      "now": "Jetzt",
+      "listing": "Angebot",
+      "listingUrl": "Angebots-URL",
+      "source": "Quelle",
+      "sourceUrl": "Quellen-URL",
+      "partner": "Partner",
+      "ingestion": "Einspielung",
+      "noIngestion": "Keine",
+      "yes": "Ja",
+      "no": "Nein",
+      "partnerNowYes": "Ja (war Nein)",
+      "partnerNowNo": "Nein (war Ja)",
+      "active": "Aktiv",
+      "withdrawn": "Zurückgezogen",
+      "lifecycleUnknown": "Nicht gemeldet",
+      "gone": "Existiert nicht mehr",
+      "openListing": "Angebot öffnen",
+      "openSource": "Quelle öffnen"
+    },
+    "notifier": {
+      "title": "Meldende Person",
+      "name": "Name",
+      "noName": "Nicht angegeben",
+      "email": "E-Mail",
+      "noEmail": "Nicht angegeben: keine Bestätigung, keine Antwort möglich",
+      "language": "Sprache",
+      "receipt": "Eingangsbestätigung",
+      "anonymousTitle": "Anonym.",
+      "anonymous": "Weder Name noch E-Mail angegeben: Es wurde keine Bestätigung verschickt und eine Antwort ist nicht möglich.",
+      "write": "Der meldenden Person schreiben",
+      "mailSubject": "Ihre Meldung {{id}}"
+    },
+    "receipt": {
+      "delivered": "Zugestellt",
+      "deliveredNote_one": "{{time}} · {{count}} Versuch",
+      "deliveredNote_other": "{{time}} · {{count}} Versuche",
+      "pending": "Wartet auf Versand",
+      "pendingNote_one": "{{count}} Versuch. Meist in wenigen Minuten verschickt.",
+      "pendingNote_other": "{{count}} Versuche. Meist in wenigen Minuten verschickt.",
+      "processing": "Wird verschickt",
+      "processingNote_one": "{{count}} Versuch. Meist in wenigen Minuten erledigt.",
+      "processingNote_other": "{{count}} Versuche. Meist in wenigen Minuten erledigt.",
+      "failed": "Nicht zugestellt",
+      "failedNote_one": "{{count}} Versuch. Es gibt keinen weiteren Versuch; bitte aus dem Kontaktpostfach antworten.",
+      "failedNote_other": "{{count}} Versuche. Es gibt keinen weiteren Versuch; bitte aus dem Kontaktpostfach antworten.",
+      "none": "Keine",
+      "noneNote": "Keine E-Mail-Adresse, daher wurde keine Bestätigung verschickt."
     }
   }
 }

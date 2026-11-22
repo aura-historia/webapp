@@ -3697,6 +3697,16 @@
       "withoutIngestionMethod_other": "{{value}} without an ingestion method",
       "active_one": "{{value}} active",
       "active_other": "{{value}} active"
+    },
+    "contentNotices": {
+      "title": "Content notices",
+      "byState": "By state",
+      "states": {
+        "submitted": "Submitted"
+      },
+      "submitted_one": "<strong>{{value}}</strong> submitted",
+      "submitted_other": "<strong>{{value}}</strong> submitted",
+      "review": "Review"
     }
   },
   "adminNavigation": {
@@ -3705,7 +3715,8 @@
       "general": "General",
       "partners": "Partners",
       "catalogue": "Catalogue",
-      "integrations": "Integrations"
+      "integrations": "Integrations",
+      "moderation": "Moderation"
     },
     "items": {
       "overview": "Overview",
@@ -3716,7 +3727,8 @@
       "listingSources": "Listing sources",
       "auctions": "Auctions",
       "productListings": "Product listings",
-      "oauthClients": "OAuth clients"
+      "oauthClients": "OAuth clients",
+      "contentNotices": "Content notices"
     },
     "title": "Admin"
   },
@@ -6706,6 +6718,146 @@
     "entry": {
       "reportListing": "Report this listing",
       "reportProvider": "Report this provider"
+    }
+  },
+  "adminContentNotices": {
+    "pageTitle": "Content notices",
+    "loading": "Loading notices…",
+    "loadingDetail": "Loading the notice…",
+    "loadFailed": "Notices could not be loaded.",
+    "emptyTitle": "No content notices yet.",
+    "noMatches": "No notices match.",
+    "errors": {
+      "missing": "This notice does not exist.",
+      "filterRejected": "This filter was not accepted."
+    },
+    "filters": {
+      "title": "Filter content notices",
+      "target": "Target",
+      "targetAny": "Listings and sources",
+      "reason": "Reason",
+      "role": "Notifier role",
+      "listingSourceId": "Listing source ID",
+      "productListingId": "Product listing ID",
+      "received": "Received"
+    },
+    "sort": {
+      "newest": "Newest first",
+      "oldest": "Oldest first"
+    },
+    "columns": {
+      "content": "Reported content",
+      "reason": "Reason",
+      "notifier": "Notifier",
+      "received": "Received"
+    },
+    "list": {
+      "anonymous": "Anonymous",
+      "untitled": "Untitled listing",
+      "listingFrom": "Listing · {{source}}",
+      "sourceAll": "Source · all listings",
+      "partner": "Partner",
+      "open": "Open notice about {{name}}",
+      "loadMore": "Load more notices",
+      "end": "All notices loaded"
+    },
+    "reasons": {
+      "providerOptOut": "Opt-out",
+      "rightsInfringement": "Rights infringement",
+      "illegalContent": "Illegal content",
+      "incorrectInformation": "Incorrect information",
+      "other": "Other"
+    },
+    "roles": {
+      "provider": "Provider",
+      "rightsHolder": "Rights holder",
+      "illegalContentReporter": "Illegal content report",
+      "other": "Other"
+    },
+    "targets": {
+      "listing": "Listings",
+      "source": "Sources"
+    },
+    "states": {
+      "submitted": "Submitted",
+      "unknown": "Not reported"
+    },
+    "detail": {
+      "eyebrowListing": "Content notice · Listing",
+      "eyebrowSource": "Content notice · Source, all listings",
+      "fallbackTitle": "Content notice",
+      "received": "Received {{time}}",
+      "back": "Back to notices"
+    },
+    "fields": {
+      "id": "Notice ID",
+      "productListingId": "Product listing ID",
+      "listingSourceId": "Listing source ID",
+      "received": "Received",
+      "updated": "Last updated"
+    },
+    "notice": {
+      "title": "Notice",
+      "role": "Notifier role",
+      "reason": "Reason",
+      "explanation": "Explanation",
+      "noExplanation": "None given (allowed for an opt-out)",
+      "urls": "More links",
+      "noUrls": "None",
+      "goodFaith": "Good faith",
+      "goodFaithConfirmed": "Confirmed"
+    },
+    "content": {
+      "title": "Reported content",
+      "moreAbout": "All notices about {{source}}",
+      "atSubmission": "At submission",
+      "now": "Now",
+      "listing": "Listing",
+      "listingUrl": "Listing URL",
+      "source": "Source",
+      "sourceUrl": "Source URL",
+      "partner": "Partner",
+      "ingestion": "Ingestion",
+      "noIngestion": "None",
+      "yes": "Yes",
+      "no": "No",
+      "partnerNowYes": "Yes (was no)",
+      "partnerNowNo": "No (was yes)",
+      "active": "Active",
+      "withdrawn": "Withdrawn",
+      "lifecycleUnknown": "Not reported",
+      "gone": "No longer exists",
+      "openListing": "Open listing",
+      "openSource": "Open listing source"
+    },
+    "notifier": {
+      "title": "Notifier",
+      "name": "Name",
+      "noName": "Not given",
+      "email": "E-mail",
+      "noEmail": "Not given: no receipt, cannot be answered",
+      "language": "Language",
+      "receipt": "Receipt",
+      "anonymousTitle": "Anonymous.",
+      "anonymous": "No name or e-mail given: no receipt was sent and the notifier cannot be answered.",
+      "write": "Write to the notifier",
+      "mailSubject": "Your notice {{id}}"
+    },
+    "receipt": {
+      "delivered": "Delivered",
+      "deliveredNote_one": "{{time}} · {{count}} attempt",
+      "deliveredNote_other": "{{time}} · {{count}} attempts",
+      "pending": "Waiting to send",
+      "pendingNote_one": "{{count}} attempt. Usually sent within minutes.",
+      "pendingNote_other": "{{count}} attempts. Usually sent within minutes.",
+      "processing": "Sending",
+      "processingNote_one": "{{count}} attempt. Usually settled within minutes.",
+      "processingNote_other": "{{count}} attempts. Usually settled within minutes.",
+      "failed": "Not delivered",
+      "failedNote_one": "{{count}} attempt. It is not retried; answer from the contact mailbox.",
+      "failedNote_other": "{{count}} attempts. It is not retried; answer from the contact mailbox.",
+      "none": "None",
+      "noneNote": "No e-mail address, so no receipt was sent."
     }
   }
 }

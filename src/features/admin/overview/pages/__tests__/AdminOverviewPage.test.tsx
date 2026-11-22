@@ -116,6 +116,38 @@ describe("AdminOverviewPage", () => {
         ).toBe("/de/admin/partnership-applications");
     });
 
+    it("counts content notices and links to them only when some are submitted", () => {
+        renderLoaded();
+        const empty = card("adminOverview.contentNotices.title");
+        expect(countFor(empty, "adminOverview.contentNotices.states.submitted")).toBe("0");
+        expect(within(empty).queryByRole("link")).toBeNull();
+    });
+
+    it("calls out submitted content notices with a link to review them", () => {
+        api.useAdminOverview.mockReturnValue({
+            data: mapToAdminOverview({
+                ...adminOverviewFixture,
+                contentNotices: { total: 7, byState: { submitted: 7 } },
+            }),
+            error: null,
+            isPending: false,
+        });
+        render(<AdminOverviewPage language="de" />);
+
+        const notices = card("adminOverview.contentNotices.title");
+        expect(notices).toHaveTextContent(
+            t("adminOverview.contentNotices.submitted", { count: 7, value: "7" }).replace(
+                /<\/?strong>/g,
+                "",
+            ),
+        );
+        expect(
+            within(notices)
+                .getByRole("link", { name: t("adminOverview.contentNotices.review") })
+                .getAttribute("href"),
+        ).toBe("/de/admin/content-notices");
+    });
+
     it("shows overlapping method assignments without summing them into a source total", () => {
         renderLoaded();
 

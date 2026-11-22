@@ -2835,6 +2835,16 @@
       "withoutIngestionMethod_other": "{{value}} sans méthode d’importation",
       "active_one": "{{value}} active",
       "active_other": "{{value}} actives"
+    },
+    "contentNotices": {
+      "title": "Signalements",
+      "byState": "Par statut",
+      "states": {
+        "submitted": "Reçu"
+      },
+      "submitted_one": "<strong>{{value}}</strong> reçu",
+      "submitted_other": "<strong>{{value}}</strong> reçus",
+      "review": "Examiner"
     }
   },
   "adminNavigation": {
@@ -2843,7 +2853,8 @@
       "general": "Général",
       "partners": "Partenaires",
       "catalogue": "Catalogue",
-      "integrations": "Intégrations"
+      "integrations": "Intégrations",
+      "moderation": "Modération"
     },
     "items": {
       "overview": "Vue d’ensemble",
@@ -2854,7 +2865,8 @@
       "listingSources": "Sources d’annonces",
       "auctions": "Enchères",
       "productListings": "Annonces de produits",
-      "oauthClients": "Clients OAuth"
+      "oauthClients": "Clients OAuth",
+      "contentNotices": "Signalements"
     },
     "title": "Admin"
   },
@@ -6706,6 +6718,146 @@
     "entry": {
       "reportListing": "Signaler cette annonce",
       "reportProvider": "Signaler ce fournisseur"
+    }
+  },
+  "adminContentNotices": {
+    "pageTitle": "Signalements",
+    "loading": "Chargement des signalements…",
+    "loadingDetail": "Chargement du signalement…",
+    "loadFailed": "Les signalements n’ont pas pu être chargés.",
+    "emptyTitle": "Aucun signalement pour l’instant.",
+    "noMatches": "Aucun signalement ne correspond.",
+    "errors": {
+      "missing": "Ce signalement n’existe pas.",
+      "filterRejected": "Ce filtre n’a pas été accepté."
+    },
+    "filters": {
+      "title": "Filtrer les signalements",
+      "target": "Cible",
+      "targetAny": "Annonces et sources",
+      "reason": "Motif",
+      "role": "Rôle de l’auteur",
+      "listingSourceId": "ID de source",
+      "productListingId": "ID d’annonce",
+      "received": "Reçu"
+    },
+    "sort": {
+      "newest": "Plus récents d’abord",
+      "oldest": "Plus anciens d’abord"
+    },
+    "columns": {
+      "content": "Contenu signalé",
+      "reason": "Motif",
+      "notifier": "Auteur",
+      "received": "Reçu"
+    },
+    "list": {
+      "anonymous": "Anonyme",
+      "untitled": "Annonce sans titre",
+      "listingFrom": "Annonce · {{source}}",
+      "sourceAll": "Source · toutes les annonces",
+      "partner": "Partenaire",
+      "open": "Ouvrir le signalement sur {{name}}",
+      "loadMore": "Charger plus de signalements",
+      "end": "Tous les signalements sont chargés"
+    },
+    "reasons": {
+      "providerOptOut": "Retrait",
+      "rightsInfringement": "Atteinte aux droits",
+      "illegalContent": "Contenu illicite",
+      "incorrectInformation": "Informations inexactes",
+      "other": "Autre"
+    },
+    "roles": {
+      "provider": "Fournisseur",
+      "rightsHolder": "Titulaire de droits",
+      "illegalContentReporter": "Signalement de contenu illicite",
+      "other": "Autre"
+    },
+    "targets": {
+      "listing": "Annonces",
+      "source": "Sources"
+    },
+    "states": {
+      "submitted": "Reçu",
+      "unknown": "Non indiqué"
+    },
+    "detail": {
+      "eyebrowListing": "Signalement · Annonce",
+      "eyebrowSource": "Signalement · Source, toutes les annonces",
+      "fallbackTitle": "Signalement",
+      "received": "Reçu le {{time}}",
+      "back": "Retour aux signalements"
+    },
+    "fields": {
+      "id": "ID du signalement",
+      "productListingId": "ID d’annonce",
+      "listingSourceId": "ID de source",
+      "received": "Reçu",
+      "updated": "Dernière modification"
+    },
+    "notice": {
+      "title": "Signalement",
+      "role": "Rôle de l’auteur",
+      "reason": "Motif",
+      "explanation": "Explication",
+      "noExplanation": "Aucune (autorisé pour un retrait)",
+      "urls": "Autres liens",
+      "noUrls": "Aucun",
+      "goodFaith": "Bonne foi",
+      "goodFaithConfirmed": "Confirmée"
+    },
+    "content": {
+      "title": "Contenu signalé",
+      "moreAbout": "Tous les signalements sur {{source}}",
+      "atSubmission": "À la réception",
+      "now": "Maintenant",
+      "listing": "Annonce",
+      "listingUrl": "URL de l’annonce",
+      "source": "Source",
+      "sourceUrl": "URL de la source",
+      "partner": "Partenaire",
+      "ingestion": "Import",
+      "noIngestion": "Aucun",
+      "yes": "Oui",
+      "no": "Non",
+      "partnerNowYes": "Oui (auparavant non)",
+      "partnerNowNo": "Non (auparavant oui)",
+      "active": "Active",
+      "withdrawn": "Retirée",
+      "lifecycleUnknown": "Non indiqué",
+      "gone": "N’existe plus",
+      "openListing": "Ouvrir l’annonce",
+      "openSource": "Ouvrir la source"
+    },
+    "notifier": {
+      "title": "Auteur",
+      "name": "Nom",
+      "noName": "Non indiqué",
+      "email": "E-mail",
+      "noEmail": "Non indiqué : pas d’accusé de réception, aucune réponse possible",
+      "language": "Langue",
+      "receipt": "Accusé de réception",
+      "anonymousTitle": "Anonyme.",
+      "anonymous": "Ni nom ni e-mail : aucun accusé de réception n’a été envoyé et aucune réponse n’est possible.",
+      "write": "Écrire à l’auteur",
+      "mailSubject": "Votre signalement {{id}}"
+    },
+    "receipt": {
+      "delivered": "Remis",
+      "deliveredNote_one": "{{time}} · {{count}} tentative",
+      "deliveredNote_other": "{{time}} · {{count}} tentatives",
+      "pending": "En attente d’envoi",
+      "pendingNote_one": "{{count}} tentative. Envoyé en général en quelques minutes.",
+      "pendingNote_other": "{{count}} tentatives. Envoyé en général en quelques minutes.",
+      "processing": "Envoi en cours",
+      "processingNote_one": "{{count}} tentative. Réglé en général en quelques minutes.",
+      "processingNote_other": "{{count}} tentatives. Réglé en général en quelques minutes.",
+      "failed": "Non remis",
+      "failedNote_one": "{{count}} tentative. Il n’y aura pas de nouvel essai ; répondez depuis la boîte de contact.",
+      "failedNote_other": "{{count}} tentatives. Il n’y aura pas de nouvel essai ; répondez depuis la boîte de contact.",
+      "none": "Aucun",
+      "noneNote": "Pas d’adresse e-mail, donc aucun accusé de réception envoyé."
     }
   }
 }

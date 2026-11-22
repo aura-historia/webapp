@@ -2835,6 +2835,16 @@
       "withoutIngestionMethod_other": "{{value}} senza metodo di importazione",
       "active_one": "{{value}} attivo",
       "active_other": "{{value}} attivi"
+    },
+    "contentNotices": {
+      "title": "Segnalazioni",
+      "byState": "Per stato",
+      "states": {
+        "submitted": "Ricevuta"
+      },
+      "submitted_one": "<strong>{{value}}</strong> ricevuta",
+      "submitted_other": "<strong>{{value}}</strong> ricevute",
+      "review": "Esamina"
     }
   },
   "adminNavigation": {
@@ -2843,7 +2853,8 @@
       "general": "Generale",
       "partners": "Partner",
       "catalogue": "Catalogo",
-      "integrations": "Integrazioni"
+      "integrations": "Integrazioni",
+      "moderation": "Moderazione"
     },
     "items": {
       "overview": "Panoramica",
@@ -2854,7 +2865,8 @@
       "listingSources": "Fonti di annunci",
       "auctions": "Aste",
       "productListings": "Annunci di prodotti",
-      "oauthClients": "Client OAuth"
+      "oauthClients": "Client OAuth",
+      "contentNotices": "Segnalazioni"
     },
     "title": "Admin"
   },
@@ -6706,6 +6718,146 @@
     "entry": {
       "reportListing": "Segnala questo annuncio",
       "reportProvider": "Segnala questo fornitore"
+    }
+  },
+  "adminContentNotices": {
+    "pageTitle": "Segnalazioni",
+    "loading": "Caricamento delle segnalazioni…",
+    "loadingDetail": "Caricamento della segnalazione…",
+    "loadFailed": "Impossibile caricare le segnalazioni.",
+    "emptyTitle": "Ancora nessuna segnalazione.",
+    "noMatches": "Nessuna segnalazione corrisponde.",
+    "errors": {
+      "missing": "Questa segnalazione non esiste.",
+      "filterRejected": "Questo filtro non è stato accettato."
+    },
+    "filters": {
+      "title": "Filtra le segnalazioni",
+      "target": "Oggetto",
+      "targetAny": "Annunci e fonti",
+      "reason": "Motivo",
+      "role": "Ruolo del segnalante",
+      "listingSourceId": "ID fonte",
+      "productListingId": "ID annuncio",
+      "received": "Ricevuta"
+    },
+    "sort": {
+      "newest": "Più recenti prima",
+      "oldest": "Meno recenti prima"
+    },
+    "columns": {
+      "content": "Contenuto segnalato",
+      "reason": "Motivo",
+      "notifier": "Segnalante",
+      "received": "Ricevuta"
+    },
+    "list": {
+      "anonymous": "Anonimo",
+      "untitled": "Annuncio senza titolo",
+      "listingFrom": "Annuncio · {{source}}",
+      "sourceAll": "Fonte · tutti gli annunci",
+      "partner": "Partner",
+      "open": "Apri la segnalazione su {{name}}",
+      "loadMore": "Carica altre segnalazioni",
+      "end": "Tutte le segnalazioni caricate"
+    },
+    "reasons": {
+      "providerOptOut": "Esclusione",
+      "rightsInfringement": "Violazione di diritti",
+      "illegalContent": "Contenuto illecito",
+      "incorrectInformation": "Informazioni errate",
+      "other": "Altro"
+    },
+    "roles": {
+      "provider": "Fornitore",
+      "rightsHolder": "Titolare dei diritti",
+      "illegalContentReporter": "Segnalazione di contenuto illecito",
+      "other": "Altro"
+    },
+    "targets": {
+      "listing": "Annunci",
+      "source": "Fonti"
+    },
+    "states": {
+      "submitted": "Ricevuta",
+      "unknown": "Non indicato"
+    },
+    "detail": {
+      "eyebrowListing": "Segnalazione · Annuncio",
+      "eyebrowSource": "Segnalazione · Fonte, tutti gli annunci",
+      "fallbackTitle": "Segnalazione",
+      "received": "Ricevuta il {{time}}",
+      "back": "Torna alle segnalazioni"
+    },
+    "fields": {
+      "id": "ID segnalazione",
+      "productListingId": "ID annuncio",
+      "listingSourceId": "ID fonte",
+      "received": "Ricevuta",
+      "updated": "Ultima modifica"
+    },
+    "notice": {
+      "title": "Segnalazione",
+      "role": "Ruolo del segnalante",
+      "reason": "Motivo",
+      "explanation": "Motivazione",
+      "noExplanation": "Nessuna (consentito per un’esclusione)",
+      "urls": "Altri link",
+      "noUrls": "Nessuno",
+      "goodFaith": "Buona fede",
+      "goodFaithConfirmed": "Confermata"
+    },
+    "content": {
+      "title": "Contenuto segnalato",
+      "moreAbout": "Tutte le segnalazioni su {{source}}",
+      "atSubmission": "Alla ricezione",
+      "now": "Ora",
+      "listing": "Annuncio",
+      "listingUrl": "URL dell’annuncio",
+      "source": "Fonte",
+      "sourceUrl": "URL della fonte",
+      "partner": "Partner",
+      "ingestion": "Importazione",
+      "noIngestion": "Nessuna",
+      "yes": "Sì",
+      "no": "No",
+      "partnerNowYes": "Sì (prima no)",
+      "partnerNowNo": "No (prima sì)",
+      "active": "Attivo",
+      "withdrawn": "Ritirato",
+      "lifecycleUnknown": "Non indicato",
+      "gone": "Non esiste più",
+      "openListing": "Apri annuncio",
+      "openSource": "Apri fonte"
+    },
+    "notifier": {
+      "title": "Segnalante",
+      "name": "Nome",
+      "noName": "Non indicato",
+      "email": "E-mail",
+      "noEmail": "Non indicata: nessuna conferma, nessuna risposta possibile",
+      "language": "Lingua",
+      "receipt": "Conferma di ricezione",
+      "anonymousTitle": "Anonimo.",
+      "anonymous": "Né nome né e-mail: non è stata inviata alcuna conferma e non è possibile rispondere.",
+      "write": "Scrivi al segnalante",
+      "mailSubject": "La sua segnalazione {{id}}"
+    },
+    "receipt": {
+      "delivered": "Consegnata",
+      "deliveredNote_one": "{{time}} · {{count}} tentativo",
+      "deliveredNote_other": "{{time}} · {{count}} tentativi",
+      "pending": "In attesa di invio",
+      "pendingNote_one": "{{count}} tentativo. Di solito inviata in pochi minuti.",
+      "pendingNote_other": "{{count}} tentativi. Di solito inviata in pochi minuti.",
+      "processing": "Invio in corso",
+      "processingNote_one": "{{count}} tentativo. Di solito conclusa in pochi minuti.",
+      "processingNote_other": "{{count}} tentativi. Di solito conclusa in pochi minuti.",
+      "failed": "Non consegnata",
+      "failedNote_one": "{{count}} tentativo. Non verrà ritentata; rispondi dalla casella di contatto.",
+      "failedNote_other": "{{count}} tentativi. Non verrà ritentata; rispondi dalla casella di contatto.",
+      "none": "Nessuna",
+      "noneNote": "Nessun indirizzo e-mail, quindi nessuna conferma inviata."
     }
   }
 }

@@ -261,6 +261,33 @@ Route: `/$lng/admin/listing-sources` (the source detail dialog, below the source
   source-default read. The copy states that search results and listing geography converge
   asynchronously and that retirement or relocation never moves the default automatically.
 
+## Content notice review
+
+Route: `/$lng/admin/content-notices` (#1357), in the nav's Moderation group. Read-only: the API has
+no decision states or actions yet, so every notice is `SUBMITTED` and nothing can be decided here.
+
+- `src/data/internal/content-notice/AdminContentNotice.ts` maps `adminSearchContentNotices` and
+  `adminGetContentNotice` (scope `content-notices:read`). A state the client does not know maps to
+  `UNKNOWN` (dashed "Not reported" mark); blank names and e-mails count as missing.
+- Each API filter takes one value, so the page has two quick single-choice pills (reason, notifier
+  role) and a panel with target type, listing source ID (`sourceId` in the URL; it also matches the
+  source's listings), product listing ID and a received range (inclusive UTC days). Sort is newest
+  first (the API default) or oldest first (`order=asc`, sent as `sort=created&order=asc`). The API
+  returns no total, so the result line counts the loaded notices only. A `400` shows "This filter was
+  not accepted" with Reset filters.
+- The open record dialog is the `notice` search param. It shows the target as it was at submission
+  (`targetSnapshot`) beside the target now (`currentTarget`: active, withdrawn or gone listing; gone
+  source; ingestion methods; a changed partner status with a brass mark), the notice (role, reason,
+  explanation with its line breaks, further URLs, good faith) and the notifier (name, e-mail,
+  correspondence language, receipt status). Notifier URLs are never fetched and become links only
+  for `http(s)`, with `noopener noreferrer nofollow`. An anonymous notice shows one line saying it
+  cannot be answered. "Write to the notifier" is a `mailto:` with the notice ID as subject.
+- Notices hold personal data: the queries keep it for a minute after the page stops using it
+  (`gcTime`), the dialog releases its retained values on close, and nothing is logged or put into a
+  URL except the e-mail inside that `mailto:`.
+- The overview shows the `contentNotices` counts in a panel under Applications, with a Review link
+  while notices are submitted; unknown future state keys are ignored.
+
 ## Other workflows
 
 Party management, listing-source management (`/$lng/admin/listing-sources`), user management and

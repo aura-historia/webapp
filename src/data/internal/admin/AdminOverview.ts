@@ -13,6 +13,7 @@ export type AdminApplicationStateKey =
     | "approved"
     | "rejected"
     | "withdrawn";
+export type AdminContentNoticeStateKey = "submitted";
 export type AdminIngestionMethodKey = "webCrawl" | "shopify" | "woocommerce" | "partnerApi";
 export type AdminListingLifecycleKey = "active" | "withdrawn";
 export type AdminListingAvailabilityKey =
@@ -37,6 +38,11 @@ export type AdminOverview = {
     readonly partnershipApplications: {
         readonly total: number;
         readonly byState: AdminOverviewBreakdown<AdminApplicationStateKey>;
+    };
+    /** Content notices; every notice is submitted until the backend adds decision states. */
+    readonly contentNotices: {
+        readonly total: number;
+        readonly byState: AdminOverviewBreakdown<AdminContentNoticeStateKey>;
     };
     readonly parties: { readonly total: number };
     readonly partnerships: { readonly total: number };
@@ -86,6 +92,8 @@ export const ADMIN_APPLICATION_STATE_KEYS: readonly AdminApplicationStateKey[] =
     "rejected",
     "withdrawn",
 ];
+/** Later states arrive as new keys; this client reads only the ones it knows. */
+export const ADMIN_CONTENT_NOTICE_STATE_KEYS: readonly AdminContentNoticeStateKey[] = ["submitted"];
 export const ADMIN_INGESTION_METHOD_KEYS: readonly AdminIngestionMethodKey[] = [
     "webCrawl",
     "shopify",
@@ -127,6 +135,10 @@ export function mapToAdminOverview(data: AdminOverviewData): AdminOverview {
         partnershipApplications: {
             total: count(data.partnershipApplications.total),
             byState: breakdown(data.partnershipApplications.byState, ADMIN_APPLICATION_STATE_KEYS),
+        },
+        contentNotices: {
+            total: count(data.contentNotices.total),
+            byState: breakdown(data.contentNotices.byState, ADMIN_CONTENT_NOTICE_STATE_KEYS),
         },
         parties: { total: count(data.parties.total) },
         partnerships: { total: count(data.partnerships.total) },

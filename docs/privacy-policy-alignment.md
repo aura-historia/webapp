@@ -27,6 +27,7 @@ Run this checklist when code touches any of the following:
 - Watchlists, saved searches/search filters, notifications, matching, product interactions, analytics events.
 - Newsletter or marketing consent, including double opt-in evidence.
 - Content notices (`features/content-notice`): the notifier's name, e-mail, explanation and links, sent to `POST /v1/content-notices`.
+- Admin content notice review (#1357): administrators read notifiers' names, e-mails, explanations and links at `/admin/content-notices`; nothing is logged, cached beyond the page or put into URLs except a `mailto:` to the notifier.
 - Partner/listing-source/admin data: listing-source and Party (operator) details, contact fields, partnership applications and memberships, auctions, admin product listing records, API access tokens, OAuth clients, suspensions.
 - Payment/subscription metadata and Stripe-related behavior.
 - Private addresses, the browsing destination, saved-search origins, browser location, and Party locations (see [Geography](#geography)).
