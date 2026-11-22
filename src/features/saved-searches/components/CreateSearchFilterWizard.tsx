@@ -11,7 +11,6 @@ import { AnimatePresence, motion } from "motion/react";
 import { ArrowLeft, ArrowRight, Check, Lock, X } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog.tsx";
-import { useMediaQuery } from "@/hooks/common/useMediaQuery.ts";
 import { hasFinePointer, keepTouchKeyboardClosed } from "@/lib/ui/touchKeyboard.ts";
 import {
     Form,
@@ -216,8 +215,6 @@ type Props = {
 
 export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: Props) {
     const { t } = useTranslation();
-    // On touch devices the keyboard would cover the step, so the name field waits for a tap.
-    const finePointer = useMediaQuery("(pointer: fine)");
     const nameSchema = useMemo(() => createNameSchema(t), [t]);
 
     const [step, setStep] = useState(1);
@@ -267,10 +264,21 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
 
     const scrollRef = useRef<HTMLDivElement>(null);
 
-    // Focus the scroll container on every step change so Enter-key events are captured.
-    // Step 1 is excluded — its name input autofocuses itself.
+    // Focus the scroll container on every step change so Enter-key events are captured. Back on
+    // step 1 a mouse or trackpad returns to the name field; a touch screen keeps the keyboard
+    // closed. Opening the dialog on step 1 is handled by onOpenAutoFocus.
+    const previousStep = useRef(step);
     useEffect(() => {
-        if (step > 1) scrollRef.current?.focus();
+        const cameBack = step === 1 && previousStep.current > 1;
+        previousStep.current = step;
+        if (step > 1) {
+            scrollRef.current?.focus();
+        } else if (cameBack) {
+            const nameField = hasFinePointer()
+                ? scrollRef.current?.querySelector<HTMLInputElement>('input[name="name"]')
+                : null;
+            (nameField ?? scrollRef.current)?.focus();
+        }
     }, [step]);
 
     const handleSave = useCallback(() => {
@@ -391,8 +399,6 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                                     <FormControl>
                                         <input
                                             {...field}
-                                            // biome-ignore lint/a11y/noAutofocus: the dialog's first field, with a fine pointer only
-                                            autoFocus={finePointer}
                                             maxLength={255}
                                             placeholder={t(
                                                 "searchFilter.saveDialog.namePlaceholder",
