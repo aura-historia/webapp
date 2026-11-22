@@ -642,7 +642,7 @@
       "notice": {
         "cleared": "Votre lieu de recherche était une adresse enregistrée qui a été supprimée ; aucun n’est donc utilisé pour le moment.",
         "unavailable": "L’adresse enregistrée choisie n’est plus disponible. Choisissez un autre lieu ou n’en gardez aucun.",
-        "unsupported": "Pour le conserver, laissez cette section telle quelle. Enregistrer un nouveau choix le remplace."
+        "unsupported": "Pour conserver ce lieu de recherche, laissez cette section telle quelle. Enregistrer un nouveau choix le remplace."
       },
       "legend": "Utiliser comme lieu de recherche",
       "choices": {
@@ -652,7 +652,7 @@
         },
         "ADDRESS": {
           "title": "L’une de mes adresses enregistrées",
-          "description": "Sa localisation est utilisée telle quelle. Si vous modifiez l’adresse plus tard, elle est mise à jour.",
+          "description": "La localisation de l’adresse est utilisée telle quelle. Si vous modifiez l’adresse plus tard, elle est mise à jour.",
           "descriptionEmpty": "Vous n’avez encore aucune adresse enregistrée."
         },
         "COUNTRY_POSTAL": {
@@ -690,7 +690,7 @@
       },
       "conflict": {
         "title": "Votre lieu de recherche a été modifié ailleurs.",
-        "body": "« Actuellement » affiche désormais celui enregistré. Votre choix est conservé ci-dessus. Enregistrez à nouveau pour le remplacer."
+        "body": "« Actuellement » affiche désormais le lieu de recherche enregistré. Votre choix est conservé ci-dessus. Enregistrez à nouveau pour le remplacer."
       },
       "saveError": {
         "title": "Votre lieu de recherche n’a pas pu être enregistré.",
@@ -699,7 +699,7 @@
       "errors": {
         "loadFailed": "Votre lieu de recherche n’a pas pu être chargé."
       },
-      "distinction": "Ce n’est pas une adresse de livraison, de facturation ou de domicile. Vos recherches et recherches enregistrées gardent leur propre lieu et ne changent pas.",
+      "distinction": "Le lieu de recherche n’est pas une adresse de livraison, de facturation ou de domicile. Vos recherches et recherches enregistrées gardent leur propre lieu et ne changent pas.",
       "save": "Enregistrer le lieu de recherche",
       "saveAgain": "Enregistrer mon choix",
       "saving": "Enregistrement…",

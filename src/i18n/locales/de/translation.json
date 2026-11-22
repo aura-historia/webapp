@@ -642,7 +642,7 @@
       "notice": {
         "cleared": "Ihr Suchstandort war eine gespeicherte Adresse, die gelöscht wurde. Deshalb wird jetzt keiner verwendet.",
         "unavailable": "Die gewählte gespeicherte Adresse ist nicht mehr verfügbar. Wählen Sie einen anderen Ort oder behalten Sie keinen Suchstandort.",
-        "unsupported": "Um ihn zu behalten, lassen Sie diesen Bereich unverändert. Wenn Sie eine neue Auswahl speichern, wird er ersetzt."
+        "unsupported": "Um diesen Suchstandort zu behalten, ändern Sie hier nichts. Wenn Sie eine neue Auswahl speichern, wird er ersetzt."
       },
       "legend": "Als Suchstandort verwenden",
       "choices": {
@@ -652,7 +652,7 @@
         },
         "ADDRESS": {
           "title": "Eine meiner gespeicherten Adressen",
-          "description": "Ihr Standort wird so verwendet, wie er ist. Wenn Sie die Adresse später bearbeiten, wird er aktualisiert.",
+          "description": "Der Standort der Adresse wird unverändert verwendet. Wenn Sie die Adresse später bearbeiten, wird er aktualisiert.",
           "descriptionEmpty": "Sie haben noch keine gespeicherten Adressen."
         },
         "COUNTRY_POSTAL": {
@@ -690,7 +690,7 @@
       },
       "conflict": {
         "title": "Ihr Suchstandort wurde an anderer Stelle geändert.",
-        "body": "„Aktuell“ zeigt jetzt den gespeicherten. Ihre Auswahl bleibt oben erhalten. Speichern Sie erneut, um ihn zu ersetzen."
+        "body": "„Aktuell“ zeigt jetzt den gespeicherten Suchstandort. Ihre Auswahl bleibt oben erhalten. Speichern Sie erneut, um ihn zu ersetzen."
       },
       "saveError": {
         "title": "Ihr Suchstandort konnte nicht gespeichert werden.",
@@ -699,7 +699,7 @@
       "errors": {
         "loadFailed": "Ihr Suchstandort konnte nicht geladen werden."
       },
-      "distinction": "Er ist keine Liefer-, Rechnungs- oder Wohnadresse. Ihre Suchen und Suchaufträge behalten ihren eigenen Standort und ändern sich nicht.",
+      "distinction": "Der Suchstandort ist keine Liefer-, Rechnungs- oder Wohnadresse. Ihre Suchen und Suchaufträge behalten ihren eigenen Standort und ändern sich nicht.",
       "save": "Suchstandort speichern",
       "saveAgain": "Meine Auswahl speichern",
       "saving": "Wird gespeichert…",

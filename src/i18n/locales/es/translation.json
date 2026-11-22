@@ -642,7 +642,7 @@
       "notice": {
         "cleared": "Su ubicación de búsqueda era una dirección guardada que se ha eliminado, así que ahora no se usa ninguna.",
         "unavailable": "La dirección guardada que eligió ya no está disponible. Elija otro lugar o mantenga sin ubicación de búsqueda.",
-        "unsupported": "Para conservarla, deje esta sección como está. Guardar una nueva opción la sustituye."
+        "unsupported": "Para conservar esta ubicación de búsqueda, deje esta sección como está. Guardar una nueva opción la sustituye."
       },
       "legend": "Usar como ubicación de búsqueda",
       "choices": {
@@ -652,7 +652,7 @@
         },
         "ADDRESS": {
           "title": "Una de mis direcciones guardadas",
-          "description": "Su ubicación se usa tal cual. Si edita la dirección más adelante, se actualiza.",
+          "description": "Se usa la ubicación de la dirección tal cual. Si edita la dirección más adelante, se actualiza.",
           "descriptionEmpty": "Aún no tiene direcciones guardadas."
         },
         "COUNTRY_POSTAL": {
@@ -690,7 +690,7 @@
       },
       "conflict": {
         "title": "Su ubicación de búsqueda se cambió en otro lugar.",
-        "body": "«Actualmente» muestra ahora la guardada. Su elección se mantiene arriba. Guarde de nuevo para sustituirla."
+        "body": "«Actualmente» muestra ahora la ubicación de búsqueda guardada. Su elección se mantiene arriba. Guarde de nuevo para sustituirla."
       },
       "saveError": {
         "title": "No se pudo guardar su ubicación de búsqueda.",
@@ -699,7 +699,7 @@
       "errors": {
         "loadFailed": "No se pudo cargar su ubicación de búsqueda."
       },
-      "distinction": "No es una dirección de envío, de facturación ni de residencia. Sus búsquedas y búsquedas guardadas conservan su propia ubicación y no cambian.",
+      "distinction": "La ubicación de búsqueda no es una dirección de envío, de facturación ni de residencia. Sus búsquedas y búsquedas guardadas conservan su propia ubicación y no cambian.",
       "save": "Guardar ubicación de búsqueda",
       "saveAgain": "Guardar mi elección",
       "saving": "Guardando…",

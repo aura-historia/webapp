@@ -642,7 +642,7 @@
       "notice": {
         "cleared": "Your search location was a saved address that has been deleted, so none is used now.",
         "unavailable": "The saved address you chose is no longer available. Choose another place, or keep no search location.",
-        "unsupported": "To keep it, leave this section as it is. Saving a new choice replaces it."
+        "unsupported": "To keep this search location, leave this section as it is. Saving a new choice replaces it."
       },
       "legend": "Use as search location",
       "choices": {
@@ -652,7 +652,7 @@
         },
         "ADDRESS": {
           "title": "One of my saved addresses",
-          "description": "Its location is used as it is. Editing the address later updates it.",
+          "description": "The address’s location is used as it is. Editing the address later updates it.",
           "descriptionEmpty": "You have no saved addresses yet."
         },
         "COUNTRY_POSTAL": {
@@ -690,7 +690,7 @@
       },
       "conflict": {
         "title": "Your search location was changed elsewhere.",
-        "body": "“Currently” now shows the saved one. Your choice is kept above. Save again to replace it."
+        "body": "“Currently” now shows the saved search location. Your choice is kept above. Save again to replace it."
       },
       "saveError": {
         "title": "Your search location could not be saved.",
@@ -699,7 +699,7 @@
       "errors": {
         "loadFailed": "Your search location could not be loaded."
       },
-      "distinction": "It isn’t a shipping, billing or home address. Your searches and saved searches keep their own location and don’t change.",
+      "distinction": "Your search location isn’t a shipping, billing or home address. Your searches and saved searches keep their own location and don’t change.",
       "save": "Save search location",
       "saveAgain": "Save my choice",
       "saving": "Saving…",

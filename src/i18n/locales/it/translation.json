@@ -642,7 +642,7 @@
       "notice": {
         "cleared": "La vostra posizione di ricerca era un indirizzo salvato che è stato eliminato, quindi ora non ne viene usata nessuna.",
         "unavailable": "L’indirizzo salvato che avete scelto non è più disponibile. Scegliete un altro luogo o mantenete nessuna posizione di ricerca.",
-        "unsupported": "Per mantenerla, lasciate questa sezione così com’è. Salvare una nuova scelta la sostituisce."
+        "unsupported": "Per mantenere questa posizione di ricerca, lasciate questa sezione così com’è. Salvare una nuova scelta la sostituisce."
       },
       "legend": "Usa come posizione di ricerca",
       "choices": {
@@ -652,7 +652,7 @@
         },
         "ADDRESS": {
           "title": "Uno dei miei indirizzi salvati",
-          "description": "La sua posizione viene usata così com’è. Se modificate l’indirizzo in seguito, si aggiorna.",
+          "description": "Viene usata la posizione dell’indirizzo così com’è. Se modificate l’indirizzo in seguito, si aggiorna.",
           "descriptionEmpty": "Non avete ancora indirizzi salvati."
         },
         "COUNTRY_POSTAL": {
@@ -690,7 +690,7 @@
       },
       "conflict": {
         "title": "La vostra posizione di ricerca è stata modificata altrove.",
-        "body": "«Attualmente» ora mostra quella salvata. La vostra scelta resta qui sopra. Salvate di nuovo per sostituirla."
+        "body": "«Attualmente» ora mostra la posizione di ricerca salvata. La vostra scelta resta qui sopra. Salvate di nuovo per sostituirla."
       },
       "saveError": {
         "title": "Non è stato possibile salvare la vostra posizione di ricerca.",
@@ -699,7 +699,7 @@
       "errors": {
         "loadFailed": "Non è stato possibile caricare la vostra posizione di ricerca."
       },
-      "distinction": "Non è un indirizzo di spedizione, di fatturazione o di residenza. Le vostre ricerche e ricerche salvate mantengono la propria posizione e non cambiano.",
+      "distinction": "La posizione di ricerca non è un indirizzo di spedizione, di fatturazione o di residenza. Le vostre ricerche e ricerche salvate mantengono la propria posizione e non cambiano.",
       "save": "Salva posizione di ricerca",
       "saveAgain": "Salva la mia scelta",
       "saving": "Salvataggio…",
