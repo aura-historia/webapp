@@ -1057,6 +1057,11 @@ export type AdminProductListingPrice = {
   currency: CurrencyData;
   amount: number;
 } | {
+  type: 'RANGE';
+  currency: CurrencyData;
+  min: number;
+  max: number;
+} | {
   type: 'ON_REQUEST';
 };
 
@@ -1524,12 +1529,31 @@ export type PriceData = {
   amount: number;
 };
 
+/**
+ * An asking price of one amount (`MONETARY`), a range between two amounts (`RANGE`), or on request (`ON_REQUEST`). A range's `min` is below its `max` and both share `currency`; a write with another range is rejected with 400.
+ */
 export type ProductListingPriceData = {
   type: 'MONETARY';
   currency: CurrencyData;
   amount: number;
-} | {
+} | ProductListingPriceRangeData | {
   type: 'ON_REQUEST';
+};
+
+/**
+ * An asking price between two amounts of one currency, in minor currency units.
+ */
+export type ProductListingPriceRangeData = {
+  type: 'RANGE';
+  currency: CurrencyData;
+  /**
+   * Lower bound, below `max`.
+   */
+  min: number;
+  /**
+   * Upper bound, above `min`.
+   */
+  max: number;
 };
 
 /**
@@ -1554,13 +1578,42 @@ export type ProductListingHistoryEstimateData = PriceData & {
 };
 
 /**
- * Unchanged source main price; only monetary values can have historical display projections.
+ * The source price in the requested currency, in the source's shape. Each amount is converted with HalfUp rounding in requested currency minor units (JPY/KRW 0 decimals, others 2); a range whose bounds round to one amount is shown as `MONETARY`. Omitted when the snapshot or a required quote is unavailable, including in a complete legacy 19-currency snapshot.
+ */
+export type ProductListingHistoryMainPriceDisplayData = ({
+  type: 'MONETARY';
+  currency: CurrencyData;
+  amount: number;
+} | {
+  type: 'RANGE';
+  currency: CurrencyData;
+  min: number;
+  max: number;
+}) & {
+  /**
+   * Immutable FX snapshot selected at or before the entry timestamp.
+   */
+  fxRateId: string;
+  /**
+   * Capture time of that snapshot, never after the history entry timestamp.
+   */
+  capturedAt: string;
+};
+
+/**
+ * Unchanged source main price; only monetary prices and ranges can have historical display projections.
  */
 export type ProductListingHistoryMainPriceData = {
   type: 'MONETARY';
   currency: CurrencyData;
   amount: number;
-  display?: ProductListingHistoryPriceDisplayData;
+  display?: ProductListingHistoryMainPriceDisplayData;
+} | {
+  type: 'RANGE';
+  currency: CurrencyData;
+  min: number;
+  max: number;
+  display?: ProductListingHistoryMainPriceDisplayData;
 } | {
   type: 'ON_REQUEST';
 };
@@ -2064,7 +2117,7 @@ export type PatchUserSearchFilterMatchData = {
 };
 
 /**
- * Partial ProductListing search criteria. Omitted fields are unchanged. `enhancedSearchDescription`, `auctionId`, price, date ranges, and the availability query may be cleared with `null`; availability, orderability, and includeUnspecifiedAvailability` must be supplied together or all be `null`.
+ * Partial ProductListing search criteria. Omitted fields are unchanged. `enhancedSearchDescription`, `auctionId`, price, date ranges, shipping, geography, and the availability query may be cleared with `null`; `availability`, `orderability`, and `includeUnspecifiedAvailability` must be supplied together or all be `null`. `language`, `currency`, `productQuery`, `listingSourceId`, and `excludeListingSourceId` reject `null`; send `[]` to clear `listingSourceId` or `excludeListingSourceId`.
  */
 export type PatchProductListingSearchData = {
   /**
@@ -2073,20 +2126,20 @@ export type PatchProductListingSearchData = {
   shipping?: ShippingSearchData | null;
   language?: LanguageData;
   currency?: CurrencyData;
-  productQuery?: Array<string> | null;
+  productQuery?: Array<string>;
   enhancedSearchDescription?: string | null;
   /**
-   * ListingSource IDs to include.
+   * ListingSource IDs to include. `[]` removes the restriction.
    */
-  listingSourceId?: Array<string> | null;
+  listingSourceId?: Array<string>;
   /**
-   * ListingSource IDs to exclude.
+   * ListingSource IDs to exclude. `[]` removes the restriction.
    */
   excludeListingSourceId?: Array<string>;
   /**
    * Exact resolved Auction membership IDs. Values use strict `auc_` TypeIDs and OR together.
    */
-  auctionId?: Array<string>;
+  auctionId?: Array<string> | null;
   price?: RangeQueryUInt64 | null;
   availability?: Array<ListingAvailabilityData> | null;
   orderability?: Array<ListingOrderabilityData> | null;
@@ -7645,7 +7698,7 @@ export type PostWoocommerceWebhookErrors = {
    */
   404: ApiError;
   /**
-   * Payload too large — the HTTP body limit or encoded SQS message limit was exceeded before confirmed admission. No queue acceptance is claimed.
+   * Payload too large — the HTTP body limit or encoded queue message limit was exceeded before confirmed admission. No queue acceptance is claimed.
    */
   413: ApiError;
   /**
@@ -7755,6 +7808,151 @@ export type PostLoopsPreferenceWebhookResponses = {
 };
 
 export type PostLoopsPreferenceWebhookResponse = PostLoopsPreferenceWebhookResponses[keyof PostLoopsPreferenceWebhookResponses];
+
+export type PostShopifyWebhookData = {
+  /**
+   * The Shopify webhook body, an object with a `product_listing`. `product_listing.product_id` is required for every forwarded topic; add and update also need `title` and `handle`. Other fields are kept as source evidence, except `body_html`, which is dropped.
+   */
+  body: {
+    product_listing: {
+      product_id: number;
+      title?: string;
+      handle?: string;
+      [key: string]: unknown;
+    };
+    [key: string]: unknown;
+  };
+  headers: {
+    /**
+     * Base64 HMAC-SHA256 of the exact request body bytes, keyed with the app client secret.
+     */
+    'X-Shopify-Hmac-Sha256': string;
+    /**
+     * Webhook topic. Only the three `product_listings*` topics are forwarded.
+     */
+    'X-Shopify-Topic': string;
+    /**
+     * The shop's `myshopify.com` domain; it selects the ListingSource. Required for forwarded topics.
+     */
+    'X-Shopify-Shop-Domain': string;
+    /**
+     * Delivery identifier, stable across Shopify's retries. Required for forwarded topics.
+     */
+    'X-Shopify-Webhook-Id': string;
+    /**
+     * Identifier of the Shopify event, kept as the observation's source event ID.
+     */
+    'X-Shopify-Event-Id'?: string;
+    /**
+     * RFC 3339 time the event was triggered; it orders observations of one product. Must be at most five minutes in the future and at most six hours old.
+     */
+    'X-Shopify-Triggered-At'?: string;
+    /**
+     * Admin API version of the payload. Logged only.
+     */
+    'X-Shopify-API-Version'?: string;
+  };
+  path?: never;
+  query?: never;
+  url: '/v1/webhooks/shopify';
+};
+
+export type PostShopifyWebhookErrors = {
+  /**
+   * Malformed delivery: a required header is missing, repeated or blank, the shop domain is invalid, `X-Shopify-Triggered-At` is malformed or out of bounds, the body is not a JSON object, or the product cannot be mapped. Uses `BAD_HEADER_VALUE` or `BAD_BODY_VALUE`.
+   */
+  400: ApiError;
+  /**
+   * Missing, repeated, malformed or non-matching `X-Shopify-Hmac-Sha256`. Uses `BAD_HEADER_VALUE`.
+   */
+  401: ApiError;
+  /**
+   * Request body exceeds 1 MiB. Uses `BAD_BODY_VALUE`.
+   */
+  413: ApiError;
+  /**
+   * The signature could not be computed. Uses `PRODUCT_LISTING_INTERNAL_ERROR`.
+   */
+  500: ApiError;
+  /**
+   * Admission was not confirmed within the processing budget or failed temporarily. Retry the delivery. Uses `PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE`.
+   */
+  503: ApiError;
+};
+
+export type PostShopifyWebhookError = PostShopifyWebhookErrors[keyof PostShopifyWebhookErrors];
+
+export type PostShopifyWebhookResponses = {
+  /**
+   * Admission of the mapped command was confirmed, or the topic or shop needs no forwarding. No response body.
+   */
+  200: unknown;
+};
+
+export type PostStripeSubscriptionWebhookData = {
+  /**
+   * Stripe event object. The service verifies the signature before parsing the body.
+   */
+  body: {
+    id: string;
+    object: 'event';
+    type: string;
+    /**
+     * Must be `2026-10-28.endive` for subscription events.
+     */
+    api_version?: string;
+    /**
+     * For subscription events, `object` is the subscription with its `id` and `customer` ID or expanded customer.
+     */
+    data?: {
+      [key: string]: unknown;
+    };
+    [key: string]: unknown;
+  };
+  headers: {
+    /**
+     * `t=<unix seconds>,v1=<hex HMAC-SHA256 of "{t}.{raw body}">`, with one `v1` per active signing secret. Other entries, such as the `v0` test scheme or debug metadata, are ignored. Exactly one header is accepted.
+     */
+    'Stripe-Signature': string;
+  };
+  path?: never;
+  query?: never;
+  url: '/v1/webhooks/stripe';
+};
+
+export type PostStripeSubscriptionWebhookErrors = {
+  /**
+   * Authentic event that is malformed, rendered with another API version, or reuses a reconciled event ID with a different type, subscription or customer. Uses `STRIPE_WEBHOOK_INVALID_BODY`.
+   */
+  400: ApiError;
+  /**
+   * Missing, repeated, malformed, stale or non-matching `Stripe-Signature`. The response does not distinguish authentication failures. Uses `STRIPE_WEBHOOK_UNAUTHORIZED`.
+   */
+  401: ApiError;
+  /**
+   * Request body exceeds 256 KiB. Uses `STRIPE_WEBHOOK_PAYLOAD_TOO_LARGE`.
+   */
+  413: ApiError;
+  /**
+   * Stripe or Aura state violates an invariant, such as an unmapped product, an unknown subscription status or a customer bound to another user. Needs an operator; Stripe keeps retrying. Uses `STRIPE_WEBHOOK_INTERNAL_ERROR`.
+   */
+  500: ApiError;
+  /**
+   * Stripe read or database failure, uncertain commit, concurrent reconciliation, no user for the customer yet, or exceeded processing budget. Stripe retries the delivery. Uses `STRIPE_WEBHOOK_TEMPORARILY_UNAVAILABLE`.
+   */
+  503: ApiError;
+};
+
+export type PostStripeSubscriptionWebhookError = PostStripeSubscriptionWebhookErrors[keyof PostStripeSubscriptionWebhookErrors];
+
+export type PostStripeSubscriptionWebhookResponses = {
+  /**
+   * Reconciliation committed, identical event already reconciled, or event type ignored. No response body.
+   */
+  204: void;
+};
+
+export type PostStripeSubscriptionWebhookResponse = PostStripeSubscriptionWebhookResponses[keyof PostStripeSubscriptionWebhookResponses];
 
 export type GetProductListingByTitleSlugData = {
   body?: never;
@@ -8024,7 +8222,7 @@ export type SimpleSearchProductListingsData = {
     auctionId?: Array<string>;
     /**
      * Optional price range filter in minor currency units (e.g. cents for most supported currencies, whole yen for JPY).
-     * Use `price[min]` and/or `price[max]` to specify the range bounds.
+     * Use `price[min]` and/or `price[max]` to specify the range bounds. A listing whose asking price is a range matches when that range overlaps the filter.
      *
      */
     price?: {

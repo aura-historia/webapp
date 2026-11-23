@@ -98,6 +98,8 @@ describe("toAdminProductListingFormValues", () => {
             clearDescription: false,
             priceKind: "MONETARY",
             priceAmount: "1250.50",
+            priceMinAmount: "",
+            priceMaxAmount: "",
             priceCurrency: "EUR",
             estimateMinAmount: "1000.00",
             estimateMinCurrency: "EUR",
@@ -352,6 +354,99 @@ describe("write-only description", () => {
         expect(
             validateAdminProductListingForm(draft({ descriptionLanguage: "" }), original),
         ).toEqual([]);
+    });
+});
+
+describe("price ranges", () => {
+    const ranged: AdminProductListingDetail = {
+        ...listing,
+        price: { type: "RANGE", min: 100_000, max: 150_000, currency: "JPY" },
+        priceEstimateMin: null,
+    };
+    const stored = toAdminProductListingFormValues(ranged);
+
+    it("fills both bounds and the shared currency from a stored range", () => {
+        expect(stored).toMatchObject({
+            priceKind: "RANGE",
+            priceAmount: "",
+            priceMinAmount: "100000",
+            priceMaxAmount: "150000",
+            priceCurrency: "JPY",
+            // A new estimate starts in the range's currency.
+            estimateMinCurrency: "JPY",
+        });
+    });
+
+    it("keeps a stored range out of the patch while only other groups change", () => {
+        expect(
+            buildAdminProductListingPatch({ ...stored, priceMinAmount: "100000." }, stored),
+        ).toEqual({});
+        expect(buildAdminProductListingPatch({ ...stored, availability: "" }, stored)).toEqual({
+            availability: null,
+        });
+    });
+
+    it("sends a changed bound as the whole range in minor units", () => {
+        expect(
+            buildAdminProductListingPatch({ ...stored, priceMaxAmount: "160000" }, stored),
+        ).toEqual({ price: { type: "RANGE", min: 100_000, max: 160_000, currency: "JPY" } });
+        expect(
+            buildAdminProductListingPatch(
+                draft({ priceKind: "RANGE", priceMinAmount: "1000", priceMaxAmount: "1500,5" }),
+                original,
+            ),
+        ).toEqual({ price: { type: "RANGE", min: 100_000, max: 150_050, currency: "EUR" } });
+    });
+
+    it("turns a range into a single amount only when the administrator chooses Amount", () => {
+        expect(
+            buildAdminProductListingPatch(
+                { ...stored, priceKind: "MONETARY", priceAmount: "120000" },
+                stored,
+            ),
+        ).toEqual({ price: { type: "MONETARY", amount: 120_000, currency: "JPY" } });
+    });
+
+    it("requires both bounds, one currency and a lower bound below the upper bound", () => {
+        const base = draft({ priceKind: "RANGE", priceCurrency: "" });
+        expect(validateAdminProductListingForm(base, original)).toEqual([
+            { path: ["priceMinAmount"], message: "adminProductListings.validation.amountRequired" },
+            { path: ["priceMaxAmount"], message: "adminProductListings.validation.amountRequired" },
+        ]);
+        expect(
+            validateAdminProductListingForm(
+                { ...base, priceMinAmount: "10", priceMaxAmount: "20" },
+                original,
+            ),
+        ).toEqual([
+            {
+                path: ["priceCurrency"],
+                message: "adminProductListings.validation.currencyRequired",
+            },
+        ]);
+        for (const [min, max] of [
+            ["20", "20"],
+            ["30", "20.5"],
+        ]) {
+            expect(
+                validateAdminProductListingForm(
+                    { ...base, priceCurrency: "EUR", priceMinAmount: min, priceMaxAmount: max },
+                    original,
+                ),
+            ).toEqual([
+                { path: ["priceMaxAmount"], message: "adminProductListings.validation.rangeOrder" },
+            ]);
+        }
+        expect(
+            validateAdminProductListingForm(
+                { ...base, priceCurrency: "EUR", priceMinAmount: "0", priceMaxAmount: "0.01" },
+                original,
+            ),
+        ).toEqual([]);
+    });
+
+    it("feeds a stored range through the zod schema", () => {
+        expect(createAdminProductListingFormSchema(stored).safeParse(stored).success).toBe(true);
     });
 });
 

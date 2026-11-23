@@ -19,7 +19,12 @@ import {
     type ListingPriceEstimate,
 } from "@/data/internal/product/ProductListingDomain.ts";
 
-export const ADMIN_PRODUCT_LISTING_PRICE_KINDS = ["NONE", "MONETARY", "ON_REQUEST"] as const;
+export const ADMIN_PRODUCT_LISTING_PRICE_KINDS = [
+    "NONE",
+    "MONETARY",
+    "RANGE",
+    "ON_REQUEST",
+] as const;
 export type AdminProductListingPriceKind = (typeof ADMIN_PRODUCT_LISTING_PRICE_KINDS)[number];
 
 /** Longer titles are shortened by the backend, not rejected. */
@@ -32,7 +37,8 @@ const CATALOGUE_POSITION_MAX = 4_294_967_295;
 /**
  * Edit-form state. Text is the original source text; an empty language means none was chosen,
  * never a default. Amounts are decimal text in major units; an empty currency means none was
- * chosen, never a default. Timing values are UTC `YYYY-MM-DDTHH:mm[:ss]`.
+ * chosen, never a default. A single price and a range share `priceCurrency`. Timing values are UTC
+ * `YYYY-MM-DDTHH:mm[:ss]`.
  *
  * The description is write-only: the backend returns none, so `description` always starts empty
  * and an empty field keeps the stored text. Only `clearDescription` removes it.
@@ -48,7 +54,11 @@ export type AdminProductListingFormValues = {
     /** Removes the stored description; takes precedence over `description`. */
     clearDescription: boolean;
     priceKind: AdminProductListingPriceKind;
+    /** The single amount (`MONETARY`). */
     priceAmount: string;
+    /** The range bounds (`RANGE`); the lower bound must be below the upper bound. */
+    priceMinAmount: string;
+    priceMaxAmount: string;
     priceCurrency: Currency | "";
     estimateMinAmount: string;
     estimateMinCurrency: Currency | "";
@@ -120,7 +130,9 @@ export function parseUtcInputValue(value: string): Date | null | undefined {
 
 function knownCurrencies(listing: AdminProductListingDetail): Currency[] {
     return [
-        listing.price?.type === "MONETARY" ? listing.price.currency : undefined,
+        listing.price?.type === "MONETARY" || listing.price?.type === "RANGE"
+            ? listing.price.currency
+            : undefined,
         listing.priceEstimateMin?.currency,
         listing.priceEstimateMax?.currency,
     ].filter((currency): currency is Currency => currency !== undefined);
@@ -152,7 +164,9 @@ export function toAdminProductListingFormValues(
         priceKind: price?.type ?? "NONE",
         priceAmount:
             price?.type === "MONETARY" ? formatMinorUnits(price.amount, price.currency) : "",
-        priceCurrency: price?.type === "MONETARY" ? price.currency : fallbackCurrency,
+        priceMinAmount: price?.type === "RANGE" ? formatMinorUnits(price.min, price.currency) : "",
+        priceMaxAmount: price?.type === "RANGE" ? formatMinorUnits(price.max, price.currency) : "",
+        priceCurrency: price && price.type !== "ON_REQUEST" ? price.currency : fallbackCurrency,
         estimateMinAmount: estimateMin.amount,
         estimateMinCurrency: estimateMin.currency,
         estimateMaxAmount: estimateMax.amount,
@@ -187,6 +201,21 @@ function sameMoney(
     const parsedA = parseMinorUnits(a, currencyA);
     const parsedB = parseMinorUnits(b, currencyA);
     return parsedA.ok && parsedB.ok && parsedA.amount === parsedB.amount;
+}
+
+/** The fields of a price kind not in use carry no value. */
+function samePrice(a: AdminProductListingFormValues, b: AdminProductListingFormValues): boolean {
+    if (a.priceKind !== b.priceKind) return false;
+    if (a.priceKind === "MONETARY") {
+        return sameMoney(a.priceAmount, a.priceCurrency, b.priceAmount, b.priceCurrency);
+    }
+    if (a.priceKind === "RANGE") {
+        return (
+            sameMoney(a.priceMinAmount, a.priceCurrency, b.priceMinAmount, b.priceCurrency) &&
+            sameMoney(a.priceMaxAmount, a.priceCurrency, b.priceMaxAmount, b.priceCurrency)
+        );
+    }
+    return true;
 }
 
 function sameText(textA: string, languageA: string, textB: string, languageB: string): boolean {
@@ -232,11 +261,8 @@ const FORM_GROUPS = {
         same: (draft: Values) => !draft.clearDescription && draft.description.trim() === "",
     },
     price: {
-        fields: ["priceKind", "priceAmount", "priceCurrency"],
-        same: (a: Values, b: Values) =>
-            a.priceKind === b.priceKind &&
-            (a.priceKind !== "MONETARY" ||
-                sameMoney(a.priceAmount, a.priceCurrency, b.priceAmount, b.priceCurrency)),
+        fields: ["priceKind", "priceAmount", "priceMinAmount", "priceMaxAmount", "priceCurrency"],
+        same: samePrice,
     },
     priceEstimateMin: {
         fields: ["estimateMinAmount", "estimateMinCurrency"],
@@ -339,6 +365,14 @@ function toTextPatch(text: string, language: string): AdminProductListingTextPat
 function toPrice(values: Values): ListingPrice | null {
     if (values.priceKind === "NONE") return null;
     if (values.priceKind === "ON_REQUEST") return { type: "ON_REQUEST" };
+    if (values.priceKind === "RANGE") {
+        return {
+            type: "RANGE",
+            min: requireMinorUnits(values.priceMinAmount, values.priceCurrency),
+            max: requireMinorUnits(values.priceMaxAmount, values.priceCurrency),
+            currency: values.priceCurrency as Currency,
+        };
+    }
     return {
         type: "MONETARY",
         amount: requireMinorUnits(values.priceAmount, values.priceCurrency),
@@ -484,6 +518,39 @@ function moneyIssues(
     return [{ path: [amountField], message }];
 }
 
+/**
+ * A range needs both bounds in one currency, with the lower bound below the upper bound (the API
+ * rejects anything else with 400). The shared currency is reported once.
+ */
+function rangeIssues(values: Values): FormIssue[] {
+    const issues = [
+        ...moneyIssues(
+            "priceMinAmount",
+            "priceCurrency",
+            values.priceMinAmount,
+            values.priceCurrency,
+            true,
+        ),
+        ...moneyIssues(
+            "priceMaxAmount",
+            "priceCurrency",
+            values.priceMaxAmount,
+            values.priceCurrency,
+            true,
+        ),
+    ].filter(
+        (issue, index, all) =>
+            issue.path[0] !== "priceCurrency" ||
+            all.findIndex((other) => other.path[0] === "priceCurrency") === index,
+    );
+    if (issues.length > 0 || !values.priceCurrency) return issues;
+    const min = parseMinorUnits(values.priceMinAmount, values.priceCurrency);
+    const max = parseMinorUnits(values.priceMaxAmount, values.priceCurrency);
+    return min.ok && max.ok && min.amount >= max.amount
+        ? [{ path: ["priceMaxAmount"], message: "adminProductListings.validation.rangeOrder" }]
+        : [];
+}
+
 function textIssues(languageField: keyof Values, text: string, language: string): FormIssue[] {
     return text.trim() !== "" && !isSourceTextLanguage(language)
         ? [{ path: [languageField], message: "adminProductListings.validation.languageRequired" }]
@@ -519,6 +586,7 @@ export function validateAdminProductListingForm(values: Values, original: Values
             ),
         );
     }
+    if (changed.has("price") && values.priceKind === "RANGE") issues.push(...rangeIssues(values));
     if (changed.has("priceEstimateMin")) {
         issues.push(
             ...moneyIssues(
@@ -601,6 +669,8 @@ export function createAdminProductListingFormSchema(original: Values) {
             clearDescription: z.boolean(),
             priceKind: z.enum(ADMIN_PRODUCT_LISTING_PRICE_KINDS),
             priceAmount: z.string(),
+            priceMinAmount: z.string(),
+            priceMaxAmount: z.string(),
             priceCurrency: currencyValue,
             estimateMinAmount: z.string(),
             estimateMinCurrency: currencyValue,

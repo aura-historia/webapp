@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { getNotificationTypeLabel, getNotificationChangeParts } from "../notificationUtils.ts";
+import {
+    getNotificationChangeParts,
+    getNotificationPriceDelta,
+    getNotificationTypeLabel,
+} from "../notificationUtils.ts";
 import { notification, watchlistPayload } from "../../__tests__/fixtures.ts";
 const t = (key: string) => key;
 describe("notification display", () => {
@@ -21,6 +25,58 @@ describe("notification display", () => {
         expect(getNotificationChangeParts(payload, t, "en")).toEqual({
             from: "product.unknownPrice",
             to: "product.history.values.onRequest",
+        });
+    });
+    it("renders ranges and a change of one bound as a price change without a percentage", () => {
+        const payload = notification({
+            payload: {
+                ...watchlistPayload,
+                change: {
+                    type: "PRICE_CHANGE",
+                    oldPrice: { type: "RANGE", currency: "EUR", min: 100000, max: 150000 },
+                    newPrice: { type: "RANGE", currency: "EUR", min: 100000, max: 140000 },
+                },
+            },
+        }).payload;
+        expect(getNotificationTypeLabel(payload, t)).toBe("notifications.types.priceChange");
+        expect(getNotificationChangeParts(payload, t, "en")).toEqual({
+            from: "€1,000.00 – €1,500.00",
+            to: "€1,000.00 – €1,400.00",
+        });
+        expect(getNotificationPriceDelta(payload, "en")).toBeNull();
+    });
+    it("shows no percentage between a single amount and a range", () => {
+        const payload = notification({
+            payload: {
+                ...watchlistPayload,
+                change: {
+                    type: "PRICE_CHANGE",
+                    oldPrice: { type: "MONETARY", currency: "JPY", amount: 150000 },
+                    newPrice: { type: "RANGE", currency: "JPY", min: 100000, max: 150000 },
+                },
+            },
+        }).payload;
+        expect(getNotificationChangeParts(payload, t, "en")).toEqual({
+            from: "¥150,000",
+            to: "¥100,000 – ¥150,000",
+        });
+        expect(getNotificationPriceDelta(payload, "en")).toBeNull();
+        expect(getNotificationPriceDelta(notification().payload, "en")).toBe("−20%");
+    });
+    it("shows a price kind it does not know as an unknown price", () => {
+        const payload = notification({
+            payload: {
+                ...watchlistPayload,
+                change: {
+                    type: "PRICE_CHANGE",
+                    oldPrice: { type: "AUCTION_RESERVE" },
+                    newPrice: { type: "MONETARY", amount: 8000, currency: "USD" },
+                },
+            } as unknown as typeof watchlistPayload,
+        }).payload;
+        expect(getNotificationChangeParts(payload, t, "en")).toEqual({
+            from: "product.unknownPrice",
+            to: "$80.00",
         });
     });
     it("handles nullable availability", () => {

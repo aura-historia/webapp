@@ -165,6 +165,51 @@ describe("productJsonLd", () => {
         }
     });
 
+    it("states an asking-price range as an AggregateOffer with its bounds", () => {
+        const range = (min: number): ListingPrice => ({
+            type: "RANGE",
+            min,
+            max: 150_000,
+            currency: "JPY",
+        });
+        const withRange = (price: ListingPrice) =>
+            makeProduct({
+                price,
+                pricing: {
+                    source: {
+                        price: { type: "RANGE", min: 100_000, max: 150_000, currency: "EUR" },
+                    },
+                    display: { price },
+                    valuation: {
+                        type: "CURRENT",
+                        fxRateId: "fx-123",
+                        capturedAt: new Date("2024-01-20T15:30:00Z"),
+                    },
+                },
+            });
+
+        expect(
+            generateProductJsonLd(withRange(range(100_000)), {
+                canonicalUrl: "https://aura-historia.com/en/products/chair",
+            }).offers,
+        ).toEqual({
+            "@type": "AggregateOffer",
+            priceCurrency: "JPY",
+            lowPrice: 100_000,
+            highPrice: 150_000,
+            availability: "https://schema.org/InStock",
+            url: "https://aura-historia.com/en/products/chair",
+            seller: { "@type": "Organization", name: "Antique Store" },
+        });
+        // A range starting at zero would read as a free offer.
+        expect(generateProductJsonLd(withRange(range(0))).offers).toBeUndefined();
+        // Converted bounds that round to one amount arrive as a single price.
+        expect(
+            generateProductJsonLd(withRange({ type: "MONETARY", amount: 163_000, currency: "JPY" }))
+                .offers,
+        ).toMatchObject({ "@type": "Offer", price: 163_000, priceCurrency: "JPY" });
+    });
+
     it("omits offers for on-request prices", () => {
         const price: ListingPrice = { type: "ON_REQUEST" };
         const product = makeProduct({
@@ -234,7 +279,7 @@ describe("productJsonLd", () => {
 
         expect(script).not.toContain("</script>");
         expect(parsed.name).toBe("Chair</script><script>alert(1)");
-        expect(parsed.offers?.price).toBe(250);
+        expect(parsed.offers).toMatchObject({ "@type": "Offer", price: 250 });
     });
 
     it("excludes sensitive and unassessed images from public structured data", () => {
@@ -278,7 +323,7 @@ describe("productJsonLd", () => {
 
             const offers = generateProductJsonLd(product).offers;
             expect(offers?.priceCurrency).toBe(currency);
-            expect(offers?.price).toBe(major);
+            expect(offers).toMatchObject({ "@type": "Offer", price: major });
         },
     );
 

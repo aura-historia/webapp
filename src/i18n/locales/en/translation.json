@@ -996,6 +996,7 @@
       "displaySelect": "Show price history converted to {{currency}} at historical exchange rates",
       "displaySeriesName": "Price in {{currency}} (historical rates)",
       "displayNote": "Converted using the exchange rate recorded at or before each price change. Gaps mark prices without a recorded rate or without a public price.",
+      "rangeNote": "Asking prices stated as a range are not plotted; the listing history shows them.",
       "timeRangeLabel": "Time range",
       "resetZoom": "Reset zoom"
     },
@@ -5891,6 +5892,8 @@
       "lifecycle": "Lifecycle",
       "availability": "Availability",
       "price": "Price",
+      "priceFrom": "Price from",
+      "priceTo": "Price to",
       "created": "Created",
       "updated": "Updated",
       "notAsserted": "Not specified",
@@ -6024,6 +6027,7 @@
       "amountNoDecimals": "This currency has no minor unit. Enter a whole amount.",
       "amountTwoDecimals": "Enter no more than two decimal places.",
       "amountTooLarge": "This amount is too large to be stored exactly.",
+      "rangeOrder": "Enter an upper bound above the lower bound.",
       "availability": "Choose a supported availability.",
       "invalidUrl": "Enter a valid HTTP or HTTPS URL.",
       "invalidImageUrl": "Enter a valid HTTP or HTTPS image URL, or remove this image.",
@@ -6037,6 +6041,7 @@
     "priceOptions": {
       "NONE": "Not specified",
       "MONETARY": "Amount",
+      "RANGE": "Range",
       "ON_REQUEST": "On request"
     },
     "times": {

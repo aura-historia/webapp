@@ -16,7 +16,7 @@ import type {
     ProductImage,
     SensitiveContentCategory,
 } from "@/data/internal/product/ProductImageData.ts";
-import { formatPrice } from "@/data/internal/price/Price.ts";
+import { formatPrice, formatPriceRange } from "@/data/internal/price/Price.ts";
 
 export const LISTING_AVAILABILITIES = [
     "AVAILABLE",
@@ -42,20 +42,36 @@ export type MonetaryListingPrice = {
     readonly currency: Currency;
 };
 
+/** An asking price between two amounts of one currency; `min` is below `max`. */
+export type RangeListingPrice = {
+    readonly type: "RANGE";
+    /** Lower bound in minor currency units. */
+    readonly min: number;
+    /** Upper bound in minor currency units. */
+    readonly max: number;
+    readonly currency: Currency;
+};
+
 export type OnRequestListingPrice = {
     readonly type: "ON_REQUEST";
 };
 
-export type ListingPrice = MonetaryListingPrice | OnRequestListingPrice;
+export type ListingPrice = MonetaryListingPrice | RangeListingPrice | OnRequestListingPrice;
 export type PriceValuationType = "CURRENT" | "SALE_OBSERVATION";
 
+/**
+ * The amount or range of a price in the given locale; `undefined` for a price on request or no
+ * price, which callers label themselves.
+ */
 export function formatListingPrice(
     price: ListingPrice | null | undefined,
     locale: string,
 ): string | undefined {
-    return price?.type === "MONETARY"
-        ? formatPrice({ amount: price.amount, currency: price.currency }, locale)
-        : undefined;
+    if (price?.type === "MONETARY") {
+        return formatPrice({ amount: price.amount, currency: price.currency }, locale);
+    }
+    if (price?.type === "RANGE") return formatPriceRange(price, locale);
+    return undefined;
 }
 
 export type ListingPriceValuation =
@@ -187,12 +203,24 @@ export function mapListingLifecycle(lifecycle: ListingLifecycleData): ListingLif
     return lifecycle === "ACTIVE" || lifecycle === "WITHDRAWN" ? lifecycle : "UNKNOWN";
 }
 
+/**
+ * Maps a source or display price by its kind. A kind this app does not know maps to `null`, the
+ * unknown price, rather than being read as an amount it does not have.
+ */
 export function mapListingPrice(
     price: ProductListingPriceData | null | undefined,
 ): ListingPrice | null | undefined {
     if (price == null) return price;
-    if (price.type === "ON_REQUEST") return { type: "ON_REQUEST" };
-    return { type: "MONETARY", amount: price.amount, currency: price.currency };
+    switch (price.type) {
+        case "MONETARY":
+            return { type: "MONETARY", amount: price.amount, currency: price.currency };
+        case "RANGE":
+            return { type: "RANGE", min: price.min, max: price.max, currency: price.currency };
+        case "ON_REQUEST":
+            return { type: "ON_REQUEST" };
+        default:
+            return null;
+    }
 }
 
 export function mapListingPriceEstimate(

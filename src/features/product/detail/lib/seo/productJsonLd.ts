@@ -1,5 +1,8 @@
 import type { ProductListingDetail } from "@/data/internal/product/ProductListingDetail.ts";
-import type { ListingAvailability } from "@/data/internal/product/ProductListingDomain.ts";
+import type {
+    ListingAvailability,
+    ListingPrice,
+} from "@/data/internal/product/ProductListingDomain.ts";
 import { BANNER_IMAGE_URL } from "@/lib/seo/seoConstants.ts";
 import { toMajorCurrencyAmount } from "@/data/internal/price/Price.ts";
 
@@ -12,14 +15,17 @@ type SellerJsonLd = {
     url?: string;
 };
 
-type OfferJsonLd = {
-    "@type": "Offer";
+type OfferFieldsJsonLd = {
     priceCurrency: string;
-    price: number;
     availability?: string;
     url?: string;
     seller: SellerJsonLd;
 };
+
+type OfferJsonLd =
+    | (OfferFieldsJsonLd & { "@type": "Offer"; price: number })
+    /** An asking price stated as a range: its bounds as `lowPrice` and `highPrice`. */
+    | (OfferFieldsJsonLd & { "@type": "AggregateOffer"; lowPrice: number; highPrice: number });
 
 export type ProductJsonLd = {
     "@context": "https://schema.org/";
@@ -79,17 +85,40 @@ function offerAvailability(product: ProductListingDetail): string | null | undef
     return (product.availability && SCHEMA_AVAILABILITY[product.availability]) ?? null;
 }
 
+type OfferPrice =
+    | { "@type": "Offer"; price: number }
+    | { "@type": "AggregateOffer"; lowPrice: number; highPrice: number };
+
 /**
- * The listing's price as an Offer sold by its source: the current asking price, the price it sold
- * at, or a withdrawn listing's last asking price. Price on request, a missing price and a zero
- * price have none.
+ * The price part of the offer: one amount as an Offer, a range as an AggregateOffer with its
+ * bounds. Price on request, a missing price and a zero amount or lower bound have none.
+ */
+function toOfferPrice(price: ListingPrice | null | undefined): OfferPrice | undefined {
+    if (price?.type === "MONETARY" && price.amount > 0) {
+        return { "@type": "Offer", price: toMajorCurrencyAmount(price.amount, price.currency) };
+    }
+    if (price?.type === "RANGE" && price.min > 0) {
+        return {
+            "@type": "AggregateOffer",
+            lowPrice: toMajorCurrencyAmount(price.min, price.currency),
+            highPrice: toMajorCurrencyAmount(price.max, price.currency),
+        };
+    }
+    return undefined;
+}
+
+/**
+ * The listing's price as an offer sold by its source: the current asking price, the price it sold
+ * at, or a withdrawn listing's last asking price. An asking-price range becomes an AggregateOffer
+ * with `lowPrice` and `highPrice`. Price on request, a missing price and a zero price have none.
  */
 function toOffer(
     product: ProductListingDetail,
     { canonicalUrl, sellerUrl }: ProductJsonLdOptions,
 ): OfferJsonLd | undefined {
     const listingPrice = product.pricing.display.price;
-    if (listingPrice?.type !== "MONETARY" || listingPrice.amount <= 0) return undefined;
+    const offerPrice = toOfferPrice(listingPrice);
+    if (!listingPrice || listingPrice.type === "ON_REQUEST" || !offerPrice) return undefined;
 
     const availability = offerAvailability(product);
     if (availability === undefined) return undefined;
@@ -98,9 +127,8 @@ function toOffer(
     if (sellerUrl) seller.url = sellerUrl;
 
     const offer: OfferJsonLd = {
-        "@type": "Offer",
+        ...offerPrice,
         priceCurrency: listingPrice.currency,
-        price: toMajorCurrencyAmount(listingPrice.amount, listingPrice.currency),
         // The page that shows the offer; the dealer's own listing is one click further. Structured
         // data never names an affiliate link.
         url:

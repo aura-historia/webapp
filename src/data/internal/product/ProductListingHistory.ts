@@ -4,6 +4,7 @@ import type {
     ProductListingHistoryEntryData,
     ProductListingHistoryEstimateData,
     ProductListingHistoryMainPriceData,
+    ProductListingHistoryMainPriceDisplayData,
     ProductListingHistoryPriceDisplayData,
     ProductListingAuctionFactsData,
 } from "@/client";
@@ -14,6 +15,7 @@ import {
     type ListingPriceEstimate,
     type MonetaryListingPrice,
     type OnRequestListingPrice,
+    type RangeListingPrice,
 } from "@/data/internal/product/ProductListingDomain.ts";
 
 /**
@@ -29,10 +31,31 @@ export type HistoricalDisplayPrice = {
     readonly capturedAt: Date;
 };
 
-export type HistoryMonetaryPrice = MonetaryListingPrice & {
-    readonly display?: HistoricalDisplayPrice;
+/** Backend projection of a historical price range, in the same terms as `HistoricalDisplayPrice`. */
+export type HistoricalDisplayRange = {
+    /** Bounds in minor units of `currency`. */
+    readonly min: number;
+    readonly max: number;
+    readonly currency: Currency;
+    readonly fxRateId: string;
+    readonly capturedAt: Date;
 };
-export type HistoryListingPrice = HistoryMonetaryPrice | OnRequestListingPrice;
+
+/**
+ * Projection of a main price: the source's shape, except that a range whose bounds round to one
+ * amount in the display currency arrives as a single amount.
+ */
+export type HistoricalMainDisplayPrice =
+    | ({ readonly type: "MONETARY" } & HistoricalDisplayPrice)
+    | ({ readonly type: "RANGE" } & HistoricalDisplayRange);
+
+export type HistoryMonetaryPrice = MonetaryListingPrice & {
+    readonly display?: HistoricalMainDisplayPrice;
+};
+export type HistoryRangePrice = RangeListingPrice & {
+    readonly display?: HistoricalMainDisplayPrice;
+};
+export type HistoryListingPrice = HistoryMonetaryPrice | HistoryRangePrice | OnRequestListingPrice;
 export type HistoryPriceEstimate = ListingPriceEstimate & {
     readonly display?: HistoricalDisplayPrice;
 };
@@ -129,8 +152,7 @@ function mapDisplay(
     const capturedAt = new Date(display.capturedAt);
     if (
         !currency ||
-        !Number.isSafeInteger(display.amount) ||
-        display.amount < 0 ||
+        !isMinorAmount(display.amount) ||
         !display.fxRateId ||
         Number.isNaN(capturedAt.getTime())
     ) {
@@ -139,18 +161,72 @@ function mapDisplay(
     return { amount: display.amount, currency, fxRateId: display.fxRateId, capturedAt };
 }
 
+function isMinorAmount(value: number): boolean {
+    return Number.isSafeInteger(value) && value >= 0;
+}
+
+/** Drops a main-price projection that cannot be represented truthfully, like `mapDisplay`. */
+function mapMainDisplay(
+    display: ProductListingHistoryMainPriceDisplayData | undefined,
+): HistoricalMainDisplayPrice | undefined {
+    if (!display) return undefined;
+    if (display.type === "MONETARY") {
+        const monetary = mapDisplay(display);
+        return monetary && { type: "MONETARY", ...monetary };
+    }
+    if (display.type !== "RANGE") return undefined;
+    const currency = toSupportedCurrency(display.currency);
+    const capturedAt = new Date(display.capturedAt);
+    if (
+        !currency ||
+        !isMinorAmount(display.min) ||
+        !isMinorAmount(display.max) ||
+        display.min >= display.max ||
+        !display.fxRateId ||
+        Number.isNaN(capturedAt.getTime())
+    ) {
+        return undefined;
+    }
+    return {
+        type: "RANGE",
+        min: display.min,
+        max: display.max,
+        currency,
+        fxRateId: display.fxRateId,
+        capturedAt,
+    };
+}
+
+/** A kind this app does not know maps to `null`, like an absent price. */
 function mapPrice(
     value: ProductListingHistoryMainPriceData | null | undefined,
 ): HistoryListingPrice | null {
     if (value == null) return null;
-    if (value.type === "ON_REQUEST") return { type: "ON_REQUEST" };
-    const display = mapDisplay(value.display);
-    return {
-        type: "MONETARY",
-        amount: value.amount,
-        currency: value.currency,
-        ...(display && { display }),
-    };
+    switch (value.type) {
+        case "ON_REQUEST":
+            return { type: "ON_REQUEST" };
+        case "MONETARY": {
+            const display = mapMainDisplay(value.display);
+            return {
+                type: "MONETARY",
+                amount: value.amount,
+                currency: value.currency,
+                ...(display && { display }),
+            };
+        }
+        case "RANGE": {
+            const display = mapMainDisplay(value.display);
+            return {
+                type: "RANGE",
+                min: value.min,
+                max: value.max,
+                currency: value.currency,
+                ...(display && { display }),
+            };
+        }
+        default:
+            return null;
+    }
 }
 
 function mapMoney(

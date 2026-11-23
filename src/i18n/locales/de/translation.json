@@ -996,6 +996,7 @@
       "displaySelect": "Preisverlauf in {{currency}} zu historischen Wechselkursen anzeigen",
       "displaySeriesName": "Preis in {{currency}} (historische Kurse)",
       "displayNote": "Umgerechnet mit dem Wechselkurs, der zum Zeitpunkt der jeweiligen Preisänderung oder davor erfasst wurde. Lücken markieren Preise ohne erfassten Kurs oder ohne öffentlichen Preis.",
+      "rangeNote": "Als Spanne angegebene Preise werden nicht im Diagramm gezeigt; der Verlauf des Angebots führt sie auf.",
       "timeRangeLabel": "Zeitraum",
       "resetZoom": "Zoom zurücksetzen"
     },
@@ -5891,6 +5892,8 @@
       "lifecycle": "Lebenszyklus",
       "availability": "Verfügbarkeit",
       "price": "Preis",
+      "priceFrom": "Preis von",
+      "priceTo": "Preis bis",
       "created": "Angelegt",
       "updated": "Aktualisiert",
       "notAsserted": "Nicht angegeben",
@@ -6024,6 +6027,7 @@
       "amountNoDecimals": "Diese Währung hat keine Untereinheit. Geben Sie einen ganzen Betrag ein.",
       "amountTwoDecimals": "Geben Sie höchstens zwei Nachkommastellen ein.",
       "amountTooLarge": "Dieser Betrag ist zu groß, um exakt gespeichert zu werden.",
+      "rangeOrder": "Geben Sie eine Obergrenze über der Untergrenze ein.",
       "availability": "Wählen Sie eine unterstützte Verfügbarkeit aus.",
       "invalidUrl": "Geben Sie eine gültige HTTP- oder HTTPS-URL ein.",
       "invalidImageUrl": "Geben Sie eine gültige HTTP- oder HTTPS-Bild-URL ein oder entfernen Sie dieses Bild.",
@@ -6037,6 +6041,7 @@
     "priceOptions": {
       "NONE": "Nicht angegeben",
       "MONETARY": "Betrag",
+      "RANGE": "Spanne",
       "ON_REQUEST": "Auf Anfrage"
     },
     "times": {

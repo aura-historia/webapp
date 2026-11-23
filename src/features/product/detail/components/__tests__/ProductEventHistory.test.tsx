@@ -223,6 +223,7 @@ describe("ProductEventHistory", () => {
                             amount: 3000,
                             currency: "EUR",
                             display: {
+                                type: "MONETARY",
                                 amount: 15000,
                                 currency: "RON",
                                 fxRateId: "fx_1",
@@ -234,6 +235,7 @@ describe("ProductEventHistory", () => {
                             amount: 29999,
                             currency: "SEK",
                             display: {
+                                type: "MONETARY",
                                 amount: 15000,
                                 currency: "RON",
                                 fxRateId: "fx_1",
@@ -300,6 +302,7 @@ describe("ProductEventHistory", () => {
                                 amount: 4567,
                                 currency: "JPY",
                                 display: {
+                                    type: "MONETARY",
                                     amount: 4567,
                                     currency: "JPY",
                                     fxRateId: "fx_1",
@@ -369,6 +372,64 @@ describe("ProductEventHistory", () => {
             );
             expect(texts[1]).toMatch(/^product\.history\.values\.fxProvenance KRW /);
             expect(texts).toHaveLength(2);
+        });
+
+        it("shows ranges and their projections, including one collapsed to an amount", () => {
+            const rangeChange: ProductListingHistoryEntry = {
+                ...projectedChange,
+                eventId: "event-range",
+                payload: {
+                    kind: "CHANGED",
+                    changes: [
+                        {
+                            type: "MAIN_PRICE_CHANGED",
+                            previous: {
+                                type: "RANGE",
+                                min: 100000,
+                                max: 150000,
+                                currency: "EUR",
+                                display: {
+                                    type: "RANGE",
+                                    min: 163000,
+                                    max: 244500,
+                                    currency: "JPY",
+                                    fxRateId: "fx_1",
+                                    capturedAt,
+                                },
+                            },
+                            current: {
+                                type: "RANGE",
+                                min: 100000,
+                                max: 100001,
+                                currency: "EUR",
+                                display: {
+                                    type: "MONETARY",
+                                    amount: 163000,
+                                    currency: "JPY",
+                                    fxRateId: "fx_1",
+                                    capturedAt,
+                                },
+                            },
+                        },
+                    ],
+                },
+            };
+            const { rerender } = render(
+                <ProductEventHistory event={rangeChange} displayCurrency="JPY" />,
+            );
+            const [change] = screen
+                .getAllByTestId("timeline-description")
+                .map((element) => normalise(element.textContent));
+            expect(change).toBe(
+                "product.history.events.mainPriceChanged " +
+                    "product.history.values.converted ¥163,000 – ¥244,500 €1,000.00 – €1,500.00 " +
+                    "product.history.values.converted ¥163,000 €1,000.00 – €1,000.01",
+            );
+
+            rerender(<ProductEventHistory event={rangeChange} />);
+            expect(normalise(screen.getByTestId("timeline-description").textContent)).toBe(
+                "product.history.events.mainPriceChanged €1,000.00 – €1,500.00 €1,000.00 – €1,000.01",
+            );
         });
 
         it("keeps source-only rendering when no display currency is requested", () => {

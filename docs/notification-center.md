@@ -8,8 +8,11 @@ historical price snapshots.
 
 The mapper selects a domain payload from `NotificationData.kind`. Watchlist changes
 use internal `ListingPrice` and `ListingAvailability` values; nullable prices and
-availability remain nullable. Monetary prices retain the immutable source currency,
-and `ON_REQUEST` remains distinct from an unknown price. Search matches and
+availability remain nullable. Monetary prices and ranges retain the immutable source
+currency, and `ON_REQUEST` remains distinct from an unknown price, to which a price
+kind the app does not know maps. A range renders as both bounds; any change of an
+asking price, including one bound of a range or a change of kind, is a price change,
+and a change to or from a range shows no percentage. Search matches and
 partnership approval/rejection snapshots also map before rendering. Removed audit
 fields are not reconstructed.
 

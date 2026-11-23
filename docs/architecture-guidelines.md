@@ -118,8 +118,10 @@ raw HTML, and the helper escapes `<` so listing or source text cannot close the 
 - Listing pages (`src/features/product/detail/lib/seo/productJsonLd.ts`): always a Product. It
   has an Offer whenever the listing has a monetary price above zero that can be stated truthfully:
   the current asking price (with the listing's availability), the price it sold at (`SoldOut`), or
-  a withdrawn listing's last asking price (`Discontinued`). The Offer names the source as `seller`
-  (linked to its profile page) and points to the listing page. `sku` is the source's own listing ID
+  a withdrawn listing's last asking price (`Discontinued`). An asking price stated as a range
+  becomes an AggregateOffer with `lowPrice` and `highPrice` instead (none when its lower bound is
+  zero); Google accepts it for product snippets, not for merchant listings. The offer names the
+  source as `seller` (linked to its profile page) and points to the listing page. `sku` is the source's own listing ID
   when it has 1–50 characters (Google's limit); `productID` is ours. A listing priced on request
   has no offer, so Google reports it as an invalid product snippet; that is accurate and does not
   affect ranking.

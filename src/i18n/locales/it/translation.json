@@ -988,6 +988,7 @@
       "displaySelect": "Mostra lo storico dei prezzi in {{currency}} ai tassi di cambio storici",
       "displaySeriesName": "Prezzo in {{currency}} (tassi storici)",
       "displayNote": "Convertito al tasso di cambio registrato al momento di ogni variazione di prezzo o prima. Le interruzioni indicano prezzi senza tasso registrato o senza prezzo pubblico.",
+      "rangeNote": "I prezzi indicati come intervallo non sono riportati nel grafico; la cronologia dell’annuncio li mostra.",
       "timeRangeLabel": "Periodo",
       "resetZoom": "Reimposta zoom"
     },
@@ -5891,6 +5892,8 @@
       "lifecycle": "Ciclo di vita",
       "availability": "Disponibilità",
       "price": "Prezzo",
+      "priceFrom": "Prezzo da",
+      "priceTo": "Prezzo fino a",
       "created": "Creato",
       "updated": "Aggiornato",
       "notAsserted": "Non specificato",
@@ -6024,6 +6027,7 @@
       "amountNoDecimals": "Questa valuta non ha sottounità. Inserisci un importo intero.",
       "amountTwoDecimals": "Inserisci al massimo due decimali.",
       "amountTooLarge": "Questo importo è troppo grande per essere salvato con esattezza.",
+      "rangeOrder": "Inserisci un limite superiore maggiore del limite inferiore.",
       "availability": "Scegli una disponibilità supportata.",
       "invalidUrl": "Inserisci un URL HTTP o HTTPS valido.",
       "invalidImageUrl": "Inserisci un URL immagine HTTP o HTTPS valido oppure rimuovi questa immagine.",
@@ -6037,6 +6041,7 @@
     "priceOptions": {
       "NONE": "Non specificato",
       "MONETARY": "Importo",
+      "RANGE": "Intervallo",
       "ON_REQUEST": "Su richiesta"
     },
     "times": {
