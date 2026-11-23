@@ -671,7 +671,7 @@ To sync a backend revision:
   anonymous response stays edge-cacheable. Invalid or missing counts, including a missing
   `sourcesIndexedByType`, fail the query and the strip is left out. The strip shows
   `sourcesIndexedByType` (dealers, auction houses, auction platforms, marketplaces),
-  `liveObjects` and `countries`; `asOf`, `sourcesIndexed`, `languages` and
+  `liveObjects` and `countries`, leaving out any count at zero; `asOf`, `sourcesIndexed`, `languages` and
   `newObjectsLast7Days` are mapped but not shown.
 - Shipping and delivery are generated-only until a shipping slice consumes them: the shipping
   profile, default and listing-delivery operations, listing `shipping` (summary and detail
