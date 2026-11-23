@@ -2,6 +2,7 @@ import { CURRENCIES } from "@/data/internal/common/Currency.ts";
 import {
     currencyMinorUnitDigits,
     formatPrice,
+    formatPriceRange,
     toMajorCurrencyAmount,
     toMinorCurrencyAmount,
 } from "@/data/internal/price/Price.ts";
@@ -97,5 +98,22 @@ describe("formatPrice", () => {
 
     it("handles negative amounts correctly", () => {
         expect(formatPrice({ amount: -123456, currency: "EUR" }, locale)).toBe("-1.234,56 €");
+    });
+});
+
+describe("formatPriceRange", () => {
+    it("formats both bounds in the locale with the currency's minor-unit exponent", () => {
+        expect(
+            normalizeSpaces(formatPriceRange({ min: 100000, max: 150000, currency: "EUR" }, "en")),
+        ).toBe("€1,000.00 – €1,500.00");
+        expect(
+            normalizeSpaces(formatPriceRange({ min: 100000, max: 150000, currency: "EUR" }, "de")),
+        ).toBe("1.000,00 € – 1.500,00 €");
+        expect(
+            normalizeSpaces(formatPriceRange({ min: 100000, max: 150000, currency: "JPY" }, "en")),
+        ).toBe("¥100,000 – ¥150,000");
+        expect(
+            normalizeSpaces(formatPriceRange({ min: 5000, max: 7500, currency: "KRW" }, "en")),
+        ).toBe("₩5,000 – ₩7,500");
     });
 });

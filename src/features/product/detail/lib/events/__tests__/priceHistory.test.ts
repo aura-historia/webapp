@@ -6,9 +6,11 @@ import type {
 import { describe, expect, it } from "vitest";
 import {
     formatHistoryMoney,
+    formatHistoryValue,
     getDisplayPriceHistorySeries,
     getHistoryDisplayPrice,
     getPriceHistorySeries,
+    hasRangePriceHistory,
 } from "../priceHistory.ts";
 
 function discovery(
@@ -108,6 +110,55 @@ describe("getPriceHistorySeries", () => {
 
         expect(series[0]?.data.map(({ y }) => y)).toEqual([99.99, null, 120]);
         expect(series[0]?.data.some(({ y }) => y === 0)).toBe(false);
+    });
+
+    it("leaves a gap for a range and keeps the currency logic of a price on request", () => {
+        const range = { type: "RANGE", min: 100000, max: 150000, currency: "EUR" } as const;
+        const series = getPriceHistorySeries([
+            discovery("1", "2026-01-01T00:00:00Z", {
+                type: "MONETARY",
+                amount: 9999,
+                currency: "EUR",
+            }),
+            mainPriceChange(
+                "2",
+                "2026-01-02T00:00:00Z",
+                { type: "MONETARY", amount: 9999, currency: "EUR" },
+                range,
+            ),
+            mainPriceChange("3", "2026-01-03T00:00:00Z", range, {
+                type: "MONETARY",
+                amount: 120000,
+                currency: "SEK",
+            }),
+        ]);
+
+        expect(series).toEqual([
+            {
+                currency: "EUR",
+                data: [
+                    { x: new Date("2026-01-01T00:00:00Z").getTime(), y: 99.99 },
+                    { x: new Date("2026-01-02T00:00:00Z").getTime(), y: null },
+                ],
+            },
+            {
+                currency: "SEK",
+                data: [{ x: new Date("2026-01-03T00:00:00Z").getTime(), y: 1200 }],
+            },
+        ]);
+    });
+
+    it("plots nothing for a listing priced only as a range", () => {
+        expect(
+            getPriceHistorySeries([
+                discovery("1", "2026-01-01T00:00:00Z", {
+                    type: "RANGE",
+                    min: 100000,
+                    max: 150000,
+                    currency: "EUR",
+                }),
+            ]),
+        ).toEqual([]);
     });
 
     it("scales zero-decimal source currencies using their own minor unit", () => {
@@ -220,7 +271,7 @@ function projected(
         type: "MONETARY",
         amount,
         currency,
-        display: { fxRateId: "fx_1", capturedAt: snapshotAt, ...display },
+        display: { type: "MONETARY", fxRateId: "fx_1", capturedAt: snapshotAt, ...display },
     };
 }
 
@@ -229,6 +280,7 @@ describe("getHistoryDisplayPrice", () => {
         const price = projected(3000, "EUR", { amount: 15000, currency: "RON" });
 
         expect(getHistoryDisplayPrice(price, "RON")).toEqual({
+            type: "MONETARY",
             amount: 15000,
             currency: "RON",
             fxRateId: "fx_1",
@@ -379,6 +431,83 @@ describe("getDisplayPriceHistorySeries", () => {
             },
             { currency: "SEK", data: [{ x: t(2), y: 299.99 }] },
         ]);
+    });
+});
+
+describe("ranges in the requested currency", () => {
+    const t = (day: number) => new Date(`2026-01-0${day}T00:00:00Z`).getTime();
+    const capturedAt = snapshotAt;
+
+    it("plots a range collapsed to one amount and leaves a projected range a gap", () => {
+        const collapsed: HistoryListingPrice = {
+            type: "RANGE",
+            min: 100000,
+            max: 100001,
+            currency: "EUR",
+            display: {
+                type: "MONETARY",
+                amount: 163000,
+                currency: "JPY",
+                fxRateId: "fx_1",
+                capturedAt,
+            },
+        };
+        const ranged: HistoryListingPrice = {
+            type: "RANGE",
+            min: 100000,
+            max: 150000,
+            currency: "EUR",
+            display: {
+                type: "RANGE",
+                min: 163000,
+                max: 244500,
+                currency: "JPY",
+                fxRateId: "fx_1",
+                capturedAt,
+            },
+        };
+
+        expect(getHistoryDisplayPrice(ranged, "JPY")).toMatchObject({ min: 163000, max: 244500 });
+        expect(
+            getDisplayPriceHistorySeries(
+                [
+                    discovery("1", "2026-01-01T00:00:00Z", collapsed),
+                    mainPriceChange("2", "2026-01-02T00:00:00Z", collapsed, ranged),
+                ],
+                "JPY",
+            ),
+        ).toEqual({
+            currency: "JPY",
+            data: [
+                { x: t(1), y: 163000 },
+                { x: t(2), y: null },
+            ],
+        });
+    });
+
+    it("knows when a history holds a range", () => {
+        const range = { type: "RANGE", min: 1, max: 2, currency: "EUR" } as const;
+        const monetary = { type: "MONETARY", amount: 1, currency: "EUR" } as const;
+        expect(hasRangePriceHistory([discovery("1", "2026-01-01T00:00:00Z", monetary)])).toBe(
+            false,
+        );
+        expect(hasRangePriceHistory([discovery("1", "2026-01-01T00:00:00Z", range)])).toBe(true);
+        expect(
+            hasRangePriceHistory([mainPriceChange("2", "2026-01-02T00:00:00Z", range, null)]),
+        ).toBe(true);
+    });
+
+    it("formats a range with both bounds in the currency's minor-unit exponent", () => {
+        const normalise = (value: string) => value.replace(/[\u00a0\u202f]/g, " ");
+        expect(
+            normalise(formatHistoryValue({ min: 100000, max: 150000, currency: "EUR" }, "en")),
+        ).toBe("€1,000.00 – €1,500.00");
+        expect(
+            normalise(formatHistoryValue({ min: 100000, max: 150000, currency: "KRW" }, "en-US")),
+        ).toBe("₩100,000 – ₩150,000");
+        expect(normalise(formatHistoryValue({ amount: 2999, currency: "EUR" }, "de"))).toBe(
+            "29,99 €",
+        );
     });
 });
 

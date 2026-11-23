@@ -988,6 +988,7 @@
       "displaySelect": "Afficher l’historique des prix en {{currency}} aux taux de change historiques",
       "displaySeriesName": "Prix en {{currency}} (taux historiques)",
       "displayNote": "Converti au taux de change enregistré au moment de chaque changement de prix ou avant. Les interruptions signalent des prix sans taux enregistré ou sans prix public.",
+      "rangeNote": "Les prix indiqués sous forme de fourchette ne sont pas tracés en ligne ; l’historique les affiche.",
       "timeRangeLabel": "Période",
       "resetZoom": "Réinitialiser le zoom"
     },
@@ -1834,7 +1835,7 @@
         },
         "create": {
           "title": "Champs de création et prix",
-          "description": "POST exige sourceListingId, url et images ; incluez title et description localisés lorsqu’ils sont disponibles (le contrat actuel autorise leur omission ou null). Les champs vendeur et adresse ne sont pas pris en charge. availability peut être null. Le prix est { type: MONETARY, currency: EUR, amount: 420000 } en unités monétaires mineures, ou { type: ON_REQUEST } ; null n’enregistre aucun prix."
+          "description": "POST exige sourceListingId, url et images ; incluez title et description localisés lorsqu’ils sont disponibles (le contrat actuel autorise leur omission ou null). Les champs vendeur et adresse ne sont pas pris en charge. availability peut être null. Le prix est { type: MONETARY, currency: EUR, amount: 420000 } en unités monétaires mineures, une fourchette { type: RANGE, currency: EUR, min: 100000, max: 150000 } dont min est inférieur à max, ou { type: ON_REQUEST } ; null n’enregistre aucun prix."
         },
         "patch": {
           "title": "Conserver ou effacer",
@@ -5891,6 +5892,8 @@
       "lifecycle": "Cycle de vie",
       "availability": "Disponibilité",
       "price": "Prix",
+      "priceFrom": "Prix à partir de",
+      "priceTo": "Prix jusqu’à",
       "created": "Créée",
       "updated": "Mise à jour",
       "notAsserted": "Non renseigné",
@@ -6024,6 +6027,7 @@
       "amountNoDecimals": "Cette devise n’a pas de subdivision. Saisissez un montant entier.",
       "amountTwoDecimals": "Saisissez au maximum deux décimales.",
       "amountTooLarge": "Ce montant est trop élevé pour être enregistré avec exactitude.",
+      "rangeOrder": "Saisissez une borne supérieure plus élevée que la borne inférieure.",
       "availability": "Choisissez une disponibilité prise en charge.",
       "invalidUrl": "Saisissez une URL HTTP ou HTTPS valide.",
       "invalidImageUrl": "Saisissez une URL d’image HTTP ou HTTPS valide, ou supprimez cette image.",
@@ -6037,6 +6041,7 @@
     "priceOptions": {
       "NONE": "Non renseigné",
       "MONETARY": "Montant",
+      "RANGE": "Fourchette",
       "ON_REQUEST": "Sur demande"
     },
     "times": {

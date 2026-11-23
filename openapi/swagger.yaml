@@ -19,7 +19,7 @@ info:
     \  ingestion scenarios.\n\nWhen a route lists multiple security schemes, any one of the listed schemes may be accepted.\n\
     A `401` for a missing or invalid bearer on a route that accepts Aura access tokens carries\n`WWW-Authenticate: Bearer resource_metadata=\"{issuer}/.well-known/oauth-protected-resource\"`, followed by\n`error=\"invalid_token\"` when a presented bearer is invalid or expired; OAuth\nprotocol and consent routes keep their own errors. `/.well-known/api-catalog` lists the REST and MCP APIs.\n\
     Some read endpoints can also be called without authentication, while a valid user token may enrich\nthe response with\
-    \ personalized state such as watchlist, notification, or search-filter metadata. Aura Historia access\ntokens receive only the sections their read scopes permit; see `ProductListingUserStateData`.\n\n## MCP interface\n\nThe separate `https://mcp.aura-historia.com/v1` Streamable HTTP endpoint accepts opaque Aura access tokens only. Public calls may omit credentials; invalid supplied credentials receive HTTP 401, protected operations require their declared scopes, and insufficient grants receive HTTP 403 with the complete required scope set. Credential-free protected-resource metadata is served on the MCP host at `/.well-known/oauth-protected-resource` and `/.well-known/oauth-protected-resource/v1`, and its MCP Server Card at `/.well-known/mcp/server-card.json`. See [the MCP contract](https://github.com/aura-historia/backend/blob/develop/docs/mcp.md) for protocol and discovery details.\n\n## Data and response conventions\n\
+    \ personalized state such as watchlist, notification, or search-filter metadata. Aura Historia access\ntokens receive only the sections their read scopes permit; see `ProductListingUserStateData`.\n\n## Request rate limits\n\nThe API limits the request rate of every operation, and `POST /v1/address-suggestions` further, across all callers. An exhausted limit returns HTTP 429 with error `REQUEST_RATE_LIMITED` and `Retry-After: 1`; back off and retry. Only `GET /v1/health` is not limited.\n\n## MCP interface\n\nThe separate `https://mcp.aura-historia.com/v1` Streamable HTTP endpoint accepts opaque Aura access tokens only. Public calls may omit credentials; invalid supplied credentials receive HTTP 401, protected operations require their declared scopes, and insufficient grants receive HTTP 403 with the complete required scope set. Credential-free protected-resource metadata is served on the MCP host at `/.well-known/oauth-protected-resource` and `/.well-known/oauth-protected-resource/v1`, and its MCP Server Card at `/.well-known/mcp/server-card.json`. See [the MCP contract](https://github.com/aura-historia/backend/blob/develop/docs/mcp.md) for protocol and discovery details.\n\n## Data and response conventions\n\
     \n- **PATCH:** an omitted request member remains unchanged. A documented nullable PATCH member\n  accepts `null` to clear\
     \ its value; `null` for any other member returns `400 BAD_BODY_VALUE`.\n  Use `[]`, not `null`, to replace a non-null\
     \ collection with an empty collection. Empty HTTP\n  bodies are invalid, `{}` is a valid object-PATCH no-op, and the partner-product\
@@ -35,7 +35,7 @@ info:
     \ server-generated `X-Request-Id` and `X-Correlation-Id` headers. Clients may send `X-Correlation-Id` to preserve a trace\
     \ only when it is a 1–128-character ASCII value containing letters, digits, `.`, `_`, or `-`; invalid values are replaced.\
     \ Both headers are CORS-exposed; CloudFront removes them from viewer responses on the cache-enabled discovery behaviors so shared cache hits cannot replay origin IDs.\n- Request bodies are limited to 1 MiB and requests time out after 30 seconds. A declared `Content-Length` above 1 MiB is\
-    \ rejected at the edge with `413` (`BAD_BODY_VALUE`, JSON body) before authentication or route handling.\n- `POST /v1/webhooks/loops` is limited to 64 KiB and has a 10-second processing budget; it requires a valid Loops signature but no Aura bearer.\n- `GET /v1/health` is a\
+    \ rejected at the edge with `413` (`BAD_BODY_VALUE`, JSON body) before authentication or route handling.\n- `POST /v1/webhooks/loops` is limited to 64 KiB and has a 10-second processing budget; it requires a valid Loops signature but no Aura bearer.\n- `POST /v1/webhooks/stripe` is limited to 256 KiB and has a 20-second processing budget; it requires a valid Stripe signature but no Aura bearer.\n- `POST /v1/webhooks/shopify` is limited to 1 MiB and answers within about four seconds; it requires a valid Shopify HMAC but no Aura bearer.\n- `GET /v1/health` is a\
     \ process liveness check. `GET /v1/ready` returns `204` only when the configured PostgreSQL and OpenSearch dependencies are\
     \ reachable; it otherwise returns `503`.\n- WooCommerce webhook ingestion responds with **`204 No Content`** after\
     \ signed validation. A mapped raw-capture command receives `204` only after confirmed shared FIFO admission; authorized ignored create/update status events are no-op `204`. Queue admission is not raw capture, provider receipt persistence, canonical normalization, or search visibility. Capture conflicts are handled by the consumer, not returned synchronously; existing partner Product batch writes remain synchronous.\n\n## Environment\
@@ -3209,7 +3209,7 @@ paths:
                 title: Not Found
                 error: LISTING_SOURCE_NOT_FOUND
         "413":
-          description: Payload too large — the HTTP body limit or encoded SQS message limit was exceeded before confirmed admission. No queue acceptance is claimed.
+          description: Payload too large — the HTTP body limit or encoded queue message limit was exceeded before confirmed admission. No queue acceptance is claimed.
           content:
             application/problem+json:
               schema:
@@ -3417,6 +3417,261 @@ paths:
                   status: 503,
                   title: Service Unavailable,
                   error: LOOPS_WEBHOOK_TEMPORARILY_UNAVAILABLE,
+                }
+  /v1/webhooks/shopify:
+    post:
+      summary: Ingest a signed Shopify product listing webhook
+      description: >-
+        Accepts one Shopify webhook delivery from the Aura Historia Shopify app. No Aura/Cognito bearer is
+        required: `X-Shopify-Hmac-Sha256` must be the base64 HMAC-SHA256 of the exact body bytes with the app's
+        client secret (during rotation the previous secret is accepted too). The signature is checked before
+        anything else is read. The body is limited to 1 MiB.
+
+        Only `product_listings/add`, `product_listings/update` and `product_listings/remove` are forwarded;
+        every other topic, including `products/*`, returns `200` without effects. A forwarded delivery is
+        mapped to one `CAPTURE_RAW` ingestion command for the ListingSource configured with the shop domain
+        and answered `200` only after the command's admission is confirmed. A shop domain without a Shopify
+        ListingSource also returns `200` without effects. Admission is not raw capture, normalization or
+        search visibility. `X-Shopify-Triggered-At` orders observations of one product by provider source
+        time, and `X-Shopify-Webhook-Id` identifies the delivery: Shopify's retries of one delivery
+        deduplicate into one command and one provider receipt. Only the body is signed, so a trigger time
+        more than five minutes in the future or more than six hours old is rejected for a shop with a
+        Shopify ListingSource.
+
+        `400` means the delivery is malformed or its product cannot be mapped; `5xx` means admission is
+        uncertain and Shopify should retry, which it does for about four hours. After that, re-importing the
+        shop through the canonical asynchronous upsert and withdrawal endpoints is the recovery path. The
+        service answers within about four seconds of receiving the body.
+      operationId: postShopifyWebhook
+      tags: [ProductListings]
+      security: []
+      parameters:
+        - name: X-Shopify-Hmac-Sha256
+          in: header
+          required: true
+          description: Base64 HMAC-SHA256 of the exact request body bytes, keyed with the app client secret.
+          schema: { type: string }
+        - name: X-Shopify-Topic
+          in: header
+          required: true
+          description: Webhook topic. Only the three `product_listings/*` topics are forwarded.
+          schema: { type: string, example: product_listings/update }
+        - name: X-Shopify-Shop-Domain
+          in: header
+          required: true
+          description: The shop's `myshopify.com` domain; it selects the ListingSource. Required for forwarded topics.
+          schema: { type: string, example: partner-antiques.myshopify.com }
+        - name: X-Shopify-Webhook-Id
+          in: header
+          required: true
+          description: Delivery identifier, stable across Shopify's retries. Required for forwarded topics.
+          schema: { type: string }
+        - name: X-Shopify-Event-Id
+          in: header
+          required: false
+          description: Identifier of the Shopify event, kept as the observation's source event ID.
+          schema: { type: string }
+        - name: X-Shopify-Triggered-At
+          in: header
+          required: false
+          description: >-
+            RFC 3339 time the event was triggered; it orders observations of one product. Must be at most five
+            minutes in the future and at most six hours old.
+          schema: { type: string, format: date-time }
+        - name: X-Shopify-API-Version
+          in: header
+          required: false
+          description: Admin API version of the payload. Logged only.
+          schema: { type: string, example: "2026-10" }
+      requestBody:
+        required: true
+        description: >-
+          The Shopify webhook body, an object with a `product_listing`. `product_listing.product_id` is
+          required for every forwarded topic; add and update also need `title` and `handle`. Other fields are
+          kept as source evidence, except `body_html`, which is dropped.
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [product_listing]
+              properties:
+                product_listing:
+                  type: object
+                  required: [product_id]
+                  properties:
+                    product_id: { type: integer, format: int64, minimum: 1 }
+                    title: { type: string }
+                    handle: { type: string }
+                  additionalProperties: true
+              additionalProperties: true
+            example:
+              product_listing:
+                product_id: 7894561230
+                title: Walnut cabinet
+                handle: walnut-cabinet
+                variants: [{ price: "1250.00", inventory_quantity: 1, inventory_management: shopify }]
+                images: [{ src: "https://cdn.shopify.example/files/walnut-cabinet.jpg" }]
+      responses:
+        "200":
+          description: Admission of the mapped command was confirmed, or the topic or shop needs no forwarding. No response body.
+        "400":
+          description: >-
+            Malformed delivery: a required header is missing, repeated or blank, the shop domain is invalid,
+            `X-Shopify-Triggered-At` is malformed or out of bounds, the body is not a JSON object, or the product
+            cannot be mapped. Uses `BAD_HEADER_VALUE` or `BAD_BODY_VALUE`.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ApiError" }
+              example: { status: 400, title: Bad Request, error: BAD_HEADER_VALUE, source: { field: X-Shopify-Webhook-Id, type: HEADER } }
+        "401":
+          description: Missing, repeated, malformed or non-matching `X-Shopify-Hmac-Sha256`. Uses `BAD_HEADER_VALUE`.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ApiError" }
+              example: { status: 401, title: Unauthorized, error: BAD_HEADER_VALUE, source: { field: X-Shopify-Hmac-Sha256, type: HEADER } }
+        "413":
+          description: Request body exceeds 1 MiB. Uses `BAD_BODY_VALUE`.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ApiError" }
+              example: { status: 413, title: Payload Too Large, error: BAD_BODY_VALUE }
+        "500":
+          description: The signature could not be computed. Uses `PRODUCT_LISTING_INTERNAL_ERROR`.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ApiError" }
+              example: { status: 500, title: Internal Server Error, error: PRODUCT_LISTING_INTERNAL_ERROR }
+        "503":
+          description: Admission was not confirmed within the processing budget or failed temporarily. Retry the delivery. Uses `PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE`.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ApiError" }
+              example: { status: 503, title: Service Unavailable, error: PRODUCT_LISTING_TEMPORARILY_UNAVAILABLE }
+  /v1/webhooks/stripe:
+    post:
+      summary: Reconcile a signed Stripe subscription event
+      description: >-
+        Receives one Stripe snapshot event signed over the exact received body bytes. No Aura/Cognito bearer is
+        required; `Stripe-Signature` must carry a timestamp within five minutes of arrival and at least one `v1`
+        HMAC-SHA256 signature made with the endpoint signing secret. Every `v1` signature counts, so the endpoint
+        verifies throughout a signing-secret rotation. The request body is limited to 256 KiB.
+
+        The Stripe webhook endpoint must be created with API version `2026-10-28.endive` and subscribed to
+        `customer.subscription.created`, `customer.subscription.updated` and `customer.subscription.deleted`.
+        Those events request a fresh read of the customer's Stripe subscriptions and synchronize the user's tier
+        within a 20-second processing budget; the snapshot itself never assigns a tier. Any other authenticated
+        event type is acknowledged without effects.
+
+        `204` means the reconciliation committed, or the event ID was already reconciled with the same type,
+        subscription and customer. Stripe retries every other answer. All responses are `no-store`.
+      operationId: postStripeSubscriptionWebhook
+      tags: [Billing]
+      security: []
+      parameters:
+        - name: Stripe-Signature
+          in: header
+          required: true
+          description: >-
+            `t=<unix seconds>,v1=<hex HMAC-SHA256 of "{t}.{raw body}">`, with one `v1` per active signing secret.
+            Other entries, such as the `v0` test scheme or debug metadata, are ignored. Exactly one header is accepted.
+          schema: { type: string, maxLength: 4096 }
+      requestBody:
+        required: true
+        description: Stripe event object. The service verifies the signature before parsing the body.
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [id, object, type]
+              properties:
+                id: { type: string, example: evt_1QExample }
+                object: { type: string, enum: [event] }
+                type: { type: string, example: customer.subscription.updated }
+                api_version:
+                  type: string
+                  description: Must be `2026-10-28.endive` for subscription events.
+                data:
+                  type: object
+                  description: For subscription events, `object` is the subscription with its `id` and `customer` ID or expanded customer.
+              additionalProperties: true
+            example:
+              id: evt_1QExample
+              object: event
+              api_version: 2026-10-28.endive
+              type: customer.subscription.updated
+              data:
+                object:
+                  id: sub_1QExample
+                  object: subscription
+                  customer: cus_QExample
+      responses:
+        "204":
+          description: Reconciliation committed, identical event already reconciled, or event type ignored. No response body.
+          headers:
+            Cache-Control:
+              schema: { type: string, example: "private, no-store" }
+        "400":
+          description: >-
+            Authentic event that is malformed, rendered with another API version, or reuses a reconciled event ID
+            with a different type, subscription or customer. Uses `STRIPE_WEBHOOK_INVALID_BODY`.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ApiError" }
+              example:
+                {
+                  status: 400,
+                  title: Bad Request,
+                  error: STRIPE_WEBHOOK_INVALID_BODY,
+                }
+        "401":
+          description: Missing, repeated, malformed, stale or non-matching `Stripe-Signature`. The response does not distinguish authentication failures. Uses `STRIPE_WEBHOOK_UNAUTHORIZED`.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ApiError" }
+              example:
+                {
+                  status: 401,
+                  title: Unauthorized,
+                  error: STRIPE_WEBHOOK_UNAUTHORIZED,
+                }
+        "413":
+          description: Request body exceeds 256 KiB. Uses `STRIPE_WEBHOOK_PAYLOAD_TOO_LARGE`.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ApiError" }
+              example:
+                {
+                  status: 413,
+                  title: Payload Too Large,
+                  error: STRIPE_WEBHOOK_PAYLOAD_TOO_LARGE,
+                }
+        "500":
+          description: >-
+            Stripe or Aura state violates an invariant, such as an unmapped product, an unknown subscription status
+            or a customer bound to another user. Needs an operator; Stripe keeps retrying. Uses
+            `STRIPE_WEBHOOK_INTERNAL_ERROR`.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ApiError" }
+              example:
+                {
+                  status: 500,
+                  title: Internal Server Error,
+                  error: STRIPE_WEBHOOK_INTERNAL_ERROR,
+                }
+        "503":
+          description: >-
+            Stripe read or database failure, uncertain commit, concurrent reconciliation, no user for the customer
+            yet, or exceeded processing budget. Stripe retries the delivery. Uses
+            `STRIPE_WEBHOOK_TEMPORARILY_UNAVAILABLE`.
+          content:
+            application/problem+json:
+              schema: { $ref: "#/components/schemas/ApiError" }
+              example:
+                {
+                  status: 503,
+                  title: Service Unavailable,
+                  error: STRIPE_WEBHOOK_TEMPORARILY_UNAVAILABLE,
                 }
   /v1/product-listings/by-slug/{productListingTitleSlugId}:
     get:
@@ -3645,8 +3900,10 @@ paths:
 
         Price snapshots preserve stored source amounts and currencies. Sale observations retain
         their immutable source provenance. Without `currency`, the response is unchanged.
-        With `currency`, each monetary discovery price/estimate and each previous/current price/estimate
-        change value may include `display` with `currency`, `amount`, `fxRateId` and `capturedAt`.
+        With `currency`, each monetary or range discovery price, each estimate and each previous/current
+        price/estimate change value may include `display`: the value in the requested currency in the
+        source's shape (`type`, `currency` and `amount`, or `min` and `max` for a range; estimates have no
+        `type`), with `fxRateId` and `capturedAt`.
         The snapshot is the latest persisted capture at or before this entry's `timestamp`, including
         an exact capture-time match. Both sides of a change use that entry's snapshot, even if the
         source currency changed. Conversion uses HalfUp rounding and the requested currency's minor-unit
@@ -4037,7 +4294,8 @@ paths:
             "Optional price range filter in minor currency units (e.g. cents for most supported currencies, whole
             yen for JPY).
 
-            Use `price[min]` and/or `price[max]` to specify the range bounds.
+            Use `price[min]` and/or `price[max]` to specify the range bounds. A listing whose asking price is a
+            range matches when that range overlaps the filter.
 
             "
           style: deepObject
@@ -22348,6 +22606,15 @@ components:
             amount: { type: integer, minimum: 0, maximum: 9223372036854775807 }
         - type: object
           additionalProperties: false
+          required: [type, currency, min, max]
+          description: A range; `min` must be below `max`, otherwise the request is rejected with 400.
+          properties:
+            type: { type: string, enum: [RANGE] }
+            currency: { $ref: "#/components/schemas/CurrencyData" }
+            min: { type: integer, minimum: 0, maximum: 9223372036854775807 }
+            max: { type: integer, minimum: 1, maximum: 9223372036854775807 }
+        - type: object
+          additionalProperties: false
           required: [type]
           properties:
             type: { type: string, enum: [ON_REQUEST] }
@@ -23077,6 +23344,9 @@ components:
           minimum: 0
           example: 2999
     ProductListingPriceData:
+      description: An asking price of one amount (`MONETARY`), a range between two amounts (`RANGE`), or on
+        request (`ON_REQUEST`). A range's `min` is below its `max` and both share `currency`; a write with
+        another range is rejected with 400.
       oneOf:
         - type: object
           required:
@@ -23093,6 +23363,7 @@ components:
             amount:
               type: integer
               minimum: 0
+        - $ref: "#/components/schemas/ProductListingPriceRangeData"
         - type: object
           required:
             - type
@@ -23101,6 +23372,33 @@ components:
             type:
               type: string
               enum: [ON_REQUEST]
+    ProductListingPriceRangeData:
+      type: object
+      description: An asking price between two amounts of one currency, in minor currency units.
+      required:
+        - type
+        - currency
+        - min
+        - max
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+          enum: [RANGE]
+        currency:
+          $ref: "#/components/schemas/CurrencyData"
+        min:
+          type: integer
+          minimum: 0
+          maximum: 9223372036854775807
+          description: Lower bound, below `max`.
+          example: 100000
+        max:
+          type: integer
+          minimum: 1
+          maximum: 9223372036854775807
+          description: Upper bound, above `min`.
+          example: 150000
     ProductListingHistoryPriceDisplayData:
       allOf:
         - $ref: "#/components/schemas/PriceData"
@@ -23125,6 +23423,38 @@ components:
             display:
               $ref: "#/components/schemas/ProductListingHistoryPriceDisplayData"
       description: Unchanged source estimate with optional historical display projection.
+    ProductListingHistoryMainPriceDisplayData:
+      allOf:
+        - oneOf:
+            - type: object
+              required: [type, currency, amount]
+              properties:
+                type: { type: string, enum: [MONETARY] }
+                currency: { $ref: "#/components/schemas/CurrencyData" }
+                amount: { type: integer, minimum: 0 }
+            - type: object
+              required: [type, currency, min, max]
+              properties:
+                type: { type: string, enum: [RANGE] }
+                currency: { $ref: "#/components/schemas/CurrencyData" }
+                min: { type: integer, minimum: 0 }
+                max: { type: integer, minimum: 0 }
+        - type: object
+          required:
+            - fxRateId
+            - capturedAt
+          properties:
+            fxRateId:
+              type: string
+              description: Immutable FX snapshot selected at or before the entry timestamp.
+            capturedAt:
+              type: string
+              format: date-time
+              description: Capture time of that snapshot, never after the history entry timestamp.
+      description: The source price in the requested currency, in the source's shape. Each amount is converted
+        with HalfUp rounding in requested currency minor units (JPY/KRW 0 decimals, others 2); a range whose
+        bounds round to one amount is shown as `MONETARY`. Omitted when the snapshot or a required quote is
+        unavailable, including in a complete legacy 19-currency snapshot.
     ProductListingHistoryMainPriceData:
       oneOf:
         - type: object
@@ -23143,7 +23473,28 @@ components:
               type: integer
               minimum: 0
             display:
-              $ref: "#/components/schemas/ProductListingHistoryPriceDisplayData"
+              $ref: "#/components/schemas/ProductListingHistoryMainPriceDisplayData"
+        - type: object
+          required:
+            - type
+            - currency
+            - min
+            - max
+          additionalProperties: false
+          properties:
+            type:
+              type: string
+              enum: [RANGE]
+            currency:
+              $ref: "#/components/schemas/CurrencyData"
+            min:
+              type: integer
+              minimum: 0
+            max:
+              type: integer
+              minimum: 1
+            display:
+              $ref: "#/components/schemas/ProductListingHistoryMainPriceDisplayData"
         - type: object
           required:
             - type
@@ -23152,7 +23503,7 @@ components:
             type:
               type: string
               enum: [ON_REQUEST]
-      description: Unchanged source main price; only monetary values can have historical display projections.
+      description: Unchanged source main price; only monetary prices and ranges can have historical display projections.
     ProductListingHistoryPricingData:
       type: object
       properties:
@@ -24069,8 +24420,10 @@ components:
       type: object
       description:
         Partial ProductListing search criteria. Omitted fields are unchanged. `enhancedSearchDescription`, `auctionId`, price,
-        date ranges, and the availability query may be cleared with `null`; availability, orderability, and includeUnspecifiedAvailability`
-        must be supplied together or all be `null`.
+        date ranges, shipping, geography, and the availability query may be cleared with `null`; `availability`, `orderability`, and
+        `includeUnspecifiedAvailability` must be supplied together or all be `null`. `language`, `currency`, `productQuery`,
+        `listingSourceId`, and `excludeListingSourceId` reject `null`; send `[]` to clear `listingSourceId` or
+        `excludeListingSourceId`.
       properties:
         shipping:
           anyOf:
@@ -24083,14 +24436,11 @@ components:
             values pin their reference release and interpretation independently of browsing preferences.
         language:
           $ref: "#/components/schemas/LanguageData"
-          nullable: true
         currency:
           $ref: "#/components/schemas/CurrencyData"
-          nullable: true
         productQuery:
           type: array
           items: *id001
-          nullable: true
         enhancedSearchDescription:
           type: string
           minLength: 1
@@ -24100,13 +24450,12 @@ components:
           type: array
           items: *id002
           uniqueItems: true
-          description: ListingSource IDs to include.
-          nullable: true
+          description: ListingSource IDs to include. `[]` removes the restriction.
         excludeListingSourceId:
           type: array
           items: *id003
           uniqueItems: true
-          description: ListingSource IDs to exclude.
+          description: ListingSource IDs to exclude. `[]` removes the restriction.
         auctionId:
           type: array
           items:
@@ -24114,6 +24463,7 @@ components:
           uniqueItems: true
           maxItems: 100
           description: Exact resolved Auction membership IDs. Values use strict `auc_` TypeIDs and OR together.
+          nullable: true
         price:
           allOf: *id004
           nullable: true

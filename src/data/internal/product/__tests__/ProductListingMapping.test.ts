@@ -253,6 +253,75 @@ describe("ProductListing mappers", () => {
         expect(missing.formattedPrice).toBeUndefined();
     });
 
+    it("maps and formats an asking-price range on summaries, collections and details", () => {
+        const normalise = (value?: string) => value?.replace(/[\u00a0\u202f]/g, " ");
+        const range = { type: "RANGE", currency: "EUR", min: 100000, max: 150000 } as const;
+        const summary = mapPersonalizedProductListingSummary(
+            { item: { ...baseSummary, displayPrice: range } },
+            "en",
+        );
+        expect(summary.price).toEqual({ type: "RANGE", min: 100000, max: 150000, currency: "EUR" });
+        expect(normalise(summary.formattedPrice)).toBe("€1,000.00 – €1,500.00");
+
+        const { images: _images, shipping: _shipping, ...rest } = baseDetails;
+        const collection = mapPersonalizedProductListingDetails(
+            { item: { ...rest, pricing: { ...rest.pricing, display: { price: range } } } },
+            "de",
+        );
+        expect(normalise(collection.formattedPrice)).toBe("1.000,00 € – 1.500,00 €");
+
+        const detail = mapToProductListingDetail(
+            personalized({
+                ...baseDetails,
+                pricing: {
+                    ...baseDetails.pricing,
+                    source: { price: range },
+                    display: {
+                        price: { type: "RANGE", currency: "JPY", min: 163000, max: 244500 },
+                    },
+                },
+            }),
+            "en-US",
+        );
+        expect(detail.pricing.source.price).toEqual({
+            type: "RANGE",
+            min: 100000,
+            max: 150000,
+            currency: "EUR",
+        });
+        expect(normalise(detail.displayPrice)).toBe("¥163,000 – ¥244,500");
+    });
+
+    it("shows a range collapsed to one amount by conversion as that amount", () => {
+        const detail = mapToProductListingDetail(
+            personalized({
+                ...baseDetails,
+                pricing: {
+                    ...baseDetails.pricing,
+                    source: { price: { type: "RANGE", currency: "EUR", min: 100000, max: 100001 } },
+                    display: { price: { type: "MONETARY", currency: "JPY", amount: 163000 } },
+                },
+            }),
+            "en-US",
+        );
+        expect(detail.price).toEqual({ type: "MONETARY", amount: 163000, currency: "JPY" });
+        expect(detail.displayPrice?.replace(/[\u00a0\u202f]/g, " ")).toBe("¥163,000");
+    });
+
+    it("maps a price kind it does not know to the unknown price, never to an amount", () => {
+        const unknown = mapPersonalizedProductListingSummary(
+            {
+                item: {
+                    ...baseSummary,
+                    displayPrice: { type: "AUCTION_RESERVE", currency: "EUR" },
+                },
+            } as unknown as PersonalizedProductListingSummaryData,
+            "en",
+        );
+        expect(unknown.price).toBeNull();
+        expect(unknown.formattedPrice).toBeUndefined();
+    });
+
     it("preserves a summary SALE_OBSERVATION valuation", () => {
         const result = mapPersonalizedProductListingSummary(
             {

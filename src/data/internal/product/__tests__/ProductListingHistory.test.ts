@@ -193,7 +193,12 @@ describe("mapProductListingHistory", () => {
                                 type: "MONETARY",
                                 amount: 3000,
                                 currency: "EUR",
-                                display: { currency: "KRW", amount: 44123, ...snapshot },
+                                display: {
+                                    type: "MONETARY",
+                                    currency: "KRW",
+                                    amount: 44123,
+                                    ...snapshot,
+                                },
                             },
                             priceEstimateMin: {
                                 amount: 120000,
@@ -212,7 +217,7 @@ describe("mapProductListingHistory", () => {
                     type: "MONETARY",
                     amount: 3000,
                     currency: "EUR",
-                    display: { currency: "KRW", amount: 44123, ...provenance },
+                    display: { type: "MONETARY", currency: "KRW", amount: 44123, ...provenance },
                 },
                 priceEstimateMin: {
                     amount: 120000,
@@ -237,13 +242,23 @@ describe("mapProductListingHistory", () => {
                                     type: "MONETARY",
                                     currency: "EUR",
                                     amount: 3000,
-                                    display: { currency: "RON", amount: 15000, ...snapshot },
+                                    display: {
+                                        type: "MONETARY",
+                                        currency: "RON",
+                                        amount: 15000,
+                                        ...snapshot,
+                                    },
                                 },
                                 current: {
                                     type: "MONETARY",
                                     currency: "SEK",
                                     amount: 29999,
-                                    display: { currency: "RON", amount: 15000, ...snapshot },
+                                    display: {
+                                        type: "MONETARY",
+                                        currency: "RON",
+                                        amount: 15000,
+                                        ...snapshot,
+                                    },
                                 },
                             },
                             {
@@ -272,13 +287,23 @@ describe("mapProductListingHistory", () => {
                         type: "MONETARY",
                         amount: 3000,
                         currency: "EUR",
-                        display: { currency: "RON", amount: 15000, ...provenance },
+                        display: {
+                            type: "MONETARY",
+                            currency: "RON",
+                            amount: 15000,
+                            ...provenance,
+                        },
                     },
                     current: {
                         type: "MONETARY",
                         amount: 29999,
                         currency: "SEK",
-                        display: { currency: "RON", amount: 15000, ...provenance },
+                        display: {
+                            type: "MONETARY",
+                            currency: "RON",
+                            amount: 15000,
+                            ...provenance,
+                        },
                     },
                 },
                 {
@@ -362,6 +387,190 @@ describe("mapProductListingHistory", () => {
             ]);
         });
 
+        it("maps ranges with a range projection or one collapsed to a single amount", () => {
+            const [discovery, change] = mapProductListingHistory([
+                {
+                    ...discoveredEntry,
+                    payload: {
+                        ...discoveredEntry.payload,
+                        pricing: {
+                            price: {
+                                type: "RANGE",
+                                currency: "EUR",
+                                min: 100000,
+                                max: 150000,
+                                display: {
+                                    type: "RANGE",
+                                    currency: "USD",
+                                    min: 108000,
+                                    max: 162000,
+                                    ...snapshot,
+                                },
+                            },
+                        },
+                    },
+                },
+                {
+                    ...changedEntry,
+                    payload: {
+                        changes: [
+                            {
+                                type: "MAIN_PRICE_CHANGED",
+                                previous: {
+                                    type: "RANGE",
+                                    currency: "EUR",
+                                    min: 100000,
+                                    max: 150000,
+                                },
+                                // Bounds one cent apart round to one yen.
+                                current: {
+                                    type: "RANGE",
+                                    currency: "EUR",
+                                    min: 100000,
+                                    max: 100001,
+                                    display: {
+                                        type: "MONETARY",
+                                        currency: "JPY",
+                                        amount: 163000,
+                                        ...snapshot,
+                                    },
+                                },
+                            },
+                        ],
+                    },
+                },
+            ]);
+
+            if (discovery?.payload.kind !== "DISCOVERED") throw new Error("Expected a discovery");
+            expect(discovery.payload.discovery.pricing.price).toEqual({
+                type: "RANGE",
+                min: 100000,
+                max: 150000,
+                currency: "EUR",
+                display: {
+                    type: "RANGE",
+                    currency: "USD",
+                    min: 108000,
+                    max: 162000,
+                    ...provenance,
+                },
+            });
+            if (change?.payload.kind !== "CHANGED") throw new Error("Expected a changed entry");
+            expect(change.payload.changes).toEqual([
+                {
+                    type: "MAIN_PRICE_CHANGED",
+                    previous: { type: "RANGE", min: 100000, max: 150000, currency: "EUR" },
+                    current: {
+                        type: "RANGE",
+                        min: 100000,
+                        max: 100001,
+                        currency: "EUR",
+                        display: {
+                            type: "MONETARY",
+                            currency: "JPY",
+                            amount: 163000,
+                            ...provenance,
+                        },
+                    },
+                },
+            ]);
+        });
+
+        it("drops a range projection whose bounds are out of order", () => {
+            const [entry] = mapProductListingHistory([
+                {
+                    ...changedEntry,
+                    payload: {
+                        changes: [
+                            {
+                                type: "MAIN_PRICE_CHANGED",
+                                current: {
+                                    type: "RANGE",
+                                    currency: "EUR",
+                                    min: 100000,
+                                    max: 150000,
+                                    display: {
+                                        type: "RANGE",
+                                        currency: "USD",
+                                        min: 162000,
+                                        max: 108000,
+                                        ...snapshot,
+                                    },
+                                },
+                            },
+                        ],
+                    },
+                },
+            ]);
+
+            if (entry?.payload.kind !== "CHANGED") throw new Error("Expected a changed entry");
+            const [change] = entry.payload.changes;
+            if (change?.type !== "MAIN_PRICE_CHANGED") throw new Error("Expected a price change");
+            expect(change.current).toEqual({
+                type: "RANGE",
+                min: 100000,
+                max: 150000,
+                currency: "EUR",
+            });
+        });
+
+        it("maps a price kind it does not know to an unknown price, never to an amount", () => {
+            const [entry] = mapProductListingHistory([
+                {
+                    ...changedEntry,
+                    payload: {
+                        changes: [
+                            {
+                                type: "MAIN_PRICE_CHANGED",
+                                previous: { type: "MONETARY", amount: 3000, currency: "EUR" },
+                                current: { type: "AUCTION_RESERVE", currency: "EUR", amount: 1 },
+                            },
+                        ],
+                    },
+                } as unknown as ProductListingHistoryEntryData,
+            ]);
+
+            if (entry?.payload.kind !== "CHANGED") throw new Error("Expected a changed entry");
+            expect(entry.payload.changes).toEqual([
+                {
+                    type: "MAIN_PRICE_CHANGED",
+                    previous: { type: "MONETARY", amount: 3000, currency: "EUR" },
+                    current: { type: "UNKNOWN" },
+                },
+            ]);
+        });
+
+        it("keeps a projection without type from a backend before price ranges", () => {
+            const [entry] = mapProductListingHistory([
+                {
+                    ...changedEntry,
+                    payload: {
+                        changes: [
+                            {
+                                type: "MAIN_PRICE_CHANGED",
+                                current: {
+                                    type: "MONETARY",
+                                    amount: 3000,
+                                    currency: "EUR",
+                                    display: { currency: "RON", amount: 15000, ...snapshot },
+                                },
+                            },
+                        ],
+                    },
+                } as unknown as ProductListingHistoryEntryData,
+            ]);
+
+            if (entry?.payload.kind !== "CHANGED") throw new Error("Expected a changed entry");
+            const [change] = entry.payload.changes;
+            if (change?.type !== "MAIN_PRICE_CHANGED") throw new Error("Expected a price change");
+            expect(change.current).toEqual({
+                type: "MONETARY",
+                amount: 3000,
+                currency: "EUR",
+                display: { type: "MONETARY", currency: "RON", amount: 15000, ...provenance },
+            });
+        });
+
         it("drops a malformed or unsupported projection rather than coercing it", () => {
             const [entry] = mapProductListingHistory([
                 {
@@ -374,13 +583,23 @@ describe("mapProductListingHistory", () => {
                                     type: "MONETARY",
                                     amount: 3000,
                                     currency: "EUR",
-                                    display: { currency: "XYZ", amount: 15000, ...snapshot },
+                                    display: {
+                                        type: "MONETARY",
+                                        currency: "XYZ",
+                                        amount: 15000,
+                                        ...snapshot,
+                                    },
                                 },
                                 current: {
                                     type: "MONETARY",
                                     amount: 2999,
                                     currency: "EUR",
-                                    display: { currency: "RON", amount: 1.5, ...snapshot },
+                                    display: {
+                                        type: "MONETARY",
+                                        currency: "RON",
+                                        amount: 1.5,
+                                        ...snapshot,
+                                    },
                                 },
                             },
                         ],

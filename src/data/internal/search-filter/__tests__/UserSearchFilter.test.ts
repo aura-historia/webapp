@@ -322,6 +322,17 @@ describe("mapToBackendPatchUserSearchFilter", () => {
         });
     });
 
+    it("clears included sources with an empty array, which the backend accepts, never null", () => {
+        const result = mapToBackendPatchUserSearchFilter({ search: { q: "Lampe" } });
+        expect(result.search?.listingSourceId).toEqual([]);
+        expect(result.search?.excludeListingSourceId).toEqual([]);
+        expect(
+            mapToBackendPatchUserSearchFilter({
+                search: { q: "Lampe", listingSourceId: ["source-1"] },
+            }).search?.listingSourceId,
+        ).toEqual(["source-1"]);
+    });
+
     it("sends the complete saved-search availability tuple when a subset is selected", () => {
         const result = mapToBackendPatchUserSearchFilter({
             search: {

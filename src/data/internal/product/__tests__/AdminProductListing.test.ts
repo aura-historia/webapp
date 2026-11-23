@@ -183,6 +183,14 @@ describe("mapToBackendAdminProductListingPatch", () => {
         ).toEqual({ type: "ON_REQUEST" });
     });
 
+    it("maps a range price in both directions without turning it into one amount", () => {
+        const range = { type: "RANGE", min: 100_000, max: 150_000, currency: "EUR" } as const;
+        expect(
+            mapAdminProductListingDetail({ ...adminProductListingDetailsDto, price: range }).price,
+        ).toEqual(range);
+        expect(mapToBackendAdminProductListingPatch({ price: range }, 2).price).toEqual(range);
+    });
+
     it("detaches an auction without touching lot facts and clears instants individually", () => {
         expect(
             mapToBackendAdminProductListingPatch(

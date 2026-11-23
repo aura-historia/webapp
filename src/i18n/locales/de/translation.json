@@ -996,6 +996,7 @@
       "displaySelect": "Preisverlauf in {{currency}} zu historischen Wechselkursen anzeigen",
       "displaySeriesName": "Preis in {{currency}} (historische Kurse)",
       "displayNote": "Umgerechnet mit dem Wechselkurs, der zum Zeitpunkt der jeweiligen Preisänderung oder davor erfasst wurde. Lücken markieren Preise ohne erfassten Kurs oder ohne öffentlichen Preis.",
+      "rangeNote": "Als Spanne angegebene Preise erscheinen nicht als Linie im Diagramm; die Historie führt sie auf.",
       "timeRangeLabel": "Zeitraum",
       "resetZoom": "Zoom zurücksetzen"
     },
@@ -1827,7 +1828,7 @@
         },
         "create": {
           "title": "Erstellungsfelder und Preise",
-          "description": "POST erfordert sourceListingId, url und images; geben Sie lokalisierte title und description an, wenn vorhanden (der aktuelle Vertrag erlaubt Weglassen oder null). Verkäufer- und Adressfelder werden nicht unterstützt. availability darf null sein. Der Angebotspreis ist { type: MONETARY, currency: EUR, amount: 420000 } in kleinsten Währungseinheiten oder { type: ON_REQUEST }; null erfasst keinen Preis."
+          "description": "POST erfordert sourceListingId, url und images; geben Sie lokalisierte title und description an, wenn vorhanden (der aktuelle Vertrag erlaubt Weglassen oder null). Verkäufer- und Adressfelder werden nicht unterstützt. availability darf null sein. Der Angebotspreis ist { type: MONETARY, currency: EUR, amount: 420000 } in kleinsten Währungseinheiten, eine Spanne { type: RANGE, currency: EUR, min: 100000, max: 150000 }, deren min unter max liegt, oder { type: ON_REQUEST }; null erfasst keinen Preis."
         },
         "patch": {
           "title": "Beibehalten oder löschen",
@@ -5891,6 +5892,8 @@
       "lifecycle": "Lebenszyklus",
       "availability": "Verfügbarkeit",
       "price": "Preis",
+      "priceFrom": "Preis von",
+      "priceTo": "Preis bis",
       "created": "Angelegt",
       "updated": "Aktualisiert",
       "notAsserted": "Nicht angegeben",
@@ -6024,6 +6027,7 @@
       "amountNoDecimals": "Diese Währung hat keine Untereinheit. Geben Sie einen ganzen Betrag ein.",
       "amountTwoDecimals": "Geben Sie höchstens zwei Nachkommastellen ein.",
       "amountTooLarge": "Dieser Betrag ist zu groß, um exakt gespeichert zu werden.",
+      "rangeOrder": "Geben Sie eine Obergrenze über der Untergrenze ein.",
       "availability": "Wählen Sie eine unterstützte Verfügbarkeit aus.",
       "invalidUrl": "Geben Sie eine gültige HTTP- oder HTTPS-URL ein.",
       "invalidImageUrl": "Geben Sie eine gültige HTTP- oder HTTPS-Bild-URL ein oder entfernen Sie dieses Bild.",
@@ -6037,6 +6041,7 @@
     "priceOptions": {
       "NONE": "Nicht angegeben",
       "MONETARY": "Betrag",
+      "RANGE": "Spanne",
       "ON_REQUEST": "Auf Anfrage"
     },
     "times": {

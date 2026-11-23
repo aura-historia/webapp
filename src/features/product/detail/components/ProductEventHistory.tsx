@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/timeline.tsx";
 import { formatDate, formatDateTime, formatTime } from "@/lib/utils.ts";
 import {
-    formatHistoryMoney,
+    formatHistoryValue,
     getHistoryDisplayPrice,
 } from "@/features/product/detail/lib/events/priceHistory.ts";
 import {
@@ -212,12 +212,14 @@ function getVisiblePriceValues(
     );
 }
 
+type FxSnapshot = Pick<HistoricalDisplayPrice, "currency" | "fxRateId" | "capturedAt">;
+
 /** One provenance line per historical FX snapshot behind a converted value in this entry. */
 function getConversionSnapshots(
     values: readonly PriceLabel[],
     displayCurrency: Currency | undefined,
-): HistoricalDisplayPrice[] {
-    const snapshots = new Map<string, HistoricalDisplayPrice>();
+): FxSnapshot[] {
+    const snapshots = new Map<string, FxSnapshot>();
     for (const value of values) {
         const display = getHistoryDisplayPrice(value, displayCurrency);
         if (display && value && "currency" in value && value.currency !== display.currency) {
@@ -237,12 +239,14 @@ export function ProductEventHistory({
     const labels = {
         onRequest: t("product.history.values.onRequest"),
         notProvided: t("product.history.values.notProvided"),
+        unknown: t("product.unknownPrice"),
     };
 
     const formatPrice = (price: PriceLabel) => {
         if (price === null) return labels.notProvided;
         if ("type" in price && price.type === "ON_REQUEST") return labels.onRequest;
-        const source = formatHistoryMoney(price, i18n.language);
+        if ("type" in price && price.type === "UNKNOWN") return labels.unknown;
+        const source = formatHistoryValue(price, i18n.language);
         if (!displayCurrency || price.currency === displayCurrency) return source;
 
         const display = getHistoryDisplayPrice(price, displayCurrency);
@@ -253,7 +257,7 @@ export function ProductEventHistory({
             });
         }
         return t("product.history.values.converted", {
-            display: formatHistoryMoney(display, i18n.language),
+            display: formatHistoryValue(display, i18n.language),
             source,
         });
     };

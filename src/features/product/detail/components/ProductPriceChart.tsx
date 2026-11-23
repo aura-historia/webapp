@@ -9,6 +9,7 @@ import { formatCompactCurrency, formatDate, formatTimeWithSeconds } from "@/lib/
 import {
     getDisplayPriceHistorySeries,
     getPriceHistorySeries,
+    hasRangePriceHistory,
     type PriceHistoryPoint,
 } from "@/features/product/detail/lib/events/priceHistory.ts";
 import { RotateCcw } from "lucide-react";
@@ -89,6 +90,30 @@ function zoomChart(
     chart.zoomX(start, end);
 }
 
+/** Explanations below the chart, under one hairline; renders nothing without a note. */
+function ChartNotes({
+    notes,
+    className,
+}: {
+    readonly notes: readonly (string | undefined)[];
+    readonly className?: string;
+}) {
+    const shown = notes.filter((note): note is string => Boolean(note));
+    if (shown.length === 0) return null;
+    return (
+        <div
+            className={cn(
+                "flex max-w-[760px] flex-col gap-2 border-t border-line-subtle pt-4 text-meta leading-[1.5] text-ink-muted",
+                className,
+            )}
+        >
+            {shown.map((note) => (
+                <p key={note}>{note}</p>
+            ))}
+        </div>
+    );
+}
+
 export function ProductPriceChart({
     history,
     displayCurrency,
@@ -109,6 +134,9 @@ export function ProductPriceChart({
     const isZoomed = isDragZoomed || selectedTimeRange !== null;
 
     const TIME_RANGES = useMemo(() => createTimeRanges(t), [t]);
+    const rangeNote = hasRangePriceHistory(history ?? [])
+        ? t("product.priceChart.rangeNote")
+        : undefined;
     const sourceSeries = getPriceHistorySeries(history ?? []);
     // A history priced only in the requested currency already is that view; its same-currency
     // projections would only duplicate it, with gaps before the first FX snapshot.
@@ -197,6 +225,7 @@ export function ProductPriceChart({
                         {t("product.priceChart.noData")}
                     </p>
                 </div>
+                {rangeNote && <ChartNotes notes={[rangeNote]} />}
             </section>
         );
     }
@@ -524,11 +553,15 @@ export function ProductPriceChart({
                     />
                 </ClientOnly>
             </div>
-            {selectedView?.kind === "display" && (
-                <p className="mt-6 max-w-[760px] border-t border-line-subtle pt-4 text-meta leading-[1.5] text-ink-muted">
-                    {t("product.priceChart.displayNote")}
-                </p>
-            )}
+            <ChartNotes
+                className="mt-6"
+                notes={[
+                    selectedView?.kind === "display"
+                        ? t("product.priceChart.displayNote")
+                        : undefined,
+                    rangeNote,
+                ]}
+            />
         </section>
     );
 }

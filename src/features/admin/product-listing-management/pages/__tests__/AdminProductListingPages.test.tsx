@@ -473,6 +473,47 @@ describe("AdminProductListingDetailPage", () => {
         });
     });
 
+    it("shows a stored range, edits one bound and rejects bounds out of order", async () => {
+        api.getAdminProductListing.mockResolvedValue(
+            ok({
+                ...detailDto,
+                price: { type: "RANGE", min: 100_000, max: 150_000, currency: "EUR" },
+            }),
+        );
+        api.updateAdminProductListing.mockResolvedValue(
+            ok({ productListingId: "pl_01", expectedVersion: 8, outcome: "CHANGED" }),
+        );
+        renderWithClient(<AdminProductListingDetailPage productListingId="pl_01" language="en" />);
+
+        const upper = await screen.findByLabelText(t("adminProductListings.fields.priceTo"));
+        const lower = screen.getByLabelText(t("adminProductListings.fields.priceFrom"));
+        expect(lower).toHaveValue("1000.00");
+        expect(upper).toHaveValue("1500.00");
+        expect(
+            screen.getByRole("radio", { name: t("adminProductListings.priceOptions.RANGE") }),
+        ).toBeChecked();
+        expect(save()).toBeDisabled();
+
+        fireEvent.change(upper, { target: { value: "900" } });
+        fireEvent.click(save());
+        expect(
+            await screen.findByText(t("adminProductListings.validation.rangeOrder")),
+        ).toBeVisible();
+        expect(api.updateAdminProductListing).not.toHaveBeenCalled();
+
+        fireEvent.change(upper, { target: { value: "1400" } });
+        fireEvent.click(save());
+        await waitFor(() => expect(api.updateAdminProductListing).toHaveBeenCalled());
+        expect(api.updateAdminProductListing).toHaveBeenCalledWith({
+            path: { productListingId: "pl_01" },
+            body: {
+                expectedVersion: 7,
+                price: { type: "RANGE", min: 100_000, max: 140_000, currency: "EUR" },
+            },
+            cache: "no-store",
+        });
+    });
+
     it("chooses an auction of the listing's own source", async () => {
         api.getAdminProductListing.mockResolvedValue(
             ok({ ...detailDto, auctionId: undefined, auction: undefined }),

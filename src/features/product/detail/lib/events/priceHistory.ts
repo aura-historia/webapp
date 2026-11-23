@@ -2,6 +2,8 @@ import type { Currency } from "@/data/internal/common/Currency.ts";
 import { currencyFormatOptions, toMajorCurrencyAmount } from "@/data/internal/price/Price.ts";
 import type {
     HistoricalDisplayPrice,
+    HistoricalDisplayRange,
+    HistoricalMainDisplayPrice,
     HistoryListingPrice,
     HistoryPriceEstimate,
     ProductListingHistoryEntry,
@@ -17,13 +19,17 @@ export type PriceHistorySeries = {
 /**
  * Returns the backend's historical projection of a source value into `currency`, or `undefined`
  * when none applies: no currency was requested, the value is on request or missing, or the backend
- * had no snapshot or quote for it. A projection into a different currency is never used.
+ * had no snapshot or quote for it. A projection into a different currency is never used. A range
+ * projects to a range, or to one amount when its bounds round to the same amount.
  */
 export function getHistoryDisplayPrice(
     value: HistoryListingPrice | HistoryPriceEstimate | null | undefined,
     currency: Currency | undefined,
-): HistoricalDisplayPrice | undefined {
-    if (!value || !currency || ("type" in value && value.type !== "MONETARY")) return undefined;
+): HistoricalDisplayPrice | HistoricalMainDisplayPrice | undefined {
+    if (!value || !currency) return undefined;
+    if ("type" in value && (value.type === "ON_REQUEST" || value.type === "UNKNOWN")) {
+        return undefined;
+    }
     return value.display?.currency === currency ? value.display : undefined;
 }
 
@@ -31,6 +37,35 @@ export function formatHistoryMoney(value: ListingPriceEstimate, locale: string):
     return new Intl.NumberFormat(locale, currencyFormatOptions(value.currency)).format(
         toMajorCurrencyAmount(value.amount, value.currency),
     );
+}
+
+/** A historical amount or range, in the same format as `formatHistoryMoney`. */
+export function formatHistoryValue(
+    value: ListingPriceEstimate | Omit<HistoricalDisplayRange, "fxRateId" | "capturedAt">,
+    locale: string,
+): string {
+    if ("amount" in value) return formatHistoryMoney(value, locale);
+    const min = formatHistoryMoney({ amount: value.min, currency: value.currency }, locale);
+    const max = formatHistoryMoney({ amount: value.max, currency: value.currency }, locale);
+    return `${min} – ${max}`;
+}
+
+/**
+ * Whether any main price in the history is a range. The chart plots single amounts only, so it
+ * names the gaps that ranges leave.
+ */
+export function hasRangePriceHistory(history: readonly ProductListingHistoryEntry[]): boolean {
+    return history.some((entry) => {
+        if (entry.payload.kind === "DISCOVERED") {
+            return entry.payload.discovery.pricing.price?.type === "RANGE";
+        }
+        if (entry.payload.kind !== "CHANGED") return false;
+        return entry.payload.changes.some(
+            (change) =>
+                change.type === "MAIN_PRICE_CHANGED" &&
+                (change.previous?.type === "RANGE" || change.current?.type === "RANGE"),
+        );
+    });
 }
 
 type PriceHistoryBuilder = {
@@ -74,6 +109,7 @@ function appendPriceChange(
         return;
     }
 
+    // A range, a price on request or a removed price is no single amount: the line has a gap.
     if (previousCurrency) addPricePoint(builder, previousCurrency, timestamp, null);
     builder.activeCurrency = undefined;
 }
@@ -122,15 +158,19 @@ function appendDisplayPoint(
     const display = getHistoryDisplayPrice(price, currency);
     data.push({
         x: timestamp,
-        y: display ? toMajorCurrencyAmount(display.amount, display.currency) : null,
+        // A range is a gap; one that rounded to a single amount in this currency is a point.
+        y:
+            display && "amount" in display
+                ? toMajorCurrencyAmount(display.amount, display.currency)
+                : null,
     });
 }
 
 /**
  * Builds one series in the requested display currency from the backend's per-entry historical
  * projections only. A source-currency change continues the same series because each point carries
- * its own projection. A missing projection, on-request or removed price is a gap; source amounts are
- * never plotted on this axis. Returns `undefined` when no point could be projected.
+ * its own projection. A missing projection, a range, an on-request or removed price is a gap; source
+ * amounts are never plotted on this axis. Returns `undefined` when no point could be projected.
  */
 export function getDisplayPriceHistorySeries(
     history: readonly ProductListingHistoryEntry[],

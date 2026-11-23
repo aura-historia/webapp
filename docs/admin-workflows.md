@@ -111,7 +111,7 @@ Routes: `/$lng/admin/product-listings` (directory) and `/$lng/admin/product-list
   observation and original URL as facts; active listings link to their public page. The details
   carry no description (backend#2930), so the record shows none.
 - The edit form covers only the original title and description (each with its source language),
-  price (amount, on request or cleared), estimates, availability, URL, ordered images and auction
+  price (amount, range, on request or cleared), estimates, availability, URL, ordered images and auction
   membership with lot facts. Text is the source's original, never a translation: new text needs a
   language from `SOURCE_TEXT_LANGUAGES` (the title's language is preselected), and for the title a
   language switch alone is a change and an emptied field sends `null` to clear it. Text is

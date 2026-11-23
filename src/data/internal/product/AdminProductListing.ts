@@ -245,6 +245,9 @@ function mapAuctionPatch(
 function mapPrice(price: ListingPrice | null): UpdateAdminProductListing["price"] {
     if (price === null) return null;
     if (price.type === "ON_REQUEST") return { type: "ON_REQUEST" };
+    if (price.type === "RANGE") {
+        return { type: "RANGE", currency: price.currency, min: price.min, max: price.max };
+    }
     return { type: "MONETARY", currency: price.currency, amount: price.amount };
 }
 

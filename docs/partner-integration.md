@@ -99,7 +99,9 @@ valid store domain. Responses are bodyless 201 (enabled) or 204 (replaced or unc
   `description` are optional and nullable (omitted or `null` records no text). Do not make the
   public subset stricter than the backend.
 - Asking price is a tagged union: `{ type: "MONETARY", currency: "EUR", amount: 420000 }` (minor
-  units) or `{ type: "ON_REQUEST" }`. Nullable availability preserves unknown.
+  units), a range `{ type: "RANGE", currency: "EUR", min: 1000000, max: 1500000 }` (minor units,
+  `min` below `max`, both at most 9223372036854775807, otherwise `400 BAD_BODY_VALUE`) or
+  `{ type: "ON_REQUEST" }`. The PATCH example shows a range. Nullable availability preserves unknown.
 
 | Write | Omitted | null | Concrete value |
 |---|---|---|---|

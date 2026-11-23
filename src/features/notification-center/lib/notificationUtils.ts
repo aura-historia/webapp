@@ -3,7 +3,7 @@ import type {
     Notification,
     NotificationPayload,
 } from "@/data/internal/notification/Notification.ts";
-import { formatPrice } from "@/data/internal/price/Price.ts";
+import { formatPrice, formatPriceRange } from "@/data/internal/price/Price.ts";
 
 export type NotificationKind = "price" | "availability" | "match" | "partner";
 
@@ -25,7 +25,8 @@ export function getNotificationSourceLabel(
 
 /**
  * The relative change between two amounts in one currency ("−8%", "+7%"); null when either side
- * is not an amount, the currencies differ or the old amount is zero.
+ * is not a single amount (a range, on request or unknown), the currencies differ or the old amount
+ * is zero. A range has no one amount to compare, so a change to or from a range has no percentage.
  */
 export function getNotificationPriceDelta(
     payload: NotificationPayload,
@@ -119,6 +120,7 @@ export function getNotificationChangeParts(
             if (price?.type === "MONETARY") {
                 return formatPrice({ amount: price.amount, currency: price.currency }, language);
             }
+            if (price?.type === "RANGE") return formatPriceRange(price, language);
             if (price?.type === "ON_REQUEST") return t("product.history.values.onRequest");
             return unknown;
         };

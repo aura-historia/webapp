@@ -2,7 +2,7 @@ import { type ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import type { AdminMarkTone } from "@/features/admin/common/components/AdminStatusMark.tsx";
 import { FIELD_ERROR_CLASS, FIELD_LABEL_CLASS } from "@/features/admin/common/lib/adminStyles.ts";
-import { formatPrice } from "@/data/internal/price/Price.ts";
+import { formatPrice, formatPriceRange } from "@/data/internal/price/Price.ts";
 import { LISTING_AVAILABILITY_TRANSLATION_KEYS } from "@/data/internal/product/ListingAvailability.ts";
 import type {
     ListingAvailability,
@@ -34,6 +34,7 @@ export function useSourcePriceLabel() {
     return (price: ListingPrice | null): string | undefined => {
         if (price === null) return undefined;
         if (price.type === "ON_REQUEST") return t("adminProductListings.priceOptions.ON_REQUEST");
+        if (price.type === "RANGE") return formatPriceRange(price, i18n.language);
         return formatPrice(price, i18n.language);
     };
 }

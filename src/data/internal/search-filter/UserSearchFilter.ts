@@ -168,7 +168,7 @@ function mapSearchFilterArgumentsToPatchProductSearchData(
         currency: mapped.currency,
         productQuery: mapped.productQuery,
         enhancedSearchDescription: mapped.enhancedSearchDescription ?? null,
-        listingSourceId: mapped.listingSourceId ?? null,
+        listingSourceId: mapped.listingSourceId ?? [],
         excludeListingSourceId: mapped.excludeListingSourceId ?? [],
         auctionId: mapped.auctionId ?? [],
         price: mapped.price ?? null,

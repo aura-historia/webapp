@@ -195,6 +195,48 @@ describe("ProductPriceChart", () => {
         expect(series[0].data.some((point: { y: number | null }) => point.y === 0)).toBe(false);
     });
 
+    it("says that ranges are not plotted, whether or not other prices are", () => {
+        const range = { type: "RANGE", min: 100000, max: 150000, currency: "EUR" } as const;
+        const note =
+            "Als Spanne angegebene Preise erscheinen nicht als Linie im Diagramm; die Historie führt sie auf.";
+        const { rerender } = render(
+            <ProductPriceChart history={[discovery("1", "2026-01-01T00:00:00Z", range)]} />,
+        );
+        expect(
+            screen.getByText("Keine Preisdaten für diesen Artikel vorhanden."),
+        ).toBeInTheDocument();
+        expect(screen.getByText(note)).toBeInTheDocument();
+
+        rerender(
+            <ProductPriceChart
+                history={[
+                    discovery("1", "2026-01-01T00:00:00Z", range),
+                    priceChange("2", "2026-01-02T00:00:00Z", range, {
+                        type: "MONETARY",
+                        amount: 120000,
+                        currency: "EUR",
+                    }),
+                ]}
+            />,
+        );
+        const series = JSON.parse(screen.getByTestId("chart-series").textContent ?? "[]");
+        expect(series[0].data.map((point: { y: number | null }) => point.y)).toEqual([1200]);
+        expect(screen.getByText(note)).toBeInTheDocument();
+
+        rerender(
+            <ProductPriceChart
+                history={[
+                    discovery("1", "2026-01-01T00:00:00Z", {
+                        type: "MONETARY",
+                        amount: 120000,
+                        currency: "EUR",
+                    }),
+                ]}
+            />,
+        );
+        expect(screen.queryByText(note)).not.toBeInTheDocument();
+    });
+
     it("calls chart zoom when a time range is selected", async () => {
         const user = userEvent.setup();
         render(
@@ -289,7 +331,12 @@ describe("ProductPriceChart", () => {
             type: "MONETARY",
             amount,
             currency,
-            display: { ...display, fxRateId: "fx_1", capturedAt: new Date("2026-01-01T00:00:00Z") },
+            display: {
+                type: "MONETARY",
+                ...display,
+                fxRateId: "fx_1",
+                capturedAt: new Date("2026-01-01T00:00:00Z"),
+            },
         });
         const history = [
             discovery(

@@ -66,6 +66,20 @@ export function formatPrice(data: Price, locale?: string): string {
     return replaceCurrencyCodeWithSymbol(formatted, data.currency);
 }
 
+/** A price range with its lower and upper bound in minor units of one currency. */
+export type PriceRange = {
+    readonly min: number;
+    readonly max: number;
+    readonly currency: string;
+};
+
+/** Both bounds in the locale's currency format, joined by a spaced en dash: `€1,000.00 – €1,500.00`. */
+export function formatPriceRange(data: PriceRange, locale?: string): string {
+    const min = formatPrice({ amount: data.min, currency: data.currency }, locale);
+    const max = formatPrice({ amount: data.max, currency: data.currency }, locale);
+    return `${min} – ${max}`;
+}
+
 export function replaceCurrencyCodeWithSymbol(formatted: string, currency: string): string {
     const supportedCurrency = toSupportedCurrency(currency);
     return supportedCurrency

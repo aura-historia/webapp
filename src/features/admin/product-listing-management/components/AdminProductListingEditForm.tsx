@@ -506,7 +506,13 @@ function PricingFields({
                     label: t(`adminProductListings.priceOptions.${kind}`),
                 }))}
             />
-            <div className="grid gap-3.5 sm:grid-cols-3">
+            {/* A range takes two fields, so the price and estimates sit two to a row. */}
+            <div
+                className={cn(
+                    "grid gap-3.5",
+                    priceKind.value === "RANGE" ? "sm:grid-cols-2" : "sm:grid-cols-3",
+                )}
+            >
                 {priceKind.value === "MONETARY" && (
                     <MoneyField
                         form={form}
@@ -516,6 +522,27 @@ function PricingFields({
                         amountError={errors.priceAmount?.message}
                         currencyError={errors.priceCurrency?.message}
                     />
+                )}
+                {priceKind.value === "RANGE" && (
+                    <>
+                        <MoneyField
+                            form={form}
+                            amountName="priceMinAmount"
+                            currencyName="priceCurrency"
+                            label={t("adminProductListings.fields.priceFrom")}
+                            amountError={errors.priceMinAmount?.message}
+                            currencyError={errors.priceCurrency?.message}
+                        />
+                        {/* Both bounds share one currency; this select mirrors the first. */}
+                        <MoneyField
+                            form={form}
+                            amountName="priceMaxAmount"
+                            currencyName="priceCurrency"
+                            currencyId="admin-product-listing-priceMaxCurrency"
+                            label={t("adminProductListings.fields.priceTo")}
+                            amountError={errors.priceMaxAmount?.message}
+                        />
+                    </>
                 )}
                 <MoneyField
                     form={form}
@@ -543,13 +570,21 @@ function MoneyField({
     form,
     amountName,
     currencyName,
+    currencyId: currencyIdOverride,
     label,
     amountError,
     currencyError,
 }: {
     readonly form: ListingForm;
-    readonly amountName: "priceAmount" | "estimateMinAmount" | "estimateMaxAmount";
+    readonly amountName:
+        | "priceAmount"
+        | "priceMinAmount"
+        | "priceMaxAmount"
+        | "estimateMinAmount"
+        | "estimateMaxAmount";
     readonly currencyName: "priceCurrency" | "estimateMinCurrency" | "estimateMaxCurrency";
+    /** Overrides the select's id when two fields share one currency. */
+    readonly currencyId?: string;
     readonly label: string;
     readonly amountError?: string;
     readonly currencyError?: string;
@@ -557,7 +592,7 @@ function MoneyField({
     const { t } = useTranslation();
     const currency = useController({ control: form.control, name: currencyName }).field;
     const amountId = `admin-product-listing-${amountName}`;
-    const currencyId = `admin-product-listing-${currencyName}`;
+    const currencyId = currencyIdOverride ?? `admin-product-listing-${currencyName}`;
     const invalid = Boolean(amountError || currencyError);
 
     return (
@@ -586,7 +621,12 @@ function MoneyField({
                         "h-11 min-w-0 rounded-l-md border-0 bg-transparent px-3 text-[15px] text-ink tabular-nums placeholder:text-ink-placeholder disabled:cursor-not-allowed",
                         FOCUS_CLASS,
                     )}
-                    {...form.register(amountName)}
+                    // The upper bound is checked against the lower one, so a new lower bound
+                    // revalidates it.
+                    {...form.register(
+                        amountName,
+                        amountName === "priceMinAmount" ? { deps: "priceMaxAmount" } : undefined,
+                    )}
                 />
                 <AdminSelect
                     id={currencyId}

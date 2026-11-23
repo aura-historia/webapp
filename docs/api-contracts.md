@@ -10,12 +10,13 @@ admin workflows in [admin workflows](admin-workflows.md).
   (`public/partner-products.openapi.json`) from the same pinned contract, `openapi/swagger.yaml`.
   Generation never fetches a moving contract. Never hand-edit either output.
 - The pinned capture is the complete backend `docs/swagger.yaml` at `develop`
-  `7a96cc886d6f6f6433655e0f119df5682ad07008` (2026-11-18). Git blob
-  `1dc7c03c6cc291979130e87da3290a4a93dae051`; file SHA-256
-  `e851b5beaf535849db40e94ab7952d4b35206785e0a5a5db79d6ad41e986d70c`; canonical parsed-JSON
+  `97f4d03d264c7de810a807450a403ed58d8ca36b` (2026-11-23,
+  [backend#3110](https://github.com/aura-historia/backend/pull/3110)). Git blob
+  `71de213c6c308a0b122acb1b230d9d3c4a3d027c`; file SHA-256
+  `cdcdb38d809d729b8a1b4999d38d079d1d6cc61d38a1a7e9520bbf5fd8e5a9b7`; canonical parsed-JSON
   SHA-256 (recorded as `x-source-contract-sha256` in the partner reference):
-  `0b0b5e5be24117f266f355700423c3f0db484184de493a316436310cbdc24c20`. It replaces the
-  `8c678cb` capture (2026-11-16).
+  `ffdf7f02865fd0ea1f4422872dcbcda68346545c6b70e687b09a7982bc06c476`. It replaces the
+  `7a96cc88` capture (2026-11-18).
 - Every REST operation lives under `/v1/...` on `https://api.aura-historia.com` (production) and
   `https://api.stage.aura-historia.com`; `/api/v1/...` is gone without aliases
   ([backend#2216](https://github.com/aura-historia/backend/issues/2216)). The generated client and
@@ -35,7 +36,46 @@ admin workflows in [admin workflows](admin-workflows.md).
   Treat the sentence as stale until the backend corrects it. A duplicate Shopify domain answers
   with the same `409 CONFLICT` as a concurrent edit, so the form cannot tell them apart and
   reports both as "changed elsewhere".
-- Changes against the previous pin (`8c678cb`, 2026-11-16), with their decisions:
+- Changes against the previous pin (`7a96cc88`, 2026-11-18), with their decisions:
+  - **Asking-price ranges** ([backend#3107](https://github.com/aura-historia/backend/issues/3107),
+    [#1378](https://github.com/aura-historia/webapp/issues/1378)): `ProductListingPriceData` and
+    `AdminProductListingPrice` gain `ProductListingPriceRangeData`
+    (`{ type: "RANGE", currency, min, max }`, minor units, `min` below `max`). History main prices
+    can be `RANGE`, and their `display` (`ProductListingHistoryMainPriceDisplayData`) now carries
+    `type`, with `min`/`max` for a range; estimate displays are unchanged. A converted range whose
+    bounds round to one amount arrives as `MONETARY`. Decisions: `ListingPrice` adds
+    `RangeListingPrice`; `mapListingPrice` and the history mapper switch on `type` and never read
+    `amount` from another kind. A kind they do not know is the unknown price: `null` for listings
+    and notifications, `{ type: "UNKNOWN" }` in history (shown as "Price unknown", never as "Not
+    provided"). A main-price `display` without `type`, as backends before this capture send it, is
+    read as a single amount. `formatListingPrice`
+    and `formatPriceRange` render `€1,000.00 – €1,500.00` in the user's locale with the currency's
+    minor-unit exponent, so every card, the detail summary and notifications show ranges. The
+    history timeline formats ranges and their projections. The chart plots single amounts only: a
+    range is a gap in both the source and the requested-currency series (a range collapsed to one
+    amount is plotted), and a note under the chart says ranges are listed in the history. Cards and the
+    phone action bar let a range wrap after its dash instead of truncating or overflowing it. A
+    notification percentage needs a single amount on both sides, so a change to or from a range has
+    none. JSON-LD states a range as an `AggregateOffer` with `lowPrice`/`highPrice`. The admin edit
+    form offers "Range" (lower and upper bound in one currency) and blocks `min >= max` before the
+    API's `400`, so a stored range is never saved as a single price. The partner PATCH example shows
+    a range. Search filters need no request change: `price[min]`/`price[max]` match a range listing
+    when it overlaps, and search has no price sort, so the ranking disclosure is unchanged.
+  - **Search-filter PATCH null rules** ([backend#3096](https://github.com/aura-historia/backend/issues/3096)):
+    `PatchProductListingSearchData` documents that `language`, `currency`, `productQuery`,
+    `listingSourceId` and `excludeListingSourceId` reject `null` (they always did) and that `[]`
+    clears a source restriction; `auctionId` is now marked nullable. Decision: an update without
+    included sources now sends `listingSourceId: []` instead of `null`, which the backend rejected
+    with `400`; the other members were already sent as values or omitted.
+  - **Signed webhooks** (backend#3023, backend#3024): `postStripeSubscriptionWebhook` and
+    `postShopifyWebhook` are server-to-server endpoints signed by Stripe and Shopify; generated
+    only. The `429 REQUEST_RATE_LIMITED` description (backend#3027) needs no client change: errors go
+    through `mapToInternalApiError`.
+  - Release this webapp with or after a backend that serves this capture: an older backend rejects
+    a `RANGE` written by the admin form. Reads accept both, including history projections without
+    `type`.
+- The MCP tool snapshot of the same commit is unchanged (`--check` passes), so it is not re-synced.
+- Changes adopted with the `7a96cc88` capture (against `8c678cb`, 2026-11-16), with their decisions:
   - **Anonymous reports of illegal content and the role `OTHER`**
     ([backend#3011](https://github.com/aura-historia/backend/issues/3011)): `name` and `email` of
     `SubmitContentNoticeData` are optional (and nullable) for `submitterRole: ILLEGAL_CONTENT_REPORTER`
@@ -750,7 +790,8 @@ DTO types belong only in mapper inputs, and timestamp strings become `Date` valu
   and a preference change never shows history for another currency.
 - Monetary history values keep their source `amount`/`currency` and may carry a backend `display`
   projection (`amount`, `currency`, `fxRateId`, `capturedAt`) from the latest snapshot at or before
-  the entry. The mapper keeps both on discovery prices/estimates and both sides of price and
+  the entry. A range keeps `min`/`max`/`currency`; a main-price projection carries `type` and is a
+  range or, when its bounds round to one amount, a single amount. The mapper keeps both on discovery prices/estimates and both sides of price and
   estimate changes, and drops a malformed or unsupported projection rather than coercing it.
 - `TITLE_CHANGED` keeps the full previous and current original text with its language; `null`
   marks an absent side. The timeline names the change (added, updated or removed) under the
@@ -762,7 +803,7 @@ DTO types belong only in mapper inputs, and timestamp strings become `Date` valu
 - A missing projection is normal (no snapshot or quote, including snapshots taken before a currency such as ARS was supported).
   The timeline then shows the labelled source amount; converted values show their source amount
   and snapshot capture time. The chart offers one requested-currency series built only from
-  `display` values, with gaps for missing projections and on-request or null prices, next to the
+  `display` values, with gaps for missing projections, ranges and on-request or null prices, next to the
   unchanged source-currency series. Never plot source amounts on the requested-currency axis. A
   history priced only in the requested currency shows just its source series.
 
