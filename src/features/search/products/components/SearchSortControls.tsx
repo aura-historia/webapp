@@ -36,6 +36,20 @@ type SearchSortControlsProps = {
     readonly layout: "toolbar" | "compact";
 };
 
+const ORDER_LABELS = {
+    asc: "search.sortMode.order.asc",
+    desc: "search.sortMode.order.desc",
+    switchToAsc: "search.sortMode.order.switchToAsc",
+    switchToDesc: "search.sortMode.order.switchToDesc",
+} as const;
+
+const DISTANCE_ORDER_LABELS = {
+    asc: "search.sortMode.order.nearest",
+    desc: "search.sortMode.order.farthest",
+    switchToAsc: "search.sortMode.order.switchToNearest",
+    switchToDesc: "search.sortMode.order.switchToFarthest",
+} as const;
+
 /** "Sort by" select and the ascending / descending switch. */
 export function SearchSortControls({
     sortMode,
@@ -48,20 +62,9 @@ export function SearchSortControls({
     const isDescending = sortMode.order === "DESC";
     const byDistance = sortMode.field === "DISTANCE";
     // Distance reads as nearest (ascending) or farthest (descending) first.
-    const orderLabel = byDistance
-        ? t(isDescending ? "search.sortMode.order.farthest" : "search.sortMode.order.nearest")
-        : t(isDescending ? "search.sortMode.order.desc" : "search.sortMode.order.asc");
-    const switchLabel = byDistance
-        ? t(
-              isDescending
-                  ? "search.sortMode.order.switchToNearest"
-                  : "search.sortMode.order.switchToFarthest",
-          )
-        : t(
-              isDescending
-                  ? "search.sortMode.order.switchToAsc"
-                  : "search.sortMode.order.switchToDesc",
-          );
+    const labels = byDistance ? DISTANCE_ORDER_LABELS : ORDER_LABELS;
+    const orderLabel = t(isDescending ? labels.desc : labels.asc);
+    const switchLabel = t(isDescending ? labels.switchToAsc : labels.switchToDesc);
 
     return (
         <>

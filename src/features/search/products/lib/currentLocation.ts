@@ -16,6 +16,17 @@ export type CurrentLocationSnapshot = {
 
 export type CurrentLocationFailure = "denied" | "unavailable" | "timeout";
 
+/** Why the browser gave no location; `reason` picks the message shown to the user. */
+export class CurrentLocationError extends Error {
+    readonly reason: CurrentLocationFailure;
+
+    constructor(reason: CurrentLocationFailure) {
+        super(`Current location ${reason}`);
+        this.name = "CurrentLocationError";
+        this.reason = reason;
+    }
+}
+
 const EMPTY: CurrentLocationSnapshot = { captureId: 0 };
 let snapshot: CurrentLocationSnapshot = EMPTY;
 const listeners = new Set<() => void>();
@@ -66,9 +77,10 @@ const POSITION_OPTIONS: PositionOptions = {
  * settings, so it is never retried automatically.
  */
 export function requestCurrentLocation(): Promise<GeographicPoint> {
-    return new Promise((resolve, reject: (reason: CurrentLocationFailure) => void) => {
+    return new Promise((resolve, reject) => {
+        const fail = (reason: CurrentLocationFailure) => reject(new CurrentLocationError(reason));
         if (!isGeolocationSupported()) {
-            reject("unavailable");
+            fail("unavailable");
             return;
         }
         navigator.geolocation.getCurrentPosition(
@@ -78,7 +90,7 @@ export function requestCurrentLocation(): Promise<GeographicPoint> {
                     position.coords.longitude,
                 );
                 if (!point) {
-                    reject("unavailable");
+                    fail("unavailable");
                     return;
                 }
                 snapshot = { point, captureId: snapshot.captureId + 1 };
@@ -86,9 +98,9 @@ export function requestCurrentLocation(): Promise<GeographicPoint> {
                 resolve(point);
             },
             (error) => {
-                if (error.code === error.PERMISSION_DENIED) reject("denied");
-                else if (error.code === error.TIMEOUT) reject("timeout");
-                else reject("unavailable");
+                if (error.code === error.PERMISSION_DENIED) fail("denied");
+                else if (error.code === error.TIMEOUT) fail("timeout");
+                else fail("unavailable");
             },
             POSITION_OPTIONS,
         );

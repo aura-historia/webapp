@@ -10,6 +10,7 @@ import {
 } from "@/features/account-management/hooks/useUserAddresses.ts";
 import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth.ts";
 import {
+    type CurrentLocationSnapshot,
     getCurrentLocationSnapshot,
     getServerCurrentLocationSnapshot,
     subscribeCurrentLocation,
@@ -113,28 +114,32 @@ export function useSearchOrigin(location: SearchLocation | undefined): SearchOri
     const address = useUserAddressDetail(viewerCacheKey, user ? addressId : undefined);
 
     if (!near) return { status: "none" };
-
     if (near.kind === "CURRENT") {
-        return current.point
-            ? {
-                  status: "ready",
-                  point: current.point,
-                  label: t("search.location.currentLocation"),
-                  key: `current:${current.captureId}`,
-              }
-            : { status: "unavailable", problem: "currentNotKept" };
+        return fromCurrentLocation(current, t("search.location.currentLocation"));
     }
-
     if (authLoading) return { status: "loading" };
     if (!user) return { status: "unavailable", problem: "signedOut" };
-
     if (near.kind === "SEARCH_LOCATION") {
-        if (destination.isPending) return { status: "loading" };
-        if (destination.error) return { status: "unavailable", problem: "loadFailed" };
-        if (!destinationAddressId) {
-            return { status: "unavailable", problem: "searchLocationNotAddress" };
-        }
+        const pending = searchLocationPending(destination, destinationAddressId);
+        if (pending) return pending;
     }
-
     return fromAddress(address.data, address.error, address.isPending);
+}
+
+function fromCurrentLocation(current: CurrentLocationSnapshot, label: string): SearchOrigin {
+    return current.point
+        ? { status: "ready", point: current.point, label, key: `current:${current.captureId}` }
+        : { status: "unavailable", problem: "currentNotKept" };
+}
+
+/** Why the account's search location is not (yet) a saved address to start from, if so. */
+function searchLocationPending(
+    destination: { readonly isPending: boolean; readonly error: unknown },
+    destinationAddressId: string | undefined,
+): SearchOrigin | undefined {
+    if (destination.isPending) return { status: "loading" };
+    if (destination.error) return { status: "unavailable", problem: "loadFailed" };
+    if (!destinationAddressId)
+        return { status: "unavailable", problem: "searchLocationNotAddress" };
+    return undefined;
 }

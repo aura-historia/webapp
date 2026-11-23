@@ -38,8 +38,8 @@ describe("requestCurrentLocation", () => {
             longitude: 12.37,
         });
         expect(getCurrentLocationSnapshot().point).toEqual({ latitude: 51.34, longitude: 12.37 });
-        expect(localStorage.length).toBe(0);
-        expect(sessionStorage.length).toBe(0);
+        expect(localStorage).toHaveLength(0);
+        expect(sessionStorage).toHaveLength(0);
     });
 
     it("reports a denial without asking again", async () => {
@@ -47,21 +47,33 @@ describe("requestCurrentLocation", () => {
             failure(positionError(1)),
         );
 
-        await expect(requestCurrentLocation()).rejects.toBe("denied");
+        await expect(requestCurrentLocation()).rejects.toMatchObject({
+            name: "CurrentLocationError",
+            reason: "denied",
+        });
         expect(getCurrentPosition).toHaveBeenCalledTimes(1);
         expect(getCurrentLocationSnapshot().point).toBeUndefined();
     });
 
     it("reports a timeout and an unavailable position", async () => {
         stubGeolocation((_success, failure) => failure(positionError(3)));
-        await expect(requestCurrentLocation()).rejects.toBe("timeout");
+        await expect(requestCurrentLocation()).rejects.toMatchObject({
+            name: "CurrentLocationError",
+            reason: "timeout",
+        });
 
         stubGeolocation((_success, failure) => failure(positionError(2)));
-        await expect(requestCurrentLocation()).rejects.toBe("unavailable");
+        await expect(requestCurrentLocation()).rejects.toMatchObject({
+            name: "CurrentLocationError",
+            reason: "unavailable",
+        });
     });
 
     it("fails without a geolocation API instead of throwing", async () => {
         vi.stubGlobal("navigator", {});
-        await expect(requestCurrentLocation()).rejects.toBe("unavailable");
+        await expect(requestCurrentLocation()).rejects.toMatchObject({
+            name: "CurrentLocationError",
+            reason: "unavailable",
+        });
     });
 });

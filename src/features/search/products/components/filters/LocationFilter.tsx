@@ -40,6 +40,7 @@ import {
 import { LocationInfo } from "@/features/search/products/components/filters/LocationInfo.tsx";
 import type { SearchOrigin } from "@/features/search/products/hooks/useSearchOrigin.ts";
 import {
+    CurrentLocationError,
     type CurrentLocationFailure,
     isGeolocationSupported,
     requestCurrentLocation,
@@ -285,10 +286,9 @@ function RegionPlaces({
             }));
         const startsWith = (suggestion: PlaceSuggestion) =>
             fold(suggestion.name).startsWith(needle) ? 0 : 1;
-        return [
-            ...countries.sort((a, b) => startsWith(a) - startsWith(b)),
-            ...regions.sort((a, b) => startsWith(a) - startsWith(b)),
-        ].slice(0, MAX_PLACE_SUGGESTIONS);
+        countries.sort((a, b) => startsWith(a) - startsWith(b));
+        regions.sort((a, b) => startsWith(a) - startsWith(b));
+        return [...countries, ...regions].slice(0, MAX_PLACE_SUGGESTIONS);
     }, [query, countryNames, names, chosen, t, i18n.language]);
 
     const open = query.trim() !== "";
@@ -381,12 +381,13 @@ function RegionPlaces({
                         className="absolute inset-x-0 top-[calc(100%+6px)] z-50 flex max-h-80 flex-col overflow-y-auto rounded-panel bg-surface-raised p-1.5 shadow-menu"
                     >
                         {suggestions.length === 0 ? (
-                            <p role="status" className="px-2.5 py-3 text-meta text-ink-muted">
+                            <output className="block px-2.5 py-3 text-meta text-ink-muted">
                                 {t("search.location.placesEmpty")}
-                            </p>
+                            </output>
                         ) : (
                             suggestions.map((suggestion, index) => (
-                                // biome-ignore lint/a11y/useKeyWithClickEvents: keys are handled on the combobox via aria-activedescendant.
+                                // Arrow keys stay on the combobox (aria-activedescendant); an option
+                                // that receives focus anyway can still be picked with Enter or Space.
                                 <div
                                     key={suggestion.code}
                                     id={`${listboxId}-${suggestion.code}`}
@@ -395,6 +396,12 @@ function RegionPlaces({
                                     aria-selected={index === highlighted}
                                     onMouseDown={(event) => event.preventDefault()}
                                     onClick={() => pick(suggestion)}
+                                    onKeyDown={(event) => {
+                                        if (event.key === "Enter" || event.key === " ") {
+                                            event.preventDefault();
+                                            pick(suggestion);
+                                        }
+                                    }}
                                     onPointerMove={() => setHighlighted(index)}
                                     className={cn(
                                         "flex min-h-11 cursor-pointer flex-col justify-center gap-0.5 rounded-md px-2.5 py-1.5",
@@ -493,7 +500,11 @@ function DistanceControls({
         setLocateError(undefined);
         requestCurrentLocation()
             .then(() => setNear({ kind: "CURRENT" }))
-            .catch((failure: CurrentLocationFailure) => setLocateError(failure))
+            .catch((error_: unknown) =>
+                setLocateError(
+                    error_ instanceof CurrentLocationError ? error_.reason : "unavailable",
+                ),
+            )
             .finally(() => setLocating(false));
     };
 
@@ -594,18 +605,14 @@ function NearField({
                 label: address.label,
                 description: address.geography.addressText,
                 disabled: !located,
-                ...(address.preferred
-                    ? { detail: t("search.location.searchLocationTag") }
-                    : !located
-                      ? { detail: t("search.location.notLocated"), detailMark: <NotLocatedMark /> }
-                      : {}),
+                ...addressDetail(address.preferred, located, t),
             };
         }),
     ];
     // The account's search location comes first, after Everywhere.
-    options.sort((a, b) =>
-        a.value === "search-location" ? -1 : b.value === "search-location" ? 1 : 0,
-    );
+    const searchLocationFirst = (option: PreferenceOption) =>
+        option.value === "search-location" ? 0 : 1;
+    options.sort((a, b) => searchLocationFirst(a) - searchLocationFirst(b));
     const everywhere = options.findIndex((option) => option.value === EVERYWHERE);
     if (everywhere > 0) options.unshift(...options.splice(everywhere, 1));
 
@@ -701,21 +708,10 @@ function NearField({
                     )}
                     triggerContent={
                         <>
-                            {locating || origin.status === "loading" ? (
-                                <Spinner className="size-3.5 shrink-0 text-ink-muted" />
-                            ) : near && origin.status === "ready" ? (
-                                <MapPin
-                                    aria-hidden="true"
-                                    className="size-[15px] shrink-0 text-oxblood"
-                                    strokeWidth={1.8}
-                                />
-                            ) : (
-                                <Globe
-                                    aria-hidden="true"
-                                    className="size-[15px] shrink-0 text-ink-muted"
-                                    strokeWidth={1.8}
-                                />
-                            )}
+                            <NearIcon
+                                busy={locating || origin.status === "loading"}
+                                located={Boolean(near) && origin.status === "ready"}
+                            />
                             <span className="flex min-w-0 flex-1 flex-col leading-[1.25]">
                                 <span
                                     className={cn(
@@ -755,6 +751,31 @@ function NearField({
                 )}
             </div>
         </div>
+    );
+}
+
+/** The tag beside a saved address in the Near picker. */
+function addressDetail(
+    preferred: boolean,
+    located: boolean,
+    t: (key: string) => string,
+): Pick<PreferenceOption, "detail" | "detailMark"> {
+    if (preferred) return { detail: t("search.location.searchLocationTag") };
+    if (!located)
+        return { detail: t("search.location.notLocated"), detailMark: <NotLocatedMark /> };
+    return {};
+}
+
+/** Spinner while the starting point loads, a pin once it is known, a globe for Everywhere. */
+function NearIcon({ busy, located }: { readonly busy: boolean; readonly located: boolean }) {
+    if (busy) return <Spinner className="size-3.5 shrink-0 text-ink-muted" />;
+    const Icon = located ? MapPin : Globe;
+    return (
+        <Icon
+            aria-hidden="true"
+            className={cn("size-[15px] shrink-0", located ? "text-oxblood" : "text-ink-muted")}
+            strokeWidth={1.8}
+        />
     );
 }
 

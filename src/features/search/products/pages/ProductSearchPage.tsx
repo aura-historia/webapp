@@ -19,6 +19,10 @@ import {
 } from "@/features/search/products/components/SearchSortControls.tsx";
 import { useSearchOrigin } from "@/features/search/products/hooks/useSearchOrigin.ts";
 import { getActiveFilters } from "@/features/search/products/lib/activeFilters.ts";
+import {
+    applySearchSortSelection,
+    getSearchSortSelection,
+} from "@/features/search/products/lib/searchSort.ts";
 import { serializeSearchParams } from "@/features/search/products/lib/searchValidation.ts";
 import { cn } from "@/lib/utils.ts";
 
@@ -49,34 +53,11 @@ export function ProductSearchPage({ searchArgs }: ProductSearchPageProps) {
     const distanceLocation =
         searchArgs.location?.kind === "DISTANCE" ? searchArgs.location : undefined;
     const originReady = origin.status === "ready";
-    // A distance order applies only once the starting point is known; until then the search
-    // runs in its ordinary order.
-    const sortMode: SearchSortSelection =
-        distanceLocation?.distanceOrder && originReady
-            ? { field: "DISTANCE", order: distanceLocation.distanceOrder }
-            : { field: searchArgs.sortField ?? "RELEVANCE", order: searchArgs.sortOrder ?? "DESC" };
+    const sortMode = getSearchSortSelection(searchArgs, originReady);
 
     const updateSortMode = (next: SearchSortSelection) => {
-        if (next.field === "DISTANCE") {
-            if (!distanceLocation) return;
-            navigate({
-                search: serializeSearchParams({
-                    ...searchArgs,
-                    location: { ...distanceLocation, distanceOrder: next.order },
-                }),
-            });
-            return;
-        }
-        navigate({
-            search: serializeSearchParams({
-                ...searchArgs,
-                sortField: next.field,
-                sortOrder: next.order,
-                location: distanceLocation
-                    ? { ...distanceLocation, distanceOrder: undefined }
-                    : searchArgs.location,
-            }),
-        });
+        const nextArgs = applySearchSortSelection(searchArgs, next);
+        if (nextArgs) navigate({ search: serializeSearchParams(nextArgs) });
     };
     const distanceSort = distanceLocation ? { enabled: originReady } : undefined;
     const originLabel = origin.status === "ready" ? origin.label : undefined;

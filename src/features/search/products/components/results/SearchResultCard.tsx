@@ -87,11 +87,12 @@ function ListingLocationLine({
             : evidence.text);
     if (!place && !distance) return null;
 
-    const label = distance
-        ? place
+    let label = t("search.location.card.placeLabel", { place });
+    if (distance) {
+        label = place
             ? t("search.location.card.distanceLabel", { distance, place })
-            : t("search.location.card.distanceOnlyLabel", { distance })
-        : t("search.location.card.placeLabel", { place });
+            : t("search.location.card.distanceOnlyLabel", { distance });
+    }
 
     return (
         <p className="flex min-w-0 items-center gap-1.5 text-meta text-ink-secondary">
