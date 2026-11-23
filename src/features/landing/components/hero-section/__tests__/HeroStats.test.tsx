@@ -95,6 +95,64 @@ describe("HeroStats", () => {
         expect(figureFor("Land")).toHaveTextContent("1");
     });
 
+    it("leaves out figures at zero and lays the rest out in one row", async () => {
+        mockUsePublicOverview.mockReturnValue({
+            data: {
+                ...overview,
+                sourcesIndexedByType: {
+                    dealers: 1180,
+                    auctionHouses: 0,
+                    marketplaces: 0,
+                    auctionPlatforms: 0,
+                },
+            },
+            isPending: false,
+        });
+        const container = await renderStats();
+
+        expect(Array.from(container.querySelectorAll("dt"), (term) => term.textContent)).toEqual([
+            "Händler",
+            "Aktive Objekte",
+            "Länder",
+        ]);
+        expect(screen.queryByText("0")).toBeNull();
+        const list = container.querySelector("dl");
+        expect(list).toHaveClass("grid-cols-3", "lg:grid-cols-3");
+        const cells = Array.from(list?.children ?? []);
+        expect(cells[0]).not.toHaveClass("border-l");
+        expect(cells[1]).toHaveClass("border-l");
+        expect(cells[2]).toHaveClass("border-l");
+    });
+
+    it("starts a second row without a left rule below 1024px", async () => {
+        mockUsePublicOverview.mockReturnValue({ data: overview, isPending: false });
+        const container = await renderStats();
+
+        const cells = Array.from(container.querySelector("dl")?.children ?? []);
+        expect(cells[3]).not.toHaveClass("border-l");
+        expect(cells[3]).toHaveClass("lg:border-l");
+    });
+
+    it("leaves the strip out when every figure is zero", async () => {
+        mockUsePublicOverview.mockReturnValue({
+            data: {
+                ...overview,
+                sourcesIndexedByType: {
+                    dealers: 0,
+                    auctionHouses: 0,
+                    marketplaces: 0,
+                    auctionPlatforms: 0,
+                },
+                liveObjects: 0,
+                countries: 0,
+            },
+            isPending: false,
+        });
+        const container = await renderStats();
+
+        expect(container).toBeEmptyDOMElement();
+    });
+
     it("shortens live objects from a million", async () => {
         mockUsePublicOverview.mockReturnValue({
             data: { ...overview, liveObjects: 1_840_000 },
