@@ -166,7 +166,7 @@ export function MultiSelect({
                 </PopoverPrimitive.Portal>
             </PopoverPrimitive.Root>
             {value.length > 0 && (
-                <ul aria-label={selectedLabel} className="flex flex-wrap gap-1.5">
+                <ul aria-label={selectedLabel} className="mt-1 flex flex-wrap gap-1.5">
                     {value.map((option) => (
                         <li
                             key={option.value}

@@ -421,7 +421,7 @@ function RegionPlaces({
             {chips.length > 0 && (
                 <ul
                     aria-label={t("search.location.placesChosen")}
-                    className="flex flex-wrap gap-1.5"
+                    className="mt-1 flex flex-wrap gap-1.5"
                 >
                     {chips.map((chip) => (
                         <li
