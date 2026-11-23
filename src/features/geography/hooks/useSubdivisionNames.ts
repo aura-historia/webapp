@@ -1,29 +1,26 @@
 import { useQuery } from "@tanstack/react-query";
-import { useTranslation } from "react-i18next";
-import { parseLanguage, type Language } from "@/data/internal/common/Language.ts";
 
 type SubdivisionNames = Readonly<Record<string, string>>;
 
-/** One generated table per app language, loaded only when a page needs region names. */
-const LOADERS: Record<Language, () => Promise<{ default: SubdivisionNames }>> = {
-    de: () => import("@/data/internal/geography/reference/subdivisionNames.de.gen.ts"),
-    en: () => import("@/data/internal/geography/reference/subdivisionNames.en.gen.ts"),
-    es: () => import("@/data/internal/geography/reference/subdivisionNames.es.gen.ts"),
-    fr: () => import("@/data/internal/geography/reference/subdivisionNames.fr.gen.ts"),
-    it: () => import("@/data/internal/geography/reference/subdivisionNames.it.gen.ts"),
-};
+type SubdivisionRecord = { readonly code: string; readonly name: string };
+
+/** Code → official local name, read from the vendored release (`Bayern`, `Île-de-France`). */
+async function loadSubdivisionNames(): Promise<SubdivisionNames> {
+    const release = (await import("../../../../reference/iso-codes-4.20.1/iso_3166-2.json"))
+        .default as { readonly "3166-2": readonly SubdivisionRecord[] };
+    return Object.fromEntries(release["3166-2"].map((record) => [record.code, record.name]));
+}
 
 /**
- * ISO 3166-2 region names in the page language (iso-codes 4.20.1 and its translations), which
- * `Intl` does not provide. Until the table has loaded, `formatSubdivisionName` returns the code.
- * Pass `enabled: false` while no region is shown, so the table is not downloaded for nothing.
+ * ISO 3166-2 region names, which `Intl` does not provide. Every language shows the official local
+ * names of the iso-codes 4.20.1 release; the data is not translated. Until it has loaded,
+ * `formatSubdivisionName` returns the code. Pass `enabled: false` while no region is shown, so the
+ * release is not downloaded for nothing.
  */
 export function useSubdivisionNames(enabled = true) {
-    const { i18n } = useTranslation();
-    const language = parseLanguage(i18n.language);
     const query = useQuery({
-        queryKey: ["subdivisionNames", language],
-        queryFn: async () => (await LOADERS[language]()).default,
+        queryKey: ["subdivisionNames"],
+        queryFn: loadSubdivisionNames,
         enabled,
         staleTime: Number.POSITIVE_INFINITY,
         gcTime: Number.POSITIVE_INFINITY,

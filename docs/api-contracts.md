@@ -806,15 +806,14 @@ Shared models live in `src/data/internal/geography`; formatting helpers in
   `iso-codes-4.20.1` release (`reference/iso-codes-4.20.1`, the same snapshot and SHA-256 hashes as
   the backend, with its LGPL-2.1-or-later license and notices). `python3
   scripts/generate_geography_reference.py` regenerates
-  `src/data/internal/geography/reference/isoCodes.gen.ts` and the per-language subdivision name
-  tables `subdivisionNames.<language>.gen.ts` (do not edit them); `--check` and the script tests
-  fail when the tables or sources drift. A new release needs a new snapshot, not a replacement.
-  Countries are exact uppercase alpha-2 codes and subdivisions complete ISO 3166-2 codes; no
-  trimming, case folding, aliases or alpha-3. Country names come from `Intl.DisplayNames` with the
-  route language and fall back to the code. Subdivision names, which `Intl` lacks, come from the
-  release names (English) and its vendored translations `iso_3166-2/{de,es,fr,it}.po` (hashed like
-  the JSON; fuzzy entries and translations of outdated names keep the release name), loaded lazily
-  per language through `useSubdivisionNames`.
+  `src/data/internal/geography/reference/isoCodes.gen.ts` (do not edit it); `--check` and the
+  script tests fail when the table or sources drift. A new release needs a new snapshot, not a
+  replacement. Countries are exact uppercase alpha-2 codes and subdivisions complete ISO 3166-2
+  codes; no trimming, case folding, aliases or alpha-3. Country names come from `Intl.DisplayNames`
+  with the route language and fall back to the code. Subdivision names, which `Intl` lacks, are the
+  release's official local names (`Bayern`, `Île-de-France`) in every language, read from the
+  vendored `iso_3166-2.json` and loaded lazily through `useSubdivisionNames`; they are not
+  translated, and region search matches the local name.
 - **Assertions and derived data:** `GeographicAssertions` holds caller-asserted, verbatim text and
   codes; absent and null facts stay absent. A `UserAddress` keeps its asserted `geography`
   separate from `resolution` (status, provider-derived geography and position, attribution). Party

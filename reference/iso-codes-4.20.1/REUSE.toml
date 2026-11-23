@@ -4,8 +4,3 @@ version = 1
 path = "*.json"
 SPDX-FileCopyrightText = "2016 Dr. Tobias Quathamer <toddy@debian.org>"
 SPDX-License-Identifier = "LGPL-2.1-or-later"
-
-[[annotations]]
-path = "iso_3166-2/*.po"
-SPDX-FileCopyrightText = "2016 Dr. Tobias Quathamer <toddy@debian.org> and the iso-codes translators"
-SPDX-License-Identifier = "LGPL-2.1-or-later"
