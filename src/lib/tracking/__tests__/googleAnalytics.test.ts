@@ -297,6 +297,7 @@ describe("GoogleAnalytics.sendPageView", () => {
             addressId: "address-1",
             filter: { geography: { origin: { latitude: 51.34, longitude: 12.37 } } },
             radiusFilter: [{ kind: "RADIUS", origin: { lat: 51.34, lng: 12.37 } }],
+            near: "address:useraddress_01",
             radiusKm: 25,
         });
 

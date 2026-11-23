@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight, Bookmark } from "lucide-react";
+import { ArrowUpRight, Bookmark, MapPin } from "lucide-react";
 import { memo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip.tsx";
@@ -16,6 +16,12 @@ import { useWatchlistNotificationMutation } from "@/features/watchlist/api/useWa
 import { outboundLinkRel } from "@/lib/ui/outboundLinkRel.ts";
 import { cn } from "@/lib/utils.ts";
 import { ToggleBellIcon } from "@/components/common/ToggleBellIcon.tsx";
+import type { ListingGeography } from "@/data/internal/geography/ListingGeography.ts";
+import { useSubdivisionNames } from "@/features/geography/hooks/useSubdivisionNames.ts";
+import {
+    formatCountryName,
+    formatEvidenceDistance,
+} from "@/features/geography/lib/formatGeography.ts";
 
 const FOCUS_CLASS =
     "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
@@ -48,7 +54,75 @@ function statusTone(product: ProductListing): "available" | "reserved" | "gone" 
     return "available";
 }
 
-function SearchResultCardComponent({ product }: { readonly product: ProductListing }) {
+/**
+ * Where the provider is recorded and, in a distance search, how far that is (board "Search ·
+ * Location in results"). It shows only what the search returned; a listing without geography gets
+ * no line. It never claims where the object itself is.
+ */
+function ListingLocationLine({
+    geography,
+    distanceUnit,
+}: {
+    readonly geography: ListingGeography;
+    readonly distanceUnit?: "KILOMETERS" | "MILES";
+}) {
+    const { t, i18n } = useTranslation();
+    const { formatSubdivisionName } = useSubdivisionNames(geography.subdivision !== undefined);
+    const country = geography.country && formatCountryName(geography.country, i18n.language);
+    const region = geography.subdivision && formatSubdivisionName(geography.subdivision);
+    const place = [region, country].filter(Boolean).join(", ");
+    const evidence =
+        geography.distanceKm !== undefined
+            ? formatEvidenceDistance(
+                  geography.distanceKm,
+                  geography.position?.precision,
+                  distanceUnit ?? "KILOMETERS",
+                  i18n.language,
+              )
+            : undefined;
+    const distance =
+        evidence &&
+        (evidence.approximate
+            ? t("search.location.card.approximate", { distance: evidence.text })
+            : evidence.text);
+    if (!place && !distance) return null;
+
+    let label = t("search.location.card.placeLabel", { place });
+    if (distance) {
+        label = place
+            ? t("search.location.card.distanceLabel", { distance, place })
+            : t("search.location.card.distanceOnlyLabel", { distance });
+    }
+
+    return (
+        <p className="flex min-w-0 items-center gap-1.5 text-meta text-ink-secondary">
+            <MapPin
+                aria-hidden="true"
+                className="size-[13px] shrink-0 text-ink-muted"
+                strokeWidth={1.8}
+            />
+            <span className="sr-only">{label}</span>
+            <span aria-hidden="true" className="flex min-w-0 items-center gap-1.5">
+                {distance && (
+                    <strong className="shrink-0 font-medium text-ink tabular-nums">
+                        {distance}
+                    </strong>
+                )}
+                {distance && place && <span className="text-ink-muted">·</span>}
+                {place && <span className="truncate">{place}</span>}
+            </span>
+        </p>
+    );
+}
+
+function SearchResultCardComponent({
+    product,
+    distanceUnit,
+}: {
+    readonly product: ProductListing;
+    /** The unit of the distance search the card is shown in. */
+    readonly distanceUnit?: "KILOMETERS" | "MILES";
+}) {
     const { t } = useTranslation();
     const unseenNotificationIds = product.userState?.notification?.unseenNotificationIds ?? [];
     const hasUnseenNotification = unseenNotificationIds.length > 0;
@@ -70,7 +144,7 @@ function SearchResultCardComponent({ product }: { readonly product: ProductListi
     const notificationMutation = useWatchlistNotificationMutation(product.productListingId);
     const tone = statusTone(product);
     const title = product.title ?? t("product.untitled");
-    const provider = [product.source.name, product.geography?.country].filter(Boolean).join(" · ");
+    const provider = product.source.name;
     const price =
         product.formattedPrice ??
         (product.price?.type === "ON_REQUEST"
@@ -188,6 +262,12 @@ function SearchResultCardComponent({ product }: { readonly product: ProductListi
                         {title}
                     </h3>
                 </ProductListingLink>
+                {product.geography && (
+                    <ListingLocationLine
+                        geography={product.geography}
+                        distanceUnit={distanceUnit}
+                    />
+                )}
                 <div className="mt-0.5 flex flex-col-reverse items-start gap-1 sm:flex-row sm:flex-wrap sm:items-baseline sm:justify-between sm:gap-2.5">
                     <span
                         className={cn(

@@ -1,6 +1,8 @@
 import { ProductStateFilter } from "@/features/search/products/components/filters/ProductStateFilter.tsx";
 import { MerchantFilters } from "@/features/search/products/components/filters/MerchantFilters.tsx";
 import { PriceSpanFilter } from "@/features/search/products/components/filters/PriceSpanFilter.tsx";
+import { LocationFilter } from "@/features/search/products/components/filters/LocationFilter.tsx";
+import type { SearchOrigin } from "@/features/search/products/hooks/useSearchOrigin.ts";
 import { Form } from "@/components/ui/form.tsx";
 import { FILTER_FOCUS_CLASS } from "@/features/search/common/components/filters/FilterCard.tsx";
 import { cn } from "@/lib/utils.ts";
@@ -28,8 +30,12 @@ import {
     mapSearchFiltersToFormValues,
 } from "@/features/search/common/lib/filterForm.ts";
 
+const NO_ORIGIN: SearchOrigin = { status: "none" };
+
 type SearchFilterProps = {
     readonly searchFilters: SearchFilterArguments;
+    /** The resolved starting point of a distance search. */
+    readonly origin?: SearchOrigin;
     /**
      * `sidebar`: the desktop column, with its heading and a reset link.
      * `sheet`: the phone drawer body, with a sticky footer to reset or close.
@@ -44,6 +50,7 @@ type SearchFilterProps = {
 /** The product filter form. Every change applies at once by updating the URL. */
 export function SearchFilters({
     searchFilters,
+    origin = NO_ORIGIN,
     variant = "sidebar",
     totalResults,
     onShowResults,
@@ -132,6 +139,7 @@ export function SearchFilters({
             <ProductStateFilter />
             <MerchantFilters />
             <PriceSpanFilter />
+            <LocationFilter searchArgs={searchFilters} origin={origin} variant={variant} />
             <AuctionDateSpanFilter />
             <CreationDateSpanFilter />
             <UpdateDateSpanFilter />

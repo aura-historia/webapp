@@ -682,8 +682,9 @@ To sync a backend revision:
   `changeSourceLocationDefaultApplicability`, `clearSourceLocationDefault`) and the admin
   geocoding review (`listPartyLocationResolutionReviews`, `getPartyLocationResolution`,
   `requestPartyLocationResolution`, `acceptPartyLocationResolutionCandidate`,
-  `retryPartyLocationResolution`). Listing search does
-  not send `geography` yet. Privacy rules for these slices
+  `retryPartyLocationResolution`). Listing search sends `geography` from the search page's
+  Location filter ([#1080](https://github.com/aura-historia/webapp/issues/1080)); saved searches
+  do not yet ([#1081](https://github.com/aura-historia/webapp/issues/1081)). Privacy rules for these slices
   are in [privacy alignment](privacy-policy-alignment.md#geography).
 - The admin ProductListing operations (`searchAdminProductListings`, `getAdminProductListing`,
   `updateAdminProductListing`, `withdrawAdminProductListing`, `restoreAdminProductListing`) are
@@ -846,11 +847,14 @@ Shared models live in `src/data/internal/geography`; formatting helpers in
   `iso-codes-4.20.1` release (`reference/iso-codes-4.20.1`, the same snapshot and SHA-256 hashes as
   the backend, with its LGPL-2.1-or-later license and notices). `python3
   scripts/generate_geography_reference.py` regenerates
-  `src/data/internal/geography/reference/isoCodes.gen.ts` (do not edit it);
-  `--check` and the script tests fail when the tables or sources drift. A new release needs a new
-  snapshot, not a replacement. Countries are exact uppercase alpha-2 codes and subdivisions
-  complete ISO 3166-2 codes; no trimming, case folding, aliases or alpha-3. Country names come from
-  `Intl.DisplayNames` with the route language and fall back to the code.
+  `src/data/internal/geography/reference/isoCodes.gen.ts` (do not edit it); `--check` and the
+  script tests fail when the table or sources drift. A new release needs a new snapshot, not a
+  replacement. Countries are exact uppercase alpha-2 codes and subdivisions complete ISO 3166-2
+  codes; no trimming, case folding, aliases or alpha-3. Country names come from `Intl.DisplayNames`
+  with the route language and fall back to the code. Subdivision names, which `Intl` lacks, are the
+  release's official local names (`Bayern`, `Île-de-France`) in every language, read from the
+  vendored `iso_3166-2.json` and loaded lazily through `useSubdivisionNames`; they are not
+  translated, and region search matches the local name.
 - **Assertions and derived data:** `GeographicAssertions` holds caller-asserted, verbatim text and
   codes; absent and null facts stay absent. A `UserAddress` keeps its asserted `geography`
   separate from `resolution` (status, provider-derived geography and position, attribution). Party
@@ -868,7 +872,14 @@ Shared models live in `src/data/internal/geography`; formatting helpers in
 - **Search predicate:** listing search, saved searches and Party-location discovery share one
   `GeographicSearch`; `validateGeographicSearch` mirrors the backend rules (set limits,
   subdivisions within supplied countries, numeric origin for radius or distance order, no origin
-  or mode without proximity). Distance ordering replaces the ordinary `sort`. Saved searches map
+  or mode without proximity). Distance ordering replaces the ordinary `sort`. The search page's
+  Location filter (`SearchLocation` in `src/data/internal/search/SearchLocation.ts`) is either a
+  region search (countries or regions, never both, because the API joins the two sets with AND)
+  or a distance search from a starting point (`near`): the account's search location, an own saved
+  address or the current browser location. It always sends `mode`, because the backend default
+  (strict) differs from the page default (approximate), and sends nothing until the starting
+  point's point is known (`useSearchOrigin`); without one it searches without the distance limit.
+  Saved searches map
   `geography` separately from `SearchFilterArguments`: omit it in a patch to keep the private
   snapshot, send `null` to clear and a complete predicate to replace it.
 - **Query serialization:** the generated client serializes only one object level, so pass

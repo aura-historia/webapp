@@ -38,6 +38,8 @@ const GEOGRAPHIC_PARAMS = new Set([
     "geography",
     "geolocation",
     "destination",
+    // The search page's starting point: a reference to a private address or the browser location.
+    "near",
 ]);
 
 // Pages whose URL can carry a secret (e.g. a fragment capability) send no page views at all,

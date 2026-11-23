@@ -3,6 +3,12 @@ import type { SearchSchemaInput } from "@tanstack/react-router";
 import { parseListingAvailability } from "@/data/internal/product/ListingAvailability.ts";
 import type { ListingAvailability } from "@/data/internal/product/ProductListingDomain.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
+import {
+    DISTANCE_SORT_FIELD,
+    parseSearchLocation,
+    serializeSearchLocation,
+    type SearchLocationUrlParams,
+} from "@/data/internal/search/SearchLocation.ts";
 import { SEARCH_RESULT_SORT_FIELDS, type SortMode } from "@/data/internal/search/SortMode.ts";
 import type { SearchUrlParams } from "@/features/search/products/lib/searchUrlParams.ts";
 
@@ -25,6 +31,12 @@ export type RawSearchParams = {
     auctionDateTo?: string;
     sortField?: string;
     sortOrder?: string;
+    countries?: string | string[];
+    regions?: string | string[];
+    near?: string;
+    radius?: number | string;
+    unit?: string;
+    proximity?: string;
 } & SearchSchemaInput;
 
 function parseOptionalNumber(value: unknown): number | undefined {
@@ -58,6 +70,9 @@ function parseSortOrder(order: string | undefined): SortMode["order"] {
 export function validateSearchParams(
     search: Omit<RawSearchParams, keyof SearchSchemaInput>,
 ): SearchFilterArguments {
+    const location = parseSearchLocation(search);
+    // A distance order lives in `location`; without a distance search it falls back to the default.
+    const distanceSort = search.sortField === DISTANCE_SORT_FIELD;
     return {
         q: typeof search.q === "string" ? search.q : "",
         enhancedSearchDescription: search.enhancedSearchDescription,
@@ -75,8 +90,9 @@ export function validateSearchParams(
         updateDateTo: parseOptionalDate(search.updateDateTo),
         auctionDateFrom: parseOptionalDate(search.auctionDateFrom),
         auctionDateTo: parseOptionalDate(search.auctionDateTo),
-        sortField: parseSortField(search.sortField),
-        sortOrder: parseSortOrder(search.sortOrder),
+        sortField: distanceSort ? "RELEVANCE" : parseSortField(search.sortField),
+        sortOrder: distanceSort ? "DESC" : parseSortOrder(search.sortOrder),
+        location,
     };
 }
 
@@ -93,6 +109,22 @@ export function validateSearchUrlParams(search: RawSearchParams): SearchUrlParam
 export function serializeSearchParams(
     params: SearchFilterArguments | SearchUrlParams,
 ): SearchUrlParams {
+    // Validated arguments carry `location` (possibly undefined); URL state carries its flat params.
+    const fromArguments = "location" in params;
+    const urlParams = params as SearchUrlParams;
+    const location: SearchLocationUrlParams = fromArguments
+        ? serializeSearchLocation((params as SearchFilterArguments).location)
+        : {
+              countries: urlParams.countries,
+              regions: urlParams.regions,
+              near: urlParams.near,
+              radius: urlParams.radius,
+              unit: urlParams.unit,
+              proximity: urlParams.proximity,
+          };
+    const argumentLocation = fromArguments ? (params as SearchFilterArguments).location : undefined;
+    const distanceOrder =
+        argumentLocation?.kind === "DISTANCE" ? argumentLocation.distanceOrder : undefined;
     return {
         q: params.q,
         enhancedSearchDescription: params.enhancedSearchDescription,
@@ -110,7 +142,8 @@ export function serializeSearchParams(
         updateDateTo: serializeOptionalDate(params.updateDateTo),
         auctionDateFrom: serializeOptionalDate(params.auctionDateFrom),
         auctionDateTo: serializeOptionalDate(params.auctionDateTo),
-        sortField: params.sortField,
-        sortOrder: params.sortOrder,
+        sortField: distanceOrder ? DISTANCE_SORT_FIELD : params.sortField,
+        sortOrder: distanceOrder ?? params.sortOrder,
+        ...location,
     };
 }

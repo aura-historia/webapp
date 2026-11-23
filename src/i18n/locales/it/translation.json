@@ -810,9 +810,14 @@
         "asc": "Crescente",
         "desc": "Decrescente",
         "switchToAsc": "Ordine: decrescente. Passa a crescente",
-        "switchToDesc": "Ordine: crescente. Passa a decrescente"
+        "switchToDesc": "Ordine: crescente. Passa a decrescente",
+        "nearest": "Più vicini prima",
+        "farthest": "Più lontani prima",
+        "switchToNearest": "Ordine: più lontani prima. Passa a più vicini prima",
+        "switchToFarthest": "Ordine: più vicini prima. Passa a più lontani prima"
       },
-      "lastUpdated": "Ultimo aggiornamento"
+      "lastUpdated": "Ultimo aggiornamento",
+      "distance": "Distanza"
     },
     "eyebrow": "Risultati della ricerca",
     "resultsForQuery": "Risultati per <em>«{{query}}»</em>",
@@ -830,7 +835,11 @@
       "price": "Prezzo",
       "includeSource": "Fornitore",
       "excludeSource": "Escluso",
-      "remove": "Rimuovi filtro: {{label}}"
+      "remove": "Rimuovi filtro: {{label}}",
+      "place": "Luogo",
+      "within": "Entro",
+      "withinValue": "{{distance}} da {{origin}}",
+      "locations": "Località"
     },
     "resetAll": "Reimposta",
     "showResults_one": "Mostra {{count}} risultato",
@@ -884,7 +893,93 @@
       "updatedText": "In base alla data in cui abbiamo registrato l’ultima modifica all’annuncio.",
       "noPayment": "Lo stato di partner, le commissioni e i pagamenti non influiscono sull’ordine.",
       "personal": "Nemmeno il tuo account o la cronologia delle ricerche. Conta solo la tua lingua, perché decide quale traduzione del titolo confrontiamo.",
-      "fallback": "Se il modello di IA non è disponibile, conta solo la corrispondenza delle parole."
+      "fallback": "Se il modello di IA non è disponibile, conta solo la corrispondenza delle parole.",
+      "distanceText": "In base alla distanza in linea d’aria dal tuo punto di partenza al luogo registrato del fornitore, prima i più vicini o i più lontani. Con un termine di ricerca, tutte le parole devono comparire nel titolo dell’annuncio; in questo ordine non si usa la classificazione per significato simile dell’IA. Gli annunci alla stessa distanza mantengono un ordine tecnico fisso.",
+      "locationNarrows": "Cercare per regione o entro una distanza restringe solo i risultati; non cambia il loro ordine."
+    },
+    "location": {
+      "title": "Località",
+      "reset": "Reimposta il filtro di località",
+      "modeLabel": "Cerca la località per",
+      "byRegion": "Per regione",
+      "byDistance": "Per distanza",
+      "placesLabel": "Paesi e regioni",
+      "placesPlaceholder": "Aggiungi un paese o una regione",
+      "placesEmpty": "Nessun paese o regione trovati",
+      "placesChosen": "Paesi e regioni scelti",
+      "removePlace": "Rimuovi {{name}}",
+      "country": "Paese",
+      "regionOf": "Regione · {{country}}",
+      "near": "Vicino a",
+      "everywhere": "Ovunque",
+      "everywhereHint": "Nessun limite di distanza",
+      "searchLocationTag": "Località di ricerca",
+      "notLocated": "Non localizzato",
+      "showMoreAddresses": "Mostra altri indirizzi",
+      "useCurrentLocation": "Usa la mia posizione attuale",
+      "locating": "Ricerca della posizione…",
+      "currentLocation": "Posizione attuale",
+      "currentNotKept": "Posizione attuale (non conservata)",
+      "signInForAddresses": "Accedi per cercare vicino a uno dei tuoi indirizzi salvati.",
+      "signIn": "Accedi",
+      "clearNear": "Rimuovi il punto di partenza",
+      "within": "Entro",
+      "unitLabel": "Unità di distanza",
+      "units": {
+        "KILOMETERS": "km",
+        "MILES": "miglia"
+      },
+      "whichLocations": "Quali località contano",
+      "approximate": "Includi località approssimative",
+      "approximateHint": "Contano anche i dati di via, località o regione.",
+      "strict": "Solo indirizzi esatti",
+      "strictHint": "Solo fornitori registrati con un indirizzo completo.",
+      "howDetermined": "Come vengono determinate le località",
+      "validation": {
+        "required": "Inserisci una distanza.",
+        "number": "Inserisci un numero, ad esempio 50.",
+        "positive": "Inserisci una distanza maggiore di 0.",
+        "maxKilometers": "Al massimo 20.000 km.",
+        "maxMiles": "Al massimo 12.400 miglia."
+      },
+      "errors": {
+        "denied": "L’accesso alla posizione è bloccato per questo sito. Puoi consentirlo nelle impostazioni del sito del browser oppure scegliere un indirizzo salvato.",
+        "unavailable": "Il browser non è riuscito a trovare la tua posizione. Riprova oppure scegli un indirizzo salvato."
+      },
+      "tryAgain": "Riprova",
+      "problems": {
+        "currentNotKept": "La tua posizione viene usata solo per la ricerca per cui l’hai condivisa. Usala di nuovo per cercare per distanza.",
+        "addressUnavailable": "L’indirizzo salvato di questa ricerca non è disponibile. Potrebbe essere stato eliminato o appartenere a un altro account.",
+        "signedOut": "Accedi per usare l’indirizzo salvato di questa ricerca.",
+        "addressNotLocated": "{{label}} non può più essere localizzato. Modificalo nel tuo account oppure scegli un altro punto di partenza.",
+        "searchLocationNotAddress": "La tua località di ricerca non è un indirizzo salvato, quindi non può essere un punto di partenza. Scegli un indirizzo oppure cerca un paese in «Per regione».",
+        "loadFailed": "Non è stato possibile caricare l’indirizzo salvato. Riprova tra poco."
+      },
+      "useLocationAgain": "Usa di nuovo la mia posizione",
+      "editAddress": "Modifica indirizzo",
+      "info": {
+        "title": "Dove si <em>trova</em> un annuncio",
+        "source": "Il luogo di un annuncio proviene dal fornitore, non dall’oggetto. Registriamo dove ha sede ciascun fornitore e lo usiamo per tutti i suoi annunci. Un oggetto può essere conservato o spedito da un altro luogo.",
+        "modes": "<strong>Solo indirizzi esatti</strong> usa i fornitori registrati con un indirizzo completo. <strong>Includi località approssimative</strong> usa anche dati che conoscono solo la via, la località o la regione, quindi le loro distanze possono variare di diversi chilometri.",
+        "lag": "Le distanze sono in linea d’aria, non percorsi, e sono arrotondate in base alla precisione con cui è noto il luogo. Una sede del fornitore nuova o modificata può richiedere un po’ di tempo per comparire in queste ricerche."
+      },
+      "card": {
+        "approximate": "circa {{distance}}",
+        "distanceLabel": "{{distance}} dal luogo registrato del fornitore, {{place}}",
+        "distanceOnlyLabel": "{{distance}} dal luogo registrato del fornitore",
+        "placeLabel": "Fornitore registrato in {{place}}"
+      },
+      "noResults": {
+        "headline": "Niente entro <em>{{distance}}.</em>",
+        "description": "Niente entro {{distance}} da {{origin}}. Amplia la distanza o includi le località approssimative.",
+        "widen": "Cerca entro {{distance}}",
+        "includeApproximate": "Includi località approssimative",
+        "removeDistance": "Rimuovi la distanza"
+      },
+      "rejected": {
+        "headline": "Questa ricerca per località <em>non è riuscita.</em>",
+        "description": "Controlla luoghi e distanza oppure reimposta il filtro di località."
+      }
     }
   },
   "product": {

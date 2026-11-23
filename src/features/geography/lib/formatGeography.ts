@@ -63,3 +63,28 @@ export function formatCoordinates(point: GeographicPoint, language: string, t: T
         longitude: format.format(point.longitude),
     });
 }
+
+const KILOMETRES_PER_MILE = 1.609344;
+
+/**
+ * A distance to recorded evidence in the unit the search uses, rounded by precision like
+ * `formatEvidenceDistanceKm` (0.1, 1 or 10 of that unit). `approximate` marks evidence known only
+ * to a locality or region, whose distance is shown as "about …".
+ */
+export function formatEvidenceDistance(
+    distanceKm: number,
+    precision: GeographicPrecision | undefined,
+    unit: "KILOMETERS" | "MILES",
+    language: string,
+): { readonly text: string; readonly approximate: boolean } {
+    const amount = unit === "MILES" ? distanceKm / KILOMETRES_PER_MILE : distanceKm;
+    return {
+        text: new Intl.NumberFormat(language, {
+            style: "unit",
+            unit: unit === "MILES" ? "mile" : "kilometer",
+            unitDisplay: "short",
+            maximumFractionDigits: precision === "PREMISES" ? 1 : 0,
+        }).format(roundDisplayDistanceKm(amount, precision)),
+        approximate: precision !== "PREMISES" && precision !== "STREET",
+    };
+}

@@ -21,6 +21,7 @@ import {
     validateSearchUrlParams,
 } from "@/features/search/products/lib/searchValidation.ts";
 import { DEBOUNCE_DELAY_MS } from "@/features/search/common/lib/filterForm.ts";
+import { useSearchOrigin } from "@/features/search/products/hooks/useSearchOrigin.ts";
 
 async function renderSearchPage(entry: string) {
     const root = createRootRoute({ component: Outlet });
@@ -28,12 +29,16 @@ async function renderSearchPage(entry: string) {
         getParentRoute: () => root,
         path: "/$lng/search",
         validateSearch: validateSearchUrlParams,
-        component: () => (
-            <>
-                <NavSearchField variant="compact" />
-                <SearchFilters searchFilters={validateSearchParams(search.useSearch())} />
-            </>
-        ),
+        component: function SearchRoute() {
+            const searchFilters = validateSearchParams(search.useSearch());
+            const origin = useSearchOrigin(searchFilters.location);
+            return (
+                <>
+                    <NavSearchField variant="compact" />
+                    <SearchFilters searchFilters={searchFilters} origin={origin} />
+                </>
+            );
+        },
     });
     const router = createRouter({
         routeTree: root.addChildren([search]),
@@ -262,5 +267,51 @@ describe("SearchFilters", () => {
                 screen.getByRole("button", { name: "Alle Filter zurücksetzen" }),
             ).toBeInTheDocument();
         }, 10000);
+    });
+
+    describe("location", () => {
+        it("starts by distance with Near set to Everywhere and the distance controls greyed out", async () => {
+            await renderSearchPage("/de/search?q=commode");
+
+            expect(screen.getByRole("radio", { name: "Nach Entfernung" })).toHaveAttribute(
+                "aria-checked",
+                "true",
+            );
+            expect(screen.getByRole("button", { name: /In der Nähe von: Überall/ })).toBeVisible();
+            expect(
+                screen.getByLabelText("Im Umkreis von").closest("[aria-disabled]"),
+            ).toHaveAttribute("aria-disabled", "true");
+        });
+
+        it("searches by region through the URL and drops the region when switching back", async () => {
+            const user = userEvent.setup();
+            const router = await renderSearchPage("/de/search?q=commode");
+
+            await user.click(screen.getByRole("radio", { name: "Nach Region" }));
+            await user.type(
+                screen.getByRole("combobox", { name: "Länder und Regionen" }),
+                "österr",
+            );
+            await user.click(await screen.findByRole("option", { name: /^Österreich/ }));
+
+            await waitFor(() =>
+                expect(router.state.location.search).toMatchObject({ countries: ["AT"] }),
+            );
+            expect(screen.getByRole("button", { name: "Österreich entfernen" })).toBeVisible();
+
+            await user.click(screen.getByRole("radio", { name: "Nach Entfernung" }));
+            await waitFor(() =>
+                expect(router.state.location.search).not.toHaveProperty("countries"),
+            );
+        });
+
+        it("explains that the current location is not kept after a reload", async () => {
+            await renderSearchPage("/de/search?q=commode&near=current&radius=25&unit=KILOMETERS");
+
+            expect(
+                await screen.findByText(/Ihr Standort wird nur für die Suche verwendet/),
+            ).toBeVisible();
+            expect(screen.getByLabelText("Im Umkreis von")).toHaveValue("25");
+        });
     });
 });

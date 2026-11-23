@@ -24,6 +24,11 @@ import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useTranslation } from "react-i18next";
 import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
+import { listingGeographyQuerySerializer } from "@/data/internal/geography/GeographicQuerySerializer.ts";
+import { mapToBackendGeographicSearch } from "@/data/internal/geography/GeographicSearch.ts";
+import { mapSearchLocationToGeographicSearch } from "@/data/internal/search/SearchLocation.ts";
+import type { SearchOrigin } from "@/features/search/products/hooks/useSearchOrigin.ts";
+import { GeographySearchError } from "@/features/search/products/lib/searchErrors.ts";
 
 const PAGE_SIZE = 30;
 
@@ -85,13 +90,27 @@ function buildFilterQuery(
     return filters;
 }
 
+const NO_ORIGIN: SearchOrigin = { status: "none" };
+
+/**
+ * Listing search. A distance search waits for its starting point; without one (the current
+ * location after a reload, a saved address that is gone) it searches without the distance limit.
+ * Query keys name the starting point by reference, never by its coordinates.
+ */
 export function useSearch(
     searchArgs: SearchFilterArguments,
+    origin: SearchOrigin = NO_ORIGIN,
 ): UseInfiniteQueryResult<InfiniteData<SearchResultData>> {
     const { getErrorMessage } = useApiError();
     const { i18n } = useTranslation();
     const { preferences } = useUserPreferences();
-    const searchCriteria = { ...searchArgs };
+    const point = origin.status === "ready" ? origin.point : undefined;
+    const geography = mapSearchLocationToGeographicSearch(searchArgs.location, point);
+    const searchCriteria = {
+        ...searchArgs,
+        location: geography ? searchArgs.location : undefined,
+        origin: origin.status === "ready" ? origin.key : undefined,
+    };
     delete searchCriteria.listingSourceLabels;
     delete searchCriteria.excludeListingSourceLabels;
 
@@ -100,6 +119,7 @@ export function useSearch(
             language: parseLanguage(i18n.language),
             currency: preferences.currency,
         }),
+        enabled: origin.status !== "loading",
         queryFn: async ({ pageParam }) => {
             if (matchesNoListingAvailability(searchArgs)) return EMPTY_RESULT;
 
@@ -115,16 +135,26 @@ export function useSearch(
                     auctionId: searchArgs.auctionId,
                     searchAfter: pageParam ? serializeListingSearchCursor(pageParam) : undefined,
                     size: PAGE_SIZE,
-                    ...mapToBackendSortModeArguments({
-                        field: searchArgs.sortField ?? "RELEVANCE",
-                        order: searchArgs.sortOrder ?? "DESC",
-                    }),
+                    // A distance order replaces the ordinary sort; the API rejects both at once.
+                    ...(geography?.distanceOrder
+                        ? {}
+                        : mapToBackendSortModeArguments({
+                              field: searchArgs.sortField ?? "RELEVANCE",
+                              order: searchArgs.sortOrder ?? "DESC",
+                          })),
                     ...buildFilterQuery(searchArgs, preferences.currency),
+                    ...(geography ? { geography: mapToBackendGeographicSearch(geography) } : {}),
                 },
+                querySerializer: listingGeographyQuerySerializer,
             });
 
             if (result.error) {
-                throw new Error(getErrorMessage(mapToInternalApiError(result.error)));
+                const apiError = mapToInternalApiError(result.error);
+                const message = getErrorMessage(apiError);
+                if (apiError.status === 400 && apiError.source?.field.startsWith("geography")) {
+                    throw new GeographySearchError(message);
+                }
+                throw new Error(message);
             }
 
             return {

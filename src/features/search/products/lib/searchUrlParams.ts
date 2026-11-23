@@ -2,6 +2,11 @@ import { format } from "date-fns";
 
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
+import type {
+    DISTANCE_SORT_FIELD,
+    SearchLocationUrlParams,
+} from "@/data/internal/search/SearchLocation.ts";
+import type { SortMode } from "@/data/internal/search/SortMode.ts";
 
 export type SearchFilterData = {
     query: string;
@@ -25,14 +30,19 @@ export type SearchUrlParams = Omit<
     | "updateDateTo"
     | "auctionDateFrom"
     | "auctionDateTo"
-> & {
-    creationDateFrom?: string;
-    creationDateTo?: string;
-    updateDateFrom?: string;
-    updateDateTo?: string;
-    auctionDateFrom?: string;
-    auctionDateTo?: string;
-};
+    | "location"
+    | "sortField"
+> &
+    SearchLocationUrlParams & {
+        /** `DISTANCE` while a distance search is ordered by distance. */
+        sortField?: SortMode["field"] | typeof DISTANCE_SORT_FIELD;
+        creationDateFrom?: string;
+        creationDateTo?: string;
+        updateDateFrom?: string;
+        updateDateTo?: string;
+        auctionDateFrom?: string;
+        auctionDateTo?: string;
+    };
 
 function formatToDateString(date?: Date): string | undefined {
     return date === undefined ? undefined : format(date, "yyyy-MM-dd");

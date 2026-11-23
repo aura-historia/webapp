@@ -16,10 +16,11 @@ import { UserAddressRequestError } from "@/features/account-management/hooks/use
  * The signed-in user's browsing destination ("search location"): private, `no-store`, no retries.
  * An untouched preference reads as `NONE`.
  */
-export function useBrowsingDestination(viewerCacheKey: string) {
+export function useBrowsingDestination(viewerCacheKey: string, enabled = true) {
     const { t } = useTranslation();
     return useQuery({
         queryKey: geographyQueryKeys.browsingDestination(viewerCacheKey),
+        enabled,
         retry: false,
         queryFn: async ({ signal }): Promise<BrowsingDestinationView> => {
             const response = await getBrowsingDestination({ signal, cache: "no-store" });

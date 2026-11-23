@@ -19,7 +19,9 @@ const MONO_LABEL_CLASS = "font-mono text-tag leading-[1.4] tracking-[0.14em] upp
 
 type SearchRankingInfoProps = {
     /** The sort mode in use; its section carries the "Selected" tag. */
-    readonly sortField: SortMode["field"];
+    readonly sortField: SortMode["field"] | "DISTANCE";
+    /** A distance search is active, so the distance order is offered and described. */
+    readonly distanceSearch?: boolean;
     /** Whether the search has a term; without one the relevance fallback line is emphasised. */
     readonly hasQuery: boolean;
     /** `toolbar`: a text link that opens a popover; `compact` (phones): a mono count-line link that opens a bottom sheet. */
@@ -46,7 +48,12 @@ function SelectedTag({ show }: { readonly show: boolean }) {
  * The text must describe the backend's actual ranking; see "Search ranking disclosure" in
  * docs/design-guidelines.md before changing either.
  */
-function SearchRankingSections({ sortField, hasQuery, mobile }: Omit<PanelProps, "titleId">) {
+function SearchRankingSections({
+    sortField,
+    hasQuery,
+    mobile,
+    distanceSearch,
+}: Omit<PanelProps, "titleId">) {
     const { t } = useTranslation();
     const termClass = "flex items-center gap-2 text-body-sm font-semibold text-ink";
     const textClass = "text-[13.5px] leading-normal text-ink-secondary";
@@ -135,7 +142,22 @@ function SearchRankingSections({ sortField, hasQuery, mobile }: Omit<PanelProps,
                     </dt>
                     <dd className={textClass}>{t("search.ranking.updatedText")}</dd>
                 </div>
+                {distanceSearch && (
+                    <div
+                        data-testid="search-ranking-distance"
+                        className="flex flex-col gap-1 border-b border-line-subtle py-3.5"
+                    >
+                        <dt className={termClass}>
+                            {t("search.sortMode.distance")}
+                            <SelectedTag show={sortField === "DISTANCE"} />
+                        </dt>
+                        <dd className={textClass}>{t("search.ranking.distanceText")}</dd>
+                    </div>
+                )}
             </dl>
+            <p className="text-meta leading-normal text-ink-muted">
+                {t("search.ranking.locationNarrows")}
+            </p>
 
             <div className="flex items-start gap-3 rounded-md bg-surface-sunken px-4 py-3.5">
                 <ShieldCheck
@@ -185,7 +207,12 @@ function PanelHeading({ titleId, mobile }: { readonly titleId: string; readonly 
  * A popover from the toolbar, a bottom sheet on phones. Both close on Esc, the close button or a
  * click outside and return focus to the link; the results stay in place behind them.
  */
-export function SearchRankingInfo({ sortField, hasQuery, layout }: SearchRankingInfoProps) {
+export function SearchRankingInfo({
+    sortField,
+    hasQuery,
+    layout,
+    distanceSearch = false,
+}: SearchRankingInfoProps) {
     const { t } = useTranslation();
     const [open, setOpen] = useState(false);
     const titleId = useId();
@@ -261,6 +288,7 @@ export function SearchRankingInfo({ sortField, hasQuery, layout }: SearchRanking
                         sortField={sortField}
                         hasQuery={hasQuery}
                         mobile={false}
+                        distanceSearch={distanceSearch}
                     />
                 </PopoverContent>
             </Popover>
@@ -283,7 +311,12 @@ export function SearchRankingInfo({ sortField, hasQuery, layout }: SearchRanking
                     <DrawerDescription className="sr-only">
                         {t("search.ranking.noPayment")}
                     </DrawerDescription>
-                    <SearchRankingSections sortField={sortField} hasQuery={hasQuery} mobile />
+                    <SearchRankingSections
+                        sortField={sortField}
+                        hasQuery={hasQuery}
+                        mobile
+                        distanceSearch={distanceSearch}
+                    />
                 </div>
             </DrawerContent>
         </Drawer>

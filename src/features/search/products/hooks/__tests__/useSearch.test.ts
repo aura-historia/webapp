@@ -1,5 +1,6 @@
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { useSearch } from "@/features/search/products/hooks/useSearch.ts";
+import { GeographySearchError } from "@/features/search/products/lib/searchErrors.ts";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createQuerySerializer } from "@/client/client/utils.gen.ts";
 import { renderHook, waitFor } from "@testing-library/react";
@@ -214,5 +215,109 @@ describe("useSearch", () => {
         const { result } = renderHook(() => useSearch({ q: "test" }), { wrapper: createWrapper() });
         await waitFor(() => expect(result.current.isError).toBe(true));
         expect(result.current.error?.message).toBe("Mapped API Error");
+    });
+
+    describe("location", () => {
+        const origin = {
+            status: "ready" as const,
+            point: { latitude: 51.3397, longitude: 12.3731 },
+            label: "Home",
+            key: "address:useraddress_01:3",
+        };
+        const distanceArgs: SearchFilterArguments = {
+            q: "commode",
+            sortField: "RELEVANCE",
+            sortOrder: "DESC",
+            location: {
+                kind: "DISTANCE",
+                near: { kind: "SEARCH_LOCATION" },
+                radius: { amount: 50, unit: "KILOMETERS" },
+                mode: "APPROXIMATE",
+                distanceOrder: "ASC",
+            },
+        };
+
+        it("sends the distance predicate as a deep object and replaces the ordinary sort", async () => {
+            renderHook(() => useSearch(distanceArgs, origin), { wrapper: createWrapper() });
+            await waitFor(() => expect(mockSearchListings).toHaveBeenCalledTimes(1));
+
+            const options = mockSearchListings.mock.calls[0][0];
+            expect(options.query).not.toHaveProperty("sort");
+            expect(options.query).not.toHaveProperty("order");
+            expect(options.query.geography).toEqual({
+                origin: { latitude: 51.3397, longitude: 12.3731 },
+                radius: { amount: 50, unit: "KILOMETERS" },
+                mode: "APPROXIMATE",
+                distanceOrder: "ASC",
+            });
+            const serialized = options.querySerializer(options.query);
+            expect(serialized).toContain("geography[origin][latitude]=51.3397");
+            expect(serialized).toContain("geography[radius][unit]=KILOMETERS");
+        });
+
+        it("names the starting point in the query key by reference, never by coordinates", async () => {
+            renderHook(() => useSearch(distanceArgs, origin), { wrapper: createWrapper() });
+            await waitFor(() => expect(mockSearchListings).toHaveBeenCalledTimes(1));
+
+            const keys = JSON.stringify(
+                queryClient
+                    .getQueryCache()
+                    .getAll()
+                    .map((q) => q.queryKey),
+            );
+            expect(keys).toContain("address:useraddress_01:3");
+            expect(keys).not.toContain("51.3397");
+            expect(keys).not.toContain("12.3731");
+        });
+
+        it("waits while the starting point loads", async () => {
+            renderHook(() => useSearch(distanceArgs, { status: "loading" }), {
+                wrapper: createWrapper(),
+            });
+            await new Promise((resolve) => setTimeout(resolve, 20));
+            expect(mockSearchListings).not.toHaveBeenCalled();
+        });
+
+        it("searches without the distance limit and with the ordinary sort when there is no starting point", async () => {
+            renderHook(
+                () => useSearch(distanceArgs, { status: "unavailable", problem: "currentNotKept" }),
+                { wrapper: createWrapper() },
+            );
+            await waitFor(() => expect(mockSearchListings).toHaveBeenCalledTimes(1));
+            const query = mockSearchListings.mock.calls[0][0].query;
+            expect(query).not.toHaveProperty("geography");
+            expect(query).toMatchObject({ sort: "score", order: "desc" });
+        });
+
+        it("sends a region search as code sets", async () => {
+            renderHook(
+                () =>
+                    useSearch({
+                        q: "",
+                        location: {
+                            kind: "REGION",
+                            countries: [],
+                            subdivisions: ["DE-SN"] as never,
+                        },
+                    }),
+                { wrapper: createWrapper() },
+            );
+            await waitFor(() => expect(mockSearchListings).toHaveBeenCalledTimes(1));
+            expect(mockSearchListings.mock.calls[0][0].query.geography).toEqual({
+                subdivisions: ["DE-SN"],
+            });
+        });
+
+        it("marks a rejected location predicate", async () => {
+            mockSearchListings.mockResolvedValue({
+                data: undefined,
+                error: { status: 400, source: { field: "geography[radius]", type: "QUERY" } },
+            });
+            const { result } = renderHook(() => useSearch(distanceArgs, origin), {
+                wrapper: createWrapper(),
+            });
+            await waitFor(() => expect(result.current.isError).toBe(true));
+            expect(result.current.error).toBeInstanceOf(GeographySearchError);
+        });
     });
 });

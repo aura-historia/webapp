@@ -158,3 +158,53 @@ describe("serializeSearchParams", () => {
         });
     });
 });
+
+describe("location parameters", () => {
+    it("keeps a distance search and its distance order in the URL by reference only", () => {
+        const url = validateSearchUrlParams({
+            q: "commode",
+            near: "search-location",
+            radius: "25",
+            unit: "MILES",
+            sortField: "DISTANCE",
+            sortOrder: "ASC",
+        } as RawSearchParams);
+
+        expect(url).toMatchObject({
+            near: "search-location",
+            radius: 25,
+            unit: "MILES",
+            sortField: "DISTANCE",
+            sortOrder: "ASC",
+        });
+        expect(JSON.stringify(url)).not.toMatch(/latitude|longitude/);
+        expect(validateSearchParams(url).location).toEqual({
+            kind: "DISTANCE",
+            near: { kind: "SEARCH_LOCATION" },
+            radius: { amount: 25, unit: "MILES" },
+            mode: "APPROXIMATE",
+            distanceOrder: "ASC",
+        });
+    });
+
+    it("falls back to relevance when a distance order has no distance search", () => {
+        const args = validateSearchParams({
+            q: "commode",
+            sortField: "DISTANCE",
+            sortOrder: "ASC",
+        });
+        expect(args.sortField).toBe("RELEVANCE");
+        expect(args.sortOrder).toBe("DESC");
+        expect(args.location).toBeUndefined();
+    });
+
+    it("serializes a region search and keeps unrelated filters", () => {
+        expect(
+            serializeSearchParams({
+                q: "vase",
+                priceTo: 100,
+                location: { kind: "REGION", countries: ["DE", "AT"] as never, subdivisions: [] },
+            }),
+        ).toMatchObject({ q: "vase", priceTo: 100, countries: ["DE", "AT"] });
+    });
+});
