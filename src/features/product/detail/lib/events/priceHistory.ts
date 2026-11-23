@@ -26,7 +26,10 @@ export function getHistoryDisplayPrice(
     value: HistoryListingPrice | HistoryPriceEstimate | null | undefined,
     currency: Currency | undefined,
 ): HistoricalDisplayPrice | HistoricalMainDisplayPrice | undefined {
-    if (!value || !currency || ("type" in value && value.type === "ON_REQUEST")) return undefined;
+    if (!value || !currency) return undefined;
+    if ("type" in value && (value.type === "ON_REQUEST" || value.type === "UNKNOWN")) {
+        return undefined;
+    }
     return value.display?.currency === currency ? value.display : undefined;
 }
 

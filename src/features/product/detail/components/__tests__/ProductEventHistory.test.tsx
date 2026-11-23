@@ -432,6 +432,30 @@ describe("ProductEventHistory", () => {
             );
         });
 
+        it("names a price of an unknown kind as unknown, not as not provided", () => {
+            render(
+                <ProductEventHistory
+                    event={{
+                        ...projectedChange,
+                        eventId: "event-unknown",
+                        payload: {
+                            kind: "CHANGED",
+                            changes: [
+                                {
+                                    type: "MAIN_PRICE_CHANGED",
+                                    previous: { type: "MONETARY", amount: 3000, currency: "EUR" },
+                                    current: { type: "UNKNOWN" },
+                                },
+                            ],
+                        },
+                    }}
+                />,
+            );
+            expect(normalise(screen.getByTestId("timeline-description").textContent)).toBe(
+                "product.history.events.mainPriceChanged €30.00 product.unknownPrice",
+            );
+        });
+
         it("keeps source-only rendering when no display currency is requested", () => {
             render(<ProductEventHistory event={projectedChange} />);
 

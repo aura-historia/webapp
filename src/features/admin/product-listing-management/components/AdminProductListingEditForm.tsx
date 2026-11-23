@@ -621,7 +621,12 @@ function MoneyField({
                         "h-11 min-w-0 rounded-l-md border-0 bg-transparent px-3 text-[15px] text-ink tabular-nums placeholder:text-ink-placeholder disabled:cursor-not-allowed",
                         FOCUS_CLASS,
                     )}
-                    {...form.register(amountName)}
+                    // The upper bound is checked against the lower one, so a new lower bound
+                    // revalidates it.
+                    {...form.register(
+                        amountName,
+                        amountName === "priceMinAmount" ? { deps: "priceMaxAmount" } : undefined,
+                    )}
                 />
                 <AdminSelect
                     id={currencyId}

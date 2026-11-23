@@ -111,7 +111,15 @@ export function ProductActionBar({ product }: { readonly product: ProductListing
     return (
         <div className="sticky bottom-0 z-30 flex items-center gap-3 bg-surface-bar px-5 pt-3 pb-[max(20px,env(safe-area-inset-bottom))] shadow-[inset_0_1px_0_var(--color-line-subtle)] lg:hidden">
             <div className="flex min-w-0 flex-1 flex-col gap-0.5">
-                <span className="truncate font-serif text-[22px] leading-[1.1] text-ink">
+                {/* A range is too long to truncate; it steps down a size and may wrap after its dash. */}
+                <span
+                    className={cn(
+                        "font-serif text-ink",
+                        product.price?.type === "RANGE"
+                            ? "text-[17px] leading-[1.15] text-balance"
+                            : "truncate text-[22px] leading-[1.1]",
+                    )}
+                >
                     {price.primary}
                 </span>
                 <span className="truncate font-mono text-tag tracking-[0.14em] text-ink-muted uppercase">

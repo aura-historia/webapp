@@ -198,7 +198,7 @@ describe("ProductPriceChart", () => {
     it("says that ranges are not plotted, whether or not other prices are", () => {
         const range = { type: "RANGE", min: 100000, max: 150000, currency: "EUR" } as const;
         const note =
-            "Als Spanne angegebene Preise werden nicht im Diagramm gezeigt; der Verlauf des Angebots führt sie auf.";
+            "Als Spanne angegebene Preise erscheinen nicht als Linie im Diagramm; die Historie führt sie auf.";
         const { rerender } = render(
             <ProductPriceChart history={[discovery("1", "2026-01-01T00:00:00Z", range)]} />,
         );

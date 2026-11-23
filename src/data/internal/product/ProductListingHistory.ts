@@ -55,7 +55,13 @@ export type HistoryMonetaryPrice = MonetaryListingPrice & {
 export type HistoryRangePrice = RangeListingPrice & {
     readonly display?: HistoricalMainDisplayPrice;
 };
-export type HistoryListingPrice = HistoryMonetaryPrice | HistoryRangePrice | OnRequestListingPrice;
+/** A main price of a kind this app does not know; shown as an unknown price, never as absent. */
+export type HistoryUnknownPrice = { readonly type: "UNKNOWN" };
+export type HistoryListingPrice =
+    | HistoryMonetaryPrice
+    | HistoryRangePrice
+    | OnRequestListingPrice
+    | HistoryUnknownPrice;
 export type HistoryPriceEstimate = ListingPriceEstimate & {
     readonly display?: HistoricalDisplayPrice;
 };
@@ -170,7 +176,8 @@ function mapMainDisplay(
     display: ProductListingHistoryMainPriceDisplayData | undefined,
 ): HistoricalMainDisplayPrice | undefined {
     if (!display) return undefined;
-    if (display.type === "MONETARY") {
+    // Backends before the range contract send a single amount without `type`.
+    if (display.type === "MONETARY" || (display.type === undefined && "amount" in display)) {
         const monetary = mapDisplay(display);
         return monetary && { type: "MONETARY", ...monetary };
     }
@@ -197,7 +204,7 @@ function mapMainDisplay(
     };
 }
 
-/** A kind this app does not know maps to `null`, like an absent price. */
+/** A kind this app does not know maps to `UNKNOWN`, which stays distinct from an absent price. */
 function mapPrice(
     value: ProductListingHistoryMainPriceData | null | undefined,
 ): HistoryListingPrice | null {
@@ -225,7 +232,7 @@ function mapPrice(
             };
         }
         default:
-            return null;
+            return { type: "UNKNOWN" };
     }
 }
 

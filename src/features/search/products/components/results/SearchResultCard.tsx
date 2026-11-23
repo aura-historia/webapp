@@ -207,7 +207,15 @@ function SearchResultCardComponent({ product }: { readonly product: ProductListi
                         {t(getListingStatusLabelKey(product.availability, product.lifecycle))}
                     </span>
                     <span className="flex flex-col items-start sm:items-end">
-                        <strong className="text-sm leading-[1.2] font-semibold whitespace-nowrap sm:text-price">
+                        {/* A range may wrap after its dash rather than overflow a narrow card. */}
+                        <strong
+                            className={cn(
+                                "text-sm leading-[1.2] font-semibold sm:text-price",
+                                product.price?.type === "RANGE"
+                                    ? "text-balance sm:text-right"
+                                    : "whitespace-nowrap",
+                            )}
+                        >
                             {price}
                         </strong>
                         {product.priceValuation === "SALE_OBSERVATION" && (

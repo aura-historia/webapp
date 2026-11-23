@@ -445,6 +445,26 @@ describe("price ranges", () => {
         ).toEqual([]);
     });
 
+    it("keeps an edited range bound when rebasing onto a newer listing", () => {
+        const latest = toAdminProductListingFormValues({
+            ...ranged,
+            price: { type: "RANGE", min: 90_000, max: 150_000, currency: "JPY" },
+            availability: "RESERVED",
+        });
+        const rebased = rebaseAdminProductListingDraft(
+            { ...stored, priceMaxAmount: "160000" },
+            stored,
+            latest,
+        );
+        // The price group is the administrator's own, whole; other groups take the newer values.
+        expect(rebased).toMatchObject({
+            priceKind: "RANGE",
+            priceMinAmount: "100000",
+            priceMaxAmount: "160000",
+            availability: "RESERVED",
+        });
+    });
+
     it("feeds a stored range through the zod schema", () => {
         expect(createAdminProductListingFormSchema(stored).safeParse(stored).success).toBe(true);
     });

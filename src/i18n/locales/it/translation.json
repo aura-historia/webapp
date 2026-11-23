@@ -988,7 +988,7 @@
       "displaySelect": "Mostra lo storico dei prezzi in {{currency}} ai tassi di cambio storici",
       "displaySeriesName": "Prezzo in {{currency}} (tassi storici)",
       "displayNote": "Convertito al tasso di cambio registrato al momento di ogni variazione di prezzo o prima. Le interruzioni indicano prezzi senza tasso registrato o senza prezzo pubblico.",
-      "rangeNote": "I prezzi indicati come intervallo non sono riportati nel grafico; la cronologia dell’annuncio li mostra.",
+      "rangeNote": "I prezzi indicati come fascia non sono tracciati come linea; la cronologia li mostra.",
       "timeRangeLabel": "Periodo",
       "resetZoom": "Reimposta zoom"
     },
@@ -1835,7 +1835,7 @@
         },
         "create": {
           "title": "Campi di creazione e prezzi",
-          "description": "POST richiede sourceListingId, url e images; includa title e description localizzati quando disponibili (il contratto attuale consente omissione o null). I campi venditore e indirizzo non sono supportati. availability può essere null. Il prezzo è { type: MONETARY, currency: EUR, amount: 420000 } in unità monetarie minori, oppure { type: ON_REQUEST }; null non registra un prezzo."
+          "description": "POST richiede sourceListingId, url e images; includa title e description localizzati quando disponibili (il contratto attuale consente omissione o null). I campi venditore e indirizzo non sono supportati. availability può essere null. Il prezzo è { type: MONETARY, currency: EUR, amount: 420000 } in unità monetarie minori, una fascia { type: RANGE, currency: EUR, min: 100000, max: 150000 } con min inferiore a max, oppure { type: ON_REQUEST }; null non registra un prezzo."
         },
         "patch": {
           "title": "Conservare o cancellare",
@@ -6041,7 +6041,7 @@
     "priceOptions": {
       "NONE": "Non specificato",
       "MONETARY": "Importo",
-      "RANGE": "Intervallo",
+      "RANGE": "Fascia di prezzo",
       "ON_REQUEST": "Su richiesta"
     },
     "times": {

@@ -988,7 +988,7 @@
       "displaySelect": "Afficher l’historique des prix en {{currency}} aux taux de change historiques",
       "displaySeriesName": "Prix en {{currency}} (taux historiques)",
       "displayNote": "Converti au taux de change enregistré au moment de chaque changement de prix ou avant. Les interruptions signalent des prix sans taux enregistré ou sans prix public.",
-      "rangeNote": "Les prix indiqués sous forme de fourchette ne sont pas tracés ; l’historique de l’annonce les affiche.",
+      "rangeNote": "Les prix indiqués sous forme de fourchette ne sont pas tracés en ligne ; l’historique les affiche.",
       "timeRangeLabel": "Période",
       "resetZoom": "Réinitialiser le zoom"
     },
@@ -1835,7 +1835,7 @@
         },
         "create": {
           "title": "Champs de création et prix",
-          "description": "POST exige sourceListingId, url et images ; incluez title et description localisés lorsqu’ils sont disponibles (le contrat actuel autorise leur omission ou null). Les champs vendeur et adresse ne sont pas pris en charge. availability peut être null. Le prix est { type: MONETARY, currency: EUR, amount: 420000 } en unités monétaires mineures, ou { type: ON_REQUEST } ; null n’enregistre aucun prix."
+          "description": "POST exige sourceListingId, url et images ; incluez title et description localisés lorsqu’ils sont disponibles (le contrat actuel autorise leur omission ou null). Les champs vendeur et adresse ne sont pas pris en charge. availability peut être null. Le prix est { type: MONETARY, currency: EUR, amount: 420000 } en unités monétaires mineures, une fourchette { type: RANGE, currency: EUR, min: 100000, max: 150000 } dont min est inférieur à max, ou { type: ON_REQUEST } ; null n’enregistre aucun prix."
         },
         "patch": {
           "title": "Conserver ou effacer",

@@ -239,11 +239,13 @@ export function ProductEventHistory({
     const labels = {
         onRequest: t("product.history.values.onRequest"),
         notProvided: t("product.history.values.notProvided"),
+        unknown: t("product.unknownPrice"),
     };
 
     const formatPrice = (price: PriceLabel) => {
         if (price === null) return labels.notProvided;
         if ("type" in price && price.type === "ON_REQUEST") return labels.onRequest;
+        if ("type" in price && price.type === "UNKNOWN") return labels.unknown;
         const source = formatHistoryValue(price, i18n.language);
         if (!displayCurrency || price.currency === displayCurrency) return source;
 

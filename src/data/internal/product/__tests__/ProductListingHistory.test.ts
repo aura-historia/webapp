@@ -514,7 +514,7 @@ describe("mapProductListingHistory", () => {
             });
         });
 
-        it("maps a price kind it does not know to no price instead of reading an amount", () => {
+        it("maps a price kind it does not know to an unknown price, never to an amount", () => {
             const [entry] = mapProductListingHistory([
                 {
                     ...changedEntry,
@@ -523,7 +523,7 @@ describe("mapProductListingHistory", () => {
                             {
                                 type: "MAIN_PRICE_CHANGED",
                                 previous: { type: "MONETARY", amount: 3000, currency: "EUR" },
-                                current: { type: "AUCTION_RESERVE", currency: "EUR" },
+                                current: { type: "AUCTION_RESERVE", currency: "EUR", amount: 1 },
                             },
                         ],
                     },
@@ -535,9 +535,40 @@ describe("mapProductListingHistory", () => {
                 {
                     type: "MAIN_PRICE_CHANGED",
                     previous: { type: "MONETARY", amount: 3000, currency: "EUR" },
-                    current: null,
+                    current: { type: "UNKNOWN" },
                 },
             ]);
+        });
+
+        it("keeps a projection without type from a backend before price ranges", () => {
+            const [entry] = mapProductListingHistory([
+                {
+                    ...changedEntry,
+                    payload: {
+                        changes: [
+                            {
+                                type: "MAIN_PRICE_CHANGED",
+                                current: {
+                                    type: "MONETARY",
+                                    amount: 3000,
+                                    currency: "EUR",
+                                    display: { currency: "RON", amount: 15000, ...snapshot },
+                                },
+                            },
+                        ],
+                    },
+                } as unknown as ProductListingHistoryEntryData,
+            ]);
+
+            if (entry?.payload.kind !== "CHANGED") throw new Error("Expected a changed entry");
+            const [change] = entry.payload.changes;
+            if (change?.type !== "MAIN_PRICE_CHANGED") throw new Error("Expected a price change");
+            expect(change.current).toEqual({
+                type: "MONETARY",
+                amount: 3000,
+                currency: "EUR",
+                display: { type: "MONETARY", currency: "RON", amount: 15000, ...provenance },
+            });
         });
 
         it("drops a malformed or unsupported projection rather than coercing it", () => {

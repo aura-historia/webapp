@@ -996,7 +996,7 @@
       "displaySelect": "Show price history converted to {{currency}} at historical exchange rates",
       "displaySeriesName": "Price in {{currency}} (historical rates)",
       "displayNote": "Converted using the exchange rate recorded at or before each price change. Gaps mark prices without a recorded rate or without a public price.",
-      "rangeNote": "Asking prices stated as a range are not plotted; the listing history shows them.",
+      "rangeNote": "Asking prices stated as a range are not drawn as a line; the history lists them.",
       "timeRangeLabel": "Time range",
       "resetZoom": "Reset zoom"
     },
@@ -1828,7 +1828,7 @@
         },
         "create": {
           "title": "Create fields and prices",
-          "description": "POST requires sourceListingId, url and images; include localized title and description when available (the current contract allows omission or null). Seller and address fields are not supported. Availability is nullable. Asking price is { type: MONETARY, currency: EUR, amount: 420000 } in minor currency units, or { type: ON_REQUEST }; null records no price."
+          "description": "POST requires sourceListingId, url and images; include localized title and description when available (the current contract allows omission or null). Seller and address fields are not supported. Availability is nullable. Asking price is { type: MONETARY, currency: EUR, amount: 420000 } in minor currency units, a range { type: RANGE, currency: EUR, min: 100000, max: 150000 } whose min is below its max, or { type: ON_REQUEST }; null records no price."
         },
         "patch": {
           "title": "Preserve or clear",

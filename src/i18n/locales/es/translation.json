@@ -988,7 +988,7 @@
       "displaySelect": "Mostrar el historial de precios en {{currency}} con tipos de cambio históricos",
       "displaySeriesName": "Precio en {{currency}} (tipos históricos)",
       "displayNote": "Convertido con el tipo de cambio registrado en el momento de cada cambio de precio o antes. Los huecos indican precios sin tipo registrado o sin precio público.",
-      "rangeNote": "Los precios indicados como rango no se representan en el gráfico; el historial del anuncio los muestra.",
+      "rangeNote": "Los precios indicados como rango no se dibujan como línea; el historial los muestra.",
       "timeRangeLabel": "Periodo",
       "resetZoom": "Restablecer zoom"
     },
@@ -1835,7 +1835,7 @@
         },
         "create": {
           "title": "Campos de creación y precios",
-          "description": "POST requiere sourceListingId, url e images; incluya title y description localizados cuando estén disponibles (el contrato actual permite omisión o null). No se admiten campos de vendedor ni dirección. availability puede ser null. El precio es { type: MONETARY, currency: EUR, amount: 420000 } en unidades monetarias menores, o { type: ON_REQUEST }; null no registra precio."
+          "description": "POST requiere sourceListingId, url e images; incluya title y description localizados cuando estén disponibles (el contrato actual permite omisión o null). No se admiten campos de vendedor ni dirección. availability puede ser null. El precio es { type: MONETARY, currency: EUR, amount: 420000 } en unidades monetarias menores, un rango { type: RANGE, currency: EUR, min: 100000, max: 150000 } cuyo min es menor que max, o { type: ON_REQUEST }; null no registra precio."
         },
         "patch": {
           "title": "Conservar o borrar",
@@ -6041,7 +6041,7 @@
     "priceOptions": {
       "NONE": "Sin especificar",
       "MONETARY": "Importe",
-      "RANGE": "Rango",
+      "RANGE": "Horquilla",
       "ON_REQUEST": "A consultar"
     },
     "times": {

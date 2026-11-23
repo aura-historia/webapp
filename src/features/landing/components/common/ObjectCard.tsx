@@ -98,7 +98,15 @@ export function ObjectCard({ product, className }: ObjectCardProps) {
                             <span className="min-w-0 truncate">{seller}</span>
                             {product.source.partner && <PartnerBadge size="sm" />}
                         </span>
-                        <strong className="shrink-0 text-sm font-semibold whitespace-nowrap text-ink sm:text-price">
+                        {/* A range may wrap after its dash rather than push into the next card. */}
+                        <strong
+                            className={cn(
+                                "text-sm font-semibold text-ink sm:text-price",
+                                product.price?.type === "RANGE"
+                                    ? "min-w-0 text-right text-balance"
+                                    : "shrink-0 whitespace-nowrap",
+                            )}
+                        >
                             {price}
                         </strong>
                     </div>

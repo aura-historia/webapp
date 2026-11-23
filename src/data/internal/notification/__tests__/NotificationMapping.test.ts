@@ -52,6 +52,32 @@ describe("notification mapping", () => {
             ).payload,
         ).toMatchObject({ change: { oldAvailability: null, newAvailability: "SOLD_OUT" } });
     });
+    it("maps ranges and shows a price kind it does not know as unknown, not as an amount", () => {
+        const withChange = (oldPrice: unknown, newPrice: unknown) =>
+            mapToInternalNotification(
+                notificationDto({
+                    payload: {
+                        ...watchlistPayload,
+                        change: { type: "PRICE_CHANGE", oldPrice, newPrice },
+                    } as typeof watchlistPayload,
+                }),
+            ).payload;
+
+        expect(
+            withChange(
+                { type: "RANGE", currency: "EUR", min: 100000, max: 150000 },
+                { type: "RANGE", currency: "EUR", min: 100000, max: 140000 },
+            ),
+        ).toMatchObject({
+            change: {
+                oldPrice: { type: "RANGE", currency: "EUR", min: 100000, max: 150000 },
+                newPrice: { type: "RANGE", currency: "EUR", min: 100000, max: 140000 },
+            },
+        });
+        expect(
+            withChange({ type: "AUCTION_RESERVE", amount: 5 }, { type: "ON_REQUEST" }),
+        ).toMatchObject({ change: { oldPrice: null, newPrice: { type: "ON_REQUEST" } } });
+    });
     it("maps search matches and safely preserves redaction", () => {
         const { change: _change, ...product } = watchlistPayload;
         const result = mapToInternalNotification(

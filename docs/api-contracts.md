@@ -44,13 +44,17 @@ admin workflows in [admin workflows](admin-workflows.md).
     can be `RANGE`, and their `display` (`ProductListingHistoryMainPriceDisplayData`) now carries
     `type`, with `min`/`max` for a range; estimate displays are unchanged. A converted range whose
     bounds round to one amount arrives as `MONETARY`. Decisions: `ListingPrice` adds
-    `RangeListingPrice`; `mapListingPrice` and the history mapper switch on `type` and map a kind
-    they do not know to `null` (the unknown price) instead of reading `amount`. `formatListingPrice`
+    `RangeListingPrice`; `mapListingPrice` and the history mapper switch on `type` and never read
+    `amount` from another kind. A kind they do not know is the unknown price: `null` for listings
+    and notifications, `{ type: "UNKNOWN" }` in history (shown as "Price unknown", never as "Not
+    provided"). A main-price `display` without `type`, as backends before this capture send it, is
+    read as a single amount. `formatListingPrice`
     and `formatPriceRange` render `€1,000.00 – €1,500.00` in the user's locale with the currency's
     minor-unit exponent, so every card, the detail summary and notifications show ranges. The
     history timeline formats ranges and their projections. The chart plots single amounts only: a
     range is a gap in both the source and the requested-currency series (a range collapsed to one
-    amount is plotted), and a note under the chart says ranges are listed in the history. A
+    amount is plotted), and a note under the chart says ranges are listed in the history. Cards and the
+    phone action bar let a range wrap after its dash instead of truncating or overflowing it. A
     notification percentage needs a single amount on both sides, so a change to or from a range has
     none. JSON-LD states a range as an `AggregateOffer` with `lowPrice`/`highPrice`. The admin edit
     form offers "Range" (lower and upper bound in one currency) and blocks `min >= max` before the
@@ -68,7 +72,8 @@ admin workflows in [admin workflows](admin-workflows.md).
     only. The `429 REQUEST_RATE_LIMITED` description (backend#3027) needs no client change: errors go
     through `mapToInternalApiError`.
   - Release this webapp with or after a backend that serves this capture: an older backend rejects
-    a `RANGE` written by the admin form. Reads accept both.
+    a `RANGE` written by the admin form. Reads accept both, including history projections without
+    `type`.
 - The MCP tool snapshot of the same commit is unchanged (`--check` passes), so it is not re-synced.
 - Changes adopted with the `7a96cc88` capture (against `8c678cb`, 2026-11-16), with their decisions:
   - **Anonymous reports of illegal content and the role `OTHER`**
