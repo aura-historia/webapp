@@ -2,6 +2,7 @@ import type { ListingAvailability } from "@/data/internal/product/ProductListing
 import type { ListingOrderability } from "@/data/internal/product/ListingOrderability.ts";
 import type { SortMode } from "@/data/internal/search/SortMode.ts";
 import type { Currency } from "@/data/internal/common/Currency.ts";
+import type { SearchLocation } from "@/data/internal/search/SearchLocation.ts";
 
 export type SearchFilterArguments = {
     q: string;
@@ -29,4 +30,9 @@ export type SearchFilterArguments = {
     auctionDateTo?: Date;
     sortField?: SortMode["field"];
     sortOrder?: SortMode["order"];
+    /**
+     * The search page's location filter. Saved searches do not carry it yet (#1081); a distance
+     * order inside it replaces `sortField` and `sortOrder`.
+     */
+    location?: SearchLocation;
 };

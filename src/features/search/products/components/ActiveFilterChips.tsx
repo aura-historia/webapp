@@ -18,6 +18,8 @@ type ActiveFilterChipsProps = {
     /** `wrap` between hairlines on desktop; `scroll` as one swipeable row on phones. */
     readonly layout: "wrap" | "scroll";
     readonly className?: string;
+    /** Names a distance search's starting point ("Home"). */
+    readonly originLabel?: string;
 };
 
 /** The applied filters as removable chips, so they stay visible while the filters are closed. */
@@ -27,10 +29,14 @@ export function ActiveFilterChips({
     onResetAll,
     layout,
     className,
+    originLabel,
 }: ActiveFilterChipsProps) {
     const { t } = useTranslation();
-    const describe = useDescribeActiveFilter();
     const filters = getActiveFilters(searchArgs);
+    const describe = useDescribeActiveFilter(
+        originLabel,
+        filters.some((filter) => filter.kind === "place" && !filter.country),
+    );
 
     if (filters.length === 0) return null;
 

@@ -4,6 +4,7 @@ import { Drawer, DrawerClose, DrawerContent, DrawerTitle } from "@/components/ui
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import { FILTER_FOCUS_CLASS } from "@/features/search/common/components/filters/FilterCard.tsx";
 import { SearchFilters } from "@/features/search/products/components/SearchFilters.tsx";
+import type { SearchOrigin } from "@/features/search/products/hooks/useSearchOrigin.ts";
 import { cn } from "@/lib/utils.ts";
 
 type SearchFilterDrawerProps = {
@@ -11,6 +12,7 @@ type SearchFilterDrawerProps = {
     readonly open: boolean;
     readonly onOpenChange: (open: boolean) => void;
     readonly searchArgs: SearchFilterArguments;
+    readonly origin: SearchOrigin;
     readonly totalResults?: number;
 };
 
@@ -20,6 +22,7 @@ export function SearchFilterDrawer({
     open,
     onOpenChange,
     searchArgs,
+    origin,
     totalResults,
 }: SearchFilterDrawerProps) {
     const { t } = useTranslation();
@@ -47,6 +50,7 @@ export function SearchFilterDrawer({
                 </div>
                 <SearchFilters
                     searchFilters={searchArgs}
+                    origin={origin}
                     variant="sheet"
                     totalResults={totalResults}
                     onShowResults={() => onOpenChange(false)}

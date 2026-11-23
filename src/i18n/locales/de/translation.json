@@ -810,9 +810,14 @@
         "asc": "Aufsteigend",
         "desc": "Absteigend",
         "switchToAsc": "Reihenfolge: absteigend. Auf aufsteigend umstellen",
-        "switchToDesc": "Reihenfolge: aufsteigend. Auf absteigend umstellen"
+        "switchToDesc": "Reihenfolge: aufsteigend. Auf absteigend umstellen",
+        "nearest": "Nächste zuerst",
+        "farthest": "Entfernteste zuerst",
+        "switchToNearest": "Reihenfolge: entfernteste zuerst. Zu nächste zuerst wechseln",
+        "switchToFarthest": "Reihenfolge: nächste zuerst. Zu entfernteste zuerst wechseln"
       },
-      "lastUpdated": "Zuletzt aktualisiert"
+      "lastUpdated": "Zuletzt aktualisiert",
+      "distance": "Entfernung"
     },
     "eyebrow": "Suchergebnisse",
     "resultsForQuery": "Ergebnisse für <em>„{{query}}“</em>",
@@ -830,7 +835,11 @@
       "price": "Preis",
       "includeSource": "Anbieter",
       "excludeSource": "Ohne",
-      "remove": "Filter entfernen: {{label}}"
+      "remove": "Filter entfernen: {{label}}",
+      "place": "Ort",
+      "within": "Umkreis",
+      "withinValue": "{{distance}} um {{origin}}",
+      "locations": "Standorte"
     },
     "resetAll": "Zurücksetzen",
     "showResults_one": "{{count}} Ergebnis anzeigen",
@@ -884,7 +893,93 @@
       "updatedText": "Nach dem Datum, an dem wir zuletzt eine Änderung am Angebot erfasst haben.",
       "noPayment": "Partnerstatus, Provisionen und Zahlungen beeinflussen die Reihenfolge nicht.",
       "personal": "Ihr Konto und Ihr Suchverlauf ebenfalls nicht. Nur Ihre Sprache zählt, denn sie bestimmt, welche Titelübersetzung wir vergleichen.",
-      "fallback": "Ist das KI-Modell nicht verfügbar, zählt nur die Wortübereinstimmung."
+      "fallback": "Ist das KI-Modell nicht verfügbar, zählt nur die Wortübereinstimmung.",
+      "distanceText": "Nach der Luftlinie von Ihrem Ausgangspunkt bis zum erfassten Standort des Anbieters, nächste oder entfernteste zuerst. Mit Suchbegriff müssen alle Ihre Suchwörter im Titel des Angebots vorkommen; die KI-Rangfolge nach ähnlicher Bedeutung wird in dieser Reihenfolge nicht verwendet. Angebote in gleicher Entfernung behalten eine feste technische Reihenfolge.",
+      "locationNarrows": "Die Suche nach Region oder im Umkreis grenzt die Ergebnisse nur ein; sie ändert nicht, wie sie sortiert werden."
+    },
+    "location": {
+      "title": "Standort",
+      "reset": "Standortfilter zurücksetzen",
+      "modeLabel": "Standort suchen nach",
+      "byRegion": "Nach Region",
+      "byDistance": "Nach Entfernung",
+      "placesLabel": "Länder und Regionen",
+      "placesPlaceholder": "Land oder Region hinzufügen",
+      "placesEmpty": "Kein Land und keine Region gefunden",
+      "placesChosen": "Gewählte Länder und Regionen",
+      "removePlace": "{{name}} entfernen",
+      "country": "Land",
+      "regionOf": "Region · {{country}}",
+      "near": "In der Nähe von",
+      "everywhere": "Überall",
+      "everywhereHint": "Ohne Entfernungsgrenze",
+      "searchLocationTag": "Suchstandort",
+      "notLocated": "Nicht verortet",
+      "showMoreAddresses": "Weitere Adressen anzeigen",
+      "useCurrentLocation": "Meinen aktuellen Standort verwenden",
+      "locating": "Standort wird ermittelt …",
+      "currentLocation": "Aktueller Standort",
+      "currentNotKept": "Aktueller Standort (nicht gespeichert)",
+      "signInForAddresses": "Melden Sie sich an, um in der Nähe einer Ihrer gespeicherten Adressen zu suchen.",
+      "signIn": "Anmelden",
+      "clearNear": "Ausgangspunkt entfernen",
+      "within": "Im Umkreis von",
+      "unitLabel": "Entfernungseinheit",
+      "units": {
+        "KILOMETERS": "km",
+        "MILES": "Meilen"
+      },
+      "whichLocations": "Welche Standorte zählen",
+      "approximate": "Ungefähre Standorte einbeziehen",
+      "approximateHint": "Auch Angaben nur zu Straße, Ort oder Region zählen.",
+      "strict": "Nur genaue Adressen",
+      "strictHint": "Nur Anbieter mit erfasster vollständiger Anschrift.",
+      "howDetermined": "Wie Standorte bestimmt werden",
+      "validation": {
+        "required": "Geben Sie eine Entfernung ein.",
+        "number": "Geben Sie eine Zahl ein, etwa 50.",
+        "positive": "Geben Sie eine Entfernung über 0 ein.",
+        "maxKilometers": "Höchstens 20.000 km.",
+        "maxMiles": "Höchstens 12.400 Meilen."
+      },
+      "errors": {
+        "denied": "Der Standortzugriff ist für diese Website gesperrt. Sie können ihn in den Website-Einstellungen Ihres Browsers erlauben oder eine gespeicherte Adresse wählen.",
+        "unavailable": "Ihr Browser konnte Ihren Standort nicht ermitteln. Versuchen Sie es erneut oder wählen Sie eine gespeicherte Adresse."
+      },
+      "tryAgain": "Erneut versuchen",
+      "problems": {
+        "currentNotKept": "Ihr Standort wird nur für die Suche verwendet, für die Sie ihn freigegeben haben. Verwenden Sie ihn erneut, um nach Entfernung zu suchen.",
+        "addressUnavailable": "Die gespeicherte Adresse dieser Suche ist nicht verfügbar. Sie wurde möglicherweise gelöscht oder gehört zu einem anderen Konto.",
+        "signedOut": "Melden Sie sich an, um die gespeicherte Adresse dieser Suche zu verwenden.",
+        "addressNotLocated": "{{label}} lässt sich nicht mehr verorten. Bearbeiten Sie die Adresse in Ihrem Konto oder wählen Sie einen anderen Ausgangspunkt.",
+        "searchLocationNotAddress": "Ihr Suchstandort ist keine gespeicherte Adresse und kann deshalb kein Ausgangspunkt sein. Wählen Sie eine Adresse oder suchen Sie ein Land unter „Nach Region“.",
+        "loadFailed": "Die gespeicherte Adresse konnte nicht geladen werden. Versuchen Sie es gleich noch einmal."
+      },
+      "useLocationAgain": "Standort erneut verwenden",
+      "editAddress": "Adresse bearbeiten",
+      "info": {
+        "title": "Wo ein Angebot <em>verortet ist</em>",
+        "source": "Der Ort eines Angebots stammt vom Anbieter, nicht vom Objekt. Wir erfassen, wo jeder Anbieter ansässig ist, und verwenden das für alle seine Angebote. Ein Objekt kann anderswo lagern oder von anderswo versandt werden.",
+        "modes": "<strong>Nur genaue Adressen</strong> verwendet Anbieter mit erfasster vollständiger Anschrift. <strong>Ungefähre Standorte einbeziehen</strong> verwendet auch Angaben, die nur Straße, Ort oder Region kennen; deren Entfernungen können um mehrere Kilometer abweichen.",
+        "lag": "Entfernungen sind Luftlinien, keine Wegstrecken, und so gerundet, wie genau der Ort bekannt ist. Ein neuer oder geänderter Anbieterstandort kann etwas Zeit brauchen, bis er in diesen Suchen erscheint."
+      },
+      "card": {
+        "approximate": "etwa {{distance}}",
+        "distanceLabel": "{{distance}} bis zum erfassten Standort des Anbieters, {{place}}",
+        "distanceOnlyLabel": "{{distance}} bis zum erfassten Standort des Anbieters",
+        "placeLabel": "Anbieter erfasst in {{place}}"
+      },
+      "noResults": {
+        "headline": "Nichts im Umkreis von <em>{{distance}}.</em>",
+        "description": "Nichts im Umkreis von {{distance}} um {{origin}}. Vergrößern Sie die Entfernung oder beziehen Sie ungefähre Standorte ein.",
+        "widen": "Im Umkreis von {{distance}} suchen",
+        "includeApproximate": "Ungefähre Standorte einbeziehen",
+        "removeDistance": "Entfernung entfernen"
+      },
+      "rejected": {
+        "headline": "Diese Standortsuche <em>ließ sich nicht ausführen.</em>",
+        "description": "Prüfen Sie Orte und Entfernung oder setzen Sie den Standortfilter zurück."
+      }
     }
   },
   "product": {

@@ -810,9 +810,14 @@
         "asc": "Ascending",
         "desc": "Descending",
         "switchToAsc": "Order: descending. Switch to ascending",
-        "switchToDesc": "Order: ascending. Switch to descending"
+        "switchToDesc": "Order: ascending. Switch to descending",
+        "nearest": "Nearest first",
+        "farthest": "Farthest first",
+        "switchToNearest": "Order: farthest first. Switch to nearest first",
+        "switchToFarthest": "Order: nearest first. Switch to farthest first"
       },
-      "lastUpdated": "Last updated"
+      "lastUpdated": "Last updated",
+      "distance": "Distance"
     },
     "eyebrow": "Search results",
     "resultsForQuery": "Results for <em>“{{query}}”</em>",
@@ -830,7 +835,11 @@
       "price": "Price",
       "includeSource": "Provider",
       "excludeSource": "Excluding",
-      "remove": "Remove filter: {{label}}"
+      "remove": "Remove filter: {{label}}",
+      "place": "Place",
+      "within": "Within",
+      "withinValue": "{{distance}} of {{origin}}",
+      "locations": "Locations"
     },
     "resetAll": "Reset all",
     "showResults_one": "Show {{count}} result",
@@ -884,7 +893,93 @@
       "updatedText": "By the date we last recorded a change to the listing.",
       "noPayment": "Partner status, commissions and payments do not affect the order.",
       "personal": "Neither do your account or search history. Only your language counts, because it decides which title translation we compare.",
-      "fallback": "If the AI model is unavailable, only word match counts."
+      "fallback": "If the AI model is unavailable, only word match counts.",
+      "distanceText": "By the straight-line distance from your starting point to where the provider is recorded, nearest or farthest first. With a search term, all your search words must appear in the listing title; the AI ranking by similar meaning is not used in this order. Listings at the same distance keep a fixed technical order.",
+      "locationNarrows": "Searching by region or within a distance only narrows the results; it does not change how they are ranked."
+    },
+    "location": {
+      "title": "Location",
+      "reset": "Reset location filter",
+      "modeLabel": "Search location by",
+      "byRegion": "By region",
+      "byDistance": "By distance",
+      "placesLabel": "Countries and regions",
+      "placesPlaceholder": "Add a country or region",
+      "placesEmpty": "No country or region found",
+      "placesChosen": "Chosen countries and regions",
+      "removePlace": "Remove {{name}}",
+      "country": "Country",
+      "regionOf": "Region · {{country}}",
+      "near": "Near",
+      "everywhere": "Everywhere",
+      "everywhereHint": "No distance limit",
+      "searchLocationTag": "Search location",
+      "notLocated": "Not located",
+      "showMoreAddresses": "Show more addresses",
+      "useCurrentLocation": "Use my current location",
+      "locating": "Finding your location…",
+      "currentLocation": "Current location",
+      "currentNotKept": "Current location (not kept)",
+      "signInForAddresses": "Sign in to search near one of your saved addresses.",
+      "signIn": "Sign in",
+      "clearNear": "Clear starting point",
+      "within": "Within",
+      "unitLabel": "Distance unit",
+      "units": {
+        "KILOMETERS": "km",
+        "MILES": "miles"
+      },
+      "whichLocations": "Which locations count",
+      "approximate": "Include approximate locations",
+      "approximateHint": "Street, town or regional records count too.",
+      "strict": "Exact addresses only",
+      "strictHint": "Only providers recorded at a full street address.",
+      "howDetermined": "How locations are determined",
+      "validation": {
+        "required": "Enter a distance.",
+        "number": "Enter a number such as 50.",
+        "positive": "Enter a distance above 0.",
+        "maxKilometers": "Up to 20,000 km.",
+        "maxMiles": "Up to 12,400 miles."
+      },
+      "errors": {
+        "denied": "Location access is blocked for this site. You can allow it in your browser’s site settings, or pick a saved address.",
+        "unavailable": "Your browser couldn’t find your location. Try again, or pick a saved address."
+      },
+      "tryAgain": "Try again",
+      "problems": {
+        "currentNotKept": "Your location is used only for the search you ran it for. Use it again to search by distance.",
+        "addressUnavailable": "The saved address from this search isn’t available. It may have been deleted, or it belongs to another account.",
+        "signedOut": "Sign in to use the saved address from this search.",
+        "addressNotLocated": "{{label}} can’t be located any more. Edit it in your account, or choose another starting point.",
+        "searchLocationNotAddress": "Your search location isn’t a saved address, so it can’t be a starting point. Pick an address, or search a country under By region.",
+        "loadFailed": "The saved address couldn’t be loaded. Try again in a moment."
+      },
+      "useLocationAgain": "Use my location again",
+      "editAddress": "Edit address",
+      "info": {
+        "title": "Where a listing <em>is placed</em>",
+        "source": "A listing’s place comes from the provider, not from the object. We record where each provider is based and use it for all of its listings. An object can be stored or shipped from somewhere else.",
+        "modes": "<strong>Exact addresses only</strong> uses providers recorded at a full street address. <strong>Include approximate locations</strong> also uses records known only to the street, town or region, so their distances can be off by several kilometres.",
+        "lag": "Distances are straight lines, not routes, and are rounded to how precisely the place is known. A new or changed provider location can take a little while to show up in these searches."
+      },
+      "card": {
+        "approximate": "about {{distance}}",
+        "distanceLabel": "{{distance}} to where the provider is recorded, {{place}}",
+        "distanceOnlyLabel": "{{distance}} to where the provider is recorded",
+        "placeLabel": "Provider recorded in {{place}}"
+      },
+      "noResults": {
+        "headline": "Nothing within <em>{{distance}}.</em>",
+        "description": "Nothing within {{distance}} of {{origin}}. Widen the distance or include approximate locations.",
+        "widen": "Search within {{distance}}",
+        "includeApproximate": "Include approximate locations",
+        "removeDistance": "Remove distance"
+      },
+      "rejected": {
+        "headline": "This location search <em>couldn’t run.</em>",
+        "description": "Check the places and distance, or reset the location filter."
+      }
     }
   },
   "product": {

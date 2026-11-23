@@ -15,12 +15,24 @@ import {
     SearchResultCardSkeleton,
 } from "@/features/search/products/components/results/SearchResultPlaceholders.tsx";
 import { useSearch } from "@/features/search/products/hooks/useSearch.ts";
+import { GeographySearchError } from "@/features/search/products/lib/searchErrors.ts";
+import type { SearchOrigin } from "@/features/search/products/hooks/useSearchOrigin.ts";
+import { formatGeographicDistance } from "@/features/geography/lib/formatGeography.ts";
+import { parseSearchDistance, type SearchLocation } from "@/data/internal/search/SearchLocation.ts";
 
 type SearchResultsProps = {
     readonly searchFilters: SearchFilterArguments;
+    /** The resolved starting point of a distance search. */
+    readonly origin?: SearchOrigin;
     readonly onTotalChange?: (total?: number) => void;
     readonly onResetFilters: () => void;
+    /** Applies a changed search, for the distance search's empty-state actions. */
+    readonly onChangeFilters?: (next: SearchFilterArguments) => void;
 };
+
+const NO_ORIGIN: SearchOrigin = { status: "none" };
+const PANEL_ICON_CLASS =
+    "inline-flex size-14 items-center justify-center rounded-pill bg-surface-raised text-ink-muted shadow-ring";
 
 const SKELETON_IDS = ["s1", "s2", "s3", "s4", "s5", "s6"] as const;
 
@@ -30,13 +42,21 @@ export const RESULT_GRID_CLASS =
 
 export function SearchResults({
     searchFilters,
+    origin = NO_ORIGIN,
     onTotalChange,
     onResetFilters,
+    onChangeFilters,
 }: SearchResultsProps) {
     const { ref: sentinelRef, inView } = useInView();
     const { t, i18n } = useTranslation();
     const { data, isPending, error, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } =
-        useSearch(searchFilters);
+        useSearch(searchFilters, origin);
+    const distanceLocation =
+        searchFilters.location?.kind === "DISTANCE" && origin.status === "ready"
+            ? searchFilters.location
+            : undefined;
+    const changeLocation = (location: SearchLocation | undefined) =>
+        onChangeFilters?.({ ...searchFilters, location });
 
     const allProducts = data?.pages.flatMap((page: SearchResultData) => page.products) ?? [];
     const totalProducts = data?.pages[0]?.total;
@@ -60,6 +80,34 @@ export function SearchResults({
                     <SearchResultCardSkeleton key={id} />
                 ))}
             </div>
+        );
+    }
+
+    if (error instanceof GeographySearchError) {
+        return (
+            <ResultStatePanel
+                alert
+                icon={
+                    <span aria-hidden="true" className={PANEL_ICON_CLASS}>
+                        <TriangleAlert className="size-[22px]" strokeWidth={1.8} />
+                    </span>
+                }
+                title={
+                    <Trans
+                        i18nKey="search.location.rejected.headline"
+                        components={HEADLINE_COMPONENTS}
+                    />
+                }
+                description={t("search.location.rejected.description")}
+            >
+                <button
+                    type="button"
+                    onClick={() => changeLocation(undefined)}
+                    className={RESULT_SECONDARY_BUTTON_CLASS}
+                >
+                    {t("search.location.reset")}
+                </button>
+            </ResultStatePanel>
         );
     }
 
@@ -97,6 +145,62 @@ export function SearchResults({
 
     if (allProducts.length === 0 && hasNextPage) {
         return <div ref={sentinelRef} aria-hidden className="h-px w-full" />;
+    }
+
+    if (allProducts.length === 0 && distanceLocation && origin.status === "ready") {
+        const distance = formatGeographicDistance(distanceLocation.radius, i18n.language, t);
+        const wider = parseSearchDistance(
+            distanceLocation.radius.amount * 2,
+            distanceLocation.radius.unit,
+        );
+        return (
+            <ResultStatePanel
+                icon={
+                    <span aria-hidden="true" className={PANEL_ICON_CLASS}>
+                        <SearchX className="size-[22px]" strokeWidth={1.7} />
+                    </span>
+                }
+                title={
+                    <Trans
+                        i18nKey="search.location.noResults.headline"
+                        values={{ distance }}
+                        components={HEADLINE_COMPONENTS}
+                    />
+                }
+                description={t("search.location.noResults.description", {
+                    distance,
+                    origin: origin.label,
+                })}
+            >
+                {wider && (
+                    <button
+                        type="button"
+                        onClick={() => changeLocation({ ...distanceLocation, radius: wider })}
+                        className={RESULT_SECONDARY_BUTTON_CLASS}
+                    >
+                        {t("search.location.noResults.widen", {
+                            distance: formatGeographicDistance(wider, i18n.language, t),
+                        })}
+                    </button>
+                )}
+                {distanceLocation.mode === "STRICT" && (
+                    <button
+                        type="button"
+                        onClick={() => changeLocation({ ...distanceLocation, mode: "APPROXIMATE" })}
+                        className={RESULT_SECONDARY_BUTTON_CLASS}
+                    >
+                        {t("search.location.noResults.includeApproximate")}
+                    </button>
+                )}
+                <button
+                    type="button"
+                    onClick={() => changeLocation(undefined)}
+                    className={RESULT_SECONDARY_BUTTON_CLASS}
+                >
+                    {t("search.location.noResults.removeDistance")}
+                </button>
+            </ResultStatePanel>
+        );
     }
 
     if (allProducts.length === 0) {
@@ -137,7 +241,11 @@ export function SearchResults({
                     product.userState?.searchFilter?.hidden === true ? (
                         <SearchHiddenMatchCard key={product.productListingId} />
                     ) : (
-                        <SearchResultCard key={product.productListingId} product={product} />
+                        <SearchResultCard
+                            key={product.productListingId}
+                            product={product}
+                            distanceUnit={distanceLocation?.radius.unit}
+                        />
                     ),
                 )}
             </div>

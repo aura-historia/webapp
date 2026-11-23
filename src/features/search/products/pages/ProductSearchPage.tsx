@@ -3,7 +3,6 @@ import { SlidersHorizontal } from "lucide-react";
 import { useCallback, useId, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
-import type { SortMode } from "@/data/internal/search/SortMode.ts";
 import { MobileAppBar } from "@/features/app-shell/components/navigation/MobileAppBar.tsx";
 import { HEADLINE_COMPONENTS } from "@/features/landing/components/common/SectionHeading.tsx";
 import { SaveSearchButton } from "@/features/saved-searches/components/SaveSearchButton.tsx";
@@ -14,7 +13,11 @@ import { SearchFilterDrawer } from "@/features/search/products/components/Search
 import { SearchFilters } from "@/features/search/products/components/SearchFilters.tsx";
 import { SearchRankingInfo } from "@/features/search/products/components/SearchRankingInfo.tsx";
 import { SearchResults } from "@/features/search/products/components/SearchResults.tsx";
-import { SearchSortControls } from "@/features/search/products/components/SearchSortControls.tsx";
+import {
+    type SearchSortSelection,
+    SearchSortControls,
+} from "@/features/search/products/components/SearchSortControls.tsx";
+import { useSearchOrigin } from "@/features/search/products/hooks/useSearchOrigin.ts";
 import { getActiveFilters } from "@/features/search/products/lib/activeFilters.ts";
 import { serializeSearchParams } from "@/features/search/products/lib/searchValidation.ts";
 import { cn } from "@/lib/utils.ts";
@@ -42,20 +45,41 @@ export function ProductSearchPage({ searchArgs }: ProductSearchPageProps) {
     const filterCount = getActiveFilters(searchArgs).length;
     const formattedTotal = totalResults?.toLocaleString(i18n.language);
 
-    const sortMode = {
-        field: searchArgs.sortField ?? "RELEVANCE",
-        order: searchArgs.sortOrder ?? "DESC",
-    } satisfies SortMode;
+    const origin = useSearchOrigin(searchArgs.location);
+    const distanceLocation =
+        searchArgs.location?.kind === "DISTANCE" ? searchArgs.location : undefined;
+    const originReady = origin.status === "ready";
+    // A distance order applies only once the starting point is known; until then the search
+    // runs in its ordinary order.
+    const sortMode: SearchSortSelection =
+        distanceLocation?.distanceOrder && originReady
+            ? { field: "DISTANCE", order: distanceLocation.distanceOrder }
+            : { field: searchArgs.sortField ?? "RELEVANCE", order: searchArgs.sortOrder ?? "DESC" };
 
-    const updateSortMode = (next: SortMode) => {
+    const updateSortMode = (next: SearchSortSelection) => {
+        if (next.field === "DISTANCE") {
+            if (!distanceLocation) return;
+            navigate({
+                search: serializeSearchParams({
+                    ...searchArgs,
+                    location: { ...distanceLocation, distanceOrder: next.order },
+                }),
+            });
+            return;
+        }
         navigate({
-            search: (prev) => ({
-                ...serializeSearchParams(prev),
+            search: serializeSearchParams({
+                ...searchArgs,
                 sortField: next.field,
                 sortOrder: next.order,
+                location: distanceLocation
+                    ? { ...distanceLocation, distanceOrder: undefined }
+                    : searchArgs.location,
             }),
         });
     };
+    const distanceSort = distanceLocation ? { enabled: originReady } : undefined;
+    const originLabel = origin.status === "ready" ? origin.label : undefined;
 
     const updateFilters = (next: SearchFilterArguments) => {
         navigate({ search: serializeSearchParams(next) });
@@ -86,7 +110,7 @@ export function ProductSearchPage({ searchArgs }: ProductSearchPageProps) {
                     aria-label={t("search.filters")}
                     className="sticky top-16 -ml-1.5 hidden max-h-[calc(100dvh-64px)] w-[286px] shrink-0 overflow-y-auto py-10 pr-4 pl-1.5 [scrollbar-color:var(--line)_transparent] [scrollbar-gutter:stable] [scrollbar-width:thin] lg:block"
                 >
-                    <SearchFilters searchFilters={searchArgs} variant="sidebar" />
+                    <SearchFilters searchFilters={searchArgs} origin={origin} variant="sidebar" />
                 </aside>
 
                 <div className="min-w-0 flex-1 pt-0 pb-28 sm:pt-8 sm:pb-30">
@@ -106,6 +130,7 @@ export function ProductSearchPage({ searchArgs }: ProductSearchPageProps) {
                                 <div className="hidden sm:flex">
                                     <SearchRankingInfo
                                         sortField={sortMode.field}
+                                        distanceSearch={distanceLocation !== undefined}
                                         hasQuery={hasQuery}
                                         layout="toolbar"
                                     />
@@ -133,6 +158,7 @@ export function ProductSearchPage({ searchArgs }: ProductSearchPageProps) {
                                     <span className={COUNT_LINE_ITEM_CLASS}>
                                         <SearchRankingInfo
                                             sortField={sortMode.field}
+                                            distanceSearch={distanceLocation !== undefined}
                                             hasQuery={hasQuery}
                                             layout="compact"
                                         />
@@ -178,6 +204,7 @@ export function ProductSearchPage({ searchArgs }: ProductSearchPageProps) {
                             <SearchSortControls
                                 sortMode={sortMode}
                                 onChange={updateSortMode}
+                                distance={distanceSort}
                                 layout="toolbar"
                             />
                             <SaveSearchButton searchArgs={searchArgs} />
@@ -188,6 +215,7 @@ export function ProductSearchPage({ searchArgs }: ProductSearchPageProps) {
                         <SearchSortControls
                             sortMode={sortMode}
                             onChange={updateSortMode}
+                            distance={distanceSort}
                             layout="compact"
                         />
                     </div>
@@ -196,6 +224,7 @@ export function ProductSearchPage({ searchArgs }: ProductSearchPageProps) {
                         searchArgs={searchArgs}
                         onChange={updateFilters}
                         onResetAll={resetFilters}
+                        originLabel={originLabel}
                         layout="scroll"
                         className="mb-7 sm:hidden"
                     />
@@ -203,12 +232,15 @@ export function ProductSearchPage({ searchArgs }: ProductSearchPageProps) {
                         searchArgs={searchArgs}
                         onChange={updateFilters}
                         onResetAll={resetFilters}
+                        originLabel={originLabel}
                         layout="wrap"
                         className="mb-9 hidden sm:flex"
                     />
 
                     <SearchResults
                         searchFilters={searchArgs}
+                        origin={origin}
+                        onChangeFilters={updateFilters}
                         onTotalChange={setTotalResults}
                         onResetFilters={resetFilters}
                     />
@@ -229,6 +261,7 @@ export function ProductSearchPage({ searchArgs }: ProductSearchPageProps) {
                 open={filtersOpen}
                 onOpenChange={setFiltersOpen}
                 searchArgs={searchArgs}
+                origin={origin}
                 totalResults={totalResults}
             />
         </div>

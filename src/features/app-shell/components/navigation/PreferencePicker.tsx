@@ -33,6 +33,8 @@ export interface PreferenceOption {
     /** Second line under the label, wrapped instead of truncated (an address as entered). */
     readonly description?: string;
     readonly searchTerms?: readonly string[];
+    /** Shown but not selectable (an address without a located point as a search's starting point). */
+    readonly disabled?: boolean;
 }
 
 interface PreferencePickerProps {
@@ -58,6 +60,9 @@ interface PreferencePickerProps {
     readonly describedBy?: string;
     /** Content below the list, such as a button that loads more options. */
     readonly footer?: ReactNode;
+    /** Controlled open state, for footer actions that close the picker. */
+    readonly open?: boolean;
+    readonly onOpenChange?: (open: boolean) => void;
 }
 
 const FOCUS_CLASS =
@@ -90,11 +95,18 @@ export function PreferencePicker({
     invalid,
     describedBy,
     footer,
+    open: controlledOpen,
+    onOpenChange,
 }: PreferencePickerProps) {
     const { t } = useTranslation();
     const desktop = useMediaQuery("(min-width: 768px)");
     const sheet = !desktop;
-    const [open, setOpen] = useState(false);
+    const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
+    const open = controlledOpen ?? uncontrolledOpen;
+    const setOpen = (isOpen: boolean) => {
+        setUncontrolledOpen(isOpen);
+        onOpenChange?.(isOpen);
+    };
     const [query, setQuery] = useState("");
     const [highlighted, setHighlighted] = useState(0);
     const listboxId = useId();
@@ -135,6 +147,7 @@ export function PreferencePicker({
     };
 
     const select = (option: PreferenceOption) => {
+        if (option.disabled) return;
         if (option.value !== value) {
             onChange(option.value);
         }
@@ -379,10 +392,12 @@ function PreferenceList({
                         role="option"
                         tabIndex={-1}
                         aria-selected={isSelected}
+                        aria-disabled={option.disabled || undefined}
                         onClick={() => onSelect(option)}
                         onPointerMove={() => onHighlight(index)}
                         className={cn(
                             "flex shrink-0 cursor-pointer items-center gap-2.5 rounded-md px-2.5 text-ink select-none",
+                            option.disabled && "cursor-default text-ink-muted",
                             sheet ? "min-h-12 text-[15px]" : "min-h-11 text-sm",
                             option.description && "items-start py-2",
                             isSelected && "font-medium",

@@ -1,5 +1,10 @@
 import { LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
+import {
+    removeRegionPlace,
+    type SearchDistance,
+    type SearchNear,
+} from "@/data/internal/search/SearchLocation.ts";
 
 export type DateFilterKey = "auctionDate" | "creationDate" | "updateDate";
 
@@ -19,7 +24,27 @@ export type ActiveFilter =
           readonly field: DateFilterKey;
           readonly from?: Date;
           readonly to?: Date;
-      };
+      }
+    | {
+          readonly kind: "place";
+          readonly id: string;
+          readonly code: string;
+          readonly country: boolean;
+      }
+    | {
+          readonly kind: "distance";
+          readonly id: string;
+          readonly radius: SearchDistance;
+          readonly near: SearchNear;
+      }
+    | { readonly kind: "exactLocations"; readonly id: string };
+
+/** Location filters, which saved searches do not keep yet (#1081). */
+export const LOCATION_FILTER_KINDS: readonly ActiveFilter["kind"][] = [
+    "place",
+    "distance",
+    "exactLocations",
+];
 
 const DATE_FIELDS = {
     auctionDate: ["auctionDateFrom", "auctionDateTo"],
@@ -66,6 +91,26 @@ export function getActiveFilters(args: SearchFilterArguments): ActiveFilter[] {
 
     if (args.priceFrom != null || args.priceTo != null) {
         filters.push({ kind: "price", id: "price", min: args.priceFrom, max: args.priceTo });
+    }
+
+    const location = args.location;
+    if (location?.kind === "REGION") {
+        for (const code of location.countries) {
+            filters.push({ kind: "place", id: `place:${code}`, code, country: true });
+        }
+        for (const code of location.subdivisions) {
+            filters.push({ kind: "place", id: `place:${code}`, code, country: false });
+        }
+    } else if (location?.kind === "DISTANCE") {
+        filters.push({
+            kind: "distance",
+            id: "distance",
+            radius: location.radius,
+            near: location.near,
+        });
+        if (location.mode === "STRICT") {
+            filters.push({ kind: "exactLocations", id: "exactLocations" });
+        }
     }
 
     for (const field of Object.keys(DATE_FIELDS) as DateFilterKey[]) {
@@ -127,5 +172,13 @@ export function removeActiveFilter(
             const [fromKey, toKey] = DATE_FIELDS[filter.field];
             return { ...args, [fromKey]: undefined, [toKey]: undefined };
         }
+        case "place":
+            return { ...args, location: removeRegionPlace(args.location, filter.code) };
+        case "distance":
+            return { ...args, location: undefined };
+        case "exactLocations":
+            return args.location?.kind === "DISTANCE"
+                ? { ...args, location: { ...args.location, mode: "APPROXIMATE" } }
+                : args;
     }
 }

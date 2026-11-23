@@ -89,3 +89,41 @@ describe("removeActiveFilter", () => {
         });
     });
 });
+
+describe("location chips", () => {
+    it("lists one chip per place and removes a country with its regions", () => {
+        const args = {
+            q: "",
+            location: {
+                kind: "REGION" as const,
+                countries: ["DE", "AT"] as never,
+                subdivisions: [],
+            },
+        };
+        const filters = getActiveFilters(args);
+        expect(filters.map((filter) => filter.id)).toEqual(["place:DE", "place:AT"]);
+        expect(removeActiveFilter(args, filters[0]).location).toEqual({
+            kind: "REGION",
+            countries: ["AT"],
+            subdivisions: [],
+        });
+    });
+
+    it("lists a distance chip and an exact-addresses chip that reverts to approximate", () => {
+        const args = {
+            q: "",
+            location: {
+                kind: "DISTANCE" as const,
+                near: { kind: "SEARCH_LOCATION" as const },
+                radius: { amount: 50, unit: "KILOMETERS" as const },
+                mode: "STRICT" as const,
+            },
+        };
+        const filters = getActiveFilters(args);
+        expect(filters.map((filter) => filter.kind)).toEqual(["distance", "exactLocations"]);
+        expect(removeActiveFilter(args, filters[1]).location).toMatchObject({
+            mode: "APPROXIMATE",
+        });
+        expect(removeActiveFilter(args, filters[0]).location).toBeUndefined();
+    });
+});

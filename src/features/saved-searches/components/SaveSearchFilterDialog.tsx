@@ -77,8 +77,11 @@ const RESTRICTED_GROUP_FILTERS: Record<string, (filter: ActiveFilter) => boolean
     "search.filter.updateDate": (f) => f.kind === "date" && f.field === "updateDate",
 };
 
-export function SaveSearchFilterDialog({ searchArgs, children }: Props) {
+export function SaveSearchFilterDialog({ searchArgs: currentSearch, children }: Props) {
     const { t } = useTranslation();
+    // Saved searches do not keep the search page's location filter yet (#1081), so it is neither
+    // listed nor sent.
+    const searchArgs = useMemo(() => ({ ...currentSearch, location: undefined }), [currentSearch]);
     const [open, setOpen] = useState(false);
     const [showResetConfirm, setShowResetConfirm] = useState(false);
     const { mutate: createFilter, isPending } = useCreateUserSearchFilter();

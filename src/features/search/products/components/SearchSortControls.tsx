@@ -18,26 +18,61 @@ const FOCUS_CLASS =
     "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-3 focus-visible:outline-brass";
 const PILL_CLASS = "rounded-pill shadow-[inset_0_0_0_1px_var(--line-strong)]";
 
+/** The ordinary sort modes plus the distance order of a distance search. */
+export type SearchSortSelection = {
+    readonly field: SortMode["field"] | "DISTANCE";
+    readonly order: SortMode["order"];
+};
+
 type SearchSortControlsProps = {
-    readonly sortMode: SortMode;
-    readonly onChange: (sortMode: SortMode) => void;
+    readonly sortMode: SearchSortSelection;
+    readonly onChange: (sortMode: SearchSortSelection) => void;
+    /**
+     * Offers "Distance" during a distance search; it can be chosen once the starting point is
+     * known. Absent: no distance option.
+     */
+    readonly distance?: { readonly enabled: boolean };
     /** `toolbar`: 40px pills with the order spelled out; `compact`: 44px, full-width select. */
     readonly layout: "toolbar" | "compact";
 };
 
 /** "Sort by" select and the ascending / descending switch. */
-export function SearchSortControls({ sortMode, onChange, layout }: SearchSortControlsProps) {
+export function SearchSortControls({
+    sortMode,
+    onChange,
+    layout,
+    distance,
+}: SearchSortControlsProps) {
     const { t } = useTranslation();
     const isCompact = layout === "compact";
     const isDescending = sortMode.order === "DESC";
-    const orderLabel = t(isDescending ? "search.sortMode.order.desc" : "search.sortMode.order.asc");
+    const byDistance = sortMode.field === "DISTANCE";
+    // Distance reads as nearest (ascending) or farthest (descending) first.
+    const orderLabel = byDistance
+        ? t(isDescending ? "search.sortMode.order.farthest" : "search.sortMode.order.nearest")
+        : t(isDescending ? "search.sortMode.order.desc" : "search.sortMode.order.asc");
+    const switchLabel = byDistance
+        ? t(
+              isDescending
+                  ? "search.sortMode.order.switchToNearest"
+                  : "search.sortMode.order.switchToFarthest",
+          )
+        : t(
+              isDescending
+                  ? "search.sortMode.order.switchToAsc"
+                  : "search.sortMode.order.switchToDesc",
+          );
 
     return (
         <>
             <Select
                 value={sortMode.field}
                 onValueChange={(field) =>
-                    onChange({ ...sortMode, field: field as SortMode["field"] })
+                    onChange(
+                        field === "DISTANCE"
+                            ? { field: "DISTANCE", order: "ASC" }
+                            : { ...sortMode, field: field as SortMode["field"] },
+                    )
                 }
             >
                 <SelectTrigger
@@ -73,16 +108,21 @@ export function SearchSortControls({ sortMode, onChange, layout }: SearchSortCon
                             {t(getSortModeFieldLabel(field))}
                         </SelectItem>
                     ))}
+                    {distance && (
+                        <SelectItem
+                            value="DISTANCE"
+                            disabled={!distance.enabled}
+                            className="min-h-11 cursor-pointer rounded-md px-2.5 pr-9 text-sm text-ink focus:bg-surface-sunken focus:text-ink data-[state=checked]:font-medium [&_svg:not([class*='text-'])]:text-oxblood"
+                        >
+                            {t("search.sortMode.distance")}
+                        </SelectItem>
+                    )}
                 </SelectContent>
             </Select>
             <button
                 type="button"
                 onClick={() => onChange({ ...sortMode, order: isDescending ? "ASC" : "DESC" })}
-                aria-label={t(
-                    isDescending
-                        ? "search.sortMode.order.switchToAsc"
-                        : "search.sortMode.order.switchToDesc",
-                )}
+                aria-label={switchLabel}
                 className={cn(
                     "inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 text-sm font-medium text-ink",
                     PILL_CLASS,

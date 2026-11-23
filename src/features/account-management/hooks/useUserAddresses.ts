@@ -156,10 +156,11 @@ export function userAddressListQueryOptions(
 /** How often the list is reloaded while an address is still being located in the background. */
 export const PENDING_RESOLUTION_REFETCH_MS = 15_000;
 
-export function useUserAddressList(viewerCacheKey: string) {
+export function useUserAddressList(viewerCacheKey: string, enabled = true) {
     const requestError = useUserAddressError();
     return useInfiniteQuery({
         ...userAddressListQueryOptions(viewerCacheKey, requestError),
+        enabled,
         refetchInterval: (query) =>
             query.state.data?.pages.some((page) =>
                 page.items.some((address) => address.resolution.status === "PENDING"),
