@@ -132,7 +132,6 @@ describe("AboutPage", () => {
         expect(screen.getByRole("heading", { name: "Luca Franke" })).toBeInTheDocument();
         expect(screen.getByRole("heading", { name: "Abdellah Filali" })).toBeInTheDocument();
         expect(screen.getByRole("heading", { name: "Erwin Bause" })).toBeInTheDocument();
-        expect(screen.getByRole("heading", { name: "Anton Diettrich" })).toBeInTheDocument();
     });
 
     it("keeps contact buttons aligned at the bottom of every team card", async () => {
@@ -182,14 +181,13 @@ describe("AboutPage", () => {
         ).toHaveTextContent("AF");
     });
 
-    it("contains complete config for five team members", () => {
-        expect(ABOUT_TEAM_MEMBERS).toHaveLength(5);
+    it("contains complete config for four team members", () => {
+        expect(ABOUT_TEAM_MEMBERS).toHaveLength(4);
         expect(ABOUT_TEAM_MEMBERS.map((member) => member.email)).toEqual([
             "julian.bruder@aura-historia.com",
             "luca.franke@aura-historia.com",
             "abdellah.filali@aura-historia.com",
             "erwin.bause@aura-historia.com",
-            "anton.diettrich@aura-historia.com",
         ]);
     });
 });
@@ -228,7 +226,7 @@ describe("AboutTeamMemberCard", () => {
         render(<AboutTeamMemberCard member={member} />);
 
         expect(screen.getByRole("heading", { name: "Test Member" })).toBeInTheDocument();
-        expect(screen.getByText("Lead UI/UX Engineer")).toBeInTheDocument();
+        expect(screen.getByText("UI/UX Engineer")).toBeInTheDocument();
         expect(screen.queryByText(/Erwin gestaltet/)).not.toBeInTheDocument();
     });
 });

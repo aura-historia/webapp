@@ -58,14 +58,6 @@ export const ABOUT_TEAM_MEMBERS: readonly AboutTeamMember[] = [
         email: "erwin.bause@aura-historia.com",
         linkedinUrl: "https://www.linkedin.com/in/erwin-bause-10b592185/",
     },
-    {
-        id: "anton-diettrich",
-        name: "Anton Diettrich",
-        positionKey: "aboutPage.team.members.antonDiettrich.position",
-        bioKey: "aboutPage.team.members.antonDiettrich.bio",
-        email: "anton.diettrich@aura-historia.com",
-        linkedinUrl: "https://www.linkedin.com/in/anton-diettrich-77529521a/",
-    },
 ] as const;
 
 /** The about page's questions; the route also publishes them as FAQPage structured data. */

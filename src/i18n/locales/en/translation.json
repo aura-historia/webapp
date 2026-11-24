@@ -345,7 +345,7 @@
       "title": "The team behind <em>Aura Historia.</em>",
       "story": {
         "origin": "Aura Historia began in Leipzig in 2026. It grew out of a collector’s experience that the objects worth finding surface far from the obvious channels: with specialist dealers, smaller shops, auction houses and marketplaces, each with its own language and cataloguing habits.",
-        "today": "We set out to bring order to that search without turning it into a generic shopping experience. Today a team of five builds Aura Historia, across web engineering, data automation, interface design and knowledge graph engineering."
+        "today": "We set out to bring order to that search without turning it into a generic shopping experience. Today a team of four builds Aura Historia, across web engineering, data automation and interface design."
       },
       "email": "Email",
       "emailAria": "Email {{name}}",
@@ -355,24 +355,20 @@
       "initialsFallback": "Initials for {{name}}",
       "members": {
         "julianBruder": {
-          "position": "President",
+          "position": "Team Lead",
           "bio": "Julian has collected antique art for years, with a particular interest in oil paintings of the Virgin Mary. He may publish parts of his collection soon and uses Aura Historia in his own collecting work. Julian previously worked on business automation in banking and insurance."
         },
         "lucaFranke": {
-          "position": "Lead Webapp Engineer",
+          "position": "Webapp Engineer",
           "bio": "Luca leads the web application work, translating Aura Historia’s research and discovery goals into a reliable, maintainable product experience. Luca previously worked on web and app development for marketplaces."
         },
         "abdellahFilali": {
-          "position": "Lead Data Automation Engineer",
+          "position": "Data Automation Engineer",
           "bio": "Abdellah works on the automation behind source ingestion, data quality, and repeatable processes that help the platform follow a fragmented market at scale. Abdellah previously worked on automated data extraction for job platforms."
         },
         "erwinBause": {
-          "position": "Lead UI/UX Engineer",
+          "position": "UI/UX Engineer",
           "bio": "Erwin shapes the interface and interaction details so Aura Historia remains calm, legible, and respectful of how collectors and specialists actually research objects. Erwin previously worked on UI/UX design for consumer applications."
-        },
-        "antonDiettrich": {
-          "position": "Lead Knowledge Graph Engineer",
-          "bio": "Anton works on the knowledge graph foundations that connect objects, sources, categories, and market context with more structure and continuity. Anton previously worked on knowledge graph engineering and on question answering built on knowledge graphs."
         }
       }
     },
@@ -387,7 +383,7 @@
         },
         "whoIsBehind": {
           "question": "Who is behind Aura Historia?",
-          "answer": "Aura Historia is built by a team of five, across web engineering, data automation, interface design and knowledge graph engineering. It is based in Leipzig, Germany."
+          "answer": "Aura Historia is built by a team of four, across web engineering, data automation and interface design. It is based in Leipzig, Germany."
         },
         "isFree": {
           "question": "Is Aura Historia free?",
