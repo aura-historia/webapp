@@ -32,6 +32,7 @@ import { Route as LngCompareCatawikiRouteImport } from './routes/$lng.compare.ca
 import { Route as LngCompareEbayRouteImport } from './routes/$lng.compare.ebay'
 import { Route as LngCompareInvaluableRouteImport } from './routes/$lng.compare.invaluable'
 import { Route as LngCompareLiveauctioneersRouteImport } from './routes/$lng.compare.liveauctioneers'
+import { Route as LngCompareVintedRouteImport } from './routes/$lng.compare.vinted'
 import { Route as LngNewsletterConfirmRouteImport } from './routes/$lng.newsletter.confirm'
 import { Route as LngPartnerProgramIndexRouteImport } from './routes/$lng.partner-program.index'
 import { Route as LngPartnerProgramApplyRouteImport } from './routes/$lng.partner-program.apply'
@@ -189,6 +190,11 @@ const LngCompareLiveauctioneersRoute =
     path: '/compare/liveauctioneers',
     getParentRoute: () => LngRoute,
   } as any)
+const LngCompareVintedRoute = LngCompareVintedRouteImport.update({
+  id: '/compare/vinted',
+  path: '/compare/vinted',
+  getParentRoute: () => LngRoute,
+} as any)
 const LngNewsletterConfirmRoute = LngNewsletterConfirmRouteImport.update({
   id: '/newsletter/confirm',
   path: '/newsletter/confirm',
@@ -439,6 +445,7 @@ export interface FileRoutesByFullPath {
   '/$lng/compare/ebay': typeof LngCompareEbayRoute
   '/$lng/compare/invaluable': typeof LngCompareInvaluableRoute
   '/$lng/compare/liveauctioneers': typeof LngCompareLiveauctioneersRoute
+  '/$lng/compare/vinted': typeof LngCompareVintedRoute
   '/$lng/newsletter/confirm': typeof LngNewsletterConfirmRoute
   '/$lng/partner-program/apply': typeof LngPartnerProgramApplyRoute
   '/$lng/partner-program/custom-integration': typeof LngPartnerProgramCustomIntegrationRoute
@@ -499,6 +506,7 @@ export interface FileRoutesByTo {
   '/$lng/compare/ebay': typeof LngCompareEbayRoute
   '/$lng/compare/invaluable': typeof LngCompareInvaluableRoute
   '/$lng/compare/liveauctioneers': typeof LngCompareLiveauctioneersRoute
+  '/$lng/compare/vinted': typeof LngCompareVintedRoute
   '/$lng/newsletter/confirm': typeof LngNewsletterConfirmRoute
   '/$lng/partner-program/apply': typeof LngPartnerProgramApplyRoute
   '/$lng/partner-program/custom-integration': typeof LngPartnerProgramCustomIntegrationRoute
@@ -565,6 +573,7 @@ export interface FileRoutesById {
   '/$lng/compare/ebay': typeof LngCompareEbayRoute
   '/$lng/compare/invaluable': typeof LngCompareInvaluableRoute
   '/$lng/compare/liveauctioneers': typeof LngCompareLiveauctioneersRoute
+  '/$lng/compare/vinted': typeof LngCompareVintedRoute
   '/$lng/newsletter/confirm': typeof LngNewsletterConfirmRoute
   '/$lng/partner-program/apply': typeof LngPartnerProgramApplyRoute
   '/$lng/partner-program/custom-integration': typeof LngPartnerProgramCustomIntegrationRoute
@@ -631,6 +640,7 @@ export interface FileRouteTypes {
     | '/$lng/compare/ebay'
     | '/$lng/compare/invaluable'
     | '/$lng/compare/liveauctioneers'
+    | '/$lng/compare/vinted'
     | '/$lng/newsletter/confirm'
     | '/$lng/partner-program/apply'
     | '/$lng/partner-program/custom-integration'
@@ -691,6 +701,7 @@ export interface FileRouteTypes {
     | '/$lng/compare/ebay'
     | '/$lng/compare/invaluable'
     | '/$lng/compare/liveauctioneers'
+    | '/$lng/compare/vinted'
     | '/$lng/newsletter/confirm'
     | '/$lng/partner-program/apply'
     | '/$lng/partner-program/custom-integration'
@@ -756,6 +767,7 @@ export interface FileRouteTypes {
     | '/$lng/compare/ebay'
     | '/$lng/compare/invaluable'
     | '/$lng/compare/liveauctioneers'
+    | '/$lng/compare/vinted'
     | '/$lng/newsletter/confirm'
     | '/$lng/partner-program/apply'
     | '/$lng/partner-program/custom-integration'
@@ -970,6 +982,13 @@ declare module '@tanstack/react-router' {
       path: '/compare/liveauctioneers'
       fullPath: '/$lng/compare/liveauctioneers'
       preLoaderRoute: typeof LngCompareLiveauctioneersRouteImport
+      parentRoute: typeof LngRoute
+    }
+    '/$lng/compare/vinted': {
+      id: '/$lng/compare/vinted'
+      path: '/compare/vinted'
+      fullPath: '/$lng/compare/vinted'
+      preLoaderRoute: typeof LngCompareVintedRouteImport
       parentRoute: typeof LngRoute
     }
     '/$lng/newsletter/confirm': {
@@ -1379,6 +1398,7 @@ interface LngRouteChildren {
   LngCompareEbayRoute: typeof LngCompareEbayRoute
   LngCompareInvaluableRoute: typeof LngCompareInvaluableRoute
   LngCompareLiveauctioneersRoute: typeof LngCompareLiveauctioneersRoute
+  LngCompareVintedRoute: typeof LngCompareVintedRoute
   LngNewsletterConfirmRoute: typeof LngNewsletterConfirmRoute
   LngProductsProductListingTitleSlugIdRoute: typeof LngProductsProductListingTitleSlugIdRoute
   LngSearchShopsRoute: typeof LngSearchShopsRoute
@@ -1406,6 +1426,7 @@ const LngRouteChildren: LngRouteChildren = {
   LngCompareEbayRoute: LngCompareEbayRoute,
   LngCompareInvaluableRoute: LngCompareInvaluableRoute,
   LngCompareLiveauctioneersRoute: LngCompareLiveauctioneersRoute,
+  LngCompareVintedRoute: LngCompareVintedRoute,
   LngNewsletterConfirmRoute: LngNewsletterConfirmRoute,
   LngProductsProductListingTitleSlugIdRoute:
     LngProductsProductListingTitleSlugIdRoute,

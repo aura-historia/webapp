@@ -44,6 +44,7 @@ export type PageMetaKey =
     | "compareLiveauctioneers"
     | "compareCatawiki"
     | "compareEbay"
+    | "compareVinted"
     | "compareArtPriceDatabases"
     | "admin";
 
@@ -154,6 +155,10 @@ const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string 
     compareEbay: {
         title: "meta.compareEbay.title",
         description: "meta.compareEbay.description",
+    },
+    compareVinted: {
+        title: "meta.compareVinted.title",
+        description: "meta.compareVinted.description",
     },
     compareArtPriceDatabases: {
         title: "meta.compareArtPriceDatabases.title",

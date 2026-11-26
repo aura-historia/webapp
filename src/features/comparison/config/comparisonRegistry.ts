@@ -7,6 +7,7 @@ import { EBAY_COMPARISON } from "@/features/comparison/config/ebayComparison.ts"
 import { FIRST_DIBS_COMPARISON } from "@/features/comparison/config/firstDibsComparison.ts";
 import { INVALUABLE_COMPARISON } from "@/features/comparison/config/invaluableComparison.ts";
 import { LIVE_AUCTIONEERS_COMPARISON } from "@/features/comparison/config/liveAuctioneersComparison.ts";
+import { VINTED_COMPARISON } from "@/features/comparison/config/vintedComparison.ts";
 
 /**
  * Every published comparison page. The "Other comparisons" block on each page links to the others
@@ -20,5 +21,6 @@ export const COMPARISON_REGISTRY: readonly ComparisonDefinition[] = [
     LIVE_AUCTIONEERS_COMPARISON,
     CATAWIKI_COMPARISON,
     EBAY_COMPARISON,
+    VINTED_COMPARISON,
     ART_PRICE_DATABASES_COMPARISON,
 ];

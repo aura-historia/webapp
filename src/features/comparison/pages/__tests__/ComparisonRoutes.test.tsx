@@ -11,6 +11,7 @@ import { EBAY_COMPARISON } from "@/features/comparison/config/ebayComparison.ts"
 import { FIRST_DIBS_COMPARISON } from "@/features/comparison/config/firstDibsComparison.ts";
 import { INVALUABLE_COMPARISON } from "@/features/comparison/config/invaluableComparison.ts";
 import { LIVE_AUCTIONEERS_COMPARISON } from "@/features/comparison/config/liveAuctioneersComparison.ts";
+import { VINTED_COMPARISON } from "@/features/comparison/config/vintedComparison.ts";
 import i18n from "@/i18n/i18nForTests";
 import { Route as FirstDibsRoute } from "@/routes/$lng.compare.1stdibs.tsx";
 import { Route as ArtPriceDatabasesRoute } from "@/routes/$lng.compare.art-price-databases.tsx";
@@ -20,6 +21,7 @@ import { Route as CatawikiRoute } from "@/routes/$lng.compare.catawiki.tsx";
 import { Route as EbayRoute } from "@/routes/$lng.compare.ebay.tsx";
 import { Route as InvaluableRoute } from "@/routes/$lng.compare.invaluable.tsx";
 import { Route as LiveAuctioneersRoute } from "@/routes/$lng.compare.liveauctioneers.tsx";
+import { Route as VintedRoute } from "@/routes/$lng.compare.vinted.tsx";
 import { renderWithRouter } from "@/test/utils";
 
 vi.mock("@/env", () => ({ env: { VITE_APP_URL: "https://aura-historia.com" } }));
@@ -32,6 +34,7 @@ const ROUTES = [
     ["liveauctioneers", LIVE_AUCTIONEERS_COMPARISON, LiveAuctioneersRoute],
     ["catawiki", CATAWIKI_COMPARISON, CatawikiRoute],
     ["ebay", EBAY_COMPARISON, EbayRoute],
+    ["vinted", VINTED_COMPARISON, VintedRoute],
     ["art-price-databases", ART_PRICE_DATABASES_COMPARISON, ArtPriceDatabasesRoute],
 ] as const;
 
