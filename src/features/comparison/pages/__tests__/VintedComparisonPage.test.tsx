@@ -134,7 +134,7 @@ describe("ComparisonPage with the Vinted definition", () => {
         expect(VINTED_COMPARISON.quickVerdicts.map((verdict) => verdict.key)).toEqual([
             "secondHandTrading",
             "artAntiquesDesign",
-            "dealerStock",
+            "dealersAndAuctionHouses",
             "monitoring",
         ]);
     });
@@ -529,15 +529,16 @@ const MORE_OBJECTS: Record<LocaleCode, RegExp> = {
 };
 
 /**
- * The Aura Historia side follows the live index: no auction houses, auction platforms or private
- * sellers among its providers (the index holds dealers only), and no designer vintage.
+ * The Aura Historia side names dealers, shops, auction houses and marketplaces, like the sibling
+ * pages, and no auction platforms or private sellers (the sibling pages' ruled list has both,
+ * this page's provider types do not), and no designer vintage.
  */
 const OUT_OF_SCOPE_PROVIDERS: Record<LocaleCode, RegExp> = {
-    en: /(auction house|auction platform|private seller)/i,
-    de: /(Auktionshäuser|Auktionsplattform|private Verkäufer|Privatverkäufer)/i,
-    es: /(casas? de subastas|plataformas? de subastas|vendedores? privados?)/i,
-    fr: /(maisons? de ventes|plateformes? d’enchères|vendeurs? privés?)/i,
-    it: /(case d’asta|piattaform\w+ d’asta|venditori privati)/i,
+    en: /(auction platform|private seller)/i,
+    de: /(Auktionsplattform|private Verkäufer|Privatverkäufer)/i,
+    es: /(plataformas? de subastas|vendedores? privados?)/i,
+    fr: /(plateformes? d’enchères|vendeurs? privés?)/i,
+    it: /(piattaform\w+ d’asta|venditori privati)/i,
 };
 
 /** The statements about Aura Historia itself: no vetting, authenticity or valuation promise. */
@@ -701,7 +702,7 @@ describe.each(Object.entries(LOCALES))("Vinted comparison copy in %s", (lng, loc
         expect(page.quickVerdicts.monitoring.value).toBe("Aura Historia");
     });
 
-    it("keeps the Aura Historia side within what the live index shows: dealers and shops only, no designer vintage, no overlap with Vinted, no 'own websites'", () => {
+    it("keeps the Aura Historia side to its provider types: no auction platforms, no private sellers, no designer vintage, no overlap with Vinted, no 'own websites'", () => {
         for (const [path, text] of entries) {
             expect(text, path).not.toMatch(OUT_OF_SCOPE_PROVIDERS[code]);
             expect(text, path).not.toMatch(/vintage/i);
@@ -715,6 +716,39 @@ describe.each(Object.entries(LOCALES))("Vinted comparison copy in %s", (lng, loc
         expect(page.scorecard.rows.categoryFocus.auraHistoria).toMatch(/militaria/i);
         expect(page.scorecard.rows.categoryFocus.auraHistoria).not.toMatch(DESIGN_OBJECTS[code]);
         expect(Object.keys(page.downstream.sources)).toEqual(VINTED_COMPARISON.sources.sourceKeys);
+    });
+
+    it("names dealers, auction houses and marketplaces as its providers in the siblings' own words", () => {
+        const ebay = locale.compareEbayPage;
+
+        expect(page.advantages.cards.providerTypes.title).toBe(
+            ebay.advantages.cards.providerTypes.title,
+        );
+        expect(page.quickVerdicts.dealersAndAuctionHouses).toEqual(
+            ebay.quickVerdicts.dealersAndAuctionHouses,
+        );
+        expect(page.structuredData.about.crossProviderSearch).toBe(
+            ebay.structuredData.about.crossProviderSearch,
+        );
+        expect(page.downstream.cards.offersSideBySide).toEqual(
+            ebay.downstream.cards.offersSideBySide,
+        );
+        // The same words the eBay page uses for the two provider types it adds to dealers.
+        const types: Record<LocaleCode, RegExp> = {
+            en: /auction houses and marketplaces/,
+            de: /Auktionshäuser und Marktplätze/,
+            es: /casas de subastas y marketplaces/,
+            fr: /maisons de ventes et (les )?places de marché/,
+            it: /case d’asta e marketplace/,
+        };
+        for (const path of [
+            "advantages.description",
+            "together.paragraph1",
+            "finalCta.description",
+            "positioning",
+        ]) {
+            expect(textAt(path), path).toMatch(types[code]);
+        }
     });
 
     it("presents the areas as a focus, never as a narrow or complete scope", () => {

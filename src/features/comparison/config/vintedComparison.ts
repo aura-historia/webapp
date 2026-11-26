@@ -71,14 +71,15 @@ import { VINTED_COMPARISON_LAST_REVIEWED } from "@/features/comparison/config/vi
  *
  * AURA HISTORIA (checked through the public MCP on 2026-11-26)
  *
- * - Providers: `getPublicOverview` lists dealers only (no auction houses, auction platforms or
- *   marketplaces). The provider types the older sibling pages list (auction houses, auction
- *   platforms, private sellers, marketplaces) are therefore not repeated here: this page says
- *   "dealers and shops" and that Aura Historia hosts no listings from private individuals. A
- *   maintainer should align the sibling pages. Some dealers' listings sit on a marketplace
- *   storefront (an antiquarian bookseller's listing on zvab.com), so the page says dealers and
- *   shops "publish online" and never "on their own websites"; "Go to provider" opens the listing
- *   on the provider's own page, as on the sibling pages.
+ * - Providers: the page names dealers, shops, auction houses and marketplaces as Aura Historia's
+ *   providers, as the sibling pages do and as the maintainer confirmed on 2026-11-26 (the same
+ *   wording as the eBay page, key for key). `getPublicOverview` (public MCP, 2026-11-26) lists
+ *   dealers only, so a maintainer should re-check this wording against the index at the next
+ *   review. The page names no auction platforms and no private sellers (the sibling pages' ruled
+ *   list has both) and says Aura Historia hosts no listings from private individuals. Some
+ *   dealers' listings sit on a marketplace storefront (an antiquarian bookseller's listing on
+ *   zvab.com), so the page says providers "publish online" and never "on their own websites";
+ *   "Go to provider" opens the listing on the provider's own page, as on the sibling pages.
  * - Focus: the `sources` chapter names the main areas the index shows (militaria from a dealer;
  *   first editions and antiquarian-fair catalogues from antiquarian booksellers): antiques and
  *   decorative arts, historic art, rare and antiquarian books with manuscripts, maps and prints,
@@ -110,12 +111,12 @@ export const VINTED_COMPARISON = {
     quickVerdicts: [
         { key: "secondHandTrading", winner: "competitor" },
         { key: "artAntiquesDesign", winner: "aura" },
-        { key: "dealerStock", winner: "aura" },
+        { key: "dealersAndAuctionHouses", winner: "aura" },
         { key: "monitoring", winner: "aura" },
     ],
     advantages: [
         { key: "specialisedIndex", icon: Frame },
-        { key: "dealersAndShops", icon: Store },
+        { key: "providerTypes", icon: Store },
         { key: "terminologyAcrossLanguages", icon: Globe },
         { key: "monitoringAcrossProviders", icon: Bell },
     ],
@@ -135,8 +136,8 @@ export const VINTED_COMPARISON = {
             "coinsStampsMilitaria",
         ],
         cards: [
-            { key: "listedByDealers", icon: Network },
-            { key: "askingPricesSideBySide", icon: Layers },
+            { key: "listedByProviders", icon: Network },
+            { key: "offersSideBySide", icon: Layers },
             { key: "acrossLanguages", icon: Globe },
             { key: "watchAnObject", icon: Eye },
         ],
@@ -153,7 +154,7 @@ export const VINTED_COMPARISON = {
     structuredDataTopics: [
         "artSearch",
         "secondHandMarketplace",
-        "dealerSearch",
+        "crossProviderSearch",
         "multilingualSearch",
         "monitoring",
     ],
