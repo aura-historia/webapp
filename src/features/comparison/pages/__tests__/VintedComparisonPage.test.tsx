@@ -230,14 +230,12 @@ describe("ComparisonPage with the Vinted definition", () => {
         expect(container.querySelector("#agents")).toBeNull();
     });
 
-    it("lists the scope of the Aura Historia Handbook in its own copy, not the ruled provider types of the auction and marketplace pages", async () => {
+    it("lists its main areas of focus in its own copy, not the ruled provider types of the auction and marketplace pages", async () => {
         await renderPage();
 
-        // The Handbook's "In" rows that the live index shows (Strategy and roadmap, "Scope").
-        // Designer vintage is left out (partners only), and the older pages' provider types
-        // (auction houses, auction platforms, private sellers, marketplaces) are not Aura
-        // Historia's providers today: the live index holds dealers only, and the Handbook rules
-        // out open classifieds.
+        // The main areas the live index shows. The older pages' provider types (auction houses,
+        // auction platforms, private sellers, marketplaces) are not Aura Historia's providers
+        // today: the live index holds dealers only.
         expect(VINTED_COMPARISON.sources.sourceKeys).toEqual([
             "antiquesDecorativeArts",
             "historicArt",
@@ -373,13 +371,28 @@ const SELLS_EVERYTHING: Record<LocaleCode, RegExp> = {
     it: /(vende tutto|marketplace generalista|tutto)\b/i,
 };
 
-/** The page never says Vinted itself "sells": its members do, on the marketplace. */
+/**
+ * The page never says Vinted itself "sells" or "trades": its members buy and sell, on the
+ * marketplace. (The first draft's "Vinted trades second-hand goods" made the platform a trader.)
+ */
 const VINTED_SELLS: Record<LocaleCode, RegExp> = {
-    en: /\bVinted sells\b/,
-    de: /Vinted verkauft/,
-    es: /Vinted vende/,
-    fr: /Vinted vend\b/,
-    it: /Vinted vende/,
+    en: /\bVinted (sells|trades|deals)\b/,
+    de: /Vinted (verkauft|handelt)/,
+    es: /Vinted (vende|comercia)/,
+    fr: /Vinted (vend|échange|commerce)\b/,
+    it: /Vinted (vende|scambia|commercia)/,
+};
+
+/**
+ * Nor does the page trade or swap for its members: "trading happens on Vinted" read in French,
+ * Spanish and Italian as exchanging goods. Buying and selling are named.
+ */
+const SWAP_OR_TRADE: Record<LocaleCode, RegExp> = {
+    en: /\btrad(e|es|ing)\b/i,
+    de: /\bgehandelt\b|\bHandel\b/,
+    es: /\bintercambi|\bcomercia\b|\bcomercian\b/i,
+    fr: /\béchang|\bcommerce\b/i,
+    it: /\bscambi|\bcommercia\b|\bcommerciano\b/i,
 };
 
 /**
@@ -405,15 +418,86 @@ const VINTED_MONITORING: Record<LocaleCode, RegExp> = {
 
 /**
  * The release calls the people who buy and sell "members" and never says whether they are private
- * individuals or businesses: the page does not say it either. (The consumer-to-consumer
- * expansion of "C2C" is Vinted's own term.)
+ * individuals or businesses: the page does not say it either. French "particulier" (a private
+ * person, singular or plural) is the word the first draft got wrong.
  */
 const SELLER_STATUS: Record<LocaleCode, RegExp> = {
     en: /(private|amateur|non-professional|individuals)/i,
     de: /(privat|laien)/i,
-    es: /(privad|aficionad|particulares)/i,
-    fr: /(privé|amateur|particuliers\b)/i,
+    es: /(privad|aficionad|particular)/i,
+    fr: /(privé|amateur|particulier)/i,
     it: /(privat|amator)/i,
+};
+
+/**
+ * The release never expands "C2C": the page keeps Vinted's own abbreviation and adds no
+ * expansion, least of all inside a sentence it attributes to the release.
+ */
+const C2C_EXPANSION: Record<LocaleCode, RegExp> = {
+    en: /consumer.to.consumer/i,
+    de: /(consumer.to.consumer|von verbraucher zu verbraucher)/i,
+    es: /consumidor a consumidor/i,
+    fr: /(consommateur à consommateur|particulier à particulier)/i,
+    it: /consumatore a consumatore/i,
+};
+
+/**
+ * Some dealers' listings sit on a marketplace storefront (the public MCP returns a bookseller's
+ * listing on zvab.com), so the page never says the providers sell "on their own websites".
+ */
+const OWN_WEBSITES: Record<LocaleCode, RegExp> = {
+    en: /own websites?/i,
+    de: /eigene[nr]? Websites?/i,
+    es: /(propios sitios web|sitios web propios|propio sitio web)/i,
+    fr: /(propres? sites? web|sites? web propres?)/i,
+    it: /(propri siti web|siti web propri|proprio sito web)/i,
+};
+
+/**
+ * Vinted Pay is a "wallet solution" in the release, not a "payment service", and the 500,000
+ * pick-up and drop-off points come through delivery partners.
+ */
+const WALLET: Record<LocaleCode, RegExp> = {
+    en: /wallet solution/,
+    de: /Wallet-Lösung/,
+    es: /monedero digital/,
+    fr: /portefeuille électronique/,
+    it: /portafoglio digitale/,
+};
+const PAYMENT_SERVICE: Record<LocaleCode, RegExp> = {
+    en: /payment service/i,
+    de: /Zahlungsdienst/,
+    es: /servicio de pago/,
+    fr: /service de paiement/,
+    it: /servizio di pagamento/,
+};
+const DELIVERY_PARTNERS: Record<LocaleCode, RegExp> = {
+    en: /through delivery partners/,
+    de: /über Lieferpartner/,
+    es: /a través de socios de entrega/,
+    fr: /par l’intermédiaire de partenaires de livraison/,
+    it: /tramite partner di consegna/,
+};
+
+/**
+ * The index is gated on source and object quality, not on category, so the focus chapter is a
+ * focus and never a narrow or complete scope.
+ */
+const NARROW_OR_COMPLETE: Record<LocaleCode, RegExp> = {
+    en: /(narrow|exhaustive|complete)/i,
+    de: /(\beng(e|er|en)?\b|abschließend|vollständig)/i,
+    es: /(acotad|estrech|exhaustiv|complet)/i,
+    fr: /(étroit|exhaustif|complet)/i,
+    it: /(ristrett|esaustiv|complet)/i,
+};
+
+/** The listed areas of focus include no design, so the category cell does not name design objects. */
+const DESIGN_OBJECTS: Record<LocaleCode, RegExp> = {
+    en: /design/i,
+    de: /design/i,
+    es: /diseño/i,
+    fr: /design/i,
+    it: /design/i,
 };
 
 /** The release does not call fashion Vinted's "base": the page says "core fashion", attributed. */
@@ -445,9 +529,8 @@ const MORE_OBJECTS: Record<LocaleCode, RegExp> = {
 };
 
 /**
- * The Aura Historia side follows the Handbook and the live index: no auction houses, auction
- * platforms or private sellers among its providers (the index holds dealers only, and the
- * Handbook rules out open classifieds), and no designer vintage (partners only, for now).
+ * The Aura Historia side follows the live index: no auction houses, auction platforms or private
+ * sellers among its providers (the index holds dealers only), and no designer vintage.
  */
 const OUT_OF_SCOPE_PROVIDERS: Record<LocaleCode, RegExp> = {
     en: /(auction house|auction platform|private seller)/i,
@@ -618,18 +701,62 @@ describe.each(Object.entries(LOCALES))("Vinted comparison copy in %s", (lng, loc
         expect(page.quickVerdicts.monitoring.value).toBe("Aura Historia");
     });
 
-    it("keeps the Aura Historia side within the Handbook's scope and the live index: dealers only, no designer vintage, no overlap with Vinted", () => {
+    it("keeps the Aura Historia side within what the live index shows: dealers and shops only, no designer vintage, no overlap with Vinted, no 'own websites'", () => {
         for (const [path, text] of entries) {
             expect(text, path).not.toMatch(OUT_OF_SCOPE_PROVIDERS[code]);
             expect(text, path).not.toMatch(/vintage/i);
+            expect(text, path).not.toMatch(OWN_WEBSITES[code]);
         }
         for (const [path, text] of entries.filter(([path]) => VINTED_FREE_PATHS(path))) {
             expect(text, path).not.toContain("Vinted");
         }
-        // The categories the scorecard names are the scope list's, down to the last word.
+        // The categories the scorecard names are the focus list's, down to the last word.
         expect(page.downstream.sources.coinsStampsMilitaria).toMatch(/militaria/i);
         expect(page.scorecard.rows.categoryFocus.auraHistoria).toMatch(/militaria/i);
+        expect(page.scorecard.rows.categoryFocus.auraHistoria).not.toMatch(DESIGN_OBJECTS[code]);
         expect(Object.keys(page.downstream.sources)).toEqual(VINTED_COMPARISON.sources.sourceKeys);
+    });
+
+    it("presents the areas as a focus, never as a narrow or complete scope", () => {
+        for (const path of ["downstream.title", "downstream.sourcesLabel", "nav.items.sources"]) {
+            expect(textAt(path), path).not.toMatch(NARROW_OR_COMPLETE[code]);
+        }
+    });
+
+    it("keeps Vinted's own abbreviation without an expansion, and never says Vinted trades or swaps", () => {
+        for (const [path, text] of entries) {
+            expect(text, path).not.toMatch(C2C_EXPANSION[code]);
+            expect(text, path).not.toMatch(SWAP_OR_TRADE[code]);
+        }
+        for (const path of [
+            "hero.subtitle",
+            "respect.paragraph1",
+            "scorecard.rows.marketplaceModel.competitor",
+        ]) {
+            expect(textAt(path), path).toContain("C2C");
+        }
+    });
+
+    it("starts every scorecard cell about Vinted with the release it rests on", () => {
+        const cells = vintedSide.filter(([path]) => path.startsWith("scorecard.rows."));
+        expect(cells).toHaveLength(5);
+        for (const [path, text] of cells) {
+            // The release is named in the opening words, before any claim.
+            const at = text.search(RELEASE[code]);
+            expect(at, path).toBeGreaterThanOrEqual(0);
+            expect(at, path).toBeLessThanOrEqual(12);
+        }
+    });
+
+    it("calls Vinted Pay a wallet solution and gives the 500,000 points through delivery partners, as the release does", () => {
+        const shipping = textAt("scorecard.rows.shippingAndPayment.competitor");
+
+        expect(shipping).toMatch(WALLET[code]);
+        expect(shipping).toMatch(DELIVERY_PARTNERS[code]);
+        expect(textAt("respect.paragraph1")).toMatch(WALLET[code]);
+        for (const text of [shipping, textAt("respect.paragraph1")]) {
+            expect(text).not.toMatch(PAYMENT_SERVICE[code]);
+        }
     });
 
     it("rates languages a tie with 'no difference documented' and says what the release does not describe", () => {
@@ -701,7 +828,7 @@ describe.each(Object.entries(LOCALES))("Vinted comparison copy in %s", (lng, loc
 
     it("answers that Aura Historia hosts no listings from individuals, and concedes everyday second-hand goods to Vinted in the first word", () => {
         const noListings: Record<LocaleCode, RegExp> = {
-            en: /does not host listings from individuals/,
+            en: /does not host listings from private individuals/,
             de: /nimmt keine Angebote von Privatpersonen auf/,
             es: /aloja anuncios de particulares/,
             fr: /n’héberge pas d’annonces de particuliers/,
