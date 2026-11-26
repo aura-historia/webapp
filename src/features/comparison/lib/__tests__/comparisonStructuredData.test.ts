@@ -20,6 +20,8 @@ import { INVALUABLE_COMPARISON } from "@/features/comparison/config/invaluableCo
 import { INVALUABLE_COMPARISON_LAST_REVIEWED } from "@/features/comparison/config/invaluableComparisonReview.ts";
 import { LIVE_AUCTIONEERS_COMPARISON } from "@/features/comparison/config/liveAuctioneersComparison.ts";
 import { LIVE_AUCTIONEERS_COMPARISON_LAST_REVIEWED } from "@/features/comparison/config/liveAuctioneersComparisonReview.ts";
+import { VINTED_COMPARISON } from "@/features/comparison/config/vintedComparison.ts";
+import { VINTED_COMPARISON_LAST_REVIEWED } from "@/features/comparison/config/vintedComparisonReview.ts";
 import {
     buildComparisonStructuredData,
     stripInlineMarkup,
@@ -266,6 +268,39 @@ describe("buildComparisonStructuredData", () => {
             t("compareEbayPage.faq.items.rareArt.question"),
             t("compareEbayPage.faq.items.everydayCollectibles.question"),
             t("compareEbayPage.faq.items.authenticity.question"),
+        ]);
+        expect(JSON.stringify([article, faqPage])).not.toMatch(
+            /"@type":"(Review|AggregateRating|Rating)"/,
+        );
+    });
+
+    it("builds the Vinted page from its visible strings, with no review markup", () => {
+        const [article, faqPage] = build(VINTED_COMPARISON);
+
+        expect(article).toMatchObject({
+            "@type": "Article",
+            headline: stripInlineMarkup(t("compareVintedPage.hero.title")),
+            description: t("compareVintedPage.hero.subtitle"),
+            dateModified: VINTED_COMPARISON_LAST_REVIEWED,
+            url: "https://aura-historia.com/de/compare/vinted",
+        });
+        expect(article.dateModified).toBe("2026-11-26");
+        expect(article.about).toEqual(
+            VINTED_COMPARISON.structuredDataTopics.map((topic) =>
+                t(`compareVintedPage.structuredData.about.${topic}`),
+            ),
+        );
+        expect(faqPage.mainEntity.map((entry) => entry.name)).toEqual(
+            getComparisonFaq(VINTED_COMPARISON).map((item) => t(item.questionKey)),
+        );
+        expect(faqPage.mainEntity).toHaveLength(5);
+        // The questions people ask, in page order.
+        expect(faqPage.mainEntity.map((entry) => entry.name)).toEqual([
+            t("compareVintedPage.faq.items.alternative.question"),
+            t("compareVintedPage.faq.items.replace.question"),
+            t("compareVintedPage.faq.items.sellOwnItems.question"),
+            t("compareVintedPage.faq.items.everydayGoods.question"),
+            t("compareVintedPage.faq.items.authenticity.question"),
         ]);
         expect(JSON.stringify([article, faqPage])).not.toMatch(
             /"@type":"(Review|AggregateRating|Rating)"/,

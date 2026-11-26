@@ -109,6 +109,10 @@
       "title": "Aura Historia vs eBay | Art and Antiques Search Comparison",
       "description": "Compare Aura Historia with eBay for art and antiques: a specialised search across dealers, auction houses and marketplaces versus a marketplace across many categories."
     },
+    "compareVinted": {
+      "title": "Aura Historia vs Vinted | Art and Antiques Search Comparison",
+      "description": "Compare Aura Historia with Vinted for art and antiques: a specialised search across dealers, auction houses and marketplaces versus a second-hand marketplace for members."
+    },
     "compareArtPriceDatabases": {
       "title": "Aura Historia vs Art Price Databases | Artnet, WorthPoint, MutualArt",
       "description": "How Aura Historia differs from art price databases such as Artnet, WorthPoint, MutualArt and Artprice: what sold for what, versus what is offered now."
@@ -5356,6 +5360,194 @@
       "button": "Start searching art and antiques"
     },
     "positioning": "A marketplace across many categories, compared with a search across dealers, auction houses and marketplaces built for art, antiques and design objects."
+  },
+  "compareVintedPage": {
+    "structuredData": {
+      "about": {
+        "artSearch": "art and antiques search",
+        "secondHandMarketplace": "second-hand marketplace",
+        "crossProviderSearch": "search across dealers, auction houses and marketplaces",
+        "multilingualSearch": "multilingual art and antiques search",
+        "monitoring": "art and antiques watchlists and saved searches"
+      }
+    },
+    "nav": {
+      "items": {
+        "summary": "Summary",
+        "advantages": "Where Aura Historia differs",
+        "scorecard": "Comparison table",
+        "sources": "Focus",
+        "together": "Using both",
+        "faq": "FAQ",
+        "verdict": "Final verdict"
+      }
+    },
+    "hero": {
+      "eyebrow": "Comparison: Aura Historia vs Vinted",
+      "title": "A marketplace for second-hand goods, <em>a search for art and antiques</em>",
+      "subtitle": "In its annual results release for 2025, Vinted describes itself as the international C2C second-hand marketplace. Aura Historia is built for art, antiques and design objects: it shows what dealers, auction houses, shops and marketplaces offer online, in one result list, with terminology aligned across five languages.",
+      "primaryCta": "Search what dealers offer",
+      "secondaryCta": "See the scorecard",
+      "quickAnswerEyebrow": "Quick answer",
+      "quickAnswerTitle": "Vinted is a second-hand marketplace. <em>Aura Historia is a search for art and antiques.</em>",
+      "quickAnswerDescription": "<strong>Verdict:</strong> choose Vinted to buy and sell second-hand fashion and consumer goods between members, with the shipping and payment services its annual results release for 2025 describes. Choose Aura Historia to search what dealers, auction houses and marketplaces offer for art, antiques and design objects, and to watch objects across providers."
+    },
+    "quickVerdicts": {
+      "secondHandTrading": {
+        "label": "Best for buying and selling second-hand fashion and consumer goods between members",
+        "value": "Vinted"
+      },
+      "artAntiquesDesign": {
+        "label": "Best for a search focused on art, antiques and design objects",
+        "value": "Aura Historia"
+      },
+      "dealersAndAuctionHouses": {
+        "label": "Best for dealers, auction houses and marketplaces in one search",
+        "value": "Aura Historia"
+      },
+      "monitoring": {
+        "label": "Best for monitoring across providers",
+        "value": "Aura Historia"
+      }
+    },
+    "summary": {
+      "title": "The short <em>version</em>",
+      "paragraph1": "Aura Historia is an alternative to Vinted for collectors who want a search built for art, antiques and design objects: dealers, auction houses, shops and marketplaces in one place, with terminology aligned across five languages.",
+      "paragraph2": "Vinted remains a marketplace where members buy and sell second-hand goods on Vinted. Aura Historia is not a marketplace and does not sell objects. It shows what dealers offer where, and you buy from the provider."
+    },
+    "respect": {
+      "title": "Vinted is a second-hand marketplace <em>for its members</em>",
+      "paragraph1": "A fair comparison starts here. In its annual results release for 2025, Vinted describes itself as the international C2C second-hand marketplace, says its members now buy and sell across a wider range of items, and names its own carrier service, Vinted Go, and its own wallet solution, Vinted Pay.",
+      "paragraph2": "Aura Historia does not try to replace that. It answers a different question: what dealers, auction houses, shops and marketplaces offer for art, antiques and design objects. Seeing an object here does not make Aura Historia a place to buy or sell. Listings appear as the providers publish them, and you buy from the provider."
+    },
+    "advantages": {
+      "title": "A specialised search, <em>built for art and antiques</em>",
+      "description": "The difference is focus and scope: a search for art, antiques and design objects across dealers, auction houses and marketplaces, with terminology aligned across five languages and monitoring across providers.",
+      "cards": {
+        "specialisedIndex": {
+          "title": "A search built for art and antiques",
+          "description": "The index is for art, antiques and design objects. This describes a focus, not a ranking of quality."
+        },
+        "providerTypes": {
+          "title": "Dealers, auction houses and marketplaces",
+          "description": "Dealers, shops, auction houses and marketplaces appear with the objects they publish online, in one result list. Each listing opens on the provider's own page."
+        },
+        "terminologyAcrossLanguages": {
+          "title": "Terminology across languages",
+          "description": "Listings are translated and terminology is aligned across five languages, so a search in one language can return objects catalogued in another."
+        },
+        "monitoringAcrossProviders": {
+          "title": "Monitoring across providers",
+          "description": "Watchlists, saved searches and notifications work across every provider in the index instead of within a single marketplace."
+        }
+      }
+    },
+    "scorecard": {
+      "title": "Aura Historia vs Vinted, <em>side by side</em>",
+      "description": "Vinted is a second-hand marketplace for its members, with the shipping and payment services its annual results release for 2025 describes. Aura Historia is a search across providers, built for art, antiques and design objects.",
+      "caption": "Comparison of Aura Historia and Vinted for art and antiques discovery",
+      "headers": {
+        "criterion": "Criterion",
+        "auraHistoria": "Aura Historia",
+        "competitor": "Vinted"
+      },
+      "rows": {
+        "marketplaceModel": {
+          "criterion": "Marketplace model",
+          "competitor": "In its annual results release for 2025, Vinted describes itself as the international C2C second-hand marketplace and says its members now buy and sell across a wider range of items.",
+          "auraHistoria": "A search across providers, not a marketplace with members of its own. Aura Historia does not sell objects or take payments for them: you buy from the provider, under that provider's own terms.",
+          "verdict": "Vinted"
+        },
+        "shippingAndPayment": {
+          "criterion": "Shipping and payment services",
+          "competitor": "In its annual results release for 2025, Vinted describes its own carrier service, Vinted Go, and its own wallet solution, Vinted Pay, and says it gives members access, through delivery partners, to more than 500,000 pick-up and drop-off points across Europe.",
+          "auraHistoria": "Offers no shipping or payment service: the provider ships and takes payment under its own terms.",
+          "verdict": "Vinted"
+        },
+        "categoryFocus": {
+          "criterion": "Category focus",
+          "competitor": "In its annual results release for 2025, Vinted describes core fashion as continuing to strengthen, with strong performance in women's and kids' clothing, and says it expanded into more consumer-goods categories including sports and collectables.",
+          "auraHistoria": "Focused on art and antiques: antiques and decorative arts, historic art, rare and antiquarian books, coins, stamps and militaria. This states a focus, not a judgement of quality.",
+          "verdict": "Aura Historia for focus"
+        },
+        "providerTypes": {
+          "criterion": "Who sells",
+          "competitor": "In its annual results release for 2025, Vinted describes members who buy and sell on its C2C marketplace.",
+          "auraHistoria": "Dealers, shops, auction houses and marketplaces, in one search. Aura Historia does not host listings from private individuals.",
+          "verdict": "Aura Historia for dealers' stock"
+        },
+        "languagesAndTerminology": {
+          "criterion": "Languages and terminology",
+          "competitor": "In its annual results release for 2025, Vinted names launches in Latvia, Estonia and Slovenia. The release does not describe terminology or search across languages.",
+          "auraHistoria": "Five languages (German, English, Spanish, French, Italian), with translated listings and aligned terminology across providers.",
+          "verdict": "No difference documented"
+        }
+      }
+    },
+    "downstream": {
+      "title": "Where Aura Historia <em>focuses</em>",
+      "sourcesLabel": "Main areas of focus",
+      "sources": {
+        "antiquesDecorativeArts": "Antiques and decorative arts",
+        "historicArt": "Historic art",
+        "rareAndAntiquarianBooks": "Rare and antiquarian books, manuscripts, maps and prints",
+        "coinsStampsMilitaria": "Coins, stamps and militaria"
+      },
+      "cards": {
+        "listedByProviders": {
+          "title": "Objects from many providers",
+          "description": "Aura Historia lists what dealers, auction houses, shops and marketplaces publish online. Each listing links to the provider's own page, where you buy."
+        },
+        "offersSideBySide": {
+          "title": "See offers side by side",
+          "description": "Dealer asking prices, auction listings and marketplace offers sit in one result list, so you can compare what is available now."
+        },
+        "acrossLanguages": {
+          "title": "Search in five languages",
+          "description": "When listings are translated and terminology is aligned, a collector is less limited by the language of the seller."
+        },
+        "watchAnObject": {
+          "title": "Watch a single object",
+          "description": "A watchlist follows one object and notifies you about changes to its price and availability, whichever provider lists it."
+        }
+      }
+    },
+    "together": {
+      "title": "Vinted for its marketplace, <em>Aura Historia for the dealers</em>",
+      "paragraph1": "The two do different jobs. Vinted is a marketplace where members buy and sell second-hand goods, and buying and selling there happens on Vinted. Aura Historia shows what dealers, auction houses and marketplaces offer for art, antiques and design objects. On a listing page, “Go to provider” opens the listing on the provider's own page, in a new tab.",
+      "paragraph2": "Aura Historia does not sell objects, so a purchase happens with the provider. To buy or sell on Vinted, use Vinted. Aura Historia is not affiliated with Vinted."
+    },
+    "faq": {
+      "title": "Common questions about <em>Aura Historia and Vinted</em>",
+      "items": {
+        "alternative": {
+          "question": "Is Aura Historia a Vinted alternative for antiques?",
+          "answer": "Yes, for collectors who want a search built for art, antiques and design objects. Aura Historia searches dealers, auction houses, shops and marketplaces in one place and aligns terminology across five languages. It is not a marketplace: you buy from the provider. Vinted remains a second-hand marketplace where, as its annual results release for 2025 describes, members buy and sell across a wider range of items."
+        },
+        "replace": {
+          "question": "Does Aura Historia replace Vinted?",
+          "answer": "No. Vinted is a marketplace where members buy and sell second-hand goods, and buying and selling happen on Vinted. Aura Historia is a search for art, antiques and design objects and does not sell objects. You can use Aura Historia to see what dealers, auction houses and marketplaces offer, and Vinted where you want to buy or sell on Vinted."
+        },
+        "sellOwnItems": {
+          "question": "Can I sell my own things on Aura Historia?",
+          "answer": "No. Aura Historia does not sell objects and does not host listings from private individuals: it shows what dealers, auction houses, shops and marketplaces publish online. Vinted describes itself as a marketplace where members buy and sell, according to its annual results release for 2025."
+        },
+        "everydayGoods": {
+          "question": "Which is better for everyday second-hand goods such as clothing?",
+          "answer": "Vinted. Its annual results release for 2025 describes core fashion as continuing to strengthen and names sports and collectables among the categories it expanded into. Aura Historia is built for art, antiques and design objects, so everyday second-hand goods are not what it is for."
+        },
+        "authenticity": {
+          "question": "Does Aura Historia guarantee authenticity?",
+          "answer": "No. Listings are shown as their sources publish them, translated where needed. Questions of value, condition and authenticity are settled with the seller."
+        }
+      }
+    },
+    "finalCta": {
+      "title": "Vinted is a marketplace for second-hand goods. <em>Aura Historia is built for art and antiques.</em>",
+      "description": "If your search should cover what dealers, auction houses and marketplaces offer for art, antiques and design objects, start with Aura Historia.",
+      "button": "Start searching art and antiques"
+    },
+    "positioning": "A second-hand marketplace for members, compared with a search across dealers, auction houses and marketplaces built for art, antiques and design objects."
   },
   "compareArtPriceDatabasesPage": {
     "structuredData": {
