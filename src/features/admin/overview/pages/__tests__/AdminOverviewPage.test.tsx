@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { render, screen, within } from "@testing-library/react";
+import { cleanup, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import testI18n from "@/i18n/i18nForTests";
@@ -242,6 +242,17 @@ describe("AdminOverviewPage", () => {
         expect(screen.getByText(t("adminOverview.loading"))).toBeTruthy();
         expect(screen.queryByText("0")).toBeNull();
         expect(screen.queryByRole("list", { name: t("adminOverview.summary.label") })).toBeNull();
+    });
+
+    it("keeps one skeleton tile per total while loading, so the grid does not reflow", () => {
+        api.useAdminOverview.mockReturnValue({ data: undefined, error: null, isPending: true });
+        const { container } = render(<AdminOverviewPage language="de" />);
+        const loadingTiles = container.querySelectorAll("[aria-busy] .grid-cols-2 > span").length;
+        cleanup();
+
+        renderLoaded();
+        const totals = screen.getByRole("list", { name: t("adminOverview.summary.label") });
+        expect(loadingTiles).toBe(within(totals).getAllByRole("listitem").length);
     });
 
     it("shows an error with retry instead of zero counts when unavailable", async () => {

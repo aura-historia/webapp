@@ -82,6 +82,22 @@ type Total = {
 // Two columns on phones, three from 768px.
 const PHONE_COLUMNS = 2;
 const DESKTOP_COLUMNS = 3;
+/** One tile per entry of `totals` in `OverviewContent`; the loading skeleton mirrors it. */
+const TOTAL_TILE_COUNT = 7;
+
+/**
+ * A last tile that would sit alone in its row spans the row, so it does not leave a lone tile
+ * beside empty cells. Any other tile keeps its single cell.
+ */
+function loneLastTileSpan(index: number, count: number): string | undefined {
+    if (index !== count - 1) return undefined;
+    const alonePhone = index % PHONE_COLUMNS === 0;
+    const aloneDesktop = index % DESKTOP_COLUMNS === 0;
+    return cn(
+        alonePhone && "col-span-2",
+        aloneDesktop ? "md:col-span-3" : alonePhone && "md:col-span-1",
+    );
+}
 
 function TotalTile({
     total,
@@ -100,18 +116,13 @@ function TotalTile({
     // Every tile but a row's first has a rule on its left.
     const firstOnPhone = index % PHONE_COLUMNS === 0;
     const firstOnDesktop = index % DESKTOP_COLUMNS === 0;
-    // A last tile that would sit alone in its row spans the row, so no empty cell is left beside it.
-    const isLast = index === count - 1;
-    const spansPhoneRow = isLast && firstOnPhone;
-    const spansDesktopRow = isLast && firstOnDesktop;
     return (
         <li
             className={cn(
                 "min-w-0 border-b border-line",
                 !firstOnPhone && "shadow-[inset_1px_0_0_var(--line)]",
                 firstOnDesktop ? "md:shadow-none" : "md:shadow-[inset_1px_0_0_var(--line)]",
-                spansPhoneRow && "col-span-2",
-                spansDesktopRow ? "md:col-span-3" : spansPhoneRow && "md:col-span-1",
+                loneLastTileSpan(index, count),
             )}
         >
             <Link
@@ -526,9 +537,9 @@ function OverviewSkeleton() {
             <div className="flex flex-col gap-5">
                 {bar("h-8 w-40")}
                 <div className="grid grid-cols-2 gap-2.5 md:grid-cols-3">
-                    {/* One tile per total; the last spans its row, as the loaded tiles do. */}
-                    {[0, 1, 2, 3, 4, 5, 6].map((index) => (
-                        <span key={index} className={cn(index === 6 && "col-span-full")}>
+                    {Array.from({ length: TOTAL_TILE_COUNT }, (_, index) => (
+                        // biome-ignore lint/suspicious/noArrayIndexKey: a fixed run of identical placeholders
+                        <span key={index} className={loneLastTileSpan(index, TOTAL_TILE_COUNT)}>
                             {bar("block h-28 rounded-sm")}
                         </span>
                     ))}
