@@ -700,7 +700,8 @@ To sync a backend revision:
   `requestPartyLocationResolution`, `acceptPartyLocationResolutionCandidate`,
   `retryPartyLocationResolution`). Listing search sends `geography` from the search page's
   Location filter ([#1080](https://github.com/aura-historia/webapp/issues/1080)); saved searches
-  do not yet ([#1081](https://github.com/aura-historia/webapp/issues/1081)). Privacy rules for these slices
+  create, read, patch and preview `search.geography`
+  ([#1081](https://github.com/aura-historia/webapp/issues/1081)). Privacy rules for these slices
   are in [privacy alignment](privacy-policy-alignment.md#geography).
 - The admin ProductListing operations (`searchAdminProductListings`, `getAdminProductListing`,
   `updateAdminProductListing`, `withdrawAdminProductListing`, `restoreAdminProductListing`) are
@@ -898,8 +899,20 @@ Shared models live in `src/data/internal/geography`; formatting helpers in
   default is strict; the page offers no other mode since #1391), and sends nothing until the starting
   point's point is known (`useSearchOrigin`); without one it searches without the distance limit.
   Saved searches map
-  `geography` separately from `SearchFilterArguments`: omit it in a patch to keep the private
-  snapshot, send `null` to clear and a complete predicate to replace it.
+  `geography` separately from `SearchFilterArguments` (`UserSearchFilter.geography`): omit it in a
+  patch to keep the private snapshot, send `null` to clear and a complete predicate to replace it.
+  `resolveGeographyChange` (`saved-searches/lib/savedSearchLocation.ts`) decides which: an edit
+  that leaves the Location step alone omits it, as do rename, pause, resume and email-alert
+  changes; removing the location (or Near set to Everywhere) sends `null`; any change sends the
+  whole predicate. Duplicating copies the stored predicate verbatim. Saving from the search page
+  or the wizard copies the starting point's resolved point into `origin` (never an address
+  reference), the radius in its supplied unit and `mode: APPROXIMATE` (always sent with a radius,
+  because the API defaults to strict); places are copied as they are. Search filters have no
+  distance order: the search page's distance sort is not saved, like any sort, and a stored
+  `distanceOrder` is dropped when the Location step replaces the predicate. A predicate the app
+  cannot read (`UNSUPPORTED`) or the wizard cannot edit (places and a distance together, an order
+  without a distance) is kept as saved or removed as a whole. `previewUserSearchFilterMatches`
+  receives the same `geography` the save will send.
 - **Query serialization:** the generated client serializes only one object level, so pass
   `listingGeographyQuerySerializer` (listing search; `searchAfter` stays a JSON string) or
   `partyLocationDiscoveryQuerySerializer` (`geography` and `searchAfter` deep objects) as

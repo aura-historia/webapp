@@ -1,21 +1,46 @@
+import type { CountryCode } from "@/data/internal/geography/GeographicCodes.ts";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { SearchFilterConfigurationGrid } from "../SearchFilterConfigurationGrid.tsx";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
+import type {
+    GeographicSearch,
+    UnsupportedGeography,
+} from "@/data/internal/geography/GeographicSearch.ts";
 import { SEARCHABLE_LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
+
+vi.mock("@/features/geography/hooks/useSubdivisionNames.ts", () => ({
+    useSubdivisionNames: () => ({
+        names: undefined,
+        formatSubdivisionName: (code: string) => code,
+    }),
+}));
 
 vi.mock("@/features/preferences/hooks/useUserPreferences.tsx", () => ({
     useUserPreferences: () => ({ preferences: { currency: "EUR" }, updatePreferences: vi.fn() }),
 }));
 
-function renderGrid(search: SearchFilterArguments, enhancedSearchDescription?: string) {
+function renderGrid(
+    search: SearchFilterArguments,
+    enhancedSearchDescription?: string,
+    geography?: GeographicSearch | UnsupportedGeography,
+) {
     return render(
         <SearchFilterConfigurationGrid
             search={search}
             enhancedSearchDescription={enhancedSearchDescription}
+            geography={geography}
         />,
     );
 }
+
+const SAVED_DISTANCE: GeographicSearch = {
+    countries: [],
+    subdivisions: [],
+    origin: { latitude: 51.34, longitude: 12.37 },
+    radius: { amount: 50, unit: "KILOMETERS" },
+    mode: "APPROXIMATE",
+};
 
 /** The value text of the row labelled `label`. */
 function rowValue(label: string) {
@@ -104,5 +129,52 @@ describe("SearchFilterConfigurationGrid", () => {
     it("shows a one-sided update date range with the to label", () => {
         renderGrid({ q: "", updateDateTo: new Date("2024-03-15") });
         expect(rowValue("Aktualisierungsdatum")).toHaveTextContent("Bis 15. März 2024");
+    });
+
+    describe("location", () => {
+        it("has no location row when none is saved", () => {
+            renderGrid({ q: "" });
+            expect(screen.queryByText("Standort", { selector: "dt" })).not.toBeInTheDocument();
+        });
+
+        it("names a saved distance by the saved starting point, never its coordinates", () => {
+            renderGrid({ q: "" }, undefined, SAVED_DISTANCE);
+            expect(rowValue("Standort")).toHaveTextContent(
+                "Im Umkreis von 50 km um den gespeicherten Ausgangspunkt",
+            );
+            expect(document.body).not.toHaveTextContent("51.34");
+            expect(
+                screen.getByText(/Mit dieser Suche speichern wir eine private Kopie/),
+            ).toBeInTheDocument();
+        });
+
+        it("shows a strict predicate saved elsewhere and a unit the wizard does not offer", () => {
+            renderGrid({ q: "" }, undefined, {
+                ...SAVED_DISTANCE,
+                radius: { amount: 8000, unit: "METERS" },
+                mode: "STRICT",
+            });
+            const row = rowValue("Standort");
+            expect(row).toHaveTextContent("8.000 m");
+            expect(row).toHaveTextContent("Nur genaue Adressen");
+        });
+
+        it("lists saved countries without the private-copy note", () => {
+            renderGrid({ q: "" }, undefined, {
+                countries: ["DE", "AT"] as CountryCode[],
+                subdivisions: [],
+            });
+            const row = rowValue("Standort");
+            expect(row).toHaveTextContent("Deutschland");
+            expect(row).toHaveTextContent("Österreich");
+            expect(screen.queryByText(/private Kopie/)).not.toBeInTheDocument();
+        });
+
+        it("only says that a location is set when the app cannot read it", () => {
+            renderGrid({ q: "" }, undefined, "UNSUPPORTED");
+            expect(rowValue("Standort")).toHaveTextContent(
+                "Standort festgelegt – hier nicht darstellbar",
+            );
+        });
     });
 });

@@ -6,6 +6,7 @@ import {
 } from "@/data/internal/product/ProductListing.ts";
 import { mapToBackendPreviewUserSearchFilter } from "@/data/internal/search-filter/UserSearchFilter.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
+import type { GeographicSearch } from "@/data/internal/geography/GeographicSearch.ts";
 import { matchesNoListingAvailability } from "@/data/internal/search/ListingAvailabilityQuery.ts";
 import { mapToInternalApiError } from "@/data/internal/hooks/ApiError.ts";
 import { useApiError } from "@/hooks/common/useApiError.ts";
@@ -33,19 +34,32 @@ export class SearchFilterPreviewError extends Error {
 
 const NO_MATCHES_RESULT: SearchFilterPreviewResult = { items: [], candidateLimitReached: false };
 
+/**
+ * The saved filter's geography for the preview. `key` names it in the query key, so the cache
+ * never holds the starting point's coordinates (for example `address:<id>:<version>`).
+ */
+export type PreviewGeography = {
+    readonly geography: GeographicSearch;
+    readonly key: string;
+};
+
 export function useSearchFilterPreviewProducts(
     search: SearchFilterArguments,
     enabled: boolean,
+    geography?: PreviewGeography,
 ): UseQueryResult<SearchFilterPreviewResult> {
     const { getErrorMessage } = useApiError();
     const { i18n } = useTranslation();
     const { preferences } = useUserPreferences();
 
     return useQuery({
-        queryKey: productListingQueryKeys.savedSearchPreview(search, {
-            language: parseLanguage(i18n.language),
-            currency: preferences.currency,
-        }),
+        queryKey: productListingQueryKeys.savedSearchPreview(
+            { ...search, geography: geography?.key },
+            {
+                language: parseLanguage(i18n.language),
+                currency: preferences.currency,
+            },
+        ),
         enabled,
         // Each request costs up to 16 classifier calls: retry a transient outage once, never a
         // restricted-field or other error that a retry cannot fix.
@@ -58,7 +72,10 @@ export function useSearchFilterPreviewProducts(
 
             const currency = search.currency ?? preferences.currency;
             const result = await previewUserSearchFilterMatches({
-                body: mapToBackendPreviewUserSearchFilter({ ...search, currency }),
+                body: mapToBackendPreviewUserSearchFilter(
+                    { ...search, currency },
+                    geography?.geography,
+                ),
             });
 
             if (result.error) {

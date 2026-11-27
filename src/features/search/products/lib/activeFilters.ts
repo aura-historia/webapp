@@ -38,9 +38,6 @@ export type ActiveFilter =
           readonly near: SearchNear;
       };
 
-/** Location filters, which saved searches do not keep yet (#1081). */
-export const LOCATION_FILTER_KINDS: readonly ActiveFilter["kind"][] = ["place", "distance"];
-
 const DATE_FIELDS = {
     auctionDate: ["auctionDateFrom", "auctionDateTo"],
     creationDate: ["creationDateFrom", "creationDateTo"],

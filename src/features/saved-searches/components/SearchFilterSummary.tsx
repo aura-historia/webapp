@@ -4,6 +4,7 @@ import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterA
 import {
     getQueryTerms,
     type SearchFilterCriterion,
+    type SearchFilterLocationInput,
     useSearchFilterCriteria,
 } from "@/features/saved-searches/hooks/useSearchFilterCriteria.ts";
 import { FOCUS_CLASS } from "@/features/saved-searches/lib/searchFilterStyles.ts";
@@ -13,6 +14,8 @@ type Props = {
     readonly name: string;
     readonly search: SearchFilterArguments;
     readonly availability: SearchableListingAvailability[];
+    /** The location the filter will hold after saving. */
+    readonly location?: SearchFilterLocationInput;
     /** Hide the name row when the caller already shows it elsewhere. */
     readonly showName?: boolean;
     /** Jumps back to the wizard step that sets a row; omit to hide the Change links. */
@@ -40,10 +43,11 @@ export function SearchFilterSummary({
     search,
     availability,
     showName = true,
+    location,
     onChangeStep,
 }: Props) {
     const { t } = useTranslation();
-    const criteria = useSearchFilterCriteria(search, availability);
+    const criteria = useSearchFilterCriteria(search, availability, location);
     const terms = getQueryTerms(search);
     const any = t("searchFilter.wizard.any");
 
@@ -65,16 +69,24 @@ export function SearchFilterSummary({
             step: 2,
         },
         {
+            id: "location",
+            label: t("search.location.title"),
+            value:
+                criteria.find((criterion) => criterion.id === "location")?.values.join(" · ") ??
+                any,
+            step: 3,
+        },
+        {
             id: "providers",
             label: t("search.filter.listingSources"),
             value: describe(criteria, ["include", "exclude"]) || any,
-            step: 3,
+            step: 4,
         },
         {
             id: "date",
             label: t("searchFilter.wizard.step.date"),
             value: describe(criteria, ["auction", "added", "updated"]) || any,
-            step: 4,
+            step: 5,
         },
     ];
 

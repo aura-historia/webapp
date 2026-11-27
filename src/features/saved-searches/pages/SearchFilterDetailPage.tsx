@@ -272,6 +272,7 @@ export function SearchFilterDetailPage({ filterId }: Props) {
                                 <SearchFilterConfigurationGrid
                                     search={filter.search}
                                     enhancedSearchDescription={filter.enhancedSearchDescription}
+                                    geography={filter.geography}
                                 />
                             </div>
                         </div>

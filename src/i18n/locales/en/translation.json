@@ -2393,7 +2393,23 @@
       "ultimateBadge": "Ultimate",
       "restrictedEyebrow": "Pro & Ultimate",
       "restrictedTitle": "Some filters need <em>Pro.</em>",
-      "close": "Close"
+      "close": "Close",
+      "preparing": "Preparing…",
+      "location": {
+        "eyebrow": "Location",
+        "title": "No starting point <em>to save.</em>",
+        "within": "Within {{distance}}",
+        "chooseAnother": "Choose another starting point",
+        "saveWithout": "Save without location",
+        "problems": {
+          "currentNotKept": "Your current location was used only for the search you ran it for, so the distance limit can’t be saved. Use your location again, or save the search without it.",
+          "addressUnavailable": "The address from this search isn’t available any more, so the distance limit can’t be saved. Choose another starting point, or save the search without it.",
+          "addressNotLocated": "This address has no location yet, so the distance limit can’t be saved. Choose another starting point, or save the search without it.",
+          "searchLocationNotAddress": "Your search location isn’t one of your addresses, so the distance limit can’t be saved. Choose another starting point, or save the search without it.",
+          "signedOut": "Sign in to use a saved address as the starting point, or save the search without it.",
+          "loadFailed": "The starting point couldn’t be loaded, so the distance limit can’t be saved. Choose another starting point, or save the search without it."
+        }
+      }
     },
     "wizard": {
       "back": "Back",
@@ -2413,7 +2429,9 @@
         "date": "Date",
         "dateDescription": "Narrow down the search by time – by auction date, date of first publication, or the last update of the listing.",
         "confirm": "Confirm",
-        "confirmDescription": "Review your search filter before saving."
+        "confirmDescription": "Review your search filter before saving.",
+        "location": "Location",
+        "locationDescription": "Limit the search to countries and regions, or to a distance from a starting point. Leave it on Everywhere to search all locations."
       },
       "titleEdit": "Edit search filter",
       "titleDuplicate": "Duplicate search filter",
@@ -2434,7 +2452,23 @@
     },
     "optional": "optional",
     "upgradeRequired": "Pro & Ultimate only",
-    "upgradeNow": "Upgrade now"
+    "upgradeNow": "Upgrade now",
+    "location": {
+      "keepSaved": "Keep saved starting point",
+      "keepSavedHint": "The point this search filter already uses. Not linked to an address.",
+      "savedOrigin": "Saved starting point",
+      "savedOriginDetail": "Private copy · not linked to an address",
+      "savedOriginName": "saved starting point",
+      "within": "Within {{distance}} of {{origin}}",
+      "exactOnly": "Exact addresses only",
+      "unsupported": "Location set — can’t be shown here",
+      "unsupportedEdit": "This search filter has a location this page can’t edit. It stays as saved unless you remove it.",
+      "remove": "Remove location",
+      "needsStartingPoint": "The starting point can’t be used. Choose another one, or set Near to Everywhere.",
+      "previewWaiting": "The preview appears once the starting point is ready.",
+      "previewUnsupported": "No preview: this search filter has a location this page can’t show.",
+      "nauticalMilesUnit": "nmi"
+    }
   },
   "searchFilters": {
     "activeLimitReached": "You have reached the maximum of {{limit}} active search filters. Pause one to add another.",

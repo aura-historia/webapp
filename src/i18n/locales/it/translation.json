@@ -2900,7 +2900,23 @@
       "ultimateBadge": "Ultimate",
       "restrictedEyebrow": "Pro & Ultimate",
       "restrictedTitle": "Alcuni filtri richiedono <em>Pro.</em>",
-      "close": "Chiudi"
+      "close": "Chiudi",
+      "preparing": "Preparazione…",
+      "location": {
+        "eyebrow": "Località",
+        "title": "Nessun punto di partenza <em>da salvare.</em>",
+        "within": "Entro {{distance}}",
+        "chooseAnother": "Scegli un altro punto di partenza",
+        "saveWithout": "Salva senza località",
+        "problems": {
+          "currentNotKept": "La tua posizione attuale è stata usata solo per la ricerca per cui l’hai condivisa, quindi il limite di distanza non può essere salvato. Usa di nuovo la tua posizione oppure salva la ricerca senza.",
+          "addressUnavailable": "L’indirizzo di questa ricerca non è più disponibile, quindi il limite di distanza non può essere salvato. Scegli un altro punto di partenza oppure salva la ricerca senza.",
+          "addressNotLocated": "Questo indirizzo non è ancora localizzato, quindi il limite di distanza non può essere salvato. Scegli un altro punto di partenza oppure salva la ricerca senza.",
+          "searchLocationNotAddress": "La tua località di ricerca non è uno dei tuoi indirizzi, quindi il limite di distanza non può essere salvato. Scegli un altro punto di partenza oppure salva la ricerca senza.",
+          "signedOut": "Accedi per usare un indirizzo salvato come punto di partenza, oppure salva la ricerca senza.",
+          "loadFailed": "Non è stato possibile caricare il punto di partenza, quindi il limite di distanza non può essere salvato. Scegli un altro punto di partenza oppure salva la ricerca senza."
+        }
+      }
     },
     "wizard": {
       "back": "Indietro",
@@ -2920,7 +2936,9 @@
         "date": "Data",
         "dateDescription": "Restringi la ricerca per data – per data d'asta, data di prima pubblicazione o ultimo aggiornamento dell'inserzione.",
         "confirm": "Conferma",
-        "confirmDescription": "Controlla il tuo filtro di ricerca prima di salvarlo."
+        "confirmDescription": "Controlla il tuo filtro di ricerca prima di salvarlo.",
+        "location": "Località",
+        "locationDescription": "Limita la ricerca a paesi e regioni, oppure a una distanza da un punto di partenza. Lascia «Ovunque» per cercare in tutte le località."
       },
       "titleEdit": "Modifica filtro di ricerca",
       "titleDuplicate": "Duplica filtro di ricerca",
@@ -2941,7 +2959,23 @@
     },
     "optional": "opzionale",
     "upgradeRequired": "Solo Pro & Ultimate",
-    "upgradeNow": "Effettua l'upgrade ora"
+    "upgradeNow": "Effettua l'upgrade ora",
+    "location": {
+      "keepSaved": "Mantieni il punto di partenza salvato",
+      "keepSavedHint": "Il punto che questo filtro di ricerca usa già. Non è collegato a un indirizzo.",
+      "savedOrigin": "Punto di partenza salvato",
+      "savedOriginDetail": "Copia privata · non collegata a un indirizzo",
+      "savedOriginName": "Punto di partenza salvato",
+      "within": "{{origin}}, entro {{distance}}",
+      "exactOnly": "Solo indirizzi esatti",
+      "unsupported": "Località impostata: non visualizzabile qui",
+      "unsupportedEdit": "Questo filtro di ricerca ha una località che non puoi modificare qui. Resta com’è salvata finché non la rimuovi.",
+      "remove": "Rimuovi località",
+      "needsStartingPoint": "Il punto di partenza non può essere usato. Scegline un altro oppure imposta «Vicino a» su «Ovunque».",
+      "previewWaiting": "L’anteprima compare quando il punto di partenza è pronto.",
+      "previewUnsupported": "Nessuna anteprima: questo filtro di ricerca ha una località che non può essere mostrata qui.",
+      "nauticalMilesUnit": "mn"
+    }
   },
   "searchFilters": {
     "activeLimitReached": "Hai raggiunto il massimo di {{limit}} filtri di ricerca attivi. Metti in pausa un filtro per aggiungerne un altro.",

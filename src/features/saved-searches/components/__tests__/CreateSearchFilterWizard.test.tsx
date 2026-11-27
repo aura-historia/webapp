@@ -45,6 +45,12 @@ vi.mock("@/features/saved-searches/components/SearchFilterWizardConfirmStep.tsx"
         </div>
     ),
 }));
+vi.mock("@/features/saved-searches/components/SearchFilterLocationStep.tsx", () => ({
+    SearchFilterLocationStep: () => <div data-testid="location-step" />,
+}));
+vi.mock("@/features/search/products/hooks/useSearchOrigin.ts", () => ({
+    useSearchOrigin: () => ({ status: "none" }),
+}));
 vi.mock("@/features/search/products/components/filters/PriceSpanFilter.tsx", () => ({
     PriceSpanFilter: () => <div data-testid="price-filter" />,
 }));
@@ -74,7 +80,7 @@ const mockFilter: UserSearchFilter = {
     updated: new Date("2024-03-01"),
 };
 
-const TOTAL_STEPS = 5;
+const TOTAL_STEPS = 6;
 
 async function navigateToConfirmStep(user: ReturnType<typeof userEvent.setup>) {
     for (let i = 1; i < TOTAL_STEPS; i++) {
@@ -192,7 +198,7 @@ describe("CreateSearchFilterWizard", () => {
                     <CreateSearchFilterWizard open onOpenChange={vi.fn()} mode="create" />,
                 ),
             );
-            expect(screen.getAllByText(/Schritt 1 von 5/).length).toBeGreaterThan(0);
+            expect(screen.getAllByText(/Schritt 1 von 6/).length).toBeGreaterThan(0);
             expect(
                 screen.getByRole("heading", { level: 3, name: "Suchbegriff & Name" }),
             ).toBeInTheDocument();
@@ -203,7 +209,7 @@ describe("CreateSearchFilterWizard", () => {
             ).toBeInTheDocument();
         });
 
-        it("renders a stepper with all five steps, marking the current one", async () => {
+        it("renders a stepper with all six steps, marking the current one", async () => {
             await act(() =>
                 renderWithRouter(
                     <CreateSearchFilterWizard open onOpenChange={vi.fn()} mode="create" />,
@@ -211,10 +217,11 @@ describe("CreateSearchFilterWizard", () => {
             );
             const stepper = screen.getByRole("list", { name: "Schritte" });
             const steps = within(stepper).getAllByRole("button");
-            expect(steps).toHaveLength(5);
+            expect(steps).toHaveLength(6);
             expect(steps[0]).toHaveAttribute("aria-current", "step");
             expect(steps[0]).toHaveTextContent("Suchbegriff & Name");
-            expect(steps[4]).toHaveTextContent("Zusammenfassung");
+            expect(steps[2]).toHaveTextContent("Standort");
+            expect(steps[5]).toHaveTextContent("Zusammenfassung");
         });
 
         it("reports the progress of the current step", async () => {
@@ -250,7 +257,7 @@ describe("CreateSearchFilterWizard", () => {
             const stepper = screen.getByRole("list", { name: "Schritte" });
             await user.click(within(stepper).getByRole("button", { name: /Zusammenfassung/ }));
             expect(screen.getByTestId("confirm-step")).toBeInTheDocument();
-            expect(within(stepper).getAllByRole("button")[4]).toHaveAttribute(
+            expect(within(stepper).getAllByRole("button")[5]).toHaveAttribute(
                 "aria-current",
                 "step",
             );
@@ -613,6 +620,71 @@ describe("CreateSearchFilterWizard", () => {
                 expect.objectContaining({ id: "filter-1" }),
                 expect.objectContaining({ onSuccess: expect.any(Function) }),
             );
+        });
+    });
+
+    describe("location", () => {
+        const savedGeography = {
+            countries: [],
+            subdivisions: [],
+            origin: { latitude: 51.34, longitude: 12.37 },
+            radius: { amount: 8000, unit: "METERS" as const },
+            mode: "STRICT" as const,
+        };
+        const filterWithLocation: UserSearchFilter = { ...mockFilter, geography: savedGeography };
+
+        it("leaves the saved location out of an edit that does not change it", async () => {
+            const user = userEvent.setup();
+            await act(() =>
+                renderWithRouter(
+                    <CreateSearchFilterWizard
+                        open
+                        onOpenChange={vi.fn()}
+                        mode="edit"
+                        filter={filterWithLocation}
+                    />,
+                ),
+            );
+            await user.click(screen.getByRole("button", { name: /Speichern/i }));
+            const [{ patch }] = mockUpdateMutate.mock.calls[0];
+            expect(patch).not.toHaveProperty("geography");
+        });
+
+        it("copies the saved location verbatim into a duplicate", async () => {
+            const user = userEvent.setup();
+            await act(() =>
+                renderWithRouter(
+                    <CreateSearchFilterWizard
+                        open
+                        onOpenChange={vi.fn()}
+                        mode="duplicate"
+                        filter={filterWithLocation}
+                    />,
+                ),
+            );
+            await user.click(screen.getByRole("button", { name: /Speichern/i }));
+            expect(mockCreateMutate).toHaveBeenCalledWith(
+                expect.objectContaining({ geography: savedGeography }),
+                expect.anything(),
+            );
+        });
+
+        it("shows the Location step third", async () => {
+            const user = userEvent.setup();
+            await act(() =>
+                renderWithRouter(
+                    <CreateSearchFilterWizard
+                        open
+                        onOpenChange={vi.fn()}
+                        mode="edit"
+                        filter={filterWithLocation}
+                    />,
+                ),
+            );
+            await user.click(screen.getByRole("button", { name: /^Weiter$/i }));
+            await user.click(screen.getByRole("button", { name: /^Weiter$/i }));
+            expect(screen.getByTestId("location-step")).toBeInTheDocument();
+            expect(screen.getAllByText(/Schritt 3 von 6/).length).toBeGreaterThan(0);
         });
     });
 

@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { ChevronDown, Crosshair, Globe, MapPin, Search, Star, X } from "lucide-react";
+import { ChevronDown, Crosshair, Globe, Lock, MapPin, Search, Star, X } from "lucide-react";
 import { type KeyboardEvent, type ReactNode, useEffect, useId, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDebouncedCallback } from "use-debounce";
@@ -10,7 +10,13 @@ import {
     type CountryCode,
     type SubdivisionCode,
 } from "@/data/internal/geography/GeographicCodes.ts";
-import { MAX_RADIUS_KILOMETRES } from "@/data/internal/geography/GeographicDistance.ts";
+import {
+    INTL_DISTANCE_UNITS,
+    MAX_RADIUS_KILOMETRES,
+    parseGeographicRadius,
+    type DistanceUnit,
+    type GeographicDistance,
+} from "@/data/internal/geography/GeographicDistance.ts";
 import type { UserAddress } from "@/data/internal/geography/UserAddress.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import {
@@ -51,6 +57,7 @@ import { cn } from "@/lib/utils.ts";
 
 const EVERYWHERE = "everywhere";
 const CURRENT = "current";
+const SAVED = "saved";
 const MAX_PLACE_SUGGESTIONS = 8;
 const MAX_RADIUS_MILES = 12_400;
 
@@ -62,7 +69,17 @@ const OUTLINE_BUTTON_CLASS = cn(
 );
 
 type Variant = "sidebar" | "sheet";
-type Mode = "region" | "distance";
+export type LocationMode = "region" | "distance";
+type Mode = LocationMode;
+
+/**
+ * A saved search's stored starting point, offered in the Near picker as "Keep saved starting
+ * point" while editing or duplicating it. It is a private copy, not linked to an address.
+ */
+export type SavedOriginOption = {
+    readonly selected: boolean;
+    readonly onSelect: () => void;
+};
 
 type LocationFilterProps = {
     readonly searchArgs: SearchFilterArguments;
@@ -80,6 +97,12 @@ function fold(text: string): string {
 
 function defaultUnit(unitSystem: string | undefined): SearchDistanceUnit {
     return unitSystem === "IMPERIAL" ? "MILES" : "KILOMETERS";
+}
+
+/** The distance a new distance search starts with: 50 in the viewer's unit system. */
+export function useDefaultSearchRadius(): { amount: number; unit: SearchDistanceUnit } {
+    const { preferences } = useUserPreferences();
+    return { amount: DEFAULT_SEARCH_RADIUS_AMOUNT, unit: defaultUnit(preferences.unitSystem) };
 }
 
 function isLocated(address: UserAddress): boolean {
@@ -117,6 +140,10 @@ export function LocationFilter({ searchArgs, origin, variant }: LocationFilterPr
         if (location && !matches) setLocation(undefined);
     };
 
+    const defaultRadius = useDefaultSearchRadius();
+    const distance = location?.kind === "DISTANCE" ? location : undefined;
+    const radius = distance?.radius ?? defaultRadius;
+
     const { formatSubdivisionName } = useSubdivisionNames(
         location?.kind === "REGION" && location.subdivisions.length > 0,
     );
@@ -147,9 +174,28 @@ export function LocationFilter({ searchArgs, origin, variant }: LocationFilterPr
                     <RegionPlaces location={location} onChange={setLocation} sheet={sheet} />
                 ) : (
                     <DistanceControls
-                        location={location?.kind === "DISTANCE" ? location : undefined}
+                        near={distance?.near}
+                        radius={radius}
                         origin={origin}
-                        onChange={setLocation}
+                        onNearChange={(near) =>
+                            setLocation(
+                                near
+                                    ? {
+                                          kind: "DISTANCE",
+                                          near,
+                                          radius,
+                                          ...(distance?.distanceOrder
+                                              ? { distanceOrder: distance.distanceOrder }
+                                              : {}),
+                                      }
+                                    : undefined,
+                            )
+                        }
+                        onRadiusChange={(next) => {
+                            // The search page offers km and miles only, so this always parses.
+                            const parsed = parseSearchDistance(next.amount, next.unit);
+                            if (distance && parsed) setLocation({ ...distance, radius: parsed });
+                        }}
                         sheet={sheet}
                     />
                 )}
@@ -159,7 +205,7 @@ export function LocationFilter({ searchArgs, origin, variant }: LocationFilterPr
     );
 }
 
-function ModeSwitch({
+export function ModeSwitch({
     mode,
     onChange,
     sheet,
@@ -223,7 +269,7 @@ type PlaceSuggestion = {
     readonly detail: string;
 };
 
-function RegionPlaces({
+export function RegionPlaces({
     location,
     onChange,
     sheet,
@@ -455,42 +501,40 @@ function RegionPlaces({
     );
 }
 
-type DistanceLocation = Extract<SearchLocation, { kind: "DISTANCE" }>;
-
-function DistanceControls({
-    location,
+/**
+ * Near and Within. Controlled: the caller turns a starting point and a distance into its own
+ * location (a search-page URL, or a saved search's draft). `wide` puts Near and Within side by side
+ * from 1024px, as in the search-filter wizard.
+ */
+export function DistanceControls({
+    near,
+    savedOrigin,
+    radius,
     origin,
-    onChange,
+    onNearChange,
+    onRadiusChange,
     sheet,
+    wide = false,
 }: {
-    readonly location: DistanceLocation | undefined;
+    readonly near: SearchNear | undefined;
+    readonly savedOrigin?: SavedOriginOption;
+    readonly radius: GeographicDistance;
     readonly origin: SearchOrigin;
-    readonly onChange: (next: SearchLocation | undefined) => void;
+    readonly onNearChange: (near: SearchNear | undefined) => void;
+    readonly onRadiusChange: (radius: GeographicDistance) => void;
     readonly sheet: boolean;
+    readonly wide?: boolean;
 }) {
     const { t } = useTranslation();
-    const { preferences } = useUserPreferences();
-    const radius = location?.radius ?? {
-        amount: DEFAULT_SEARCH_RADIUS_AMOUNT,
-        unit: defaultUnit(preferences.unitSystem),
-    };
-    // Distance and mode apply once a starting point is set and known; otherwise greyed out.
-    const active = location !== undefined && origin.status !== "unavailable";
+    const chosen = near !== undefined || savedOrigin?.selected === true;
+    // The distance applies once a starting point is set and known; otherwise greyed out.
+    const active = chosen && origin.status !== "unavailable";
     const [locating, setLocating] = useState(false);
     const [locateError, setLocateError] = useState<CurrentLocationFailure | undefined>();
 
-    const setNear = (near: SearchNear | undefined) => {
+    const setNear = (next: SearchNear | undefined) => {
         setLocateError(undefined);
-        if (!near) {
-            onChange(undefined);
-            return;
-        }
-        onChange({
-            kind: "DISTANCE",
-            near,
-            radius,
-            ...(location?.distanceOrder ? { distanceOrder: location.distanceOrder } : {}),
-        });
+        onNearChange(next);
     };
 
     const useCurrentLocation = () => {
@@ -506,10 +550,19 @@ function DistanceControls({
             .finally(() => setLocating(false));
     };
 
+    // Wide: Near and Within side by side, the messages below them across both columns.
+    const messageClass = wide ? "lg:col-span-2" : undefined;
+
     return (
-        <div className="flex flex-col gap-5">
+        <div
+            className={cn(
+                "flex flex-col gap-5",
+                wide && "lg:grid lg:max-w-[620px] lg:grid-cols-[minmax(0,1fr)_220px] lg:gap-x-4",
+            )}
+        >
             <NearField
-                near={location?.near}
+                near={near}
+                savedOrigin={savedOrigin}
                 origin={origin}
                 sheet={sheet}
                 locating={locating}
@@ -517,7 +570,7 @@ function DistanceControls({
                 onUseCurrentLocation={useCurrentLocation}
             />
             {locateError && (
-                <div role="alert" className="flex flex-col gap-2.5">
+                <div role="alert" className={cn("flex flex-col gap-2.5", messageClass)}>
                     <p className={cn(MESSAGE_CLASS, "text-oxblood")}>
                         {t(
                             locateError === "denied"
@@ -536,22 +589,27 @@ function DistanceControls({
                     )}
                 </div>
             )}
-            {location && origin.status === "unavailable" && (
+            {chosen && origin.status === "unavailable" && (
                 <OriginProblem
                     origin={origin}
                     locating={locating}
                     onUseCurrentLocation={useCurrentLocation}
+                    className={messageClass}
                 />
             )}
             <div
                 inert={!active}
                 aria-disabled={!active || undefined}
-                className={cn("flex flex-col gap-5", !active && "opacity-45 select-none")}
+                className={cn(
+                    "flex flex-col gap-5",
+                    wide && "lg:col-start-2 lg:row-start-1",
+                    !active && "opacity-45 select-none",
+                )}
             >
                 <RadiusField
                     radius={radius}
                     sheet={sheet}
-                    onChange={(next) => location && onChange({ ...location, radius: next })}
+                    onChange={(next) => chosen && onRadiusChange(next)}
                 />
             </div>
         </div>
@@ -560,6 +618,7 @@ function DistanceControls({
 
 function NearField({
     near,
+    savedOrigin,
     origin,
     sheet,
     locating,
@@ -567,6 +626,7 @@ function NearField({
     onUseCurrentLocation,
 }: {
     readonly near: SearchNear | undefined;
+    readonly savedOrigin?: SavedOriginOption;
     readonly origin: SearchOrigin;
     readonly sheet: boolean;
     readonly locating: boolean;
@@ -588,6 +648,22 @@ function NearField({
             label: t("search.location.everywhere"),
             description: t("search.location.everywhereHint"),
         },
+        ...(savedOrigin
+            ? [
+                  {
+                      value: SAVED,
+                      label: t("searchFilter.location.keepSaved"),
+                      description: t("searchFilter.location.keepSavedHint"),
+                      labelMark: (
+                          <Lock
+                              aria-hidden="true"
+                              className="size-3.5 shrink-0 text-ink-muted"
+                              strokeWidth={1.8}
+                          />
+                      ),
+                  },
+              ]
+            : []),
         ...(near?.kind === "CURRENT"
             ? [{ value: CURRENT, label: t("search.location.currentLocation") }]
             : []),
@@ -609,8 +685,17 @@ function NearField({
     const everywhere = options.findIndex((option) => option.value === EVERYWHERE);
     if (everywhere > 0) options.unshift(...options.splice(everywhere, 1));
 
-    const value = near ? serializeSearchNear(near) : EVERYWHERE;
-    const display = nearDisplay(near, origin, t);
+    const savedSelected = savedOrigin?.selected === true;
+    let value = EVERYWHERE;
+    if (savedSelected) value = SAVED;
+    else if (near) value = serializeSearchNear(near);
+    const display = savedSelected
+        ? {
+              label: t("searchFilter.location.savedOrigin"),
+              detail: t("searchFilter.location.savedOriginDetail"),
+          }
+        : nearDisplay(near, origin, t);
+    const hasStart = savedSelected || near !== undefined;
 
     const footer = (
         <div className="flex flex-col gap-1 border-t border-line-subtle pt-1.5">
@@ -690,9 +775,10 @@ function NearField({
                     options={options}
                     open={open}
                     onOpenChange={setOpen}
-                    onChange={(next) =>
-                        onChange(next === EVERYWHERE ? undefined : parseSearchNear(next))
-                    }
+                    onChange={(next) => {
+                        if (next === SAVED) savedOrigin?.onSelect();
+                        else onChange(next === EVERYWHERE ? undefined : parseSearchNear(next));
+                    }}
                     footer={footer}
                     className="w-[min(22.5rem,calc(100vw-2rem))]"
                     triggerClassName={cn(
@@ -703,7 +789,7 @@ function NearField({
                         <>
                             <NearIcon
                                 busy={locating || origin.status === "loading"}
-                                located={Boolean(near) && origin.status === "ready"}
+                                located={hasStart && origin.status === "ready"}
                             />
                             <span className="flex min-w-0 flex-1 flex-col leading-[1.25]">
                                 <span
@@ -729,7 +815,7 @@ function NearField({
                         </>
                     }
                 />
-                {near && (
+                {hasStart && (
                     <button
                         type="button"
                         aria-label={t("search.location.clearNear")}
@@ -814,10 +900,12 @@ function OriginProblem({
     origin,
     locating,
     onUseCurrentLocation,
+    className,
 }: {
     readonly origin: Extract<SearchOrigin, { status: "unavailable" }>;
     readonly locating: boolean;
     readonly onUseCurrentLocation: () => void;
+    readonly className?: string;
 }) {
     const { t } = useTranslation();
     const [geolocation, setGeolocation] = useState(false);
@@ -872,6 +960,7 @@ function OriginProblem({
             className={cn(
                 "flex flex-col gap-2.5",
                 !error && "rounded-lg bg-surface-sunken px-3 py-2.5",
+                className,
             )}
         >
             <p className={cn(MESSAGE_CLASS, error ? "text-oxblood" : "text-ink-secondary")}>
@@ -884,16 +973,30 @@ function OriginProblem({
 
 type RadiusError = "required" | "number" | "positive" | "maxKilometers" | "maxMiles";
 
-function validateRadius(text: string, unit: SearchDistanceUnit): RadiusError | undefined {
+function validateRadius(text: string, unit: DistanceUnit): RadiusError | undefined {
     const trimmed = text.trim().replace(",", ".");
     if (!trimmed) return "required";
     const amount = Number(trimmed);
     if (!Number.isFinite(amount)) return "number";
     if (amount <= 0) return "positive";
-    if (!parseSearchDistance(amount, unit)) {
+    if (!parseGeographicRadius(amount, unit)) {
         return unit === "MILES" ? "maxMiles" : "maxKilometers";
     }
     return undefined;
+}
+
+const OFFERED_UNITS: readonly DistanceUnit[] = ["KILOMETERS", "MILES"];
+
+/** The short name of a distance unit ("m", "yd"), for a unit a saved search was given elsewhere. */
+function formatUnitLabel(unit: DistanceUnit, language: string, t: (key: string) => string) {
+    if (unit === "KILOMETERS" || unit === "MILES") return t(`search.location.units.${unit}`);
+    const intlUnit = INTL_DISTANCE_UNITS[unit];
+    if (!intlUnit) return t("searchFilter.location.nauticalMilesUnit");
+    return (
+        new Intl.NumberFormat(language, { style: "unit", unit: intlUnit, unitDisplay: "short" })
+            .formatToParts(1)
+            .find((part) => part.type === "unit")?.value ?? unit
+    );
 }
 
 function RadiusField({
@@ -901,11 +1004,15 @@ function RadiusField({
     sheet,
     onChange,
 }: {
-    readonly radius: { readonly amount: number; readonly unit: SearchDistanceUnit };
+    readonly radius: GeographicDistance;
     readonly sheet: boolean;
-    readonly onChange: (radius: { amount: number; unit: SearchDistanceUnit }) => void;
+    readonly onChange: (radius: GeographicDistance) => void;
 }) {
     const { t, i18n } = useTranslation();
+    // A unit saved elsewhere (metres, yards…) stays on offer until the distance is changed.
+    const units = OFFERED_UNITS.includes(radius.unit)
+        ? OFFERED_UNITS
+        : [...OFFERED_UNITS, radius.unit];
     const inputId = useId();
     const errorId = useId();
     const [text, setText] = useState(radius.amount.toLocaleString(i18n.language));
@@ -916,7 +1023,7 @@ function RadiusField({
         setError(undefined);
     }, [radius.amount, i18n.language]);
 
-    const apply = useDebouncedCallback((value: string, unit: SearchDistanceUnit) => {
+    const apply = useDebouncedCallback((value: string, unit: DistanceUnit) => {
         const problem = validateRadius(value, unit);
         setError(problem);
         if (problem) return;
@@ -967,7 +1074,7 @@ function RadiusField({
                         value={radius.unit}
                         onChange={(event) => {
                             apply.cancel();
-                            const unit = event.target.value as SearchDistanceUnit;
+                            const unit = event.target.value as DistanceUnit;
                             const problem = validateRadius(text, unit);
                             setError(problem);
                             if (!problem) {
@@ -979,8 +1086,11 @@ function RadiusField({
                             sheet ? "text-base" : "text-sm",
                         )}
                     >
-                        <option value="KILOMETERS">{t("search.location.units.KILOMETERS")}</option>
-                        <option value="MILES">{t("search.location.units.MILES")}</option>
+                        {units.map((unit) => (
+                            <option key={unit} value={unit}>
+                                {formatUnitLabel(unit, i18n.language, t)}
+                            </option>
+                        ))}
                     </select>
                     <ChevronDown
                         aria-hidden="true"

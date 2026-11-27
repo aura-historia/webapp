@@ -23,6 +23,13 @@ const mockPreview = vi.hoisted(() =>
     ),
 );
 
+vi.mock("@/features/geography/hooks/useSubdivisionNames.ts", () => ({
+    useSubdivisionNames: () => ({
+        names: undefined,
+        formatSubdivisionName: (code: string) => code,
+    }),
+}));
+
 vi.mock("@/features/saved-searches/api/useSearchFilterPreviewProducts.ts", () => {
     class SearchFilterPreviewError extends Error {
         constructor(
@@ -71,6 +78,11 @@ function renderConfirmStep(
     );
 }
 
+/** The value text of the summary row labelled `label`. */
+function rowValue(label: string) {
+    return screen.getByText(label, { selector: "dt" }).nextElementSibling;
+}
+
 describe("SearchFilterWizardConfirmStep", () => {
     beforeEach(() => {
         vi.clearAllMocks();
@@ -95,6 +107,68 @@ describe("SearchFilterWizardConfirmStep", () => {
         expect(mockPreview).toHaveBeenCalledWith(
             expect.objectContaining({ enhancedSearchDescription: "Aktuelle Beschreibung" }),
             true,
+            undefined,
+        );
+    });
+
+    it("sends the geography the save will send to the preview", () => {
+        const geography = {
+            countries: [],
+            subdivisions: [],
+            origin: { latitude: 51.34, longitude: 12.37 },
+            radius: { amount: 50, unit: "KILOMETERS" as const },
+            mode: "APPROXIMATE" as const,
+        };
+        render(
+            <FormWrapper>
+                <SearchFilterWizardConfirmStep
+                    name="Filter"
+                    filters={{ q: "Tisch" }}
+                    location={{ geography, originLabel: "Zuhause" }}
+                    preview={{ geography, key: "address:a1:3|50KILOMETERS" }}
+                />
+            </FormWrapper>,
+        );
+
+        expect(mockPreview).toHaveBeenCalledWith(expect.anything(), true, {
+            geography,
+            key: "address:a1:3|50KILOMETERS",
+        });
+        expect(rowValue("Standort")).toHaveTextContent("Im Umkreis von 50 km um Zuhause");
+    });
+
+    it("waits with the preview while the starting point cannot be used", () => {
+        render(
+            <FormWrapper>
+                <SearchFilterWizardConfirmStep
+                    name="Filter"
+                    filters={{ q: "Tisch" }}
+                    preview="waiting"
+                />
+            </FormWrapper>,
+        );
+
+        expect(mockPreview).toHaveBeenCalledWith(expect.anything(), false, undefined);
+        expect(
+            screen.getByText("Die Vorschau erscheint, sobald der Ausgangspunkt bereit ist."),
+        ).toBeInTheDocument();
+    });
+
+    it("shows no preview for a kept location the app cannot send", () => {
+        render(
+            <FormWrapper>
+                <SearchFilterWizardConfirmStep
+                    name="Filter"
+                    filters={{ q: "Tisch" }}
+                    location={{ geography: "UNSUPPORTED" }}
+                    preview="unsupported"
+                />
+            </FormWrapper>,
+        );
+
+        expect(mockPreview).toHaveBeenCalledWith(expect.anything(), false, undefined);
+        expect(rowValue("Standort")).toHaveTextContent(
+            "Standort festgelegt – hier nicht darstellbar",
         );
     });
 
@@ -126,7 +200,7 @@ describe("SearchFilterWizardConfirmStep", () => {
             const onChangeStep = vi.fn();
             renderConfirmStep("Filter", { q: "" }, onChangeStep);
             fireEvent.click(screen.getByRole("button", { name: "Anbieter ändern" }));
-            expect(onChangeStep).toHaveBeenCalledWith(3);
+            expect(onChangeStep).toHaveBeenCalledWith(4);
         });
     });
 
