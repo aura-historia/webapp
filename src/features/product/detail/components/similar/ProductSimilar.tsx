@@ -1,5 +1,6 @@
 import { AlertTriangle, RefreshCw, SearchX } from "lucide-react";
-import type { ReactNode } from "react";
+import type { ComponentProps, ReactNode } from "react";
+import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
 import { isListingEnrichmentPending } from "@/data/internal/product/ListingEnrichment.ts";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel.tsx";
@@ -32,6 +33,57 @@ function SimilarSection({ children }: { readonly children: ReactNode }) {
     );
 }
 
+/** The rail's error, pending, unavailable or empty state, or none when there are items to show. */
+function similarRailState(
+    t: TFunction,
+    {
+        error,
+        isEmbeddingsPending,
+        embeddingsMayArrive,
+        isEmpty,
+    }: {
+        readonly error?: string;
+        readonly isEmbeddingsPending: boolean;
+        readonly embeddingsMayArrive: boolean;
+        readonly isEmpty: boolean;
+    },
+): ComponentProps<typeof ProductRailState> | undefined {
+    if (error !== undefined) {
+        return {
+            icon: AlertTriangle,
+            tone: "error",
+            title: t("product.similar.error.title"),
+            description: error,
+        };
+    }
+    if (isEmbeddingsPending && embeddingsMayArrive) {
+        return {
+            icon: RefreshCw,
+            tone: "neutral",
+            spinning: true,
+            title: t("product.similar.embeddingsPending.title"),
+            description: t("product.similar.embeddingsPending.description"),
+        };
+    }
+    if (isEmbeddingsPending) {
+        return {
+            icon: SearchX,
+            tone: "muted",
+            title: t("product.similar.embeddingsUnavailable.title"),
+            description: t("product.similar.embeddingsUnavailable.description"),
+        };
+    }
+    if (isEmpty) {
+        return {
+            icon: SearchX,
+            tone: "muted",
+            title: t("product.similar.noData.title"),
+            description: t("product.similar.noData.description"),
+        };
+    }
+    return undefined;
+}
+
 export function ProductSimilar({ productListingId, created, loadedAt }: ProductSimilarProps) {
     const { t } = useTranslation();
     const { data, isLoading, isError, error } = useSimilarProducts(productListingId);
@@ -61,36 +113,12 @@ export function ProductSimilar({ productListingId, created, loadedAt }: ProductS
         );
     }
 
-    const state = isError
-        ? {
-              icon: AlertTriangle,
-              tone: "error" as const,
-              title: t("product.similar.error.title"),
-              description: error?.message ?? t("product.similar.error.description"),
-          }
-        : data?.isEmbeddingsPending
-          ? embeddingsMayArrive
-              ? {
-                    icon: RefreshCw,
-                    tone: "neutral" as const,
-                    spinning: true,
-                    title: t("product.similar.embeddingsPending.title"),
-                    description: t("product.similar.embeddingsPending.description"),
-                }
-              : {
-                    icon: SearchX,
-                    tone: "muted" as const,
-                    title: t("product.similar.embeddingsUnavailable.title"),
-                    description: t("product.similar.embeddingsUnavailable.description"),
-                }
-          : !data?.products || data.products.length === 0
-            ? {
-                  icon: SearchX,
-                  tone: "muted" as const,
-                  title: t("product.similar.noData.title"),
-                  description: t("product.similar.noData.description"),
-              }
-            : undefined;
+    const state = similarRailState(t, {
+        error: isError ? (error?.message ?? t("product.similar.error.description")) : undefined,
+        isEmbeddingsPending: data?.isEmbeddingsPending ?? false,
+        embeddingsMayArrive,
+        isEmpty: !data?.products || data.products.length === 0,
+    });
 
     if (state || !data?.products) {
         return (
