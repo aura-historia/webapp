@@ -3776,7 +3776,9 @@
       "withoutIngestionMethod_one": "{{value}} without an ingestion method",
       "withoutIngestionMethod_other": "{{value}} without an ingestion method",
       "active_one": "{{value}} active",
-      "active_other": "{{value}} active"
+      "active_other": "{{value}} active",
+      "noticesSubmitted_one": "{{value}} submitted",
+      "noticesSubmitted_other": "{{value}} submitted"
     },
     "contentNotices": {
       "title": "Content notices",

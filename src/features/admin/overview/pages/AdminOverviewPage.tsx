@@ -79,26 +79,39 @@ type Total = {
     readonly to: AdminSectionRoute;
 };
 
+// Two columns on phones, three from 768px.
+const PHONE_COLUMNS = 2;
+const DESKTOP_COLUMNS = 3;
+
 function TotalTile({
     total,
     index,
+    count,
     format,
     language,
 }: {
     readonly total: Total;
     readonly index: number;
+    /** How many tiles the grid holds. */
+    readonly count: number;
     readonly format: Format;
     readonly language: string;
 }) {
-    // Two columns on phones, three from 768px; every tile but a row's first has a rule on its left.
-    const firstOnPhone = index % 2 === 0;
-    const firstOnDesktop = index % 3 === 0;
+    // Every tile but a row's first has a rule on its left.
+    const firstOnPhone = index % PHONE_COLUMNS === 0;
+    const firstOnDesktop = index % DESKTOP_COLUMNS === 0;
+    // A last tile that would sit alone in its row spans the row, so no empty cell is left beside it.
+    const isLast = index === count - 1;
+    const spansPhoneRow = isLast && firstOnPhone;
+    const spansDesktopRow = isLast && firstOnDesktop;
     return (
         <li
             className={cn(
                 "min-w-0 border-b border-line",
                 !firstOnPhone && "shadow-[inset_1px_0_0_var(--line)]",
                 firstOnDesktop ? "md:shadow-none" : "md:shadow-[inset_1px_0_0_var(--line)]",
+                spansPhoneRow && "col-span-2",
+                spansDesktopRow ? "md:col-span-3" : spansPhoneRow && "md:col-span-1",
             )}
         >
             <Link
@@ -289,6 +302,17 @@ function OverviewContent({
             detail: counted("adminOverview.totals.active", productListings.byLifecycle.active),
             to: "/$lng/admin/product-listings",
         },
+        {
+            id: "content-notices",
+            label: t("adminOverview.contentNotices.title"),
+            value: contentNotices.total,
+            detail: counted(
+                "adminOverview.totals.noticesSubmitted",
+                contentNotices.byState.submitted,
+            ),
+            flag: contentNotices.byState.submitted > 0,
+            to: "/$lng/admin/content-notices",
+        },
     ];
 
     return (
@@ -306,6 +330,7 @@ function OverviewContent({
                             key={total.id}
                             total={total}
                             index={index}
+                            count={totals.length}
                             format={format}
                             language={language}
                         />
@@ -501,8 +526,11 @@ function OverviewSkeleton() {
             <div className="flex flex-col gap-5">
                 {bar("h-8 w-40")}
                 <div className="grid grid-cols-2 gap-2.5 md:grid-cols-3">
-                    {[0, 1, 2, 3, 4, 5].map((index) => (
-                        <span key={index}>{bar("block h-28 rounded-sm")}</span>
+                    {/* One tile per total; the last spans its row, as the loaded tiles do. */}
+                    {[0, 1, 2, 3, 4, 5, 6].map((index) => (
+                        <span key={index} className={cn(index === 6 && "col-span-full")}>
+                            {bar("block h-28 rounded-sm")}
+                        </span>
                     ))}
                 </div>
             </div>

@@ -3776,7 +3776,9 @@
       "withoutIngestionMethod_one": "{{value}} ohne Erfassungsmethode",
       "withoutIngestionMethod_other": "{{value}} ohne Erfassungsmethode",
       "active_one": "{{value}} aktiv",
-      "active_other": "{{value}} aktiv"
+      "active_other": "{{value}} aktiv",
+      "noticesSubmitted_one": "{{value}} eingegangen",
+      "noticesSubmitted_other": "{{value}} eingegangen"
     },
     "contentNotices": {
       "title": "Meldungen",

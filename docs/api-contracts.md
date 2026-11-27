@@ -129,8 +129,9 @@ admin workflows in [admin workflows](admin-workflows.md).
     [backend#2941](https://github.com/aura-historia/backend/issues/2941)) and the overview's
     required `contentNotices` counts ([backend#2942](https://github.com/aura-historia/backend/issues/2942)):
     the admin review queue at `/{lng}/admin/content-notices` (#1357) reads them (see
-    [admin workflows](admin-workflows.md#content-notice-review)), and the overview maps the known
-    `contentNotices.byState` keys, ignoring new ones.
+    [admin workflows](admin-workflows.md#content-notice-review)), and the overview shows
+    `contentNotices.total` as a Totals tile and maps the known `contentNotices.byState` keys into a
+    panel, ignoring new ones.
   - **New access-token scope `content-notices:read`** for the admin reads: added to
     `ACCESS_TOKEN_SCOPES` in the administrator-only group with its label and description, so token
     and consent screens can show it.

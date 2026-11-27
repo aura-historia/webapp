@@ -2914,7 +2914,9 @@
       "withoutIngestionMethod_one": "{{value}} senza metodo di importazione",
       "withoutIngestionMethod_other": "{{value}} senza metodo di importazione",
       "active_one": "{{value}} attivo",
-      "active_other": "{{value}} attivi"
+      "active_other": "{{value}} attivi",
+      "noticesSubmitted_one": "{{value}} ricevuta",
+      "noticesSubmitted_other": "{{value}} ricevute"
     },
     "contentNotices": {
       "title": "Segnalazioni",
