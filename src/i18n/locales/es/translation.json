@@ -2914,7 +2914,9 @@
       "withoutIngestionMethod_one": "{{value}} sin método de importación",
       "withoutIngestionMethod_other": "{{value}} sin método de importación",
       "active_one": "{{value}} activo",
-      "active_other": "{{value}} activos"
+      "active_other": "{{value}} activos",
+      "noticesSubmitted_one": "{{value}} recibido",
+      "noticesSubmitted_other": "{{value}} recibidos"
     },
     "contentNotices": {
       "title": "Avisos de contenido",

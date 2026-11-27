@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { render, screen, within } from "@testing-library/react";
+import { cleanup, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import testI18n from "@/i18n/i18nForTests";
@@ -53,6 +53,18 @@ describe("AdminOverviewPage", () => {
         render(<AdminOverviewPage language="de" />);
     }
 
+    function renderWithNotices(total: number, submitted: number) {
+        api.useAdminOverview.mockReturnValue({
+            data: mapToAdminOverview({
+                ...adminOverviewFixture,
+                contentNotices: { total, byState: { submitted } },
+            }),
+            error: null,
+            isPending: false,
+        });
+        render(<AdminOverviewPage language="de" />);
+    }
+
     it("summarises each aggregate total, including zero", () => {
         renderLoaded();
 
@@ -69,6 +81,12 @@ describe("AdminOverviewPage", () => {
         ).toBeTruthy();
         expect(within(summaryTile("adminOverview.parties.title")).getByText("0")).toBeTruthy();
         expect(within(summaryTile("adminOverview.partnerships.title")).getByText("2")).toBeTruthy();
+        // A zero count is a figure, not a missing one.
+        expect(
+            within(summaryTile("adminOverview.contentNotices.title")).getByText(
+                t("adminOverview.totals.noticesSubmitted", { count: 0, value: "0" }),
+            ),
+        ).toBeTruthy();
         expect(
             within(summaryTile("adminOverview.productListings.title")).getByText("40"),
         ).toBeTruthy();
@@ -123,16 +141,47 @@ describe("AdminOverviewPage", () => {
         expect(within(empty).queryByRole("link")).toBeNull();
     });
 
+    it("totals the content notices and counts those still submitted", () => {
+        renderWithNotices(12, 7);
+
+        const tile = within(summaryTile("adminOverview.contentNotices.title"));
+        // The figure is every notice; the detail is the ones in the submitted state.
+        expect(tile.getByText("12")).toBeTruthy();
+        expect(
+            tile.getByText(t("adminOverview.totals.noticesSubmitted", { count: 7, value: "7" })),
+        ).toBeTruthy();
+    });
+
+    // The attention mark is the only decorative span inside a tile.
+    const marks = (tile: HTMLElement) => tile.querySelectorAll('span[aria-hidden="true"]');
+
+    it("marks the content notices tile while notices are submitted", () => {
+        renderWithNotices(7, 7);
+
+        expect(marks(summaryTile("adminOverview.contentNotices.title"))).toHaveLength(1);
+    });
+
+    it("leaves the content notices tile unmarked when none are submitted", () => {
+        renderWithNotices(7, 0);
+
+        expect(marks(summaryTile("adminOverview.contentNotices.title"))).toHaveLength(0);
+    });
+
+    it("lets the last tile take its row, so no empty cell is left beside it", () => {
+        renderLoaded();
+
+        const totals = screen.getByRole("list", { name: t("adminOverview.summary.label") });
+        const tiles = within(totals).getAllByRole("listitem");
+        expect(tiles).toHaveLength(7);
+        // Seven tiles: the last would sit alone in the second column on phones, the third on desktop.
+        expect(tiles[6]).toHaveClass("col-span-2", "md:col-span-3");
+        for (const tile of tiles.slice(0, 6)) {
+            expect(tile.className).not.toMatch(/col-span/);
+        }
+    });
+
     it("calls out submitted content notices with a link to review them", () => {
-        api.useAdminOverview.mockReturnValue({
-            data: mapToAdminOverview({
-                ...adminOverviewFixture,
-                contentNotices: { total: 7, byState: { submitted: 7 } },
-            }),
-            error: null,
-            isPending: false,
-        });
-        render(<AdminOverviewPage language="de" />);
+        renderWithNotices(7, 7);
 
         const notices = card("adminOverview.contentNotices.title");
         expect(notices).toHaveTextContent(
@@ -175,6 +224,7 @@ describe("AdminOverviewPage", () => {
             ["adminOverview.parties.title", "/de/admin/parties"],
             ["adminOverview.listingSources.title", "/de/admin/listing-sources"],
             ["adminOverview.productListings.title", "/de/admin/product-listings"],
+            ["adminOverview.contentNotices.title", "/de/admin/content-notices"],
         ];
         for (const [key, href] of tiles) {
             expect(within(summaryTile(key)).getByRole("link").getAttribute("href")).toBe(href);
@@ -192,6 +242,17 @@ describe("AdminOverviewPage", () => {
         expect(screen.getByText(t("adminOverview.loading"))).toBeTruthy();
         expect(screen.queryByText("0")).toBeNull();
         expect(screen.queryByRole("list", { name: t("adminOverview.summary.label") })).toBeNull();
+    });
+
+    it("keeps one skeleton tile per total while loading, so the grid does not reflow", () => {
+        api.useAdminOverview.mockReturnValue({ data: undefined, error: null, isPending: true });
+        const { container } = render(<AdminOverviewPage language="de" />);
+        const loadingTiles = container.querySelectorAll("[aria-busy] .grid-cols-2 > span").length;
+        cleanup();
+
+        renderLoaded();
+        const totals = screen.getByRole("list", { name: t("adminOverview.summary.label") });
+        expect(loadingTiles).toBe(within(totals).getAllByRole("listitem").length);
     });
 
     it("shows an error with retry instead of zero counts when unavailable", async () => {

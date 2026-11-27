@@ -285,8 +285,10 @@ no decision states or actions yet, so every notice is `SUBMITTED` and nothing ca
 - Notices hold personal data: the queries keep it for a minute after the page stops using it
   (`gcTime`), the dialog releases its retained values on close, and nothing is logged or put into a
   URL except the e-mail inside that `mailto:`.
-- The overview shows the `contentNotices` counts in a panel under Applications, with a Review link
-  while notices are submitted; unknown future state keys are ignored.
+- The overview shows the `contentNotices` counts twice: as the last Totals tile (every notice, with
+  the submitted count as its detail and a brass ring while any are submitted; it links here) and in
+  a panel under Applications, with a Review link while notices are submitted. Unknown future state
+  keys are ignored.
 
 ## Other workflows
 
