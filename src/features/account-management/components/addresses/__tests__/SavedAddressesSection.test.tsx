@@ -13,7 +13,11 @@ const api = vi.hoisted(() => ({
     update: vi.fn(),
     remove: vi.fn(),
     suggest: vi.fn(),
+    getDestination: vi.fn(),
+    setDestination: vi.fn(),
 }));
+const toasts = vi.hoisted(() => ({ success: vi.fn(), error: vi.fn(), info: vi.fn() }));
+vi.mock("sonner", () => ({ toast: toasts }));
 vi.mock("@/client", () => ({
     suggestAddresses: api.suggest,
     listUserAddresses: api.list,
@@ -21,6 +25,8 @@ vi.mock("@/client", () => ({
     getUserAddress: api.get,
     updateUserAddress: api.update,
     deleteUserAddress: api.remove,
+    getBrowsingDestination: api.getDestination,
+    setBrowsingDestination: api.setDestination,
 }));
 vi.mock("@tanstack/react-router", () => ({
     Link: ({ children }: { children: ReactNode }) => <a href="/login">{children}</a>,
@@ -87,6 +93,9 @@ describe("SavedAddressesSection", () => {
     beforeEach(() => {
         vi.clearAllMocks();
         suggest();
+        api.getDestination.mockResolvedValue(
+            ok({ version: 4, destination: { kind: "ADDRESS", addressId: "uaddr_1" } }),
+        );
         serve(
             dto(),
             dto({
@@ -105,7 +114,9 @@ describe("SavedAddressesSection", () => {
         if (!home) throw new Error("row missing");
         const row = within(home);
 
-        expect(row.getByText(t("account.addresses.searchLocation"))).toBeInTheDocument();
+        expect(
+            await row.findByRole("switch", { name: t("account.addresses.searchLocationSwitch") }),
+        ).toBeChecked();
         expect(row.getByText(/Torstraße 12/)).toBeInTheDocument();
         expect(row.getByText(t("account.addresses.yourDetails"))).toBeInTheDocument();
         expect(row.getByText(t("account.addresses.location"))).toBeInTheDocument();
@@ -123,7 +134,7 @@ describe("SavedAddressesSection", () => {
         // No provider values or attribution without an accepted resolution.
         expect(storage.queryByRole("link")).toBeNull();
         expect(storage.queryByText(t("account.addresses.yourDetails"))).toBeNull();
-        expect(storage.queryByText(t("account.addresses.searchLocation"))).toBeNull();
+        expect(storage.getByRole("switch")).not.toBeChecked();
     });
 
     it("shows no location line while the lookup is still running", async () => {
@@ -420,5 +431,133 @@ describe("SavedAddressesSection", () => {
             ),
         );
         await waitFor(() => expect(screen.queryByRole("heading", { name: "Home" })).toBeNull());
+    });
+
+    describe("search location switch", () => {
+        const switchOf = async (label: string) => {
+            const heading = await screen.findByRole("heading", { name: label });
+            const row = within(heading.closest("li") as HTMLElement);
+            const toggle = row.getByRole("switch");
+            await waitFor(() => expect(toggle).toBeEnabled());
+            return toggle;
+        };
+
+        it("explains the search location above the list", async () => {
+            renderSection();
+            expect(
+                await screen.findByText(t("account.addresses.searchLocationNote")),
+            ).toBeInTheDocument();
+        });
+
+        it("moves the search location to another address at the version that was read", async () => {
+            api.setDestination.mockResolvedValue(
+                ok({ version: 5, destination: { kind: "ADDRESS", addressId: "uaddr_2" } }),
+            );
+            renderSection();
+            const storage = await switchOf("Storage unit");
+            fireEvent.click(storage);
+
+            await waitFor(() =>
+                expect(api.setDestination).toHaveBeenCalledWith(
+                    expect.objectContaining({
+                        body: {
+                            expectedVersion: 4,
+                            destination: { kind: "ADDRESS", addressId: "uaddr_2" },
+                        },
+                    }),
+                ),
+            );
+            await waitFor(() => expect(storage).toBeChecked());
+            expect(await switchOf("Home")).not.toBeChecked();
+            expect(toasts.success).toHaveBeenCalledWith(
+                t("account.addresses.toasts.searchLocationSet", { label: "Storage unit" }),
+            );
+        });
+
+        it("clears the search location when the active switch is turned off", async () => {
+            api.setDestination.mockResolvedValue(ok({ version: 5, destination: { kind: "NONE" } }));
+            renderSection();
+            const home = await switchOf("Home");
+            fireEvent.click(home);
+
+            await waitFor(() =>
+                expect(api.setDestination).toHaveBeenCalledWith(
+                    expect.objectContaining({
+                        body: { expectedVersion: 4, destination: { kind: "NONE" } },
+                    }),
+                ),
+            );
+            await waitFor(() => expect(home).not.toBeChecked());
+            expect(toasts.success).toHaveBeenCalledWith(
+                t("account.addresses.toasts.searchLocationOff"),
+            );
+        });
+
+        it("locks every switch while a save runs", async () => {
+            let finish: (value: unknown) => void = () => undefined;
+            api.setDestination.mockReturnValue(
+                new Promise((resolve) => {
+                    finish = resolve;
+                }),
+            );
+            renderSection();
+            const storage = await switchOf("Storage unit");
+            const home = await switchOf("Home");
+            fireEvent.click(storage);
+
+            await waitFor(() => expect(storage).toBeChecked());
+            expect(storage).toBeDisabled();
+            expect(home).toBeDisabled();
+            expect(home).not.toBeChecked();
+            finish(ok({ version: 5, destination: { kind: "ADDRESS", addressId: "uaddr_2" } }));
+            await waitFor(() => expect(home).toBeEnabled());
+        });
+
+        it("puts the switch back and says so when the save fails", async () => {
+            api.setDestination.mockResolvedValue(failure(500));
+            renderSection();
+            const storage = await switchOf("Storage unit");
+            fireEvent.click(storage);
+
+            await waitFor(() =>
+                expect(toasts.error).toHaveBeenCalledWith(
+                    t("account.addresses.toasts.searchLocationFailed"),
+                ),
+            );
+            await waitFor(() => expect(storage).not.toBeChecked());
+            expect(await switchOf("Home")).toBeChecked();
+        });
+
+        it("shows the latest choice after a change on another device", async () => {
+            api.setDestination.mockResolvedValue(failure(409));
+            renderSection();
+            const storage = await switchOf("Storage unit");
+            api.getDestination.mockResolvedValue(ok({ version: 6, destination: { kind: "NONE" } }));
+            fireEvent.click(storage);
+
+            expect(await screen.findByRole("alert")).toHaveTextContent(
+                t("account.addresses.searchLocationConflict.title"),
+            );
+            await waitFor(async () => expect(await switchOf("Home")).not.toBeChecked());
+            expect(storage).not.toBeChecked();
+            expect(toasts.error).not.toHaveBeenCalled();
+        });
+
+        it("offers to reload when the search location cannot be read", async () => {
+            api.getDestination.mockResolvedValue(failure(500));
+            renderSection();
+            const heading = await screen.findByRole("heading", { name: "Home" });
+            const alert = await screen.findByRole("alert");
+            expect(alert).toHaveTextContent(t("account.addresses.searchLocationLoadError"));
+            expect(within(heading.closest("li") as HTMLElement).getByRole("switch")).toBeDisabled();
+
+            api.getDestination.mockResolvedValue(
+                ok({ version: 4, destination: { kind: "ADDRESS", addressId: "uaddr_1" } }),
+            );
+            fireEvent.click(
+                within(alert).getByRole("button", { name: t("account.addresses.retry") }),
+            );
+            await waitFor(() => expect(screen.queryByRole("alert")).toBeNull());
+        });
     });
 });

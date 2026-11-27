@@ -1,12 +1,20 @@
 import { Link } from "@tanstack/react-router";
-import { CircleAlert, Lock, MapPin, Plus, TriangleAlert } from "lucide-react";
+import { CircleAlert, Info, Lock, MapPin, Plus, TriangleAlert } from "lucide-react";
 import { type ReactNode, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
+import { toast } from "sonner";
 import { Spinner } from "@/components/ui/spinner";
 import type { UserAddress } from "@/data/internal/geography/UserAddress.ts";
 import { AddressEditorDialog } from "@/features/account-management/components/addresses/AddressEditorDialog.tsx";
 import { DeleteAddressDialog } from "@/features/account-management/components/addresses/DeleteAddressDialog.tsx";
-import { SavedAddressRow } from "@/features/account-management/components/addresses/SavedAddressRow.tsx";
+import {
+    SavedAddressRow,
+    type SearchLocationSwitchState,
+} from "@/features/account-management/components/addresses/SavedAddressRow.tsx";
+import {
+    useBrowsingDestination,
+    useSetBrowsingDestination,
+} from "@/features/account-management/hooks/useBrowsingDestination.ts";
 import {
     UserAddressRequestError,
     useUserAddressList,
@@ -15,6 +23,7 @@ import { CARD_CLASS, GROUP_LABEL_CLASS } from "@/features/account-management/lib
 import {
     ADDRESS_PRIMARY_BUTTON_CLASS,
     ADDRESS_ROW_BUTTON_CLASS,
+    addressAlertClass,
 } from "@/features/account-management/lib/addressStyles.ts";
 import { useResolvedAuth } from "@/features/authentication/hooks/useResolvedAuth.ts";
 import { HEADLINE_COMPONENTS } from "@/features/landing/components/common/SectionHeading.tsx";
@@ -25,7 +34,11 @@ type DialogState =
     | { readonly kind: "edit"; readonly address: UserAddress }
     | { readonly kind: "delete"; readonly address: UserAddress };
 
-/** The account page's saved addresses card (board "Account · Saved addresses section"). */
+/**
+ * The account page's saved addresses card (board "Account · #1391 Saved addresses with search
+ * location switch"). Each row carries the search location switch: at most one is on, turning it
+ * off clears the search location, and every switch saves at once at the version that was read.
+ */
 export function SavedAddressesSection() {
     const { user } = useResolvedAuth();
     // A different viewer never sees another viewer's list, draft or dialog.
@@ -42,6 +55,7 @@ function SavedAddressesCard({ viewerCacheKey }: { readonly viewerCacheKey: strin
     const [dialog, setDialog] = useState<DialogState>();
     const addresses = list.data?.pages.flatMap((page) => page.items) ?? [];
     const accessLost = list.error instanceof UserAddressRequestError && list.error.isAccessLoss;
+    const searchLocation = useSearchLocationSwitches(viewerCacheKey);
 
     // After a delete conflict the refreshed list carries the current version.
     const current = (address: UserAddress) =>
@@ -61,6 +75,7 @@ function SavedAddressesCard({ viewerCacheKey }: { readonly viewerCacheKey: strin
                         <SavedAddressRow
                             key={address.addressId}
                             address={address}
+                            searchLocation={searchLocation.switchFor(address)}
                             onEdit={() => setDialog({ kind: "edit", address })}
                             onDelete={() => setDialog({ kind: "delete", address })}
                         />
@@ -127,6 +142,51 @@ function SavedAddressesCard({ viewerCacheKey }: { readonly viewerCacheKey: strin
                     </button>
                 )}
             </div>
+            {!accessLost && (
+                <p className="flex items-start gap-2.5 rounded-md bg-surface-sunken px-3.5 py-3 text-meta leading-normal text-ink-secondary">
+                    <Info
+                        aria-hidden="true"
+                        className="mt-px size-4 shrink-0 text-ink-muted"
+                        strokeWidth={1.8}
+                    />
+                    {t("account.addresses.searchLocationNote")}
+                </p>
+            )}
+            {searchLocation.loadFailed && !accessLost && (
+                <div
+                    role="alert"
+                    className="flex flex-wrap items-center justify-between gap-3 rounded-md bg-surface px-3.5 py-2.5 shadow-ring"
+                >
+                    <span className="inline-flex items-center gap-2 text-sm text-oxblood">
+                        <CircleAlert aria-hidden="true" className="size-[15px]" strokeWidth={2} />
+                        {t("account.addresses.searchLocationLoadError")}
+                    </span>
+                    <button
+                        type="button"
+                        onClick={searchLocation.retry}
+                        className={ADDRESS_ROW_BUTTON_CLASS}
+                    >
+                        {t("account.addresses.retry")}
+                    </button>
+                </div>
+            )}
+            {searchLocation.conflict && (
+                <div role="alert" className={addressAlertClass("danger")}>
+                    <CircleAlert
+                        aria-hidden="true"
+                        className="mt-0.5 size-[18px] shrink-0 text-oxblood"
+                        strokeWidth={1.8}
+                    />
+                    <div className="flex flex-col gap-1">
+                        <p className="font-medium">
+                            {t("account.addresses.searchLocationConflict.title")}
+                        </p>
+                        <p className="leading-[1.55] text-ink-secondary">
+                            {t("account.addresses.searchLocationConflict.body")}
+                        </p>
+                    </div>
+                </div>
+            )}
             {body}
 
             {dialog?.kind === "create" && (
@@ -153,6 +213,75 @@ function SavedAddressesCard({ viewerCacheKey }: { readonly viewerCacheKey: strin
             )}
         </div>
     );
+}
+
+/**
+ * The rows' search location switches. While a save runs the switch already shows its new place
+ * and every switch locks; a failure puts it back and says why.
+ */
+function useSearchLocationSwitches(viewerCacheKey: string) {
+    const { t } = useTranslation();
+    const destination = useBrowsingDestination(viewerCacheKey);
+    const save = useSetBrowsingDestination(viewerCacheKey);
+    const [target, setTarget] = useState<{ readonly addressId: string; readonly on: boolean }>();
+
+    const view = destination.data;
+    const savedId = view?.destination.kind === "ADDRESS" ? view.destination.addressId : undefined;
+    const busy = save.isPending && target !== undefined;
+    let selectedId = savedId;
+    if (busy) selectedId = target.on ? target.addressId : undefined;
+
+    const toggle = (address: UserAddress) => {
+        if (!view || save.isPending) return;
+        const on = savedId !== address.addressId;
+        setTarget({ addressId: address.addressId, on });
+        save.mutate(
+            {
+                destination: on
+                    ? { kind: "ADDRESS", addressId: address.addressId }
+                    : { kind: "NONE" },
+                expectedVersion: view.version,
+            },
+            {
+                onSuccess: () =>
+                    toast.success(
+                        on
+                            ? t("account.addresses.toasts.searchLocationSet", {
+                                  label: address.label,
+                              })
+                            : t("account.addresses.toasts.searchLocationOff"),
+                    ),
+                onError: (error) => {
+                    if (error instanceof UserAddressRequestError) {
+                        if (error.isConflict || error.isAccessLoss) return;
+                        if (error.isNotFound) {
+                            toast.info(t("account.addresses.toasts.missing"));
+                            return;
+                        }
+                    }
+                    toast.error(t("account.addresses.toasts.searchLocationFailed"));
+                },
+            },
+        );
+    };
+
+    return {
+        conflict: save.problem === "conflict",
+        // Without the current version no switch can save; access loss shows on the list instead.
+        loadFailed:
+            destination.isError &&
+            !(
+                destination.error instanceof UserAddressRequestError &&
+                destination.error.isAccessLoss
+            ),
+        retry: () => void destination.refetch(),
+        switchFor: (address: UserAddress): SearchLocationSwitchState => ({
+            checked: selectedId === address.addressId,
+            disabled: !view || save.isPending,
+            pending: busy && target.addressId === address.addressId,
+            onToggle: () => toggle(address),
+        }),
+    };
 }
 
 function StatePanel({
@@ -272,6 +401,10 @@ function RowsSkeleton() {
                     <div className={cn(SKELETON_BAR, "h-[18px] w-[140px]")} />
                     <div className={cn(SKELETON_BAR, "h-3 w-[70%]")} />
                     <div className={cn(SKELETON_BAR, "h-3 w-[46%]")} />
+                    <div className="mt-1 flex items-center gap-2.5">
+                        <div className="h-5 w-[34px] rounded-pill bg-surface-sunken" />
+                        <div className={cn(SKELETON_BAR, "h-3 w-40")} />
+                    </div>
                 </div>
             ))}
         </div>

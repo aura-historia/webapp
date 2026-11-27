@@ -569,7 +569,10 @@
         "updated": "Indirizzo aggiornato",
         "deleted": "Indirizzo eliminato",
         "deleteFailed": "Non è stato possibile eliminare l’indirizzo. Riprovate.",
-        "missing": "Questo indirizzo non esiste più."
+        "missing": "Questo indirizzo non esiste più.",
+        "searchLocationSet": "Posizione di ricerca impostata su {{label}}",
+        "searchLocationOff": "Posizione di ricerca disattivata",
+        "searchLocationFailed": "Non è stato possibile salvare la posizione di ricerca. Riprovate."
       },
       "validation": {
         "labelRequired": "Inserite un nome per questo indirizzo.",
@@ -585,7 +588,6 @@
         "invalid": "Non è stato possibile salvare l’indirizzo. Controllate i dati inseriti.",
         "requestFailed": "La richiesta non è riuscita. Riprovate."
       },
-      "searchLocation": "Posizione di ricerca",
       "located": "Localizzato",
       "notLocated": {
         "label": "Non localizzato",
@@ -611,97 +613,13 @@
           "REGION": "Regione",
           "OTHER": "Luogo"
         }
-      }
-    },
-    "searchLocation": {
-      "title": "Posizione di ricerca",
-      "description": "Un luogo da cui calcoliamo distanze e risultati regionali per voi. Solo voi potete vederlo.",
-      "currently": "Attualmente",
-      "current": {
-        "none": "Nessuna posizione di ricerca",
-        "unavailable": "Un indirizzo salvato che non è più disponibile",
-        "unsupported": "Una posizione di ricerca che non può essere mostrata qui",
-        "postalCode": "Codice postale {{postalCode}}",
-        "noPostalCode": "Nessun codice postale"
       },
-      "notice": {
-        "cleared": "La vostra posizione di ricerca era un indirizzo salvato che è stato eliminato, quindi ora non ne viene usata nessuna.",
-        "unavailable": "L’indirizzo salvato che avete scelto non è più disponibile. Scegliete un altro luogo o mantenete nessuna posizione di ricerca.",
-        "unsupported": "Per mantenere questa posizione di ricerca, lasciate questa sezione così com’è. Salvare una nuova scelta la sostituisce."
-      },
-      "legend": "Usa come posizione di ricerca",
-      "choices": {
-        "NONE": {
-          "title": "Nessuna posizione di ricerca",
-          "description": "Distanze e risultati regionali non vengono calcolati per voi."
-        },
-        "ADDRESS": {
-          "title": "Uno dei miei indirizzi salvati",
-          "description": "Viene usata la posizione dell’indirizzo così com’è. Se modificate l’indirizzo in seguito, si aggiorna.",
-          "descriptionEmpty": "Non avete ancora indirizzi salvati."
-        },
-        "COUNTRY_POSTAL": {
-          "title": "Un paese",
-          "description": "Con un codice postale, se volete. Nulla viene ricavato dalla vostra lingua, valuta o connessione."
-        }
-      },
-      "address": {
-        "label": "Indirizzo salvato",
-        "placeholder": "Scegliete un indirizzo",
-        "notLocated": "Non localizzato",
-        "notLocatedHint": "Questo indirizzo non è ancora localizzato, quindi non è possibile calcolare le distanze. Modificatelo in Indirizzi salvati e scegliete un suggerimento per localizzarlo.",
-        "showMore": "Mostra altri indirizzi",
-        "empty": "Non avete ancora indirizzi salvati. Aggiungetene uno, poi sceglietelo qui.",
-        "add": "Aggiungi indirizzo",
-        "loadError": "Non è stato possibile caricare i vostri indirizzi salvati."
-      },
-      "country": {
-        "label": "Paese",
-        "placeholder": "Scegliete un paese",
-        "search": "Cerca paesi",
-        "searchPlaceholder": "Cerca paesi…",
-        "noCountries": "Nessun paese trovato."
-      },
-      "postalCode": {
-        "label": "Codice postale",
-        "optional": "(facoltativo)",
-        "hint": "Salvato esattamente come lo digitate."
-      },
-      "validation": {
-        "addressRequired": "Scegliete uno dei vostri indirizzi salvati.",
-        "addressGone": "Questo indirizzo non esiste più. Il vostro elenco è stato aggiornato. Sceglietene un altro.",
-        "countryRequired": "Scegliete un paese dall’elenco.",
-        "postalCodeInvalid": "Usate un codice postale più breve su una sola riga."
-      },
-      "conflict": {
-        "title": "La vostra posizione di ricerca è stata modificata altrove.",
-        "body": "«Attualmente» ora mostra la posizione di ricerca salvata. La vostra scelta resta qui sopra. Salvate di nuovo per sostituirla."
-      },
-      "saveError": {
-        "title": "Non è stato possibile salvare la vostra posizione di ricerca.",
-        "body": "La vostra scelta resta. Riprovate."
-      },
-      "errors": {
-        "loadFailed": "Non è stato possibile caricare la vostra posizione di ricerca."
-      },
-      "distinction": "La posizione di ricerca non è un indirizzo di spedizione, di fatturazione o di residenza. Le vostre ricerche e ricerche salvate mantengono la propria posizione e non cambiano.",
-      "save": "Salva posizione di ricerca",
-      "saveAgain": "Salva la mia scelta",
-      "saving": "Salvataggio…",
-      "toasts": {
-        "saved": "Posizione di ricerca salvata",
-        "cleared": "Posizione di ricerca rimossa"
-      },
-      "loading": "Caricamento della vostra posizione di ricerca",
-      "error": {
-        "title": "Non è stato possibile <em>caricare</em> la vostra posizione di ricerca.",
-        "description": "Riprovate tra un momento."
-      },
-      "retry": "Riprova",
-      "accessLost": {
-        "title": "La vostra posizione di ricerca non è <em>disponibile.</em>",
-        "description": "La vostra sessione non consente più di accedervi. Accedete di nuovo per vedere la vostra posizione di ricerca.",
-        "action": "Accedi di nuovo"
+      "searchLocationNote": "La vostra posizione di ricerca è l’indirizzo che usiamo per mostrare se gli annunci possono esservi spediti. Potete sceglierne uno alla volta.",
+      "searchLocationSwitch": "Usa come posizione di ricerca",
+      "searchLocationLoadError": "Non è stato possibile caricare la vostra posizione di ricerca.",
+      "searchLocationConflict": {
+        "title": "Modificata su un altro dispositivo",
+        "body": "La vostra posizione di ricerca è stata modificata altrove. Gli interruttori mostrano ora la scelta più recente; riprovate se ne volete un’altra."
       }
     }
   },

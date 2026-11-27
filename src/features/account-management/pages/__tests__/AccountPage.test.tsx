@@ -19,13 +19,6 @@ vi.mock("@/features/account-management/components/addresses/SavedAddressesSectio
     SavedAddressesSection: () => <div>Saved Addresses Section</div>,
 }));
 
-vi.mock(
-    "@/features/account-management/components/searchLocation/SearchLocationSection.tsx",
-    () => ({
-        SearchLocationSection: () => <div>Search Location Section</div>,
-    }),
-);
-
 vi.mock("@/features/account-management/components/DeleteAccountForm.tsx", () => ({
     DeleteAccountForm: () => <div>Delete Account Form</div>,
 }));
@@ -46,15 +39,12 @@ describe("AccountPage", () => {
         expect(screen.getByText("test@example.com")).toBeInTheDocument();
 
         const nav = screen.getByRole("navigation", { name: "Account-Bereiche" });
-        expect(nav.querySelectorAll("a")).toHaveLength(6);
+        expect(nav.querySelectorAll("a")).toHaveLength(5);
         expect(screen.getByRole("link", { name: /Gespeicherte Adressen/ })).toHaveAttribute(
             "href",
             "#saved-addresses",
         );
-        expect(screen.getByRole("link", { name: /Suchstandort/ })).toHaveAttribute(
-            "href",
-            "#search-location",
-        );
+        expect(screen.queryByRole("link", { name: /Suchstandort/ })).toBeNull();
         expect(screen.getByRole("link", { name: /Passwort ändern/ })).toHaveAttribute(
             "href",
             "#change-password",
@@ -63,7 +53,6 @@ describe("AccountPage", () => {
         for (const title of [
             "Persönliche Daten",
             "Gespeicherte Adressen",
-            "Suchstandort",
             "Passwort ändern",
             "Abonnement",
             "Account löschen",
@@ -73,7 +62,6 @@ describe("AccountPage", () => {
 
         expect(screen.getByText("Personal Data Form")).toBeInTheDocument();
         expect(screen.getByText("Saved Addresses Section")).toBeInTheDocument();
-        expect(screen.getByText("Search Location Section")).toBeInTheDocument();
         expect(screen.getByText("Change Password Form")).toBeInTheDocument();
         expect(screen.getByText("Delete Account Form")).toBeInTheDocument();
         expect(screen.getByText("Subscription Plan Section")).toBeInTheDocument();

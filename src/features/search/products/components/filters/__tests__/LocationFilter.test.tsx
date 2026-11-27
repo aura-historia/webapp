@@ -243,6 +243,13 @@ describe("LocationFilter", () => {
                 "aria-disabled",
                 "true",
             );
+            // The search location is marked by a star named "Suchstandort", and only it.
+            expect(
+                within(screen.getByRole("option", { name: /Zuhause/ })).getByRole("img", {
+                    name: "Suchstandort",
+                }),
+            ).toBeInTheDocument();
+            expect(within(listbox).getAllByRole("img", { name: "Suchstandort" })).toHaveLength(1);
 
             await user.click(screen.getByRole("option", { name: /Büro/ }));
             await waitFor(() =>

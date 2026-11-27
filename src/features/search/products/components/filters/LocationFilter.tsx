@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { ChevronDown, Crosshair, Globe, MapPin, Search, X } from "lucide-react";
+import { ChevronDown, Crosshair, Globe, MapPin, Search, Star, X } from "lucide-react";
 import { type KeyboardEvent, type ReactNode, useEffect, useId, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDebouncedCallback } from "use-debounce";
@@ -754,16 +754,29 @@ function NearField({
     );
 }
 
-/** The tag beside a saved address in the Near picker. */
+/** The marks beside a saved address in the Near picker: a star for the search location, a ring when not located. */
 function addressDetail(
     preferred: boolean,
     located: boolean,
     t: (key: string) => string,
-): Pick<PreferenceOption, "detail" | "detailMark"> {
-    if (preferred) return { detail: t("search.location.searchLocationTag") };
-    if (!located)
-        return { detail: t("search.location.notLocated"), detailMark: <NotLocatedMark /> };
-    return {};
+): Pick<PreferenceOption, "detail" | "detailMark" | "labelMark"> {
+    return {
+        ...(preferred
+            ? {
+                  labelMark: (
+                      <Star
+                          role="img"
+                          aria-label={t("search.location.searchLocationTag")}
+                          className="size-3.5 shrink-0 fill-current text-brass-ink"
+                          strokeWidth={1.6}
+                      />
+                  ),
+              }
+            : {}),
+        ...(located
+            ? {}
+            : { detail: t("search.location.notLocated"), detailMark: <NotLocatedMark /> }),
+    };
 }
 
 /** Spinner while the starting point loads, a pin once it is known, a globe for Everywhere. */

@@ -681,9 +681,11 @@ To sync a backend revision:
   [admin workflows](admin-workflows.md#listing-source-default-locations)).
   The account page's saved addresses consume the user address book (`listUserAddresses`,
   `createUserAddress`, `getUserAddress`, `updateUserAddress`, `deleteUserAddress`;
-  [#1078](https://github.com/aura-historia/webapp/issues/1078)), and its search location the
-  browsing destination (`getBrowsingDestination`, `setBrowsingDestination`;
-  [#1079](https://github.com/aura-historia/webapp/issues/1079)). Every other geography
+  [#1078](https://github.com/aura-historia/webapp/issues/1078)), and their search location switch
+  the browsing destination (`getBrowsingDestination`, `setBrowsingDestination`;
+  [#1079](https://github.com/aura-historia/webapp/issues/1079),
+  [#1391](https://github.com/aura-historia/webapp/issues/1391)). The webapp only writes `NONE` or
+  `ADDRESS`; `COUNTRY_POSTAL` is read but never offered. Every other geography
   operation is generated-only until its feature slice consumes it (`suggestAddresses` is
   consumed by the address editor): public discovery (`discoverPartyLocations`) and the non-admin source
   defaults (`getSourceLocationDefault`, `assignSourceLocationDefault`,
@@ -920,10 +922,9 @@ Shared models live in `src/data/internal/geography`; formatting helpers in
   The browsing destination (`useSetBrowsingDestination` in
   `features/account-management/hooks/useBrowsingDestination.ts`) is never retried: it sends
   `{expectedVersion, destination}` with the version that was read, a `409` refetches the
-  destination and keeps the user's choice until they save again, a `404` (the chosen address is
+  destination so the switches show the latest choice, a `404` (the chosen address is
   gone) refreshes the addresses and the destination, and a success refreshes the addresses, whose
-  `preferred` flag follows it. A destination address on a page not yet loaded is read with
-  `getUserAddress`.
+  `preferred` flag follows it.
   Addresses with `hasUnsupportedValues` cannot be edited, only deleted. Backend runtimes older than
   backend#2081 still require the header, so release this webapp only with or after the keyless
   backend.

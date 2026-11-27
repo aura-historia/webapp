@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useCallback, useRef, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getBrowsingDestination, setBrowsingDestination } from "@/client";
 import { geographyQueryKeys } from "@/data/internal/geography/GeographyQueryKeys.ts";
@@ -26,7 +26,7 @@ export function useBrowsingDestination(viewerCacheKey: string, enabled = true) {
             const response = await getBrowsingDestination({ signal, cache: "no-store" });
             if (response.error || !response.data) {
                 throw new UserAddressRequestError(
-                    t("account.searchLocation.errors.loadFailed"),
+                    t("account.addresses.searchLocationLoadError"),
                     response.response?.status,
                 );
             }
@@ -35,21 +35,19 @@ export function useBrowsingDestination(viewerCacheKey: string, enabled = true) {
     });
 }
 
-/** What the last failed save needs the form to show. */
+/** What the last failed save needs the switches to show. */
 export type BrowsingDestinationSaveProblem = "conflict" | "addressGone" | "accessLost" | "failed";
 
 /**
  * Replaces the browsing destination at the version that was read. Never retried: a `409` refetches
- * the authoritative destination and keeps the user's choice until they save again; a `404` (the
- * chosen address is gone) refetches the addresses and the destination. Success refreshes the
- * addresses, whose `preferred` flag follows the destination.
+ * the authoritative destination, so the switches show it; a `404` (the chosen address is gone)
+ * refetches the addresses and the destination. Success refreshes the addresses, whose `preferred`
+ * flag follows the destination.
  */
 export function useSetBrowsingDestination(viewerCacheKey: string) {
     const { t } = useTranslation();
     const queryClient = useQueryClient();
     const [problem, setProblem] = useState<BrowsingDestinationSaveProblem>();
-    // Set before the cache update, so the form can tell its own save from a change elsewhere.
-    const lastSaved = useRef<BrowsingDestinationView>(undefined);
     const destinationKey = geographyQueryKeys.browsingDestination(viewerCacheKey);
     const addressesKey = [...geographyQueryKeys.userAddresses, viewerCacheKey] as const;
 
@@ -63,7 +61,10 @@ export function useSetBrowsingDestination(viewerCacheKey: string) {
             readonly expectedVersion: number;
         }) => {
             const fail = (status: number | undefined) =>
-                new UserAddressRequestError(t("account.searchLocation.saveError.title"), status);
+                new UserAddressRequestError(
+                    t("account.addresses.toasts.searchLocationFailed"),
+                    status,
+                );
             if (!isValidBrowsingDestination(destination)) throw fail(400);
             const response = await setBrowsingDestination({
                 body: mapToBackendSetBrowsingDestination(destination, expectedVersion),
@@ -74,7 +75,6 @@ export function useSetBrowsingDestination(viewerCacheKey: string) {
         },
         onMutate: () => setProblem(undefined),
         onSuccess: (view) => {
-            lastSaved.current = view;
             queryClient.setQueryData(destinationKey, view);
             void queryClient.invalidateQueries({ queryKey: addressesKey });
         },
@@ -100,11 +100,5 @@ export function useSetBrowsingDestination(viewerCacheKey: string) {
         },
     });
 
-    // Compared by version: the query cache may hand back a structurally shared copy.
-    const isOwnSave = useCallback(
-        (view: BrowsingDestinationView) => view.version === lastSaved.current?.version,
-        [],
-    );
-
-    return { ...mutation, problem, clearProblem: () => setProblem(undefined), isOwnSave };
+    return { ...mutation, problem };
 }
