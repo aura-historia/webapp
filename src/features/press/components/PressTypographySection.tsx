@@ -105,6 +105,7 @@ export function PressTypographySection() {
                                 className="size-[13px]"
                                 strokeWidth={1.8}
                             />
+                            <span className="sr-only"> {t("pressPage.newTab")}</span>
                         </a>
                     </li>
                 ))}

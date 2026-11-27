@@ -92,7 +92,9 @@ describe("PressPage", () => {
         expect(within(facts).queryByText(/Einzelunternehmen/)).toBeNull();
         expect(within(facts).queryByText(/Geschäftsmodell/)).toBeNull();
         for (const social of SOCIAL_LINKS) {
-            const link = within(facts).getByRole("link", { name: social.name });
+            const link = within(facts).getByRole("link", {
+                name: new RegExp(`^${social.name}\\s*\\(öffnet in neuem Tab\\)$`),
+            });
             expect(link).toHaveAttribute("href", social.url);
             expect(link).toHaveAttribute("rel", "noopener noreferrer");
         }
@@ -139,7 +141,9 @@ describe("PressPage", () => {
         await renderPage();
 
         await act(async () => {
-            fireEvent.click(screen.getByRole("button", { name: "Kurzbeschreibung kopieren" }));
+            fireEvent.click(
+                screen.getByRole("button", { name: "Text kopieren: Kurzbeschreibung" }),
+            );
         });
 
         expect(writeText).toHaveBeenCalledWith(

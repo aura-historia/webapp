@@ -49,6 +49,7 @@ export function PressLogoCard({ logo }: { readonly logo: PressLogo }) {
                 <img
                     src={pressLogoUrl(logo, "svg")}
                     alt=""
+                    aria-hidden="true"
                     loading="lazy"
                     decoding="async"
                     className={cn("h-auto max-h-full", previewWidthClass(logo))}

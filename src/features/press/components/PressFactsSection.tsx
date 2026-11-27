@@ -58,6 +58,7 @@ export function PressFactsSection() {
                     >
                         {social.name}
                         <ArrowUpRight aria-hidden="true" className="size-3" strokeWidth={1.8} />
+                        <span className="sr-only"> {t("pressPage.newTab")}</span>
                     </a>
                 ))}
             </div>

@@ -16,6 +16,10 @@ const FIGURES = [
 
 const LIST_CLASS = "grid grid-cols-2 gap-x-5 sm:gap-x-7 min-[900px]:grid-cols-4";
 const CELL_CLASS = "flex flex-col gap-1.5 border-t border-ink pt-5 pb-6";
+/** Labels may wrap to two lines in two columns, so every label reserves two (2 × 11px × 1.4). */
+const LABEL_HEIGHT_CLASS = "min-h-[30.8px]";
+/** The date line wraps to up to three lines on phones and keeps to one from 640px. */
+const DATE_HEIGHT_CLASS = "min-h-[46.2px] sm:min-h-[15.4px]";
 const FIGURE_CLASS =
     "font-serif text-[30px] leading-none tracking-[-0.01em] sm:text-[clamp(40px,4vw,56px)]";
 
@@ -27,11 +31,15 @@ export function PressCatalogueFiguresSkeleton() {
                 {FIGURES.map(({ key }) => (
                     <div key={key} className={CELL_CLASS}>
                         <div className="h-[30px] w-24 animate-pulse rounded-xs bg-line-subtle motion-reduce:animate-none sm:h-[clamp(40px,4vw,56px)] sm:w-32" />
-                        <div className="h-[15px] w-20 rounded-xs bg-line-subtle" />
+                        <div className={LABEL_HEIGHT_CLASS}>
+                            <div className="h-[15px] w-20 rounded-xs bg-line-subtle" />
+                        </div>
                     </div>
                 ))}
             </div>
-            <div className="h-[15px] w-64 max-w-full rounded-xs bg-line-subtle" />
+            <div className={DATE_HEIGHT_CLASS}>
+                <div className="h-[15px] w-64 max-w-full rounded-xs bg-line-subtle" />
+            </div>
         </div>
     );
 }
@@ -52,14 +60,14 @@ function FigureList({ overview }: { readonly overview: PublicOverview }) {
             <dl className={LIST_CLASS}>
                 {figures.map(({ key, value }) => (
                     <div key={key} className={CELL_CLASS}>
-                        <dt className={`order-2 ${PRESS_LABEL_CLASS}`}>
+                        <dt className={`order-2 ${LABEL_HEIGHT_CLASS} ${PRESS_LABEL_CLASS}`}>
                             {t(`pressPage.facts.figures.${key}`, { count: value })}
                         </dt>
                         <dd className={`order-1 ${FIGURE_CLASS}`}>{number.format(value)}</dd>
                     </div>
                 ))}
             </dl>
-            <p className={PRESS_LABEL_CLASS}>
+            <p className={`${DATE_HEIGHT_CLASS} ${PRESS_LABEL_CLASS}`}>
                 {t("pressPage.facts.figures.asOf", { date: date.format(overview.asOf) })}
             </p>
         </div>

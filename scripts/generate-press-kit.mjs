@@ -7,13 +7,15 @@
 // PNGs are rendered with Playwright's Chromium (set CHROMIUM_PATH to use another Chromium binary);
 // the ZIP needs the `zip` command line tool.
 import { execFileSync } from "node:child_process";
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "@playwright/test";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUTPUT_DIR = join(ROOT, "public", "press");
+/** Built here first, so a missing tool never leaves public/press half-written. */
+const BUILD_DIR = join(ROOT, "public", ".press-build");
 const WORDMARK_SOURCE = join(
     ROOT,
     "src/features/app-shell/components/navigation/Wordmark.tsx",
@@ -77,6 +79,7 @@ function stackedMark(color) {
 }
 
 function onGround({ box, body }, ground) {
+    // The PNG is rendered on this ground too (see renderPngs), so no edge pixel is translucent.
     const [x, y, w, h] = box;
     const padded = [
         x - GROUND_PADDING,
@@ -86,6 +89,7 @@ function onGround({ box, body }, ground) {
     ];
     return {
         box: padded,
+        ground,
         body: `<rect x="${padded[0]}" y="${padded[1]}" width="${padded[2]}" height="${padded[3]}" fill="${ground}"/>${body}`,
     };
 }
@@ -108,6 +112,8 @@ const LOGOS = [
     },
 ];
 
+// The colour values and fact sheet repeat BRAND_COLOURS and the English fact sheet in
+// src/features/press and src/i18n; pressKitFiles.test.ts checks that they still agree.
 const COLOURS = `Aura Historia colours
 =====================
 
@@ -153,16 +159,17 @@ async function renderPngs(logos) {
     const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || undefined });
     try {
         const page = await browser.newPage({ deviceScaleFactor: 1 });
-        for (const { name, svg, box } of logos) {
+        for (const { name, svg, box, ground } of logos) {
             const height = Math.round((PNG_WIDTH * box[3]) / box[2]);
             await page.setViewportSize({ width: PNG_WIDTH, height });
             await page.setContent(
-                `<style>html,body{margin:0;background:transparent}img{display:block;width:${PNG_WIDTH}px;height:${height}px}</style><img src="data:image/svg+xml;base64,${Buffer.from(svg).toString("base64")}">`,
+                `<style>html,body{margin:0;background:${ground ?? "transparent"}}img{display:block;width:${PNG_WIDTH}px;height:${height}px}</style><img src="data:image/svg+xml;base64,${Buffer.from(svg).toString("base64")}">`,
             );
             await page.locator("img").evaluate((img) => img.decode());
             await page.screenshot({
-                path: join(OUTPUT_DIR, `${name}.png`),
-                omitBackground: true,
+                path: join(BUILD_DIR, `${name}.png`),
+                // Transparent files stay transparent; a file with its own ground is opaque to the edge.
+                omitBackground: !ground,
                 clip: { x: 0, y: 0, width: PNG_WIDTH, height },
             });
         }
@@ -172,25 +179,34 @@ async function renderPngs(logos) {
 }
 
 async function main() {
-    rmSync(OUTPUT_DIR, { recursive: true, force: true });
-    mkdirSync(OUTPUT_DIR, { recursive: true });
+    rmSync(BUILD_DIR, { recursive: true, force: true });
+    mkdirSync(BUILD_DIR, { recursive: true });
 
-    const rendered = LOGOS.map(({ name, mark }) => ({ name, box: mark.box, svg: toSvg(mark) }));
-    for (const { name, svg } of rendered) writeFileSync(join(OUTPUT_DIR, `${name}.svg`), svg);
+    const rendered = LOGOS.map(({ name, mark }) => ({
+        name,
+        box: mark.box,
+        ground: mark.ground,
+        svg: toSvg(mark),
+    }));
+    for (const { name, svg } of rendered) writeFileSync(join(BUILD_DIR, `${name}.svg`), svg);
     await renderPngs(rendered);
 
-    writeFileSync(join(OUTPUT_DIR, "aura-historia-colours.txt"), COLOURS);
-    writeFileSync(join(OUTPUT_DIR, "aura-historia-fact-sheet.txt"), FACT_SHEET);
+    writeFileSync(join(BUILD_DIR, "aura-historia-colours.txt"), COLOURS);
+    writeFileSync(join(BUILD_DIR, "aura-historia-fact-sheet.txt"), FACT_SHEET);
 
     const kitFiles = [
         ...rendered.flatMap(({ name }) => [`${name}.svg`, `${name}.png`]),
         "aura-historia-colours.txt",
         "aura-historia-fact-sheet.txt",
     ];
-    // -X leaves out extra file attributes, so the archive only changes when its files do.
+    // -X leaves out extra file attributes; modification times are still stored, so the archive
+    // changes on every run. Commit it only together with a real change to its files.
     execFileSync("zip", ["-q", "-X", "aura-historia-brand-kit.zip", ...kitFiles], {
-        cwd: OUTPUT_DIR,
+        cwd: BUILD_DIR,
     });
+
+    rmSync(OUTPUT_DIR, { recursive: true, force: true });
+    renameSync(BUILD_DIR, OUTPUT_DIR);
     console.log(`Wrote ${kitFiles.length + 1} files to public/press/`);
 }
 

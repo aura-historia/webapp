@@ -7140,13 +7140,13 @@
       "short": {
         "heading": "Kurzbeschreibung",
         "text": "Aura Historia ist eine weltweite Plattform für Suche und Entdeckung in Kunst und Antiquitäten. Sie vereint Händler, Auktionshäuser und Marktplätze in einer mehrsprachigen Suche, mit privaten Merklisten und Suchaufträgen für Sammler und den Handel.",
-        "copyLabel": "Kurzbeschreibung kopieren",
+        "copyLabel": "Text kopieren: Kurzbeschreibung",
         "copiedLabel": "Kurzbeschreibung kopiert"
       },
       "long": {
         "heading": "Ausführliche Beschreibung",
-        "text": "Aura Historia ist eine weltweite Plattform für Suche und Entdeckung in Kunst und Antiquitäten, 2026 in Leipzig gegründet. Sie vereint Angebote von Händlern, Auktionshäusern, spezialisierten Geschäften und Marktplätzen in einer Suche auf Englisch, Deutsch, Französisch, Spanisch und Italienisch. Angebote werden übersetzt und ihre Fachbegriffe abgeglichen, sodass eine Suche in einer Sprache auch Objekte findet, die in einer anderen katalogisiert sind. Sammler, Innenarchitekten und der Handel sehen damit, was jetzt angeboten wird, behalten Objekte auf einer privaten Merkliste im Blick und werden benachrichtigt, wenn neue Angebote passen. Gekauft wird beim ursprünglichen Anbieter; Aura Historia wickelt keine Verkäufe ab. Händler und Auktionshäuser können ihren Shop als Partner anbinden, ohne Gebühren und ohne Provision. Mehr unter aura-historia.com.",
-        "copyLabel": "Ausführliche Beschreibung kopieren",
+        "text": "Aura Historia ist eine weltweite Plattform für Suche und Entdeckung in Kunst und Antiquitäten, 2026 in Leipzig gegründet. Sie vereint Angebote von Händlern, Auktionshäusern, spezialisierten Geschäften und Marktplätzen in einer Suche auf Englisch, Deutsch, Französisch, Spanisch und Italienisch. Angebote werden übersetzt und ihre Fachbegriffe abgeglichen, sodass eine Suche in einer Sprache auch Objekte findet, die in einer anderen katalogisiert sind. Sammler, Innenarchitekten und der Handel sehen damit, was jetzt angeboten wird, behalten Objekte auf einer privaten Merkliste im Blick und werden benachrichtigt, wenn neue Angebote passen. Gekauft wird beim ursprünglichen Anbieter; Aura Historia wickelt keine Verkäufe ab. Händler und Auktionshäuser können sich als Partner bewerben und ihren Shop anbinden, ohne Gebühren und ohne Provision. Mehr unter aura-historia.com.",
+        "copyLabel": "Text kopieren: ausführliche Beschreibung",
         "copiedLabel": "Ausführliche Beschreibung kopiert"
       },
       "copyText": "Text kopieren",
@@ -7303,7 +7303,7 @@
     "contact": {
       "eyebrow": "Pressekontakt",
       "title": "Fragen, Interviews, <em>Bilder.</em>",
-      "description": "Schreiben Sie uns für Hintergründe, ein Interview oder Bilder zu Ihrem Beitrag. Bitte nennen Sie Ihr Medium und Ihren Termin.",
+      "description": "Schreiben Sie uns für Hintergründe, ein Interview oder Bilder zu Ihrem Beitrag. Bitte nennen Sie Ihr Medium und Ihren Redaktionsschluss.",
       "copyLabel": "E-Mail-Adresse kopieren",
       "copiedLabel": "E-Mail-Adresse kopiert",
       "person": {
@@ -7314,6 +7314,7 @@
         "label": "Sitz",
         "value": "Leipzig, Deutschland"
       }
-    }
+    },
+    "newTab": "(öffnet in neuem Tab)"
   }
 }

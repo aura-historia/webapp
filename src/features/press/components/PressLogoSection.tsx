@@ -62,12 +62,13 @@ function ClearSpaceFigure() {
             </h3>
             <div
                 aria-hidden="true"
-                className="relative self-center bg-[repeating-linear-gradient(135deg,rgb(184_147_90/0.1)_0_6px,transparent_6px_12px)] px-8 py-7 outline-1 -outline-offset-1 outline-brass outline-dashed sm:px-14 sm:py-11"
+                className="relative self-center bg-[repeating-linear-gradient(135deg,color-mix(in_srgb,var(--brass)_10%,transparent)_0_6px,transparent_6px_12px)] px-8 py-7 outline-1 -outline-offset-1 outline-brass outline-dashed sm:px-14 sm:py-11"
             >
                 <div className="bg-surface-raised shadow-[0_0_0_1px_var(--line-subtle)]">
                     <img
                         src={pressLogoUrl(PRESS_LOGOS[0], "svg")}
                         alt=""
+                        aria-hidden="true"
                         className="h-auto w-[min(200px,52vw)]"
                     />
                 </div>

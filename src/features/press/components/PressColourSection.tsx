@@ -43,7 +43,7 @@ function ColourSwatch({ colour }: { readonly colour: BrandColour }) {
                         targetRef={hexRef}
                         label={t("pressPage.colour.copyLabel", { name })}
                         copiedLabel={t("pressPage.colour.copiedLabel", { name })}
-                        className="h-10 px-3.5 text-meta"
+                        className="px-3.5 text-meta"
                     />
                 </div>
             </div>

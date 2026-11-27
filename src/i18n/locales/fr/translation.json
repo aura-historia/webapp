@@ -7139,14 +7139,14 @@
       "description": "Une description courte et une longue, à utiliser telles quelles ou abrégées, tant que le sens est préservé. Nous les tenons à jour ici.",
       "short": {
         "heading": "Description courte",
-        "text": "Aura Historia est une plateforme mondiale de recherche et de découverte en art et antiquités. Elle réunit marchands, maisons de ventes et places de marché dans une recherche multilingue, avec des listes de suivi privées et des alertes de recherche pour les collectionneurs et les professionnels.",
-        "copyLabel": "Copier la description courte",
+        "text": "Aura Historia est une plateforme mondiale de recherche et de découverte en art et antiquités. Elle réunit marchands, maisons de ventes et places de marché dans une recherche multilingue, avec des listes de surveillance privées et des alertes de recherche pour les collectionneurs et les professionnels.",
+        "copyLabel": "Copier le texte : description courte",
         "copiedLabel": "Description courte copiée"
       },
       "long": {
         "heading": "Description longue",
-        "text": "Aura Historia est une plateforme mondiale de recherche et de découverte en art et antiquités, fondée à Leipzig, en Allemagne, en 2026. Elle réunit les annonces de marchands, de maisons de ventes, de boutiques spécialisées et de places de marché dans une seule recherche en anglais, allemand, français, espagnol et italien ; les annonces sont traduites et leur terminologie harmonisée, de sorte qu’une recherche dans une langue trouve aussi des objets catalogués dans une autre. Collectionneurs, décorateurs d’intérieur et professionnels y voient ce qui est proposé aujourd’hui, suivent des objets dans une liste privée et sont alertés lorsque de nouvelles annonces correspondent. L’achat se fait auprès du vendeur d’origine ; Aura Historia ne gère jamais la vente. Marchands et maisons de ventes peuvent connecter leur boutique en tant que partenaires, sans frais ni commission. En savoir plus sur aura-historia.com.",
-        "copyLabel": "Copier la description longue",
+        "text": "Aura Historia est une plateforme mondiale de recherche et de découverte en art et antiquités, fondée à Leipzig, en Allemagne, en 2026. Elle réunit les annonces de marchands, de maisons de ventes, de boutiques spécialisées et de places de marché dans une seule recherche en anglais, allemand, français, espagnol et italien ; les annonces sont traduites et leur terminologie harmonisée, de sorte qu’une recherche dans une langue trouve aussi des objets catalogués dans une autre. Collectionneurs, décorateurs d’intérieur et professionnels y voient ce qui est proposé aujourd’hui, suivent des objets dans une liste privée et sont alertés lorsque de nouvelles annonces correspondent. L’achat se fait auprès du vendeur d’origine ; Aura Historia ne gère jamais la vente. Marchands et maisons de ventes peuvent demander à devenir partenaires et connecter leur boutique, sans frais ni commission. En savoir plus sur aura-historia.com.",
+        "copyLabel": "Copier le texte : description longue",
         "copiedLabel": "Description longue copiée"
       },
       "copyText": "Copier le texte",
@@ -7314,6 +7314,7 @@
         "label": "Siège",
         "value": "Leipzig, Allemagne"
       }
-    }
+    },
+    "newTab": "(s’ouvre dans un nouvel onglet)"
   }
 }

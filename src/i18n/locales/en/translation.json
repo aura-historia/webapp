@@ -7140,13 +7140,13 @@
       "short": {
         "heading": "Short description",
         "text": "Aura Historia is a global platform for search and discovery in art and antiques. It brings dealers, auction houses and marketplaces into one multilingual search, with private watchlists and search alerts for collectors and the trade.",
-        "copyLabel": "Copy short description",
+        "copyLabel": "Copy text: short description",
         "copiedLabel": "Short description copied"
       },
       "long": {
         "heading": "Long description",
-        "text": "Aura Historia is a global platform for search and discovery in art and antiques, founded in Leipzig, Germany, in 2026. It brings listings from dealers, auction houses, specialist shops and marketplaces into one search in English, German, French, Spanish and Italian, translating listings and aligning their terminology, so a query in one language also finds objects catalogued in another. Collectors, interior designers and the trade use it to see what is offered now, keep objects on a private watchlist and receive alerts when new listings match. Purchases happen with the original seller; Aura Historia never handles the sale. Dealers and auction houses can connect their shop as partners, with no fees or commission. More at aura-historia.com.",
-        "copyLabel": "Copy long description",
+        "text": "Aura Historia is a global platform for search and discovery in art and antiques, founded in Leipzig, Germany, in 2026. It brings listings from dealers, auction houses, specialist shops and marketplaces into one search in English, German, French, Spanish and Italian, translating listings and aligning their terminology, so a query in one language also finds objects catalogued in another. Collectors, interior designers and the trade use it to see what is offered now, keep objects on a private watchlist and receive alerts when new listings match. Purchases happen with the original seller; Aura Historia never handles the sale. Dealers and auction houses can apply to connect their shop as partners, with no fees or commission. More at aura-historia.com.",
+        "copyLabel": "Copy text: long description",
         "copiedLabel": "Long description copied"
       },
       "copyText": "Copy text",
@@ -7314,6 +7314,7 @@
         "label": "Based in",
         "value": "Leipzig, Germany"
       }
-    }
+    },
+    "newTab": "(opens in a new tab)"
   }
 }

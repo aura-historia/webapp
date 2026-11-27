@@ -7140,13 +7140,13 @@
       "short": {
         "heading": "Descripción breve",
         "text": "Aura Historia es una plataforma global de búsqueda y descubrimiento de arte y antigüedades. Reúne comerciantes, casas de subastas y marketplaces en una búsqueda multilingüe, con listas de seguimiento privadas y alertas de búsqueda para coleccionistas y profesionales.",
-        "copyLabel": "Copiar la descripción breve",
+        "copyLabel": "Copiar texto: descripción breve",
         "copiedLabel": "Descripción breve copiada"
       },
       "long": {
         "heading": "Descripción extensa",
-        "text": "Aura Historia es una plataforma global de búsqueda y descubrimiento de arte y antigüedades, fundada en Leipzig (Alemania) en 2026. Reúne anuncios de comerciantes, casas de subastas, tiendas especializadas y marketplaces en una sola búsqueda en inglés, alemán, francés, español e italiano; traduce los anuncios y unifica su terminología, de modo que una búsqueda en un idioma también encuentra objetos catalogados en otro. Coleccionistas, interioristas y profesionales la utilizan para ver lo que se ofrece ahora, seguir objetos en una lista privada y recibir avisos cuando aparecen anuncios que coinciden. La compra se realiza con el vendedor original; Aura Historia nunca gestiona la venta. Comerciantes y casas de subastas pueden conectar su tienda como socios, sin tarifas ni comisiones. Más en aura-historia.com.",
-        "copyLabel": "Copiar la descripción extensa",
+        "text": "Aura Historia es una plataforma global de búsqueda y descubrimiento de arte y antigüedades, fundada en Leipzig (Alemania) en 2026. Reúne anuncios de comerciantes, casas de subastas, tiendas especializadas y marketplaces en una sola búsqueda en inglés, alemán, francés, español e italiano; traduce los anuncios y unifica su terminología, de modo que una búsqueda en un idioma también encuentra objetos catalogados en otro. Coleccionistas, interioristas y profesionales la utilizan para ver lo que se ofrece ahora, seguir objetos en una lista privada y recibir avisos cuando aparecen anuncios que coinciden. La compra se realiza con el vendedor original; Aura Historia nunca gestiona la venta. Comerciantes y casas de subastas pueden solicitar ser socios y conectar su tienda, sin tarifas ni comisiones. Más en aura-historia.com.",
+        "copyLabel": "Copiar texto: descripción extensa",
         "copiedLabel": "Descripción extensa copiada"
       },
       "copyText": "Copiar texto",
@@ -7314,6 +7314,7 @@
         "label": "Sede",
         "value": "Leipzig, Alemania"
       }
-    }
+    },
+    "newTab": "(se abre en una pestaña nueva)"
   }
 }

@@ -7139,14 +7139,14 @@
       "description": "Una descrizione breve e una estesa, da usare così come sono o abbreviate, purché il senso resti invariato. Le teniamo aggiornate qui.",
       "short": {
         "heading": "Descrizione breve",
-        "text": "Aura Historia è una piattaforma globale di ricerca e scoperta per l’arte e l’antiquariato. Riunisce antiquari, case d’asta e marketplace in un’unica ricerca multilingue, con liste di osservazione private e avvisi di ricerca per collezionisti e operatori del settore.",
-        "copyLabel": "Copia la descrizione breve",
+        "text": "Aura Historia è una piattaforma globale di ricerca e scoperta per l’arte e l’antiquariato. Riunisce antiquari, case d’asta e marketplace in un’unica ricerca multilingue, con liste dei preferiti private e avvisi di ricerca per collezionisti e operatori del settore.",
+        "copyLabel": "Copia il testo: descrizione breve",
         "copiedLabel": "Descrizione breve copiata"
       },
       "long": {
         "heading": "Descrizione estesa",
-        "text": "Aura Historia è una piattaforma globale di ricerca e scoperta per l’arte e l’antiquariato, fondata a Lipsia, in Germania, nel 2026. Riunisce gli annunci di antiquari, case d’asta, negozi specializzati e marketplace in un’unica ricerca in inglese, tedesco, francese, spagnolo e italiano; traduce gli annunci e ne allinea la terminologia, così che una ricerca in una lingua trovi anche oggetti catalogati in un’altra. Collezionisti, interior designer e operatori del settore la usano per vedere ciò che è in offerta ora, seguire gli oggetti in una lista privata e ricevere avvisi quando compaiono annunci corrispondenti. L’acquisto avviene presso il venditore originale; Aura Historia non gestisce mai la vendita. Antiquari e case d’asta possono collegare il proprio negozio come partner, senza costi né commissioni. Maggiori informazioni su aura-historia.com.",
-        "copyLabel": "Copia la descrizione estesa",
+        "text": "Aura Historia è una piattaforma globale di ricerca e scoperta per l’arte e l’antiquariato, fondata a Lipsia, in Germania, nel 2026. Riunisce gli annunci di antiquari, case d’asta, negozi specializzati e marketplace in un’unica ricerca in inglese, tedesco, francese, spagnolo e italiano; traduce gli annunci e ne allinea la terminologia, così che una ricerca in una lingua trovi anche oggetti catalogati in un’altra. Collezionisti, interior designer e operatori del settore la usano per vedere ciò che è in offerta ora, seguire gli oggetti in una lista privata e ricevere avvisi quando compaiono annunci corrispondenti. L’acquisto avviene presso il venditore originale; Aura Historia non gestisce mai la vendita. Antiquari e case d’asta possono candidarsi come partner e collegare il proprio negozio, senza costi né commissioni. Maggiori informazioni su aura-historia.com.",
+        "copyLabel": "Copia il testo: descrizione estesa",
         "copiedLabel": "Descrizione estesa copiata"
       },
       "copyText": "Copia il testo",
@@ -7274,7 +7274,7 @@
       "emptyTitle": "Immagini <em>su richiesta.</em>",
       "emptyBody": "Finché i nostri screenshot e ritratti non saranno pubblicati, vi inviamo via e-mail le immagini per il vostro articolo, con i crediti da indicare.",
       "request": "Richiedi immagini",
-      "team": "Conoscete il team"
+      "team": "Scopri il team"
     },
     "usage": {
       "eyebrow": "Utilizzo",
@@ -7314,6 +7314,7 @@
         "label": "Sede",
         "value": "Lipsia, Germania"
       }
-    }
+    },
+    "newTab": "(si apre in una nuova scheda)"
   }
 }

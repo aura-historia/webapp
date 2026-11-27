@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
+import en from "@/i18n/locales/en/translation.json";
 import {
     BRAND_COLOURS,
     BRAND_KIT_URL,
@@ -46,6 +47,22 @@ describe("press kit files", () => {
         for (const { hex, rgb } of BRAND_COLOURS) {
             expect(colours).toContain(`${hex}   RGB ${rgb}`);
         }
+    });
+
+    it("keeps the kit's fact sheet in step with the page's English facts", () => {
+        const factSheet = readFileSync(publicFile("/press/aura-historia-fact-sheet.txt"), "utf8");
+        const { items } = en.pressPage.facts;
+        for (const fact of [
+            "whatItIs",
+            "founded",
+            "team",
+            "languages",
+            "markets",
+            "aiAssistants",
+        ] as const) {
+            expect(factSheet, fact).toContain(items[fact].value);
+        }
+        expect(factSheet).toContain(items.basedIn.value);
     });
 
     it("is prerendered and in the sitemap for every language", () => {
