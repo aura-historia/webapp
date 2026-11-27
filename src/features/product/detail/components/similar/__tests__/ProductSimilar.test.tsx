@@ -123,7 +123,13 @@ describe("ProductSimilar", () => {
             error: null,
         } as never);
 
-        renderWithQueryClient(<ProductSimilar {...defaultProps} />);
+        renderWithQueryClient(
+            <ProductSimilar
+                {...defaultProps}
+                created={new Date("2026-11-27T09:00:00Z")}
+                loadedAt={Date.parse("2026-11-27T12:00:00Z")}
+            />,
+        );
 
         expect(screen.getByText("Ähnliche Artikel")).toBeInTheDocument();
         expect(screen.getByText("Wird vorbereitet")).toBeInTheDocument();
@@ -132,6 +138,33 @@ describe("ProductSimilar", () => {
                 "Ähnliche Artikel werden vorbereitet. Dies kann bei neuen Artikeln bis zu 24 Stunden dauern.",
             ),
         ).toBeInTheDocument();
+        expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+    });
+
+    it.each([
+        ["created more than 24 hours before loading", new Date("2026-11-25T09:00:00Z")],
+        ["of unknown age", undefined],
+    ])("says similar items cannot be shown while pending for a listing %s", (_, created) => {
+        vi.mocked(useSimilarProducts).mockReturnValue({
+            data: { isEmbeddingsPending: true, products: [] },
+            isLoading: false,
+            isError: false,
+            error: null,
+        } as never);
+
+        renderWithQueryClient(
+            <ProductSimilar
+                {...defaultProps}
+                created={created}
+                loadedAt={Date.parse("2026-11-27T12:00:00Z")}
+            />,
+        );
+
+        expect(screen.getByText("Nicht verfügbar")).toBeInTheDocument();
+        expect(
+            screen.getByText("Für diesen Artikel können keine ähnlichen Artikel angezeigt werden."),
+        ).toBeInTheDocument();
+        expect(screen.queryByText("Wird vorbereitet")).not.toBeInTheDocument();
     });
 
     it("should render no data state when products array is empty", () => {

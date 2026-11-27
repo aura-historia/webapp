@@ -24,6 +24,11 @@ admin workflows in [admin workflows](admin-workflows.md).
   `Location` check, partner examples) use `/v1`. Webapp-owned `/api/...` routes, such as
   `/api/oauth/authorize/approve`, the OAuth client redirect broker and `/api/oauth/broker/woocommerce/*`, are this app's own routes and
   keep their paths. Release this webapp only with or after a backend that serves `/v1`.
+- **Similar listings `202` carries a `Location` that browsers cannot read.** The API leaves
+  `Location` out of `Access-Control-Expose-Headers` (checked 2026-11-27), so `useSimilarProducts`
+  sees no polling location for a listing whose embedding is still pending. It then polls by
+  repeating the initial request, which is the same endpoint, and follows `Location` only when
+  it can read a safe one (#1386). Exposing `Location` is a backend change.
 - Without `VITE_API_URL` the app calls the production API (`getApiBaseUrl`); each deployment
   sets its environment's API URL explicitly.
 - **Admin listing-source `PATCH` can change the ingestion methods.** The swagger description of

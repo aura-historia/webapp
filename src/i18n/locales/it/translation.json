@@ -1001,6 +1001,10 @@
         "title": "In preparazione",
         "description": "Gli articoli simili sono in fase di preparazione. Per i nuovi articoli possono essere necessarie fino a 24 ore."
       },
+      "embeddingsUnavailable": {
+        "title": "Non disponibile",
+        "description": "Non è possibile mostrare articoli simili per questo articolo."
+      },
       "noData": {
         "title": "Nessun articolo simile",
         "description": "Non sono stati trovati prodotti simili per questo articolo."

@@ -1001,6 +1001,10 @@
         "title": "En preparación",
         "description": "Los artículos similares se están preparando. Esto puede tardar hasta 24 horas para artículos nuevos."
       },
+      "embeddingsUnavailable": {
+        "title": "No disponible",
+        "description": "No se pueden mostrar artículos similares para este artículo."
+      },
       "noData": {
         "title": "Sin artículos similares",
         "description": "No se encontraron productos similares para este artículo."

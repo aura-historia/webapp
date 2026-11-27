@@ -43,7 +43,11 @@ export function ProductDetailPage({
                         history={listingHistory}
                         displayCurrency={preferences.currency}
                     />
-                    <ProductSimilar productListingId={product.productListingId} />
+                    <ProductSimilar
+                        productListingId={product.productListingId}
+                        created={product.created}
+                        loadedAt={loadedAt}
+                    />
                 </div>
             </div>
 

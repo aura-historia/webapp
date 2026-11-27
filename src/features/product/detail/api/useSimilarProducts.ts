@@ -20,6 +20,11 @@ type SimilarProductsData = {
     products: ProductListing[];
     isEmbeddingsPending: boolean;
     pendingPollCount: number;
+    /**
+     * Where to poll, from the 202's `Location`. Browsers cannot read that header while the API
+     * leaves it out of `Access-Control-Expose-Headers`; polling then repeats the initial request,
+     * which is the same endpoint (#1386).
+     */
     pollUrl?: string;
 };
 
@@ -129,20 +134,18 @@ export function useSimilarProducts(productListingId: string): UseQueryResult<Sim
             }
 
             if (result.response?.status === 202) {
-                const pollUrl = getSafePollUrl(
-                    result.response.headers.get("Location"),
-                    productListingId,
-                    language,
-                    preferences.currency,
-                );
-                if (!pollUrl) {
-                    throw new Error("The product API did not provide a similar-listings location.");
-                }
                 return {
                     products: [],
                     isEmbeddingsPending: true,
-                    pendingPollCount: 1,
-                    pollUrl,
+                    pendingPollCount: previous?.isEmbeddingsPending
+                        ? previous.pendingPollCount + 1
+                        : 1,
+                    pollUrl: getSafePollUrl(
+                        result.response.headers.get("Location"),
+                        productListingId,
+                        language,
+                        preferences.currency,
+                    ),
                 };
             }
 
@@ -154,9 +157,7 @@ export function useSimilarProducts(productListingId: string): UseQueryResult<Sim
         },
         refetchInterval: (query) => {
             const data = query.state.data;
-            return data?.isEmbeddingsPending &&
-                data.pollUrl &&
-                data.pendingPollCount < MAX_PENDING_POLLS
+            return data?.isEmbeddingsPending && data.pendingPollCount < MAX_PENDING_POLLS
                 ? PENDING_POLL_INTERVAL_MS
                 : false;
         },
