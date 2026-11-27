@@ -888,8 +888,8 @@ Shared models live in `src/data/internal/geography`; formatting helpers in
   Location filter (`SearchLocation` in `src/data/internal/search/SearchLocation.ts`) is either a
   region search (countries or regions, never both, because the API joins the two sets with AND)
   or a distance search from a starting point (`near`): the account's search location, an own saved
-  address or the current browser location. It always sends `mode`, because the backend default
-  (strict) differs from the page default (approximate), and sends nothing until the starting
+  address or the current browser location. It always sends `mode: APPROXIMATE` (the backend
+  default is strict; the page offers no other mode since #1391), and sends nothing until the starting
   point's point is known (`useSearchOrigin`); without one it searches without the distance limit.
   Saved searches map
   `geography` separately from `SearchFilterArguments`: omit it in a patch to keep the private

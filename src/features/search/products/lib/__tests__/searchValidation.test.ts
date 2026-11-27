@@ -189,7 +189,6 @@ describe("location parameters", () => {
             kind: "DISTANCE",
             near: { kind: "SEARCH_LOCATION" },
             radius: { amount: 25, unit: "MILES" },
-            mode: "APPROXIMATE",
             distanceOrder: "ASC",
         });
     });

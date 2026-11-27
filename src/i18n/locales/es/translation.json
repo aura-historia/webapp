@@ -756,8 +756,7 @@
       "remove": "Quitar filtro: {{label}}",
       "place": "Lugar",
       "within": "Radio",
-      "withinValue": "{{distance}} de {{origin}}",
-      "locations": "Ubicaciones"
+      "withinValue": "{{distance}} de {{origin}}"
     },
     "resetAll": "Restablecer",
     "showResults_one": "Mostrar {{count}} resultado",
@@ -847,11 +846,6 @@
         "KILOMETERS": "km",
         "MILES": "millas"
       },
-      "whichLocations": "Qué ubicaciones cuentan",
-      "approximate": "Incluir ubicaciones aproximadas",
-      "approximateHint": "También cuentan los registros de calle, localidad o región.",
-      "strict": "Solo direcciones exactas",
-      "strictHint": "Solo proveedores registrados con una dirección completa.",
       "howDetermined": "Cómo se determinan las ubicaciones",
       "validation": {
         "required": "Introduce una distancia.",
@@ -878,8 +872,8 @@
       "info": {
         "title": "Dónde se <em>sitúa</em> un anuncio",
         "source": "El lugar de un anuncio procede del proveedor, no del objeto. Registramos dónde está establecido cada proveedor y lo usamos para todos sus anuncios. Un objeto puede estar almacenado o enviarse desde otro lugar.",
-        "modes": "<strong>Solo direcciones exactas</strong> usa proveedores registrados con una dirección completa. <strong>Incluir ubicaciones aproximadas</strong> usa también registros que solo conocen la calle, la localidad o la región, por lo que sus distancias pueden variar varios kilómetros.",
-        "lag": "Las distancias son en línea recta, no rutas, y se redondean según la precisión con que se conoce el lugar. Una ubicación de proveedor nueva o modificada puede tardar un poco en aparecer en estas búsquedas."
+        "lag": "Las distancias son en línea recta, no rutas, y se redondean según la precisión con que se conoce el lugar. Una ubicación de proveedor nueva o modificada puede tardar un poco en aparecer en estas búsquedas.",
+        "approximate": "También cuentan los proveedores de los que solo se conoce la calle, la localidad o la región, por lo que sus distancias pueden variar varios kilómetros."
       },
       "card": {
         "approximate": "unos {{distance}}",
@@ -891,7 +885,6 @@
         "headline": "Nada en un radio de <em>{{distance}}.</em>",
         "description": "Nada en un radio de {{distance}} de {{origin}}. Amplía la distancia o incluye ubicaciones aproximadas.",
         "widen": "Buscar en un radio de {{distance}}",
-        "includeApproximate": "Incluir ubicaciones aproximadas",
         "removeDistance": "Quitar la distancia"
       },
       "rejected": {

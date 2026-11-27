@@ -209,11 +209,10 @@ describe("LocationFilter", () => {
             await waitFor(() => expect(router.state.location.search.unit).toBe("MILES"));
         });
 
-        it("counts exact addresses only on request", async () => {
-            const user = userEvent.setup();
-            const router = await renderFilter(DISTANCE, READY);
-            await user.click(screen.getByRole("radio", { name: /Nur genaue Adressen/ }));
-            await waitFor(() => expect(router.state.location.search.proximity).toBe("STRICT"));
+        it("offers no choice of which locations count", async () => {
+            await renderFilter(DISTANCE, READY);
+            expect(screen.queryByRole("radio", { name: /genaue Adressen/ })).toBeNull();
+            expect(screen.queryByRole("radio", { name: /Ungefähre Standorte/ })).toBeNull();
         });
 
         it("lists saved addresses as starting points, unlocated ones disabled", async () => {

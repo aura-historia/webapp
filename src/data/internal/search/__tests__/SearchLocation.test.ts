@@ -53,7 +53,6 @@ describe("parseSearchLocation", () => {
                 near: "search-location",
                 radius: "25",
                 unit: "MILES",
-                proximity: "STRICT",
                 sortField: "DISTANCE",
                 sortOrder: "DESC",
             }),
@@ -61,21 +60,34 @@ describe("parseSearchLocation", () => {
             kind: "DISTANCE",
             near: { kind: "SEARCH_LOCATION" },
             radius: { amount: 25, unit: "MILES" },
-            mode: "STRICT",
             distanceOrder: "DESC",
         });
     });
 
-    it("falls back to 50 in the given unit and approximate mode for a hand-edited link", () => {
+    it("falls back to 50 in the given unit for a hand-edited link", () => {
         expect(parseSearchLocation({ near: "current", radius: "-3", unit: "KILOMETERS" })).toEqual({
             kind: "DISTANCE",
             near: { kind: "CURRENT" },
             radius: { amount: 50, unit: "KILOMETERS" },
-            mode: "APPROXIMATE",
         });
         expect(parseSearchLocation({ near: "current", radius: "30000", unit: "parsecs" })).toEqual(
             expect.objectContaining({ radius: { amount: 50, unit: "KILOMETERS" } }),
         );
+    });
+
+    it("ignores the proximity parameter of an old link", () => {
+        expect(
+            parseSearchLocation({
+                near: "current",
+                radius: "10",
+                unit: "KILOMETERS",
+                proximity: "STRICT",
+            } as Parameters<typeof parseSearchLocation>[0]),
+        ).toEqual({
+            kind: "DISTANCE",
+            near: { kind: "CURRENT" },
+            radius: { amount: 10, unit: "KILOMETERS" },
+        });
     });
 
     it("round-trips through the URL parameters", () => {
@@ -83,14 +95,12 @@ describe("parseSearchLocation", () => {
             kind: "DISTANCE",
             near: { kind: "ADDRESS", addressId: "useraddress_01" },
             radius: { amount: 12.5, unit: "KILOMETERS" },
-            mode: "STRICT",
         };
         const params = serializeSearchLocation(location);
         expect(params).toEqual({
             near: "address:useraddress_01",
             radius: 12.5,
             unit: "KILOMETERS",
-            proximity: "STRICT",
         });
         expect(JSON.stringify(params)).not.toMatch(/latitude|longitude|51\./);
         expect(parseSearchLocation(params)).toEqual(location);
@@ -137,12 +147,11 @@ describe("mapSearchLocationToGeographicSearch", () => {
         ).toEqual({ countries: [DE], subdivisions: [] });
     });
 
-    it("sends nothing for a distance search until its starting point is known", () => {
+    it("sends nothing for a distance search until its starting point is known, then always approximate", () => {
         const location: SearchLocation = {
             kind: "DISTANCE",
             near: { kind: "CURRENT" },
             radius: { amount: 50, unit: "KILOMETERS" },
-            mode: "APPROXIMATE",
             distanceOrder: "ASC",
         };
         expect(mapSearchLocationToGeographicSearch(location, undefined)).toBeUndefined();

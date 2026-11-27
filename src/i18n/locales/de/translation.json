@@ -756,8 +756,7 @@
       "remove": "Filter entfernen: {{label}}",
       "place": "Ort",
       "within": "Umkreis",
-      "withinValue": "{{distance}} um {{origin}}",
-      "locations": "Standorte"
+      "withinValue": "{{distance}} um {{origin}}"
     },
     "resetAll": "Zurücksetzen",
     "showResults_one": "{{count}} Ergebnis anzeigen",
@@ -847,11 +846,6 @@
         "KILOMETERS": "km",
         "MILES": "Meilen"
       },
-      "whichLocations": "Welche Standorte zählen",
-      "approximate": "Ungefähre Standorte einbeziehen",
-      "approximateHint": "Auch Angaben nur zu Straße, Ort oder Region zählen.",
-      "strict": "Nur genaue Adressen",
-      "strictHint": "Nur Anbieter mit erfasster vollständiger Anschrift.",
       "howDetermined": "Wie Standorte bestimmt werden",
       "validation": {
         "required": "Geben Sie eine Entfernung ein.",
@@ -878,8 +872,8 @@
       "info": {
         "title": "Wo ein Angebot <em>verortet ist</em>",
         "source": "Der Ort eines Angebots stammt vom Anbieter, nicht vom Objekt. Wir erfassen, wo jeder Anbieter ansässig ist, und verwenden das für alle seine Angebote. Ein Objekt kann anderswo lagern oder von anderswo versandt werden.",
-        "modes": "<strong>Nur genaue Adressen</strong> verwendet Anbieter mit erfasster vollständiger Anschrift. <strong>Ungefähre Standorte einbeziehen</strong> verwendet auch Angaben, die nur Straße, Ort oder Region kennen; deren Entfernungen können um mehrere Kilometer abweichen.",
-        "lag": "Entfernungen sind Luftlinien, keine Wegstrecken, und so gerundet, wie genau der Ort bekannt ist. Ein neuer oder geänderter Anbieterstandort kann etwas Zeit brauchen, bis er in diesen Suchen erscheint."
+        "lag": "Entfernungen sind Luftlinien, keine Wegstrecken, und so gerundet, wie genau der Ort bekannt ist. Ein neuer oder geänderter Anbieterstandort kann etwas Zeit brauchen, bis er in diesen Suchen erscheint.",
+        "approximate": "Anbieter, von denen nur Straße, Ort oder Region bekannt sind, zählen ebenfalls; ihre Entfernungen können daher um mehrere Kilometer abweichen."
       },
       "card": {
         "approximate": "etwa {{distance}}",
@@ -891,7 +885,6 @@
         "headline": "Nichts im Umkreis von <em>{{distance}}.</em>",
         "description": "Nichts im Umkreis von {{distance}} um {{origin}}. Vergrößern Sie die Entfernung oder beziehen Sie ungefähre Standorte ein.",
         "widen": "Im Umkreis von {{distance}} suchen",
-        "includeApproximate": "Ungefähre Standorte einbeziehen",
         "removeDistance": "Entfernung entfernen"
       },
       "rejected": {

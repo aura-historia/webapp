@@ -756,8 +756,7 @@
       "remove": "Retirer le filtre : {{label}}",
       "place": "Lieu",
       "within": "Rayon",
-      "withinValue": "{{distance}} autour de {{origin}}",
-      "locations": "Localisations"
+      "withinValue": "{{distance}} autour de {{origin}}"
     },
     "resetAll": "Réinitialiser",
     "showResults_one": "Afficher {{count}} résultat",
@@ -847,11 +846,6 @@
         "KILOMETERS": "km",
         "MILES": "miles"
       },
-      "whichLocations": "Quelles localisations comptent",
-      "approximate": "Inclure les localisations approximatives",
-      "approximateHint": "Les relevés de rue, de localité ou de région comptent aussi.",
-      "strict": "Adresses exactes uniquement",
-      "strictHint": "Uniquement les fournisseurs enregistrés à une adresse complète.",
       "howDetermined": "Comment les localisations sont déterminées",
       "validation": {
         "required": "Saisissez une distance.",
@@ -878,8 +872,8 @@
       "info": {
         "title": "Où une annonce <em>est située</em>",
         "source": "Le lieu d’une annonce provient du fournisseur, pas de l’objet. Nous enregistrons où chaque fournisseur est établi et l’utilisons pour toutes ses annonces. Un objet peut être stocké ou expédié depuis un autre endroit.",
-        "modes": "<strong>Adresses exactes uniquement</strong> utilise les fournisseurs enregistrés à une adresse complète. <strong>Inclure les localisations approximatives</strong> utilise aussi les relevés qui ne connaissent que la rue, la localité ou la région ; leurs distances peuvent donc varier de plusieurs kilomètres.",
-        "lag": "Les distances sont à vol d’oiseau, pas des itinéraires, et sont arrondies selon la précision avec laquelle le lieu est connu. Une localisation de fournisseur nouvelle ou modifiée peut mettre un peu de temps à apparaître dans ces recherches."
+        "lag": "Les distances sont à vol d’oiseau, pas des itinéraires, et sont arrondies selon la précision avec laquelle le lieu est connu. Une localisation de fournisseur nouvelle ou modifiée peut mettre un peu de temps à apparaître dans ces recherches.",
+        "approximate": "Les fournisseurs dont on ne connaît que la rue, la localité ou la région comptent aussi ; leurs distances peuvent donc varier de plusieurs kilomètres."
       },
       "card": {
         "approximate": "environ {{distance}}",
@@ -891,7 +885,6 @@
         "headline": "Rien dans un rayon de <em>{{distance}}.</em>",
         "description": "Rien dans un rayon de {{distance}} autour de {{origin}}. Élargissez la distance ou incluez les localisations approximatives.",
         "widen": "Chercher dans un rayon de {{distance}}",
-        "includeApproximate": "Inclure les localisations approximatives",
         "removeDistance": "Retirer la distance"
       },
       "rejected": {

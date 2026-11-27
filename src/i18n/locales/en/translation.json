@@ -756,8 +756,7 @@
       "remove": "Remove filter: {{label}}",
       "place": "Place",
       "within": "Within",
-      "withinValue": "{{distance}} of {{origin}}",
-      "locations": "Locations"
+      "withinValue": "{{distance}} of {{origin}}"
     },
     "resetAll": "Reset all",
     "showResults_one": "Show {{count}} result",
@@ -847,11 +846,6 @@
         "KILOMETERS": "km",
         "MILES": "miles"
       },
-      "whichLocations": "Which locations count",
-      "approximate": "Include approximate locations",
-      "approximateHint": "Street, town or regional records count too.",
-      "strict": "Exact addresses only",
-      "strictHint": "Only providers recorded at a full street address.",
       "howDetermined": "How locations are determined",
       "validation": {
         "required": "Enter a distance.",
@@ -878,8 +872,8 @@
       "info": {
         "title": "Where a listing <em>is placed</em>",
         "source": "A listing’s place comes from the provider, not from the object. We record where each provider is based and use it for all of its listings. An object can be stored or shipped from somewhere else.",
-        "modes": "<strong>Exact addresses only</strong> uses providers recorded at a full street address. <strong>Include approximate locations</strong> also uses records known only to the street, town or region, so their distances can be off by several kilometres.",
-        "lag": "Distances are straight lines, not routes, and are rounded to how precisely the place is known. A new or changed provider location can take a little while to show up in these searches."
+        "lag": "Distances are straight lines, not routes, and are rounded to how precisely the place is known. A new or changed provider location can take a little while to show up in these searches.",
+        "approximate": "Providers known only to the street, town or region count too, so their distances can be off by several kilometres."
       },
       "card": {
         "approximate": "about {{distance}}",
@@ -891,7 +885,6 @@
         "headline": "Nothing within <em>{{distance}}.</em>",
         "description": "Nothing within {{distance}} of {{origin}}. Widen the distance or include approximate locations.",
         "widen": "Search within {{distance}}",
-        "includeApproximate": "Include approximate locations",
         "removeDistance": "Remove distance"
       },
       "rejected": {

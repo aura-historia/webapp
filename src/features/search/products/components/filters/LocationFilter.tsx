@@ -130,8 +130,7 @@ export function LocationFilter({ searchArgs, origin, variant }: LocationFilterPr
                 : location.subdivisions.map(formatSubdivisionName).join(", ");
         }
         const unit = t(`search.location.units.${location.radius.unit}`);
-        const exact = location.mode === "STRICT" ? ` · ${t("search.location.strict")}` : "";
-        return `${location.radius.amount.toLocaleString(i18n.language)} ${unit}${exact}`;
+        return `${location.radius.amount.toLocaleString(i18n.language)} ${unit}`;
     }, [location, formatSubdivisionName, t, i18n.language]);
 
     return (
@@ -490,7 +489,6 @@ function DistanceControls({
             kind: "DISTANCE",
             near,
             radius,
-            mode: location?.mode ?? "APPROXIMATE",
             ...(location?.distanceOrder ? { distanceOrder: location.distanceOrder } : {}),
         });
     };
@@ -554,11 +552,6 @@ function DistanceControls({
                     radius={radius}
                     sheet={sheet}
                     onChange={(next) => location && onChange({ ...location, radius: next })}
-                />
-                <ModeRadios
-                    value={location?.mode ?? "APPROXIMATE"}
-                    sheet={sheet}
-                    onChange={(mode) => location && onChange({ ...location, mode })}
                 />
             </div>
         </div>
@@ -1005,74 +998,5 @@ function RadiusField({
                 </p>
             )}
         </div>
-    );
-}
-
-function ModeRadios({
-    value,
-    sheet,
-    onChange,
-}: {
-    readonly value: "STRICT" | "APPROXIMATE";
-    readonly sheet: boolean;
-    readonly onChange: (mode: "STRICT" | "APPROXIMATE") => void;
-}) {
-    const { t } = useTranslation();
-    const name = useId();
-    const options = [
-        {
-            value: "APPROXIMATE" as const,
-            label: t("search.location.approximate"),
-            hint: t("search.location.approximateHint"),
-        },
-        {
-            value: "STRICT" as const,
-            label: t("search.location.strict"),
-            hint: t("search.location.strictHint"),
-        },
-    ];
-    return (
-        <fieldset className="m-0 flex flex-col gap-1 border-0 p-0">
-            <legend className={cn(LABEL_CLASS, "mb-2 p-0")}>
-                {t("search.location.whichLocations")}
-            </legend>
-            {options.map((option) => {
-                const checked = option.value === value;
-                return (
-                    <label
-                        key={option.value}
-                        className={cn(
-                            "flex cursor-pointer items-start gap-2.5 py-1.5",
-                            sheet ? "min-h-11" : "min-h-9",
-                        )}
-                    >
-                        <input
-                            type="radio"
-                            name={name}
-                            checked={checked}
-                            onChange={() => onChange(option.value)}
-                            className="peer sr-only"
-                        />
-                        <span
-                            aria-hidden="true"
-                            className={cn(
-                                "mt-0.5 inline-flex size-4 shrink-0 items-center justify-center rounded-pill peer-focus-visible:outline-2 peer-focus-visible:outline-offset-3 peer-focus-visible:outline-brass peer-focus-visible:outline-solid",
-                                checked
-                                    ? "shadow-[inset_0_0_0_1.5px_var(--oxblood)]"
-                                    : "shadow-[inset_0_0_0_1px_var(--line-strong)]",
-                            )}
-                        >
-                            {checked && <span className="size-2 rounded-pill bg-oxblood" />}
-                        </span>
-                        <span className="flex flex-col gap-0.5">
-                            <span className="text-sm leading-[1.4] text-ink">{option.label}</span>
-                            <span className="text-xs leading-[1.45] text-ink-muted">
-                                {option.hint}
-                            </span>
-                        </span>
-                    </label>
-                );
-            })}
-        </fieldset>
     );
 }

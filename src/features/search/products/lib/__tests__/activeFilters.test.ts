@@ -112,21 +112,17 @@ describe("location chips", () => {
         });
     });
 
-    it("lists a distance chip and an exact-addresses chip that reverts to approximate", () => {
+    it("lists one distance chip that removes the distance search", () => {
         const args = {
             q: "",
             location: {
                 kind: "DISTANCE" as const,
                 near: { kind: "SEARCH_LOCATION" as const },
                 radius: { amount: 50, unit: "KILOMETERS" as const },
-                mode: "STRICT" as const,
             },
         };
         const filters = getActiveFilters(args);
-        expect(filters.map((filter) => filter.kind)).toEqual(["distance", "exactLocations"]);
-        expect(removeActiveFilter(args, filters[1]).location).toMatchObject({
-            mode: "APPROXIMATE",
-        });
+        expect(filters.map((filter) => filter.kind)).toEqual(["distance"]);
         expect(removeActiveFilter(args, filters[0]).location).toBeUndefined();
     });
 });

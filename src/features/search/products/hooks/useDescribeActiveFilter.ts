@@ -69,11 +69,6 @@ export function useDescribeActiveFilter(originLabel?: string, regionNames = fals
                         value: t("search.chip.withinValue", { distance, origin }),
                     };
                 }
-                case "exactLocations":
-                    return {
-                        key: t("search.chip.locations"),
-                        value: t("search.location.strict"),
-                    };
             }
         },
         [t, i18n.language, formatPriceRange, formatDateRange, formatSubdivisionName, originLabel],

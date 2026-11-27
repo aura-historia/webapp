@@ -8,16 +8,12 @@ import { FILTER_FOCUS_CLASS } from "@/features/search/common/components/filters/
 import { useMediaQuery } from "@/hooks/common/useMediaQuery.ts";
 import { cn } from "@/lib/utils.ts";
 
-const STRONG = { strong: <strong className="font-medium text-ink" /> };
-
 function LocationInfoBody() {
     const { t } = useTranslation();
     return (
         <div className="flex flex-col gap-3.5 text-body-sm text-ink-secondary">
             <p>{t("search.location.info.source")}</p>
-            <p>
-                <Trans i18nKey="search.location.info.modes" components={STRONG} />
-            </p>
+            <p>{t("search.location.info.approximate")}</p>
             <p>{t("search.location.info.lag")}</p>
         </div>
     );

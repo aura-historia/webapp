@@ -756,8 +756,7 @@
       "remove": "Rimuovi filtro: {{label}}",
       "place": "Luogo",
       "within": "Entro",
-      "withinValue": "{{distance}} da {{origin}}",
-      "locations": "Località"
+      "withinValue": "{{distance}} da {{origin}}"
     },
     "resetAll": "Reimposta",
     "showResults_one": "Mostra {{count}} risultato",
@@ -847,11 +846,6 @@
         "KILOMETERS": "km",
         "MILES": "miglia"
       },
-      "whichLocations": "Quali località contano",
-      "approximate": "Includi località approssimative",
-      "approximateHint": "Contano anche i dati di via, località o regione.",
-      "strict": "Solo indirizzi esatti",
-      "strictHint": "Solo fornitori registrati con un indirizzo completo.",
       "howDetermined": "Come vengono determinate le località",
       "validation": {
         "required": "Inserisci una distanza.",
@@ -878,8 +872,8 @@
       "info": {
         "title": "Dove si <em>trova</em> un annuncio",
         "source": "Il luogo di un annuncio proviene dal fornitore, non dall’oggetto. Registriamo dove ha sede ciascun fornitore e lo usiamo per tutti i suoi annunci. Un oggetto può essere conservato o spedito da un altro luogo.",
-        "modes": "<strong>Solo indirizzi esatti</strong> usa i fornitori registrati con un indirizzo completo. <strong>Includi località approssimative</strong> usa anche dati che conoscono solo la via, la località o la regione, quindi le loro distanze possono variare di diversi chilometri.",
-        "lag": "Le distanze sono in linea d’aria, non percorsi, e sono arrotondate in base alla precisione con cui è noto il luogo. Una sede del fornitore nuova o modificata può richiedere un po’ di tempo per comparire in queste ricerche."
+        "lag": "Le distanze sono in linea d’aria, non percorsi, e sono arrotondate in base alla precisione con cui è noto il luogo. Una sede del fornitore nuova o modificata può richiedere un po’ di tempo per comparire in queste ricerche.",
+        "approximate": "Contano anche i fornitori di cui si conosce solo la via, la località o la regione, quindi le loro distanze possono variare di diversi chilometri."
       },
       "card": {
         "approximate": "circa {{distance}}",
@@ -891,7 +885,6 @@
         "headline": "Niente entro <em>{{distance}}.</em>",
         "description": "Niente entro {{distance}} da {{origin}}. Amplia la distanza o includi le località approssimative.",
         "widen": "Cerca entro {{distance}}",
-        "includeApproximate": "Includi località approssimative",
         "removeDistance": "Rimuovi la distanza"
       },
       "rejected": {
