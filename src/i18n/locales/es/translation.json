@@ -569,7 +569,10 @@
         "updated": "Dirección actualizada",
         "deleted": "Dirección eliminada",
         "deleteFailed": "No se pudo eliminar la dirección. Inténtelo de nuevo.",
-        "missing": "Esta dirección ya no existe."
+        "missing": "Esta dirección ya no existe.",
+        "searchLocationSet": "Ubicación de búsqueda establecida en {{label}}",
+        "searchLocationOff": "Ubicación de búsqueda desactivada",
+        "searchLocationFailed": "No se pudo guardar la ubicación de búsqueda. Inténtelo de nuevo."
       },
       "validation": {
         "labelRequired": "Introduzca un nombre para esta dirección.",
@@ -585,7 +588,6 @@
         "invalid": "No se pudo guardar la dirección. Revise sus datos.",
         "requestFailed": "La solicitud ha fallado. Inténtelo de nuevo."
       },
-      "searchLocation": "Ubicación de búsqueda",
       "located": "Localizada",
       "notLocated": {
         "label": "Sin localizar",
@@ -611,97 +613,13 @@
           "REGION": "Región",
           "OTHER": "Lugar"
         }
-      }
-    },
-    "searchLocation": {
-      "title": "Ubicación de búsqueda",
-      "description": "Un lugar desde el que calculamos distancias y resultados regionales para usted. Solo usted puede verlo.",
-      "currently": "Actualmente",
-      "current": {
-        "none": "Sin ubicación de búsqueda",
-        "unavailable": "Una dirección guardada que ya no está disponible",
-        "unsupported": "Una ubicación de búsqueda que no se puede mostrar aquí",
-        "postalCode": "Código postal {{postalCode}}",
-        "noPostalCode": "Sin código postal"
       },
-      "notice": {
-        "cleared": "Su ubicación de búsqueda era una dirección guardada que se ha eliminado, así que ahora no se usa ninguna.",
-        "unavailable": "La dirección guardada que eligió ya no está disponible. Elija otro lugar o mantenga sin ubicación de búsqueda.",
-        "unsupported": "Para conservar esta ubicación de búsqueda, deje esta sección como está. Guardar una nueva opción la sustituye."
-      },
-      "legend": "Usar como ubicación de búsqueda",
-      "choices": {
-        "NONE": {
-          "title": "Sin ubicación de búsqueda",
-          "description": "No se calculan distancias ni resultados regionales para usted."
-        },
-        "ADDRESS": {
-          "title": "Una de mis direcciones guardadas",
-          "description": "Se usa la ubicación de la dirección tal cual. Si edita la dirección más adelante, se actualiza.",
-          "descriptionEmpty": "Aún no tiene direcciones guardadas."
-        },
-        "COUNTRY_POSTAL": {
-          "title": "Un país",
-          "description": "Con código postal si lo desea. No se deduce nada de su idioma, su moneda ni su conexión."
-        }
-      },
-      "address": {
-        "label": "Dirección guardada",
-        "placeholder": "Elija una dirección",
-        "notLocated": "Sin localizar",
-        "notLocatedHint": "Esta dirección aún no está localizada, así que no se pueden calcular distancias. Edítela en Direcciones guardadas y elija una sugerencia para localizarla.",
-        "showMore": "Mostrar más direcciones",
-        "empty": "Aún no tiene direcciones guardadas. Añada una y luego elíjala aquí.",
-        "add": "Añadir dirección",
-        "loadError": "No se pudieron cargar sus direcciones guardadas."
-      },
-      "country": {
-        "label": "País",
-        "placeholder": "Elija un país",
-        "search": "Buscar países",
-        "searchPlaceholder": "Buscar países…",
-        "noCountries": "No se encontraron países."
-      },
-      "postalCode": {
-        "label": "Código postal",
-        "optional": "(opcional)",
-        "hint": "Se guarda exactamente como lo escribe."
-      },
-      "validation": {
-        "addressRequired": "Elija una de sus direcciones guardadas.",
-        "addressGone": "Esta dirección ya no existe. Su lista se ha actualizado. Elija otra.",
-        "countryRequired": "Elija un país de la lista.",
-        "postalCodeInvalid": "Use un código postal más corto en una sola línea."
-      },
-      "conflict": {
-        "title": "Su ubicación de búsqueda se cambió en otro lugar.",
-        "body": "«Actualmente» muestra ahora la ubicación de búsqueda guardada. Su elección se mantiene arriba. Guarde de nuevo para sustituirla."
-      },
-      "saveError": {
-        "title": "No se pudo guardar su ubicación de búsqueda.",
-        "body": "Su elección se mantiene. Inténtelo de nuevo."
-      },
-      "errors": {
-        "loadFailed": "No se pudo cargar su ubicación de búsqueda."
-      },
-      "distinction": "La ubicación de búsqueda no es una dirección de envío, de facturación ni de residencia. Sus búsquedas y búsquedas guardadas conservan su propia ubicación y no cambian.",
-      "save": "Guardar ubicación de búsqueda",
-      "saveAgain": "Guardar mi elección",
-      "saving": "Guardando…",
-      "toasts": {
-        "saved": "Ubicación de búsqueda guardada",
-        "cleared": "Ubicación de búsqueda eliminada"
-      },
-      "loading": "Cargando su ubicación de búsqueda",
-      "error": {
-        "title": "No se pudo <em>cargar</em> su ubicación de búsqueda.",
-        "description": "Inténtelo de nuevo en un momento."
-      },
-      "retry": "Reintentar",
-      "accessLost": {
-        "title": "Su ubicación de búsqueda no está <em>disponible.</em>",
-        "description": "Su sesión ya no permite acceder a ella. Vuelva a iniciar sesión para ver su ubicación de búsqueda.",
-        "action": "Volver a iniciar sesión"
+      "searchLocationNote": "Su ubicación de búsqueda es la dirección que usamos para mostrar si los anuncios se pueden enviar a su dirección. Puede elegir una a la vez.",
+      "searchLocationSwitch": "Usar como ubicación de búsqueda",
+      "searchLocationLoadError": "No se pudo cargar su ubicación de búsqueda.",
+      "searchLocationConflict": {
+        "title": "Cambiada en otro dispositivo",
+        "body": "Su ubicación de búsqueda se cambió en otro lugar. Los interruptores muestran ahora la elección más reciente; inténtelo de nuevo si desea otra."
       }
     }
   },
@@ -838,8 +756,7 @@
       "remove": "Quitar filtro: {{label}}",
       "place": "Lugar",
       "within": "Radio",
-      "withinValue": "{{distance}} de {{origin}}",
-      "locations": "Ubicaciones"
+      "withinValue": "{{distance}} de {{origin}}"
     },
     "resetAll": "Restablecer",
     "showResults_one": "Mostrar {{count}} resultado",
@@ -929,11 +846,6 @@
         "KILOMETERS": "km",
         "MILES": "millas"
       },
-      "whichLocations": "Qué ubicaciones cuentan",
-      "approximate": "Incluir ubicaciones aproximadas",
-      "approximateHint": "También cuentan los registros de calle, localidad o región.",
-      "strict": "Solo direcciones exactas",
-      "strictHint": "Solo proveedores registrados con una dirección completa.",
       "howDetermined": "Cómo se determinan las ubicaciones",
       "validation": {
         "required": "Introduce una distancia.",
@@ -960,8 +872,8 @@
       "info": {
         "title": "Dónde se <em>sitúa</em> un anuncio",
         "source": "El lugar de un anuncio procede del proveedor, no del objeto. Registramos dónde está establecido cada proveedor y lo usamos para todos sus anuncios. Un objeto puede estar almacenado o enviarse desde otro lugar.",
-        "modes": "<strong>Solo direcciones exactas</strong> usa proveedores registrados con una dirección completa. <strong>Incluir ubicaciones aproximadas</strong> usa también registros que solo conocen la calle, la localidad o la región, por lo que sus distancias pueden variar varios kilómetros.",
-        "lag": "Las distancias son en línea recta, no rutas, y se redondean según la precisión con que se conoce el lugar. Una ubicación de proveedor nueva o modificada puede tardar un poco en aparecer en estas búsquedas."
+        "lag": "Las distancias son en línea recta, no rutas, y se redondean según la precisión con que se conoce el lugar. Una ubicación de proveedor nueva o modificada puede tardar un poco en aparecer en estas búsquedas.",
+        "approximate": "También cuentan los proveedores de los que solo se conoce la calle, la localidad o la región, por lo que sus distancias pueden variar varios kilómetros."
       },
       "card": {
         "approximate": "unos {{distance}}",
@@ -973,7 +885,6 @@
         "headline": "Nada en un radio de <em>{{distance}}.</em>",
         "description": "Nada en un radio de {{distance}} de {{origin}}. Amplía la distancia o incluye ubicaciones aproximadas.",
         "widen": "Buscar en un radio de {{distance}}",
-        "includeApproximate": "Incluir ubicaciones aproximadas",
         "removeDistance": "Quitar la distancia"
       },
       "rejected": {

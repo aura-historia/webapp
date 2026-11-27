@@ -199,13 +199,12 @@ describe("SearchResults", () => {
             label: "Zuhause",
             key: "address:uaddr_home:1",
         };
-        const distanceSearch = (mode: "APPROXIMATE" | "STRICT"): SearchFilterArguments => ({
+        const distanceSearch = (): SearchFilterArguments => ({
             q: "test",
             location: {
                 kind: "DISTANCE",
                 near: { kind: "ADDRESS", addressId: "uaddr_home" },
                 radius: { amount: 50, unit: "KILOMETERS" },
-                mode,
             },
         });
 
@@ -214,7 +213,7 @@ describe("SearchResults", () => {
             setSearchMock({ error: new GeographySearchError("rejected") });
             renderWithQueryClient(
                 <SearchResults
-                    searchFilters={distanceSearch("APPROXIMATE")}
+                    searchFilters={distanceSearch()}
                     origin={home}
                     onChangeFilters={onChangeFilters}
                     onResetFilters={vi.fn()}
@@ -227,9 +226,9 @@ describe("SearchResults", () => {
             expect(onChangeFilters).toHaveBeenCalledWith({ q: "test", location: undefined });
         });
 
-        it("offers to widen, include approximate locations or drop an empty distance search", async () => {
+        it("offers to widen or drop an empty distance search", async () => {
             const onChangeFilters = vi.fn();
-            const searchFilters = distanceSearch("STRICT");
+            const searchFilters = distanceSearch();
             setSearchMock({ products: [] });
             renderWithQueryClient(
                 <SearchResults
@@ -250,31 +249,8 @@ describe("SearchResults", () => {
                 },
             });
 
-            await userEvent.click(
-                screen.getByRole("button", { name: "Ungefähre Standorte einbeziehen" }),
-            );
-            expect(onChangeFilters).toHaveBeenLastCalledWith({
-                ...searchFilters,
-                location: { ...searchFilters.location, mode: "APPROXIMATE" },
-            });
-
             await userEvent.click(screen.getByRole("button", { name: "Entfernung entfernen" }));
             expect(onChangeFilters).toHaveBeenLastCalledWith({ q: "test", location: undefined });
-        });
-
-        it("offers no approximate switch when approximate locations already count", () => {
-            setSearchMock({ products: [] });
-            renderWithQueryClient(
-                <SearchResults
-                    searchFilters={distanceSearch("APPROXIMATE")}
-                    origin={home}
-                    onResetFilters={vi.fn()}
-                />,
-            );
-            expect(
-                screen.queryByRole("button", { name: "Ungefähre Standorte einbeziehen" }),
-            ).not.toBeInTheDocument();
-            expect(screen.getByRole("button", { name: "Entfernung entfernen" })).toBeVisible();
         });
     });
 });

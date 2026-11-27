@@ -232,7 +232,6 @@ describe("useSearch", () => {
                 kind: "DISTANCE",
                 near: { kind: "SEARCH_LOCATION" },
                 radius: { amount: 50, unit: "KILOMETERS" },
-                mode: "APPROXIMATE",
                 distanceOrder: "ASC",
             },
         };

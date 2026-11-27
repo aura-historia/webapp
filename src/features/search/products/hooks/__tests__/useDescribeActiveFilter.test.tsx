@@ -59,10 +59,4 @@ describe("useDescribeActiveFilter (location)", () => {
             }).value,
         ).toBe("50 km um Suchstandort");
     });
-
-    it("names the exact-addresses-only switch", () => {
-        expect(
-            renderDescribe().result.current({ kind: "exactLocations", id: "exactLocations" }),
-        ).toEqual({ key: "Standorte", value: "Nur genaue Adressen" });
-    });
 });

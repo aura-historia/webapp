@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { ChevronDown, Crosshair, Globe, MapPin, Search, X } from "lucide-react";
+import { ChevronDown, Crosshair, Globe, MapPin, Search, Star, X } from "lucide-react";
 import { type KeyboardEvent, type ReactNode, useEffect, useId, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDebouncedCallback } from "use-debounce";
@@ -130,8 +130,7 @@ export function LocationFilter({ searchArgs, origin, variant }: LocationFilterPr
                 : location.subdivisions.map(formatSubdivisionName).join(", ");
         }
         const unit = t(`search.location.units.${location.radius.unit}`);
-        const exact = location.mode === "STRICT" ? ` · ${t("search.location.strict")}` : "";
-        return `${location.radius.amount.toLocaleString(i18n.language)} ${unit}${exact}`;
+        return `${location.radius.amount.toLocaleString(i18n.language)} ${unit}`;
     }, [location, formatSubdivisionName, t, i18n.language]);
 
     return (
@@ -490,7 +489,6 @@ function DistanceControls({
             kind: "DISTANCE",
             near,
             radius,
-            mode: location?.mode ?? "APPROXIMATE",
             ...(location?.distanceOrder ? { distanceOrder: location.distanceOrder } : {}),
         });
     };
@@ -554,11 +552,6 @@ function DistanceControls({
                     radius={radius}
                     sheet={sheet}
                     onChange={(next) => location && onChange({ ...location, radius: next })}
-                />
-                <ModeRadios
-                    value={location?.mode ?? "APPROXIMATE"}
-                    sheet={sheet}
-                    onChange={(mode) => location && onChange({ ...location, mode })}
                 />
             </div>
         </div>
@@ -754,16 +747,29 @@ function NearField({
     );
 }
 
-/** The tag beside a saved address in the Near picker. */
+/** The marks beside a saved address in the Near picker: a star for the search location, a ring when not located. */
 function addressDetail(
     preferred: boolean,
     located: boolean,
     t: (key: string) => string,
-): Pick<PreferenceOption, "detail" | "detailMark"> {
-    if (preferred) return { detail: t("search.location.searchLocationTag") };
-    if (!located)
-        return { detail: t("search.location.notLocated"), detailMark: <NotLocatedMark /> };
-    return {};
+): Pick<PreferenceOption, "detail" | "detailMark" | "labelMark"> {
+    return {
+        ...(preferred
+            ? {
+                  labelMark: (
+                      <Star
+                          role="img"
+                          aria-label={t("search.location.searchLocationTag")}
+                          className="size-3.5 shrink-0 fill-current text-brass-ink"
+                          strokeWidth={1.6}
+                      />
+                  ),
+              }
+            : {}),
+        ...(located
+            ? {}
+            : { detail: t("search.location.notLocated"), detailMark: <NotLocatedMark /> }),
+    };
 }
 
 /** Spinner while the starting point loads, a pin once it is known, a globe for Everywhere. */
@@ -992,74 +998,5 @@ function RadiusField({
                 </p>
             )}
         </div>
-    );
-}
-
-function ModeRadios({
-    value,
-    sheet,
-    onChange,
-}: {
-    readonly value: "STRICT" | "APPROXIMATE";
-    readonly sheet: boolean;
-    readonly onChange: (mode: "STRICT" | "APPROXIMATE") => void;
-}) {
-    const { t } = useTranslation();
-    const name = useId();
-    const options = [
-        {
-            value: "APPROXIMATE" as const,
-            label: t("search.location.approximate"),
-            hint: t("search.location.approximateHint"),
-        },
-        {
-            value: "STRICT" as const,
-            label: t("search.location.strict"),
-            hint: t("search.location.strictHint"),
-        },
-    ];
-    return (
-        <fieldset className="m-0 flex flex-col gap-1 border-0 p-0">
-            <legend className={cn(LABEL_CLASS, "mb-2 p-0")}>
-                {t("search.location.whichLocations")}
-            </legend>
-            {options.map((option) => {
-                const checked = option.value === value;
-                return (
-                    <label
-                        key={option.value}
-                        className={cn(
-                            "flex cursor-pointer items-start gap-2.5 py-1.5",
-                            sheet ? "min-h-11" : "min-h-9",
-                        )}
-                    >
-                        <input
-                            type="radio"
-                            name={name}
-                            checked={checked}
-                            onChange={() => onChange(option.value)}
-                            className="peer sr-only"
-                        />
-                        <span
-                            aria-hidden="true"
-                            className={cn(
-                                "mt-0.5 inline-flex size-4 shrink-0 items-center justify-center rounded-pill peer-focus-visible:outline-2 peer-focus-visible:outline-offset-3 peer-focus-visible:outline-brass peer-focus-visible:outline-solid",
-                                checked
-                                    ? "shadow-[inset_0_0_0_1.5px_var(--oxblood)]"
-                                    : "shadow-[inset_0_0_0_1px_var(--line-strong)]",
-                            )}
-                        >
-                            {checked && <span className="size-2 rounded-pill bg-oxblood" />}
-                        </span>
-                        <span className="flex flex-col gap-0.5">
-                            <span className="text-sm leading-[1.4] text-ink">{option.label}</span>
-                            <span className="text-xs leading-[1.45] text-ink-muted">
-                                {option.hint}
-                            </span>
-                        </span>
-                    </label>
-                );
-            })}
-        </fieldset>
     );
 }

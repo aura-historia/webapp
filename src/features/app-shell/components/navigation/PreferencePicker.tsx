@@ -30,6 +30,8 @@ export interface PreferenceOption {
     readonly detail?: string;
     /** Mark before the detail (a "Not located" ring); always paired with the detail text. */
     readonly detailMark?: ReactNode;
+    /** Mark before the label (the search location star); carries its own accessible name. */
+    readonly labelMark?: ReactNode;
     /** Second line under the label, wrapped instead of truncated (an address as entered). */
     readonly description?: string;
     readonly searchTerms?: readonly string[];
@@ -423,13 +425,19 @@ function PreferenceList({
                         )}
                         {option.description ? (
                             <span className="flex min-w-0 flex-1 flex-col gap-0.5">
-                                <span className="wrap-anywhere">{option.label}</span>
+                                <span className="inline-flex items-center gap-1.5 wrap-anywhere">
+                                    {option.labelMark}
+                                    {option.label}
+                                </span>
                                 <span className="text-xs leading-[1.45] font-normal wrap-anywhere text-ink-muted">
                                     {option.description}
                                 </span>
                             </span>
                         ) : (
-                            <span className="min-w-0 flex-1 truncate">{option.label}</span>
+                            <span className="inline-flex min-w-0 flex-1 items-center gap-1.5">
+                                {option.labelMark}
+                                <span className="truncate">{option.label}</span>
+                            </span>
                         )}
                         {option.detail && (
                             <span

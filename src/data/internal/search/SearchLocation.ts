@@ -14,7 +14,6 @@ import {
     MAX_GEOGRAPHIC_CODES,
     type DistanceOrder,
     type GeographicSearch,
-    type ProximityMode,
 } from "@/data/internal/geography/GeographicSearch.ts";
 
 /** The units the search page offers; the API takes more, but people search in km or miles. */
@@ -40,7 +39,8 @@ export type SearchDistance = {
 
 /**
  * The search page's location filter. Searching by region and searching by distance are
- * exclusive; "Everywhere" is no location filter at all.
+ * exclusive; "Everywhere" is no location filter at all. A distance search always counts
+ * approximate locations too (#1391), so it carries no proximity mode.
  */
 export type SearchLocation =
     | {
@@ -52,7 +52,6 @@ export type SearchLocation =
           readonly kind: "DISTANCE";
           readonly near: SearchNear;
           readonly radius: SearchDistance;
-          readonly mode: ProximityMode;
           /** Replaces the ordinary sort while set. */
           readonly distanceOrder?: DistanceOrder;
       };
@@ -64,7 +63,6 @@ export type SearchLocationUrlParams = {
     near?: string;
     radius?: number;
     unit?: SearchDistanceUnit;
-    proximity?: "STRICT";
 };
 
 export type RawSearchLocationParams = {
@@ -73,7 +71,6 @@ export type RawSearchLocationParams = {
     near?: unknown;
     radius?: unknown;
     unit?: unknown;
-    proximity?: unknown;
     sortField?: unknown;
     sortOrder?: unknown;
 };
@@ -137,7 +134,8 @@ export function parseSearchDistance(amount: unknown, unit: unknown): SearchDista
 /**
  * Reads the location filter from the URL. A starting point makes it a distance search, and any
  * places then in the URL are ignored. An invalid distance falls back to the default 50 in the
- * given unit (kilometres when none), so a hand-edited link still searches.
+ * given unit (kilometres when none), so a hand-edited link still searches. An old `proximity`
+ * parameter is ignored.
  */
 export function parseSearchLocation(raw: RawSearchLocationParams): SearchLocation | undefined {
     const near = parseSearchNear(raw.near);
@@ -150,7 +148,6 @@ export function parseSearchLocation(raw: RawSearchLocationParams): SearchLocatio
                 amount: DEFAULT_SEARCH_RADIUS_AMOUNT,
                 unit,
             },
-            mode: raw.proximity === "STRICT" ? "STRICT" : "APPROXIMATE",
             ...(raw.sortField === DISTANCE_SORT_FIELD
                 ? { distanceOrder: raw.sortOrder === "DESC" ? "DESC" : "ASC" }
                 : {}),
@@ -188,13 +185,12 @@ export function serializeSearchLocation(
         near: serializeSearchNear(location.near),
         radius: location.radius.amount,
         unit: location.radius.unit,
-        ...(location.mode === "STRICT" ? { proximity: "STRICT" as const } : {}),
     };
 }
 
 /**
  * The `geography` predicate to send. A distance search sends nothing until its starting point is
- * known; it then always names its mode, because the backend's default (strict) differs from ours.
+ * known; it then always sends the approximate mode, because the backend's default is strict.
  */
 export function mapSearchLocationToGeographicSearch(
     location: SearchLocation | undefined,
@@ -210,7 +206,7 @@ export function mapSearchLocationToGeographicSearch(
         subdivisions: [],
         origin,
         radius: location.radius satisfies GeographicDistance,
-        mode: location.mode,
+        mode: "APPROXIMATE",
         ...(location.distanceOrder ? { distanceOrder: location.distanceOrder } : {}),
     };
 }

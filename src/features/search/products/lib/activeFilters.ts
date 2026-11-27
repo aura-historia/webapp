@@ -36,15 +36,10 @@ export type ActiveFilter =
           readonly id: string;
           readonly radius: SearchDistance;
           readonly near: SearchNear;
-      }
-    | { readonly kind: "exactLocations"; readonly id: string };
+      };
 
 /** Location filters, which saved searches do not keep yet (#1081). */
-export const LOCATION_FILTER_KINDS: readonly ActiveFilter["kind"][] = [
-    "place",
-    "distance",
-    "exactLocations",
-];
+export const LOCATION_FILTER_KINDS: readonly ActiveFilter["kind"][] = ["place", "distance"];
 
 const DATE_FIELDS = {
     auctionDate: ["auctionDateFrom", "auctionDateTo"],
@@ -108,9 +103,6 @@ export function getActiveFilters(args: SearchFilterArguments): ActiveFilter[] {
             radius: location.radius,
             near: location.near,
         });
-        if (location.mode === "STRICT") {
-            filters.push({ kind: "exactLocations", id: "exactLocations" });
-        }
     }
 
     for (const field of Object.keys(DATE_FIELDS) as DateFilterKey[]) {
@@ -176,9 +168,5 @@ export function removeActiveFilter(
             return { ...args, location: removeRegionPlace(args.location, filter.code) };
         case "distance":
             return { ...args, location: undefined };
-        case "exactLocations":
-            return args.location?.kind === "DISTANCE"
-                ? { ...args, location: { ...args.location, mode: "APPROXIMATE" } }
-                : args;
     }
 }

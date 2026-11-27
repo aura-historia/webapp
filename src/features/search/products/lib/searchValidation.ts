@@ -36,7 +36,6 @@ export type RawSearchParams = {
     near?: string;
     radius?: number | string;
     unit?: string;
-    proximity?: string;
 } & SearchSchemaInput;
 
 function parseOptionalNumber(value: unknown): number | undefined {
@@ -120,7 +119,6 @@ export function serializeSearchParams(
               near: urlParams.near,
               radius: urlParams.radius,
               unit: urlParams.unit,
-              proximity: urlParams.proximity,
           };
     const argumentLocation = fromArguments ? (params as SearchFilterArguments).location : undefined;
     const distanceOrder =

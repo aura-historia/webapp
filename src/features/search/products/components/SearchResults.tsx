@@ -183,15 +183,6 @@ export function SearchResults({
                         })}
                     </button>
                 )}
-                {distanceLocation.mode === "STRICT" && (
-                    <button
-                        type="button"
-                        onClick={() => changeLocation({ ...distanceLocation, mode: "APPROXIMATE" })}
-                        className={RESULT_SECONDARY_BUTTON_CLASS}
-                    >
-                        {t("search.location.noResults.includeApproximate")}
-                    </button>
-                )}
                 <button
                     type="button"
                     onClick={() => changeLocation(undefined)}
