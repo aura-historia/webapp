@@ -7,6 +7,7 @@ Public landing pages may be prerendered, with these exceptions.
 - Keep recently added products client-only. Do not embed this frequently changing inventory in prerendered or build-time HTML.
 - Prerender a matching skeleton or stable placeholder to reserve layout and avoid layout shift.
 - Load current products after mount. Do not turn this exception into a route loader merely to improve first paint.
+- Show only listings created at least 24 hours ago (`created[max]`, rounded down to the hour). Translation and embedding run in batches that can take that long, so newer listings may still show original-language text. Keep `useRecentlyAddedProducts` on this cutoff until the backend offers an enrichment-aware listing feed.
 
 ## Catalogue Statistics
 

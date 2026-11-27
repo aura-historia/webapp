@@ -8,9 +8,27 @@ import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferen
 
 export const RECENTLY_ADDED_COUNT = 12;
 
+const HOUR_MS = 60 * 60 * 1000;
+
 /**
- * The newest listings in the index. Client-only by design: this inventory changes too often
- * to be baked into prerendered landing-page HTML.
+ * Translation and embedding run in batches that mostly finish within an hour but can take up to
+ * 24 hours. A listing newer than that may still show its original-language text, so the rail
+ * skips it.
+ */
+export const ENRICHMENT_LAG_MS = 24 * HOUR_MS;
+
+/**
+ * Newest `created` time the rail shows (RFC 3339): at least `ENRICHMENT_LAG_MS` before `now`,
+ * rounded down to the full hour so the request URL stays the same for an hour and anonymous
+ * responses are shared at the edge.
+ */
+export function enrichedCreatedCutoff(now: number = Date.now()): string {
+    return new Date(Math.floor((now - ENRICHMENT_LAG_MS) / HOUR_MS) * HOUR_MS).toISOString();
+}
+
+/**
+ * The newest listings in the index that enrichment has had time to finish. Client-only by
+ * design: this inventory changes too often to be baked into prerendered landing-page HTML.
  */
 export function useRecentlyAddedProducts() {
     const { i18n } = useTranslation();
@@ -28,6 +46,7 @@ export function useRecentlyAddedProducts() {
                     sort: "created",
                     order: "desc",
                     size: RECENTLY_ADDED_COUNT,
+                    created: { max: enrichedCreatedCutoff() },
                     language,
                     currency: preferences.currency,
                 },
