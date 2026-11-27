@@ -1048,6 +1048,10 @@
     },
     "carousel": {
       "position": "{{range}} de {{total}}"
+    },
+    "translationNote": {
+      "processing": "Este objeto aún se está procesando. Su texto se muestra en {{language}} hasta que la traducción esté lista.",
+      "unavailable": "Se muestra en {{language}}, ya que no hay traducción disponible para este objeto."
     }
   },
   "listingAvailability": {
@@ -2825,7 +2829,9 @@
       "withoutIngestionMethod_one": "{{value}} sin método de importación",
       "withoutIngestionMethod_other": "{{value}} sin método de importación",
       "active_one": "{{value}} activo",
-      "active_other": "{{value}} activos"
+      "active_other": "{{value}} activos",
+      "noticesSubmitted_one": "{{value}} recibido",
+      "noticesSubmitted_other": "{{value}} recibidos"
     },
     "contentNotices": {
       "title": "Avisos de contenido",

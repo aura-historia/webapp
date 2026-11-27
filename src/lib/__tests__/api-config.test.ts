@@ -102,7 +102,11 @@ describe("api-config", () => {
             detail: "User not found",
         };
 
-        await expect(errorInterceptor(userNotFoundError)).resolves.toBe(userNotFoundError);
+        await expect(
+            errorInterceptor(userNotFoundError, undefined, undefined, {
+                url: "/v1/me/account",
+            }),
+        ).resolves.toBe(userNotFoundError);
 
         expect(mockSignOut).toHaveBeenCalledTimes(1);
     });
@@ -124,7 +128,11 @@ describe("api-config", () => {
             detail: "Product listing not found",
         };
 
-        await expect(errorInterceptor(productNotFoundError)).resolves.toBe(productNotFoundError);
+        await expect(
+            errorInterceptor(productNotFoundError, undefined, undefined, {
+                url: "/v1/product-listings/{productListingId}",
+            }),
+        ).resolves.toBe(productNotFoundError);
 
         expect(mockSignOut).not.toHaveBeenCalled();
     });
@@ -148,7 +156,11 @@ describe("api-config", () => {
             detail: "User not found",
         };
 
-        await expect(errorInterceptor(userNotFoundError)).resolves.toBe(userNotFoundError);
+        await expect(
+            errorInterceptor(userNotFoundError, undefined, undefined, {
+                url: "/v1/me/account",
+            }),
+        ).resolves.toBe(userNotFoundError);
 
         expect(mockSignOut).toHaveBeenCalledTimes(1);
         expect(consoleErrorSpy).toHaveBeenCalledWith(
@@ -157,5 +169,34 @@ describe("api-config", () => {
         );
 
         consoleErrorSpy.mockRestore();
+    });
+
+    it.each([
+        "/v1/admin/users/{userId}",
+        "/v1/admin/users/{userId}/access-tokens",
+        "/v1/mentions",
+        undefined,
+    ])("does not sign out on user-not-found errors from %s", async (url) => {
+        vi.doMock("@/env.ts", () => ({
+            env: {
+                VITE_API_URL: "https://test.com",
+            },
+        }));
+
+        await import("@/api-config.ts");
+
+        const errorInterceptor = mockErrorInterceptorUse.mock.calls.at(-1)?.[0];
+        const userNotFoundError = {
+            status: 404,
+            title: "Not Found",
+            error: "USER_NOT_FOUND",
+            detail: "User not found",
+        };
+
+        await expect(
+            errorInterceptor(userNotFoundError, undefined, undefined, { url }),
+        ).resolves.toBe(userNotFoundError);
+
+        expect(mockSignOut).not.toHaveBeenCalled();
     });
 });

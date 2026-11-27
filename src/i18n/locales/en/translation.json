@@ -1048,6 +1048,10 @@
     },
     "carousel": {
       "position": "Showing {{range}} of {{total}}"
+    },
+    "translationNote": {
+      "processing": "This item is still being processed. Its text is shown in {{language}} until the translation is ready.",
+      "unavailable": "Shown in {{language}}, as no translation is available for this item."
     }
   },
   "listingAvailability": {
@@ -3687,7 +3691,9 @@
       "withoutIngestionMethod_one": "{{value}} without an ingestion method",
       "withoutIngestionMethod_other": "{{value}} without an ingestion method",
       "active_one": "{{value}} active",
-      "active_other": "{{value}} active"
+      "active_other": "{{value}} active",
+      "noticesSubmitted_one": "{{value}} submitted",
+      "noticesSubmitted_other": "{{value}} submitted"
     },
     "contentNotices": {
       "title": "Content notices",

@@ -3,8 +3,8 @@ import { renderHook, waitFor } from "@testing-library/react";
 import type { ReactNode } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { UserPreferencesProvider } from "@/features/preferences/hooks/useUserPreferences.tsx";
+import { LISTING_ENRICHMENT_LAG_MS as ENRICHMENT_LAG_MS } from "@/data/internal/product/ListingEnrichment.ts";
 import {
-    ENRICHMENT_LAG_MS,
     enrichedCreatedCutoff,
     RECENTLY_ADDED_COUNT,
     useRecentlyAddedProducts,

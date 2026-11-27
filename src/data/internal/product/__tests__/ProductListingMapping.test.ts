@@ -451,6 +451,7 @@ describe("ProductListing mappers", () => {
 
         const detail = mapToProductListingDetail(details, "de-DE");
         expect(detail.title).toBe("Antique Imari charger");
+        expect(detail.titleLanguage).toBe("en");
         expect(detail.translated).toBe(false);
     });
 

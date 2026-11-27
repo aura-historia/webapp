@@ -27,6 +27,14 @@ function isCurrentUserNotFoundError(error: unknown): error is ApiError {
     });
 }
 
+// Only `/v1/me` endpoints describe the signed-in user. A missing user on any other endpoint (for
+// example an admin request about an account that was just deleted) must not end this session.
+const CURRENT_USER_ENDPOINT_PATTERN = /^\/v1\/me(?:\/|$)/;
+
+function isCurrentUserEndpoint(url: unknown): boolean {
+    return typeof url === "string" && CURRENT_USER_ENDPOINT_PATTERN.test(url);
+}
+
 async function signOutMissingUserSession() {
     pendingUserNotFoundSignOut ??= signOut()
         .catch((error) => {
@@ -51,8 +59,12 @@ client.setConfig({
     },
 });
 
-client.interceptors.error.use(async (error) => {
-    if (!import.meta.env.SSR && isCurrentUserNotFoundError(error)) {
+client.interceptors.error.use(async (error, _response, _request, options) => {
+    if (
+        !import.meta.env.SSR &&
+        isCurrentUserEndpoint(options?.url) &&
+        isCurrentUserNotFoundError(error)
+    ) {
         await signOutMissingUserSession();
     }
 
