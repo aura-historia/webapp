@@ -614,7 +614,7 @@
           "OTHER": "Ort"
         }
       },
-      "searchLocationNote": "Ihr Suchstandort ist die Adresse, anhand derer wir zeigen, ob Angebote zu Ihnen versandt werden. Sie können jeweils eine Adresse wählen.",
+      "searchLocationNote": "Ihr Suchstandort wird für Versandinformationen verwendet. Sie können jeweils eine Adresse wählen.",
       "searchLocationSwitch": "Als Suchstandort verwenden",
       "searchLocationLoadError": "Ihr Suchstandort konnte nicht geladen werden.",
       "searchLocationConflict": {

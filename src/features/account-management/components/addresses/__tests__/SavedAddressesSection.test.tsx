@@ -442,11 +442,13 @@ describe("SavedAddressesSection", () => {
             return toggle;
         };
 
-        it("explains the search location above the list", async () => {
+        it("explains the search location at the foot of the card, under the list", async () => {
             renderSection();
+            const note = await screen.findByText(t("account.addresses.searchLocationNote"));
+            const list = screen.getByRole("list");
             expect(
-                await screen.findByText(t("account.addresses.searchLocationNote")),
-            ).toBeInTheDocument();
+                list.compareDocumentPosition(note) & Node.DOCUMENT_POSITION_FOLLOWING,
+            ).toBeTruthy();
         });
 
         it("moves the search location to another address at the version that was read", async () => {

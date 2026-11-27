@@ -61,6 +61,8 @@ function SavedAddressesCard({ viewerCacheKey }: { readonly viewerCacheKey: strin
     const current = (address: UserAddress) =>
         addresses.find((item) => item.addressId === address.addressId) ?? address;
 
+    // The note sits at the foot of the card, under the list or the empty state.
+    const showNote = !list.isPending && !accessLost && (addresses.length > 0 || !list.isError);
     let body: ReactNode;
     if (list.isPending) body = <RowsSkeleton />;
     else if (accessLost) body = <AccessLostPanel />;
@@ -142,16 +144,6 @@ function SavedAddressesCard({ viewerCacheKey }: { readonly viewerCacheKey: strin
                     </button>
                 )}
             </div>
-            {!accessLost && (
-                <p className="flex items-start gap-2.5 rounded-md bg-surface-sunken px-3.5 py-3 text-meta leading-normal text-ink-secondary">
-                    <Info
-                        aria-hidden="true"
-                        className="mt-px size-4 shrink-0 text-ink-muted"
-                        strokeWidth={1.8}
-                    />
-                    {t("account.addresses.searchLocationNote")}
-                </p>
-            )}
             {searchLocation.loadFailed && !accessLost && (
                 <div
                     role="alert"
@@ -188,6 +180,16 @@ function SavedAddressesCard({ viewerCacheKey }: { readonly viewerCacheKey: strin
                 </div>
             )}
             {body}
+            {showNote && (
+                <p className="flex items-start gap-2.5 rounded-md bg-surface-sunken px-3.5 py-3 text-meta leading-normal text-ink-secondary">
+                    <Info
+                        aria-hidden="true"
+                        className="mt-px size-4 shrink-0 text-ink-muted"
+                        strokeWidth={1.8}
+                    />
+                    {t("account.addresses.searchLocationNote")}
+                </p>
+            )}
 
             {dialog?.kind === "create" && (
                 <AddressEditorDialog
