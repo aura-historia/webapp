@@ -1137,6 +1137,10 @@
     },
     "carousel": {
       "position": "{{range}} von {{total}}"
+    },
+    "translationNote": {
+      "processing": "Dieses Objekt wird noch verarbeitet. Der Text erscheint auf {{language}}, bis die Übersetzung fertig ist.",
+      "unavailable": "Auf {{language}} angezeigt, da für dieses Objekt keine Übersetzung vorliegt."
     }
   },
   "listingAvailability": {

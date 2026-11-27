@@ -13,10 +13,13 @@ export function ProductDetailPage({
     product,
     productListingId,
     history,
+    loadedAt,
 }: {
     readonly product: ProductListingDetail;
     readonly productListingId?: string;
     readonly history?: readonly ProductListingHistoryEntry[];
+    /** When the route loader loaded the listing; see {@link ProductInfo}. */
+    readonly loadedAt?: number;
 }) {
     const { preferences } = useUserPreferences();
     const historyQuery = useOptionalProductListingHistory(productListingId, preferences.currency);
@@ -25,7 +28,7 @@ export function ProductDetailPage({
     return (
         <div className="text-ink">
             <div className="mx-auto w-full max-w-[calc(var(--container-content)+2*var(--page-gutter))] px-(--page-gutter) pt-0 pb-16 sm:pt-10 sm:pb-28">
-                <ProductInfo product={product} />
+                <ProductInfo product={product} loadedAt={loadedAt} />
 
                 <div className="mt-14 sm:mt-24">
                     <ProductPriceChart

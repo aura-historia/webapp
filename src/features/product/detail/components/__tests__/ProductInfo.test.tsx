@@ -105,6 +105,37 @@ describe("ProductInfo", () => {
         expect(screen.getByRole("button", { name: "Über dieses Angebot" })).toBeInTheDocument();
         expect(screen.queryByTestId("partner-badge")).not.toBeInTheDocument();
     });
+    it("shows no translation note when the title is in the page language", () => {
+        renderWithQueryClient(<ProductInfo product={{ ...product, titleLanguage: "de" }} />);
+        expect(screen.queryByTestId("listing-translation-note")).not.toBeInTheDocument();
+    });
+    it("says a new listing in another language is still being processed", () => {
+        const created = new Date("2026-11-27T10:00:00Z");
+        renderWithQueryClient(
+            <ProductInfo
+                product={{ ...product, titleLanguage: "fr", created }}
+                loadedAt={Date.parse("2026-11-27T12:00:00Z")}
+            />,
+        );
+        expect(screen.getByTestId("listing-translation-note")).toHaveTextContent(
+            "Dieses Objekt wird noch verarbeitet. Der Text erscheint auf Französisch, bis die Übersetzung fertig ist.",
+        );
+        expect(screen.getByRole("heading", { name: "Test Product Title" })).toHaveAttribute(
+            "lang",
+            "fr",
+        );
+    });
+    it("makes no processing claim for an older listing without a translation", () => {
+        renderWithQueryClient(
+            <ProductInfo
+                product={{ ...product, titleLanguage: "fr" }}
+                loadedAt={Date.parse("2026-11-27T12:00:00Z")}
+            />,
+        );
+        expect(screen.getByTestId("listing-translation-note")).toHaveTextContent(
+            "Auf Französisch angezeigt, da für dieses Objekt keine Übersetzung vorliegt.",
+        );
+    });
     it("says the listing is machine-translated when its shown text is a translation", () => {
         renderWithQueryClient(<ProductInfo product={{ ...product, translated: true }} />);
         expect(screen.getByRole("complementary", { name: "Anbieterstatus" })).toHaveTextContent(

@@ -1,4 +1,4 @@
-import type { PersonalizedProductListingDetailsData } from "@/client";
+import type { LanguageData, PersonalizedProductListingDetailsData } from "@/client";
 import {
     isListingTextTranslated,
     mapListingDisplayText,
@@ -39,6 +39,8 @@ export type ProductListingDetail = {
     readonly productListingId: string;
     readonly productListingTitleSlugId?: string;
     readonly title?: string;
+    /** Language of the shown title (`localized.language`), which can differ from the page's. */
+    readonly titleLanguage?: LanguageData;
     /** Whether the shown title is a machine translation of the source's text. */
     readonly translated: boolean;
     readonly source: ProductListingSource;
@@ -79,6 +81,7 @@ export function mapToProductListingDetail(
         productListingId: item.productListingId,
         productListingTitleSlugId: item.productListingTitleSlugId,
         title: mapListingDisplayText(item.title),
+        titleLanguage: item.title?.localized.language,
         translated: isListingTextTranslated(item.title),
         source: mapProductListingSource(item.source),
         sourceListingId: item.sourceListingId,

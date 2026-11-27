@@ -1,8 +1,11 @@
 import { Link } from "@tanstack/react-router";
 import { Bookmark, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { parseLanguage } from "@/data/internal/common/Language.ts";
 import type { ProductListingDetail } from "@/data/internal/product/ProductListingDetail.ts";
 import { ListingStatusPill } from "@/features/product/detail/components/ListingStatusPill.tsx";
+import { ListingTranslationNote } from "@/features/product/detail/components/ListingTranslationNote.tsx";
+import { translationNoteKind } from "@/features/product/detail/lib/translationNote.ts";
 import { ProductImageGallery } from "@/features/product/detail/components/ProductImageGallery.tsx";
 import { ProductSharer } from "@/features/product/detail/components/ProductSharer.tsx";
 import { ProductTitle } from "@/features/product/detail/components/ProductTitle.tsx";
@@ -26,8 +29,16 @@ const PILL_BUTTON_CLASS = cn(
 );
 const MONO_LABEL_CLASS = "font-mono text-label tracking-[0.14em] text-ink-muted uppercase";
 
-export function ProductInfo({ product }: { readonly product: ProductListingDetail }) {
-    const { t } = useTranslation();
+export function ProductInfo({
+    product,
+    loadedAt,
+}: {
+    readonly product: ProductListingDetail;
+    /** When the page's data was loaded (route loader), to tell how old the listing is. */
+    readonly loadedAt?: number;
+}) {
+    const { t, i18n } = useTranslation();
+    const translationNote = translationNoteKind(product, parseLanguage(i18n.language), loadedAt);
     const noticeSearch = product.productListingTitleSlugId
         ? contentNoticeSearchForListing(product.productListingTitleSlugId)
         : {};
@@ -123,7 +134,16 @@ export function ProductInfo({ product }: { readonly product: ProductListingDetai
                         </Link>
                         {product.source.partner && <PartnerBadge size="md" />}
                     </div>
-                    <ProductTitle title={title} />
+                    <ProductTitle
+                        title={title}
+                        lang={product.title ? product.titleLanguage : undefined}
+                    />
+                    {translationNote && product.title && product.titleLanguage && (
+                        <ListingTranslationNote
+                            kind={translationNote}
+                            titleLanguage={product.titleLanguage}
+                        />
+                    )}
                 </div>
 
                 {!product.source.partner && (

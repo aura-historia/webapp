@@ -18,7 +18,14 @@ const SIZE_CLASS: Record<ProductTitleSize, string> = {
  * The listing title. Longer titles step down in size; very long ones start at four lines behind a
  * "Show full title" toggle. The whole title always stays in the markup for search and screen readers.
  */
-export function ProductTitle({ title }: { readonly title: string }) {
+export function ProductTitle({
+    title,
+    lang,
+}: {
+    readonly title: string;
+    /** The title's language, so screen readers pronounce an untranslated title correctly. */
+    readonly lang?: string;
+}) {
     const { t } = useTranslation();
     const titleId = useId();
     const [expanded, setExpanded] = useState(false);
@@ -28,6 +35,7 @@ export function ProductTitle({ title }: { readonly title: string }) {
         <div className="flex flex-col items-start">
             <h1
                 id={titleId}
+                lang={lang}
                 className={cn(
                     "font-serif font-normal text-pretty",
                     SIZE_CLASS[productTitleSize(title)],

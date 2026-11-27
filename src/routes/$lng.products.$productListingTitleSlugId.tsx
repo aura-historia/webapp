@@ -27,11 +27,13 @@ export const Route = createFileRoute("/$lng/products/$productListingTitleSlugId"
                 throw error;
             });
 
-        return productData;
+        // The load time travels with the loader data, so server and client judge the listing's
+        // age (for the translation note) from the same clock reading.
+        return { productData, loadedAt: Date.now() };
     },
     head: ({ loaderData, params }) =>
         generateProductHeadMeta(
-            loaderData ? mapToProductListingDetail(loaderData, params.lng) : undefined,
+            loaderData ? mapToProductListingDetail(loaderData.productData, params.lng) : undefined,
             params,
         ),
     pendingComponent: ProductDetailPageSkeleton,
@@ -40,6 +42,7 @@ export const Route = createFileRoute("/$lng/products/$productListingTitleSlugId"
 
 function ProductDetailComponent() {
     const { productListingTitleSlugId } = Route.useParams();
+    const { loadedAt } = Route.useLoaderData();
     const { i18n } = useTranslation();
     const { preferences } = useUserPreferences();
 
@@ -53,5 +56,11 @@ function ProductDetailComponent() {
 
     const product = mapToProductListingDetail(apiData, i18n.language);
 
-    return <ProductDetailPage product={product} productListingId={product.productListingId} />;
+    return (
+        <ProductDetailPage
+            product={product}
+            productListingId={product.productListingId}
+            loadedAt={loadedAt}
+        />
+    );
 }
