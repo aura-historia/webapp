@@ -1,5 +1,5 @@
 import type { SimpleSearchProductListingsData } from "@/client";
-import { LISTING_AVAILABILITIES } from "@/data/internal/product/ProductListingDomain.ts";
+import { SEARCHABLE_LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 
 type ListingSearchQuery = NonNullable<SimpleSearchProductListingsData["query"]>;
@@ -17,7 +17,7 @@ export function mapToListingAvailabilityQuery(args: SearchFilterArguments): Avai
     if (args.availability == null) return {};
 
     const availability = args.availability.filter((value) =>
-        LISTING_AVAILABILITIES.includes(value),
+        SEARCHABLE_LISTING_AVAILABILITIES.includes(value),
     );
     return {
         ...(availability.length ? { availability } : {}),

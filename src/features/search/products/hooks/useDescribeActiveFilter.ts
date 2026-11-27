@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
+import { SEARCHABLE_LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
 import {
     useDateFilterFormat,
     usePriceFilterFormat,
@@ -31,7 +31,7 @@ export function useDescribeActiveFilter(originLabel?: string, regionNames = fals
                         key: t("search.filter.availability"),
                         value: t("search.filter.selectedOf", {
                             selected: filter.selected,
-                            total: LISTING_AVAILABILITIES.length,
+                            total: SEARCHABLE_LISTING_AVAILABILITIES.length,
                         }),
                     };
                 case "price":

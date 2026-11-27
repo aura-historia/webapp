@@ -53,7 +53,7 @@ describe("useSearch", () => {
             listingSourceId: ["ls_1", "ls_2"],
             price: { min: 1000, max: 2000 },
             created: { min: "2026-01-01T00:00:00.000Z" },
-            availability: ["IN_STOCK", "SOLD_OUT"],
+            availability: ["IN_STOCK", "RESERVED"],
             searchAfter: JSON.stringify(cursor),
         });
 
@@ -76,7 +76,7 @@ describe("useSearch", () => {
             excludeListingSourceId: ["ls_3"],
             priceFrom: 10,
             priceTo: 20,
-            availability: ["IN_STOCK", "SOLD_OUT"],
+            availability: ["IN_STOCK", "RESERVED"],
             creationDateFrom: new Date("2024-01-01T00:00:00.000Z"),
             creationDateTo: new Date("2024-12-31T23:59:59.999Z"),
             updateDateFrom: new Date("2025-01-01T00:00:00.000Z"),
@@ -105,7 +105,7 @@ describe("useSearch", () => {
             sort: "created",
             order: "asc",
             price: { min: 1000, max: 2000 },
-            availability: ["IN_STOCK", "SOLD_OUT"],
+            availability: ["IN_STOCK", "RESERVED"],
             created: { min: "2024-01-01T00:00:00.000Z", max: "2024-12-31T23:59:59.999Z" },
             updated: { min: "2025-01-01T00:00:00.000Z", max: "2025-06-30T23:59:59.999Z" },
             lotBiddingOpens: { min: "2026-01-01T00:00:00.000Z", max: "2026-02-01T00:00:00.000Z" },

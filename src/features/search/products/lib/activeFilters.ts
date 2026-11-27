@@ -1,4 +1,4 @@
-import { LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
+import { SEARCHABLE_LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import {
     removeRegionPlace,
@@ -72,7 +72,7 @@ function sourceFilters(
 export function getActiveFilters(args: SearchFilterArguments): ActiveFilter[] {
     const filters: ActiveFilter[] = [];
 
-    if (args.availability && args.availability.length < LISTING_AVAILABILITIES.length) {
+    if (args.availability && args.availability.length < SEARCHABLE_LISTING_AVAILABILITIES.length) {
         filters.push({
             kind: "availability",
             id: "availability",

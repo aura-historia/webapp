@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { mapFiltersToUrlParams } from "@/features/search/products/lib/searchUrlParams.ts";
-import { LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
+import { SEARCHABLE_LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
 
 describe("mapFiltersToUrlParams", () => {
     it("maps price, availability, source IDs, and date ranges to canonical URL fields", () => {
@@ -9,7 +9,7 @@ describe("mapFiltersToUrlParams", () => {
             mapFiltersToUrlParams({
                 query: "antique vase",
                 priceSpan: { min: 100, max: 500 },
-                availability: ["IN_STOCK", "SOLD_OUT"],
+                availability: ["IN_STOCK", "RESERVED"],
                 listingSourceId: ["ls_1"],
                 excludeListingSourceId: ["ls_2"],
                 listingSourceLabels: ["Source One"],
@@ -23,7 +23,7 @@ describe("mapFiltersToUrlParams", () => {
             q: "antique vase",
             priceFrom: 100,
             priceTo: 500,
-            availability: ["IN_STOCK", "SOLD_OUT"],
+            availability: ["IN_STOCK", "RESERVED"],
             listingSourceId: ["ls_1"],
             excludeListingSourceId: ["ls_2"],
             listingSourceLabels: ["Source One"],
@@ -35,8 +35,10 @@ describe("mapFiltersToUrlParams", () => {
 
     it("does not filter out listings with nullable availability by default", () => {
         expect(
-            mapFiltersToUrlParams({ query: "chair", availability: [...LISTING_AVAILABILITIES] })
-                .availability,
+            mapFiltersToUrlParams({
+                query: "chair",
+                availability: [...SEARCHABLE_LISTING_AVAILABILITIES],
+            }).availability,
         ).toBeUndefined();
     });
 

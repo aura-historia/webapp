@@ -31,6 +31,16 @@ describe("mapToListingAvailabilityQuery", () => {
         ).toEqual({ orderability: ["ORDERABLE_NOW"], includeUnspecifiedAvailability: false });
     });
 
+    it("never sends out-of-stock, unavailable or sold-out", () => {
+        expect(
+            mapToListingAvailabilityQuery({
+                q: "",
+                // Stale values from older code paths must not reach the backend.
+                availability: ["IN_STOCK", "SOLD_OUT", "UNAVAILABLE", "OUT_OF_STOCK"] as never,
+            }),
+        ).toEqual({ availability: ["IN_STOCK"] });
+    });
+
     it("sends nothing without an availability selection, as a saved search persists nothing", () => {
         expect(
             mapToListingAvailabilityQuery({

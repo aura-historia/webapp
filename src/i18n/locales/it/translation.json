@@ -2993,7 +2993,7 @@
         "name": "Nome",
         "nameDescription": "Dai un nome al tuo filtro di ricerca, poi le parole che deve cercare.",
         "priceStatus": "Prezzo e stato",
-        "priceStatusDescription": "Definisci il tuo intervallo di prezzi e seleziona lo stato dell'annuncio desiderato – ad esempio solo articoli disponibili o anche pezzi già venduti all'asta per la ricerca di mercato.",
+        "priceStatusDescription": "Definisci il tuo intervallo di prezzi e seleziona gli stati dell'annuncio da includere – ad esempio solo articoli disponibili o anche pezzi riservati e in preordine.",
         "shop": "Negozio",
         "shopDescription": "Seleziona specificamente i tipi di fornitori – rinomate case d'asta, antiquari e mercanti d'arte specializzati o mercati – e includi o escludi fornitori individuali.",
         "date": "Data",

@@ -2993,7 +2993,7 @@
         "name": "Nom",
         "nameDescription": "Donnez un nom à votre filtre de recherche, puis les mots qu’il doit rechercher.",
         "priceStatus": "Prix & Statut",
-        "priceStatusDescription": "Définissez votre fourchette de prix et sélectionnez le statut d'annonce souhaité – par exemple, uniquement les articles disponibles ou aussi les pièces déjà vendues aux enchères pour la recherche de marché.",
+        "priceStatusDescription": "Définissez votre fourchette de prix et sélectionnez les statuts d'annonce à inclure – par exemple, uniquement les articles disponibles ou aussi les pièces réservées et en précommande.",
         "shop": "Boutique",
         "shopDescription": "Sélectionnez précisément les types de fournisseurs – maisons de ventes aux enchères renommées, marchands d’art et d’antiquités spécialisés ou marchés – et incluez ou excluez des fournisseurs individuels.",
         "date": "Date",

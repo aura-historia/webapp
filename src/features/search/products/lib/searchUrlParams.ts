@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
-import { LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
+import { SEARCHABLE_LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
 import type {
     DISTANCE_SORT_FIELD,
     SearchLocationUrlParams,
@@ -63,7 +63,7 @@ export function mapFiltersToUrlParams(data: SearchFilterData): SearchUrlParams {
         priceFrom: data.priceSpan?.min,
         priceTo: data.priceSpan?.max,
         availability:
-            data.availability?.length === LISTING_AVAILABILITIES.length
+            data.availability?.length === SEARCHABLE_LISTING_AVAILABILITIES.length
                 ? undefined
                 : data.availability,
         listingSourceId: data.listingSourceId?.length ? data.listingSourceId : undefined,

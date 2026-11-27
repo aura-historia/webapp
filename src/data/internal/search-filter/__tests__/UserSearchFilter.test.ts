@@ -12,7 +12,7 @@ import {
     mapToGeographicSearch,
     type GeographicSearch,
 } from "@/data/internal/geography/GeographicSearch.ts";
-import { LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
+import { SEARCHABLE_LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
 
 const baseFilterData: UserSearchFilterData = {
     userId: "user-1",
@@ -80,6 +80,27 @@ describe("mapToInternalUserSearchFilter", () => {
         expect(result.search.orderability).toEqual(["ORDERABLE_NOW"]);
         expect(result.search.includeUnspecifiedAvailability).toBe(false);
         expect(result.search.listingSourceId).toEqual(["source-1"]);
+    });
+
+    it("drops out-of-stock, unavailable and sold-out from a saved availability selection", () => {
+        const result = mapToInternalUserSearchFilter({
+            ...baseFilterData,
+            search: {
+                ...baseFilterData.search,
+                availability: ["SOLD_OUT", "IN_STOCK", "UNAVAILABLE", "OUT_OF_STOCK", "RESERVED"],
+            },
+        });
+        expect(result.search.availability).toEqual(["IN_STOCK", "RESERVED"]);
+    });
+
+    it("keeps the saved orderability predicate when only removed states were selected", () => {
+        const result = mapToInternalUserSearchFilter({
+            ...baseFilterData,
+            search: { ...baseFilterData.search, availability: ["SOLD_OUT"] },
+        });
+        expect(result.search.availability).toEqual([]);
+        expect(result.search.orderability).toEqual(["ORDERABLE_NOW"]);
+        expect(result.search.includeUnspecifiedAvailability).toBe(false);
     });
 
     it("names included and excluded sources from the listingSources cards", () => {
@@ -390,11 +411,11 @@ describe("isDefaultOrEmpty behaviour in mapToBackendCreateUserSearchFilter", () 
             name: "Test",
             search: {
                 q: "",
-                availability: [...LISTING_AVAILABILITIES],
+                availability: [...SEARCHABLE_LISTING_AVAILABILITIES],
                 listingSourceId: ["source-1"],
             },
         });
-        expect(result.search.availability).toEqual([...LISTING_AVAILABILITIES]);
+        expect(result.search.availability).toEqual([...SEARCHABLE_LISTING_AVAILABILITIES]);
         expect(result.search.orderability).toBeNull();
         expect(result.search.includeUnspecifiedAvailability).toBeNull();
         expect(result.search.listingSourceId).toEqual(["source-1"]);

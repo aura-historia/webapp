@@ -2993,7 +2993,7 @@
         "name": "Nombre",
         "nameDescription": "Dale un nombre a tu filtro de búsqueda y las palabras que debe buscar.",
         "priceStatus": "Precio y Estado",
-        "priceStatusDescription": "Defina su rango de precios y seleccione el estado de publicación deseado – por ejemplo, solo artículos disponibles o también piezas ya subastadas para investigación de mercado.",
+        "priceStatusDescription": "Defina su rango de precios y seleccione qué estados de publicación incluir – por ejemplo, solo artículos disponibles o también piezas reservadas y de pedido anticipado.",
         "shop": "Tienda",
         "shopDescription": "Seleccione específicamente tipos de proveedores – renombradas casas de subastas, anticuarios y marchantes de arte especializados o mercados – e incluya o excluya proveedores individuales.",
         "date": "Fecha",

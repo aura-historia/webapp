@@ -1,4 +1,4 @@
-import type { ListingAvailability } from "@/data/internal/product/ProductListingDomain.ts";
+import type { SearchableListingAvailability } from "@/data/internal/product/ListingAvailability.ts";
 import type { ListingOrderability } from "@/data/internal/product/ListingOrderability.ts";
 import type { SortMode } from "@/data/internal/search/SortMode.ts";
 import type { Currency } from "@/data/internal/common/Currency.ts";
@@ -15,7 +15,7 @@ export type SearchFilterArguments = {
     auctionId?: string[];
     priceFrom?: number;
     priceTo?: number;
-    availability?: Exclude<ListingAvailability, "UNKNOWN">[];
+    availability?: SearchableListingAvailability[];
     /** Sent only alongside `availability`; see `mapToListingAvailabilityQuery`. */
     orderability?: ListingOrderability[] | null;
     includeUnspecifiedAvailability?: boolean | null;

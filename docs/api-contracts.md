@@ -513,6 +513,14 @@ admin workflows in [admin workflows](admin-workflows.md).
     `matchesNoListingAvailability` short-circuits a predicate that admits nothing (listing search
     drops empty arrays). Saved-search previews therefore cover every filter; the search page has
     no orderability control yet.
+  - **Ended listings leave search** ([#1388](https://github.com/aura-historia/webapp/issues/1388)):
+    listing search no longer contains `OUT_OF_STOCK`, `UNAVAILABLE` or `SOLD_OUT` listings, so no
+    search interface filters for them. `SEARCHABLE_LISTING_AVAILABILITIES` (the other eight values)
+    is what the search page, its URL, saved searches and their wizard offer, parse and send;
+    `parseListingAvailability` and `mapToListingAvailabilityQuery` drop the three removed values
+    from old links and saved searches, and "all selected" means all eight. The 11-value enum stays
+    for listing data (status labels, history, JSON-LD) and the admin listing tools, which manage
+    listings in every state.
   - **OAuth** ([backend#2228](https://github.com/aura-historia/backend/issues/2228),
     [backend#2214](https://github.com/aura-historia/backend/issues/2214)): authorization input
     and token failures use the standard OAuth JSON error (`OAuthErrorData`); authentication and
@@ -774,7 +782,9 @@ DTO types belong only in mapper inputs, and timestamp strings become `Date` valu
   or surfaces the backend error; never substitute `0`, EUR or another rate.
 - `parseCurrency` is a preference helper with an EUR fallback. Validate other inputs, such as
   listing-source currency fields, with `toSupportedCurrency` and reject unsupported codes.
-- Availability is the nullable 11-value enum plus `UNKNOWN` for unexpected values. Lifecycle is
+- Availability is the nullable 11-value enum plus `UNKNOWN` for unexpected values. Search and
+  saved-search filters use only the eight-value `SEARCHABLE_LISTING_AVAILABILITIES` subset, since
+  search no longer contains out-of-stock, unavailable or sold-out listings. Lifecycle is
   independently `ACTIVE` or `WITHDRAWN` (with an `UNKNOWN` fallback); withdrawal, out-of-stock
   and sale are not equated.
 - `mapProductListingUserState` maps the optional `userState` from detail and collection

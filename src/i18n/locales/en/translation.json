@@ -2488,7 +2488,7 @@
         "name": "Name",
         "nameDescription": "Give your search filter a name, then the words it should look for.",
         "priceStatus": "Price & Status",
-        "priceStatusDescription": "Define your price range and select the desired listing status – such as only available items, or also already auctioned pieces for market research.",
+        "priceStatusDescription": "Define your price range and select which listing statuses to include – for example only available items, or also reserved and pre-order pieces.",
         "shop": "Shop",
         "shopDescription": "Specifically select provider types – renowned auction houses, specialized art and antiques dealers or marketplaces – and include or exclude individual providers.",
         "date": "Date",
