@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { simpleSearchProductListings } from "@/client";
 import { parseLanguage } from "@/data/internal/common/Language.ts";
+import { LISTING_ENRICHMENT_LAG_MS } from "@/data/internal/product/ListingEnrichment.ts";
 import { mapPersonalizedProductListingSummary } from "@/data/internal/product/ProductListing.ts";
 import { productListingQueryKeys } from "@/data/internal/product/ProductListingQueryKeys.ts";
 import { useUserPreferences } from "@/features/preferences/hooks/useUserPreferences.tsx";
@@ -11,19 +12,15 @@ export const RECENTLY_ADDED_COUNT = 12;
 const HOUR_MS = 60 * 60 * 1000;
 
 /**
- * Translation and embedding run in batches that mostly finish within an hour but can take up to
- * 24 hours. A listing newer than that may still show its original-language text, so the rail
- * skips it.
- */
-export const ENRICHMENT_LAG_MS = 24 * HOUR_MS;
-
-/**
- * Newest `created` time the rail shows (RFC 3339): at least `ENRICHMENT_LAG_MS` before `now`,
+ * Newest `created` time the rail shows (RFC 3339): at least `LISTING_ENRICHMENT_LAG_MS` before
+ * `now`, so listings that may still show their original-language text are skipped,
  * rounded down to the full hour so the request URL stays the same for an hour and anonymous
  * responses are shared at the edge.
  */
 export function enrichedCreatedCutoff(now: number = Date.now()): string {
-    return new Date(Math.floor((now - ENRICHMENT_LAG_MS) / HOUR_MS) * HOUR_MS).toISOString();
+    return new Date(
+        Math.floor((now - LISTING_ENRICHMENT_LAG_MS) / HOUR_MS) * HOUR_MS,
+    ).toISOString();
 }
 
 /**
