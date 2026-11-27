@@ -69,16 +69,44 @@ describe("useSimilarProducts", () => {
         expect(result.current.data?.isEmbeddingsPending).toBe(false);
     });
 
-    it.each([
-        undefined,
-        "https://untrusted.example/similar",
-        "/v1/product-listings/pl_OTHER/similar",
-    ])("rejects an absent or unsafe polling location: %s", async (url) => {
-        mocks.initial.mockResolvedValue(pending(url));
+    it("stays pending and repeats the initial request when the browser cannot read Location", async () => {
+        mocks.initial.mockResolvedValueOnce(pending()).mockResolvedValueOnce({
+            data: [{ productListingId: "pl_01SIMILAR" }],
+            response: new Response("[]", { status: 200 }),
+        });
         const { result } = renderSimilar();
-        await waitFor(() => expect(result.current.isError).toBe(true));
+        await waitFor(() => expect(result.current.data?.isEmbeddingsPending).toBe(true));
+        expect(result.current.isError).toBe(false);
+        expect(result.current.data?.pollUrl).toBeUndefined();
+        await act(async () => {
+            await result.current.refetch();
+        });
+        await waitFor(() =>
+            expect(result.current.data?.products).toEqual([{ productListingId: "pl_01SIMILAR" }]),
+        );
+        expect(mocks.initial).toHaveBeenCalledTimes(2);
         expect(mocks.poll).not.toHaveBeenCalled();
     });
+
+    it("counts repeated initial requests towards the polling limit", async () => {
+        mocks.initial.mockResolvedValue(pending());
+        const { result } = renderSimilar();
+        await waitFor(() => expect(result.current.data?.pendingPollCount).toBe(1));
+        await act(async () => {
+            await result.current.refetch();
+        });
+        await waitFor(() => expect(result.current.data?.pendingPollCount).toBe(2));
+    });
+
+    it.each(["https://untrusted.example/similar", "/v1/product-listings/pl_OTHER/similar"])(
+        "rejects an unsafe polling location: %s",
+        async (url) => {
+            mocks.initial.mockResolvedValue(pending(url));
+            const { result } = renderSimilar();
+            await waitFor(() => expect(result.current.isError).toBe(true));
+            expect(mocks.poll).not.toHaveBeenCalled();
+        },
+    );
 
     it("stops automatic polling after five pending responses", async () => {
         mocks.initial.mockResolvedValue(pending(location));

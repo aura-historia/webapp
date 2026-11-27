@@ -917,6 +917,10 @@
         "title": "Being Prepared",
         "description": "Similar items are being prepared. This can take up to 24 hours for new items."
       },
+      "embeddingsUnavailable": {
+        "title": "Not Available",
+        "description": "Similar items cannot be shown for this item."
+      },
       "noData": {
         "title": "No Similar Items",
         "description": "No similar products were found for this item."

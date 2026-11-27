@@ -912,6 +912,10 @@
         "title": "En cours de préparation",
         "description": "Les articles similaires sont en cours de préparation. Cela peut prendre jusqu'à 24 heures pour les nouveaux articles."
       },
+      "embeddingsUnavailable": {
+        "title": "Non disponible",
+        "description": "Les articles similaires ne peuvent pas être affichés pour cet article."
+      },
       "noData": {
         "title": "Aucun article similaire",
         "description": "Aucun produit similaire n'a été trouvé pour cet article."

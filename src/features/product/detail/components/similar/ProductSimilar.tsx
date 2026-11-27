@@ -1,6 +1,8 @@
 import { AlertTriangle, RefreshCw, SearchX } from "lucide-react";
-import type { ReactNode } from "react";
+import type { ComponentProps, ReactNode } from "react";
+import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
+import { isListingEnrichmentPending } from "@/data/internal/product/ListingEnrichment.ts";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel.tsx";
 import { useSimilarProducts } from "@/features/product/detail/api/useSimilarProducts.ts";
 import { ProductCarouselNavButtons } from "@/features/product/detail/components/ProductCarouselNavButtons.tsx";
@@ -17,6 +19,10 @@ const ITEM_CLASS = "basis-[72%] pl-3 sm:basis-1/2 sm:pl-6 lg:basis-1/3";
 
 interface ProductSimilarProps {
     readonly productListingId: string;
+    /** When the listing was created, to tell whether its embedding may still be on its way. */
+    readonly created?: Date;
+    /** When the route loader loaded the listing; see `ProductInfo`. */
+    readonly loadedAt?: number;
 }
 
 function SimilarSection({ children }: { readonly children: ReactNode }) {
@@ -27,9 +33,66 @@ function SimilarSection({ children }: { readonly children: ReactNode }) {
     );
 }
 
-export function ProductSimilar({ productListingId }: ProductSimilarProps) {
+/** The rail's error, pending, unavailable or empty state, or none when there are items to show. */
+function similarRailState(
+    t: TFunction,
+    {
+        error,
+        isEmbeddingsPending,
+        embeddingsMayArrive,
+        isEmpty,
+    }: {
+        readonly error?: string;
+        readonly isEmbeddingsPending: boolean;
+        readonly embeddingsMayArrive: boolean;
+        readonly isEmpty: boolean;
+    },
+): ComponentProps<typeof ProductRailState> | undefined {
+    if (error !== undefined) {
+        return {
+            icon: AlertTriangle,
+            tone: "error",
+            title: t("product.similar.error.title"),
+            description: error,
+        };
+    }
+    if (isEmbeddingsPending && embeddingsMayArrive) {
+        return {
+            icon: RefreshCw,
+            tone: "neutral",
+            spinning: true,
+            title: t("product.similar.embeddingsPending.title"),
+            description: t("product.similar.embeddingsPending.description"),
+        };
+    }
+    if (isEmbeddingsPending) {
+        return {
+            icon: SearchX,
+            tone: "muted",
+            title: t("product.similar.embeddingsUnavailable.title"),
+            description: t("product.similar.embeddingsUnavailable.description"),
+        };
+    }
+    if (isEmpty) {
+        return {
+            icon: SearchX,
+            tone: "muted",
+            title: t("product.similar.noData.title"),
+            description: t("product.similar.noData.description"),
+        };
+    }
+    return undefined;
+}
+
+export function ProductSimilar({ productListingId, created, loadedAt }: ProductSimilarProps) {
     const { t } = useTranslation();
     const { data, isLoading, isError, error } = useSimilarProducts(productListingId);
+    // Like the title's translation note (#1387): only claim similar items are being prepared while
+    // batch embedding may still be running; after that, say they cannot be shown (#1386).
+    const embeddingsMayArrive =
+        created !== undefined &&
+        loadedAt !== undefined &&
+        isListingEnrichmentPending(created, loadedAt);
     const heading = <ProductSectionHeading id={HEADING_ID} title={t("product.similar.title")} />;
 
     if (isLoading) {
@@ -50,29 +113,12 @@ export function ProductSimilar({ productListingId }: ProductSimilarProps) {
         );
     }
 
-    const state = isError
-        ? {
-              icon: AlertTriangle,
-              tone: "error" as const,
-              title: t("product.similar.error.title"),
-              description: error?.message ?? t("product.similar.error.description"),
-          }
-        : data?.isEmbeddingsPending
-          ? {
-                icon: RefreshCw,
-                tone: "neutral" as const,
-                spinning: true,
-                title: t("product.similar.embeddingsPending.title"),
-                description: t("product.similar.embeddingsPending.description"),
-            }
-          : !data?.products || data.products.length === 0
-            ? {
-                  icon: SearchX,
-                  tone: "muted" as const,
-                  title: t("product.similar.noData.title"),
-                  description: t("product.similar.noData.description"),
-              }
-            : undefined;
+    const state = similarRailState(t, {
+        error: isError ? (error?.message ?? t("product.similar.error.description")) : undefined,
+        isEmbeddingsPending: data?.isEmbeddingsPending ?? false,
+        embeddingsMayArrive,
+        isEmpty: !data?.products || data.products.length === 0,
+    });
 
     if (state || !data?.products) {
         return (
