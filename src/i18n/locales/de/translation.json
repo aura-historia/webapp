@@ -2492,7 +2492,7 @@
         "date": "Zeitraum",
         "confirm": "Zusammenfassung",
         "confirmDescription": "Prüfen Sie Ihren Suchauftrag vor dem Speichern.",
-        "priceStatusDescription": "Definieren Sie Ihren Preisrahmen und wählen Sie den gewünschten Anzeigenstatus – etwa ausschließlich verfügbare Objekte oder auch bereits versteigerte Stücke zur Marktrecherche.",
+        "priceStatusDescription": "Definieren Sie Ihren Preisrahmen und wählen Sie, welche Anzeigenstatus einbezogen werden – etwa ausschließlich verfügbare Objekte oder auch reservierte und vorbestellbare Stücke.",
         "shopDescription": "Wählen Sie gezielt Anbietertypen – renommierte Auktionshäuser, spezialisierte Kunst- und Antiquitätenhändler oder Marktplätze – und schließen Sie einzelne Häuser ein oder aus.",
         "dateDescription": "Grenzen Sie die Suche zeitlich ein – nach Auktionstermin, Datum der Erstveröffentlichung oder der letzten Aktualisierung des Inserats."
       },

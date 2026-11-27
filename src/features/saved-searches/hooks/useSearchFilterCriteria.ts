@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import {
-    LISTING_AVAILABILITIES,
     LISTING_AVAILABILITY_TRANSLATION_KEYS,
+    SEARCHABLE_LISTING_AVAILABILITIES,
 } from "@/data/internal/product/ListingAvailability.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import {
@@ -43,15 +43,15 @@ export function useSearchFilterCriteria(
         });
     }
 
-    const states = availability?.length ? availability : LISTING_AVAILABILITIES;
+    const states = availability?.length ? availability : SEARCHABLE_LISTING_AVAILABILITIES;
     criteria.push({
         id: "availability",
         label: t("search.filter.availability"),
         values:
-            states.length >= LISTING_AVAILABILITIES.length
+            states.length >= SEARCHABLE_LISTING_AVAILABILITIES.length
                 ? [t("search.filter.all")]
-                : LISTING_AVAILABILITIES.filter((state) => states.includes(state)).map((state) =>
-                      t(LISTING_AVAILABILITY_TRANSLATION_KEYS[state]),
+                : SEARCHABLE_LISTING_AVAILABILITIES.filter((state) => states.includes(state)).map(
+                      (state) => t(LISTING_AVAILABILITY_TRANSLATION_KEYS[state]),
                   ),
     });
 

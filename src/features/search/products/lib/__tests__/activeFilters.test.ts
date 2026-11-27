@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
+import { SEARCHABLE_LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
 import {
     getActiveFilters,
     removeActiveFilter,
@@ -12,7 +12,10 @@ describe("getActiveFilters", () => {
 
     it("ignores an availability selection that covers every state", () => {
         expect(
-            getActiveFilters({ q: "commode", availability: [...LISTING_AVAILABILITIES] }),
+            getActiveFilters({
+                q: "commode",
+                availability: [...SEARCHABLE_LISTING_AVAILABILITIES],
+            }),
         ).toEqual([]);
     });
 

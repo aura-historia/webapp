@@ -3,9 +3,9 @@ import { useId, useState } from "react";
 import { Controller, useFormContext, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
-    LISTING_AVAILABILITIES,
     LISTING_AVAILABILITY_TRANSLATION_KEYS,
-    type ListingAvailability,
+    SEARCHABLE_LISTING_AVAILABILITIES,
+    type SearchableListingAvailability,
 } from "@/data/internal/product/ListingAvailability.ts";
 import {
     FILTER_FOCUS_CLASS,
@@ -15,20 +15,20 @@ import type { FilterSchema } from "@/features/search/common/lib/filterForm.ts";
 import { useFilterNavigation } from "@/features/search/products/hooks/useFilterNavigation.ts";
 import { cn, handleCheckedChange } from "@/lib/utils.ts";
 
-type Availability = Exclude<ListingAvailability, "UNKNOWN">;
-
-/** The states most searches care about come first; the rest open with "Show all". */
-const PRIMARY_AVAILABILITIES: readonly Availability[] = [
+/**
+ * Only states search can still return are offered: out-of-stock, unavailable and sold-out listings
+ * are no longer part of search, so filtering for them would be redundant and misleading. The states
+ * most searches care about come first; the rest open with "Show all".
+ */
+const PRIMARY_AVAILABILITIES: readonly SearchableListingAvailability[] = [
     "AVAILABLE",
     "IN_STOCK",
     "LIMITED_AVAILABILITY",
     "RESERVED",
-    "SOLD_OUT",
-    "UNAVAILABLE",
 ];
-const ORDERED_AVAILABILITIES: readonly Availability[] = [
+const ORDERED_AVAILABILITIES: readonly SearchableListingAvailability[] = [
     ...PRIMARY_AVAILABILITIES,
-    ...LISTING_AVAILABILITIES.filter((value) => !PRIMARY_AVAILABILITIES.includes(value)),
+    ...SEARCHABLE_LISTING_AVAILABILITIES.filter((value) => !PRIMARY_AVAILABILITIES.includes(value)),
 ];
 
 export function ProductStateFilter() {
@@ -38,7 +38,7 @@ export function ProductStateFilter() {
     const [showAll, setShowAll] = useState(false);
     const listId = useId();
     const selected = useWatch({ control, name: "availability" }) ?? [];
-    const total = LISTING_AVAILABILITIES.length;
+    const total = SEARCHABLE_LISTING_AVAILABILITIES.length;
     const allSelected = selected.length === total;
     const visible = showAll ? ORDERED_AVAILABILITIES : PRIMARY_AVAILABILITIES;
 

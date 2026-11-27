@@ -3,8 +3,8 @@ import { z } from "zod";
 
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import {
-    LISTING_AVAILABILITIES,
     parseListingAvailability,
+    SEARCHABLE_LISTING_AVAILABILITIES,
 } from "@/data/internal/product/ListingAvailability.ts";
 import { FILTER_DEFAULTS } from "@/features/search/products/lib/filterDefaults.ts";
 
@@ -17,7 +17,7 @@ export const createFilterSchema = (t: TFunction) =>
                     max: z.number().min(0).optional().or(z.undefined()),
                 })
                 .optional(),
-            availability: z.array(z.enum(LISTING_AVAILABILITIES)),
+            availability: z.array(z.enum(SEARCHABLE_LISTING_AVAILABILITIES)),
             creationDate: z.object({
                 from: z.date().optional(),
                 to: z.date().optional(),
@@ -111,7 +111,7 @@ export function mapFormValuesToSearchFilterArguments(
         priceFrom: data.priceSpan?.min,
         priceTo: data.priceSpan?.max,
         availability:
-            data.availability.length === LISTING_AVAILABILITIES.length
+            data.availability.length === SEARCHABLE_LISTING_AVAILABILITIES.length
                 ? undefined
                 : data.availability,
         creationDateFrom: data.creationDate.from,

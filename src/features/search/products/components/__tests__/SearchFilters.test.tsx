@@ -4,7 +4,7 @@ import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { expandFilterCard, renderWithRouter } from "@/test/utils.tsx";
-import { LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
+import { SEARCHABLE_LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
 import {
     Outlet,
     RouterProvider,
@@ -104,7 +104,7 @@ describe("SearchFilters", () => {
         await user.click(screen.getAllByRole("checkbox")[0]);
         await waitFor(() => {
             expect(router.state.location.search.availability).toHaveLength(
-                LISTING_AVAILABILITIES.length - 1,
+                SEARCHABLE_LISTING_AVAILABILITIES.length - 1,
             );
             expect(router.state.location.search.priceFrom).toBeUndefined();
             expect(router.state.location.search.listingSourceId).toBeUndefined();

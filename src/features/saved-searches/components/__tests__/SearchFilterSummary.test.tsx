@@ -2,18 +2,19 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { SearchFilterSummary } from "../SearchFilterSummary.tsx";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
-import { LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
+import {
+    SEARCHABLE_LISTING_AVAILABILITIES,
+    type SearchableListingAvailability,
+} from "@/data/internal/product/ListingAvailability.ts";
 
 vi.mock("@/features/preferences/hooks/useUserPreferences.tsx", () => ({
     useUserPreferences: () => ({ preferences: { currency: "EUR" }, updatePreferences: vi.fn() }),
 }));
 
-type Availability = (typeof LISTING_AVAILABILITIES)[number];
-
 function renderSummary(
     name: string,
     search: SearchFilterArguments,
-    availability: Availability[] = [...LISTING_AVAILABILITIES],
+    availability: SearchableListingAvailability[] = [...SEARCHABLE_LISTING_AVAILABILITIES],
     props: { showName?: boolean; onChangeStep?: (step: number) => void } = {},
 ) {
     return render(

@@ -4,7 +4,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import type React from "react";
-import { LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
+import { SEARCHABLE_LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
 
 vi.mock("@/features/search/products/hooks/useFilterNavigation", () => ({
     useFilterNavigation: () => vi.fn(),
@@ -12,7 +12,7 @@ vi.mock("@/features/search/products/hooks/useFilterNavigation", () => ({
 
 const FormWrapper = ({
     children,
-    defaultValues = LISTING_AVAILABILITIES,
+    defaultValues = SEARCHABLE_LISTING_AVAILABILITIES,
 }: {
     children: React.ReactNode;
     defaultValues?: readonly string[];
@@ -22,7 +22,7 @@ const FormWrapper = ({
 };
 
 describe("ProductStateFilter", () => {
-    it("renders canonical listing availability options selected by default", () => {
+    it("renders the searchable availability options selected by default", () => {
         render(
             <FormWrapper>
                 <ProductStateFilter />
@@ -31,13 +31,13 @@ describe("ProductStateFilter", () => {
 
         expect(screen.getByText("Verfügbarkeit")).toBeInTheDocument();
         expect(screen.getByText("Auf Lager")).toBeInTheDocument();
-        expect(screen.getByText("Ausverkauft")).toBeInTheDocument();
+        expect(screen.getByText("Reserviert")).toBeInTheDocument();
 
         expect(screen.getByText("Alle")).toBeInTheDocument();
-        expect(screen.getAllByRole("checkbox")).toHaveLength(6);
+        expect(screen.getAllByRole("checkbox")).toHaveLength(4);
     });
 
-    it('shows every state behind "Show all" and keeps them checked', async () => {
+    it('shows every searchable state behind "Show all" and keeps them checked', async () => {
         const user = userEvent.setup();
         render(
             <FormWrapper>
@@ -45,12 +45,32 @@ describe("ProductStateFilter", () => {
             </FormWrapper>,
         );
 
-        await user.click(screen.getByRole("button", { name: "Alle 11 anzeigen" }));
+        await user.click(screen.getByRole("button", { name: "Alle 8 anzeigen" }));
 
         const checkboxes = screen.getAllByRole("checkbox");
-        expect(checkboxes).toHaveLength(LISTING_AVAILABILITIES.length);
+        expect(checkboxes).toHaveLength(SEARCHABLE_LISTING_AVAILABILITIES.length);
         for (const checkbox of checkboxes) {
             expect(checkbox).toBeChecked();
+        }
+    });
+
+    it('does not offer out-of-stock, unavailable or sold-out, even behind "Show all"', async () => {
+        const user = userEvent.setup();
+        render(
+            <FormWrapper>
+                <ProductStateFilter />
+            </FormWrapper>,
+        );
+
+        const removed = ["Ausverkauft", "Nicht verfügbar", "Nicht auf Lager"];
+        for (const label of removed) {
+            expect(screen.queryByRole("checkbox", { name: label })).not.toBeInTheDocument();
+        }
+
+        await user.click(screen.getByRole("button", { name: "Alle 8 anzeigen" }));
+
+        for (const label of removed) {
+            expect(screen.queryByRole("checkbox", { name: label })).not.toBeInTheDocument();
         }
     });
 
@@ -62,7 +82,7 @@ describe("ProductStateFilter", () => {
             </FormWrapper>,
         );
 
-        expect(screen.getByText("1 von 11")).toBeInTheDocument();
+        expect(screen.getByText("1 von 8")).toBeInTheDocument();
         const available = screen.getByRole("checkbox", { name: "Verfügbar" });
         await user.click(available);
         expect(available).toBeChecked();

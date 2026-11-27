@@ -4,7 +4,7 @@ import {
     stripRestrictedFilters,
 } from "../searchFilterRestrictions.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
-import { LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
+import { SEARCHABLE_LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
 
 const emptyArgs: SearchFilterArguments = { q: "" };
 
@@ -20,7 +20,7 @@ const argsWithAuctionDate: SearchFilterArguments = {
 
 const argsAllDefaults: SearchFilterArguments = {
     q: "",
-    availability: [...LISTING_AVAILABILITIES],
+    availability: [...SEARCHABLE_LISTING_AVAILABILITIES],
 };
 
 describe("getActiveRestrictedFilterLabels", () => {

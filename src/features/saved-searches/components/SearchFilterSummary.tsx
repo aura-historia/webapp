@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import type { LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
+import type { SearchableListingAvailability } from "@/data/internal/product/ListingAvailability.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import {
     getQueryTerms,
@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils.ts";
 type Props = {
     readonly name: string;
     readonly search: SearchFilterArguments;
-    readonly availability: (typeof LISTING_AVAILABILITIES)[number][];
+    readonly availability: SearchableListingAvailability[];
     /** Hide the name row when the caller already shows it elsewhere. */
     readonly showName?: boolean;
     /** Jumps back to the wizard step that sets a row; omit to hide the Change links. */

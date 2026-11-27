@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { SearchFilterConfigurationGrid } from "../SearchFilterConfigurationGrid.tsx";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
-import { LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
+import { SEARCHABLE_LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
 
 vi.mock("@/features/preferences/hooks/useUserPreferences.tsx", () => ({
     useUserPreferences: () => ({ preferences: { currency: "EUR" }, updatePreferences: vi.fn() }),
@@ -66,7 +66,7 @@ describe("SearchFilterConfigurationGrid", () => {
     });
 
     it("shows all when every API availability is selected", () => {
-        renderGrid({ q: "", availability: [...LISTING_AVAILABILITIES] });
+        renderGrid({ q: "", availability: [...SEARCHABLE_LISTING_AVAILABILITIES] });
         expect(rowValue("Verfügbarkeit")).toHaveTextContent("Alle");
     });
 
