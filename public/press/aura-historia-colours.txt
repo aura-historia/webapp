@@ -1,0 +1,15 @@
+Aura Historia colours
+=====================
+
+Mostly parchment and ink. Oxblood is the brand colour and is used as a fill; brass is a quiet
+accent, set as text only on ink.
+
+Parchment     #F4EEE3   RGB 244 238 227   The page ground.
+Ink           #170D0E   RGB 23 13 14      Text, and the dark ground.
+Oxblood       #4A1520   RGB 74 21 32      The brand colour, used as a fill.
+Brass         #B8935A   RGB 184 147 90    The accent. As text only on ink.
+Brass light   #E2C9A0   RGB 226 201 160   Emphasis in headlines on ink.
+Sand          #D9CDB8   RGB 217 205 184   Quiet data marks and dividers.
+
+Typefaces (SIL Open Font License, Google Fonts): Newsreader for headlines and object names,
+Geist for text and interface, Geist Mono for labels and figures.

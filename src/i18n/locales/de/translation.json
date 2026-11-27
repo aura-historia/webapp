@@ -4,7 +4,13 @@
     "unitSystemPrefix": "Einheiten",
     "currencySearchPlaceholder": "Währungen durchsuchen…",
     "close": "Schließen",
-    "currencySearchEmpty": "Keine Währung gefunden."
+    "currencySearchEmpty": "Keine Währung gefunden.",
+    "clipboard": {
+      "copy": "Kopieren",
+      "copied": "Kopiert",
+      "failedTitle": "Kopieren nicht möglich",
+      "failedDescription": "Ihr Browser hat die Zwischenablage blockiert. Markieren Sie den Text und kopieren Sie ihn selbst."
+    }
   },
   "meta": {
     "siteName": "Aura Historia | Globale Kunst- und Antiquitäten-Plattform",
@@ -133,6 +139,10 @@
     "contentNotice": {
       "title": "Entfernung beantragen oder Inhalt melden",
       "description": "Bitten Sie Aura Historia, ein Angebot zu entfernen, oder melden Sie Inhalte. Für Anbieter, Rechteinhaber und alle, die auf rechtswidrige Inhalte stoßen. Ohne Konto."
+    },
+    "press": {
+      "title": "Presse & Marke | Aura Historia",
+      "description": "Pressepaket von Aura Historia: Factsheet mit aktuellen Katalogzahlen, Beschreibungen zum Zitieren, Logos als SVG und PNG, Markenfarben, Schriften und Pressekontakt."
     }
   },
   "validation": {
@@ -236,7 +246,8 @@
     },
     "tagline": "Der globale Kunst- und Antiquitätenmarkt in einer einzigen Suche.",
     "socialNavigation": "Soziale Medien",
-    "aiAgents": "KI-Assistenten"
+    "aiAgents": "KI-Assistenten",
+    "press": "Presse & Marke"
   },
   "aboutPage": {
     "hero": {
@@ -6479,12 +6490,8 @@
       }
     },
     "copy": {
-      "copy": "Kopieren",
-      "copied": "Kopiert",
       "label": "Adresse kopieren",
-      "copiedLabel": "Adresse kopiert",
-      "failedTitle": "Kopieren nicht möglich",
-      "failedDescription": "Ihr Browser hat die Zwischenablage blockiert. Markieren Sie den Text und kopieren Sie ihn selbst."
+      "copiedLabel": "Adresse kopiert"
     },
     "capabilities": {
       "eyebrow": "Was er kann",
@@ -7047,6 +7054,266 @@
       "failedNote_other": "{{count}} Versuche. Es gibt keinen weiteren Versuch; bitte aus dem Kontaktpostfach antworten.",
       "none": "Keine",
       "noneNote": "Keine E-Mail-Adresse, daher wurde keine Bestätigung verschickt."
+    }
+  },
+  "pressPage": {
+    "hero": {
+      "eyebrow": "Presse & Marke",
+      "title": "Sie schreiben über Aura Historia? <em>Beginnen Sie hier.</em>",
+      "subtitle": "Fakten, Beschreibungen, Logos, Farben und Schriften für die Berichterstattung über Aura Historia. Alles auf dieser Seite dürfen Sie unverändert in redaktionellen Beiträgen verwenden; für alles andere schreiben Sie uns bitte vorher.",
+      "downloadKit": "Pressepaket herunterladen",
+      "contactLink": "Pressekontakt",
+      "kitNote": "ZIP · alle Logos als SVG und PNG, Farbwerte und Factsheet",
+      "navLabel": "Auf dieser Seite",
+      "nav": {
+        "facts": "Auf einen Blick",
+        "descriptions": "Beschreibungen",
+        "logo": "Logo",
+        "colour": "Farben",
+        "typography": "Typografie",
+        "images": "Bilder",
+        "usage": "Nutzung",
+        "contact": "Kontakt"
+      }
+    },
+    "facts": {
+      "eyebrow": "Factsheet",
+      "title": "Aura Historia <em>auf einen Blick.</em>",
+      "description": "Das Wichtigste für einen ersten Absatz. Die Katalogzahlen stammen aus unserer öffentlichen Statistik und werden mehrmals täglich neu berechnet; bitte nennen Sie sie mit ihrem Datum.",
+      "figures": {
+        "liveObjects_one": "Aktives Objekt",
+        "liveObjects_other": "Aktive Objekte",
+        "providers_one": "Erfasster Anbieter",
+        "providers_other": "Erfasste Anbieter",
+        "countries_one": "Land",
+        "countries_other": "Länder",
+        "languages_one": "Angebotssprache",
+        "languages_other": "Angebotssprachen",
+        "asOf": "Stand {{date}} · dieselbe Quelle wie die Zahlen auf unserer Startseite",
+        "unavailable": "Die aktuellen Katalogzahlen finden Sie auf unserer Startseite.",
+        "unavailableLink": "Zahlen auf der Startseite ansehen"
+      },
+      "items": {
+        "name": {
+          "label": "Name",
+          "value": "Aura Historia"
+        },
+        "whatItIs": {
+          "label": "Was es ist",
+          "value": "Eine weltweite Plattform für Suche und Entdeckung in Kunst und Antiquitäten"
+        },
+        "founded": {
+          "label": "Gegründet",
+          "value": "2026"
+        },
+        "team": {
+          "label": "Team",
+          "value": "Vier Personen, mit Schwerpunkten in Webentwicklung, Datenautomatisierung und Interface-Design"
+        },
+        "languages": {
+          "label": "Sprachen",
+          "value": "Englisch, Deutsch, Französisch, Spanisch und Italienisch"
+        },
+        "markets": {
+          "label": "Märkte",
+          "value": "Zunächst Europa und die Vereinigten Staaten; weitere Märkte folgen"
+        },
+        "aiAssistants": {
+          "label": "KI-Assistenten",
+          "value": "Verbindet sich über einen öffentlichen MCP-Server mit Claude und ChatGPT"
+        },
+        "website": {
+          "label": "Website",
+          "value": "aura-historia.com"
+        },
+        "basedIn": {
+          "label": "Sitz",
+          "value": "Leipzig, Deutschland"
+        }
+      },
+      "socialLabel": "In sozialen Medien"
+    },
+    "descriptions": {
+      "eyebrow": "Boilerplate",
+      "title": "Beschreibungen, <em>bereit zum Zitieren.</em>",
+      "description": "Eine kurze und eine lange Beschreibung – unverändert oder gekürzt zu verwenden, solange der Sinn erhalten bleibt. Wir halten beide hier aktuell.",
+      "short": {
+        "heading": "Kurzbeschreibung",
+        "text": "Aura Historia ist eine weltweite Plattform für Suche und Entdeckung in Kunst und Antiquitäten. Sie vereint Händler, Auktionshäuser und Marktplätze in einer mehrsprachigen Suche, mit privaten Merklisten und Suchaufträgen für Sammler und den Handel.",
+        "copyLabel": "Kurzbeschreibung kopieren",
+        "copiedLabel": "Kurzbeschreibung kopiert"
+      },
+      "long": {
+        "heading": "Ausführliche Beschreibung",
+        "text": "Aura Historia ist eine weltweite Plattform für Suche und Entdeckung in Kunst und Antiquitäten, 2026 in Leipzig gegründet. Sie vereint Angebote von Händlern, Auktionshäusern, spezialisierten Geschäften und Marktplätzen in einer Suche auf Englisch, Deutsch, Französisch, Spanisch und Italienisch. Angebote werden übersetzt und ihre Fachbegriffe abgeglichen, sodass eine Suche in einer Sprache auch Objekte findet, die in einer anderen katalogisiert sind. Sammler, Innenarchitekten und der Handel sehen damit, was jetzt angeboten wird, behalten Objekte auf einer privaten Merkliste im Blick und werden benachrichtigt, wenn neue Angebote passen. Gekauft wird beim ursprünglichen Anbieter; Aura Historia wickelt keine Verkäufe ab. Händler und Auktionshäuser können ihren Shop als Partner anbinden, ohne Gebühren und ohne Provision. Mehr unter aura-historia.com.",
+        "copyLabel": "Ausführliche Beschreibung kopieren",
+        "copiedLabel": "Ausführliche Beschreibung kopiert"
+      },
+      "copyText": "Text kopieren",
+      "count": "{{words}} Wörter · {{characters}} Zeichen",
+      "naming": {
+        "write": "Richtig",
+        "avoid": "Vermeiden",
+        "name": {
+          "title": "Unser Name",
+          "write": "Aura Historia: zwei Wörter, beide großgeschrieben. Nur im Logo in Versalien.",
+          "avoid": "AuraHistoria, Aura-Historia, AURA HISTORIA im Fließtext, AH"
+        },
+        "role": {
+          "title": "Was wir sind",
+          "write": "Eine Plattform für Suche und Entdeckung in Kunst und Antiquitäten, die auf das ursprüngliche Angebot verlinkt.",
+          "avoid": "Ein Auktionshaus, Marktplatz, Händler oder Gutachter. Wir verkaufen, bewerten und authentifizieren keine Objekte."
+        }
+      }
+    },
+    "logo": {
+      "eyebrow": "Logo",
+      "title": "Die <em>Wortmarke.</em>",
+      "description": "Aura Historia hat ein einziges Logo: die Wortmarke, zu der die Lupe am O gehört. Verwenden Sie sie in Tinte auf hellem und in Pergament auf dunklem Grund; einzeilig im Fließlayout, gestapelt in quadratischen Flächen.",
+      "downloadAll": "Alle Logos (ZIP)",
+      "downloadAs": "{{name}} als {{format}} herunterladen",
+      "cards": {
+        "inlineInk": {
+          "title": "Wortmarke, Tinte",
+          "meta": "Für helle Gründe · transparent"
+        },
+        "inlineParchment": {
+          "title": "Wortmarke, Pergament",
+          "meta": "Für dunkle Gründe · transparent"
+        },
+        "inlineOxblood": {
+          "title": "Wortmarke auf Ochsenblut",
+          "meta": "Mit eigenem Grund · für Profilbilder und Titel"
+        },
+        "stackedInk": {
+          "title": "Gestapelt, Tinte",
+          "meta": "Für quadratische Flächen · transparent"
+        },
+        "stackedParchment": {
+          "title": "Gestapelt, Pergament",
+          "meta": "Für quadratische Flächen auf dunklem Grund"
+        },
+        "stackedOxblood": {
+          "title": "Gestapelt auf Ochsenblut",
+          "meta": "Mit eigenem Grund · für Profilbilder und Titel"
+        }
+      },
+      "clearSpace": {
+        "title": "Schutzzone und <em>Mindestgröße</em>",
+        "spacing": "Halten Sie auf jeder Seite einen Freiraum von mindestens <strong>x</strong> ein, der Höhe eines Großbuchstabens.",
+        "minimum": "Mindestbreite: <strong>96 px</strong> am Bildschirm, <strong>25 mm</strong> im Druck. Darunter schreiben Sie den Namen besser als Text."
+      },
+      "misuse": {
+        "title": "Bitte <em>nicht</em>",
+        "stretched": "Strecken oder stauchen.",
+        "recoloured": "In anderen Farben als Tinte und Pergament einfärben.",
+        "effects": "Schatten, Konturen oder Effekte hinzufügen.",
+        "loupe": "Die Lupe entfernen oder versetzen.",
+        "more": "Setzen Sie den Namen auch nicht in einer anderen Schrift, um die Wortmarke nachzuahmen, und stellen Sie sie nicht ohne ruhigen Grund auf ein unruhiges Foto."
+      }
+    },
+    "colour": {
+      "eyebrow": "Farben",
+      "title": "Pergament, Tinte und <em>Ochsenblut.</em>",
+      "description": "Überwiegend Pergament und Tinte. Ochsenblut ist die Markenfarbe und wird als Fläche eingesetzt; Messing ist ein zurückhaltender Akzent und steht als Text nur auf Tinte.",
+      "swatches": {
+        "parchment": {
+          "name": "Pergament",
+          "role": "Der Seitengrund."
+        },
+        "ink": {
+          "name": "Tinte",
+          "role": "Text und der dunkle Grund."
+        },
+        "oxblood": {
+          "name": "Ochsenblut",
+          "role": "Die Markenfarbe, als Fläche eingesetzt."
+        },
+        "brass": {
+          "name": "Messing",
+          "role": "Der Akzent. Als Text nur auf Tinte."
+        },
+        "brassLight": {
+          "name": "Helles Messing",
+          "role": "Hervorhebungen in Überschriften auf Tinte."
+        },
+        "sand": {
+          "name": "Sand",
+          "role": "Zurückhaltende Datenmarken und Trennlinien."
+        }
+      },
+      "hex": "Hex",
+      "rgb": "RGB",
+      "copyLabel": "Hexwert von {{name}} kopieren",
+      "copiedLabel": "Hexwert von {{name}} kopiert"
+    },
+    "typography": {
+      "eyebrow": "Typografie",
+      "title": "Drei Schriften, <em>eine Stimme.</em>",
+      "description": "Alle drei sind Open Source unter der SIL Open Font License und kostenlos bei Google Fonts erhältlich. Die Wortmarke ist gezeichnet, nicht gesetzt – verwenden Sie dafür die Logodateien.",
+      "fonts": {
+        "newsreader": {
+          "role": "Überschriften · Objektnamen",
+          "sample": "Ein Paar Meissener Vasen, um 1750, <em>mit ihren originalen Deckeln.</em>"
+        },
+        "geist": {
+          "role": "Text · Oberfläche",
+          "sample": "Händler, Auktionshäuser und Marktplätze auf einmal durchsuchen und das Wichtige auf einer privaten Merkliste behalten."
+        },
+        "geistMono": {
+          "role": "Labels · Zahlen",
+          "sample": "III — Der Unterschied · Händler · Leipzig, DE"
+        }
+      },
+      "googleFonts": "{{name}} bei Google Fonts"
+    },
+    "images": {
+      "eyebrow": "Bilder",
+      "title": "Screenshots und <em>Porträts.</em>",
+      "description": "Produkt-Screenshots und Porträts des Teams erscheinen hier, jeweils mit Bildnachweis.",
+      "emptyTitle": "Bilder <em>auf Anfrage.</em>",
+      "emptyBody": "Bis unsere Screenshots und Porträts veröffentlicht sind, senden wir Ihnen Bilder für Ihren Beitrag per E-Mail, mit dem zu verwendenden Bildnachweis.",
+      "request": "Bilder anfragen",
+      "team": "Das Team kennenlernen"
+    },
+    "usage": {
+      "eyebrow": "Nutzung",
+      "title": "Nutzung dieser <em>Materialien.</em>",
+      "description": "Das Pressepaket ist für die Berichterstattung über Aura Historia gedacht. Alles darüber hinaus braucht vorher unsere schriftliche Zustimmung.",
+      "allowed": {
+        "heading": "Erlaubt",
+        "items": {
+          "coverage": "Logos, Beschreibungen und Zahlen in redaktionellen Beiträgen über Aura Historia verwenden",
+          "scale": "Die Logos proportional skalieren, in Tinte oder Pergament",
+          "shorten": "Die Beschreibungen kürzen, solange der Sinn erhalten bleibt",
+          "link": "Auf aura-historia.com und jede öffentliche Seite darauf verlinken"
+        }
+      },
+      "notAllowed": {
+        "heading": "Bitte nicht",
+        "items": {
+          "change": "Die Wortmarke verändern, nachzeichnen oder animieren",
+          "endorsement": "Mit unserem Namen oder Logo eine Partnerschaft, ein Sponsoring oder eine Empfehlung andeuten",
+          "advertising": "Die Materialien ohne unsere schriftliche Zustimmung in Werbung, auf Merchandise oder als App-Symbol verwenden",
+          "attribution": "Objekte auf Aura Historia so darstellen, als würden sie von uns verkauft, bewertet oder authentifiziert"
+        }
+      },
+      "thirdParty": "Namen und Logos von Händlern, Auktionshäusern und anderen Unternehmen, die auf Aura Historia erscheinen, gehören ihren Inhabern und sind nicht Teil dieses Pakets."
+    },
+    "contact": {
+      "eyebrow": "Pressekontakt",
+      "title": "Fragen, Interviews, <em>Bilder.</em>",
+      "description": "Schreiben Sie uns für Hintergründe, ein Interview oder Bilder zu Ihrem Beitrag. Bitte nennen Sie Ihr Medium und Ihren Termin.",
+      "copyLabel": "E-Mail-Adresse kopieren",
+      "copiedLabel": "E-Mail-Adresse kopiert",
+      "person": {
+        "label": "Kontakt",
+        "value": "Julian Bruder, Team Lead"
+      },
+      "basedIn": {
+        "label": "Sitz",
+        "value": "Leipzig, Deutschland"
+      }
     }
   }
 }

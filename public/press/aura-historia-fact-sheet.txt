@@ -1,0 +1,22 @@
+Aura Historia fact sheet
+========================
+
+What it is      A global platform for search and discovery in art and antiques
+Founded         2026
+Based in        Leipzig, Germany
+Team            Four people, across web engineering, data automation and interface design
+Languages       English, German, French, Spanish and Italian
+Markets         Europe and the United States first; further markets follow
+AI assistants   Connects to Claude and ChatGPT through a public MCP server
+Website         https://aura-historia.com
+
+Current catalogue figures, descriptions and the brand guidelines:
+https://aura-historia.com/en/press
+
+Press contact: contact@aura-historia.com
+
+Name: write "Aura Historia", two words, both capitalised. Aura Historia links to the original
+listing; it does not sell, value or authenticate objects.
+
+The logos in this kit may be used, unchanged, in editorial coverage of Aura Historia. They do not
+imply a partnership, sponsorship or endorsement. Anything else needs our written permission.
