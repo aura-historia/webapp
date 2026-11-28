@@ -27,6 +27,7 @@ import {
 import { Spinner } from "@/components/ui/spinner.tsx";
 import type { GeographicSearch } from "@/data/internal/geography/GeographicSearch.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
+import type { SearchDistance } from "@/data/internal/search/SearchLocation.ts";
 import { useUserAccount } from "@/features/account-management/hooks/useUserAccount.ts";
 import { HEADLINE_COMPONENTS } from "@/features/landing/components/common/SectionHeading.tsx";
 import { useCreateUserSearchFilter } from "@/features/saved-searches/api/useCreateUserSearchFilter.ts";
@@ -37,7 +38,10 @@ import {
 import { searchLocationToGeographicSearch } from "@/features/saved-searches/lib/savedSearchLocation.ts";
 import { formatGeographicDistance } from "@/features/geography/lib/formatGeography.ts";
 import { useDescribeActiveFilter } from "@/features/search/products/hooks/useDescribeActiveFilter.ts";
-import { useSearchOrigin } from "@/features/search/products/hooks/useSearchOrigin.ts";
+import {
+    type SearchOriginProblem,
+    useSearchOrigin,
+} from "@/features/search/products/hooks/useSearchOrigin.ts";
 import {
     isGeolocationSupported,
     requestCurrentLocation,
@@ -86,15 +90,12 @@ const RESTRICTED_GROUP_FILTERS: Record<string, (filter: ActiveFilter) => boolean
 };
 
 export function SaveSearchFilterDialog({ searchArgs, children }: Props) {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const [open, setOpen] = useState(false);
     const [showResetConfirm, setShowResetConfirm] = useState(false);
     const [showLocationProblem, setShowLocationProblem] = useState(false);
     // Cleared by "Save without location" when the starting point cannot be saved.
     const [includeLocation, setIncludeLocation] = useState(true);
-    const [geolocation, setGeolocation] = useState(false);
-    const [locating, setLocating] = useState(false);
-    useEffect(() => setGeolocation(isGeolocationSupported()), []);
     const { mutate: createFilter, isPending } = useCreateUserSearchFilter();
     const { data: account } = useUserAccount();
     const aiDescriptionDisabled = account?.subscriptionType !== "ultimate";
@@ -186,14 +187,6 @@ export function SaveSearchFilterDialog({ searchArgs, children }: Props) {
         continueSave(form.getValues(), undefined);
     };
 
-    const requestLocationAgain = () => {
-        setLocating(true);
-        requestCurrentLocation()
-            .then(() => setShowLocationProblem(false))
-            .catch(() => undefined)
-            .finally(() => setLocating(false));
-    };
-
     const handleConfirmReset = () => {
         saveFilter(
             form.getValues(),
@@ -202,6 +195,14 @@ export function SaveSearchFilterDialog({ searchArgs, children }: Props) {
         );
         setShowResetConfirm(false);
     };
+
+    const locationProblem =
+        showLocationProblem && originProblem && location?.kind === "DISTANCE"
+            ? { problem: originProblem, radius: location.radius }
+            : undefined;
+    let view: "location" | "restricted" | "form" = "form";
+    if (showResetConfirm) view = "restricted";
+    if (locationProblem) view = "location";
 
     const restrictedValue = (labelKey: string) =>
         activeFilters
@@ -220,74 +221,17 @@ export function SaveSearchFilterDialog({ searchArgs, children }: Props) {
                 onOpenAutoFocus={keepTouchKeyboardClosed}
                 className="gap-5 rounded-panel border-0 bg-surface-raised p-7 text-ink shadow-menu sm:max-w-[480px] [&>[data-slot=dialog-close]]:top-6 [&>[data-slot=dialog-close]]:right-6 [&>[data-slot=dialog-close]]:inline-flex [&>[data-slot=dialog-close]]:size-9 [&>[data-slot=dialog-close]]:items-center [&>[data-slot=dialog-close]]:justify-center [&>[data-slot=dialog-close]]:rounded-pill [&>[data-slot=dialog-close]]:text-ink-muted"
             >
-                {showLocationProblem && originProblem && location?.kind === "DISTANCE" ? (
-                    <>
-                        <DialogHeader className="gap-2.5 text-left">
-                            <p className="font-mono text-kicker text-brass-ink uppercase">
-                                {t("searchFilter.saveDialog.location.eyebrow")}
-                            </p>
-                            <DialogTitle className="pr-8 font-serif text-title-md font-normal [&_em]:italic">
-                                <Trans
-                                    i18nKey="searchFilter.saveDialog.location.title"
-                                    components={HEADLINE_COMPONENTS}
-                                />
-                            </DialogTitle>
-                            <DialogDescription className="text-body-sm text-ink-secondary">
-                                {t(`searchFilter.saveDialog.location.problems.${originProblem}`)}
-                            </DialogDescription>
-                        </DialogHeader>
-                        <ul className="flex flex-col border-t border-line">
-                            <li className="flex min-h-11 items-center gap-2.5 border-b border-line text-body-sm">
-                                <MapPin
-                                    aria-hidden="true"
-                                    className="size-3.5 shrink-0 text-ink-muted"
-                                    strokeWidth={1.8}
-                                />
-                                {t("search.location.title")}
-                                <span className="ml-auto min-w-0 truncate text-meta text-ink-muted">
-                                    {t("searchFilter.saveDialog.location.within", {
-                                        distance: formatGeographicDistance(
-                                            location.radius,
-                                            i18n.language,
-                                            t,
-                                        ),
-                                    })}
-                                </span>
-                            </li>
-                        </ul>
-                        <div className="flex flex-wrap justify-end gap-2.5">
-                            {originProblem === "currentNotKept" && geolocation ? (
-                                <button
-                                    type="button"
-                                    onClick={requestLocationAgain}
-                                    disabled={locating || isPending}
-                                    className={SECONDARY_BUTTON_CLASS}
-                                >
-                                    {locating && <Spinner />}
-                                    {t("search.location.useLocationAgain")}
-                                </button>
-                            ) : (
-                                <button
-                                    type="button"
-                                    onClick={() => handleOpenChange(false)}
-                                    disabled={isPending}
-                                    className={SECONDARY_BUTTON_CLASS}
-                                >
-                                    {t("searchFilter.saveDialog.location.chooseAnother")}
-                                </button>
-                            )}
-                            <button
-                                type="button"
-                                onClick={saveWithoutLocation}
-                                disabled={isPending || locating}
-                                className={PRIMARY_BUTTON_CLASS}
-                            >
-                                {isPending && <Spinner />}
-                                {t("searchFilter.saveDialog.location.saveWithout")}
-                            </button>
-                        </div>
-                    </>
-                ) : showResetConfirm ? (
+                {locationProblem && (
+                    <NoStartingPointView
+                        problem={locationProblem.problem}
+                        radius={locationProblem.radius}
+                        isPending={isPending}
+                        onLocated={() => setShowLocationProblem(false)}
+                        onChooseAnother={() => handleOpenChange(false)}
+                        onSaveWithout={saveWithoutLocation}
+                    />
+                )}
+                {view === "restricted" && (
                     <>
                         <DialogHeader className="gap-2.5 text-left">
                             <p className="font-mono text-kicker text-brass-ink uppercase">
@@ -354,7 +298,8 @@ export function SaveSearchFilterDialog({ searchArgs, children }: Props) {
                             </button>
                         </div>
                     </>
-                ) : (
+                )}
+                {view === "form" && (
                     <>
                         <DialogHeader className="gap-1.5 text-left">
                             <DialogTitle className="pr-8 font-serif text-title-md font-normal">
@@ -511,5 +456,105 @@ export function SaveSearchFilterDialog({ searchArgs, children }: Props) {
                 )}
             </DialogContent>
         </Dialog>
+    );
+}
+
+/**
+ * Asked before saving a distance whose starting point cannot be saved (board "Search filters ·
+ * Location — save from search"): say why, then save without the location or go back. A current
+ * location that was not kept can be asked for again.
+ */
+function NoStartingPointView({
+    problem,
+    radius,
+    isPending,
+    onLocated,
+    onChooseAnother,
+    onSaveWithout,
+}: {
+    readonly problem: SearchOriginProblem;
+    readonly radius: SearchDistance;
+    readonly isPending: boolean;
+    readonly onLocated: () => void;
+    readonly onChooseAnother: () => void;
+    readonly onSaveWithout: () => void;
+}) {
+    const { t, i18n } = useTranslation();
+    const [geolocation, setGeolocation] = useState(false);
+    const [locating, setLocating] = useState(false);
+    useEffect(() => setGeolocation(isGeolocationSupported()), []);
+    const busy = isPending || locating;
+
+    const requestLocationAgain = () => {
+        setLocating(true);
+        requestCurrentLocation()
+            .then(onLocated)
+            .catch(() => undefined)
+            .finally(() => setLocating(false));
+    };
+
+    return (
+        <>
+            <DialogHeader className="gap-2.5 text-left">
+                <p className="font-mono text-kicker text-brass-ink uppercase">
+                    {t("searchFilter.saveDialog.location.eyebrow")}
+                </p>
+                <DialogTitle className="pr-8 font-serif text-title-md font-normal [&_em]:italic">
+                    <Trans
+                        i18nKey="searchFilter.saveDialog.location.title"
+                        components={HEADLINE_COMPONENTS}
+                    />
+                </DialogTitle>
+                <DialogDescription className="text-body-sm text-ink-secondary">
+                    {t(`searchFilter.saveDialog.location.problems.${problem}`)}
+                </DialogDescription>
+            </DialogHeader>
+            <ul className="flex flex-col border-t border-line">
+                <li className="flex min-h-11 items-center gap-2.5 border-b border-line text-body-sm">
+                    <MapPin
+                        aria-hidden="true"
+                        className="size-3.5 shrink-0 text-ink-muted"
+                        strokeWidth={1.8}
+                    />
+                    {t("search.location.title")}
+                    <span className="ml-auto min-w-0 truncate text-meta text-ink-muted">
+                        {t("searchFilter.saveDialog.location.within", {
+                            distance: formatGeographicDistance(radius, i18n.language, t),
+                        })}
+                    </span>
+                </li>
+            </ul>
+            <div className="flex flex-wrap justify-end gap-2.5">
+                {problem === "currentNotKept" && geolocation ? (
+                    <button
+                        type="button"
+                        onClick={requestLocationAgain}
+                        disabled={busy}
+                        className={SECONDARY_BUTTON_CLASS}
+                    >
+                        {locating && <Spinner />}
+                        {t("search.location.useLocationAgain")}
+                    </button>
+                ) : (
+                    <button
+                        type="button"
+                        onClick={onChooseAnother}
+                        disabled={isPending}
+                        className={SECONDARY_BUTTON_CLASS}
+                    >
+                        {t("searchFilter.saveDialog.location.chooseAnother")}
+                    </button>
+                )}
+                <button
+                    type="button"
+                    onClick={onSaveWithout}
+                    disabled={busy}
+                    className={PRIMARY_BUTTON_CLASS}
+                >
+                    {isPending && <Spinner />}
+                    {t("searchFilter.saveDialog.location.saveWithout")}
+                </button>
+            </div>
+        </>
     );
 }

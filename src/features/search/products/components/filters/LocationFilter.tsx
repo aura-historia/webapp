@@ -70,7 +70,6 @@ const OUTLINE_BUTTON_CLASS = cn(
 
 type Variant = "sidebar" | "sheet";
 export type LocationMode = "region" | "distance";
-type Mode = LocationMode;
 
 /**
  * A saved search's stored starting point, offered in the Near picker as "Keep saved starting
@@ -120,7 +119,9 @@ export function LocationFilter({ searchArgs, origin, variant }: LocationFilterPr
     const { t } = useTranslation();
     const navigate = useNavigate({ from: "/$lng/search" });
     const location = searchArgs.location;
-    const [mode, setMode] = useState<Mode>(location?.kind === "REGION" ? "region" : "distance");
+    const [mode, setMode] = useState<LocationMode>(
+        location?.kind === "REGION" ? "region" : "distance",
+    );
     const sheet = variant === "sheet";
 
     useEffect(() => {
@@ -132,7 +133,7 @@ export function LocationFilter({ searchArgs, origin, variant }: LocationFilterPr
         navigate({ search: serializeSearchParams({ ...searchArgs, location: next }) });
     };
 
-    const switchMode = (next: Mode) => {
+    const switchMode = (next: LocationMode) => {
         setMode(next);
         const matches =
             (next === "region" && location?.kind === "REGION") ||
@@ -210,12 +211,12 @@ export function ModeSwitch({
     onChange,
     sheet,
 }: {
-    readonly mode: Mode;
-    readonly onChange: (mode: Mode) => void;
+    readonly mode: LocationMode;
+    readonly onChange: (mode: LocationMode) => void;
     readonly sheet: boolean;
 }) {
     const { t } = useTranslation();
-    const options: { value: Mode; label: string }[] = [
+    const options: { value: LocationMode; label: string }[] = [
         { value: "region", label: t("search.location.byRegion") },
         { value: "distance", label: t("search.location.byDistance") },
     ];

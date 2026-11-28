@@ -34,6 +34,9 @@ export type SavedSearchLocation =
       }
     | { readonly kind: "UNSUPPORTED" };
 
+/** The geography a saved search stores, or `UNSUPPORTED` when the app cannot read it. */
+export type StoredGeography = GeographicSearch | UnsupportedGeography;
+
 /** What a save does with the stored geography. */
 export type GeographyChange =
     /** Leave the stored snapshot as it is (PATCH omits `geography`, a create sends none). */
@@ -45,7 +48,7 @@ export type GeographyChange =
 
 /** The Location step's starting value for a stored snapshot. */
 export function toSavedSearchLocation(
-    geography: GeographicSearch | UnsupportedGeography | undefined,
+    geography: StoredGeography | undefined,
 ): SavedSearchLocation | undefined {
     if (!geography) return undefined;
     if (geography === UNSUPPORTED_GEOGRAPHY) return { kind: "UNSUPPORTED" };
@@ -126,7 +129,7 @@ export function resolveGeographyChange({
     origin,
 }: {
     readonly mode: "create" | "edit" | "duplicate";
-    readonly stored: GeographicSearch | UnsupportedGeography | undefined;
+    readonly stored: StoredGeography | undefined;
     readonly location: SavedSearchLocation | undefined;
     readonly touched: boolean;
     readonly origin: OriginState;
@@ -151,9 +154,9 @@ export function resolveGeographyChange({
  */
 export function effectiveGeography(
     change: GeographyChange,
-    stored: GeographicSearch | UnsupportedGeography | undefined,
+    stored: StoredGeography | undefined,
     mode: "create" | "edit" | "duplicate",
-): GeographicSearch | UnsupportedGeography | undefined {
+): StoredGeography | undefined {
     if (change.kind === "set") return change.geography ?? undefined;
     if (change.kind === "keep" && mode === "edit") return stored;
     return undefined;
