@@ -1,4 +1,6 @@
 import type {
+    ListingShippingSummaryData,
+    PersonalizedShippingSummaryData,
     PersonalizedProductListingDetailsData,
     PersonalizedProductListingSummaryData,
     ProductListingCollectionDetailsData,
@@ -664,5 +666,98 @@ describe("listing geography", () => {
         expect(
             mapPersonalizedProductListingSummary(personalized(baseSummary), "en"),
         ).not.toHaveProperty("geography");
+    });
+});
+
+describe("listing shipping", () => {
+    const publicSummary: ListingShippingSummaryData = {
+        requiredInputs: ["DESTINATION"],
+        collection: { eligibility: "OFFERED" },
+    };
+    const privateSummary: PersonalizedShippingSummaryData = {
+        eligibility: "OFFERED",
+        pricePreview: {
+            service: "PARCEL",
+            basis: "PER_ITEM",
+            price: { kind: "FIXED", amount: { amount_minor: 1200, currency: "EUR" } },
+        },
+    };
+    const mappedPrivateSummary = {
+        eligibility: "OFFERED",
+        pricePreview: {
+            service: "PARCEL",
+            basis: "PER_ITEM",
+            price: { kind: "FIXED", amount: { amountMinor: 1200, currency: "EUR" } },
+        },
+    };
+
+    it("maps the public and private summaries of search and similar results", () => {
+        const result = mapPersonalizedProductListingSummary(
+            {
+                item: { ...baseSummary, shipping: publicSummary },
+                userState: { shipping: privateSummary },
+            },
+            "en",
+        );
+        expect(result.shipping).toEqual({
+            requiredInputs: ["DESTINATION"],
+            collection: { eligibility: "OFFERED" },
+        });
+        expect(result.userState?.shipping).toEqual(mappedPrivateSummary);
+    });
+
+    it("maps summaries for detail-shaped collection items", () => {
+        const { images: _images, shipping: _shipping, ...rest } = baseDetails;
+        const result = mapPersonalizedProductListingDetails(
+            {
+                item: { ...rest, shipping: publicSummary },
+                userState: { shipping: privateSummary },
+            },
+            "en",
+        );
+        expect(result.shipping).toEqual({
+            requiredInputs: ["DESTINATION"],
+            collection: { eligibility: "OFFERED" },
+        });
+        expect(result.userState?.shipping).toEqual(mappedPrivateSummary);
+    });
+
+    it("maps the detail with terms and the private destination assessment", () => {
+        const result = mapToProductListingDetail(
+            {
+                item: {
+                    ...baseDetails,
+                    shipping: {
+                        eligibility: "NOT_OFFERED",
+                        terms: { shipping: { kind: "PROHIBITED" } },
+                    },
+                },
+                userState: {
+                    shipping: {
+                        destination: { referenceRelease: "iso-codes-4.20.1", country: "DE" },
+                        eligibility: "NOT_OFFERED",
+                    },
+                },
+            },
+            "en",
+        );
+        expect(result.shipping).toEqual({
+            eligibility: "NOT_OFFERED",
+            terms: { shipping: { kind: "PROHIBITED" } },
+        });
+        expect(result.userState?.shipping).toEqual({
+            destination: { referenceRelease: "iso-codes-4.20.1", country: "DE" },
+            eligibility: "NOT_OFFERED",
+        });
+    });
+
+    it("leaves shipping absent when the backend omits it", () => {
+        const summary = mapPersonalizedProductListingSummary(personalized(baseSummary), "en");
+        expect(summary).not.toHaveProperty("shipping");
+        expect(summary.userState).not.toHaveProperty("shipping");
+        const { shipping: _shipping, ...withoutShipping } = baseDetails;
+        const detail = mapToProductListingDetail(personalized(withoutShipping), "en");
+        expect(detail).not.toHaveProperty("shipping");
+        expect(detail.userState).not.toHaveProperty("shipping");
     });
 });

@@ -168,6 +168,19 @@ describe("ProductEventHistory", () => {
         expect(screen.queryByTestId("timeline-item")).not.toBeInTheDocument();
     });
 
+    it("names a delivery change under details without quoting terms", () => {
+        const delivery: ProductListingHistoryEntry = {
+            ...changedEvent,
+            payload: { kind: "CHANGED", changes: [{ type: "DELIVERY_CHANGED" }] },
+        };
+
+        const { rerender } = render(<ProductEventHistory event={delivery} filter="details" />);
+        expect(screen.getByText("product.history.events.deliveryChanged")).toBeInTheDocument();
+
+        rerender(<ProductEventHistory event={delivery} filter="availability" />);
+        expect(screen.queryByTestId("timeline-item")).not.toBeInTheDocument();
+    });
+
     it("keeps price filtering on the relevant changes without splitting the event", () => {
         render(<ProductEventHistory event={changedEvent} filter="price" />);
 

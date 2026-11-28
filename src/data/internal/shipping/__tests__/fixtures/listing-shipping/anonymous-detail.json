@@ -1,0 +1,55 @@
+{
+  "item": {
+    "shipping": {
+      "requiredInputs": [
+        "DESTINATION"
+      ],
+      "terms": {
+        "shipping": {
+          "kind": "COVERAGE",
+          "coverage": {
+            "reference_release": "iso-codes-4.20.1",
+            "completeness": "PARTIAL",
+            "zones": [
+              {
+                "areas": [
+                  {
+                    "kind": "COUNTRY",
+                    "code": "DE",
+                    "reference_release": "iso-codes-4.20.1"
+                  }
+                ],
+                "services": [
+                  {
+                    "code": "PARCEL",
+                    "eligibility": "OFFERED",
+                    "features": [
+                      "INSURED"
+                    ],
+                    "rate": {
+                      "basis": "PER_ITEM",
+                      "price": {
+                        "kind": "FIXED",
+                        "amount": {
+                          "amount_minor": 1200,
+                          "currency": "EUR"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "collection": {
+          "dependency": "INDEPENDENT",
+          "eligibility": "OFFERED",
+          "arrangement": {
+            "kind": "BY_APPOINTMENT"
+          }
+        }
+      }
+    }
+  }
+}

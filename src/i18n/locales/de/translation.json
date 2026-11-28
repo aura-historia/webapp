@@ -970,6 +970,7 @@
         "titleChanged": "Titel aktualisiert.",
         "titleRemoved": "Titel entfernt.",
         "descriptionChanged": "Beschreibung aktualisiert.",
+        "deliveryChanged": "Lieferbedingungen aktualisiert.",
         "auctionChanged": "Auktions- oder Losdaten geändert.",
         "withdrawn": "Eintrag zurückgezogen; die Verfügbarkeit war {{previousAvailability}}.",
         "restored": "Eintrag von der Quelle wiederhergestellt.",
@@ -1832,7 +1833,7 @@
       },
       "endpoints": {
         "title": "Partner-Produkt-<em>API-Referenz.</em>",
-        "subtitle": "Die Regeln der einzelnen Methoden in beiden Modi, dann die eingebettete OpenAPI-Referenz für die asynchronen und synchronen Batch-Endpunkte.",
+        "subtitle": "Die Regeln der einzelnen Methoden in beiden Modi, dann die eingebettete OpenAPI-Referenz für die asynchronen und synchronen Batch-Endpunkte sowie für Versandprofile und die Lieferung einzelner Objekte.",
         "embedTitle": "Partner-Produkt-API-Referenz",
         "eyebrow": "Referenz",
         "frameLabel": "OpenAPI · Partner-Produkte",
@@ -1987,7 +1988,16 @@
     "PARTY_INTERNAL_ERROR": "Die Unternehmensangaben konnten nicht verarbeitet werden. Bitte versuchen Sie es später erneut.",
     "PARTY_NOT_FOUND": "Dieses Unternehmen oder dieser Standort wurde nicht gefunden.",
     "PARTY_TEMPORARILY_UNAVAILABLE": "Unternehmensangaben sind vorübergehend nicht verfügbar. Bitte versuchen Sie es in einigen Minuten erneut.",
-    "USER_ADDRESS_NOT_FOUND": "Diese gespeicherte Adresse wurde nicht gefunden."
+    "USER_ADDRESS_NOT_FOUND": "Diese gespeicherte Adresse wurde nicht gefunden.",
+    "SHIPPING_TEMPORARILY_UNAVAILABLE": "Versanddetails sind vorübergehend nicht verfügbar. Bitte versuchen Sie es in einigen Minuten erneut.",
+    "SHIPPING_STORAGE_ERROR": "Die Versanddetails konnten nicht verarbeitet werden. Bitte versuchen Sie es später erneut.",
+    "SHIPPING_STALE_REVISION": "Diese Versandeinstellungen wurden an anderer Stelle geändert. Laden Sie sie neu und versuchen Sie es erneut.",
+    "SHIPPING_REVISION_EXHAUSTED": "Diese Versandeinstellungen können nicht mehr geändert werden. Bitte wenden Sie sich an den Support.",
+    "SHIPPING_CREATION_KEY_CONFLICT": "Aus diesem Formular wurde bereits ein anderes Versandprofil erstellt. Laden Sie neu und beginnen Sie ein neues Profil.",
+    "SHIPPING_PROFILE_NOT_FOUND": "Dieses Versandprofil wurde nicht gefunden.",
+    "SHIPPING_LOCATION_NOT_FOUND": "Ein in diesen Versandeinstellungen verwendeter Standort wurde nicht gefunden.",
+    "SHIPPING_PROFILE_RETIRED": "Dieses Versandprofil ist stillgelegt. Stellen Sie es wieder her, bevor Sie es ändern oder zuweisen.",
+    "SHIPPING_REFERENCE_INELIGIBLE": "Ein hier verwendetes Profil oder ein Standort kann nicht mehr verwendet werden. Wählen Sie ein anderes aus."
   },
   "watchlist": {
     "heading": "Meine <em>Merkliste.</em>",

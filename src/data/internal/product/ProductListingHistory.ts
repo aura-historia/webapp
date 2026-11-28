@@ -102,6 +102,11 @@ export type ProductListingHistoryChange =
       }
     /** A marker only: the backend returns no description text, like `DELIVERY_CHANGED`. */
     | { readonly type: "DESCRIPTION_CHANGED" }
+    /**
+     * The listing's own delivery assertions changed. A marker only: public history carries no
+     * terms or sites, and shared profile edits never add one.
+     */
+    | { readonly type: "DELIVERY_CHANGED" }
     | {
           readonly type: "MAIN_PRICE_CHANGED";
           readonly previous: HistoryListingPrice | null;
@@ -276,6 +281,7 @@ function mapChange(change: ProductListingHistoryChangeData): ProductListingHisto
                 current: mapText(change.current),
             };
         case "DESCRIPTION_CHANGED":
+        case "DELIVERY_CHANGED":
             return { type: change.type };
         case "MAIN_PRICE_CHANGED":
             return {

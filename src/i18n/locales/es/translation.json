@@ -965,6 +965,7 @@
         "titleChanged": "Título actualizado.",
         "titleRemoved": "Se eliminó el título.",
         "descriptionChanged": "Descripción actualizada.",
+        "deliveryChanged": "Condiciones de entrega actualizadas.",
         "auctionChanged": "Se actualizaron los datos de la subasta o del lote.",
         "withdrawn": "Anuncio retirado; la disponibilidad era {{previousAvailability}}.",
         "restored": "El anuncio fue restablecido por su fuente.",
@@ -1839,7 +1840,7 @@
       },
       "endpoints": {
         "title": "Referencia de la <em>API de productos para socios.</em>",
-        "subtitle": "Las reglas de cada método en ambos modos y, después, la referencia OpenAPI integrada de los endpoints de lotes asíncronos y síncronos.",
+        "subtitle": "Las reglas de cada método en ambos modos y, después, la referencia OpenAPI integrada de los endpoints de lotes asíncronos y síncronos, los perfiles de envío y la entrega de cada anuncio.",
         "embedTitle": "Referencia de la API de productos partner",
         "eyebrow": "Referencia",
         "frameLabel": "OpenAPI · Productos de socios",
@@ -1987,7 +1988,16 @@
     "PARTY_INTERNAL_ERROR": "No se pudieron procesar los datos de la empresa. Por favor, inténtelo de nuevo más tarde.",
     "PARTY_NOT_FOUND": "No se encontró esta empresa o ubicación.",
     "PARTY_TEMPORARILY_UNAVAILABLE": "Los datos de la empresa no están disponibles temporalmente. Vuelva a intentarlo en unos minutos.",
-    "USER_ADDRESS_NOT_FOUND": "No se encontró esta dirección guardada."
+    "USER_ADDRESS_NOT_FOUND": "No se encontró esta dirección guardada.",
+    "SHIPPING_TEMPORARILY_UNAVAILABLE": "Los datos de envío no están disponibles temporalmente. Vuelve a intentarlo en unos minutos.",
+    "SHIPPING_STORAGE_ERROR": "No se pudieron procesar los datos de envío. Vuelve a intentarlo más tarde.",
+    "SHIPPING_STALE_REVISION": "Esta configuración de envío se modificó en otro lugar. Vuelve a cargarla e inténtalo de nuevo.",
+    "SHIPPING_REVISION_EXHAUSTED": "Esta configuración de envío ya no se puede modificar. Ponte en contacto con el soporte.",
+    "SHIPPING_CREATION_KEY_CONFLICT": "Ya se creó otro perfil de envío desde este formulario. Vuelve a cargar y empieza un perfil nuevo.",
+    "SHIPPING_PROFILE_NOT_FOUND": "No se encontró este perfil de envío.",
+    "SHIPPING_LOCATION_NOT_FOUND": "No se encontró una ubicación usada en esta configuración de envío.",
+    "SHIPPING_PROFILE_RETIRED": "Este perfil de envío está retirado. Restáuralo antes de modificarlo o asignarlo.",
+    "SHIPPING_REFERENCE_INELIGIBLE": "Un perfil o una ubicación usados aquí ya no se pueden utilizar. Elige otro."
   },
   "watchlist": {
     "heading": "Mi <em>lista de seguimiento.</em>",

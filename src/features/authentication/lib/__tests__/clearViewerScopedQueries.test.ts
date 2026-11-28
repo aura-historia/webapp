@@ -2,6 +2,7 @@ import { QueryClient } from "@tanstack/react-query";
 import { describe, expect, it } from "vitest";
 import { clearViewerScopedQueries } from "../clearViewerScopedQueries.ts";
 import { productListingQueryKeys } from "@/data/internal/product/ProductListingQueryKeys.ts";
+import { shippingQueryKeys } from "@/data/internal/shipping/ShippingQueryKeys.ts";
 
 const listingContext = { language: "de", currency: "EUR" } as const;
 
@@ -33,6 +34,9 @@ describe("clearViewerScopedQueries", () => {
             ["partyLocations", "viewer-1", "pty_1", "page", null],
             ["sourceLocationDefault", "viewer-1", "ls_1"],
             ["partyLocationDiscovery", { origin: { latitude: 48.1, longitude: 11.5 } }],
+            shippingQueryKeys.profileList("viewer-1", "ls_1"),
+            shippingQueryKeys.sourceDefault("viewer-1", "ls_1"),
+            shippingQueryKeys.listingDelivery("viewer-1", "ls_1", "source-item-1"),
         ] as const;
         const publicQueryKey = ["publicCatalog"] as const;
         const publicDetailQueryKey = [{ _id: "getShopDetail" }, "shop-1"] as const;

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getBrowsingDestination, setBrowsingDestination } from "@/client";
 import { geographyQueryKeys } from "@/data/internal/geography/GeographyQueryKeys.ts";
+import { productListingQueryKeys } from "@/data/internal/product/ProductListingQueryKeys.ts";
 import {
     type BrowsingDestinationView,
     isValidBrowsingDestination,
@@ -42,7 +43,8 @@ export type BrowsingDestinationSaveProblem = "conflict" | "addressGone" | "acces
  * Replaces the browsing destination at the version that was read. Never retried: a `409` refetches
  * the authoritative destination, so the switches show it; a `404` (the chosen address is gone)
  * refetches the addresses and the destination. Success refreshes the addresses, whose `preferred`
- * flag follows the destination.
+ * flag follows the destination, and every cached listing, whose private `userState.shipping` was
+ * assessed for the previous destination.
  */
 export function useSetBrowsingDestination(viewerCacheKey: string) {
     const { t } = useTranslation();
@@ -77,6 +79,7 @@ export function useSetBrowsingDestination(viewerCacheKey: string) {
         onSuccess: (view) => {
             queryClient.setQueryData(destinationKey, view);
             void queryClient.invalidateQueries({ queryKey: addressesKey });
+            void queryClient.invalidateQueries({ queryKey: productListingQueryKeys.all });
         },
         onError: (error) => {
             if (!(error instanceof UserAddressRequestError)) {

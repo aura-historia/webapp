@@ -34,7 +34,8 @@ export async function loadContentNoticeTarget(
                         signal,
                         throwOnError: true,
                     });
-                    return response.data;
+                    // Public names and IDs only: no viewer state enters this cache entry.
+                    return { item: response.data.item };
                 },
             });
             const listing = mapToProductListingDetail(data, lng);

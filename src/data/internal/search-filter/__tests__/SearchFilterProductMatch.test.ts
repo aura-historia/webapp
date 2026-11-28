@@ -34,4 +34,25 @@ describe("mapToInternalSearchFilterProductMatch", () => {
         const result = mapToInternalSearchFilterProductMatch(withoutFeedback);
         expect(result.feedback).toBeUndefined();
     });
+
+    it("maps the immutable shipping FX valuation of a match", () => {
+        const result = mapToInternalSearchFilterProductMatch({
+            ...baseMatch,
+            shippingMatchValuation: {
+                interpretation: "WHOLE_COUNTRY_PER_ITEM_FX_V1",
+                fxRateId: "fx_01",
+                capturedAt: "2026-09-20T12:00:00Z",
+                maximumPerItem: { amount: 2500, currency: "USD" },
+            },
+        });
+        expect(result.shippingMatchValuation).toEqual({
+            interpretation: "WHOLE_COUNTRY_PER_ITEM_FX_V1",
+            fxRateId: "fx_01",
+            capturedAt: new Date("2026-09-20T12:00:00Z"),
+            maximumPerItem: { amount: 2500, currency: "USD" },
+        });
+        expect(mapToInternalSearchFilterProductMatch(baseMatch)).not.toHaveProperty(
+            "shippingMatchValuation",
+        );
+    });
 });

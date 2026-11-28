@@ -13,6 +13,7 @@ import {
     type GeographicSearch,
 } from "@/data/internal/geography/GeographicSearch.ts";
 import { SEARCHABLE_LISTING_AVAILABILITIES } from "@/data/internal/product/ListingAvailability.ts";
+import type { ShippingSearch } from "@/data/internal/shipping/ShippingSearch.ts";
 
 const baseFilterData: UserSearchFilterData = {
     userId: "user-1",
@@ -539,5 +540,60 @@ describe("saved-search geography", () => {
         ]) {
             expect(mapToBackendPatchUserSearchFilter(patch).search).toBeUndefined();
         }
+    });
+});
+
+describe("saved-search shipping", () => {
+    const shipping = {
+        destination: { kind: "COUNTRY" as const, country: "DE" },
+        referenceRelease: "iso-codes-4.20.1" as const,
+        interpretation: "WHOLE_COUNTRY_PER_ITEM_V1" as const,
+        maximumPerItem: { amount: 2000, currency: "EUR" as const },
+    };
+    const predicate = {
+        country: "DE",
+        referenceRelease: "iso-codes-4.20.1",
+        interpretation: "WHOLE_COUNTRY_PER_ITEM_V1",
+        maximumPerItem: { amount: 2000, currency: "EUR" },
+    } as unknown as ShippingSearch;
+
+    it("maps the stored predicate and keeps an absent one absent", () => {
+        expect(
+            mapToInternalUserSearchFilter({
+                ...baseFilterData,
+                search: { ...baseFilterData.search, shipping },
+            }).shipping,
+        ).toEqual(predicate);
+        expect(mapToInternalUserSearchFilter(baseFilterData)).not.toHaveProperty("shipping");
+    });
+
+    it("sends the predicate and destination guard on create and preview", () => {
+        const created = mapToBackendCreateUserSearchFilter({
+            name: "A",
+            search: { q: "Tisch" },
+            shipping: predicate,
+            acceptShippingDestination: { kind: "PREFERENCE" },
+        });
+        expect(created.search.shipping).toEqual(shipping);
+        expect(created.acceptShippingDestination).toEqual({ kind: "PREFERENCE" });
+        expect(
+            mapToBackendCreateUserSearchFilter({ name: "A", search: { q: "Tisch" } }),
+        ).not.toHaveProperty("acceptShippingDestination");
+        expect(
+            mapToBackendPreviewUserSearchFilter({ q: "vase" }, undefined, predicate).search
+                .shipping,
+        ).toEqual(shipping);
+    });
+
+    it("omits shipping from patches that do not change it and sends null to clear it", () => {
+        expect(
+            mapToBackendPatchUserSearchFilter({ search: { q: "Lampe" } }).search,
+        ).not.toHaveProperty("shipping");
+        expect(mapToBackendPatchUserSearchFilter({ shipping: null }).search).toEqual({
+            shipping: null,
+        });
+        expect(mapToBackendPatchUserSearchFilter({ shipping: predicate }).search).toEqual({
+            shipping,
+        });
     });
 });
