@@ -1,0 +1,12 @@
+{
+  "item": {
+    "shipping": {
+      "requiredInputs": [
+        "DESTINATION"
+      ],
+      "collection": {
+        "eligibility": "OFFERED"
+      }
+    }
+  }
+}

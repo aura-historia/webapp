@@ -47,8 +47,14 @@ export function createDeepObjectQuerySerializer(
     };
 }
 
-/** For `simpleSearchProductListings`, whose `searchAfter` stays one JSON string value. */
-export const listingGeographyQuerySerializer = createDeepObjectQuerySerializer(["geography"]);
+/**
+ * For `simpleSearchProductListings`: `geography` and `shipping` are deep objects, while
+ * `searchAfter` stays one JSON string value.
+ */
+export const listingGeographyQuerySerializer = createDeepObjectQuerySerializer([
+    "geography",
+    "shipping",
+]);
 
 /** For `discoverPartyLocations`, whose continuation is a deep object. */
 export const partyLocationDiscoveryQuerySerializer = createDeepObjectQuerySerializer([

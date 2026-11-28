@@ -970,6 +970,7 @@
         "titleChanged": "Title updated.",
         "titleRemoved": "Title removed.",
         "descriptionChanged": "Description updated.",
+        "deliveryChanged": "Delivery terms updated.",
         "auctionChanged": "Auction or lot details changed.",
         "withdrawn": "Listing withdrawn after availability was {{previousAvailability}}.",
         "restored": "Listing restored by its source.",
@@ -1832,7 +1833,7 @@
       },
       "endpoints": {
         "title": "Partner product <em>API reference.</em>",
-        "subtitle": "The rules each method follows in both modes, then the embedded OpenAPI reference for the asynchronous and synchronous batch endpoints.",
+        "subtitle": "The rules each method follows in both modes, then the embedded OpenAPI reference for the asynchronous and synchronous batch endpoints, shipping profiles and listing delivery.",
         "embedTitle": "Partner product API reference",
         "eyebrow": "Reference",
         "frameLabel": "OpenAPI · Partner products",
@@ -1987,7 +1988,16 @@
     "PARTY_INTERNAL_ERROR": "The business details could not be processed. Please try again later.",
     "PARTY_NOT_FOUND": "This business or location could not be found.",
     "PARTY_TEMPORARILY_UNAVAILABLE": "Business details are temporarily unavailable. Please try again in a few minutes.",
-    "USER_ADDRESS_NOT_FOUND": "This saved address could not be found."
+    "USER_ADDRESS_NOT_FOUND": "This saved address could not be found.",
+    "SHIPPING_TEMPORARILY_UNAVAILABLE": "Shipping details are temporarily unavailable. Please try again in a few minutes.",
+    "SHIPPING_STORAGE_ERROR": "Shipping details could not be processed. Please try again later.",
+    "SHIPPING_STALE_REVISION": "These shipping settings were changed elsewhere. Reload them and try again.",
+    "SHIPPING_REVISION_EXHAUSTED": "These shipping settings can no longer be changed. Please contact support.",
+    "SHIPPING_CREATION_KEY_CONFLICT": "A different shipping profile was already created from this form. Reload and start a new profile.",
+    "SHIPPING_PROFILE_NOT_FOUND": "This shipping profile could not be found.",
+    "SHIPPING_LOCATION_NOT_FOUND": "A location used in these shipping settings could not be found.",
+    "SHIPPING_PROFILE_RETIRED": "This shipping profile is retired. Restore it before changing or assigning it.",
+    "SHIPPING_REFERENCE_INELIGIBLE": "A profile or location used here can no longer be used. Choose another one."
   },
   "watchlist": {
     "heading": "My <em>watchlist.</em>",

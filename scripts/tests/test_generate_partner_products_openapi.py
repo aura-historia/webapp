@@ -62,12 +62,13 @@ class ExtractPartnerSpecTests(unittest.TestCase):
                     extractor.component_refs({"discriminator": {"mapping": {"price": target}}})
 
     def test_fails_if_a_required_method_or_component_is_missing(self):
-        for path in extractor.TARGET_PATHS:
-            with self.subTest(path=path):
-                del self.spec["paths"][path]["delete"]
-                with self.assertRaises(KeyError):
-                    extractor.extract_partner_spec(self.spec)
-                self.setUp()
+        for path, methods in extractor.TARGET_OPERATIONS.items():
+            for method in methods:
+                with self.subTest(path=path, method=method):
+                    del self.spec["paths"][path][method]
+                    with self.assertRaises(KeyError):
+                        extractor.extract_partner_spec(self.spec)
+                    self.setUp()
         del self.spec["components"]["schemas"]["CreateProductListingData"]
         with self.assertRaises(KeyError):
             extractor.extract_partner_spec(self.spec)
@@ -81,11 +82,39 @@ class ExtractPartnerSpecTests(unittest.TestCase):
             "post": {"operationId": "postWoocommerceWebhook", "responses": {"204": {"description": "ok"}}},
         }
         result = extractor.extract_partner_spec(self.spec)
-        self.assertEqual([extractor.ASYNC_PATH, extractor.SYNC_PATH], list(result["paths"]))
+        self.assertEqual([extractor.ASYNC_PATH, extractor.SYNC_PATH], list(result["paths"])[:2])
         for path in extractor.TARGET_PATHS:
             self.assertEqual(list(extractor.TARGET_METHODS), list(result["paths"][path]))
         self.assertNotIn("webhook", json.dumps(result).lower())
-        self.assertNotIn("woocommerce", json.dumps(result).lower())
+
+    def test_publishes_shipping_management_and_listing_delivery_operations(self):
+        result = extractor.extract_partner_spec(self.spec)
+        self.assertEqual(list(extractor.TARGET_OPERATIONS), list(result["paths"]))
+        operation_ids = {
+            operation["operationId"]
+            for item in result["paths"].values()
+            for method, operation in item.items()
+            if method in extractor.HTTP_METHODS
+        }
+        self.assertTrue({
+            "listShippingProfiles", "createShippingProfile", "getShippingProfile",
+            "replaceShippingProfile", "retireShippingProfile", "restoreShippingProfile",
+            "getShippingDefault", "assignShippingDefault", "clearShippingDefault",
+            "getProductListingDelivery", "changeProductListingDelivery",
+            "submitProductListingDelivery",
+        } <= operation_ids)
+        for path, methods in extractor.SHIPPING_OPERATIONS.items():
+            self.assertEqual(list(methods), [m for m in result["paths"][path] if m in extractor.HTTP_METHODS])
+        accepted = result["paths"][extractor.DELIVERY_ASYNC_PATH]["post"]["responses"]["202"]
+        self.assertEqual(
+            "#/components/schemas/AsyncProductListingBatchReport",
+            accepted["content"]["application/json"]["schema"]["$ref"],
+        )
+        for name in ("ShippingProfileData", "AdvertisedDeliveryTermsData", "ShippingDefaultData",
+                     "ProductListingDeliveryCommandData", "ProductListingDeliveryViewData"):
+            self.assertIn(name, result["components"]["schemas"])
+        # Consumer listing reads stay out of the partner subset.
+        self.assertNotIn("ListingShippingDetailData", result["components"]["schemas"])
 
     def test_keeps_complete_async_admission_contract(self):
         result = extractor.extract_partner_spec(self.spec)

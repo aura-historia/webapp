@@ -7,6 +7,14 @@ import type {
     PreviewUserSearchFilterMatchesData,
 } from "@/client";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
+import {
+    mapToBackendAcceptShippingDestination,
+    mapToBackendShippingSearch,
+    mapToShippingSearch,
+    type ShippingDestinationAcceptance,
+    type ShippingSearch,
+    type UnsupportedShippingSearch,
+} from "@/data/internal/shipping/ShippingSearch.ts";
 import { mapToBackendCurrency, parseCurrency } from "@/data/internal/common/Currency.ts";
 import { toMajorCurrencyAmount, toMinorCurrencyAmount } from "@/data/internal/price/Price.ts";
 import { parseListingAvailability } from "@/data/internal/product/ListingAvailability.ts";
@@ -36,6 +44,11 @@ export type UserSearchFilter = {
      * replacing or clearing it does. `UNSUPPORTED` means a stored predicate this app cannot show.
      */
     readonly geography?: GeographicSearch | UnsupportedGeography;
+    /**
+     * Private shipping predicate: a pinned country, release, interpretation and maximum, never an
+     * address reference. `UNSUPPORTED` means a stored predicate this app cannot show.
+     */
+    readonly shipping?: ShippingSearch | UnsupportedShippingSearch;
     readonly created: Date;
     readonly updated: Date;
 };
@@ -45,6 +58,9 @@ export type UserSearchFilterCreateData = {
     readonly enhancedSearchDescription?: string;
     readonly search: SearchFilterArguments;
     readonly geography?: GeographicSearch;
+    readonly shipping?: ShippingSearch;
+    /** Guards the authored shipping country against an owned address or the preference. */
+    readonly acceptShippingDestination?: ShippingDestinationAcceptance;
 };
 
 export type UserSearchFilterPatchData = {
@@ -55,6 +71,9 @@ export type UserSearchFilterPatchData = {
     readonly search?: SearchFilterArguments;
     /** Omit to keep the stored snapshot, `null` clears it and a value replaces it as a whole. */
     readonly geography?: GeographicSearch | null;
+    /** Omit to keep the stored predicate, `null` clears it and a value replaces it as a whole. */
+    readonly shipping?: ShippingSearch | null;
+    readonly acceptShippingDestination?: ShippingDestinationAcceptance;
 };
 
 export function mapProductSearchDataToSearchFilterArguments(
@@ -197,6 +216,7 @@ function mapListingSourceLabels(
 
 export function mapToInternalUserSearchFilter(data: UserSearchFilterData): UserSearchFilter {
     const geography = mapToGeographicSearch(data.search.geography);
+    const shipping = mapToShippingSearch(data.search.shipping);
     const search = mapProductSearchDataToSearchFilterArguments(data.search);
     const listingSourceLabels = mapListingSourceLabels(search.listingSourceId, data.listingSources);
     const excludeListingSourceLabels = mapListingSourceLabels(
@@ -216,6 +236,7 @@ export function mapToInternalUserSearchFilter(data: UserSearchFilterData): UserS
             ...(excludeListingSourceLabels ? { excludeListingSourceLabels } : {}),
         },
         ...(geography ? { geography } : {}),
+        ...(shipping ? { shipping } : {}),
         created: new Date(data.created),
         updated: new Date(data.updated),
     };
@@ -231,22 +252,33 @@ export function mapToBackendCreateUserSearchFilter(
             ...search,
             enhancedSearchDescription: data.enhancedSearchDescription,
             ...(data.geography ? { geography: mapToBackendGeographicSearch(data.geography) } : {}),
+            ...(data.shipping ? { shipping: mapToBackendShippingSearch(data.shipping) } : {}),
         },
+        ...(data.acceptShippingDestination
+            ? {
+                  acceptShippingDestination: mapToBackendAcceptShippingDestination(
+                      data.acceptShippingDestination,
+                  ),
+              }
+            : {}),
     };
 }
 
 /**
  * Same `search` mapping as `mapToBackendCreateUserSearchFilter`, without `name`: the preview gets
- * the geography the save will send, so it shows what the saved filter will match.
+ * the geography and shipping predicate the save will send, so it shows what the saved filter will
+ * match.
  */
 export function mapToBackendPreviewUserSearchFilter(
     search: SearchFilterArguments,
     geography?: GeographicSearch,
+    shipping?: ShippingSearch,
 ): PreviewUserSearchFilterMatchesData {
     return {
         search: {
             ...mapSearchFilterArgumentsToProductSearchData(search),
             ...(geography ? { geography: mapToBackendGeographicSearch(geography) } : {}),
+            ...(shipping ? { shipping: mapToBackendShippingSearch(shipping) } : {}),
         },
     };
 }
@@ -277,10 +309,24 @@ export function mapToBackendPatchUserSearchFilter(
         };
     }
 
+    if (data.shipping !== undefined) {
+        search = {
+            ...search,
+            shipping: data.shipping && mapToBackendShippingSearch(data.shipping),
+        };
+    }
+
     return {
         name: data.name,
         notifications: data.notifications,
         state: data.state,
         search: search,
+        ...(data.acceptShippingDestination
+            ? {
+                  acceptShippingDestination: mapToBackendAcceptShippingDestination(
+                      data.acceptShippingDestination,
+                  ),
+              }
+            : {}),
     };
 }

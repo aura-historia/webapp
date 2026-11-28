@@ -18,6 +18,7 @@ import {
     updateUserAddress,
 } from "@/client";
 import { geographyQueryKeys } from "@/data/internal/geography/GeographyQueryKeys.ts";
+import { productListingQueryKeys } from "@/data/internal/product/ProductListingQueryKeys.ts";
 import {
     mapToBackendCreateUserAddress,
     mapToBackendDeleteUserAddress,
@@ -326,7 +327,13 @@ export function useUpdateUserAddress(viewerCacheKey: string) {
             return mapToUserAddress(response.data);
         },
         onMutate: () => setConflict(undefined),
-        onSuccess: (address) => storeAddress(queryClient, viewerCacheKey, address),
+        onSuccess: (address) => {
+            storeAddress(queryClient, viewerCacheKey, address);
+            // Listings carry a shipping assessment for the selected destination's address.
+            if (address.preferred) {
+                void queryClient.invalidateQueries({ queryKey: productListingQueryKeys.all });
+            }
+        },
         onError: async (error, { addressId }) => {
             handleMutationError(queryClient, viewerCacheKey, error);
             if (!(error instanceof UserAddressRequestError)) return;
@@ -374,10 +381,14 @@ export function useDeleteUserAddress(viewerCacheKey: string) {
             if (response.error) throw requestError(response.response?.status, "delete");
             return address.addressId;
         },
-        onSuccess: (addressId) => {
+        onSuccess: (addressId, address) => {
             queryClient.removeQueries({
                 queryKey: geographyQueryKeys.userAddress(viewerCacheKey, addressId),
             });
+            // Deleting the selected destination ends the listings' shipping assessment.
+            if (address.preferred) {
+                void queryClient.invalidateQueries({ queryKey: productListingQueryKeys.all });
+            }
             void queryClient.invalidateQueries({ queryKey: listKey(viewerCacheKey) });
             void queryClient.invalidateQueries({
                 queryKey: geographyQueryKeys.browsingDestination(viewerCacheKey),

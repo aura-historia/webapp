@@ -141,6 +141,20 @@ describe("mapProductListingHistory", () => {
         });
     });
 
+    it("maps a delivery change as a marker without terms", () => {
+        const deliveryEntry = {
+            ...changedEntry,
+            payload: { changes: [{ type: "DELIVERY_CHANGED" }] },
+        } as unknown as ProductListingHistoryEntryData;
+
+        const [entry] = mapProductListingHistory([deliveryEntry]);
+
+        expect(entry?.payload).toStrictEqual({
+            kind: "CHANGED",
+            changes: [{ type: "DELIVERY_CHANGED" }],
+        });
+    });
+
     it("keeps no description in a discovery snapshot, even if an older backend sends one", () => {
         const olderBackendEntry = {
             ...discoveredEntry,

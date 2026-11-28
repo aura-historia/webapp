@@ -9,9 +9,13 @@ import {
     type ProductListingSource,
 } from "@/data/internal/product/ProductListingSource.ts";
 import {
-    mapProductListingUserState,
-    type ProductListingUserState,
+    type DetailListingUserState,
+    mapDetailListingUserState,
 } from "@/data/internal/product/UserProductData.ts";
+import {
+    type ListingShippingDetail,
+    mapToListingShippingDetail,
+} from "@/data/internal/shipping/ListingShipping.ts";
 import {
     mapListingAvailability,
     mapListingAuction,
@@ -60,10 +64,18 @@ export type ProductListingDetail = {
     readonly lot: ListingLotFacts | null;
     readonly created: Date;
     readonly updated: Date;
-    readonly userState?: ProductListingUserState | null;
+    readonly userState?: DetailListingUserState | null;
+    /**
+     * Public, destination-independent shipping with the effective advertised terms. Absent when
+     * nothing is asserted, which is never a no-shipping assertion.
+     */
+    readonly shipping?: ListingShippingDetail;
 };
 
-/** Converts the personalized listing DTO at the API boundary for detail presentation. */
+/**
+ * Converts the personalized listing DTO (by ID or slug, and the watchlist PATCH response) at the
+ * API boundary for detail presentation.
+ */
 export function mapToProductListingDetail(
     apiData: PersonalizedProductListingDetailsData,
     locale: string,
@@ -76,6 +88,7 @@ export function mapToProductListingDetail(
         valuation: mapListingDetailValuation(item.pricing.valuation),
     };
     const displayPrice = displayPricing.price;
+    const shipping = mapToListingShippingDetail(item.shipping);
 
     return {
         productListingId: item.productListingId,
@@ -100,6 +113,7 @@ export function mapToProductListingDetail(
         lot: mapListingLot(item.lot),
         created: new Date(item.created),
         updated: new Date(item.updated),
-        userState: mapProductListingUserState(apiData.userState),
+        userState: mapDetailListingUserState(apiData.userState),
+        ...(shipping ? { shipping } : {}),
     };
 }

@@ -61,9 +61,16 @@ export function makeProductListing(overrides: Partial<ProductListing> = {}): Pro
 export function makeProductListingDetail(
     overrides: Partial<ProductListingDetail> = {},
 ): ProductListingDetail {
-    const { image: _image, ...listing } = makeProductListing();
+    // Collection shipping shapes differ from the detail's, so neither is carried over.
+    const {
+        image: _image,
+        shipping: _shipping,
+        userState: _userState,
+        ...listing
+    } = makeProductListing();
     return {
         ...listing,
+        userState: makeProductListingUserState(),
         images: [],
         translated: false,
         displayPrice: listing.formattedPrice,

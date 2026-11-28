@@ -158,7 +158,8 @@ export const getReadiness = <ThrowOnError extends boolean = false>(options?: Opt
  * Clients should not attach a bearer token; any `Authorization` header makes the response
  * private.
  *
- * Counts cover ProductListings with lifecycle `ACTIVE`, whatever their availability.
+ * Counts cover ProductListings with lifecycle `ACTIVE`, whatever their availability, so they include
+ * listings that search omits because they are `SOLD_OUT`, `OUT_OF_STOCK` or `UNAVAILABLE`.
  * `sourcesIndexed` counts distinct ListingSources with at least one counted listing.
  * `sourcesIndexedByType` splits that count by the ListingSource's type; every ListingSource has
  * exactly one type, so the four values always sum to `sourcesIndexed`. A seller's storefront on a
@@ -1119,11 +1120,12 @@ export const getProductListingHistory = <ThrowOnError extends boolean = false>(o
  *
  * Retrieves product-listings similar to the specified product using KNN search over text embeddings.
  * When the product embedding is ready, the endpoint returns matching product-listings. If it is absent,
- * the endpoint returns `202 Accepted` with a polling location.
+ * the endpoint returns `202 Accepted` with a polling location, unless the listing is withdrawn or `SOLD_OUT`, `OUT_OF_STOCK`
+ * or `UNAVAILABLE`: such a listing is not embedded until it returns to sale, so the endpoint returns `200` with an empty list.
  *
  * Ready entries return `displayPrice` in the requested currency and `priceValuation` metadata.
- * Active ProductListings use one persisted snapshot pinned for the request; sold ProductListings use immutable
- * sale-time values. Every ready entry contains `item`; a valid user or delegated-user bearer token adds
+ * Results cover the listings search covers, so none is `SOLD_OUT`, `OUT_OF_STOCK` or `UNAVAILABLE`; each is
+ * valued with one persisted snapshot pinned for the request. Every ready entry contains `item`; a valid user or delegated-user bearer token adds
  * `userState`, limited to the sections a delegated token's read scopes permit. Ready anonymous 200 responses without Authorization use `public, max-age=0, s-maxage=300, stale-if-error=0`; any request with Authorization uses `private, no-store`. The `202 EmbeddingPending` response and all errors are always `private, no-store`.
  *
  */
@@ -1140,7 +1142,7 @@ export const getSimilarProductListings = <ThrowOnError extends boolean = false>(
 /**
  * Simple product search via query parameters
  *
- * Performs canonical ProductListing search with query parameters. Text queries combine BM25 and embedding KNN retrieval when embedding generation succeeds within a few seconds; otherwise the backend falls back to BM25. Explicit non-score sorts use BM25. Any request with an Authorization header is private and not stored, including valid credentials that add user state. Anonymous successful 200 responses use `public, max-age=0, s-maxage=60, stale-if-error=0`; errors use `private, no-store`. Geographic predicates are AND; values in each country or subdivision set are OR. Missing geography never matches. Radius is inclusive in its supplied unit to the same recorded point used by distance ordering. Numeric origins never resolve from addresses/preferences. Distance ordering conflicts with sort and uses lexical text matching. Geographic responses are private, no-store and use eventually consistent OpenSearch projections; location updates can briefly lag in items, ordering, total and continuation. `language` defaults to `en` and `currency` defaults to `EUR`.
+ * Performs canonical ProductListing search with query parameters. Search covers ACTIVE listings whose availability is not `SOLD_OUT`, `OUT_OF_STOCK` or `UNAVAILABLE`; listings without an availability assertion and `RESERVED` listings are included. Text queries combine BM25 and embedding KNN retrieval when embedding generation succeeds within a few seconds; otherwise the backend falls back to BM25. Explicit non-score sorts use BM25. Any request with an Authorization header is private and not stored, including valid credentials that add user state. Anonymous successful 200 responses use `public, max-age=0, s-maxage=60, stale-if-error=0`; errors use `private, no-store`. Geographic predicates are AND; values in each country or subdivision set are OR. Missing geography never matches. Radius is inclusive in its supplied unit to the same recorded point used by distance ordering. Numeric origins never resolve from addresses/preferences. Distance ordering conflicts with sort and uses lexical text matching. Geographic responses are private, no-store and use eventually consistent OpenSearch projections; location updates can briefly lag in items, ordering, total and continuation. `language` defaults to `en` and `currency` defaults to `EUR`.
  */
 export const simpleSearchProductListings = <ThrowOnError extends boolean = false>(options?: Options<SimpleSearchProductListingsData, ThrowOnError>): RequestResult<SimpleSearchProductListingsResponses, SimpleSearchProductListingsErrors, ThrowOnError> => (options?.client ?? client).get<SimpleSearchProductListingsResponses, SimpleSearchProductListingsErrors, ThrowOnError>({
   security: [{

@@ -458,7 +458,7 @@
                   "type": "null"
                 }
               ],
-              "description": "Only listings in one of these exact availability states; combined with `orderability`, a listing must satisfy both."
+              "description": "Only listings in one of these exact availability states; combined with `orderability`, a listing must satisfy both. Search holds no `SOLD_OUT`, `OUT_OF_STOCK` or `UNAVAILABLE` listings, so those values match nothing."
             },
             "created": {
               "$ref": "#/$defs/DateRangeSchema",
@@ -648,7 +648,7 @@
                   "type": "null"
                 }
               ],
-              "description": "Only listings whose availability falls into one of these orderability groups; combined with `availability`, a listing must satisfy both."
+              "description": "Only listings whose availability falls into one of these orderability groups; combined with `availability`, a listing must satisfy both. `NOT_ORDERABLE` matches only `RESERVED` listings, because search holds no sold-out, out-of-stock or unavailable ones."
             },
             "price": {
               "anyOf": [
@@ -1580,7 +1580,7 @@
   },
   {
     "name": "getSimilarProductListings",
-    "description": "Find listings similar to one listing, identified by its productListingId. Returns up to `size` neighbours (default 20; values outside 1 to 50 are clamped) in the requested language and currency. EMBEDDING_PENDING means the listing is not yet prepared for comparison and a later call can succeed; READY with an empty list means nothing similar was found. For a signed-in user, each result also carries userState sections for which the token has the read scope: watchlist:read, search-filters:read, notifications:read or users:read. Each result's `viewLink.url` is the provider link meant to be shared with people: it carries Aura Historia's referral tagging, which is lost when its query parameters are changed. `viewLink.affiliate` is `true` when that link is an affiliate link, which can earn Aura Historia a commission. `url` is the provider's untagged address. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
+    "description": "Find listings similar to one listing, identified by its productListingId. Returns up to `size` neighbours (default 20; values outside 1 to 50 are clamped) in the requested language and currency. EMBEDDING_PENDING means the listing is not yet prepared for comparison and a later call can succeed; READY with an empty list means nothing similar was found, or the listing is withdrawn, sold out, out of stock or unavailable and is not compared. For a signed-in user, each result also carries userState sections for which the token has the read scope: watchlist:read, search-filters:read, notifications:read or users:read. Each result's `viewLink.url` is the provider link meant to be shared with people: it carries Aura Historia's referral tagging, which is lost when its query parameters are changed. `viewLink.affiliate` is `true` when that link is an affiliate link, which can earn Aura Historia a commission. `url` is the provider's untagged address. Amounts are always integers in the currency's minor unit when one exists (EUR `119199` = €1,191.99; USD in cents). For currencies without minor units, such as JPY, the amount is whole units (`211453` = ¥211,453). Follow ISO 4217 exponents.",
     "inputSchema": {
       "$schema": "https://json-schema.org/draft/2020-12/schema",
       "additionalProperties": false,
@@ -3174,7 +3174,7 @@
               "type": "null"
             }
           ],
-          "description": "Only listings in one of these exact availability states; combined with `orderability`, a listing must satisfy both."
+          "description": "Only listings in one of these exact availability states; combined with `orderability`, a listing must satisfy both. Search holds no `SOLD_OUT`, `OUT_OF_STOCK` or `UNAVAILABLE` listings, so those values match nothing."
         },
         "created": {
           "$ref": "#/$defs/DateRangeSchema",
@@ -3392,7 +3392,7 @@
               "type": "null"
             }
           ],
-          "description": "Only listings whose availability falls into one of these orderability groups; combined with `availability`, a listing must satisfy both."
+          "description": "Only listings whose availability falls into one of these orderability groups; combined with `availability`, a listing must satisfy both. `NOT_ORDERABLE` matches only `RESERVED` listings, because search holds no sold-out, out-of-stock or unavailable ones."
         },
         "price": {
           "anyOf": [
@@ -4364,7 +4364,7 @@
                   "type": "null"
                 }
               ],
-              "description": "Only listings in one of these exact availability states; combined with `orderability`, a listing must satisfy both."
+              "description": "Only listings in one of these exact availability states; combined with `orderability`, a listing must satisfy both. Search holds no `SOLD_OUT`, `OUT_OF_STOCK` or `UNAVAILABLE` listings, so those values match nothing."
             },
             "created": {
               "anyOf": [
@@ -4552,7 +4552,7 @@
                   "type": "null"
                 }
               ],
-              "description": "Only listings whose availability falls into one of these orderability groups; combined with `availability`, a listing must satisfy both."
+              "description": "Only listings whose availability falls into one of these orderability groups; combined with `availability`, a listing must satisfy both. `NOT_ORDERABLE` matches only `RESERVED` listings, because search holds no sold-out, out-of-stock or unavailable ones."
             },
             "price": {
               "anyOf": [

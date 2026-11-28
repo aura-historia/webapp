@@ -15,6 +15,29 @@ ASYNC_PATH = f"{SYNC_PATH}/async"
 # synchronous batches follow. WooCommerce webhooks belong to the plugin, not this guide.
 TARGET_PATHS = (ASYNC_PATH, SYNC_PATH)
 TARGET_METHODS = ("post", "patch", "put", "delete")
+# Source shipping management (listing-sources:read/write) and listing delivery
+# (product-listings:read/write). The shipping paths name their parameters in snake case.
+SHIPPING_SOURCE_PATH = "/v1/listing-sources/{listing_source_id}"
+SHIPPING_PROFILES_PATH = f"{SHIPPING_SOURCE_PATH}/shipping-profiles"
+SHIPPING_PROFILE_PATH = f"{SHIPPING_PROFILES_PATH}/{{shipping_profile_id}}"
+SHIPPING_PROFILE_RESTORE_PATH = f"{SHIPPING_PROFILE_PATH}/restore"
+SHIPPING_DEFAULT_PATH = f"{SHIPPING_SOURCE_PATH}/shipping-default"
+DELIVERY_PATH = f"{SHIPPING_SOURCE_PATH}/product-listings/by-source-id/{{source_listing_id}}/delivery"
+DELIVERY_ASYNC_PATH = f"{DELIVERY_PATH}/async"
+SHIPPING_OPERATIONS = {
+    SHIPPING_PROFILES_PATH: ("get", "post"),
+    SHIPPING_PROFILE_PATH: ("get", "put", "delete"),
+    SHIPPING_PROFILE_RESTORE_PATH: ("post",),
+    SHIPPING_DEFAULT_PATH: ("get", "put", "delete"),
+    DELIVERY_ASYNC_PATH: ("post",),
+    DELIVERY_PATH: ("get", "patch"),
+}
+# Every published operation in reference order: batches first, then shipping.
+TARGET_OPERATIONS = {
+    **{path: TARGET_METHODS for path in TARGET_PATHS},
+    **SHIPPING_OPERATIONS,
+}
+HTTP_METHODS = ("get", "post", "patch", "put", "delete")
 OUTPUT_PATH = Path(__file__).resolve().parent.parent / "public" / "partner-products.openapi.json"
 
 
@@ -59,8 +82,8 @@ def component_refs(value: object) -> set[str]:
 
 def extract_partner_spec(spec: dict) -> dict:
     paths = {
-        path: {method: copy.deepcopy(spec["paths"][path][method]) for method in TARGET_METHODS}
-        for path in TARGET_PATHS
+        path: {method: copy.deepcopy(spec["paths"][path][method]) for method in methods}
+        for path, methods in TARGET_OPERATIONS.items()
     }
     for path, item in paths.items():
         if "parameters" in spec["paths"][path]:
@@ -71,7 +94,7 @@ def extract_partner_spec(spec: dict) -> dict:
         operation.get("security", spec.get("security", []))
         for item in paths.values()
         for method, operation in item.items()
-        if method in TARGET_METHODS
+        if method in HTTP_METHODS
     ]
     pending.update(
         f"#/components/securitySchemes/{name}"
@@ -101,7 +124,14 @@ def extract_partner_spec(spec: dict) -> dict:
                 "Asynchronous submission (recommended, /async) answers HTTP 202 once entries are "
                 "admitted; admitted entries are then processed for you. Synchronous batches answer "
                 "HTTP 200 with completed writes and the entries that failed. Both use "
-                "product-listings:write and a current grant for the target listing source."
+                "product-listings:write and a current grant for the target listing source. "
+                "Shipping profiles and the source shipping default are managed synchronously with "
+                "listing-sources:read and listing-sources:write. A listing's delivery configuration "
+                "is read and changed synchronously with product-listings:read and "
+                "product-listings:write, or submitted asynchronously (HTTP 202 on admission, "
+                "authority checked during processing). Every shipping operation needs an "
+                "administrator or a current Partnership grant for the source, and its responses "
+                "are never cached. Shipping terms are advertised arrangements, never quotes."
             ),
         },
         "x-source-url": SOURCE_URL,
@@ -119,7 +149,7 @@ def extract_partner_spec(spec: dict) -> dict:
         tag
         for item in paths.values()
         for method, operation in item.items()
-        if method in TARGET_METHODS
+        if method in HTTP_METHODS
         for tag in operation.get("tags", [])
     }
     result["tags"] = [tag for tag in spec.get("tags", []) if tag.get("name") in used_tags]

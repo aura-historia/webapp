@@ -483,7 +483,8 @@ paths:
         Clients should not attach a bearer token; any `Authorization` header makes the response
         private.
 
-        Counts cover ProductListings with lifecycle `ACTIVE`, whatever their availability.
+        Counts cover ProductListings with lifecycle `ACTIVE`, whatever their availability, so they include
+        listings that search omits because they are `SOLD_OUT`, `OUT_OF_STOCK` or `UNAVAILABLE`.
         `sourcesIndexed` counts distinct ListingSources with at least one counted listing.
         `sourcesIndexedByType` splits that count by the ListingSource's type; every ListingSource has
         exactly one type, so the four values always sum to `sourcesIndexed`. A seller's storefront on a
@@ -4061,14 +4062,16 @@ paths:
 
         When the product embedding is ready, the endpoint returns matching product-listings. If it is absent,
 
-        the endpoint returns `202 Accepted` with a polling location.
+        the endpoint returns `202 Accepted` with a polling location, unless the listing is withdrawn or `SOLD_OUT`, `OUT_OF_STOCK`
+
+        or `UNAVAILABLE`: such a listing is not embedded until it returns to sale, so the endpoint returns `200` with an empty list.
 
 
         Ready entries return `displayPrice` in the requested currency and `priceValuation` metadata.
 
-        Active ProductListings use one persisted snapshot pinned for the request; sold ProductListings use immutable
+        Results cover the listings search covers, so none is `SOLD_OUT`, `OUT_OF_STOCK` or `UNAVAILABLE`; each is
 
-        sale-time values. Every ready entry contains `item`; a valid user or delegated-user bearer token adds
+        valued with one persisted snapshot pinned for the request. Every ready entry contains `item`; a valid user or delegated-user bearer token adds
 
         `userState`, limited to the sections a delegated token's read scopes permit. Ready anonymous 200 responses without Authorization use `public, max-age=0, s-maxage=300, stale-if-error=0`; any request with Authorization uses `private, no-store`. The `202 EmbeddingPending` response and all errors are always `private, no-store`.
 
@@ -4175,7 +4178,9 @@ paths:
     get:
       summary: Simple product search via query parameters
       description:
-        "Performs canonical ProductListing search with query parameters. Text queries combine BM25 and embedding
+        "Performs canonical ProductListing search with query parameters. Search covers ACTIVE listings whose
+        availability is not `SOLD_OUT`, `OUT_OF_STOCK` or `UNAVAILABLE`; listings without an availability assertion
+        and `RESERVED` listings are included. Text queries combine BM25 and embedding
         KNN retrieval when embedding generation succeeds within a few seconds; otherwise the backend falls back to BM25. Explicit non-score sorts
         use BM25. Any request with an Authorization header is private and not stored, including valid credentials that add
         user state. Anonymous successful 200 responses use `public, max-age=0, s-maxage=60, stale-if-error=0`; errors use `private, no-store`.
@@ -4316,7 +4321,7 @@ paths:
         - name: availability
           in: query
           required: false
-          description: Optional exact availability assertions. Values are ORed.
+          description: Optional exact availability assertions. Values are ORed. `SOLD_OUT`, `OUT_OF_STOCK` and `UNAVAILABLE` match nothing, because search holds no such listings.
           style: form
           explode: true
           schema:
@@ -4330,7 +4335,7 @@ paths:
         - name: orderability
           in: query
           required: false
-          description: Optional derived orderability groups. Values are ORed and combine with exact availability assertions.
+          description: Optional derived orderability groups. Values are ORed and combine with exact availability assertions. `NOT_ORDERABLE` matches only `RESERVED` listings.
           style: form
           explode: true
           schema:
@@ -22715,7 +22720,7 @@ components:
         searchAfter: { type: string, description: Omitted on the final page. }
     ProductListingSummaryData:
       type: object
-      description: Lightweight ProductListing summary for search and similar-listing results.
+      description: Lightweight ProductListing summary for search and similar-listing results. These results hold only listings search covers, so `priceValuation` is `CURRENT` for them.
       required:
         - productListingId
         - eventId
@@ -24267,12 +24272,14 @@ components:
             $ref: "#/components/schemas/ListingAvailabilityData"
           uniqueItems: true
           nullable: true
+          description: Exact availability assertions, ORed. `SOLD_OUT`, `OUT_OF_STOCK` and `UNAVAILABLE` are accepted but match nothing, because search holds no such listings.
         orderability:
           type: array
           items: &id006
             $ref: "#/components/schemas/ListingOrderabilityData"
           uniqueItems: true
           nullable: true
+          description: Derived orderability groups, ORed. `NOT_ORDERABLE` matches only `RESERVED` listings.
         includeUnspecifiedAvailability:
           type: boolean
           nullable: true
@@ -24472,11 +24479,13 @@ components:
           items: *id005
           uniqueItems: true
           nullable: true
+          description: Exact availability assertions, ORed. `SOLD_OUT`, `OUT_OF_STOCK` and `UNAVAILABLE` are accepted but match nothing, because search holds no such listings.
         orderability:
           type: array
           items: *id006
           uniqueItems: true
           nullable: true
+          description: Derived orderability groups, ORed. `NOT_ORDERABLE` matches only `RESERVED` listings.
         includeUnspecifiedAvailability:
           type: boolean
           nullable: true

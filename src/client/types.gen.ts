@@ -1147,7 +1147,7 @@ export type AdminProductListingPage = {
 };
 
 /**
- * Lightweight ProductListing summary for search and similar-listing results.
+ * Lightweight ProductListing summary for search and similar-listing results. These results hold only listings search covers, so `priceValuation` is `CURRENT` for them.
  */
 export type ProductListingSummaryData = {
   shipping?: ListingShippingSummaryData;
@@ -2024,7 +2024,13 @@ export type ProductListingSearchData = {
    */
   auctionId?: Array<string> | null;
   price?: RangeQueryUInt64 | null;
+  /**
+   * Exact availability assertions, ORed. `SOLD_OUT`, `OUT_OF_STOCK` and `UNAVAILABLE` are accepted but match nothing, because search holds no such listings.
+   */
   availability?: Array<ListingAvailabilityData> | null;
+  /**
+   * Derived orderability groups, ORed. `NOT_ORDERABLE` matches only `RESERVED` listings.
+   */
   orderability?: Array<ListingOrderabilityData> | null;
   includeUnspecifiedAvailability?: boolean | null;
   created?: RangeQueryDateTime | null;
@@ -2141,7 +2147,13 @@ export type PatchProductListingSearchData = {
    */
   auctionId?: Array<string> | null;
   price?: RangeQueryUInt64 | null;
+  /**
+   * Exact availability assertions, ORed. `SOLD_OUT`, `OUT_OF_STOCK` and `UNAVAILABLE` are accepted but match nothing, because search holds no such listings.
+   */
   availability?: Array<ListingAvailabilityData> | null;
+  /**
+   * Derived orderability groups, ORed. `NOT_ORDERABLE` matches only `RESERVED` listings.
+   */
   orderability?: Array<ListingOrderabilityData> | null;
   includeUnspecifiedAvailability?: boolean | null;
   created?: RangeQueryDateTime | null;
@@ -8236,11 +8248,11 @@ export type SimpleSearchProductListingsData = {
       max?: number;
     };
     /**
-     * Optional exact availability assertions. Values are ORed.
+     * Optional exact availability assertions. Values are ORed. `SOLD_OUT`, `OUT_OF_STOCK` and `UNAVAILABLE` match nothing, because search holds no such listings.
      */
     availability?: Array<ListingAvailabilityData>;
     /**
-     * Optional derived orderability groups. Values are ORed and combine with exact availability assertions.
+     * Optional derived orderability groups. Values are ORed and combine with exact availability assertions. `NOT_ORDERABLE` matches only `RESERVED` listings.
      */
     orderability?: Array<ListingOrderabilityData>;
     /**

@@ -10,13 +10,13 @@ admin workflows in [admin workflows](admin-workflows.md).
   (`public/partner-products.openapi.json`) from the same pinned contract, `openapi/swagger.yaml`.
   Generation never fetches a moving contract. Never hand-edit either output.
 - The pinned capture is the complete backend `docs/swagger.yaml` at `develop`
-  `97f4d03d264c7de810a807450a403ed58d8ca36b` (2026-11-23,
-  [backend#3110](https://github.com/aura-historia/backend/pull/3110)). Git blob
-  `71de213c6c308a0b122acb1b230d9d3c4a3d027c`; file SHA-256
-  `cdcdb38d809d729b8a1b4999d38d079d1d6cc61d38a1a7e9520bbf5fd8e5a9b7`; canonical parsed-JSON
+  `cb2b1f1ad0b1af536c6d214911eed547cb529946` (2026-11-28; the file last changed in
+  [backend#3135](https://github.com/aura-historia/backend/pull/3135), `51c89aa`). Git blob
+  `937ccaff934480efae725a216f57b88a37482a43`; file SHA-256
+  `441535e81af17779fa1bd2cc7e9b069b1dd99336d792d53bf6abde7779f61464`; canonical parsed-JSON
   SHA-256 (recorded as `x-source-contract-sha256` in the partner reference):
-  `ffdf7f02865fd0ea1f4422872dcbcda68346545c6b70e687b09a7982bc06c476`. It replaces the
-  `7a96cc88` capture (2026-11-18).
+  `0ca1a46b7f3b6610585609db04b449642019ce36d3d8fc96e18e79ad3b78ded2`. It replaces the
+  `97f4d03d` capture (2026-11-23).
 - Every REST operation lives under `/v1/...` on `https://api.aura-historia.com` (production) and
   `https://api.stage.aura-historia.com`; `/api/v1/...` is gone without aliases
   ([backend#2216](https://github.com/aura-historia/backend/issues/2216)). The generated client and
@@ -41,7 +41,21 @@ admin workflows in [admin workflows](admin-workflows.md).
   Treat the sentence as stale until the backend corrects it. A duplicate Shopify domain answers
   with the same `409 CONFLICT` as a concurrent edit, so the form cannot tell them apart and
   reports both as "changed elsewhere".
-- Changes against the previous pin (`7a96cc88`, 2026-11-18), with their decisions:
+- Changes against the previous pin (`97f4d03d`, 2026-11-23), adopted with
+  [#1118](https://github.com/aura-historia/webapp/issues/1118), with their decisions:
+  - **Description-only** ([backend#3116](https://github.com/aura-historia/backend/pull/3116),
+    [backend#3135](https://github.com/aura-historia/backend/pull/3135)): search, saved-search
+    matching and similar listings hold no `SOLD_OUT`, `OUT_OF_STOCK` or `UNAVAILABLE` listings
+    (#1388 already stopped offering those filters), `NOT_ORDERABLE` matches only `RESERVED`, a
+    similar-listings request for such a listing answers `200` with an empty list, which
+    `useSimilarProducts` already treats as an empty result (not as pending), and the overview
+    counts still include them. No operation or schema changed.
+  - **Shipping is adopted** with shared models (see **Shipping** below and the audit table under
+    **Known gaps and decisions**). The shipping operations and schemas have been in the capture
+    since `9c9204dfce`, with the collection/detail split of backend#2444 since `e7c8d0e393`;
+    nothing in them changed with this capture.
+- Changes adopted with the `97f4d03d` capture (against `7a96cc88`, 2026-11-18), with their
+  decisions:
   - **Asking-price ranges** ([backend#3107](https://github.com/aura-historia/backend/issues/3107),
     [#1378](https://github.com/aura-historia/webapp/issues/1378)): `ProductListingPriceData` and
     `AdminProductListingPrice` gain `ProductListingPriceRangeData`
@@ -79,7 +93,7 @@ admin workflows in [admin workflows](admin-workflows.md).
   - Release this webapp with or after a backend that serves this capture: an older backend rejects
     a `RANGE` written by the admin form. Reads accept both, including history projections without
     `type`.
-- The MCP tool snapshot of the same commit is unchanged (`--check` passes), so it is not re-synced.
+- The MCP tool snapshot is re-synced to the same commit (see **MCP tool snapshot**).
 - Changes adopted with the `7a96cc88` capture (against `8c678cb`, 2026-11-16), with their decisions:
   - **Anonymous reports of illegal content and the role `OTHER`**
     ([backend#3011](https://github.com/aura-historia/backend/issues/3011)): `name` and `email` of
@@ -503,7 +517,7 @@ admin workflows in [admin workflows](admin-workflows.md).
     the watchlist PATCH return `ListingShippingDetailData`/`PersonalizedShippingDetailData`. The
     watchlist, saved-search matches and auction catalogue therefore use the new
     `PersonalizedProductListingCollectionDetailsData`; `mapPersonalizedProductListingDetails` maps
-    that collection shape. Shipping itself stays generated-only (see below).
+    that collection shape. Shipping itself was adopted later (see **Shipping**, #1118).
   - **Optional `userState` sections** ([backend#2213](https://github.com/aura-historia/backend/issues/2213)):
     `watchlist`, `contentVisibility`, `notification` and `searchFilter` are each omitted when the
     credential lacks its read scope. See **Listings** below.
@@ -597,7 +611,17 @@ To adopt a backend revision:
   and it is the same for production and stage (backend `docs/mcp.md`, "Tool snapshot"). The sync
   keeps `name`, `description`, `inputSchema`, `annotations` and `_meta` and drops the output
   schemas, which make up most of the 710 KB. Never hand-edit the result.
-- The synced capture is backend `338af42f64870999c515a33221ef96df8beb7ed7` (2026-11-13, the head
+- The synced capture is backend `develop` `cb2b1f1ad0b1af536c6d214911eed547cb529946` (2026-11-28,
+  the commit of the pinned `openapi/swagger.yaml`). Git blob
+  `3e08862b36b1f513bdac543ac3d44ee26a964fbf`; file SHA-256
+  `756a31ae938fffa4f8b46e5e0d51e68d4baf56d7a93acfc87f5bc1e5449f1c9f`. Same 37 tools with the same
+  names and arguments; only descriptions changed: `availability` and `orderability` of
+  `simpleSearchProductListings`, `createUserSearchFilter` and `updateUserSearchFilter` say that
+  search holds no sold-out, out-of-stock or unavailable listings, and `getSimilarProductListings`
+  says such a listing has an empty list
+  ([backend#3116](https://github.com/aura-historia/backend/pull/3116),
+  [backend#3135](https://github.com/aura-historia/backend/pull/3135)).
+- The capture before was backend `338af42f64870999c515a33221ef96df8beb7ed7` (2026-11-13, the head
   of [backend#2933](https://github.com/aura-historia/backend/pull/2933), the same commit as the
   pinned `openapi/swagger.yaml`). Git blob `6c7a8c771ce47706e20ca0b9d6602410cbb3b8a6`; file SHA-256
   `a7ea5b229b546f515053a76af93a26b981c9c620b6fe0233d21736478d310a99`. Same 37 tools, 11 of them
@@ -731,11 +755,27 @@ To sync a backend revision:
   `sourcesIndexedByType` (dealers, auction houses, auction platforms, marketplaces),
   `liveObjects` and `countries`, leaving out any count at zero; `asOf`, `sourcesIndexed`, `languages` and
   `newObjectsLast7Days` are mapped but not shown.
-- Shipping and delivery are generated-only until a shipping slice consumes them: the shipping
-  profile, default and listing-delivery operations, listing `shipping` (summary and detail
-  shapes; fixtures omit it), `userState.shipping`, the `shipping` search criteria,
-  `acceptShippingDestination` and `shippingMatchValuation`. `DELIVERY_CHANGED` history entries
-  map to the `UNKNOWN` change.
+- Shipping ([#1118](https://github.com/aura-historia/webapp/issues/1118)) is mapped into shared
+  models in `src/data/internal/shipping` (see **Shipping** under **Mapping boundaries**). Feature
+  controls and screens are separate issues, so no screen shows shipping yet. Every shipping
+  operation and schema of the pinned capture, with its consumer:
+
+  | Operation or schema | Consumer or decision |
+  | --- | --- |
+  | Listing reads: `ListingShippingSummaryData`, `ListingShippingDetailData` (`item.shipping`) | `ProductListing.shipping` (search, similar, watchlist, saved-search preview and matches, auction catalogue) and `ProductListingDetail.shipping` (by ID or slug, watchlist `PATCH`), through `mapToListingShippingSummary` and `mapToListingShippingDetail`. Not shown yet. |
+  | `PersonalizedShippingSummaryData`, `PersonalizedShippingDetailData` (`userState.shipping`) | `userState.shipping` of the same models (`mapCollectionListingUserState`, `mapDetailListingUserState`). Dropped from server-side detail reads. Not shown yet. |
+  | `ListingShipping*`, `DeliveryAssessment*`, `ShippingPricePreviewData`, `ShippingDisplayData` | Mapped as parts of the four read shapes above. |
+  | `ShippingMatchValuationData` (`userState.searchFilter`, match feedback response) | `ProductListingUserState.searchFilter.shippingMatchValuation` and `SearchFilterProductMatch.shippingMatchValuation`. Not shown yet. |
+  | `ShippingSearchData` (`shipping` on `simpleSearchProductListings`, saved-filter `search.shipping`) | `ShippingSearch` with `validateShippingSearch`, `mapToBackendShippingSearch` and `mapToShippingSearch`. Saved filters read, create, patch and preview it (`UserSearchFilter.shipping`); `listingGeographyQuerySerializer` serializes it. The search page and the wizard offer no shipping control yet (separate issues). |
+  | `AcceptShippingDestinationData` (`acceptShippingDestination` on create and patch) | `ShippingDestinationAcceptance` on `UserSearchFilterCreateData` and `UserSearchFilterPatchData`. No screen sends it yet. |
+  | `listShippingProfiles`, `createShippingProfile`, `getShippingProfile`, `replaceShippingProfile`, `retireShippingProfile`, `restoreShippingProfile` | `ShippingProfile.ts` read models and command builders. No browser screen yet; published in the partner reference (see [partner integration](partner-integration.md#shipping-profiles-and-listing-delivery)). |
+  | `getShippingDefault`, `assignShippingDefault`, `clearShippingDefault` | `ShippingDefault` and its command builders; partner reference. |
+  | `getProductListingDelivery`, `changeProductListingDelivery` | `ListingDelivery.ts` (`mapToListingDeliveryView`, `mapToBackendListingDeliveryCommand`, `mapToListingDeliveryResult`); partner reference. |
+  | `submitProductListingDelivery` (async) | External only: producers submit it; its admission report is the batch `AsyncProductListingBatchReport`. Partner reference. |
+  | `AdvertisedDeliveryTermsData` and the strict `Shipping*` terms schemas, `ShippingProfile*`, `CreateShippingProfileData`, `ReplaceShippingProfileData`, `ShippingEvidenceInputData`, `AssignShippingDefaultData`, `ClearShippingDefaultData`, `ShippingDefaultData` | `ShippingTerms.ts` and `ShippingProfile.ts`; evidence is write-only. |
+  | `ListingDelivery*`, `ProductListingDelivery*` | `ListingDelivery.ts`. |
+  | `ShippingImportWriteData`, `ShippingImportObservationData` (`import`) | External only: producer imports. The browser never sends `import`. |
+  | `ProductListingDeliveryHistoryChangeData` (`DELIVERY_CHANGED`) | History change `{ type: "DELIVERY_CHANGED" }`, shown as "Delivery terms updated." under Details. |
 - Listing search, dealer listings and saved filters send the exclusion as
   `excludeProductListingId`. The internal `SearchFilterArguments.excludeProductId` and the
   `excludeProductId` search URL parameter keep their names, so shared links still work. The
@@ -954,6 +994,88 @@ Shared models live in `src/data/internal/geography`; formatting helpers in
 - **Caches:** use `geographyQueryKeys`. Their roots are viewer-scoped and removed on viewer
   changes; private reads use `cache: "no-store"`, the query `signal` and no retries. Geographic
   listing searches and discovery responses are private and `no-store`, including anonymous ones.
+
+### Shipping
+
+Shared models live in `src/data/internal/shipping`
+([#1118](https://github.com/aura-historia/webapp/issues/1118)); the backend contract is its
+[shipping document](https://github.com/aura-historia/backend/blob/develop/docs/shipping.md).
+Shipping terms are advertised arrangements, never quotes, totals, landed costs or delivery
+promises.
+
+- **Consumer reads** (`ListingShipping.ts`) have four distinct shapes. The response's purpose picks
+  the shape, not the item's DTO: search, similar, watchlist, saved-search preview and matches and
+  the auction catalogue carry the bounded summaries (`ListingShippingSummary`,
+  `PersonalizedShippingSummary`), even when their item is detail-shaped; by-ID and by-slug detail
+  and the watchlist `PATCH` response carry the details (`ListingShippingDetail` with effective
+  terms, `PersonalizedShippingDetail` with the destination and its assessed options). The public
+  `item.shipping` is the same for every viewer; the private `userState.shipping` exists only for a
+  signed-in user with a selected, permitted browsing destination.
+- **No nulls, no inference.** Consumer projections never hold `null`: absent facts are absent
+  members and an object without information is absent itself (tests assert this at every depth).
+  A missing summary is never a no-shipping assertion; missing `userState.shipping` means no
+  disclosed assessment. Only `NOT_OFFERED` is a negative. An unknown eligibility reads as
+  undetermined, unknown required inputs and explanation codes are dropped, an area that cannot be
+  read stays in its place as `UNSUPPORTED` (it never matches, so it never widens coverage), an
+  unreadable policy is `UNSUPPORTED`, and an unreadable condition sets
+  `hasUnsupportedConditions` instead of disappearing. Management revisions, profile IDs, the terms
+  schema marker, sites and evidence never appear in consumer models.
+- **Money.** Amounts stay integer minor units in their own currency (`ShippingMoney`); every price
+  kind (`FREE`, `FIXED`, `FROM`, `ESTIMATED_RANGE`, `EXTERNALLY_CALCULATED`, `ON_REQUEST`) is its
+  own member, with the charge basis, qualifying scope and known components. An unreadable price
+  drops the rate (unknown), never becomes zero. Details keep the source `price` and, only next to
+  a readable `display` valuation, the backend's converted `displayPrice`; `display` stays only when
+  a value was converted. The collection `pricePreview` is one self-contained service, basis and
+  price (in the requested currency when convertible), not a total and not proof that a shipping
+  filter matched; it is dropped when its valuation cannot be read. The client never converts,
+  never picks a cheapest rate and never infers zero or exact prices from absence.
+- **Attribution and destination.** A private assessment carries the provider attribution that
+  must be shown with it (`mapToGeographyAttribution`); an unreadable attribution or a destination
+  on an unknown reference release withholds the assessment.
+- **Protected contracts** keep their own semantics. `ShippingTerms.ts` models the strict
+  `SHIP_TERMS_V1` terms with every member present and `null` for "not asserted", and round-trips
+  them exactly; zones, services and areas keep their order and IDs stay opaque. A profile or
+  delivery configuration with any value this app cannot read is not modeled
+  (`hasUnsupportedValues`): it may be retired, restored or cleared, never replaced from a partial
+  model. `ShippingProfile.ts` maps profiles (`managementRevision` is the `expectedRevision` of every
+  command, `termsRevision` advances only with content), keyset pages and the default, and builds
+  the create (`creationKey`), replace, lifecycle, assign and clear bodies; evidence is write-only.
+  `ListingDelivery.ts` maps the protected configuration (`LISTING_DELIVERY_V1`) and builds the
+  revision-checked command with `UNCHANGED`/`CLEAR`/`SET` members and `INHERIT`/`CLEAR`/`REPLACE`
+  overrides. The browser never sends the producer-only `import` envelope.
+- **Search predicate** (`ShippingSearch.ts`): whole-country destination, optional service,
+  inclusive per-item maximum in minor units and `collectionOffered`. `validateShippingSearch`
+  mirrors the backend rules; `mapToBackendShippingSearch` states the release and interpretation
+  explicitly. A stored predicate with any unreadable value is `UNSUPPORTED`, never a narrower one;
+  saved-filter patches omit it to keep it, send `null` to clear it and a whole predicate to replace
+  it. `shippingMatchValuation` keeps a match's immutable FX basis apart from the item's price
+  valuation. Search never sorts by shipping price, and absence from results never proves that a
+  listing does not ship; the ranking disclosure is unchanged.
+- **History.** `DELIVERY_CHANGED` maps to `{ type: "DELIVERY_CHANGED" }`, a marker without terms
+  shown as "Delivery terms updated." under Details. Shared profile edits never add one.
+- **Errors** (`ShippingErrors.ts`): `classifyShippingError` groups the contract codes.
+  `SHIPPING_TEMPORARILY_UNAVAILABLE` (503) is retryable, `SHIPPING_STORAGE_ERROR` (500) is not,
+  `SHIPPING_STALE_REVISION` and `SHIPPING_REVISION_EXHAUSTED` mean refetch, the
+  creation-key, not-found and ineligible codes need a different choice, and the `SHIPPING_IMPORT_*`
+  codes concern producers only. `apiErrors` translates every code a browser can meet.
+- **Caches and privacy.** Listing reads stay under `productListingQueryKeys`. A listing search key
+  must hold the complete shipping predicate (`shippingSearchQueryKeyPart`) next to the currency,
+  and search continuations keep their FX-pinned `searchAfter`. Setting the browsing destination,
+  or editing or deleting the saved address behind it, invalidates the listing root, so no listing
+  keeps another destination's assessment; viewer changes remove the root as before. Server-side
+  detail reads drop `userState.shipping` (`withoutPrivateShipping`) so the destination and its
+  assessment never enter the SSR payload, and the content-notice loader keeps no viewer state.
+  Management and delivery reads use `shippingQueryKeys` (viewer and source in every key,
+  registered as viewer-scoped), `cache: "no-store"`, the query `signal` and no retries.
+- **Fixtures.** `src/data/internal/shipping/__tests__/fixtures/listing-shipping` holds the four
+  merged backend read fixtures verbatim (backend `cb2b1f1`,
+  `src/aura-historia-contracts/tests/fixtures/listing-shipping`; git blobs `cb2f3c4b`
+  anonymous collection, `b3f172c8` anonymous detail, `fd4795e3` personalized collection, `ae844db7`
+  personalized detail). Biome skips the directory (`biome.json`) so they stay byte-identical;
+  replace them with the capture when the backend changes them.
+- **Known gap:** the saved-search wizard neither shows nor edits a stored shipping predicate.
+  Editing keeps it (patches omit it), but duplicating a filter does not copy it until the
+  saved-search shipping slice adds the control.
 
 ### Errors
 

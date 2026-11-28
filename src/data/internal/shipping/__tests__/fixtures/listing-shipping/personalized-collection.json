@@ -1,0 +1,31 @@
+{
+  "item": {
+    "shipping": {
+      "requiredInputs": [
+        "DESTINATION"
+      ],
+      "collection": {
+        "eligibility": "OFFERED"
+      }
+    }
+  },
+  "userState": {
+    "shipping": {
+      "eligibility": "OFFERED",
+      "pricePreview": {
+        "service": "PARCEL",
+        "basis": "PER_ITEM",
+        "price": {
+          "kind": "FIXED",
+          "amount": {
+            "amount_minor": 1200,
+            "currency": "EUR"
+          }
+        }
+      },
+      "collection": {
+        "eligibility": "OFFERED"
+      }
+    }
+  }
+}

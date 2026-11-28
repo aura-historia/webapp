@@ -965,6 +965,7 @@
         "titleChanged": "Titolo aggiornato.",
         "titleRemoved": "Titolo rimosso.",
         "descriptionChanged": "Descrizione aggiornata.",
+        "deliveryChanged": "Condizioni di consegna aggiornate.",
         "auctionChanged": "I dettagli dell’asta o del lotto sono cambiati.",
         "withdrawn": "Annuncio ritirato; la disponibilità era {{previousAvailability}}.",
         "restored": "Annuncio ripristinato dalla fonte.",
@@ -1839,7 +1840,7 @@
       },
       "endpoints": {
         "title": "Riferimento <em>API prodotti partner.</em>",
-        "subtitle": "Le regole di ogni metodo in entrambe le modalità, poi il riferimento OpenAPI integrato per gli endpoint dei batch asincroni e sincroni.",
+        "subtitle": "Le regole di ogni metodo in entrambe le modalità, poi il riferimento OpenAPI integrato per gli endpoint dei batch asincroni e sincroni, i profili di spedizione e la consegna dei singoli annunci.",
         "embedTitle": "Riferimento API prodotti partner",
         "eyebrow": "Riferimento",
         "frameLabel": "OpenAPI · Prodotti partner",
@@ -1987,7 +1988,16 @@
     "PARTY_INTERNAL_ERROR": "Non è stato possibile elaborare i dati dell'attività. Riprova più tardi.",
     "PARTY_NOT_FOUND": "Questa attività o sede non è stata trovata.",
     "PARTY_TEMPORARILY_UNAVAILABLE": "I dati dell'attività non sono temporaneamente disponibili. Riprova tra qualche minuto.",
-    "USER_ADDRESS_NOT_FOUND": "Questo indirizzo salvato non è stato trovato."
+    "USER_ADDRESS_NOT_FOUND": "Questo indirizzo salvato non è stato trovato.",
+    "SHIPPING_TEMPORARILY_UNAVAILABLE": "I dettagli di spedizione sono temporaneamente non disponibili. Riprova tra qualche minuto.",
+    "SHIPPING_STORAGE_ERROR": "Non è stato possibile elaborare i dettagli di spedizione. Riprova più tardi.",
+    "SHIPPING_STALE_REVISION": "Queste impostazioni di spedizione sono state modificate altrove. Ricaricale e riprova.",
+    "SHIPPING_REVISION_EXHAUSTED": "Queste impostazioni di spedizione non possono più essere modificate. Contatta l’assistenza.",
+    "SHIPPING_CREATION_KEY_CONFLICT": "Da questo modulo è già stato creato un altro profilo di spedizione. Ricarica e inizia un nuovo profilo.",
+    "SHIPPING_PROFILE_NOT_FOUND": "Questo profilo di spedizione non è stato trovato.",
+    "SHIPPING_LOCATION_NOT_FOUND": "Non è stato trovato un luogo usato in queste impostazioni di spedizione.",
+    "SHIPPING_PROFILE_RETIRED": "Questo profilo di spedizione è ritirato. Ripristinalo prima di modificarlo o assegnarlo.",
+    "SHIPPING_REFERENCE_INELIGIBLE": "Un profilo o un luogo usato qui non può più essere utilizzato. Scegline un altro."
   },
   "watchlist": {
     "heading": "La mia <em>lista dei preferiti.</em>",

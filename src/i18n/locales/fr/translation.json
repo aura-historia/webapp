@@ -965,6 +965,7 @@
         "titleChanged": "Titre mis à jour.",
         "titleRemoved": "Titre supprimé.",
         "descriptionChanged": "Description mise à jour.",
+        "deliveryChanged": "Conditions de livraison mises à jour.",
         "auctionChanged": "Les informations de vente ou de lot ont changé.",
         "withdrawn": "Annonce retirée ; sa disponibilité était {{previousAvailability}}.",
         "restored": "Annonce rétablie par sa source.",
@@ -1839,7 +1840,7 @@
       },
       "endpoints": {
         "title": "Référence de <em>l’API produits partenaires.</em>",
-        "subtitle": "Les règles de chaque méthode dans les deux modes, puis la référence OpenAPI intégrée des endpoints de lots asynchrones et synchrones.",
+        "subtitle": "Les règles de chaque méthode dans les deux modes, puis la référence OpenAPI intégrée des endpoints de lots asynchrones et synchrones, des profils de livraison et de la livraison des annonces.",
         "embedTitle": "Référence de l’API produits partenaire",
         "eyebrow": "Référence",
         "frameLabel": "OpenAPI · Produits partenaires",
@@ -1987,7 +1988,16 @@
     "PARTY_INTERNAL_ERROR": "Les informations de l'entreprise n'ont pas pu être traitées. Veuillez réessayer plus tard.",
     "PARTY_NOT_FOUND": "Cette entreprise ou cet emplacement est introuvable.",
     "PARTY_TEMPORARILY_UNAVAILABLE": "Les informations de l'entreprise sont temporairement indisponibles. Veuillez réessayer dans quelques minutes.",
-    "USER_ADDRESS_NOT_FOUND": "Cette adresse enregistrée est introuvable."
+    "USER_ADDRESS_NOT_FOUND": "Cette adresse enregistrée est introuvable.",
+    "SHIPPING_TEMPORARILY_UNAVAILABLE": "Les informations de livraison sont temporairement indisponibles. Veuillez réessayer dans quelques minutes.",
+    "SHIPPING_STORAGE_ERROR": "Les informations de livraison n’ont pas pu être traitées. Veuillez réessayer plus tard.",
+    "SHIPPING_STALE_REVISION": "Ces paramètres de livraison ont été modifiés ailleurs. Rechargez-les et réessayez.",
+    "SHIPPING_REVISION_EXHAUSTED": "Ces paramètres de livraison ne peuvent plus être modifiés. Veuillez contacter le support.",
+    "SHIPPING_CREATION_KEY_CONFLICT": "Un autre profil de livraison a déjà été créé depuis ce formulaire. Rechargez la page et commencez un nouveau profil.",
+    "SHIPPING_PROFILE_NOT_FOUND": "Ce profil de livraison est introuvable.",
+    "SHIPPING_LOCATION_NOT_FOUND": "Un lieu utilisé dans ces paramètres de livraison est introuvable.",
+    "SHIPPING_PROFILE_RETIRED": "Ce profil de livraison est retiré. Restaurez-le avant de le modifier ou de l’attribuer.",
+    "SHIPPING_REFERENCE_INELIGIBLE": "Un profil ou un lieu utilisé ici ne peut plus être utilisé. Choisissez-en un autre."
   },
   "watchlist": {
     "heading": "Mes <em>favoris.</em>",

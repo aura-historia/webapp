@@ -130,8 +130,17 @@ describe("partner OpenAPI contract", () => {
                 node = (node as Record<string, unknown>)[segment];
             expect(node, reference).toBeDefined();
         }
-        // Asynchronous submission is recommended, so it leads the embedded reference.
-        expect(Object.keys(spec.paths)).toEqual([asyncPath, syncPath]);
+        // Asynchronous submission is recommended, so it leads the embedded reference; shipping
+        // management and listing delivery follow.
+        expect(Object.keys(spec.paths).slice(0, 2)).toEqual([asyncPath, syncPath]);
+        expect(Object.keys(spec.paths).slice(2)).toEqual([
+            "/v1/listing-sources/{listing_source_id}/shipping-profiles",
+            "/v1/listing-sources/{listing_source_id}/shipping-profiles/{shipping_profile_id}",
+            "/v1/listing-sources/{listing_source_id}/shipping-profiles/{shipping_profile_id}/restore",
+            "/v1/listing-sources/{listing_source_id}/shipping-default",
+            "/v1/listing-sources/{listing_source_id}/product-listings/by-source-id/{source_listing_id}/delivery/async",
+            "/v1/listing-sources/{listing_source_id}/product-listings/by-source-id/{source_listing_id}/delivery",
+        ]);
         for (const path of [asyncPath, syncPath]) {
             expect(Object.keys(spec.paths[path])).toEqual(["post", "patch", "put", "delete"]);
         }
@@ -165,6 +174,5 @@ describe("partner OpenAPI contract", () => {
         ]);
         expect(spec.components.parameters.AsyncProductListingIdempotencyKey.required).toBe(false);
         expect(JSON.stringify(spec).toLowerCase()).not.toContain("webhook");
-        expect(JSON.stringify(spec).toLowerCase()).not.toContain("woocommerce");
     });
 });

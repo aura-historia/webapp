@@ -43,10 +43,59 @@ changing monetary estimate schemas.
 The subset contains POST/PATCH/PUT/DELETE on
 `/v1/listing-sources/{listingSourceId}/product-listings/async` first, then on
 `/v1/listing-sources/{listingSourceId}/product-listings`, with the async admission report,
-failure and idempotency-key components. The WooCommerce webhook and provider ingestion
-configuration are outside the guide and reference; the webhook contract below is for the
-WooCommerce plugin and server integrations. Scalar is documentation-only: request/client buttons
+failure and idempotency-key components. The shipping operations follow (see
+[Shipping profiles and listing delivery](#shipping-profiles-and-listing-delivery)): the source's
+shipping profiles (list, create, read, replace, retire, restore), its shipping default (read,
+assign, clear) and a listing's delivery configuration (async submission first, then read and
+change), with the strict terms and command schemas they reference. Their paths name parameters
+in snake case (`{listing_source_id}`), as the contract does. The WooCommerce webhook and provider
+ingestion configuration are outside the guide and reference; the webhook contract below is for
+the WooCommerce plugin and server integrations. `WOOCOMMERCE` appears in the reference only as a
+delivery integration method. Scalar is documentation-only: request/client buttons
 are hidden, authentication persistence is disabled, and no real credentials are passed to it.
+
+## Shipping profiles and listing delivery
+
+Advertised shipping is published through the partner API; the browser has no shipping
+management screen yet ([#1118](https://github.com/aura-historia/webapp/issues/1118) adopts the
+contract and models only). Terms are advertised arrangements, never quotes, totals or delivery
+promises; copy must not describe them otherwise.
+
+- **Authority.** Every shipping operation needs an unsuspended administrator or a current
+  member of the operator Party's active Partnership with the exact source grant, rechecked in the
+  transaction. Delegated credentials need `listing-sources:read` (profile and default reads) or
+  `listing-sources:write` (profile and default commands), and `product-listings:read` or
+  `product-listings:write` for listing delivery. Responses and errors are `no-store`.
+- **Profiles** (`/v1/listing-sources/{listing_source_id}/shipping-profiles`) are synchronous.
+  The list pages in ascending ID order (send the last `shippingProfileId` as `after`; an empty
+  page is the last), and `objectKey` finds a producer's profile, including a retired one. Create
+  takes a `creationKey`: an exact retry returns the existing profile, different content under the
+  same key is `409 SHIPPING_CREATION_KEY_CONFLICT`. Replace, retire and restore take the
+  `managementRevision` as `expectedRevision`, also for no-ops; a stale one is `409
+  SHIPPING_STALE_REVISION`, which means refetch and decide again. Retirement keeps terms, history
+  and references and is no "does not ship" assertion; a retired profile must be restored before
+  it is corrected or assigned. Evidence is write-only provenance and is never returned.
+- **Default** (`/shipping-default`) is synchronous: assign an active profile of the same source or
+  clear it, each at the default's `revision`. Revision 1 means never assigned. A retired or missing
+  selection stays visible and selects no fallback.
+- **Terms** use the strict `SHIP_TERMS_V1` protocol: every member present, `null` for an absent
+  assertion, unknown members rejected. `shipping: null` asserts nothing; `PROHIBITED` asserts no
+  shipping; independent collection survives it. Zones are ordered and the first matching zone
+  applies; exclusions come first. Amounts are integer minor units of their own currency.
+- **Listing delivery**
+  (`/product-listings/by-source-id/{source_listing_id}/delivery`) addresses a listing by its
+  source-owned ID. `GET` returns the listing's own configuration (`LISTING_DELIVERY_V1`) and its
+  `expectedVersion`, not the effective terms. `PATCH` applies a revision-checked command
+  synchronously: each member is `UNCHANGED`, `CLEAR` or `SET`, an override is `INHERIT`, `CLEAR`
+  or a whole `REPLACE`; the result is `CHANGED` or `UNCHANGED`. `POST …/delivery/async` admits the
+  same command (`202` with the admission report and `Idempotency-Key`, as for batches); authority,
+  the original `expectedVersion`, an active listing and current references are checked during
+  processing. Commands never create or restore listings. Public listing history shows a change as
+  "Delivery terms updated" without terms.
+- **Imports.** The optional `import` envelope (`acquiredAt`, `integration`, `sequence`,
+  `requestKey`, `objectKey`, `observation`) is for producers that mirror shop data; its
+  `SHIPPING_IMPORT_*` conflicts mean refetch and reconcile, never rebase an old payload. Shopify
+  and WooCommerce acquisition is separate work.
 
 ## Provider ingestion configuration
 
@@ -166,5 +215,6 @@ custom integration guide or its embedded reference.
 Run focused Vitest tests for `src/features/partner/partner-program` and locale parity, plus
 `python -m unittest discover -s scripts/tests`. Contract tests validate the request and batch
 examples in both modes, reject legacy untagged prices and unsupported fields, resolve references,
-enforce the batch limit and the async-then-sync path order, check the async admission report and
-idempotency key, and keep any webhook out of the subset.
+enforce the batch limit and the async-then-sync path order followed by the shipping operations,
+check the async admission reports and idempotency key, require every shipping profile, default and
+delivery operation, keep consumer listing reads out, and keep any webhook out of the subset.

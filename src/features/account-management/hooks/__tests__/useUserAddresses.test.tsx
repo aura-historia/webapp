@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { UserAddress as UserAddressDto } from "@/client";
 import { geographyQueryKeys } from "@/data/internal/geography/GeographyQueryKeys.ts";
+import { productListingQueryKeys } from "@/data/internal/product/ProductListingQueryKeys.ts";
 import { mapToUserAddress, type UserAddressInput } from "@/data/internal/geography/UserAddress.ts";
 import { isViewerScopedQuery } from "@/features/authentication/lib/clearViewerScopedQueries.ts";
 import {
@@ -211,6 +212,28 @@ describe("saved address API", () => {
         expect(invalidate).toHaveBeenCalledWith({
             queryKey: geographyQueryKeys.browsingDestination(VIEWER),
         });
+    });
+
+    it("refreshes listings, whose shipping assessment used it, when the search location changes", async () => {
+        api.remove.mockResolvedValue({ data: undefined, response: { status: 204 } });
+        api.update.mockResolvedValue(ok(dto({ preferred: true, version: 4 })));
+        const invalidate = vi.spyOn(client, "invalidateQueries");
+        const update = renderHook(() => useUpdateUserAddress(VIEWER), { wrapper });
+        const remove = renderHook(() => useDeleteUserAddress(VIEWER), { wrapper });
+
+        await act(() => remove.result.current.mutateAsync(mapToUserAddress(dto())));
+        expect(invalidate).not.toHaveBeenCalledWith({ queryKey: productListingQueryKeys.all });
+
+        await act(() =>
+            update.result.current.mutateAsync({ addressId: "uaddr_1", input, expectedVersion: 3 }),
+        );
+        expect(invalidate).toHaveBeenCalledWith({ queryKey: productListingQueryKeys.all });
+
+        invalidate.mockClear();
+        await act(() =>
+            remove.result.current.mutateAsync(mapToUserAddress(dto({ preferred: true }))),
+        );
+        expect(invalidate).toHaveBeenCalledWith({ queryKey: productListingQueryKeys.all });
     });
 
     it("resets cached addresses when access is lost during a write", async () => {

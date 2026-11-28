@@ -79,6 +79,9 @@ function formatHistoryChange(
         case "DESCRIPTION_CHANGED":
             // The backend no longer returns the description text, so only the change is named.
             return t("product.history.events.descriptionChanged");
+        case "DELIVERY_CHANGED":
+            // Public history names the change only; it carries no terms.
+            return t("product.history.events.deliveryChanged");
         case "MAIN_PRICE_CHANGED":
             return t("product.history.events.mainPriceChanged", {
                 previous: formatPrice(change.previous),

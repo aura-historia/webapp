@@ -9,9 +9,13 @@ import {
     type ProductListingSource,
 } from "@/data/internal/product/ProductListingSource.ts";
 import {
-    mapProductListingUserState,
-    type ProductListingUserState,
+    type CollectionListingUserState,
+    mapCollectionListingUserState,
 } from "@/data/internal/product/UserProductData.ts";
+import {
+    type ListingShippingSummary,
+    mapToListingShippingSummary,
+} from "@/data/internal/shipping/ListingShipping.ts";
 import {
     mapListingAvailability,
     mapListingContentPolicy,
@@ -57,8 +61,13 @@ export type ProductListing = {
     readonly image?: ProductImage;
     readonly contentPolicy: ListingContentPolicy | null | undefined;
     readonly updated: Date;
-    readonly userState?: ProductListingUserState | null;
+    readonly userState?: CollectionListingUserState | null;
     readonly auctionId?: string;
+    /**
+     * Public, destination-independent shipping summary. Absent when nothing is asserted, which
+     * is never a no-shipping assertion.
+     */
+    readonly shipping?: ListingShippingSummary;
     /** Advertised-inventory geography, returned only on geographic search summaries. */
     readonly geography?: ListingGeography;
 };
@@ -70,6 +79,7 @@ function mapSummaryFields(
 ): ProductListing {
     const displayPrice = mapListingPrice(item.displayPrice);
     const geography = mapToListingGeography(item.geography);
+    const shipping = mapToListingShippingSummary(item.shipping);
 
     return {
         productListingId: item.productListingId,
@@ -88,9 +98,10 @@ function mapSummaryFields(
         image: mapListingImage(item.image, item.contentPolicy),
         contentPolicy: mapListingContentPolicy(item.contentPolicy),
         updated: new Date(item.updated),
-        userState: mapProductListingUserState(userState),
+        userState: mapCollectionListingUserState(userState),
         auctionId: item.auctionId,
         ...(geography ? { geography } : {}),
+        ...(shipping ? { shipping } : {}),
     };
 }
 
@@ -101,13 +112,17 @@ export function mapPersonalizedProductListingSummary(
     return mapSummaryFields(apiData.item, apiData.userState, locale);
 }
 
-/** Projects a collection detail (watchlist, saved-search matches) into card fields. */
+/**
+ * Projects a collection detail (watchlist, saved-search matches, auction catalogue) into card
+ * fields. Its shipping is the collection summary, although the item is detail-shaped.
+ */
 export function mapPersonalizedProductListingDetails(
     apiData: PersonalizedProductListingCollectionDetailsData,
     locale: string,
 ): ProductListing {
     const item = apiData.item;
     const displayPrice = mapListingPrice(item.pricing.display.price);
+    const shipping = mapToListingShippingSummary(item.shipping);
     return {
         productListingId: item.productListingId,
         productListingTitleSlugId: item.productListingTitleSlugId,
@@ -125,7 +140,8 @@ export function mapPersonalizedProductListingDetails(
         image: mapListingImage(item.image, item.contentPolicy),
         contentPolicy: mapListingContentPolicy(item.contentPolicy),
         updated: new Date(item.updated),
-        userState: mapProductListingUserState(apiData.userState),
+        userState: mapCollectionListingUserState(apiData.userState),
         auctionId: item.auction?.auctionId ?? undefined,
+        ...(shipping ? { shipping } : {}),
     };
 }

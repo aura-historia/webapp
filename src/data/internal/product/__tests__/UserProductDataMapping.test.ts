@@ -1,6 +1,10 @@
 import type { ProductListingUserStateData } from "@/client";
 import { describe, expect, it } from "vitest";
-import { mapProductListingUserState } from "../UserProductData.ts";
+import {
+    mapCollectionListingUserState,
+    mapDetailListingUserState,
+    mapProductListingUserState,
+} from "../UserProductData.ts";
 
 const state: ProductListingUserStateData = {
     watchlist: { watching: true, notifications: false },
@@ -42,5 +46,57 @@ describe("mapProductListingUserState", () => {
     it("preserves omitted and null personalized wrappers", () => {
         expect(mapProductListingUserState(undefined)).toBeUndefined();
         expect(mapProductListingUserState(null)).toBeNull();
+    });
+
+    it("maps the saved-match shipping valuation instead of passing the DTO through", () => {
+        const result = mapProductListingUserState({
+            searchFilter: {
+                matched: true,
+                hidden: false,
+                shippingMatchValuation: {
+                    interpretation: "WHOLE_COUNTRY_PER_ITEM_FX_V1",
+                    fxRateId: "fx_01",
+                    capturedAt: "2026-11-20T08:00:00Z",
+                    maximumPerItem: { amount: 2500, currency: "USD" },
+                },
+            },
+        });
+        expect(result?.searchFilter).toEqual({
+            matched: true,
+            hidden: false,
+            shippingMatchValuation: {
+                interpretation: "WHOLE_COUNTRY_PER_ITEM_FX_V1",
+                fxRateId: "fx_01",
+                capturedAt: new Date("2026-11-20T08:00:00Z"),
+                maximumPerItem: { amount: 2500, currency: "USD" },
+            },
+        });
+    });
+});
+
+describe("listing user state shipping", () => {
+    it("maps the collection summary and the detail assessment separately", () => {
+        expect(
+            mapCollectionListingUserState({ shipping: { eligibility: "OFFERED" } })?.shipping,
+        ).toEqual({ eligibility: "OFFERED" });
+        expect(
+            mapDetailListingUserState({
+                shipping: {
+                    destination: { referenceRelease: "iso-codes-4.20.1", country: "AT" },
+                    requiredInputs: ["POSTAL_CODE"],
+                },
+            })?.shipping,
+        ).toEqual({
+            destination: { referenceRelease: "iso-codes-4.20.1", country: "AT" },
+            requiredInputs: ["POSTAL_CODE"],
+        });
+    });
+
+    it("keeps the section absent when no destination assessment is disclosed", () => {
+        expect(mapCollectionListingUserState({ watchlist: state.watchlist })).toEqual({
+            watchlist: { watching: true, notifications: false },
+        });
+        expect(mapDetailListingUserState({})).toEqual({});
+        expect(mapCollectionListingUserState(undefined)).toBeUndefined();
     });
 });
