@@ -1071,7 +1071,8 @@ promises.
   merged backend read fixtures verbatim (backend `cb2b1f1`,
   `src/aura-historia-contracts/tests/fixtures/listing-shipping`; git blobs `cb2f3c4b`
   anonymous collection, `b3f172c8` anonymous detail, `fd4795e3` personalized collection, `ae844db7`
-  personalized detail). Replace them with the capture when the backend changes them.
+  personalized detail). Biome skips the directory (`biome.json`) so they stay byte-identical;
+  replace them with the capture when the backend changes them.
 - **Known gap:** the saved-search wizard neither shows nor edits a stored shipping predicate.
   Editing keeps it (patches omit it), but duplicating a filter does not copy it until the
   saved-search shipping slice adds the control.
