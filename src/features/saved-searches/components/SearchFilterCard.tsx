@@ -72,7 +72,9 @@ export function SearchFilterCard({
     const { t } = useTranslation();
     const updateFilter = useUpdateUserSearchFilter();
     const [deleteOpen, setDeleteOpen] = useState(false);
-    const criteria = useSearchFilterCriteria(filter.search);
+    const criteria = useSearchFilterCriteria(filter.search, filter.search.availability, {
+        geography: filter.geography,
+    });
     const terms = getQueryTerms(filter.search);
 
     return (

@@ -1,11 +1,19 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { SearchFilterSummary } from "../SearchFilterSummary.tsx";
+import type { SearchFilterLocationInput } from "@/features/saved-searches/hooks/useSearchFilterCriteria.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import {
     SEARCHABLE_LISTING_AVAILABILITIES,
     type SearchableListingAvailability,
 } from "@/data/internal/product/ListingAvailability.ts";
+
+vi.mock("@/features/geography/hooks/useSubdivisionNames.ts", () => ({
+    useSubdivisionNames: () => ({
+        names: undefined,
+        formatSubdivisionName: (code: string) => code,
+    }),
+}));
 
 vi.mock("@/features/preferences/hooks/useUserPreferences.tsx", () => ({
     useUserPreferences: () => ({ preferences: { currency: "EUR" }, updatePreferences: vi.fn() }),
@@ -15,7 +23,11 @@ function renderSummary(
     name: string,
     search: SearchFilterArguments,
     availability: SearchableListingAvailability[] = [...SEARCHABLE_LISTING_AVAILABILITIES],
-    props: { showName?: boolean; onChangeStep?: (step: number) => void } = {},
+    props: {
+        showName?: boolean;
+        onChangeStep?: (step: number) => void;
+        location?: SearchFilterLocationInput;
+    } = {},
 ) {
     return render(
         <SearchFilterSummary name={name} search={search} availability={availability} {...props} />,
@@ -45,6 +57,7 @@ describe("SearchFilterSummary", () => {
             "Name des Suchauftrags",
             "Suchbegriffe",
             "Preis & Status",
+            "Standort",
             "Anbieter",
             "Zeitraum",
         ]);
@@ -97,6 +110,31 @@ describe("SearchFilterSummary", () => {
         expect(screen.queryByRole("button")).not.toBeInTheDocument();
     });
 
+    it("shows 'any' for an unset location", () => {
+        renderSummary("Filter", { q: "" });
+        expect(rowValue("Standort")).toHaveTextContent("Beliebig");
+    });
+
+    it("names a new starting point by its label and a saved one generically", () => {
+        const geography = {
+            countries: [],
+            subdivisions: [],
+            origin: { latitude: 51.34, longitude: 12.37 },
+            radius: { amount: 25, unit: "MILES" as const },
+            mode: "APPROXIMATE" as const,
+        };
+        const { unmount } = renderSummary("Filter", { q: "" }, undefined, {
+            location: { geography, originLabel: "Zuhause" },
+        });
+        expect(rowValue("Standort")).toHaveTextContent("Im Umkreis von 25 mi um Zuhause");
+        unmount();
+
+        renderSummary("Filter", { q: "" }, undefined, { location: { geography } });
+        expect(rowValue("Standort")).toHaveTextContent(
+            "Im Umkreis von 25 mi um den gespeicherten Ausgangspunkt",
+        );
+    });
+
     it("jumps back to the step of a row with Change", () => {
         const onChangeStep = vi.fn();
         renderSummary("Filter", { q: "" }, undefined, { onChangeStep });
@@ -104,9 +142,10 @@ describe("SearchFilterSummary", () => {
         fireEvent.click(screen.getByRole("button", { name: "Name des Suchauftrags ändern" }));
         fireEvent.click(screen.getByRole("button", { name: "Suchbegriffe ändern" }));
         fireEvent.click(screen.getByRole("button", { name: "Preis & Status ändern" }));
+        fireEvent.click(screen.getByRole("button", { name: "Standort ändern" }));
         fireEvent.click(screen.getByRole("button", { name: "Anbieter ändern" }));
         fireEvent.click(screen.getByRole("button", { name: "Zeitraum ändern" }));
 
-        expect(onChangeStep.mock.calls).toEqual([[1], [1], [2], [3], [4]]);
+        expect(onChangeStep.mock.calls).toEqual([[1], [1], [2], [3], [4], [5]]);
     });
 });

@@ -7,9 +7,11 @@ import { SearchFilterSummary } from "@/features/saved-searches/components/Search
 import { SearchResultCard } from "@/features/search/products/components/results/SearchResultCard.tsx";
 import { SearchResultCardSkeleton } from "@/features/search/products/components/results/SearchResultPlaceholders.tsx";
 import {
+    type PreviewGeography,
     SearchFilterPreviewError,
     useSearchFilterPreviewProducts,
 } from "@/features/saved-searches/api/useSearchFilterPreviewProducts.ts";
+import type { SearchFilterLocationInput } from "@/features/saved-searches/hooks/useSearchFilterCriteria.ts";
 import { cn } from "@/lib/utils.ts";
 
 type Props = {
@@ -18,6 +20,13 @@ type Props = {
     readonly enhancedSearchDescription?: string;
     /** Jumps back to the step that sets a summary row. */
     readonly onChangeStep?: (step: number) => void;
+    /** The location the filter will hold after saving. */
+    readonly location?: SearchFilterLocationInput;
+    /**
+     * The geography the preview sends: the save's, `waiting` while its starting point cannot be
+     * used, `unsupported` for a kept predicate the app cannot send.
+     */
+    readonly preview?: PreviewGeography | "waiting" | "unsupported";
 };
 
 const PREVIEW_GRID_CLASS = "grid grid-cols-2 gap-x-3 gap-y-5 sm:gap-x-4";
@@ -29,18 +38,35 @@ export function SearchFilterWizardConfirmStep({
     filters,
     enhancedSearchDescription,
     onChangeStep,
+    location,
+    preview: previewGeography,
 }: Props) {
     const { t } = useTranslation();
     const previewSearch = {
         ...filters,
         enhancedSearchDescription: enhancedSearchDescription || undefined,
     };
-    const preview = useSearchFilterPreviewProducts(previewSearch, true);
+    const previewBlocked = previewGeography === "waiting" || previewGeography === "unsupported";
+    const preview = useSearchFilterPreviewProducts(
+        previewSearch,
+        !previewBlocked,
+        typeof previewGeography === "object" ? previewGeography : undefined,
+    );
     // Raw form values — reflect exactly what the user has checked (incl. "all selected"),
     // without waiting for SearchFilterFormProvider's debounce to sync them into `filters`.
     const formValues = useFormContext<FilterSchema>().watch();
     let previewContent: ReactNode;
-    if (preview.isPending) {
+    if (previewBlocked) {
+        previewContent = (
+            <p className={PREVIEW_NOTE_CLASS}>
+                {t(
+                    previewGeography === "waiting"
+                        ? "searchFilter.location.previewWaiting"
+                        : "searchFilter.location.previewUnsupported",
+                )}
+            </p>
+        );
+    } else if (preview.isPending) {
         previewContent = (
             <div className={PREVIEW_GRID_CLASS} role="status" aria-busy="true">
                 <SearchResultCardSkeleton />
@@ -70,6 +96,7 @@ export function SearchFilterWizardConfirmStep({
         previewContent = <p className={PREVIEW_NOTE_CLASS}>{t("searchFilters.preview.empty")}</p>;
     }
     const showMoreMayMatchHint =
+        !previewBlocked &&
         !preview.isPending &&
         !preview.error &&
         !!preview.data?.candidateLimitReached &&
@@ -81,6 +108,7 @@ export function SearchFilterWizardConfirmStep({
                 name={name}
                 search={filters}
                 availability={formValues.availability}
+                location={location}
                 onChangeStep={onChangeStep}
             />
             <section aria-labelledby="saved-search-preview-heading" className="flex flex-col gap-4">

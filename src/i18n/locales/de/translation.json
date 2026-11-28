@@ -2404,7 +2404,23 @@
       "ultimateBadge": "Ultimate",
       "restrictedEyebrow": "Pro & Ultimate",
       "restrictedTitle": "Einige Filter erfordern <em>Pro.</em>",
-      "close": "Schließen"
+      "close": "Schließen",
+      "preparing": "Wird vorbereitet …",
+      "location": {
+        "eyebrow": "Standort",
+        "title": "Kein Ausgangspunkt <em>zum Speichern.</em>",
+        "within": "Im Umkreis von {{distance}}",
+        "chooseAnother": "Anderen Ausgangspunkt wählen",
+        "saveWithout": "Ohne Standort speichern",
+        "problems": {
+          "currentNotKept": "Ihr aktueller Standort wurde nur für die Suche verwendet, für die Sie ihn freigegeben haben. Deshalb kann die Entfernung nicht gespeichert werden. Verwenden Sie Ihren Standort erneut oder speichern Sie die Suche ohne ihn.",
+          "addressUnavailable": "Die Adresse dieser Suche ist nicht mehr verfügbar. Deshalb kann die Entfernung nicht gespeichert werden. Wählen Sie einen anderen Ausgangspunkt oder speichern Sie die Suche ohne ihn.",
+          "addressNotLocated": "Diese Adresse ist noch nicht verortet. Deshalb kann die Entfernung nicht gespeichert werden. Wählen Sie einen anderen Ausgangspunkt oder speichern Sie die Suche ohne ihn.",
+          "searchLocationNotAddress": "Ihr Suchstandort ist keine Ihrer Adressen. Deshalb kann die Entfernung nicht gespeichert werden. Wählen Sie einen anderen Ausgangspunkt oder speichern Sie die Suche ohne ihn.",
+          "signedOut": "Melden Sie sich an, um eine gespeicherte Adresse als Ausgangspunkt zu verwenden, oder speichern Sie die Suche ohne ihn.",
+          "loadFailed": "Der Ausgangspunkt konnte nicht geladen werden. Deshalb kann die Entfernung nicht gespeichert werden. Wählen Sie einen anderen Ausgangspunkt oder speichern Sie die Suche ohne ihn."
+        }
+      }
     },
     "wizard": {
       "back": "Zurück",
@@ -2424,7 +2440,9 @@
         "confirmDescription": "Prüfen Sie Ihren Suchauftrag vor dem Speichern.",
         "priceStatusDescription": "Definieren Sie Ihren Preisrahmen und wählen Sie, welche Anzeigenstatus einbezogen werden – etwa ausschließlich verfügbare Objekte oder auch reservierte und vorbestellbare Stücke.",
         "shopDescription": "Wählen Sie gezielt Anbietertypen – renommierte Auktionshäuser, spezialisierte Kunst- und Antiquitätenhändler oder Marktplätze – und schließen Sie einzelne Häuser ein oder aus.",
-        "dateDescription": "Grenzen Sie die Suche zeitlich ein – nach Auktionstermin, Datum der Erstveröffentlichung oder der letzten Aktualisierung des Inserats."
+        "dateDescription": "Grenzen Sie die Suche zeitlich ein – nach Auktionstermin, Datum der Erstveröffentlichung oder der letzten Aktualisierung des Inserats.",
+        "location": "Standort",
+        "locationDescription": "Grenzen Sie die Suche auf Länder und Regionen ein oder auf eine Entfernung von einem Ausgangspunkt. Lassen Sie „Überall“ stehen, um an allen Standorten zu suchen."
       },
       "titleEdit": "Suchauftrag bearbeiten",
       "titleDuplicate": "Suchauftrag duplizieren",
@@ -2445,7 +2463,23 @@
     },
     "optional": "optional",
     "upgradeRequired": "Nur für Pro & Ultimate",
-    "upgradeNow": "Jetzt upgraden"
+    "upgradeNow": "Jetzt upgraden",
+    "location": {
+      "keepSaved": "Gespeicherten Ausgangspunkt behalten",
+      "keepSavedHint": "Der Punkt, den dieser Suchauftrag bereits verwendet. Nicht mit einer Adresse verknüpft.",
+      "savedOrigin": "Gespeicherter Ausgangspunkt",
+      "savedOriginDetail": "Private Kopie · nicht mit einer Adresse verknüpft",
+      "savedOriginName": "den gespeicherten Ausgangspunkt",
+      "within": "Im Umkreis von {{distance}} um {{origin}}",
+      "exactOnly": "Nur genaue Adressen",
+      "unsupported": "Standort festgelegt – hier nicht darstellbar",
+      "unsupportedEdit": "Dieser Suchauftrag hat einen Standort, den Sie hier nicht bearbeiten können. Er bleibt gespeichert, solange Sie ihn nicht entfernen.",
+      "remove": "Standort entfernen",
+      "needsStartingPoint": "Der Ausgangspunkt kann nicht verwendet werden. Wählen Sie einen anderen oder stellen Sie „In der Nähe von“ auf „Überall“.",
+      "previewWaiting": "Die Vorschau erscheint, sobald der Ausgangspunkt bereit ist.",
+      "previewUnsupported": "Keine Vorschau: Dieser Suchauftrag hat einen Standort, der hier nicht dargestellt werden kann.",
+      "nauticalMilesUnit": "sm"
+    }
   },
   "searchFilters": {
     "activeLimitReached": "Sie haben das Maximum von {{limit}} aktiven Suchaufträgen erreicht. Pausieren Sie einen, um einen weiteren hinzuzufügen.",

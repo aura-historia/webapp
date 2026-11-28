@@ -49,6 +49,24 @@ import {
 } from "@/features/saved-searches/lib/searchFilterStyles.ts";
 import type { Variants } from "motion";
 import type { Currency } from "@/data/internal/common/Currency.ts";
+import {
+    UNSUPPORTED_GEOGRAPHY,
+    type GeographicSearch,
+    type UnsupportedGeography,
+} from "@/data/internal/geography/GeographicSearch.ts";
+import type { SearchLocation } from "@/data/internal/search/SearchLocation.ts";
+import { SearchFilterLocationStep } from "@/features/saved-searches/components/SearchFilterLocationStep.tsx";
+import type { PreviewGeography } from "@/features/saved-searches/api/useSearchFilterPreviewProducts.ts";
+import {
+    effectiveGeography,
+    resolveGeographyChange,
+    type SavedSearchLocation,
+    toSavedSearchLocation,
+} from "@/features/saved-searches/lib/savedSearchLocation.ts";
+import {
+    type SearchOrigin,
+    useSearchOrigin,
+} from "@/features/search/products/hooks/useSearchOrigin.ts";
 
 const createNameSchema = (t: (key: string) => string) =>
     z.object({
@@ -80,11 +98,13 @@ type FilterStep = {
     readonly label: string;
     readonly desc: string;
     readonly restricted?: boolean;
+    /** The Location step, which keeps its own state outside the filter form. */
+    readonly location?: boolean;
     readonly content: (disabled: boolean, currency: Currency) => ReactNode;
 };
 
 /**
- * Filter steps for the wizard (steps 2–4).
+ * Filter steps for the wizard (steps 2–5).
  * `restricted: true` marks steps that require a paid plan.
  * `content` receives `disabled`: on FREE the step and its filter groups stay open and readable,
  * while the filter controls themselves are grayed out and cannot be used.
@@ -99,6 +119,12 @@ const FILTER_STEPS: FilterStep[] = [
                 <ProductStateFilter />
             </>
         ),
+    },
+    {
+        label: "searchFilter.wizard.step.location",
+        desc: "searchFilter.wizard.step.locationDescription",
+        location: true,
+        content: () => null,
     },
     {
         label: "searchFilter.wizard.step.shop",
@@ -122,6 +148,40 @@ const FILTER_STEPS: FilterStep[] = [
 
 // Step 1 (name) + N filter steps + confirm step
 const TOTAL_STEPS = FILTER_STEPS.length + 2;
+/** The wizard step that sets the location. */
+const LOCATION_STEP = FILTER_STEPS.findIndex((filterStep) => filterStep.location) + 2;
+
+/** The search-page location `useSearchOrigin` resolves; a stored point needs no resolving. */
+function originLocation(location: SavedSearchLocation | undefined): SearchLocation | undefined {
+    if (location?.kind !== "DISTANCE" || location.near.kind === "SAVED") return undefined;
+    return { kind: "DISTANCE", near: location.near, radius: { amount: 1, unit: "KILOMETERS" } };
+}
+
+/**
+ * Names a predicate in the preview's query key without its coordinates: a new starting point by
+ * its origin key (`address:<id>:<version>`), a stored one by its filter.
+ */
+function previewGeographyKey(
+    geography: GeographicSearch,
+    originKey: string | undefined,
+    filterId: string | undefined,
+): string {
+    return [
+        geography.countries.join(","),
+        geography.subdivisions.join(","),
+        geography.origin ? (originKey ?? `saved:${filterId ?? ""}`) : "",
+        geography.radius ? `${geography.radius.amount}${geography.radius.unit}` : "",
+        geography.mode ?? "",
+        geography.distanceOrder ?? "",
+    ].join("|");
+}
+
+function storedOriginPoint(geography: GeographicSearch | UnsupportedGeography | undefined) {
+    const stored = toSavedSearchLocation(geography);
+    return stored?.kind === "DISTANCE" && stored.near.kind === "SAVED"
+        ? stored.near.point
+        : undefined;
+}
 
 const LABEL_CLASS = "text-meta font-medium text-ink data-[error=true]:text-oxblood";
 const HINT_CLASS = "text-xs leading-[1.5] text-ink-muted";
@@ -220,6 +280,9 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
     const [step, setStep] = useState(1);
     const [direction, setDirection] = useState<1 | -1>(1);
     const [filters, setFilters] = useState<SearchFilterArguments>(EMPTY_FILTERS);
+    const [location, setLocation] = useState<SavedSearchLocation | undefined>();
+    const [locationTouched, setLocationTouched] = useState(false);
+    const origin: SearchOrigin = useSearchOrigin(originLocation(location));
 
     const { mutate: createFilter, isPending: isCreating } = useCreateUserSearchFilter();
     const { mutate: updateFilter, isPending: isUpdating } = useUpdateUserSearchFilter();
@@ -246,6 +309,8 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
             enhancedSearchDescription: filter?.enhancedSearchDescription ?? "",
         });
         setFilters(filter?.search ?? EMPTY_FILTERS);
+        setLocation(mode === "create" ? undefined : toSavedSearchLocation(filter?.geography));
+        setLocationTouched(false);
         setStep(1);
         setDirection(1);
     }, [open, filter, mode, nameForm.reset, t]);
@@ -261,6 +326,26 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
         },
         [step, nameForm],
     );
+
+    const storedGeography = mode === "create" ? undefined : filter?.geography;
+    const geographyChange = useMemo(
+        () =>
+            resolveGeographyChange({
+                mode,
+                stored: storedGeography,
+                location,
+                touched: locationTouched,
+                origin,
+            }),
+        [mode, storedGeography, location, locationTouched, origin],
+    );
+    const preparingLocation =
+        geographyChange.kind === "blocked" && geographyChange.reason === "loading";
+
+    const changeLocation = useCallback((next: SavedSearchLocation | undefined) => {
+        setLocation(next);
+        setLocationTouched(true);
+    }, []);
 
     const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -282,6 +367,17 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
     }, [step]);
 
     const handleSave = useCallback(() => {
+        if (geographyChange.kind === "blocked") {
+            // The chosen starting point cannot be used: show the Location step and its problem.
+            if (geographyChange.reason === "unavailable") {
+                toast.error(t("searchFilter.location.needsStartingPoint"));
+                setDirection(step > LOCATION_STEP ? -1 : 1);
+                setStep(LOCATION_STEP);
+            }
+            return;
+        }
+        const geography =
+            geographyChange.kind === "set" ? { geography: geographyChange.geography } : {};
         const { name: filterName, queryTerms, enhancedSearchDescription } = nameForm.getValues();
         const description = enhancedSearchDescription || undefined;
         const search: SearchFilterArguments = {
@@ -305,6 +401,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                         name: filterName,
                         enhancedSearchDescription: description ?? null,
                         search,
+                        ...geography,
                     },
                 },
                 callbacks,
@@ -315,11 +412,14 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                     name: filterName,
                     enhancedSearchDescription: description,
                     search,
+                    ...(geography.geography ? { geography: geography.geography } : {}),
                 },
                 callbacks,
             );
         }
     }, [
+        geographyChange,
+        step,
         filter,
         createFilter,
         updateFilter,
@@ -376,6 +476,26 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
     );
 
     const close = () => onOpenChange(false);
+
+    // What the filter will hold after saving, for the confirm step's summary and preview. A new
+    // starting point is named by its label ("Home"); a stored one is "saved starting point".
+    const afterSave = effectiveGeography(geographyChange, storedGeography, mode);
+    const newOrigin =
+        locationTouched &&
+        location?.kind === "DISTANCE" &&
+        location.near.kind !== "SAVED" &&
+        origin.status === "ready"
+            ? origin
+            : undefined;
+    const confirmLocation = { geography: afterSave, originLabel: newOrigin?.label };
+    let previewGeography: PreviewGeography | "waiting" | "unsupported" | undefined;
+    if (geographyChange.kind === "blocked") previewGeography = "waiting";
+    else if (afterSave === UNSUPPORTED_GEOGRAPHY) previewGeography = "unsupported";
+    else if (afterSave)
+        previewGeography = {
+            geography: afterSave,
+            key: previewGeographyKey(afterSave, newOrigin?.key, filter?.id),
+        };
 
     /**
      * Returns the content for the current step:
@@ -533,6 +653,8 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                     name={nameForm.watch("name")}
                     enhancedSearchDescription={nameForm.watch("enhancedSearchDescription")}
                     onChangeStep={goTo}
+                    location={confirmLocation}
+                    preview={previewGeography}
                     filters={{
                         ...filters,
                         currency: filters.currency ?? preferences.currency,
@@ -542,6 +664,15 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                 />
             );
         const fs = FILTER_STEPS[step - 2];
+        if (fs.location)
+            return (
+                <SearchFilterLocationStep
+                    location={location}
+                    onChange={changeLocation}
+                    origin={origin}
+                    savedPoint={storedOriginPoint(storedGeography)}
+                />
+            );
         const disabled = isFree && !!fs.restricted;
         return (
             <>
@@ -725,7 +856,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                                 aria-valuemin={1}
                                 aria-valuemax={TOTAL_STEPS}
                                 aria-valuenow={step}
-                                className="grid grid-cols-5 gap-1"
+                                className="grid grid-cols-6 gap-1"
                             >
                                 {stepLabels.map((label, index) => (
                                     <span
@@ -810,7 +941,7 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                                         <button
                                             type="button"
                                             onClick={handleSaveDirect}
-                                            disabled={isPending}
+                                            disabled={isPending || preparingLocation}
                                             className={GHOST_PILL_CLASS}
                                         >
                                             {isPending && <Spinner aria-hidden="true" />}
@@ -833,10 +964,12 @@ export function CreateSearchFilterWizard({ open, onOpenChange, mode, filter }: P
                                     <button
                                         type="button"
                                         onClick={handleSave}
-                                        disabled={isPending}
+                                        disabled={isPending || preparingLocation}
                                         className={cn(PRIMARY_PILL_CLASS, "px-6")}
                                     >
-                                        {isPending && <Spinner aria-hidden="true" />}
+                                        {(isPending || preparingLocation) && (
+                                            <Spinner aria-hidden="true" />
+                                        )}
                                         {t("searchFilter.wizard.saveFinal")}
                                     </button>
                                 )}

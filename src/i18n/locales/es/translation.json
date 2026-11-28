@@ -2911,7 +2911,23 @@
       "ultimateBadge": "Ultimate",
       "restrictedEyebrow": "Pro y Ultimate",
       "restrictedTitle": "Algunos filtros requieren <em>Pro.</em>",
-      "close": "Cerrar"
+      "close": "Cerrar",
+      "preparing": "Preparando…",
+      "location": {
+        "eyebrow": "Ubicación",
+        "title": "Ningún punto de partida <em>que guardar.</em>",
+        "within": "En un radio de {{distance}}",
+        "chooseAnother": "Elegir otro punto de partida",
+        "saveWithout": "Guardar sin ubicación",
+        "problems": {
+          "currentNotKept": "Su ubicación actual solo se usó para la búsqueda para la que la compartió, por lo que no se puede guardar el límite de distancia. Vuelva a usar su ubicación o guarde la búsqueda sin ella.",
+          "addressUnavailable": "La dirección de esta búsqueda ya no está disponible, por lo que no se puede guardar el límite de distancia. Elija otro punto de partida o guarde la búsqueda sin él.",
+          "addressNotLocated": "Esta dirección aún no tiene ubicación, por lo que no se puede guardar el límite de distancia. Elija otro punto de partida o guarde la búsqueda sin él.",
+          "searchLocationNotAddress": "Su ubicación de búsqueda no es una de sus direcciones, por lo que no se puede guardar el límite de distancia. Elija otro punto de partida o guarde la búsqueda sin él.",
+          "signedOut": "Inicie sesión para usar una dirección guardada como punto de partida, o guarde la búsqueda sin él.",
+          "loadFailed": "No se pudo cargar el punto de partida, por lo que no se puede guardar el límite de distancia. Elija otro punto de partida o guarde la búsqueda sin él."
+        }
+      }
     },
     "wizard": {
       "back": "Atrás",
@@ -2931,7 +2947,9 @@
         "date": "Fecha",
         "dateDescription": "Acote la búsqueda por tiempo – por fecha de subasta, fecha de primera publicación o la última actualización del anuncio.",
         "confirm": "Confirmar",
-        "confirmDescription": "Revisa tu filtro de búsqueda antes de guardarlo."
+        "confirmDescription": "Revisa tu filtro de búsqueda antes de guardarlo.",
+        "location": "Ubicación",
+        "locationDescription": "Limite la búsqueda a países y regiones, o a una distancia desde un punto de partida. Deje «En todas partes» para buscar en todas las ubicaciones."
       },
       "titleEdit": "Editar filtro de búsqueda",
       "titleDuplicate": "Duplicar filtro de búsqueda",
@@ -2952,7 +2970,23 @@
     },
     "optional": "opcional",
     "upgradeRequired": "Solo Pro y Ultimate",
-    "upgradeNow": "Actualizar ahora"
+    "upgradeNow": "Actualizar ahora",
+    "location": {
+      "keepSaved": "Mantener el punto de partida guardado",
+      "keepSavedHint": "El punto que este filtro de búsqueda ya utiliza. No está vinculado a ninguna dirección.",
+      "savedOrigin": "Punto de partida guardado",
+      "savedOriginDetail": "Copia privada · no vinculada a una dirección",
+      "savedOriginName": "el punto de partida guardado",
+      "within": "Hasta {{distance}} desde {{origin}}",
+      "exactOnly": "Solo direcciones exactas",
+      "unsupported": "Ubicación definida: no se puede mostrar aquí",
+      "unsupportedEdit": "Este filtro de búsqueda tiene una ubicación que no se puede editar aquí. Se mantiene tal como está guardada a menos que la elimine.",
+      "remove": "Eliminar ubicación",
+      "needsStartingPoint": "No se puede usar el punto de partida. Elija otro o ponga «Cerca de» en «En todas partes».",
+      "previewWaiting": "La vista previa aparecerá cuando el punto de partida esté listo.",
+      "previewUnsupported": "Sin vista previa: este filtro de búsqueda tiene una ubicación que no se puede mostrar aquí.",
+      "nauticalMilesUnit": "mn"
+    }
   },
   "searchFilters": {
     "activeLimitReached": "Ha alcanzado el máximo de {{limit}} filtros de búsqueda activos. Pause uno para añadir otro.",

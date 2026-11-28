@@ -2911,7 +2911,23 @@
       "ultimateBadge": "Ultimate",
       "restrictedEyebrow": "Pro & Ultimate",
       "restrictedTitle": "Certains filtres exigent <em>Pro.</em>",
-      "close": "Fermer"
+      "close": "Fermer",
+      "preparing": "Préparation…",
+      "location": {
+        "eyebrow": "Localisation",
+        "title": "Aucun point de départ <em>à enregistrer.</em>",
+        "within": "Dans un rayon de {{distance}}",
+        "chooseAnother": "Choisir un autre point de départ",
+        "saveWithout": "Enregistrer sans localisation",
+        "problems": {
+          "currentNotKept": "Votre position actuelle n’a servi qu’à la recherche pour laquelle vous l’avez partagée : la limite de distance ne peut donc pas être enregistrée. Utilisez à nouveau votre position ou enregistrez la recherche sans elle.",
+          "addressUnavailable": "L’adresse de cette recherche n’est plus disponible : la limite de distance ne peut donc pas être enregistrée. Choisissez un autre point de départ ou enregistrez la recherche sans elle.",
+          "addressNotLocated": "Cette adresse n’est pas encore localisée : la limite de distance ne peut donc pas être enregistrée. Choisissez un autre point de départ ou enregistrez la recherche sans elle.",
+          "searchLocationNotAddress": "Votre lieu de recherche n’est pas l’une de vos adresses : la limite de distance ne peut donc pas être enregistrée. Choisissez un autre point de départ ou enregistrez la recherche sans elle.",
+          "signedOut": "Connectez-vous pour utiliser une adresse enregistrée comme point de départ, ou enregistrez la recherche sans elle.",
+          "loadFailed": "Le point de départ n’a pas pu être chargé : la limite de distance ne peut donc pas être enregistrée. Choisissez un autre point de départ ou enregistrez la recherche sans elle."
+        }
+      }
     },
     "wizard": {
       "back": "Retour",
@@ -2931,7 +2947,9 @@
         "date": "Date",
         "dateDescription": "Affinez la recherche par date – par date de vente aux enchères, date de première publication ou dernière mise à jour de l'annonce.",
         "confirm": "Confirmer",
-        "confirmDescription": "Vérifiez votre filtre de recherche avant de l’enregistrer."
+        "confirmDescription": "Vérifiez votre filtre de recherche avant de l’enregistrer.",
+        "location": "Localisation",
+        "locationDescription": "Limitez la recherche à des pays et des régions, ou à une distance depuis un point de départ. Laissez « Partout » pour chercher dans toutes les localisations."
       },
       "titleEdit": "Modifier le filtre de recherche",
       "titleDuplicate": "Dupliquer le filtre de recherche",
@@ -2952,7 +2970,23 @@
     },
     "optional": "facultatif",
     "upgradeRequired": "Pro & Ultimate uniquement",
-    "upgradeNow": "Mettez à niveau maintenant"
+    "upgradeNow": "Mettez à niveau maintenant",
+    "location": {
+      "keepSaved": "Garder le point de départ enregistré",
+      "keepSavedHint": "Le point que ce filtre de recherche utilise déjà. Il n’est lié à aucune adresse.",
+      "savedOrigin": "Point de départ enregistré",
+      "savedOriginDetail": "Copie privée · non liée à une adresse",
+      "savedOriginName": "la position de départ enregistrée",
+      "within": "Dans un rayon de {{distance}} autour de {{origin}}",
+      "exactOnly": "Adresses exactes uniquement",
+      "unsupported": "Localisation définie — impossible de l’afficher ici",
+      "unsupportedEdit": "Ce filtre de recherche a une localisation que vous ne pouvez pas modifier ici. Elle reste enregistrée tant que vous ne la retirez pas.",
+      "remove": "Retirer la localisation",
+      "needsStartingPoint": "Le point de départ ne peut pas être utilisé. Choisissez-en un autre ou réglez « Près de » sur « Partout ».",
+      "previewWaiting": "L’aperçu s’affiche dès que le point de départ est prêt.",
+      "previewUnsupported": "Pas d’aperçu : ce filtre de recherche a une localisation qui ne peut pas être affichée ici.",
+      "nauticalMilesUnit": "NM"
+    }
   },
   "searchFilters": {
     "activeLimitReached": "Vous avez atteint le maximum de {{limit}} filtres de recherche actifs. Mettez-en un en pause pour en ajouter un autre.",

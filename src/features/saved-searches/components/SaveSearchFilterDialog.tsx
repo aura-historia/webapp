@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Lock } from "lucide-react";
+import { ArrowRight, Lock, LockKeyhole, MapPin } from "lucide-react";
 import type { ReactNode } from "react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Trans, useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -25,7 +25,9 @@ import {
     FormMessage,
 } from "@/components/ui/form.tsx";
 import { Spinner } from "@/components/ui/spinner.tsx";
+import type { GeographicSearch } from "@/data/internal/geography/GeographicSearch.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
+import type { SearchDistance } from "@/data/internal/search/SearchLocation.ts";
 import { useUserAccount } from "@/features/account-management/hooks/useUserAccount.ts";
 import { HEADLINE_COMPONENTS } from "@/features/landing/components/common/SectionHeading.tsx";
 import { useCreateUserSearchFilter } from "@/features/saved-searches/api/useCreateUserSearchFilter.ts";
@@ -33,7 +35,17 @@ import {
     getActiveRestrictedFilterLabels,
     stripRestrictedFilters,
 } from "@/features/saved-searches/lib/searchFilterRestrictions.ts";
+import { searchLocationToGeographicSearch } from "@/features/saved-searches/lib/savedSearchLocation.ts";
+import { formatGeographicDistance } from "@/features/geography/lib/formatGeography.ts";
 import { useDescribeActiveFilter } from "@/features/search/products/hooks/useDescribeActiveFilter.ts";
+import {
+    type SearchOriginProblem,
+    useSearchOrigin,
+} from "@/features/search/products/hooks/useSearchOrigin.ts";
+import {
+    isGeolocationSupported,
+    requestCurrentLocation,
+} from "@/features/search/products/lib/currentLocation.ts";
 import {
     type ActiveFilter,
     getActiveFilters,
@@ -77,18 +89,34 @@ const RESTRICTED_GROUP_FILTERS: Record<string, (filter: ActiveFilter) => boolean
     "search.filter.updateDate": (f) => f.kind === "date" && f.field === "updateDate",
 };
 
-export function SaveSearchFilterDialog({ searchArgs: currentSearch, children }: Props) {
+export function SaveSearchFilterDialog({ searchArgs, children }: Props) {
     const { t } = useTranslation();
-    // Saved searches do not keep the search page's location filter yet (#1081), so it is neither
-    // listed nor sent.
-    const searchArgs = useMemo(() => ({ ...currentSearch, location: undefined }), [currentSearch]);
     const [open, setOpen] = useState(false);
     const [showResetConfirm, setShowResetConfirm] = useState(false);
+    const [showLocationProblem, setShowLocationProblem] = useState(false);
+    // Cleared by "Save without location" when the starting point cannot be saved.
+    const [includeLocation, setIncludeLocation] = useState(true);
     const { mutate: createFilter, isPending } = useCreateUserSearchFilter();
     const { data: account } = useUserAccount();
-    const describe = useDescribeActiveFilter();
     const aiDescriptionDisabled = account?.subscriptionType !== "ultimate";
     const activeFilters = useMemo(() => getActiveFilters(searchArgs), [searchArgs]);
+
+    // The location is saved as a private snapshot: the starting point's resolved point, never the
+    // address it came from. The search's distance order is a sort and is not saved.
+    const location = searchArgs.location;
+    const origin = useSearchOrigin(location);
+    const distanceSearch = location?.kind === "DISTANCE";
+    const geography = searchLocationToGeographicSearch(
+        location,
+        origin.status === "ready" ? origin.point : undefined,
+    );
+    const preparingLocation = distanceSearch && origin.status === "loading";
+    const originProblem =
+        distanceSearch && origin.status === "unavailable" ? origin.problem : undefined;
+    const describe = useDescribeActiveFilter(
+        origin.status === "ready" ? origin.label : undefined,
+        activeFilters.some((filter) => filter.kind === "place" && !filter.country),
+    );
 
     const schema = useMemo(() => createSchema(t), [t]);
 
@@ -102,15 +130,22 @@ export function SaveSearchFilterDialog({ searchArgs: currentSearch, children }: 
         if (!open) {
             form.reset();
             setShowResetConfirm(false);
+            setShowLocationProblem(false);
+            setIncludeLocation(true);
         }
     };
 
-    const saveFilter = (data: FormData, args: SearchFilterArguments) => {
+    const saveFilter = (
+        data: FormData,
+        args: SearchFilterArguments,
+        savedGeography: GeographicSearch | undefined,
+    ) => {
         createFilter(
             {
                 name: data.name,
                 enhancedSearchDescription: data.enhancedSearchDescription || undefined,
                 search: args,
+                ...(savedGeography ? { geography: savedGeography } : {}),
             },
             {
                 onSuccess: () => {
@@ -129,18 +164,45 @@ export function SaveSearchFilterDialog({ searchArgs: currentSearch, children }: 
         [searchArgs, account?.subscriptionType],
     );
 
-    const onSubmit = (data: FormData) => {
+    const continueSave = (data: FormData, savedGeography: GeographicSearch | undefined) => {
         if (restrictedLabels.length > 0) {
             setShowResetConfirm(true);
             return;
         }
-        saveFilter(data, searchArgs);
+        saveFilter(data, searchArgs, savedGeography);
+    };
+
+    const onSubmit = (data: FormData) => {
+        if (preparingLocation) return;
+        if (includeLocation && originProblem) {
+            setShowLocationProblem(true);
+            return;
+        }
+        continueSave(data, includeLocation ? geography : undefined);
+    };
+
+    const saveWithoutLocation = () => {
+        setIncludeLocation(false);
+        setShowLocationProblem(false);
+        continueSave(form.getValues(), undefined);
     };
 
     const handleConfirmReset = () => {
-        saveFilter(form.getValues(), stripRestrictedFilters(searchArgs, account?.subscriptionType));
+        saveFilter(
+            form.getValues(),
+            stripRestrictedFilters(searchArgs, account?.subscriptionType),
+            includeLocation ? geography : undefined,
+        );
         setShowResetConfirm(false);
     };
+
+    const locationProblem =
+        showLocationProblem && originProblem && location?.kind === "DISTANCE"
+            ? { problem: originProblem, radius: location.radius }
+            : undefined;
+    let view: "location" | "restricted" | "form" = "form";
+    if (showResetConfirm) view = "restricted";
+    if (locationProblem) view = "location";
 
     const restrictedValue = (labelKey: string) =>
         activeFilters
@@ -159,7 +221,17 @@ export function SaveSearchFilterDialog({ searchArgs: currentSearch, children }: 
                 onOpenAutoFocus={keepTouchKeyboardClosed}
                 className="gap-5 rounded-panel border-0 bg-surface-raised p-7 text-ink shadow-menu sm:max-w-[480px] [&>[data-slot=dialog-close]]:top-6 [&>[data-slot=dialog-close]]:right-6 [&>[data-slot=dialog-close]]:inline-flex [&>[data-slot=dialog-close]]:size-9 [&>[data-slot=dialog-close]]:items-center [&>[data-slot=dialog-close]]:justify-center [&>[data-slot=dialog-close]]:rounded-pill [&>[data-slot=dialog-close]]:text-ink-muted"
             >
-                {showResetConfirm ? (
+                {locationProblem && (
+                    <NoStartingPointView
+                        problem={locationProblem.problem}
+                        radius={locationProblem.radius}
+                        isPending={isPending}
+                        onLocated={() => setShowLocationProblem(false)}
+                        onChooseAnother={() => handleOpenChange(false)}
+                        onSaveWithout={saveWithoutLocation}
+                    />
+                )}
+                {view === "restricted" && (
                     <>
                         <DialogHeader className="gap-2.5 text-left">
                             <p className="font-mono text-kicker text-brass-ink uppercase">
@@ -226,7 +298,8 @@ export function SaveSearchFilterDialog({ searchArgs: currentSearch, children }: 
                             </button>
                         </div>
                     </>
-                ) : (
+                )}
+                {view === "form" && (
                     <>
                         <DialogHeader className="gap-1.5 text-left">
                             <DialogTitle className="pr-8 font-serif text-title-md font-normal">
@@ -259,6 +332,16 @@ export function SaveSearchFilterDialog({ searchArgs: currentSearch, children }: 
                                 );
                             })}
                         </ul>
+                        {distanceSearch && includeLocation && (
+                            <p className="flex gap-2.5 rounded-md bg-surface-sunken px-3.5 py-3 text-meta leading-[1.55] text-ink-secondary">
+                                <LockKeyhole
+                                    aria-hidden="true"
+                                    className="mt-0.5 size-4 shrink-0 text-ink-muted"
+                                    strokeWidth={1.8}
+                                />
+                                {t("geography.disclosure.savedOrigin")}
+                            </p>
+                        )}
                         <Form {...form}>
                             <form
                                 onSubmit={form.handleSubmit(onSubmit)}
@@ -358,11 +441,13 @@ export function SaveSearchFilterDialog({ searchArgs: currentSearch, children }: 
                                     </button>
                                     <button
                                         type="submit"
-                                        disabled={isPending}
+                                        disabled={isPending || preparingLocation}
                                         className={PRIMARY_BUTTON_CLASS}
                                     >
-                                        {isPending && <Spinner />}
-                                        {t("searchFilter.saveDialog.saveButton")}
+                                        {(isPending || preparingLocation) && <Spinner />}
+                                        {preparingLocation
+                                            ? t("searchFilter.saveDialog.preparing")
+                                            : t("searchFilter.saveDialog.saveButton")}
                                     </button>
                                 </div>
                             </form>
@@ -371,5 +456,105 @@ export function SaveSearchFilterDialog({ searchArgs: currentSearch, children }: 
                 )}
             </DialogContent>
         </Dialog>
+    );
+}
+
+/**
+ * Asked before saving a distance whose starting point cannot be saved (board "Search filters ·
+ * Location — save from search"): say why, then save without the location or go back. A current
+ * location that was not kept can be asked for again.
+ */
+function NoStartingPointView({
+    problem,
+    radius,
+    isPending,
+    onLocated,
+    onChooseAnother,
+    onSaveWithout,
+}: {
+    readonly problem: SearchOriginProblem;
+    readonly radius: SearchDistance;
+    readonly isPending: boolean;
+    readonly onLocated: () => void;
+    readonly onChooseAnother: () => void;
+    readonly onSaveWithout: () => void;
+}) {
+    const { t, i18n } = useTranslation();
+    const [geolocation, setGeolocation] = useState(false);
+    const [locating, setLocating] = useState(false);
+    useEffect(() => setGeolocation(isGeolocationSupported()), []);
+    const busy = isPending || locating;
+
+    const requestLocationAgain = () => {
+        setLocating(true);
+        requestCurrentLocation()
+            .then(onLocated)
+            .catch(() => undefined)
+            .finally(() => setLocating(false));
+    };
+
+    return (
+        <>
+            <DialogHeader className="gap-2.5 text-left">
+                <p className="font-mono text-kicker text-brass-ink uppercase">
+                    {t("searchFilter.saveDialog.location.eyebrow")}
+                </p>
+                <DialogTitle className="pr-8 font-serif text-title-md font-normal [&_em]:italic">
+                    <Trans
+                        i18nKey="searchFilter.saveDialog.location.title"
+                        components={HEADLINE_COMPONENTS}
+                    />
+                </DialogTitle>
+                <DialogDescription className="text-body-sm text-ink-secondary">
+                    {t(`searchFilter.saveDialog.location.problems.${problem}`)}
+                </DialogDescription>
+            </DialogHeader>
+            <ul className="flex flex-col border-t border-line">
+                <li className="flex min-h-11 items-center gap-2.5 border-b border-line text-body-sm">
+                    <MapPin
+                        aria-hidden="true"
+                        className="size-3.5 shrink-0 text-ink-muted"
+                        strokeWidth={1.8}
+                    />
+                    {t("search.location.title")}
+                    <span className="ml-auto min-w-0 truncate text-meta text-ink-muted">
+                        {t("searchFilter.saveDialog.location.within", {
+                            distance: formatGeographicDistance(radius, i18n.language, t),
+                        })}
+                    </span>
+                </li>
+            </ul>
+            <div className="flex flex-wrap justify-end gap-2.5">
+                {problem === "currentNotKept" && geolocation ? (
+                    <button
+                        type="button"
+                        onClick={requestLocationAgain}
+                        disabled={busy}
+                        className={SECONDARY_BUTTON_CLASS}
+                    >
+                        {locating && <Spinner />}
+                        {t("search.location.useLocationAgain")}
+                    </button>
+                ) : (
+                    <button
+                        type="button"
+                        onClick={onChooseAnother}
+                        disabled={isPending}
+                        className={SECONDARY_BUTTON_CLASS}
+                    >
+                        {t("searchFilter.saveDialog.location.chooseAnother")}
+                    </button>
+                )}
+                <button
+                    type="button"
+                    onClick={onSaveWithout}
+                    disabled={busy}
+                    className={PRIMARY_BUTTON_CLASS}
+                >
+                    {isPending && <Spinner />}
+                    {t("searchFilter.saveDialog.location.saveWithout")}
+                </button>
+            </div>
+        </>
     );
 }

@@ -519,4 +519,25 @@ describe("saved-search geography", () => {
         });
         expect(replaced.search?.geography).toEqual({ countries: ["FR"] });
     });
+
+    it("previews with the geography the save will send", () => {
+        const preview = mapToBackendPreviewUserSearchFilter(
+            { q: "vase" },
+            toGeographicSearch(geography),
+        );
+        expect(preview.search.geography).toEqual(geography);
+        expect(mapToBackendPreviewUserSearchFilter({ q: "vase" }).search).not.toHaveProperty(
+            "geography",
+        );
+    });
+
+    it("never sends geography with a rename, pause or email-alert change", () => {
+        for (const patch of [
+            { name: "Renamed" },
+            { state: "INACTIVE_BY_USER" as const },
+            { notifications: true },
+        ]) {
+            expect(mapToBackendPatchUserSearchFilter(patch).search).toBeUndefined();
+        }
+    });
 });

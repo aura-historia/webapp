@@ -1,4 +1,10 @@
+import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
+import {
+    UNSUPPORTED_GEOGRAPHY,
+    type GeographicSearch,
+    type UnsupportedGeography,
+} from "@/data/internal/geography/GeographicSearch.ts";
 import {
     LISTING_AVAILABILITY_TRANSLATION_KEYS,
     SEARCHABLE_LISTING_AVAILABILITIES,
@@ -8,12 +14,36 @@ import {
     useDateFilterFormat,
     usePriceFilterFormat,
 } from "@/features/search/common/hooks/useFilterFormatters.ts";
+import { useSubdivisionNames } from "@/features/geography/hooks/useSubdivisionNames.ts";
+import {
+    formatCountryName,
+    formatGeographicDistance,
+} from "@/features/geography/lib/formatGeography.ts";
 
 /** One saved criterion, e.g. "Price range" with "€800–€6,000". */
 export type SearchFilterCriterion = {
-    readonly id: "price" | "availability" | "include" | "exclude" | "auction" | "added" | "updated";
+    readonly id:
+        | "price"
+        | "availability"
+        | "location"
+        | "include"
+        | "exclude"
+        | "auction"
+        | "added"
+        | "updated";
     readonly label: string;
     readonly values: readonly string[];
+    /** Shown under the values where there is room, e.g. that a saved starting point is private. */
+    readonly note?: string;
+};
+
+/**
+ * A saved filter's location. `originLabel` names a starting point that is not saved yet ("Home"
+ * in the wizard); a saved one is always "saved starting point", never an address or coordinates.
+ */
+export type SearchFilterLocationInput = {
+    readonly geography: GeographicSearch | UnsupportedGeography | undefined;
+    readonly originLabel?: string;
 };
 
 /** The search terms of a saved filter; older filters only carry `q`. */
@@ -29,8 +59,13 @@ export function getQueryTerms(search: SearchFilterArguments): string[] {
 export function useSearchFilterCriteria(
     search: SearchFilterArguments,
     availability: readonly string[] | undefined = search.availability,
+    location?: SearchFilterLocationInput,
 ): SearchFilterCriterion[] {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const geography = location?.geography;
+    const { formatSubdivisionName } = useSubdivisionNames(
+        !!geography && geography !== UNSUPPORTED_GEOGRAPHY && geography.subdivisions.length > 0,
+    );
     const { formatPriceRange } = usePriceFilterFormat(search.currency);
     const { formatDateRange } = useDateFilterFormat();
     const criteria: SearchFilterCriterion[] = [];
@@ -54,6 +89,21 @@ export function useSearchFilterCriteria(
                       (state) => t(LISTING_AVAILABILITY_TRANSLATION_KEYS[state]),
                   ),
     });
+
+    if (geography) {
+        criteria.push({
+            id: "location",
+            label: t("search.location.title"),
+            values: describeGeography(geography, location?.originLabel, {
+                t,
+                language: i18n.language,
+                formatSubdivisionName,
+            }),
+            ...(geography !== UNSUPPORTED_GEOGRAPHY && geography.origin && !location?.originLabel
+                ? { note: t("geography.disclosure.savedOrigin") }
+                : {}),
+        });
+    }
 
     const sources = (id: "include" | "exclude", ids?: string[], labels?: string[]) => {
         if (!ids?.length) return;
@@ -96,4 +146,42 @@ export function useSearchFilterCriteria(
     );
 
     return criteria;
+}
+
+/**
+ * Names a saved location: the distance and its starting point, then the countries and regions,
+ * then "exact addresses only" for a strict predicate saved elsewhere. A predicate the app cannot
+ * read is only said to exist. The search's distance order is not a criterion.
+ */
+function describeGeography(
+    geography: GeographicSearch | UnsupportedGeography,
+    originLabel: string | undefined,
+    {
+        t,
+        language,
+        formatSubdivisionName,
+    }: {
+        readonly t: TFunction;
+        readonly language: string;
+        readonly formatSubdivisionName: (code: string) => string;
+    },
+): string[] {
+    if (geography === UNSUPPORTED_GEOGRAPHY) return [t("searchFilter.location.unsupported")];
+    const values: string[] = [];
+    if (geography.radius) {
+        values.push(
+            t("searchFilter.location.within", {
+                distance: formatGeographicDistance(geography.radius, language, t),
+                origin: originLabel ?? t("searchFilter.location.savedOriginName"),
+            }),
+        );
+    }
+    values.push(
+        ...geography.countries.map((code) => formatCountryName(code, language)),
+        ...geography.subdivisions.map(formatSubdivisionName),
+    );
+    if (geography.radius && geography.mode === "STRICT") {
+        values.push(t("searchFilter.location.exactOnly"));
+    }
+    return values;
 }

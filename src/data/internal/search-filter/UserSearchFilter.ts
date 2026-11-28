@@ -235,11 +235,20 @@ export function mapToBackendCreateUserSearchFilter(
     };
 }
 
-/** Same `search` mapping as `mapToBackendCreateUserSearchFilter`, without `name`. */
+/**
+ * Same `search` mapping as `mapToBackendCreateUserSearchFilter`, without `name`: the preview gets
+ * the geography the save will send, so it shows what the saved filter will match.
+ */
 export function mapToBackendPreviewUserSearchFilter(
     search: SearchFilterArguments,
+    geography?: GeographicSearch,
 ): PreviewUserSearchFilterMatchesData {
-    return { search: mapSearchFilterArgumentsToProductSearchData(search) };
+    return {
+        search: {
+            ...mapSearchFilterArgumentsToProductSearchData(search),
+            ...(geography ? { geography: mapToBackendGeographicSearch(geography) } : {}),
+        },
+    };
 }
 
 export function mapToBackendPatchUserSearchFilter(

@@ -31,8 +31,9 @@ export type SearchFilterArguments = {
     sortField?: SortMode["field"];
     sortOrder?: SortMode["order"];
     /**
-     * The search page's location filter. Saved searches do not carry it yet (#1081); a distance
-     * order inside it replaces `sortField` and `sortOrder`.
+     * The search page's location filter, by reference only; a distance order inside it replaces
+     * `sortField` and `sortOrder`. Saved searches store it as a separate geography snapshot
+     * (`UserSearchFilter.geography`) with the resolved point, never this reference.
      */
     location?: SearchLocation;
 };

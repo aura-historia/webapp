@@ -1,4 +1,8 @@
 import { useTranslation } from "react-i18next";
+import type {
+    GeographicSearch,
+    UnsupportedGeography,
+} from "@/data/internal/geography/GeographicSearch.ts";
 import type { SearchFilterArguments } from "@/data/internal/search/SearchFilterArguments.ts";
 import {
     getQueryTerms,
@@ -9,6 +13,7 @@ import { cn } from "@/lib/utils.ts";
 type Props = {
     readonly search: SearchFilterArguments;
     readonly enhancedSearchDescription?: string;
+    readonly geography?: GeographicSearch | UnsupportedGeography;
 };
 
 const ROW_CLASS = "flex flex-col gap-2 border-b border-line-subtle py-4";
@@ -19,10 +24,14 @@ const CHIP_CLASS = "rounded-sm px-2 py-1 text-meta";
  * Every criterion of a saved search filter as ruled label/value rows in a raised card, for the
  * detail page's ink band. Search terms and the AI description span both columns.
  */
-export function SearchFilterConfigurationGrid({ search, enhancedSearchDescription }: Props) {
+export function SearchFilterConfigurationGrid({
+    search,
+    enhancedSearchDescription,
+    geography,
+}: Props) {
     const { t } = useTranslation();
     const terms = getQueryTerms(search);
-    const criteria = useSearchFilterCriteria(search);
+    const criteria = useSearchFilterCriteria(search, search.availability, { geography });
 
     return (
         <div className="min-w-0 rounded-panel bg-surface-raised px-[18px] pt-1 pb-2 text-ink shadow-ring sm:px-7 sm:pt-2 sm:pb-3">
@@ -56,7 +65,10 @@ export function SearchFilterConfigurationGrid({ search, enhancedSearchDescriptio
                     </div>
                 )}
                 {criteria.map((criterion) => (
-                    <div key={criterion.id} className={ROW_CLASS}>
+                    <div
+                        key={criterion.id}
+                        className={cn(ROW_CLASS, criterion.id === "location" && "sm:col-span-2")}
+                    >
                         <dt className={TERM_CLASS}>{criterion.label}</dt>
                         <dd className="flex flex-wrap gap-1.5">
                             {criterion.values.map((value) => (
@@ -73,6 +85,9 @@ export function SearchFilterConfigurationGrid({ search, enhancedSearchDescriptio
                                 </span>
                             ))}
                         </dd>
+                        {criterion.note && (
+                            <p className="text-xs leading-[1.5] text-ink-muted">{criterion.note}</p>
+                        )}
                     </div>
                 ))}
             </dl>
