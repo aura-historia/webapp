@@ -121,7 +121,6 @@ export const PRESS_FACTS = [
     "team",
     "languages",
     "markets",
-    "aiAssistants",
     "website",
     "basedIn",
 ] as const;

@@ -140,7 +140,6 @@ Based in        Leipzig, Germany
 Team            Four people, across web engineering, data automation and interface design
 Languages       English, German, French, Spanish and Italian
 Markets         Europe and the United States first; further markets follow
-AI assistants   Connects to Claude and ChatGPT through a public MCP server
 Website         https://aura-historia.com
 
 Current catalogue figures, descriptions and the brand guidelines:

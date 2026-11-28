@@ -52,14 +52,7 @@ describe("press kit files", () => {
     it("keeps the kit's fact sheet in step with the page's English facts", () => {
         const factSheet = readFileSync(publicFile("/press/aura-historia-fact-sheet.txt"), "utf8");
         const { items } = en.pressPage.facts;
-        for (const fact of [
-            "whatItIs",
-            "founded",
-            "team",
-            "languages",
-            "markets",
-            "aiAssistants",
-        ] as const) {
+        for (const fact of ["whatItIs", "founded", "team", "languages", "markets"] as const) {
             expect(factSheet, fact).toContain(items[fact].value);
         }
         expect(factSheet).toContain(items.basedIn.value);

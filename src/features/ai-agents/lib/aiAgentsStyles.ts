@@ -1,4 +1,3 @@
-import { OUTLINE_PILL_BUTTON_CLASS } from "@/components/common/outlinePillButtonClass.ts";
 import { NAV_FOCUS_CLASS } from "@/features/app-shell/components/navigation/navigationConfig.ts";
 import { cn } from "@/lib/utils.ts";
 
@@ -14,7 +13,7 @@ export const AI_AGENTS_INTRO_CLASS =
 export const AI_AGENTS_LABEL_CLASS = "font-mono text-kicker font-normal text-ink-muted uppercase";
 
 /** A secondary pill: hairline ring, ink ring on hover. */
-export const AI_AGENTS_OUTLINE_BUTTON_CLASS = OUTLINE_PILL_BUTTON_CLASS;
+export { OUTLINE_PILL_BUTTON_CLASS as AI_AGENTS_OUTLINE_BUTTON_CLASS } from "@/components/common/outlinePillButtonClass.ts";
 
 /** The quiet text link that closes a chapter, with an arrow. */
 export const AI_AGENTS_TEXT_LINK_CLASS = cn(

@@ -7089,7 +7089,7 @@
         "countries_other": "Länder",
         "languages_one": "Angebotssprache",
         "languages_other": "Angebotssprachen",
-        "asOf": "Stand {{date}} · dieselbe Quelle wie die Zahlen auf unserer Startseite",
+        "asOf": "Stand {{date}}",
         "unavailable": "Die aktuellen Katalogzahlen finden Sie auf unserer Startseite.",
         "unavailableLink": "Zahlen auf der Startseite ansehen"
       },
@@ -7117,10 +7117,6 @@
         "markets": {
           "label": "Märkte",
           "value": "Zunächst Europa und die Vereinigten Staaten; weitere Märkte folgen"
-        },
-        "aiAssistants": {
-          "label": "KI-Assistenten",
-          "value": "Verbindet sich über einen öffentlichen MCP-Server mit Claude und ChatGPT"
         },
         "website": {
           "label": "Website",

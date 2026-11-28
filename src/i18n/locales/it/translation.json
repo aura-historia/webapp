@@ -7089,7 +7089,7 @@
         "countries_other": "Paesi",
         "languages_one": "Lingua degli annunci",
         "languages_other": "Lingue degli annunci",
-        "asOf": "Al {{date}} · stessa fonte dei numeri della nostra home page",
+        "asOf": "Al {{date}}",
         "unavailable": "I numeri aggiornati del catalogo sono sulla nostra home page.",
         "unavailableLink": "Vedi i numeri sulla home page"
       },
@@ -7117,10 +7117,6 @@
         "markets": {
           "label": "Mercati",
           "value": "Prima l’Europa e gli Stati Uniti; seguiranno altri mercati"
-        },
-        "aiAssistants": {
-          "label": "Assistenti IA",
-          "value": "Si collega a Claude e ChatGPT tramite un server MCP pubblico"
         },
         "website": {
           "label": "Sito web",

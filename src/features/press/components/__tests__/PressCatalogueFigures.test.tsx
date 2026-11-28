@@ -46,11 +46,7 @@ describe("PressCatalogueFigures", () => {
         expect(figureFor("Länder")).toHaveTextContent("12");
         expect(figureFor("Angebotssprachen")).toHaveTextContent("15");
         expect(container.querySelectorAll("dt")).toHaveLength(4);
-        expect(
-            screen.getByText(
-                "Stand 27. November 2026 · dieselbe Quelle wie die Zahlen auf unserer Startseite",
-            ),
-        ).toBeInTheDocument();
+        expect(screen.getByText("Stand 27. November 2026")).toBeInTheDocument();
     });
 
     it("leaves out a figure at zero and agrees the label with its count", async () => {
