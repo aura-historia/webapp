@@ -157,6 +157,10 @@ describe("Footer", () => {
             "href",
             "/de/about-us",
         );
+        expect(company.getByRole("link", { name: "Presse & Marke" })).toHaveAttribute(
+            "href",
+            "/de/press",
+        );
         expect(company.getByRole("link", { name: "Impressum" })).toHaveAttribute(
             "href",
             "/de/imprint",

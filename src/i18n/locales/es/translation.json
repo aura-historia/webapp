@@ -4,7 +4,13 @@
     "unitSystemPrefix": "Unidades",
     "currencySearchPlaceholder": "Buscar divisas…",
     "close": "Cerrar",
-    "currencySearchEmpty": "No se ha encontrado ninguna divisa."
+    "currencySearchEmpty": "No se ha encontrado ninguna divisa.",
+    "clipboard": {
+      "copy": "Copiar",
+      "copied": "Copiado",
+      "failedTitle": "No se ha podido copiar",
+      "failedDescription": "Su navegador ha bloqueado el portapapeles. Seleccione el texto y cópielo usted mismo."
+    }
   },
   "meta": {
     "siteName": "Aura Historia | Plataforma global de arte y antigüedades",
@@ -133,6 +139,10 @@
     "contentNotice": {
       "title": "Solicitar la retirada o denunciar contenido",
       "description": "Pida a Aura Historia que retire un anuncio o denuncie contenido. Para proveedores, titulares de derechos y cualquiera que encuentre contenido ilícito. Sin cuenta."
+    },
+    "press": {
+      "title": "Prensa y marca | Aura Historia",
+      "description": "Kit de prensa de Aura Historia: ficha informativa con las cifras actuales del catálogo, descripciones para citar, logotipos en SVG y PNG, colores de marca, tipografías y contacto de prensa."
     }
   },
   "validation": {
@@ -236,7 +246,8 @@
     },
     "tagline": "El mercado mundial de arte y antigüedades, en una sola búsqueda.",
     "socialNavigation": "Redes sociales",
-    "aiAgents": "Agentes de IA"
+    "aiAgents": "Agentes de IA",
+    "press": "Prensa y marca"
   },
   "aboutPage": {
     "hero": {
@@ -6517,12 +6528,8 @@
       }
     },
     "copy": {
-      "copy": "Copiar",
-      "copied": "Copiado",
       "label": "Copiar dirección",
-      "copiedLabel": "Dirección copiada",
-      "failedTitle": "No se ha podido copiar",
-      "failedDescription": "Su navegador ha bloqueado el portapapeles. Seleccione el texto y cópielo usted mismo."
+      "copiedLabel": "Dirección copiada"
     },
     "capabilities": {
       "eyebrow": "Qué puede hacer",
@@ -7086,5 +7093,262 @@
       "none": "Ninguno",
       "noneNote": "Sin dirección de correo electrónico, no se envió acuse de recibo."
     }
+  },
+  "pressPage": {
+    "hero": {
+      "eyebrow": "Prensa y marca",
+      "title": "¿Escribe sobre Aura Historia? <em>Empiece aquí.</em>",
+      "subtitle": "Datos, descripciones, logotipos, colores y tipografías para informar sobre Aura Historia. Todo lo que figura en esta página puede utilizarse tal cual en trabajos editoriales; para cualquier otro uso, escríbanos antes.",
+      "downloadKit": "Descargar el kit de marca",
+      "contactLink": "Contacto de prensa",
+      "kitNote": "ZIP · todos los logotipos en SVG y PNG, los valores de color y la ficha informativa",
+      "navLabel": "En esta página",
+      "nav": {
+        "facts": "De un vistazo",
+        "descriptions": "Descripciones",
+        "logo": "Logotipo",
+        "colour": "Color",
+        "typography": "Tipografía",
+        "images": "Imágenes",
+        "usage": "Uso",
+        "contact": "Contacto"
+      }
+    },
+    "facts": {
+      "eyebrow": "Ficha informativa",
+      "title": "Aura Historia <em>de un vistazo.</em>",
+      "description": "Lo esencial para un primer párrafo. Las cifras del catálogo proceden de nuestras estadísticas públicas y se recalculan varias veces al día; cítelas con su fecha.",
+      "figures": {
+        "liveObjects_one": "Objeto activo",
+        "liveObjects_other": "Objetos activos",
+        "providers_one": "Proveedor indexado",
+        "providers_other": "Proveedores indexados",
+        "countries_one": "País",
+        "countries_other": "Países",
+        "languages_one": "Idioma de los anuncios",
+        "languages_other": "Idiomas de los anuncios",
+        "asOf": "A {{date}}",
+        "unavailable": "Las cifras actuales del catálogo figuran en nuestra página de inicio.",
+        "unavailableLink": "Ver las cifras en la página de inicio"
+      },
+      "items": {
+        "name": {
+          "label": "Nombre",
+          "value": "Aura Historia"
+        },
+        "whatItIs": {
+          "label": "Qué es",
+          "value": "Una plataforma global de búsqueda y descubrimiento de arte y antigüedades"
+        },
+        "founded": {
+          "label": "Fundación",
+          "value": "2026"
+        },
+        "team": {
+          "label": "Equipo",
+          "value": "Cuatro personas, entre desarrollo web, automatización de datos y diseño de interfaces"
+        },
+        "languages": {
+          "label": "Idiomas",
+          "value": "Inglés, alemán, francés, español e italiano"
+        },
+        "markets": {
+          "label": "Mercados",
+          "value": "Primero Europa y Estados Unidos; después, otros mercados"
+        },
+        "website": {
+          "label": "Sitio web",
+          "value": "aura-historia.com"
+        },
+        "basedIn": {
+          "label": "Sede",
+          "value": "Leipzig, Alemania"
+        }
+      },
+      "socialLabel": "En redes sociales"
+    },
+    "descriptions": {
+      "eyebrow": "Texto de presentación",
+      "title": "Descripciones <em>listas para citar.</em>",
+      "description": "Una descripción breve y otra extensa, para usarlas tal cual o abreviadas, siempre que se mantenga el sentido. Aquí las mantenemos al día.",
+      "short": {
+        "heading": "Descripción breve",
+        "text": "Aura Historia es una plataforma global de búsqueda y descubrimiento de arte y antigüedades. Reúne comerciantes, casas de subastas y marketplaces en una búsqueda multilingüe, con listas de seguimiento privadas y alertas de búsqueda para coleccionistas y profesionales.",
+        "copyLabel": "Copiar texto: descripción breve",
+        "copiedLabel": "Descripción breve copiada"
+      },
+      "long": {
+        "heading": "Descripción extensa",
+        "text": "Aura Historia es una plataforma global de búsqueda y descubrimiento de arte y antigüedades, fundada en Leipzig (Alemania) en 2026. Reúne anuncios de comerciantes, casas de subastas, tiendas especializadas y marketplaces en una sola búsqueda en inglés, alemán, francés, español e italiano; traduce los anuncios y unifica su terminología, de modo que una búsqueda en un idioma también encuentra objetos catalogados en otro. Coleccionistas, interioristas y profesionales la utilizan para ver lo que se ofrece ahora, seguir objetos en una lista privada y recibir avisos cuando aparecen anuncios que coinciden. La compra se realiza con el vendedor original; Aura Historia nunca gestiona la venta. Comerciantes y casas de subastas pueden solicitar ser socios y conectar su tienda, sin tarifas ni comisiones. Más en aura-historia.com.",
+        "copyLabel": "Copiar texto: descripción extensa",
+        "copiedLabel": "Descripción extensa copiada"
+      },
+      "copyText": "Copiar texto",
+      "count": "{{words}} palabras · {{characters}} caracteres",
+      "naming": {
+        "write": "Escriba",
+        "avoid": "Evite",
+        "name": {
+          "title": "Nuestro nombre",
+          "write": "Aura Historia: dos palabras, ambas con mayúscula inicial. Solo en mayúsculas en el logotipo.",
+          "avoid": "AuraHistoria, Aura-Historia, AURA HISTORIA en el texto corrido, AH"
+        },
+        "role": {
+          "title": "Qué somos",
+          "write": "Una plataforma de búsqueda y descubrimiento de arte y antigüedades que enlaza con el anuncio original.",
+          "avoid": "Una casa de subastas, un marketplace, un comerciante o un tasador. No vendemos, tasamos ni autenticamos objetos."
+        }
+      }
+    },
+    "logo": {
+      "eyebrow": "Logotipo",
+      "title": "El <em>logotipo.</em>",
+      "description": "Aura Historia tiene un solo logotipo: la palabra, con la lupa sobre la O como parte de ella. Úselo en tinta sobre fondos claros y en pergamino sobre fondos oscuros; en una línea en maquetaciones corridas, apilado en espacios cuadrados.",
+      "downloadAll": "Todos los logotipos (ZIP)",
+      "downloadAs": "Descargar {{name}} en {{format}}",
+      "cards": {
+        "inlineInk": {
+          "title": "Logotipo, tinta",
+          "meta": "Para fondos claros · transparente"
+        },
+        "inlineParchment": {
+          "title": "Logotipo, pergamino",
+          "meta": "Para fondos oscuros · transparente"
+        },
+        "inlineOxblood": {
+          "title": "Logotipo sobre burdeos",
+          "meta": "Con su fondo · para avatares y portadas"
+        },
+        "stackedInk": {
+          "title": "Apilado, tinta",
+          "meta": "Para espacios cuadrados · transparente"
+        },
+        "stackedParchment": {
+          "title": "Apilado, pergamino",
+          "meta": "Para espacios cuadrados sobre fondo oscuro"
+        },
+        "stackedOxblood": {
+          "title": "Apilado sobre burdeos",
+          "meta": "Con su fondo · para avatares y portadas"
+        }
+      },
+      "clearSpace": {
+        "title": "Área de respeto y <em>tamaño mínimo</em>",
+        "spacing": "Deje un espacio libre de al menos <strong>x</strong>, la altura de una mayúscula, en todos los lados.",
+        "minimum": "Ancho mínimo: <strong>96 px</strong> en pantalla, <strong>25 mm</strong> en impresión. Por debajo de eso, escriba el nombre en texto."
+      },
+      "misuse": {
+        "title": "Por favor, <em>no</em>",
+        "stretched": "Estirarlo ni comprimirlo.",
+        "recoloured": "Cambiarle el color fuera de tinta y pergamino.",
+        "effects": "Añadir sombras, contornos ni efectos.",
+        "loupe": "Quitar ni mover la lupa.",
+        "more": "Tampoco componga el nombre en otra tipografía para imitar el logotipo, ni lo coloque sobre una fotografía recargada sin un fondo liso detrás."
+      }
+    },
+    "colour": {
+      "eyebrow": "Color",
+      "title": "Pergamino, tinta y <em>burdeos.</em>",
+      "description": "Sobre todo pergamino y tinta. El burdeos es el color de la marca y se usa como relleno; el latón es un acento discreto y, como texto, solo sobre tinta.",
+      "swatches": {
+        "parchment": {
+          "name": "Pergamino",
+          "role": "El fondo de la página."
+        },
+        "ink": {
+          "name": "Tinta",
+          "role": "El texto y el fondo oscuro."
+        },
+        "oxblood": {
+          "name": "Burdeos",
+          "role": "El color de la marca, usado como relleno."
+        },
+        "brass": {
+          "name": "Latón",
+          "role": "El acento. Como texto, solo sobre tinta."
+        },
+        "brassLight": {
+          "name": "Latón claro",
+          "role": "Énfasis en titulares sobre tinta."
+        },
+        "sand": {
+          "name": "Arena",
+          "role": "Marcas de datos discretas y separadores."
+        }
+      },
+      "hex": "Hex",
+      "rgb": "RGB",
+      "copyLabel": "Copiar el valor hex de {{name}}",
+      "copiedLabel": "Valor hex de {{name}} copiado"
+    },
+    "typography": {
+      "eyebrow": "Tipografía",
+      "title": "Tres tipografías, <em>una sola voz.</em>",
+      "description": "Las tres son de código abierto bajo la SIL Open Font License y pueden descargarse gratis en Google Fonts. El logotipo está dibujado, no compuesto: use los archivos del logotipo.",
+      "fonts": {
+        "newsreader": {
+          "role": "Titulares · nombres de objetos",
+          "sample": "Una pareja de jarrones de Meissen, h. 1750, <em>con sus tapas originales.</em>"
+        },
+        "geist": {
+          "role": "Texto · interfaz",
+          "sample": "Busque a la vez en comerciantes, casas de subastas y marketplaces, y guarde lo importante en una lista privada."
+        },
+        "geistMono": {
+          "role": "Etiquetas · cifras",
+          "sample": "III — La diferencia · Comerciante · Leipzig, DE"
+        }
+      },
+      "googleFonts": "{{name}} en Google Fonts"
+    },
+    "images": {
+      "eyebrow": "Imágenes",
+      "title": "Capturas y <em>retratos.</em>",
+      "description": "Aquí aparecerán capturas de pantalla del producto y retratos del equipo, cada uno con su crédito.",
+      "emptyTitle": "Imágenes <em>a petición.</em>",
+      "emptyBody": "Hasta que publiquemos nuestras capturas y retratos, le enviamos por correo electrónico las imágenes para su artículo, con el crédito que debe utilizar.",
+      "request": "Solicitar imágenes",
+      "team": "Conozca al equipo"
+    },
+    "usage": {
+      "eyebrow": "Uso",
+      "title": "Cómo usar <em>estos materiales.</em>",
+      "description": "El kit es para informar sobre Aura Historia. Cualquier otro uso requiere antes nuestro permiso por escrito.",
+      "allowed": {
+        "heading": "Puede",
+        "items": {
+          "coverage": "Usar los logotipos, las descripciones y las cifras en artículos sobre Aura Historia",
+          "scale": "Escalar los logotipos de forma proporcional, en tinta o pergamino",
+          "shorten": "Abreviar las descripciones, siempre que se mantenga el sentido",
+          "link": "Enlazar a aura-historia.com y a cualquier página pública del sitio"
+        }
+      },
+      "notAllowed": {
+        "heading": "Por favor, no",
+        "items": {
+          "change": "Modificar, redibujar ni animar el logotipo",
+          "endorsement": "Usar nuestro nombre o logotipo para sugerir una colaboración, un patrocinio o una recomendación",
+          "advertising": "Usar los materiales en publicidad, en productos promocionales o como icono de aplicación sin nuestro permiso por escrito",
+          "attribution": "Presentar objetos que aparecen en Aura Historia como vendidos, tasados o autenticados por nosotros"
+        }
+      },
+      "thirdParty": "Los nombres y logotipos de comerciantes, casas de subastas y otras empresas que aparecen en Aura Historia pertenecen a sus titulares y no forman parte de este kit."
+    },
+    "contact": {
+      "eyebrow": "Contacto de prensa",
+      "title": "Preguntas, entrevistas, <em>imágenes.</em>",
+      "description": "Escríbanos para obtener información de contexto, una entrevista o imágenes para su artículo. Indique su medio y su fecha límite.",
+      "copyLabel": "Copiar la dirección de correo",
+      "copiedLabel": "Dirección de correo copiada",
+      "person": {
+        "label": "Contacto",
+        "value": "Julian Bruder, Team Lead"
+      },
+      "basedIn": {
+        "label": "Sede",
+        "value": "Leipzig, Alemania"
+      }
+    },
+    "newTab": "(se abre en una pestaña nueva)"
   }
 }

@@ -3,7 +3,7 @@ import { type RefObject, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
-import { AI_AGENTS_OUTLINE_BUTTON_CLASS } from "@/features/ai-agents/lib/aiAgentsStyles.ts";
+import { OUTLINE_PILL_BUTTON_CLASS } from "@/components/common/outlinePillButtonClass.ts";
 import { cn } from "@/lib/utils.ts";
 
 const COPIED_MS = 2000;
@@ -23,14 +23,27 @@ interface CopyTextButtonProps {
     readonly text: string;
     /** The element showing `text`; selected when copying fails. */
     readonly targetRef: RefObject<HTMLElement | null>;
+    /** The button's accessible name, naming what it copies ("Copy address"). */
+    readonly label: string;
+    /** Announced, and the button's name, for two seconds after copying ("Address copied"). */
+    readonly copiedLabel: string;
+    /** Visible text before copying; "Copy" when left out. */
+    readonly idleText?: string;
     readonly className?: string;
 }
 
 /**
- * Copies `text`: "Copied" for two seconds, announced once through a status region. When the browser refuses the clipboard,
- * the text is selected and an error toast says so.
+ * Copies `text`: "Copied" for two seconds, announced once through a status region. When the browser
+ * refuses the clipboard, the text is selected and an error toast says so.
  */
-export function CopyTextButton({ text, targetRef, className }: CopyTextButtonProps) {
+export function CopyTextButton({
+    text,
+    targetRef,
+    label,
+    copiedLabel,
+    idleText,
+    className,
+}: CopyTextButtonProps) {
     const { t } = useTranslation();
     const [copied, setCopied] = useState(false);
 
@@ -47,8 +60,8 @@ export function CopyTextButton({ text, targetRef, className }: CopyTextButtonPro
         } catch {
             setCopied(false);
             selectText(targetRef.current);
-            toast.error(t("aiAgentsPage.copy.failedTitle"), {
-                description: t("aiAgentsPage.copy.failedDescription"),
+            toast.error(t("common.clipboard.failedTitle"), {
+                description: t("common.clipboard.failedDescription"),
             });
         }
     };
@@ -60,17 +73,19 @@ export function CopyTextButton({ text, targetRef, className }: CopyTextButtonPro
             <button
                 type="button"
                 onClick={copy}
-                aria-label={t(copied ? "aiAgentsPage.copy.copiedLabel" : "aiAgentsPage.copy.label")}
-                className={cn(AI_AGENTS_OUTLINE_BUTTON_CLASS, "shrink-0", className)}
+                aria-label={copied ? copiedLabel : label}
+                className={cn(OUTLINE_PILL_BUTTON_CLASS, "shrink-0", className)}
             >
                 <Icon aria-hidden="true" className="size-[15px]" strokeWidth={1.8} />
                 <span aria-hidden="true">
-                    {t(copied ? "aiAgentsPage.copy.copied" : "aiAgentsPage.copy.copy")}
+                    {copied
+                        ? t("common.clipboard.copied")
+                        : (idleText ?? t("common.clipboard.copy"))}
                 </span>
             </button>
             {/* Announced once, outside the button whose name it would otherwise repeat. */}
             <span role="status" className="sr-only">
-                {copied ? t("aiAgentsPage.copy.copiedLabel") : ""}
+                {copied ? copiedLabel : ""}
             </span>
         </>
     );

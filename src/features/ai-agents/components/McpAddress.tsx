@@ -1,6 +1,7 @@
 import { useRef } from "react";
+import { useTranslation } from "react-i18next";
 
-import { CopyTextButton } from "@/features/ai-agents/components/CopyTextButton.tsx";
+import { CopyTextButton } from "@/components/common/CopyTextButton.tsx";
 import { MCP_SERVER_URL } from "@/features/ai-agents/config/aiAgentsPage.data.ts";
 import { cn } from "@/lib/utils.ts";
 
@@ -11,6 +12,7 @@ interface McpAddressProps {
 
 /** The server address with a Copy button. The address stays selectable before hydration. */
 export function McpAddress({ variant }: McpAddressProps) {
+    const { t } = useTranslation();
     const addressRef = useRef<HTMLElement>(null);
     const isHero = variant === "hero";
 
@@ -36,6 +38,8 @@ export function McpAddress({ variant }: McpAddressProps) {
             <CopyTextButton
                 text={MCP_SERVER_URL}
                 targetRef={addressRef}
+                label={t("aiAgentsPage.copy.label")}
+                copiedLabel={t("aiAgentsPage.copy.copiedLabel")}
                 className={isHero ? undefined : "h-9 px-3 text-meta"}
             />
         </div>
