@@ -4,7 +4,13 @@
     "unitSystemPrefix": "Unità",
     "currencySearchPlaceholder": "Cerca valute…",
     "close": "Chiudi",
-    "currencySearchEmpty": "Nessuna valuta trovata."
+    "currencySearchEmpty": "Nessuna valuta trovata.",
+    "clipboard": {
+      "copy": "Copia",
+      "copied": "Copiato",
+      "failedTitle": "Impossibile copiare",
+      "failedDescription": "Il browser ha bloccato gli appunti. Selezionate il testo e copiatelo voi."
+    }
   },
   "meta": {
     "siteName": "Aura Historia | Piattaforma globale per arte e antiquariato",
@@ -133,6 +139,10 @@
     "contentNotice": {
       "title": "Richiedi la rimozione o segnala un contenuto",
       "description": "Chiedi ad Aura Historia di rimuovere un annuncio o segnala un contenuto. Per fornitori, titolari di diritti e chiunque trovi contenuti illeciti. Senza account."
+    },
+    "press": {
+      "title": "Stampa e marchio | Aura Historia",
+      "description": "Kit stampa di Aura Historia: scheda informativa con i numeri aggiornati del catalogo, descrizioni da citare, loghi in SVG e PNG, colori del marchio, caratteri e contatto stampa."
     }
   },
   "validation": {
@@ -236,7 +246,8 @@
     },
     "tagline": "Il mercato globale dell'arte e dell'antiquariato, in un'unica ricerca.",
     "socialNavigation": "Social media",
-    "aiAgents": "Agenti IA"
+    "aiAgents": "Agenti IA",
+    "press": "Stampa e marchio"
   },
   "aboutPage": {
     "hero": {
@@ -6483,12 +6494,8 @@
       }
     },
     "copy": {
-      "copy": "Copia",
-      "copied": "Copiato",
       "label": "Copia indirizzo",
-      "copiedLabel": "Indirizzo copiato",
-      "failedTitle": "Impossibile copiare",
-      "failedDescription": "Il browser ha bloccato gli appunti. Selezionate il testo e copiatelo voi."
+      "copiedLabel": "Indirizzo copiato"
     },
     "capabilities": {
       "eyebrow": "Cosa può fare",
@@ -7052,5 +7059,262 @@
       "none": "Nessuna",
       "noneNote": "Nessun indirizzo e-mail, quindi nessuna conferma inviata."
     }
+  },
+  "pressPage": {
+    "hero": {
+      "eyebrow": "Stampa e marchio",
+      "title": "Scrivete di Aura Historia? <em>Iniziate da qui.</em>",
+      "subtitle": "Fatti, descrizioni, loghi, colori e caratteri per parlare di Aura Historia. Tutto ciò che trovate in questa pagina può essere usato così com’è nel lavoro editoriale; per qualsiasi altro uso, scriveteci prima.",
+      "downloadKit": "Scarica il kit del marchio",
+      "contactLink": "Contatto stampa",
+      "kitNote": "ZIP · tutti i loghi in SVG e PNG, i valori dei colori e la scheda informativa",
+      "navLabel": "In questa pagina",
+      "nav": {
+        "facts": "In breve",
+        "descriptions": "Descrizioni",
+        "logo": "Logo",
+        "colour": "Colori",
+        "typography": "Tipografia",
+        "images": "Immagini",
+        "usage": "Utilizzo",
+        "contact": "Contatto"
+      }
+    },
+    "facts": {
+      "eyebrow": "Scheda informativa",
+      "title": "Aura Historia <em>in breve.</em>",
+      "description": "L’essenziale per un primo paragrafo. I numeri del catalogo provengono dalle nostre statistiche pubbliche e vengono ricalcolati più volte al giorno; citateli con la loro data.",
+      "figures": {
+        "liveObjects_one": "Oggetto attivo",
+        "liveObjects_other": "Oggetti attivi",
+        "providers_one": "Fornitore indicizzato",
+        "providers_other": "Fornitori indicizzati",
+        "countries_one": "Paese",
+        "countries_other": "Paesi",
+        "languages_one": "Lingua degli annunci",
+        "languages_other": "Lingue degli annunci",
+        "asOf": "Al {{date}}",
+        "unavailable": "I numeri aggiornati del catalogo sono sulla nostra home page.",
+        "unavailableLink": "Vedi i numeri sulla home page"
+      },
+      "items": {
+        "name": {
+          "label": "Nome",
+          "value": "Aura Historia"
+        },
+        "whatItIs": {
+          "label": "Che cos’è",
+          "value": "Una piattaforma globale di ricerca e scoperta per l’arte e l’antiquariato"
+        },
+        "founded": {
+          "label": "Fondazione",
+          "value": "2026"
+        },
+        "team": {
+          "label": "Team",
+          "value": "Quattro persone, tra sviluppo web, automazione dei dati e design dell’interfaccia"
+        },
+        "languages": {
+          "label": "Lingue",
+          "value": "Inglese, tedesco, francese, spagnolo e italiano"
+        },
+        "markets": {
+          "label": "Mercati",
+          "value": "Prima l’Europa e gli Stati Uniti; seguiranno altri mercati"
+        },
+        "website": {
+          "label": "Sito web",
+          "value": "aura-historia.com"
+        },
+        "basedIn": {
+          "label": "Sede",
+          "value": "Lipsia, Germania"
+        }
+      },
+      "socialLabel": "Sui social media"
+    },
+    "descriptions": {
+      "eyebrow": "Testo di presentazione",
+      "title": "Descrizioni <em>pronte da citare.</em>",
+      "description": "Una descrizione breve e una estesa, da usare così come sono o abbreviate, purché il senso resti invariato. Le teniamo aggiornate qui.",
+      "short": {
+        "heading": "Descrizione breve",
+        "text": "Aura Historia è una piattaforma globale di ricerca e scoperta per l’arte e l’antiquariato. Riunisce antiquari, case d’asta e marketplace in un’unica ricerca multilingue, con liste dei preferiti private e avvisi di ricerca per collezionisti e operatori del settore.",
+        "copyLabel": "Copia il testo: descrizione breve",
+        "copiedLabel": "Descrizione breve copiata"
+      },
+      "long": {
+        "heading": "Descrizione estesa",
+        "text": "Aura Historia è una piattaforma globale di ricerca e scoperta per l’arte e l’antiquariato, fondata a Lipsia, in Germania, nel 2026. Riunisce gli annunci di antiquari, case d’asta, negozi specializzati e marketplace in un’unica ricerca in inglese, tedesco, francese, spagnolo e italiano; traduce gli annunci e ne allinea la terminologia, così che una ricerca in una lingua trovi anche oggetti catalogati in un’altra. Collezionisti, interior designer e operatori del settore la usano per vedere ciò che è in offerta ora, seguire gli oggetti in una lista privata e ricevere avvisi quando compaiono annunci corrispondenti. L’acquisto avviene presso il venditore originale; Aura Historia non gestisce mai la vendita. Antiquari e case d’asta possono candidarsi come partner e collegare il proprio negozio, senza costi né commissioni. Maggiori informazioni su aura-historia.com.",
+        "copyLabel": "Copia il testo: descrizione estesa",
+        "copiedLabel": "Descrizione estesa copiata"
+      },
+      "copyText": "Copia il testo",
+      "count": "{{words}} parole · {{characters}} caratteri",
+      "naming": {
+        "write": "Scrivete",
+        "avoid": "Evitate",
+        "name": {
+          "title": "Il nostro nome",
+          "write": "Aura Historia: due parole, entrambe con l’iniziale maiuscola. Tutto in maiuscolo solo nel logo.",
+          "avoid": "AuraHistoria, Aura-Historia, AURA HISTORIA nel testo corrente, AH"
+        },
+        "role": {
+          "title": "Che cosa siamo",
+          "write": "Una piattaforma di ricerca e scoperta per l’arte e l’antiquariato che rimanda all’annuncio originale.",
+          "avoid": "Una casa d’aste, un marketplace, un antiquario o un perito. Non vendiamo, stimiamo né autentichiamo oggetti."
+        }
+      }
+    },
+    "logo": {
+      "eyebrow": "Logo",
+      "title": "Il <em>logotipo.</em>",
+      "description": "Aura Historia ha un solo logo: il logotipo, di cui fa parte la lente sulla O. Usatelo in inchiostro su fondi chiari e in pergamena su fondi scuri; su una riga nei layout correnti, impilato negli spazi quadrati.",
+      "downloadAll": "Tutti i loghi (ZIP)",
+      "downloadAs": "Scarica {{name}} in {{format}}",
+      "cards": {
+        "inlineInk": {
+          "title": "Logotipo, inchiostro",
+          "meta": "Per fondi chiari · trasparente"
+        },
+        "inlineParchment": {
+          "title": "Logotipo, pergamena",
+          "meta": "Per fondi scuri · trasparente"
+        },
+        "inlineOxblood": {
+          "title": "Logotipo su sangue di bue",
+          "meta": "Con il suo fondo · per avatar e copertine"
+        },
+        "stackedInk": {
+          "title": "Impilato, inchiostro",
+          "meta": "Per spazi quadrati · trasparente"
+        },
+        "stackedParchment": {
+          "title": "Impilato, pergamena",
+          "meta": "Per spazi quadrati su fondo scuro"
+        },
+        "stackedOxblood": {
+          "title": "Impilato su sangue di bue",
+          "meta": "Con il suo fondo · per avatar e copertine"
+        }
+      },
+      "clearSpace": {
+        "title": "Area di rispetto e <em>dimensione minima</em>",
+        "spacing": "Lasciate su ogni lato uno spazio libero di almeno <strong>x</strong>, l’altezza di una lettera maiuscola.",
+        "minimum": "Larghezza minima: <strong>96 px</strong> su schermo, <strong>25 mm</strong> in stampa. Al di sotto, scrivete il nome come testo."
+      },
+      "misuse": {
+        "title": "Per favore <em>non</em>",
+        "stretched": "Allungarlo o comprimerlo.",
+        "recoloured": "Ricolorarlo al di fuori di inchiostro e pergamena.",
+        "effects": "Aggiungere ombre, contorni o effetti.",
+        "loupe": "Togliere o spostare la lente.",
+        "more": "Non componete il nome in un altro carattere per imitare il logotipo e non collocatelo su una fotografia movimentata senza un fondo uniforme."
+      }
+    },
+    "colour": {
+      "eyebrow": "Colori",
+      "title": "Pergamena, inchiostro e <em>sangue di bue.</em>",
+      "description": "Soprattutto pergamena e inchiostro. Il sangue di bue è il colore del marchio e si usa come campitura; l’ottone è un accento discreto, come testo solo sull’inchiostro.",
+      "swatches": {
+        "parchment": {
+          "name": "Pergamena",
+          "role": "Il fondo della pagina."
+        },
+        "ink": {
+          "name": "Inchiostro",
+          "role": "Il testo e il fondo scuro."
+        },
+        "oxblood": {
+          "name": "Sangue di bue",
+          "role": "Il colore del marchio, usato come campitura."
+        },
+        "brass": {
+          "name": "Ottone",
+          "role": "L’accento. Come testo solo sull’inchiostro."
+        },
+        "brassLight": {
+          "name": "Ottone chiaro",
+          "role": "Enfasi nei titoli sull’inchiostro."
+        },
+        "sand": {
+          "name": "Sabbia",
+          "role": "Segni discreti nei dati e filetti."
+        }
+      },
+      "hex": "Hex",
+      "rgb": "RGB",
+      "copyLabel": "Copia il valore hex di {{name}}",
+      "copiedLabel": "Valore hex di {{name}} copiato"
+    },
+    "typography": {
+      "eyebrow": "Tipografia",
+      "title": "Tre caratteri, <em>una sola voce.</em>",
+      "description": "Tutti e tre sono open source con licenza SIL Open Font License e si scaricano gratuitamente da Google Fonts. Il logotipo è disegnato, non composto: usate i file del logo.",
+      "fonts": {
+        "newsreader": {
+          "role": "Titoli · nomi degli oggetti",
+          "sample": "Una coppia di vasi di Meissen, 1750 circa, <em>con i coperchi originali.</em>"
+        },
+        "geist": {
+          "role": "Testo · interfaccia",
+          "sample": "Cercate insieme tra antiquari, case d’asta e marketplace, e tenete ciò che conta in una lista privata."
+        },
+        "geistMono": {
+          "role": "Etichette · numeri",
+          "sample": "III — La differenza · Antiquario · Lipsia, DE"
+        }
+      },
+      "googleFonts": "{{name}} su Google Fonts"
+    },
+    "images": {
+      "eyebrow": "Immagini",
+      "title": "Screenshot e <em>ritratti.</em>",
+      "description": "Qui troverete screenshot del prodotto e ritratti del team, ciascuno con i crediti.",
+      "emptyTitle": "Immagini <em>su richiesta.</em>",
+      "emptyBody": "Finché i nostri screenshot e ritratti non saranno pubblicati, vi inviamo via e-mail le immagini per il vostro articolo, con i crediti da indicare.",
+      "request": "Richiedi immagini",
+      "team": "Scopri il team"
+    },
+    "usage": {
+      "eyebrow": "Utilizzo",
+      "title": "Come usare <em>questi materiali.</em>",
+      "description": "Il kit è pensato per parlare di Aura Historia. Qualsiasi altro uso richiede prima il nostro consenso scritto.",
+      "allowed": {
+        "heading": "Potete",
+        "items": {
+          "coverage": "Usare loghi, descrizioni e numeri in articoli su Aura Historia",
+          "scale": "Ridimensionare i loghi in proporzione, in inchiostro o pergamena",
+          "shorten": "Abbreviare le descrizioni, purché il senso resti invariato",
+          "link": "Inserire link ad aura-historia.com e a qualsiasi sua pagina pubblica"
+        }
+      },
+      "notAllowed": {
+        "heading": "Per favore non",
+        "items": {
+          "change": "Modificare, ridisegnare o animare il logotipo",
+          "endorsement": "Usare il nostro nome o logo per suggerire una partnership, una sponsorizzazione o un’approvazione",
+          "advertising": "Usare i materiali in pubblicità, sul merchandising o come icona di un’app senza il nostro consenso scritto",
+          "attribution": "Presentare gli oggetti mostrati su Aura Historia come venduti, stimati o autenticati da noi"
+        }
+      },
+      "thirdParty": "Nomi e loghi di antiquari, case d’asta e altre aziende che compaiono su Aura Historia appartengono ai rispettivi titolari e non fanno parte di questo kit."
+    },
+    "contact": {
+      "eyebrow": "Contatto stampa",
+      "title": "Domande, interviste, <em>immagini.</em>",
+      "description": "Scriveteci per informazioni di contesto, un’intervista o immagini per il vostro articolo. Indicate la vostra testata e la scadenza.",
+      "copyLabel": "Copia l’indirizzo e-mail",
+      "copiedLabel": "Indirizzo e-mail copiato",
+      "person": {
+        "label": "Contatto",
+        "value": "Julian Bruder, Team Lead"
+      },
+      "basedIn": {
+        "label": "Sede",
+        "value": "Lipsia, Germania"
+      }
+    },
+    "newTab": "(si apre in una nuova scheda)"
   }
 }

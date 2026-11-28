@@ -23,6 +23,7 @@ export const STATIC_PAGES = [
     { path: "/imprint", indexable: false },
     { path: "/partner-program", indexable: true },
     { path: "/partner-program/custom-integration", indexable: true },
+    { path: "/press", indexable: true },
     { path: "/privacy", indexable: false },
     { path: "/terms-and-conditions", indexable: false },
 ] as const;

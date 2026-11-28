@@ -18,6 +18,7 @@ export type PageMetaKey =
     | "home"
     | "about"
     | "aiAgents"
+    | "press"
     | "search"
     | "searchShops"
     | "login"
@@ -60,6 +61,10 @@ const PAGE_META_KEYS: Record<PageMetaKey, { title: string; description?: string 
     aiAgents: {
         title: "meta.aiAgents.title",
         description: "meta.aiAgents.description",
+    },
+    press: {
+        title: "meta.press.title",
+        description: "meta.press.description",
     },
     search: {
         title: "meta.search.title",

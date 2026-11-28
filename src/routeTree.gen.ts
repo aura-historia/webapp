@@ -19,6 +19,7 @@ import { Route as LngContentNoticeRouteImport } from './routes/$lng.content-noti
 import { Route as LngImprintRouteImport } from './routes/$lng.imprint'
 import { Route as LngLoginRouteImport } from './routes/$lng.login'
 import { Route as LngPartnerProgramRouteImport } from './routes/$lng.partner-program'
+import { Route as LngPressRouteImport } from './routes/$lng.press'
 import { Route as LngPrivacyRouteImport } from './routes/$lng.privacy'
 import { Route as LngSearchRouteImport } from './routes/$lng.search'
 import { Route as LngTermsAndConditionsRouteImport } from './routes/$lng.terms-and-conditions'
@@ -121,6 +122,11 @@ const LngLoginRoute = LngLoginRouteImport.update({
 const LngPartnerProgramRoute = LngPartnerProgramRouteImport.update({
   id: '/partner-program',
   path: '/partner-program',
+  getParentRoute: () => LngRoute,
+} as any)
+const LngPressRoute = LngPressRouteImport.update({
+  id: '/press',
+  path: '/press',
   getParentRoute: () => LngRoute,
 } as any)
 const LngPrivacyRoute = LngPrivacyRouteImport.update({
@@ -431,6 +437,7 @@ export interface FileRoutesByFullPath {
   '/$lng/imprint': typeof LngImprintRoute
   '/$lng/login': typeof LngLoginRoute
   '/$lng/partner-program': typeof LngPartnerProgramRouteWithChildren
+  '/$lng/press': typeof LngPressRoute
   '/$lng/privacy': typeof LngPrivacyRoute
   '/$lng/search': typeof LngSearchRoute
   '/$lng/terms-and-conditions': typeof LngTermsAndConditionsRoute
@@ -495,6 +502,7 @@ export interface FileRoutesByTo {
   '/$lng/content-notice': typeof LngContentNoticeRoute
   '/$lng/imprint': typeof LngImprintRoute
   '/$lng/login': typeof LngLoginRoute
+  '/$lng/press': typeof LngPressRoute
   '/$lng/privacy': typeof LngPrivacyRoute
   '/$lng/search': typeof LngSearchRoute
   '/$lng/terms-and-conditions': typeof LngTermsAndConditionsRoute
@@ -559,6 +567,7 @@ export interface FileRoutesById {
   '/$lng/imprint': typeof LngImprintRoute
   '/$lng/login': typeof LngLoginRoute
   '/$lng/partner-program': typeof LngPartnerProgramRouteWithChildren
+  '/$lng/press': typeof LngPressRoute
   '/$lng/privacy': typeof LngPrivacyRoute
   '/$lng/search': typeof LngSearchRoute
   '/$lng/terms-and-conditions': typeof LngTermsAndConditionsRoute
@@ -626,6 +635,7 @@ export interface FileRouteTypes {
     | '/$lng/imprint'
     | '/$lng/login'
     | '/$lng/partner-program'
+    | '/$lng/press'
     | '/$lng/privacy'
     | '/$lng/search'
     | '/$lng/terms-and-conditions'
@@ -690,6 +700,7 @@ export interface FileRouteTypes {
     | '/$lng/content-notice'
     | '/$lng/imprint'
     | '/$lng/login'
+    | '/$lng/press'
     | '/$lng/privacy'
     | '/$lng/search'
     | '/$lng/terms-and-conditions'
@@ -753,6 +764,7 @@ export interface FileRouteTypes {
     | '/$lng/imprint'
     | '/$lng/login'
     | '/$lng/partner-program'
+    | '/$lng/press'
     | '/$lng/privacy'
     | '/$lng/search'
     | '/$lng/terms-and-conditions'
@@ -891,6 +903,13 @@ declare module '@tanstack/react-router' {
       path: '/partner-program'
       fullPath: '/$lng/partner-program'
       preLoaderRoute: typeof LngPartnerProgramRouteImport
+      parentRoute: typeof LngRoute
+    }
+    '/$lng/press': {
+      id: '/$lng/press'
+      path: '/press'
+      fullPath: '/$lng/press'
+      preLoaderRoute: typeof LngPressRouteImport
       parentRoute: typeof LngRoute
     }
     '/$lng/privacy': {
@@ -1386,6 +1405,7 @@ interface LngRouteChildren {
   LngImprintRoute: typeof LngImprintRoute
   LngLoginRoute: typeof LngLoginRoute
   LngPartnerProgramRoute: typeof LngPartnerProgramRouteWithChildren
+  LngPressRoute: typeof LngPressRoute
   LngPrivacyRoute: typeof LngPrivacyRoute
   LngSearchRoute: typeof LngSearchRoute
   LngTermsAndConditionsRoute: typeof LngTermsAndConditionsRoute
@@ -1414,6 +1434,7 @@ const LngRouteChildren: LngRouteChildren = {
   LngImprintRoute: LngImprintRoute,
   LngLoginRoute: LngLoginRoute,
   LngPartnerProgramRoute: LngPartnerProgramRouteWithChildren,
+  LngPressRoute: LngPressRoute,
   LngPrivacyRoute: LngPrivacyRoute,
   LngSearchRoute: LngSearchRoute,
   LngTermsAndConditionsRoute: LngTermsAndConditionsRoute,

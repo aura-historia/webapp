@@ -12,6 +12,7 @@ export type FooterRoute =
     | "/$lng/partners/applications"
     | "/$lng/partner-program/custom-integration"
     | "/$lng/about-us"
+    | "/$lng/press"
     | "/$lng/ai-agents"
     | "/$lng/imprint"
     | "/$lng/privacy"
@@ -140,6 +141,7 @@ export const FOOTER_GROUPS: readonly FooterGroup[] = [
         titleKey: "footer.sections.company",
         links: [
             { kind: "route", translationKey: "footer.about", to: "/$lng/about-us" },
+            { kind: "route", translationKey: "footer.press", to: "/$lng/press" },
             { kind: "route", translationKey: "footer.imprint", to: "/$lng/imprint" },
             { kind: "route", translationKey: "footer.privacy", to: "/$lng/privacy" },
             { kind: "route", translationKey: "footer.terms", to: "/$lng/terms-and-conditions" },

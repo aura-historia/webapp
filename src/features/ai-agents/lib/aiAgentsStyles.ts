@@ -13,10 +13,7 @@ export const AI_AGENTS_INTRO_CLASS =
 export const AI_AGENTS_LABEL_CLASS = "font-mono text-kicker font-normal text-ink-muted uppercase";
 
 /** A secondary pill: hairline ring, ink ring on hover. */
-export const AI_AGENTS_OUTLINE_BUTTON_CLASS = cn(
-    "inline-flex h-11 cursor-pointer items-center justify-center gap-2 rounded-pill px-[18px] text-sm font-medium text-ink shadow-[inset_0_0_0_1px_var(--line-strong)] transition-shadow hover:shadow-[inset_0_0_0_1px_var(--ink)]",
-    NAV_FOCUS_CLASS,
-);
+export { OUTLINE_PILL_BUTTON_CLASS as AI_AGENTS_OUTLINE_BUTTON_CLASS } from "@/components/common/outlinePillButtonClass.ts";
 
 /** The quiet text link that closes a chapter, with an arrow. */
 export const AI_AGENTS_TEXT_LINK_CLASS = cn(
